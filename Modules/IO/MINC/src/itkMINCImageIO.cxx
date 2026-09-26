@@ -82,6 +82,53 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl
 };
 
 
+// Directions of spatial axes absent from the file, as in volume_io compute_world_transform().
+static void
+MINCIOCompleteDirections(Matrix<double, 3, 3> & dirCos, const int (&dimensionIndices)[5])
+{
+  const auto getColumn = [&dirCos](unsigned int c) {
+    Vector<double, 3> v;
+    for (unsigned int r = 0; r < 3; ++r)
+    {
+      v[r] = dirCos[r][c];
+    }
+    return v;
+  };
+  const auto setColumn = [&dirCos](unsigned int c, Vector<double, 3> v) {
+    if (v.Normalize() >= NumericTraits<double>::epsilon())
+    {
+      for (unsigned int r = 0; r < 3; ++r)
+      {
+        dirCos[r][c] = v[r];
+      }
+    }
+  };
+
+  std::vector<unsigned int> present;
+  for (unsigned int c = 0; c < 3; ++c)
+  {
+    if (dimensionIndices[c + 1] != -1)
+    {
+      present.push_back(c);
+    }
+  }
+
+  if (present.size() == 2)
+  {
+    setColumn(3 - present[0] - present[1], CrossProduct(getColumn(present[0]), getColumn(present[1])));
+  }
+  else if (present.size() == 1)
+  {
+    const Vector<double, 3> d = getColumn(present[0]);
+    Vector<double, 3>       orthogonal;
+    orthogonal[0] = d[1] + d[2];
+    orthogonal[1] = -d[0] - d[2];
+    orthogonal[2] = d[1] - d[0];
+    setColumn((present[0] + 2) % 3, CrossProduct(d, orthogonal));
+    setColumn((present[0] + 1) % 3, orthogonal);
+  }
+}
+
 bool
 MINCImageIO::CanReadFile(const char * name)
 {
@@ -97,29 +144,28 @@ MINCImageIO::CanReadFile(const char * name)
 void
 MINCImageIO::Read(void * buffer)
 {
-  const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int nComp = this->GetNumberOfComponents();
 
-  const auto start = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
-  const auto count = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
-
-  for (unsigned int i = 0; i < nDims; ++i)
+  // Apparent MINC order is [time, z, y, x, vector]; m_DimensionIndices is [vector, x, y, z, time].
+  std::array<misize_t, 5> start{};
+  std::array<misize_t, 5> count{};
+  unsigned int            hyperslabDims = 0;
+  for (int mincAxis = 4; mincAxis > 0; --mincAxis)
   {
-    if (i < m_IORegion.GetImageDimension())
+    if (m_MINCPImpl->m_DimensionIndices[mincAxis] == -1)
     {
-      start[nDims - i - 1] = m_IORegion.GetIndex()[i];
-      count[nDims - i - 1] = m_IORegion.GetSize()[i];
+      continue;
     }
-    else
-    {
-      start[nDims - i - 1] = 0;
-      count[nDims - i - 1] = 1;
-    }
+    const unsigned int itkAxis = (mincAxis == 4) ? 3 : mincAxis - 1;
+    const bool         inRegion = itkAxis < m_IORegion.GetImageDimension();
+    start[hyperslabDims] = inRegion ? m_IORegion.GetIndex()[itkAxis] : 0;
+    count[hyperslabDims] = inRegion ? m_IORegion.GetSize()[itkAxis] : 1;
+    ++hyperslabDims;
   }
   if (nComp > 1)
   {
-    start[nDims] = 0;
-    count[nDims] = nComp;
+    start[hyperslabDims] = 0;
+    count[hyperslabDims] = nComp;
   }
   mitype_t volume_data_type;
 
@@ -160,7 +206,7 @@ MINCImageIO::Read(void * buffer)
       return;
   }
 
-  if (miget_real_value_hyperslab(m_MINCPImpl->m_Volume, volume_data_type, start.get(), count.get(), buffer) < 0)
+  if (miget_real_value_hyperslab(m_MINCPImpl->m_Volume, volume_data_type, start.data(), count.data(), buffer) < 0)
   {
     itkExceptionStringMacro(" Can not get real value hyperslab!!\n");
   }
@@ -440,7 +486,14 @@ MINCImageIO::ReadImageInformation()
     itkExceptionStringMacro(" minc files without spatial dimensions are not supported!");
   }
 
-  const bool haveTimeDimension = (m_MINCPImpl->m_DimensionIndices[4] != -1);
+  // NIfTI-1: "If dim[4]=1 or dim[0] < 4, there is no time axis."
+  const bool haveTimeDimension = (m_MINCPImpl->m_DimensionIndices[4] != -1) &&
+                                 (m_MINCPImpl->m_DimensionSize[m_MINCPImpl->m_DimensionIndices[4]] > 1);
+  if (haveTimeDimension)
+  {
+    // As in NiftiImageIO, time is ITK axis 3; spatial axes absent from the file become size-1 axes.
+    spatial_dimension_count = 3;
+  }
 
   // The MINC time dimension becomes an additional (highest) ITK dimension, while
   // the MINC vector_dimension is mapped to ITK components. The two are
@@ -489,6 +542,11 @@ MINCImageIO::ReadImageInformation()
 
     ++usableDimensions;
   }
+  else if (m_MINCPImpl->m_DimensionIndices[4] != -1)
+  {
+    m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
+    ++usableDimensions;
+  }
 
   // minc api uses inverse order of dimensions , fastest varying are last
   Vector<double, 3> sep;
@@ -525,6 +583,16 @@ MINCImageIO::ReadImageInformation()
 
       ++usableDimensions;
     }
+    else if (i <= spatial_dimension_count)
+    {
+      this->SetDimensions(i - 1, 1);
+      this->SetSpacing(i - 1, 1.0);
+    }
+  }
+
+  if (haveTimeDimension)
+  {
+    MINCIOCompleteDirections(dir_cos, m_MINCPImpl->m_DimensionIndices);
   }
 
 
