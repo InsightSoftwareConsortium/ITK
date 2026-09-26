@@ -32,7 +32,11 @@ if(
   AND
     NOT
       CMAKE_CROSSCOMPILING
+  AND
+    EXISTS
+      "${ITK_CMAKE_DIR}/../Utilities/KWStyle/BuildKWStyle.cmake"
 )
+  # Only an ITK source tree carries BuildKWStyle.cmake; an install tree does not.
   include(${ITK_CMAKE_DIR}/../Utilities/KWStyle/BuildKWStyle.cmake)
 elseif(NOT KWSTYLE_FOUND)
   set(ITK_USE_KWSTYLE OFF)

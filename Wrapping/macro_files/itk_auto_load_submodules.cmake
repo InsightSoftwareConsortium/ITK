@@ -105,6 +105,10 @@ function(generate_castxml_commandline_flags)
 
   # create the files used to pass the file to include to castxml
   set(include_dir_list ${WRAPPER_LIBRARY_INCLUDE_DIRECTORIES})
+  # From an install tree the dependency targets carry no ITK include dirs.
+  if(ITK_INCLUDE_DIRS)
+    list(APPEND include_dir_list ${ITK_INCLUDE_DIRS})
+  endif()
   list(REMOVE_DUPLICATES include_dir_list)
 
   # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with file(GENERATE)
