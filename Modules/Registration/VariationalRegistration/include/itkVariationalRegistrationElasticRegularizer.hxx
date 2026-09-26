@@ -18,13 +18,11 @@
 #ifndef itkVariationalRegistrationElasticRegularizer_hxx
 #define itkVariationalRegistrationElasticRegularizer_hxx
 
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#include "itkVariationalRegistrationElasticRegularizer.h"
 
-#  include "itkVariationalRegistrationElasticRegularizer.h"
-
-#  include "itkImageRegionConstIterator.h"
-#  include "itkImageRegionConstIteratorWithIndex.h"
-#  include "itkNeighborhoodAlgorithm.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkNeighborhoodAlgorithm.h"
 
 namespace itk
 {
@@ -54,11 +52,15 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::VariationalRegist
     this->m_MatrixCos[i] = nullptr;
     this->m_MatrixSin[i] = nullptr;
     this->m_ComplexBuffer[i] = nullptr;
-    this->m_PlanForward[i] = nullptr;
-    this->m_PlanBackward[i] = nullptr;
   }
   this->m_InputBuffer = nullptr;
   this->m_OutputBuffer = nullptr;
+}
+
+template <typename TDisplacementField>
+VariationalRegistrationElasticRegularizer<TDisplacementField>::~VariationalRegistrationElasticRegularizer()
+{
+  this->FreeData();
 }
 
 /**
@@ -146,25 +148,40 @@ template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::FreeData()
 {
+  this->DestroyFFTPlans();
+
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (this->m_MatrixCos[i] != nullptr)
+    {
       delete[] this->m_MatrixCos[i];
+      this->m_MatrixCos[i] = nullptr;
+    }
     if (this->m_MatrixSin[i] != nullptr)
+    {
       delete[] this->m_MatrixSin[i];
-
-    if (this->m_PlanForward[i] != nullptr)
-      FFTWProxyType::DestroyPlan(this->m_PlanForward[i]);
-    if (this->m_PlanBackward[i] != nullptr)
-      FFTWProxyType::DestroyPlan(this->m_PlanBackward[i]);
+      this->m_MatrixSin[i] = nullptr;
+    }
 
     if (this->m_ComplexBuffer[i] != nullptr)
+
+    {
+
       delete[] this->m_ComplexBuffer[i];
+
+      this->m_ComplexBuffer[i] = nullptr;
+    }
   }
   if (this->m_InputBuffer != nullptr)
+  {
     delete[] this->m_InputBuffer;
+    this->m_InputBuffer = nullptr;
+  }
   if (this->m_OutputBuffer != nullptr)
+  {
     delete[] this->m_OutputBuffer;
+    this->m_OutputBuffer = nullptr;
+  }
 }
 
 /**
@@ -176,6 +193,22 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
 {
   itkDebugMacro(<< "Initializing elastic plans for FFT...");
 
+  this->m_InputBuffer = new RealTypeFFT[this->m_TotalSize];
+  this->m_OutputBuffer = new RealTypeFFT[this->m_TotalSize];
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    this->m_ComplexBuffer[i] = new FFTComplexType[this->m_TotalComplexSize];
+  }
+
+  return this->CreateFFTPlans();
+}
+
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+
+template <typename TDisplacementField>
+bool
+VariationalRegistrationElasticRegularizer<TDisplacementField>::CreateFFTPlans()
+{
   // Get image size in reverse order for FFTW
   auto * n = new int[ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -183,22 +216,24 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
     n[(ImageDimension - 1) - i] = this->m_Size[i];
   }
 
-  // Allocate buffers
-  this->m_InputBuffer = new FFTWProxyType::PixelType[this->m_TotalSize];
-  this->m_OutputBuffer = new FFTWProxyType::PixelType[this->m_TotalSize];
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-  {
-    this->m_ComplexBuffer[i] = new typename FFTWProxyType::ComplexType[this->m_TotalComplexSize];
-  }
-
   // Create the plans for the FFT
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    this->m_PlanForward[i] = FFTWProxyType::Plan_dft_r2c(
-      ImageDimension, n, this->m_InputBuffer, this->m_ComplexBuffer[i], FFTW_MEASURE, this->GetNumberOfWorkUnits());
+    this->m_PlanForward[i] =
+      FFTWProxyType::Plan_dft_r2c(ImageDimension,
+                                  n,
+                                  this->m_InputBuffer,
+                                  reinterpret_cast<typename FFTWProxyType::ComplexType *>(this->m_ComplexBuffer[i]),
+                                  FFTW_MEASURE,
+                                  this->GetNumberOfWorkUnits());
 
-    this->m_PlanBackward[i] = FFTWProxyType::Plan_dft_c2r(
-      ImageDimension, n, this->m_ComplexBuffer[i], this->m_OutputBuffer, FFTW_MEASURE, this->GetNumberOfWorkUnits());
+    this->m_PlanBackward[i] =
+      FFTWProxyType::Plan_dft_c2r(ImageDimension,
+                                  n,
+                                  reinterpret_cast<typename FFTWProxyType::ComplexType *>(this->m_ComplexBuffer[i]),
+                                  this->m_OutputBuffer,
+                                  FFTW_MEASURE,
+                                  this->GetNumberOfWorkUnits());
   }
 
   // delete n
@@ -206,6 +241,117 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
 
   return true;
 }
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationElasticRegularizer<TDisplacementField>::DestroyFFTPlans()
+{
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    if (this->m_PlanForward[i] != nullptr)
+    {
+      FFTWProxyType::DestroyPlan(this->m_PlanForward[i]);
+      this->m_PlanForward[i] = nullptr;
+    }
+    if (this->m_PlanBackward[i] != nullptr)
+    {
+      FFTWProxyType::DestroyPlan(this->m_PlanBackward[i]);
+      this->m_PlanBackward[i] = nullptr;
+    }
+  }
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationElasticRegularizer<TDisplacementField>::ExecuteForwardFFT(unsigned int component)
+{
+  FFTWProxyType::Execute(this->m_PlanForward[component]);
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationElasticRegularizer<TDisplacementField>::ExecuteBackwardFFT(unsigned int component)
+{
+  FFTWProxyType::Execute(this->m_PlanBackward[component]);
+}
+
+#else
+
+template <typename TDisplacementField>
+bool
+VariationalRegistrationElasticRegularizer<TDisplacementField>::CreateFFTPlans()
+{
+  return true;
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationElasticRegularizer<TDisplacementField>::DestroyFFTPlans()
+{}
+
+// Axis 0 is listed last so that pocketfft halves it, reproducing FFTW's
+// [n0/2+1, n1, ...] half-complex layout that m_ComplexOffsetTable indexes.
+template <typename TDisplacementField>
+void
+VariationalRegistrationElasticRegularizer<TDisplacementField>::ExecuteForwardFFT(unsigned int component)
+{
+  itk::detail::pocketfft::shape_t  shape(ImageDimension);
+  itk::detail::pocketfft::stride_t strideReal(ImageDimension);
+  itk::detail::pocketfft::stride_t strideComplex(ImageDimension);
+  itk::detail::pocketfft::shape_t  axes(ImageDimension);
+  ptrdiff_t                        stepReal = sizeof(RealTypeFFT);
+  ptrdiff_t                        stepComplex = sizeof(FFTComplexType);
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    shape[i] = this->m_Size[i];
+    strideReal[i] = stepReal;
+    strideComplex[i] = stepComplex;
+    stepReal *= static_cast<ptrdiff_t>(this->m_Size[i]);
+    stepComplex *= static_cast<ptrdiff_t>(this->m_ComplexSize[i]);
+    axes[i] = ImageDimension - 1 - i;
+  }
+  itk::detail::pocketfft::r2c(shape,
+                              strideReal,
+                              strideComplex,
+                              axes,
+                              true,
+                              this->m_InputBuffer,
+                              this->m_ComplexBuffer[component],
+                              RealTypeFFT{ 1 },
+                              static_cast<size_t>(this->GetNumberOfWorkUnits()));
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationElasticRegularizer<TDisplacementField>::ExecuteBackwardFFT(unsigned int component)
+{
+  itk::detail::pocketfft::shape_t  shape(ImageDimension);
+  itk::detail::pocketfft::stride_t strideReal(ImageDimension);
+  itk::detail::pocketfft::stride_t strideComplex(ImageDimension);
+  itk::detail::pocketfft::shape_t  axes(ImageDimension);
+  ptrdiff_t                        stepReal = sizeof(RealTypeFFT);
+  ptrdiff_t                        stepComplex = sizeof(FFTComplexType);
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    shape[i] = this->m_Size[i];
+    strideReal[i] = stepReal;
+    strideComplex[i] = stepComplex;
+    stepReal *= static_cast<ptrdiff_t>(this->m_Size[i]);
+    stepComplex *= static_cast<ptrdiff_t>(this->m_ComplexSize[i]);
+    axes[i] = ImageDimension - 1 - i;
+  }
+  itk::detail::pocketfft::c2r(shape,
+                              strideComplex,
+                              strideReal,
+                              axes,
+                              false,
+                              this->m_ComplexBuffer[component],
+                              this->m_OutputBuffer,
+                              RealTypeFFT{ 1 },
+                              static_cast<size_t>(this->GetNumberOfWorkUnits()));
+}
+
+#endif
 
 /**
  * Initialize elastic matrix
@@ -265,7 +411,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::Regularize()
     }
 
     // Execute FFT for component
-    FFTWProxyType::Execute(this->m_PlanForward[i]);
+    this->ExecuteForwardFFT(i);
   }
 
   // Solve the LES in Fourier domain
@@ -282,7 +428,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::Regularize()
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     //  Execute FFT for component
-    FFTWProxyType::Execute(this->m_PlanBackward[i]);
+    this->ExecuteBackwardFFT(i);
 
     // Copy complex buffer for component to component of field
     for (n = 0, outIt.GoToBegin(); !outIt.IsAtEnd(); ++n, ++outIt)
@@ -399,12 +545,12 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
 
       // Save values of forward FFT X,Y,Z for this pixel
       // to be able to overwrite the array
-      fftInX[0] = m_ComplexBuffer[0][i][0];
-      fftInX[1] = m_ComplexBuffer[0][i][1];
-      fftInY[0] = m_ComplexBuffer[1][i][0];
-      fftInY[1] = m_ComplexBuffer[1][i][1];
-      fftInZ[0] = m_ComplexBuffer[2][i][0];
-      fftInZ[1] = m_ComplexBuffer[2][i][1];
+      fftInX[0] = Re(m_ComplexBuffer[0][i]);
+      fftInX[1] = Im(m_ComplexBuffer[0][i]);
+      fftInY[0] = Re(m_ComplexBuffer[1][i]);
+      fftInY[1] = Im(m_ComplexBuffer[1][i]);
+      fftInZ[0] = Re(m_ComplexBuffer[2][i]);
+      fftInZ[1] = Im(m_ComplexBuffer[2][i]);
 
       // Calculate the matrix values for current pixel position using the
       // precomputed sine and cosine values.
@@ -447,14 +593,14 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
       if (fabs(detD) < 1e-15)
       {
         // If determinant is (close to) zero, inverse is zero
-        m_ComplexBuffer[0][i][0] = 0;
-        m_ComplexBuffer[0][i][1] = 0;
+        Re(m_ComplexBuffer[0][i]) = 0;
+        Im(m_ComplexBuffer[0][i]) = 0;
 
-        m_ComplexBuffer[1][i][0] = 0;
-        m_ComplexBuffer[1][i][1] = 0;
+        Re(m_ComplexBuffer[1][i]) = 0;
+        Im(m_ComplexBuffer[1][i]) = 0;
 
-        m_ComplexBuffer[2][i][0] = 0;
-        m_ComplexBuffer[2][i][1] = 0;
+        Re(m_ComplexBuffer[2][i]) = 0;
+        Im(m_ComplexBuffer[2][i]) = 0;
       }
       else
       {
@@ -467,16 +613,16 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
         invD33 = (d11 * d22 - d12 * d12) / detD;
 
         // Calculate du1 = invD11.*fft3(in1) + invD12.*fft3(in2) + invD13.*fft3(in3)
-        m_ComplexBuffer[0][i][0] = invD11 * fftInX[0] + invD12 * fftInY[0] + invD13 * fftInZ[0];
-        m_ComplexBuffer[0][i][1] = invD11 * fftInX[1] + invD12 * fftInY[1] + invD13 * fftInZ[1];
+        Re(m_ComplexBuffer[0][i]) = invD11 * fftInX[0] + invD12 * fftInY[0] + invD13 * fftInZ[0];
+        Im(m_ComplexBuffer[0][i]) = invD11 * fftInX[1] + invD12 * fftInY[1] + invD13 * fftInZ[1];
 
         // Calculate du2 = invD12.*fft3(in1) + invD22.*fft3(in2) + invD23.*fft3(in3)
-        m_ComplexBuffer[1][i][0] = invD12 * fftInX[0] + invD22 * fftInY[0] + invD23 * fftInZ[0];
-        m_ComplexBuffer[1][i][1] = invD12 * fftInX[1] + invD22 * fftInY[1] + invD23 * fftInZ[1];
+        Re(m_ComplexBuffer[1][i]) = invD12 * fftInX[0] + invD22 * fftInY[0] + invD23 * fftInZ[0];
+        Im(m_ComplexBuffer[1][i]) = invD12 * fftInX[1] + invD22 * fftInY[1] + invD23 * fftInZ[1];
 
         // Calculate du3 = invD13.*fft3(in1) + invD23.*fft3(in2) + invD33.*fft3(in3)
-        m_ComplexBuffer[2][i][0] = invD13 * fftInX[0] + invD23 * fftInY[0] + invD33 * fftInZ[0];
-        m_ComplexBuffer[2][i][1] = invD13 * fftInX[1] + invD23 * fftInY[1] + invD33 * fftInZ[1];
+        Re(m_ComplexBuffer[2][i]) = invD13 * fftInX[0] + invD23 * fftInY[0] + invD33 * fftInZ[0];
+        Im(m_ComplexBuffer[2][i]) = invD13 * fftInX[1] + invD23 * fftInY[1] + invD33 * fftInZ[1];
       }
     }
   }
@@ -521,10 +667,10 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
 
       // Save values of forward FFT X,Y for this pixel
       // to be able to overwrite the array
-      fftInX[0] = m_ComplexBuffer[0][i][0];
-      fftInX[1] = m_ComplexBuffer[0][i][1];
-      fftInY[0] = m_ComplexBuffer[1][i][0];
-      fftInY[1] = m_ComplexBuffer[1][i][1];
+      fftInX[0] = Re(m_ComplexBuffer[0][i]);
+      fftInX[1] = Im(m_ComplexBuffer[0][i]);
+      fftInY[0] = Re(m_ComplexBuffer[1][i]);
+      fftInY[1] = Im(m_ComplexBuffer[1][i]);
 
       // Calculate the matrix values for current pixel position using the
       // precomputed sine and cosine values.
@@ -555,11 +701,11 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
       if (fabs(detD) < 1e-15)
       {
         // If determinant is (close to) zero, inverse is zero
-        m_ComplexBuffer[0][i][0] = 0;
-        m_ComplexBuffer[0][i][1] = 0;
+        Re(m_ComplexBuffer[0][i]) = 0;
+        Im(m_ComplexBuffer[0][i]) = 0;
 
-        m_ComplexBuffer[1][i][0] = 0;
-        m_ComplexBuffer[1][i][1] = 0;
+        Re(m_ComplexBuffer[1][i]) = 0;
+        Im(m_ComplexBuffer[1][i]) = 0;
       }
       else
       {
@@ -569,12 +715,12 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
         invD22 = d11 / detD;
 
         // Calculate du1 = invD11.*fft2(in1) + invD12.*fft2(in2)
-        m_ComplexBuffer[0][i][0] = invD11 * fftInX[0] + invD12 * fftInY[0];
-        m_ComplexBuffer[0][i][1] = invD11 * fftInX[1] + invD12 * fftInY[1];
+        Re(m_ComplexBuffer[0][i]) = invD11 * fftInX[0] + invD12 * fftInY[0];
+        Im(m_ComplexBuffer[0][i]) = invD11 * fftInX[1] + invD12 * fftInY[1];
 
         // Calculate du2 = invD12.*fft2(in1) + invD22.*fft2(in2)
-        m_ComplexBuffer[1][i][0] = invD12 * fftInX[0] + invD22 * fftInY[0];
-        m_ComplexBuffer[1][i][1] = invD12 * fftInX[1] + invD22 * fftInY[1];
+        Re(m_ComplexBuffer[1][i]) = invD12 * fftInX[0] + invD22 * fftInY[0];
+        Im(m_ComplexBuffer[1][i]) = invD12 * fftInX[1] + invD22 * fftInY[1];
       }
     }
   }
@@ -621,7 +767,5 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::PrintSelf(std::os
 }
 
 } // end namespace itk
-
-#endif
 
 #endif
