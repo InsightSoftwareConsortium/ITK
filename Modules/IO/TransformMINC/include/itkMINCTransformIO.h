@@ -82,7 +82,8 @@ public:
   void
   Write() override;
 
-  /** Set to automatically convert from RAS PositiveCoordinateOrientation to LPS PositiveCoordinateOrientation*/
+  /** Set to automatically convert from RAS PositiveCoordinateOrientation to LPS PositiveCoordinateOrientation.
+   * New objects start from MINCImageIO::GetDefaultRAStoLPS(). */
   itkSetMacro(RAStoLPS, bool);
   itkGetConstMacro(RAStoLPS, bool);
   itkBooleanMacro(RAStoLPS);
@@ -106,7 +107,7 @@ private:
 
   void
        ReadOneTransform(VIO_General_transform * xfm);
-  bool m_RAStoLPS{ false };
+  bool m_RAStoLPS{};
 };
 
 /** This helps to meet backward compatibility */

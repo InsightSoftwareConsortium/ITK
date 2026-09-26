@@ -560,6 +560,14 @@ option(
 )
 mark_as_advanced(ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT)
 
+# Convert MINC RAS world coordinates to ITK LPS physical space by default
+option(
+  ITK_MINC_IO_RAS_TO_LPS
+  "Convert MINC coordinates from RAS to ITK LPS by default; the ITK_MINC_IO_RAS_TO_LPS environment variable overrides it at run time"
+  ON
+)
+mark_as_advanced(ITK_MINC_IO_RAS_TO_LPS)
+
 #-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 # ITK_USE_REVIEW is deprecated, only kept for backward compatibility
