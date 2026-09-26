@@ -507,17 +507,9 @@ TIFFImageIO::ReadImageInformation()
   }
 
 
-  if (!m_InternalImage->CanRead())
+  // Metadata stays inspectable without codec support; Read() reports the decode failure.
+  if (!m_InternalImage->CanRead() && TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) == 1)
   {
-    //  exception if compression is not supported
-    if (TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1)
-    {
-      const TIFFCodec * c = TIFFFindCODEC(this->m_InternalImage->m_Compression);
-      const char *      codecName = (c != nullptr) ? static_cast<const char *>(c->name) : "unknown";
-
-      itkExceptionMacro("TIFF CODEC \"" << codecName << "\" is not supported.");
-    }
-
     char emsg[1024];
     if (TIFFRGBAImageOK(m_InternalImage->m_Image, emsg) != 1)
     {
@@ -1330,6 +1322,17 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
 
   if (!m_InternalImage->CanRead())
   {
+    if (TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1)
+    {
+      const TIFFCodec * c = TIFFFindCODEC(this->m_InternalImage->m_Compression);
+
+      if (c != nullptr)
+      {
+        itkExceptionMacro("TIFF CODEC \"" << c->name << "\" is not supported.");
+      }
+      itkExceptionMacro("TIFF CODEC " << this->m_InternalImage->m_Compression << " is not supported.");
+    }
+
     uint32_t * tempImage = nullptr;
 
     if (this->GetNumberOfComponents() == 4 && m_ComponentType == IOComponentEnum::UCHAR)
