@@ -18,19 +18,18 @@
 #ifndef itkStructuralSimilarityImageFilter_hxx
 #define itkStructuralSimilarityImageFilter_hxx
 
+#include "itkBinShrinkImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
-#include "itkImage.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkMath.h"
 #include "itkMultiplyImageFilter.h"
-#include "itkProgressReporter.h"
-#include "itkTotalProgressReporter.h"
 
 #include <algorithm>
-#include <atomic>
+#include <array>
 #include <cmath>
+#include <mutex>
 
 namespace itk
 {
@@ -38,6 +37,39 @@ template <typename TInputImage, typename TOutputImage>
 StructuralSimilarityImageFilter<TInputImage, TOutputImage>::StructuralSimilarityImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
+}
+
+template <typename TInputImage, typename TOutputImage>
+auto
+StructuralSimilarityImageFilter<TInputImage, TOutputImage>::WangEtAl2003ScaleWeights() -> ScaleWeightsType
+{
+  constexpr std::array<RealType, 5> weights{ 0.0448, 0.2856, 0.3001, 0.2363, 0.1333 };
+  return ScaleWeightsType(weights.data(), weights.size());
+}
+
+template <typename TInputImage, typename TOutputImage>
+auto
+StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GaussianScaleWeights(unsigned int size, double sigma)
+  -> ScaleWeightsType
+{
+  if (!(sigma > 0.0) || !std::isfinite(sigma))
+  {
+    itkGenericExceptionMacro("GaussianScaleWeights sigma must be finite and strictly positive (got " << sigma << ").");
+  }
+  ScaleWeightsType weights(size);
+  RealType         sum{};
+  const double     center = 0.5 * (static_cast<double>(size) - 1.0);
+  for (unsigned int i = 0; i < size; ++i)
+  {
+    const double offset = static_cast<double>(i) - center;
+    weights[i] = static_cast<RealType>(std::exp(-(offset * offset) / (2.0 * sigma * sigma)));
+    sum += weights[i];
+  }
+  if (sum > RealType{})
+  {
+    weights /= sum;
+  }
+  return weights;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -83,18 +115,17 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::VerifyPreconditions(
   {
     itkExceptionMacro("ScaleWeights array must contain at least one element.");
   }
-  if (m_ScaleWeights.GetSize() > 1)
+  for (unsigned int scale = 0; scale < m_ScaleWeights.GetSize(); ++scale)
   {
-    itkExceptionMacro("Multi-scale SSIM (MS-SSIM) with ScaleWeights size > 1 is not yet implemented.  "
-                      "Set a ScaleWeights array of length 1 to compute single-scale SSIM.");
+    if (!std::isfinite(m_ScaleWeights[scale]) || m_ScaleWeights[scale] < RealType{})
+    {
+      itkExceptionMacro("ScaleWeights must be finite and non-negative (got " << m_ScaleWeights[scale] << " at scale "
+                                                                             << scale << ").");
+    }
   }
   if (m_GaussianSigma <= 0.0)
   {
     itkExceptionMacro("GaussianSigma must be strictly positive (got " << m_GaussianSigma << ").");
-  }
-  if (m_MaximumKernelWidth == 0)
-  {
-    itkExceptionMacro("MaximumKernelWidth must be at least 1 (got 0).");
   }
   if (m_DynamicRange <= 0.0)
   {
@@ -107,10 +138,30 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::VerifyPreconditions(
   {
     itkExceptionMacro("StructuralSimilarityImageFilter requires both inputs to be set.");
   }
-
   if (input1->GetLargestPossibleRegion() != input2->GetLargestPossibleRegion())
   {
     itkExceptionMacro("StructuralSimilarityImageFilter requires the two inputs to have identical regions.");
+  }
+
+  // Mirrors BinShrinkImageFilter::GenerateOutputInformation(), whose output
+  // region depends on the start index as well as on the size, to avoid a crash later.
+  const auto & region = input1->GetLargestPossibleRegion();
+  for (unsigned int d = 0; d < ImageDimension; ++d)
+  {
+    IndexValueType coarsestIndex = region.GetIndex(d);
+    SizeValueType  coarsestSize = region.GetSize(d);
+    for (unsigned int scale = 1; scale < m_ScaleWeights.GetSize() && coarsestSize > 0; ++scale)
+    {
+      const auto           shrunkIndex = Math::Ceil<IndexValueType>(coarsestIndex / 2.0);
+      const IndexValueType remaining = static_cast<IndexValueType>(coarsestSize) + coarsestIndex - 2 * shrunkIndex;
+      coarsestSize = static_cast<SizeValueType>(remaining / 2);
+      coarsestIndex = shrunkIndex;
+    }
+    if (coarsestSize == 0)
+    {
+      itkExceptionMacro("Image region " << region << " along dimension " << d << " is too small for "
+                                        << m_ScaleWeights.GetSize() << " scales.");
+    }
   }
 }
 
@@ -118,252 +169,180 @@ template <typename TInputImage, typename TOutputImage>
 void
 StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  // ---- Build the internal Gaussian-statistics pipeline -----------------
-  //
-  // Following the composite-filter pattern (see CompositeFilterExample.cxx),
-  // we reconnect the mini-pipeline inputs from the external pipeline every
-  // time GenerateData() is called.  This ensures the internal sub-filters
-  // pick up any new inputs when the external pipeline re-executes.
   using RealImageType = Image<RealType, ImageDimension>;
+  using RealImagePointer = typename RealImageType::Pointer;
+  using RealImageRegionType = typename RealImageType::RegionType;
   using CastFilterType = CastImageFilter<InputImageType, RealImageType>;
   using MultiplyFilterType = MultiplyImageFilter<RealImageType, RealImageType, RealImageType>;
-  using GaussianFilterType = DiscreteGaussianImageFilter<RealImageType, RealImageType>;
+  using SmoothingFilterType = DiscreteGaussianImageFilter<RealImageType, RealImageType>;
+  using ShrinkFilterType = BinShrinkImageFilter<RealImageType, RealImageType>;
 
-  // Graft external inputs to disconnect the mini-pipeline from the
-  // upstream pipeline, preventing the internal Update() calls from
-  // propagating back upstream.
-  auto graftedInput1 = InputImageType::New();
-  graftedInput1->Graft(this->GetInput1());
+  const unsigned int numberOfScales = m_ScaleWeights.GetSize();
 
-  auto graftedInput2 = InputImageType::New();
-  graftedInput2->Graft(this->GetInput2());
-
-  auto cast1 = CastFilterType::New();
-  cast1->SetInput(graftedInput1);
-
-  auto cast2 = CastFilterType::New();
-  cast2->SetInput(graftedInput2);
-
-  auto x_times_x = MultiplyFilterType::New();
-  x_times_x->SetInput1(cast1->GetOutput());
-  x_times_x->SetInput2(cast1->GetOutput());
-
-  auto y_times_y = MultiplyFilterType::New();
-  y_times_y->SetInput1(cast2->GetOutput());
-  y_times_y->SetInput2(cast2->GetOutput());
-
-  auto x_times_y = MultiplyFilterType::New();
-  x_times_y->SetInput1(cast1->GetOutput());
-  x_times_y->SetInput2(cast2->GetOutput());
-
-  // Configure a Gaussian filter with the requested sigma and kernel-width
-  // ceiling.  We disable image-spacing-aware sigmas: SSIM is defined in
-  // pixel coordinates and the canonical reference (Wang 2004) uses an
-  // 11x11 unit-spacing window.
-  auto makeGaussian = [this](const auto & inputPort) {
-    auto g = GaussianFilterType::New();
-    g->SetInput(inputPort);
-    g->SetSigma(m_GaussianSigma);
-    g->SetMaximumKernelWidth(m_MaximumKernelWidth);
-    g->SetUseImageSpacing(false);
-    g->ReleaseDataFlagOn();
-    return g;
+  const auto smooth = [](const RealImageType * image, double sigma) {
+    auto smoother = SmoothingFilterType::New();
+    smoother->SetInput(image);
+    smoother->SetVariance(sigma * sigma);
+    smoother->Update();
+    RealImagePointer smoothed = smoother->GetOutput();
+    smoothed->DisconnectPipeline();
+    return smoothed;
+  };
+  // Grafting the inputs keeps the internal Update() calls from propagating upstream.
+  const auto toRealImage = [](const InputImageType * input) {
+    auto grafted = InputImageType::New();
+    grafted->Graft(input);
+    auto cast = CastFilterType::New();
+    cast->SetInput(grafted);
+    cast->Update();
+    RealImagePointer image = cast->GetOutput();
+    image->DisconnectPipeline();
+    return image;
+  };
+  const auto multiply = [](const RealImageType * a, const RealImageType * b) {
+    auto filter = MultiplyFilterType::New();
+    filter->SetInput1(a);
+    filter->SetInput2(b);
+    filter->Update();
+    RealImagePointer product = filter->GetOutput();
+    product->DisconnectPipeline();
+    return product;
+  };
+  const auto shrink = [](const RealImageType * image) {
+    auto filter = ShrinkFilterType::New();
+    filter->SetInput(image);
+    filter->SetShrinkFactors(2);
+    filter->Update();
+    RealImagePointer shrunk = filter->GetOutput();
+    shrunk->DisconnectPipeline();
+    return shrunk;
   };
 
-  auto g_x = makeGaussian(cast1->GetOutput());
-  auto g_y = makeGaussian(cast2->GetOutput());
-  auto g_xx = makeGaussian(x_times_x->GetOutput());
-  auto g_yy = makeGaussian(y_times_y->GetOutput());
-  auto g_xy = makeGaussian(x_times_y->GetOutput());
+  RealImagePointer x = toRealImage(this->GetInput1());
+  RealImagePointer y = toRealImage(this->GetInput2());
 
-  g_x->Update();
-  g_y->Update();
-  g_xx->Update();
-  g_yy->Update();
-  g_xy->Update();
-
-  // ---- Allocate output --------------------------------------------------
   OutputImageType * output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
-  const auto outputRegion = output->GetRequestedRegion();
+  const RealType C1 = Math::sqr(static_cast<RealType>(m_K1 * m_DynamicRange));
+  const RealType C2 = Math::sqr(static_cast<RealType>(m_K2 * m_DynamicRange));
+  const RealType C3 = C2 / RealType{ 2 };
 
-  // ---- Pre-compute SSIM constants --------------------------------------
-  const RealType K1 = static_cast<RealType>(m_K1);
-  const RealType K2 = static_cast<RealType>(m_K2);
-  const RealType L = static_cast<RealType>(m_DynamicRange);
-  const RealType C1 = (K1 * L) * (K1 * L);
-  const RealType C2 = (K2 * L) * (K2 * L);
-  const RealType C3 = C2 / static_cast<RealType>(2);
-
-  const bool useSimplifiedFormula = Math::FloatAlmostEqual(m_LuminanceExponent, 1.0) &&
-                                    Math::FloatAlmostEqual(m_ContrastExponent, 1.0) &&
-                                    Math::FloatAlmostEqual(m_StructureExponent, 1.0);
-
+  const bool unitExponents = Math::FloatAlmostEqual(m_LuminanceExponent, 1.0) &&
+                             Math::FloatAlmostEqual(m_ContrastExponent, 1.0) &&
+                             Math::FloatAlmostEqual(m_StructureExponent, 1.0);
   const auto alpha = static_cast<RealType>(m_LuminanceExponent);
   const auto beta = static_cast<RealType>(m_ContrastExponent);
   const auto gamma = static_cast<RealType>(m_StructureExponent);
 
-  const RealImageType * gx = g_x->GetOutput();
-  const RealImageType * gy = g_y->GetOutput();
-  const RealImageType * gxx = g_xx->GetOutput();
-  const RealImageType * gyy = g_yy->GetOutput();
-  const RealImageType * gxy = g_xy->GetOutput();
+  m_SSIMPerScale.SetSize(numberOfScales);
+  m_ContrastStructurePerScale.SetSize(numberOfScales);
 
-  // ---- Determine the "valid" interior region for mean SSIM ------------
-  //
-  // Pixels within the half-width of the discrete Gaussian kernel of the
-  // image boundary use boundary-extended values inside the convolution and
-  // are therefore less reliable.  scikit-image (matching the MATLAB
-  // reference) crops by (win_size - 1)/2 before averaging.  We do the same.
-  const auto kernelHalfWidth = static_cast<SizeValueType>(m_MaximumKernelWidth / 2);
-  auto       interiorRegion = outputRegion;
-  bool       interiorIsValid = true;
-  for (unsigned int d = 0; d < ImageDimension; ++d)
+  double sigma = m_GaussianSigma;
+  for (unsigned int scale = 0; scale < numberOfScales; ++scale, sigma *= 2.0)
   {
-    const auto sz = interiorRegion.GetSize(d);
-    if (sz <= 2 * kernelHalfWidth)
-    {
-      // Image is too small to crop -- mean SSIM falls back to the entire
-      // output region.
-      interiorIsValid = false;
-      break;
-    }
-  }
-  if (interiorIsValid)
-  {
-    auto idx = interiorRegion.GetIndex();
-    auto sz = interiorRegion.GetSize();
-    for (unsigned int d = 0; d < ImageDimension; ++d)
-    {
-      idx[d] += static_cast<IndexValueType>(kernelHalfWidth);
-      sz[d] -= 2 * kernelHalfWidth;
-    }
-    interiorRegion.SetIndex(idx);
-    interiorRegion.SetSize(sz);
-  }
+    const RealImagePointer mu_x = smooth(x, sigma);
+    const RealImagePointer mu_y = smooth(y, sigma);
+    const RealImagePointer mu_xx = smooth(multiply(x, x), sigma);
+    const RealImagePointer mu_yy = smooth(multiply(y, y), sigma);
+    const RealImagePointer mu_xy = smooth(multiply(x, y), sigma);
 
-  // ---- Parallelized per-pixel SSIM combination ------------------------
-  //
-  // Each thread accumulates a partial sum and pixel count over its
-  // sub-region.  Atomic doubles aren't portable in C++17, so we serialize
-  // the small per-thread reductions through a mutex.
+    const RealImageRegionType region = x->GetBufferedRegion();
+    const bool                writeOutput = (scale == 0);
 
-  std::mutex    accumulatorMutex;
-  RealType      accumulator{};
-  SizeValueType accumulatorCount{};
+    std::mutex accumulatorMutex;
+    RealType   ssimSum{};
+    RealType   csSum{};
 
-  TotalProgressReporter progress(this, outputRegion.GetNumberOfPixels());
+    this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+      region,
+      [&](const RealImageRegionType & subRegion) {
+        ImageRegionConstIterator<RealImageType> muXIt(mu_x, subRegion);
+        ImageRegionConstIterator<RealImageType> muYIt(mu_y, subRegion);
+        ImageRegionConstIterator<RealImageType> muXXIt(mu_xx, subRegion);
+        ImageRegionConstIterator<RealImageType> muYYIt(mu_yy, subRegion);
+        ImageRegionConstIterator<RealImageType> muXYIt(mu_xy, subRegion);
 
-  this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
-    outputRegion,
-    [&](const OutputImageRegionType & subRegion) {
-      // Use ImageRegionIteratorWithIndex for the output so we can call
-      // GetIndex() inside the inner loop without hitting the
-      // ITK_LEGACY_REMOVE deprecation on the index-less iterator's
-      // GetIndex() (#6034 CI fix).
-      using OutputIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
-      using RealConstIteratorType = ImageRegionConstIterator<RealImageType>;
-
-      OutputIteratorType    outIt(output, subRegion);
-      RealConstIteratorType gxIt(gx, subRegion);
-      RealConstIteratorType gyIt(gy, subRegion);
-      RealConstIteratorType gxxIt(gxx, subRegion);
-      RealConstIteratorType gyyIt(gyy, subRegion);
-      RealConstIteratorType gxyIt(gxy, subRegion);
-
-      // Per-thread accumulators for the *interior* portion of this region.
-      const auto subInterior = [&]() {
-        OutputImageRegionType r = subRegion;
-        if (interiorIsValid)
+        ImageRegionIterator<OutputImageType> outIt;
+        if (writeOutput)
         {
-          if (!r.Crop(interiorRegion))
+          outIt = ImageRegionIterator<OutputImageType>(output, subRegion);
+        }
+
+        RealType localSSIMSum{};
+        RealType localCSSum{};
+        for (; !muXIt.IsAtEnd(); ++muXIt, ++muYIt, ++muXXIt, ++muYYIt, ++muXYIt)
+        {
+          const RealType mean_x = muXIt.Get();
+          const RealType mean_y = muYIt.Get();
+          // Round-off can make the variance of a flat region slightly negative.
+          const RealType var_x = std::max(muXXIt.Get() - mean_x * mean_x, RealType{});
+          const RealType var_y = std::max(muYYIt.Get() - mean_y * mean_y, RealType{});
+          const RealType cov_xy = muXYIt.Get() - mean_x * mean_y;
+
+          const RealType l = (RealType{ 2 } * mean_x * mean_y + C1) / (mean_x * mean_x + mean_y * mean_y + C1);
+          RealType       cs;
+          RealType       ssim;
+          if (unitExponents)
           {
-            r.SetSize(SizeType{}); // empty
+            cs = (RealType{ 2 } * cov_xy + C2) / (var_x + var_y + C2);
+            ssim = l * cs;
           }
-        }
-        return r;
-      }();
+          else
+          {
+            const RealType sigma_x = std::sqrt(var_x);
+            const RealType sigma_y = std::sqrt(var_y);
+            const RealType c = (RealType{ 2 } * sigma_x * sigma_y + C2) / (var_x + var_y + C2);
+            const RealType s = (cov_xy + C3) / (sigma_x * sigma_y + C3);
+            cs = std::pow(c, beta) * std::pow(s, gamma);
+            ssim = std::pow(l, alpha) * cs;
+          }
 
-      RealType      localSum{};
-      SizeValueType localCount{};
-
-      // Hoist subInterior emptiness check out of the inner loop.
-      const bool subInteriorIsNonEmpty = (subInterior.GetNumberOfPixels() > 0);
-
-      for (; !outIt.IsAtEnd(); ++outIt, ++gxIt, ++gyIt, ++gxxIt, ++gyyIt, ++gxyIt)
-      {
-        const RealType mu_x = gxIt.Get();
-        const RealType mu_y = gyIt.Get();
-        const RealType mu_xx = gxxIt.Get();
-        const RealType mu_yy = gyyIt.Get();
-        const RealType mu_xy = gxyIt.Get();
-
-        const RealType var_x = mu_xx - mu_x * mu_x;
-        const RealType var_y = mu_yy - mu_y * mu_y;
-        const RealType cov_xy = mu_xy - mu_x * mu_y;
-
-        // Numerical floor: floating-point round-off can produce a tiny
-        // negative variance for nearly-constant regions.
-        const RealType var_x_clipped = std::max(var_x, RealType{});
-        const RealType var_y_clipped = std::max(var_y, RealType{});
-
-        RealType ssim;
-        if (useSimplifiedFormula)
-        {
-          const RealType numerator = (RealType{ 2 } * mu_x * mu_y + C1) * (RealType{ 2 } * cov_xy + C2);
-          const RealType denominator = (mu_x * mu_x + mu_y * mu_y + C1) * (var_x_clipped + var_y_clipped + C2);
-          ssim = numerator / denominator;
-        }
-        else
-        {
-          const RealType l_num = RealType{ 2 } * mu_x * mu_y + C1;
-          const RealType l_den = mu_x * mu_x + mu_y * mu_y + C1;
-          const RealType l = l_num / l_den;
-
-          const RealType sigma_x = std::sqrt(var_x_clipped);
-          const RealType sigma_y = std::sqrt(var_y_clipped);
-
-          const RealType c_num = RealType{ 2 } * sigma_x * sigma_y + C2;
-          const RealType c_den = var_x_clipped + var_y_clipped + C2;
-          const RealType c = c_num / c_den;
-
-          const RealType s_num = cov_xy + C3;
-          const RealType s_den = sigma_x * sigma_y + C3;
-          const RealType s = s_num / s_den;
-
-          ssim = std::pow(l, alpha) * std::pow(c, beta) * std::pow(s, gamma);
+          if (writeOutput)
+          {
+            outIt.Set(static_cast<OutputPixelType>(ssim));
+            ++outIt;
+          }
+          localSSIMSum += ssim;
+          localCSSum += cs;
         }
 
-        outIt.Set(static_cast<OutputPixelType>(ssim));
-
-        // Only accumulate over the interior region for the mean.
-        if (subInteriorIsNonEmpty && subInterior.IsInside(outIt.GetIndex()))
-        {
-          localSum += ssim;
-          ++localCount;
-        }
-      }
-
-      progress.Completed(subRegion.GetNumberOfPixels());
-
-      {
         const std::lock_guard<std::mutex> lock(accumulatorMutex);
-        accumulator += localSum;
-        accumulatorCount += localCount;
-      }
-    },
-    this);
+        ssimSum += localSSIMSum;
+        csSum += localCSSum;
+      },
+      nullptr);
 
-  if (accumulatorCount > 0)
-  {
-    m_MeanSSIM = static_cast<double>(accumulator) / static_cast<double>(accumulatorCount);
+    const auto numberOfPixels = static_cast<RealType>(region.GetNumberOfPixels());
+    m_SSIMPerScale[scale] = ssimSum / numberOfPixels;
+    m_ContrastStructurePerScale[scale] = csSum / numberOfPixels;
+
+    if (scale + 1 < numberOfScales)
+    {
+      x = shrink(x);
+      y = shrink(y);
+    }
+    this->UpdateProgress(static_cast<float>(scale + 1) / static_cast<float>(numberOfScales));
   }
-  else
+
+  if (numberOfScales == 1)
   {
-    m_MeanSSIM = 0.0;
+    // Plain SSIM, which may legitimately be negative; there is no product to protect.
+    m_MeanSSIM = static_cast<double>(m_SSIMPerScale[0]);
+    return;
   }
+
+  // Keeps the product finite and non-zero when a per-scale mean is not positive.
+  constexpr RealType minimumScaleValue{ 1e-6 };
+  const unsigned int coarsest = numberOfScales - 1;
+
+  RealType msssim = std::pow(std::max(m_SSIMPerScale[coarsest], minimumScaleValue), m_ScaleWeights[coarsest]);
+  for (unsigned int scale = 0; scale < coarsest; ++scale)
+  {
+    msssim *= std::pow(std::max(m_ContrastStructurePerScale[scale], minimumScaleValue), m_ScaleWeights[scale]);
+  }
+  m_MeanSSIM = static_cast<double>(msssim);
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -372,7 +351,6 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "GaussianSigma: " << m_GaussianSigma << std::endl;
-  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "K1: " << m_K1 << std::endl;
   os << indent << "K2: " << m_K2 << std::endl;
   os << indent << "DynamicRange: " << m_DynamicRange << std::endl;
@@ -381,6 +359,8 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostre
   os << indent << "StructureExponent: " << m_StructureExponent << std::endl;
   os << indent << "ScaleWeights: " << m_ScaleWeights << std::endl;
   os << indent << "MeanSSIM: " << m_MeanSSIM << std::endl;
+  os << indent << "SSIMPerScale: " << m_SSIMPerScale << std::endl;
+  os << indent << "ContrastStructurePerScale: " << m_ContrastStructurePerScale << std::endl;
 }
 } // end namespace itk
 #endif
