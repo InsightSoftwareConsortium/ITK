@@ -44,6 +44,8 @@ itkMINCImageIOTest2(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mincIO1, MINCImageIO, ImageIOBase);
 
+  ITK_TEST_EXPECT_TRUE(mincIO1->GetRAStoLPS());
+
 
   constexpr unsigned int     supportedDimCount{ 5 }; // 3 spatial + time, plus the degenerate 0-dimensional case
   std::vector<unsigned long> supportedDims(supportedDimCount);
