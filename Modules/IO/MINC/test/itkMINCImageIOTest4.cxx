@@ -130,7 +130,7 @@ itkMINCImageIOTest4(int argc, char * argv[])
   const char * input = argv[1];
   const char * output = argv[2];
   const int    RAStofromLPSTest = atoi(argv[3]);
-  const bool   RAStofromLPS = RAStofromLPSTest < 0 ? false : RAStofromLPSTest == 1;
+  const bool   RAStofromLPS = RAStofromLPSTest < 0 ? itk::MINCImageIO::New()->GetRAStoLPS() : RAStofromLPSTest == 1;
 
   double total = 0.0;
   double mx = 0.0;
