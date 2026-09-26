@@ -1218,3 +1218,33 @@ afterwards raises `RuntimeError` rather than crashing.
 
 Calls to `OverrideBoundaryCondition` on any *other* class are unaffected — those
 never took ownership and keep their current behavior.
+
+## `MINCImageIO` reads a MINC time dimension as a fourth image axis
+
+A MINC file whose `time` dimension has more than one frame now reads as a
+4-D image. The time step becomes `GetSpacing()[3]` and the time start becomes
+`GetOrigin()[3]`. In ITKv5, each time frame was a pixel component, so the
+file read as a `VectorImage<T, 3>` with one component per frame. A MINC `vector_dimension`
+still maps to pixel components.
+
+When writing, the fourth axis of a 4-D image becomes the MINC `time`
+dimension. Pixel components are always written as `vector_dimension`; the
+writer no longer turns more than three components into a `time` dimension.
+
+### What you need to do
+
+Read MINC time series into a 4-D image type:
+
+```cpp
+using ImageType = itk::Image<float, 4>;
+const auto image = itk::ReadImage<ImageType>("series.mnc");
+const double frameStep = image->GetSpacing()[3];
+```
+
+Use `itk::VectorImage<T, 4>` if the file also has a `vector_dimension`.
+Reading a time series into a 3-D image type returns only the first frame,
+with identity direction cosines, as for NIfTI. To get one frame with its
+geometry, read the 4-D image and use `ExtractImageFilter`.
+
+To write a time series, write a 4-D image instead of a `VectorImage<T, 3>`
+with one component per frame.
