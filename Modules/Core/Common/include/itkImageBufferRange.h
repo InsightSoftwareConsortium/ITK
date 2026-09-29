@@ -77,6 +77,15 @@ private:
   using InternalPixelType = typename TImage::InternalPixelType;
   using AccessorFunctorType = typename TImage::AccessorFunctorType;
 
+  // Tells whether the specified template argument is a template specialization of itk::DefaultPixelAccessorFunctor.
+  template <typename TAccessorFunctor>
+  struct IsDefaultPixelAccessorFunctor : std::false_type
+  {};
+
+  template <typename TAccessorFunctorImage>
+  struct IsDefaultPixelAccessorFunctor<DefaultPixelAccessorFunctor<TAccessorFunctorImage>> : std::true_type
+  {};
+
   // Tells whether or not this range supports direct pixel access. If it does,
   // iterator::operator*() returns a reference to the internally stored pixel,
   // otherwise iterator::operator*() returns a proxy, which internally uses the
@@ -84,7 +93,7 @@ private:
   static constexpr bool SupportsDirectPixelAccess =
     std::is_same_v<PixelType, InternalPixelType> &&
     std::is_same_v<typename TImage::AccessorType, DefaultPixelAccessor<PixelType>> &&
-    std::is_same_v<AccessorFunctorType, DefaultPixelAccessorFunctor<std::remove_const_t<TImage>>>;
+    IsDefaultPixelAccessorFunctor<AccessorFunctorType>::value;
 
   // Tells whether or not this range is using a pointer as iterator.
   static constexpr bool UsingPointerAsIterator = SupportsDirectPixelAccess;

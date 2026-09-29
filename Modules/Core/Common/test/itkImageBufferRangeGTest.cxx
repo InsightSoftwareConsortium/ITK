@@ -45,6 +45,22 @@ using itk::RangeGTestUtilities;
 
 namespace
 {
+// Minimal subclass of itk::Image.
+class ImageSubclass : public itk::Image<int>
+{
+public:
+  using Self = ImageSubclass;
+  using Superclass = itk::Image<int>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
+  itkNewMacro(Self);
+
+protected:
+  ImageSubclass() = default;
+  ~ImageSubclass() override = default;
+};
+
+
 // Tells whether or not ImageBufferRange<TImage>::iterator::operator*() returns a reference.
 // (If it does not return a reference, it actually returns a proxy to the pixel.)
 template <typename TImage>
@@ -61,6 +77,12 @@ static_assert(DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<itk
               "ImageBufferRange::iterator::operator*() should return a reference for an itk::Image.");
 static_assert(DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<const itk::Image<int>>(),
               "ImageBufferRange::iterator::operator*() should return a reference for a 'const' itk::Image.");
+static_assert(DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<ImageSubclass>(),
+              "ImageBufferRange::iterator::operator*() should return a reference for a subclass of itk::Image.");
+static_assert(
+  DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<const ImageSubclass>(),
+  "ImageBufferRange::iterator::operator*() should return a reference for a 'const' subclass of itk::Image.");
+
 static_assert(!DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<itk::VectorImage<int>>(),
               "ImageBufferRange::iterator::operator*() should not return a reference for an itk::VectorImage.");
 static_assert(!DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<const itk::VectorImage<int>>(),
@@ -556,6 +578,36 @@ TEST(ImageBufferRange, SupportsVectorImage)
   ++it;
   const PixelType secondPixelValueFromRange = *it;
   EXPECT_EQ(secondPixelValueFromRange, fillPixelValue);
+}
+
+
+// Tests that ImageBufferRange<ImageSubclass> is supported well.
+TEST(ImageBufferRange, SupportsImageSubclass)
+{
+  using PixelType = ImageSubclass::PixelType;
+  constexpr ImageSubclass::SizeType imageSize{ { 4, 5 } };
+
+  const auto image = ImageSubclass::New();
+  image->SetRegions(imageSize);
+  image->AllocateInitialized();
+
+  const ImageBufferRange range(*image);
+
+  for (const PixelType pixelValue : range)
+  {
+    // Check that initially, all pixels are zero.
+    EXPECT_EQ(pixelValue, PixelType{});
+  }
+
+  std::iota(range.begin(), range.end(), PixelType{});
+
+  constexpr itk::SizeValueType numberOfPixels{ imageSize.CalculateProductOfElements() };
+
+  for (size_t i{}; i < numberOfPixels; ++i)
+  {
+    // Check that iota has filled the range with the sequence 0, 1, 2, ...
+    EXPECT_EQ(range[i], static_cast<PixelType>(i));
+  }
 }
 
 
