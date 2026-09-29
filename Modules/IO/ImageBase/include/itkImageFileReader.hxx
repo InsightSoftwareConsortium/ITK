@@ -163,6 +163,14 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   bool             preserveReducedDirection = true;
   if (numberOfDimensionsIO > TOutputImage::ImageDimension)
   {
+    for (unsigned int i = TOutputImage::ImageDimension; i < numberOfDimensionsIO; ++i)
+    {
+      if (m_ImageIO->GetDimensions(i) <= 1)
+      {
+        preserveReducedDirection = false;
+        break;
+      }
+    }
     for (unsigned int i = 0; i < numberOfDimensionsIO && preserveReducedDirection; ++i)
     {
       for (unsigned int j = 0; j < numberOfDimensionsIO; ++j)

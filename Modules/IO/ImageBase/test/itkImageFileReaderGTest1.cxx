@@ -193,3 +193,49 @@ TEST(ImageFileReader, UsesIdentityWhenDiscardedAxisMixesWithKeptAxes)
 
   std::remove(path.c_str());
 }
+
+
+TEST(ImageFileReader, UsesIdentityWhenDiscardedAxisIsDegenerate)
+{
+  using Image3DType = itk::Image<unsigned char, 3>;
+  using Image2DType = itk::Image<unsigned char, 2>;
+
+  auto                  image = Image3DType::New();
+  Image3DType::SizeType size;
+  size[0] = 2;
+  size[1] = 2;
+  size[2] = 1;
+  Image3DType::RegionType region;
+  region.SetSize(size);
+  image->SetRegions(region);
+  image->Allocate();
+  image->FillBuffer(13);
+
+  Image3DType::DirectionType direction;
+  direction.SetIdentity();
+  direction[0][0] = 0.0;
+  direction[0][1] = -1.0;
+  direction[1][0] = 1.0;
+  direction[1][1] = 0.0;
+  image->SetDirection(direction);
+
+  const std::string path = std::string(::testing::TempDir()) + "/itkImageFileReaderDegenerateDirection3D.mha";
+  auto              writer = itk::ImageFileWriter<Image3DType>::New();
+  writer->SetImageIO(itk::MetaImageIO::New());
+  writer->SetFileName(path);
+  writer->SetInput(image);
+  writer->Update();
+
+  auto reader = itk::ImageFileReader<Image2DType>::New();
+  reader->SetImageIO(itk::MetaImageIO::New());
+  reader->SetFileName(path);
+  reader->Update();
+
+  Image2DType::DirectionType identity;
+  identity.SetIdentity();
+  EXPECT_EQ(identity, reader->GetOutput()->GetDirection());
+  const Image2DType::IndexType index{ { 1, 1 } };
+  EXPECT_EQ(13, reader->GetOutput()->GetPixel(index));
+
+  std::remove(path.c_str());
+}
