@@ -24,10 +24,10 @@
 #include "itkPixelTraits.h"
 #include "itkVectorImage.h"
 #include "itkMetaDataObject.h"
-#include "itkBridgeMathDeterminant.h"
 
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
+#include <cmath>
 #include <fstream>
 
 namespace itk
@@ -158,6 +158,32 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
     directionIO.push_back(m_ImageIO->GetDirection(k));
   }
 
+  // Allow float-precision roundoff in direction cosines read from file.
+  constexpr double directionTolerance = 1e-6;
+  bool             preserveReducedDirection = true;
+  if (numberOfDimensionsIO > TOutputImage::ImageDimension)
+  {
+    for (unsigned int i = 0; i < numberOfDimensionsIO && preserveReducedDirection; ++i)
+    {
+      for (unsigned int j = 0; j < numberOfDimensionsIO; ++j)
+      {
+        if ((i < TOutputImage::ImageDimension) != (j < TOutputImage::ImageDimension) &&
+            (j >= directionIO[i].size() || std::abs(directionIO[i][j]) > directionTolerance))
+        {
+          preserveReducedDirection = false;
+          break;
+        }
+      }
+    }
+    if (!preserveReducedDirection)
+    {
+      for (unsigned int i = 0; i < numberOfDimensionsIO; ++i)
+      {
+        directionIO[i] = m_ImageIO->GetDefaultDirection(i);
+      }
+    }
+  }
+
   std::vector<double> axis;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
@@ -204,7 +230,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       }
     }
   }
-  if (numberOfDimensionsIO > TOutputImage::ImageDimension && bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+  if (numberOfDimensionsIO > TOutputImage::ImageDimension && preserveReducedDirection &&
+      !(direction.GetVnlMatrix().transpose() * direction.GetVnlMatrix()).is_identity(directionTolerance))
   {
     direction.SetIdentity();
   }

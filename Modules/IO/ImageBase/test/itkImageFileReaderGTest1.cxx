@@ -66,6 +66,8 @@ TEST(ImageFileReader, RetainsSpatialDirectionWhenReadingFirstVolume)
   direction[0][1] = -1.0;
   direction[1][0] = 1.0;
   direction[1][1] = 0.0;
+  direction[0][3] = 1e-8;
+  direction[3][0] = -1e-8;
   image->SetDirection(direction);
 
   Image4DType::PointType origin;
@@ -144,6 +146,50 @@ TEST(ImageFileReader, UsesIdentityWhenReducedDirectionIsSingular)
   EXPECT_EQ(identity, reader->GetOutput()->GetDirection());
   const Image2DType::IndexType index{ { 1, 1 } };
   EXPECT_EQ(9, reader->GetOutput()->GetPixel(index));
+
+  std::remove(path.c_str());
+}
+
+
+TEST(ImageFileReader, UsesIdentityWhenDiscardedAxisMixesWithKeptAxes)
+{
+  using Image3DType = itk::Image<unsigned char, 3>;
+  using Image2DType = itk::Image<unsigned char, 2>;
+
+  auto                  image = Image3DType::New();
+  Image3DType::SizeType size;
+  size.Fill(2);
+  Image3DType::RegionType region;
+  region.SetSize(size);
+  image->SetRegions(region);
+  image->Allocate();
+  image->FillBuffer(11);
+
+  Image3DType::DirectionType direction;
+  direction.SetIdentity();
+  direction[1][1] = 0.8;
+  direction[1][2] = -0.6;
+  direction[2][1] = 0.6;
+  direction[2][2] = 0.8;
+  image->SetDirection(direction);
+
+  const std::string path = std::string(::testing::TempDir()) + "/itkImageFileReaderObliqueDirection3D.mha";
+  auto              writer = itk::ImageFileWriter<Image3DType>::New();
+  writer->SetImageIO(itk::MetaImageIO::New());
+  writer->SetFileName(path);
+  writer->SetInput(image);
+  writer->Update();
+
+  auto reader = itk::ImageFileReader<Image2DType>::New();
+  reader->SetImageIO(itk::MetaImageIO::New());
+  reader->SetFileName(path);
+  reader->Update();
+
+  Image2DType::DirectionType identity;
+  identity.SetIdentity();
+  EXPECT_EQ(identity, reader->GetOutput()->GetDirection());
+  const Image2DType::IndexType index{ { 1, 1 } };
+  EXPECT_EQ(11, reader->GetOutput()->GetPixel(index));
 
   std::remove(path.c_str());
 }
