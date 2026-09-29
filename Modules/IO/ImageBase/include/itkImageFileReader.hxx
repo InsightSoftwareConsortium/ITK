@@ -24,6 +24,7 @@
 #include "itkPixelTraits.h"
 #include "itkVectorImage.h"
 #include "itkMetaDataObject.h"
+#include "itkBridgeMathDeterminant.h"
 
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
@@ -152,19 +153,9 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
 
   const unsigned int numberOfDimensionsIO = m_ImageIO->GetNumberOfDimensions();
 
-  if (numberOfDimensionsIO > TOutputImage::ImageDimension)
+  for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
   {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDefaultDirection(k));
-    }
-  }
-  else
-  {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDirection(k));
-    }
+    directionIO.push_back(m_ImageIO->GetDirection(k));
   }
 
   std::vector<double> axis;
@@ -212,6 +203,10 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
         }
       }
     }
+  }
+  if (numberOfDimensionsIO > TOutputImage::ImageDimension && bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+  {
+    direction.SetIdentity();
   }
   MetaDataDictionary & thisDic = m_ImageIO->GetMetaDataDictionary();
   // Store original directions and spacing
