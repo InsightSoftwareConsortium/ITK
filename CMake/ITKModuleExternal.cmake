@@ -120,6 +120,24 @@ if(NOT ITK_INSTALL_PACKAGE_DIR)
     "${CMAKE_INSTALL_LIBDIR}/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}"
   )
 endif()
+foreach(
+  _itk_install_dir_var
+  ITK_INSTALL_RUNTIME_DIR
+  ITK_INSTALL_LIBRARY_DIR
+  ITK_INSTALL_ARCHIVE_DIR
+  ITK_INSTALL_INCLUDE_DIR
+  ITK_INSTALL_DATA_DIR
+  ITK_INSTALL_DOC_DIR
+  ITK_INSTALL_PACKAGE_DIR
+)
+  if(IS_ABSOLUTE "${${_itk_install_dir_var}}")
+    message(
+      FATAL_ERROR
+      "${_itk_install_dir_var} ('${${_itk_install_dir_var}}') must be relative to CMAKE_INSTALL_PREFIX."
+    )
+  endif()
+endforeach()
+unset(_itk_install_dir_var)
 
 include(${ITK_CMAKE_DIR}/ITKInitializeCXXStandard.cmake)
 include(${ITK_CMAKE_DIR}/ITKInitializeBuildType.cmake)
