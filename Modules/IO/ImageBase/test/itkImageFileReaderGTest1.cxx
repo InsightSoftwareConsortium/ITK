@@ -195,7 +195,7 @@ TEST(ImageFileReader, UsesIdentityWhenDiscardedAxisMixesWithKeptAxes)
 }
 
 
-TEST(ImageFileReader, UsesIdentityWhenDiscardedAxisIsDegenerate)
+TEST(ImageFileReader, RetainsDirectionWhenDiscardedAxisIsDegenerate)
 {
   using Image3DType = itk::Image<unsigned char, 3>;
   using Image2DType = itk::Image<unsigned char, 2>;
@@ -231,11 +231,59 @@ TEST(ImageFileReader, UsesIdentityWhenDiscardedAxisIsDegenerate)
   reader->SetFileName(path);
   reader->Update();
 
+  Image2DType::DirectionType expectedDirection;
+  expectedDirection.SetIdentity();
+  expectedDirection[0][0] = 0.0;
+  expectedDirection[0][1] = -1.0;
+  expectedDirection[1][0] = 1.0;
+  expectedDirection[1][1] = 0.0;
+  EXPECT_EQ(expectedDirection, reader->GetOutput()->GetDirection());
+  const Image2DType::IndexType index{ { 1, 1 } };
+  const auto                   point = reader->GetOutput()->TransformIndexToPhysicalPoint<double>(index);
+  EXPECT_DOUBLE_EQ(-1.0, point[0]);
+  EXPECT_DOUBLE_EQ(1.0, point[1]);
+  EXPECT_EQ(13, reader->GetOutput()->GetPixel(index));
+
+  std::remove(path.c_str());
+}
+
+
+TEST(ImageFileReader, UsesIdentityWhenRetainedBlockIsNotOrthonormal)
+{
+  using Image3DType = itk::Image<unsigned char, 3>;
+  using Image2DType = itk::Image<unsigned char, 2>;
+
+  auto                  image = Image3DType::New();
+  Image3DType::SizeType size;
+  size.Fill(2);
+  Image3DType::RegionType region;
+  region.SetSize(size);
+  image->SetRegions(region);
+  image->Allocate();
+  image->FillBuffer(15);
+
+  Image3DType::DirectionType direction;
+  direction.SetIdentity();
+  direction[0][0] = 0.8;
+  image->SetDirection(direction);
+
+  const std::string path = std::string(::testing::TempDir()) + "/itkImageFileReaderNonOrthonormalBlock3D.mha";
+  auto              writer = itk::ImageFileWriter<Image3DType>::New();
+  writer->SetImageIO(itk::MetaImageIO::New());
+  writer->SetFileName(path);
+  writer->SetInput(image);
+  writer->Update();
+
+  auto reader = itk::ImageFileReader<Image2DType>::New();
+  reader->SetImageIO(itk::MetaImageIO::New());
+  reader->SetFileName(path);
+  reader->Update();
+
   Image2DType::DirectionType identity;
   identity.SetIdentity();
   EXPECT_EQ(identity, reader->GetOutput()->GetDirection());
   const Image2DType::IndexType index{ { 1, 1 } };
-  EXPECT_EQ(13, reader->GetOutput()->GetPixel(index));
+  EXPECT_EQ(15, reader->GetOutput()->GetPixel(index));
 
   std::remove(path.c_str());
 }

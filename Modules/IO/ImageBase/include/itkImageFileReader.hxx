@@ -158,23 +158,19 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
     directionIO.push_back(m_ImageIO->GetDirection(k));
   }
 
-  // Allow float-precision roundoff in direction cosines read from file.
-  constexpr double directionTolerance = 1e-6;
-  bool             preserveReducedDirection = true;
+  const double directionTolerance = DefaultImageDirectionTolerance;
+  bool         preserveReducedDirection = true;
   if (numberOfDimensionsIO > TOutputImage::ImageDimension)
   {
-    for (unsigned int i = TOutputImage::ImageDimension; i < numberOfDimensionsIO; ++i)
-    {
-      if (m_ImageIO->GetDimensions(i) <= 1)
-      {
-        preserveReducedDirection = false;
-        break;
-      }
-    }
     for (unsigned int i = 0; i < numberOfDimensionsIO && preserveReducedDirection; ++i)
     {
       for (unsigned int j = 0; j < numberOfDimensionsIO; ++j)
       {
+        if (j < directionIO[i].size() && !std::isfinite(directionIO[i][j]))
+        {
+          preserveReducedDirection = false;
+          break;
+        }
         if ((i < TOutputImage::ImageDimension) != (j < TOutputImage::ImageDimension) &&
             (j >= directionIO[i].size() || std::abs(directionIO[i][j]) > directionTolerance))
         {
