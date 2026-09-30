@@ -80,6 +80,10 @@ namespace itk
  *                             in the MetaDataDictionary
  * re-arrangement.
  *
+ * \note HDF5's C++ API has no internal thread-safety, so this class serializes
+ * CanReadFile(), ReadImageInformation(), Read(), WriteImageInformation(), and
+ * Write() with an internal mutex. Other HDF5 consumers in ITK (e.g.
+ * HDF5TransformIO) are not covered by this lock.
  *
  */
 
