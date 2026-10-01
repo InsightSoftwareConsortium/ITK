@@ -21,7 +21,7 @@
 #include "itkImageSink.h"
 #include "itkNumericTraits.h"
 #include "itkLabelOverlapLabelSetMeasures.h"
-#include <mutex>
+#include "itkGreedyReduceAlgorithm.h"
 #include <unordered_map>
 
 namespace itk
@@ -236,6 +236,9 @@ protected:
   BeforeStreamedGenerateData() override;
 
   void
+  AfterStreamedGenerateData() override;
+
+  void
   ThreadedStreamedGenerateData(const RegionType &) override;
 
   void
@@ -244,7 +247,7 @@ protected:
 private:
   MapType m_LabelSetMeasures{};
 
-  std::mutex m_Mutex{};
+  typename GreedyReduceAlgorithm<MapType>::Pointer m_Reducer{};
 }; // end of class
 
 } // end namespace itk
