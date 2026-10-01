@@ -179,43 +179,36 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   const unsigned int numberOfScales = m_ScaleWeights.GetSize();
 
-  const auto smooth = [](const RealImageType * image, double sigma) {
+  // Each internal filter disconnects its output when it is destroyed on return.
+  const auto smooth = [](const RealImageType * image, double sigma) -> RealImagePointer {
     auto smoother = SmoothingFilterType::New();
     smoother->SetInput(image);
     smoother->SetVariance(sigma * sigma);
     smoother->Update();
-    RealImagePointer smoothed = smoother->GetOutput();
-    smoothed->DisconnectPipeline();
-    return smoothed;
+    return smoother->GetOutput();
   };
   // Grafting the inputs keeps the internal Update() calls from propagating upstream.
-  const auto toRealImage = [](const InputImageType * input) {
+  const auto toRealImage = [](const InputImageType * input) -> RealImagePointer {
     auto grafted = InputImageType::New();
     grafted->Graft(input);
     auto cast = CastFilterType::New();
     cast->SetInput(grafted);
     cast->Update();
-    RealImagePointer image = cast->GetOutput();
-    image->DisconnectPipeline();
-    return image;
+    return cast->GetOutput();
   };
-  const auto multiply = [](const RealImageType * a, const RealImageType * b) {
+  const auto multiply = [](const RealImageType * a, const RealImageType * b) -> RealImagePointer {
     auto filter = MultiplyFilterType::New();
     filter->SetInput1(a);
     filter->SetInput2(b);
     filter->Update();
-    RealImagePointer product = filter->GetOutput();
-    product->DisconnectPipeline();
-    return product;
+    return filter->GetOutput();
   };
-  const auto shrink = [](const RealImageType * image) {
+  const auto shrink = [](const RealImageType * image) -> RealImagePointer {
     auto filter = ShrinkFilterType::New();
     filter->SetInput(image);
     filter->SetShrinkFactors(2);
     filter->Update();
-    RealImagePointer shrunk = filter->GetOutput();
-    shrunk->DisconnectPipeline();
-    return shrunk;
+    return filter->GetOutput();
   };
 
   RealImagePointer x = toRealImage(this->GetInput1());
