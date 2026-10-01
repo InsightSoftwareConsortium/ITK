@@ -362,12 +362,14 @@ else()
   mark_as_advanced(SWIG_EXECUTABLE)
 endif()
 
-set(
-  PYGCCXML_DIR
-  ${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src
-  CACHE INTERNAL
-  "pygccxml path"
-)
+# The source tree's copy, or the one installed with the wrapping development files.
+if(EXISTS "${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src/pygccxml")
+  set(_pygccxml_dir "${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src")
+else()
+  set(_pygccxml_dir "${WRAP_ITK_CMAKE_DIR}/ThirdParty/pygccxml")
+endif()
+set(PYGCCXML_DIR "${_pygccxml_dir}" CACHE INTERNAL "pygccxml path")
+unset(_pygccxml_dir)
 
 ###############################################################################
 # store the current dir, so it can be reused later
