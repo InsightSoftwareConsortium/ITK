@@ -63,6 +63,8 @@ namespace itk
  * Scale \f$j = 0, \dots, M-1\f$ uses the inputs downsampled \f$j\f$ times
  * by BinShrinkImageFilter (averaging of 2x2...2 blocks) and a window of
  * \f$\sigma_j = 2^j \sigma\f$, i.e. the same number of pixels at every scale.
+ * The Gaussian window only computes the local statistics of a scale; the next
+ * scale is shrunk from the unsmoothed images of the current one.
  * Each map is averaged over the whole image at its scale, giving
  * \f$\overline{cs}_j\f$ and \f$\overline{\mathrm{ssim}}_j\f$.  With weights
  * \f$w_j\f$ (\c ScaleWeights),
@@ -80,6 +82,15 @@ namespace itk
  * and non-negative.  Each image dimension must survive \f$M-1\f$
  * BinShrinkImageFilter halvings, i.e. have at least \f$2^{M-1}\f$ pixels
  * (more when the region's start index is not a multiple of \f$2^{M-1}\f$).
+ *
+ * Eq. 7 of \cite wang2003multiscale can be read as exponentiating per-pixel
+ * terms.  This filter follows the authors' reference MATLAB implementation
+ * (\c msssim.m) instead: each scale's map is pooled to its mean before the
+ * weights are applied, and the low-pass filter before subsampling is a 2x2
+ * average.  Results still differ slightly from \c msssim.m, which averages
+ * each map only over pixels whose window lies fully inside the image, while
+ * this filter averages over the whole image; \c msssim.m also does not floor
+ * the per-scale means at MinimumScaleValue.
  *
  * The filter is N-dimensional and multi-threaded.  The output pixel type
  * defaults to \c float.
