@@ -152,6 +152,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   std::vector<std::vector<double>> directionIO;
 
   const unsigned int numberOfDimensionsIO = m_ImageIO->GetNumberOfDimensions();
+  const bool         isImplicitDCMTKSliceAxis = strcmp(m_ImageIO->GetNameOfClass(), "DCMTKImageIO") == 0 &&
+                                        TOutputImage::ImageDimension == 2 && numberOfDimensionsIO == 3 &&
+                                        m_ImageIO->GetDimensions(2) == 1;
+  const bool isReducedDimensionalRead =
+    numberOfDimensionsIO > TOutputImage::ImageDimension && !isImplicitDCMTKSliceAxis;
 
   for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
   {
@@ -160,7 +165,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
 
   const double directionTolerance = DefaultImageDirectionTolerance;
   bool         preserveReducedDirection = true;
-  if (numberOfDimensionsIO > TOutputImage::ImageDimension)
+  if (isReducedDimensionalRead)
   {
     for (unsigned int i = 0; i < numberOfDimensionsIO && preserveReducedDirection; ++i)
     {
@@ -234,7 +239,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       }
     }
   }
-  if (numberOfDimensionsIO > TOutputImage::ImageDimension && preserveReducedDirection &&
+  if (isReducedDimensionalRead && preserveReducedDirection &&
       !(direction.GetVnlMatrix().transpose() * direction.GetVnlMatrix()).is_identity(directionTolerance))
   {
     direction.SetIdentity();
