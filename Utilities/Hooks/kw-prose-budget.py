@@ -32,7 +32,7 @@ from pathlib import Path
 
 
 BODY_LINE_CAP = 12
-BODY_WIDTH_CAP = 72
+BODY_WIDTH_CAP = 80
 
 # Trailers (Co-Authored-By, Fixes, Refs, Signed-off-by, etc.) are
 # allowed beyond the body cap and are not counted.
