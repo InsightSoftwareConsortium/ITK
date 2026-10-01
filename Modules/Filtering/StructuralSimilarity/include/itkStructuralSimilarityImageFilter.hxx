@@ -326,7 +326,7 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (numberOfScales == 1)
   {
     // Plain SSIM, which may legitimately be negative; there is no product to protect.
-    m_MeanSSIM = static_cast<double>(m_SSIMPerScale[0]);
+    m_MSSSIM = static_cast<double>(m_SSIMPerScale[0]);
     return;
   }
 
@@ -337,7 +337,7 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     msssim *= std::pow(std::max(m_ContrastStructurePerScale[scale], MinimumScaleValue), m_ScaleWeights[scale]);
   }
-  m_MeanSSIM = static_cast<double>(msssim);
+  m_MSSSIM = static_cast<double>(msssim);
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -353,7 +353,7 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostre
   os << indent << "ContrastExponent: " << m_ContrastExponent << std::endl;
   os << indent << "StructureExponent: " << m_StructureExponent << std::endl;
   os << indent << "ScaleWeights: " << m_ScaleWeights << std::endl;
-  os << indent << "MeanSSIM: " << m_MeanSSIM << std::endl;
+  os << indent << "MSSSIM: " << m_MSSSIM << std::endl;
   os << indent << "SSIMPerScale: " << m_SSIMPerScale << std::endl;
   os << indent << "ContrastStructurePerScale: " << m_ContrastStructurePerScale << std::endl;
 }

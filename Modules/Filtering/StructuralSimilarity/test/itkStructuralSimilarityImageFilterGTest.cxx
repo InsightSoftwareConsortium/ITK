@@ -146,7 +146,7 @@ ComputeFiltered(const ImageType * a, const ImageType * b)
   filter->SetInput2(b);
   filter->SetScaleWeights(FilterType::ScaleWeightsType(1, 1.0));
   filter->Update();
-  return filter->GetMeanSSIM();
+  return filter->GetMSSSIM();
 }
 
 // (MS-)SSIM of an image with itself, which should be 1.
@@ -163,7 +163,7 @@ SelfSimilarity(const TImage *                                                   
   filter->SetDynamicRange(dynamicRange);
   filter->SetScaleWeights(weights);
   filter->Update();
-  return filter->GetMeanSSIM();
+  return filter->GetMSSSIM();
 }
 
 // Reads an image as gray levels rescaled to [0, 1].
@@ -193,7 +193,7 @@ ComputeDefaultMSSSIM(const std::string & fileName1, const std::string & fileName
   filter->SetInput1(image1);
   filter->SetInput2(image2);
   filter->Update();
-  return filter->GetMeanSSIM();
+  return filter->GetMSSSIM();
 }
 
 } // namespace
@@ -326,14 +326,14 @@ TEST(StructuralSimilarityImageFilter, SymmetryProperty)
   filter1->SetInput2(b);
   filter1->SetDynamicRange(255.0);
   filter1->Update();
-  const double s_ab = filter1->GetMeanSSIM();
+  const double s_ab = filter1->GetMSSSIM();
 
   auto filter2 = FilterType::New();
   filter2->SetInput1(b);
   filter2->SetInput2(a);
   filter2->SetDynamicRange(255.0);
   filter2->Update();
-  const double s_ba = filter2->GetMeanSSIM();
+  const double s_ba = filter2->GetMSSSIM();
 
   EXPECT_NEAR(s_ab, s_ba, 1e-12);
 }
@@ -369,7 +369,7 @@ TEST(StructuralSimilarityImageFilter, TwoDifferentConstantImages_AnalyticMatch)
   filter->Update();
 
   const double expected = AnalyticConstantSSIM(100.0, 150.0);
-  EXPECT_NEAR(filter->GetMeanSSIM(), expected, 1e-9);
+  EXPECT_NEAR(filter->GetMSSSIM(), expected, 1e-9);
   EXPECT_NEAR(expected, 0.9230923, 1e-6); // sanity-check the analytic helper
 }
 
@@ -386,7 +386,7 @@ TEST(StructuralSimilarityImageFilter, MaximallyDifferentConstants_AnalyticMatch)
   filter->Update();
 
   const double expected = AnalyticConstantSSIM(0.0, 255.0);
-  EXPECT_NEAR(filter->GetMeanSSIM(), expected, 1e-9);
+  EXPECT_NEAR(filter->GetMSSSIM(), expected, 1e-9);
   EXPECT_NEAR(expected, 0.0000999900, 1e-9);
 }
 
@@ -537,7 +537,7 @@ TEST(StructuralSimilarityImageFilter, OddStartIndexNeedsLargerImage)
   }
 }
 
-TEST(StructuralSimilarityImageFilter, MeanSSIMCombinesPerScaleValues)
+TEST(StructuralSimilarityImageFilter, MSSSIMCombinesPerScaleValues)
 {
   auto a = MakeGradientImage(64);
   auto b = NoisyCopy(a, 20.0, 7);
@@ -560,7 +560,7 @@ TEST(StructuralSimilarityImageFilter, MeanSSIMCombinesPerScaleValues)
     EXPECT_LT(cs[j], 1.0);
     expected *= std::pow(std::max(cs[j], FilterType::MinimumScaleValue), weights[j]);
   }
-  EXPECT_NEAR(filter->GetMeanSSIM(), expected, 1e-12);
+  EXPECT_NEAR(filter->GetMSSSIM(), expected, 1e-12);
 }
 
 TEST(StructuralSimilarityImageFilter, EvenStartIndex_SameResult)
@@ -573,7 +573,7 @@ TEST(StructuralSimilarityImageFilter, EvenStartIndex_SameResult)
   filter->SetInput2(b);
   filter->SetDynamicRange(255.0);
   filter->Update();
-  const double expected = filter->GetMeanSSIM();
+  const double expected = filter->GetMSSSIM();
 
   const auto region = a->GetLargestPossibleRegion();
   auto       shiftedRegion = region;
@@ -589,7 +589,7 @@ TEST(StructuralSimilarityImageFilter, EvenStartIndex_SameResult)
   shiftedFilter->SetInput2(b);
   shiftedFilter->SetDynamicRange(255.0);
   shiftedFilter->Update();
-  EXPECT_NEAR(shiftedFilter->GetMeanSSIM(), expected, 1e-12);
+  EXPECT_NEAR(shiftedFilter->GetMSSSIM(), expected, 1e-12);
   EXPECT_EQ(shiftedFilter->GetOutput()->GetLargestPossibleRegion(), shiftedRegion);
 }
 
@@ -607,7 +607,7 @@ TEST(StructuralSimilarityImageFilter, RandomPair_SSIMInValidRange)
   filter->SetInput2(b);
   filter->SetDynamicRange(255.0);
   filter->Update();
-  const double s = filter->GetMeanSSIM();
+  const double s = filter->GetMSSSIM();
   EXPECT_GE(s, -1.0);
   EXPECT_LE(s, 1.0);
 }
@@ -638,13 +638,13 @@ TEST(StructuralSimilarityImageFilter, NegatedImage_StronglyAntiCorrelated)
   filter->SetInput2(neg);
   filter->SetDynamicRange(255.0);
   filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 0.0, 1e-3);
+  EXPECT_NEAR(filter->GetMSSSIM(), 0.0, 1e-3);
 
   // Single-scale SSIM is not floored, so anti-correlation shows as a negative score.
   filter->SetScaleWeights(FilterType::ScaleWeightsType(1, 1.0));
   filter->Update();
-  EXPECT_LT(filter->GetMeanSSIM(), -0.5);
-  EXPECT_DOUBLE_EQ(filter->GetMeanSSIM(), filter->GetSSIMPerScale()[0]);
+  EXPECT_LT(filter->GetMSSSIM(), -0.5);
+  EXPECT_DOUBLE_EQ(filter->GetMSSSIM(), filter->GetSSIMPerScale()[0]);
 }
 
 TEST(StructuralSimilarityImageFilter, NonUnitExponents_AntiCorrelated_IsFinite)
@@ -665,9 +665,9 @@ TEST(StructuralSimilarityImageFilter, NonUnitExponents_AntiCorrelated_IsFinite)
     filter->SetScaleWeights(FilterType::ScaleWeightsType(numberOfScales, 1.0 / numberOfScales));
     filter->Update();
 
-    EXPECT_TRUE(std::isfinite(filter->GetMeanSSIM()));
-    EXPECT_GE(filter->GetMeanSSIM(), 0.0);
-    EXPECT_LT(filter->GetMeanSSIM(), 0.1);
+    EXPECT_TRUE(std::isfinite(filter->GetMSSSIM()));
+    EXPECT_GE(filter->GetMSSSIM(), 0.0);
+    EXPECT_LT(filter->GetMSSSIM(), 0.1);
     for (const auto pixel : itk::ImageRegionRange(*filter->GetOutput()))
     {
       ASSERT_TRUE(std::isfinite(pixel));
@@ -690,7 +690,7 @@ TEST(StructuralSimilarityImageFilter, GradientShiftedByConstant)
   filter->SetDynamicRange(255.0);
   filter->SetScaleWeights(FilterType::ScaleWeightsType(1, 1.0));
   filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 0.95788000569951843, 1e-9);
+  EXPECT_NEAR(filter->GetMSSSIM(), 0.95788000569951843, 1e-9);
 }
 
 TEST(StructuralSimilarityImageFilter, GradientHalfContrast)
@@ -703,7 +703,7 @@ TEST(StructuralSimilarityImageFilter, GradientHalfContrast)
   filter->SetDynamicRange(255.0);
   filter->SetScaleWeights(FilterType::ScaleWeightsType(1, 1.0));
   filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 0.75807280867093147, 1e-9);
+  EXPECT_NEAR(filter->GetMSSSIM(), 0.75807280867093147, 1e-9);
 }
 
 
@@ -727,7 +727,7 @@ TEST(StructuralSimilarityImageFilter, SimplifiedAndGeneralFormulaAgreeWhenExpone
   fastFilter->SetInput2(b);
   fastFilter->SetDynamicRange(255.0);
   fastFilter->Update();
-  const double fastResult = fastFilter->GetMeanSSIM();
+  const double fastResult = fastFilter->GetMSSSIM();
 
   auto generalFilter = FilterType::New();
   generalFilter->SetInput1(a);
@@ -738,7 +738,7 @@ TEST(StructuralSimilarityImageFilter, SimplifiedAndGeneralFormulaAgreeWhenExpone
   generalFilter->SetContrastExponent(1.0);
   generalFilter->SetStructureExponent(1.0);
   generalFilter->Update();
-  const double generalResult = generalFilter->GetMeanSSIM();
+  const double generalResult = generalFilter->GetMSSSIM();
 
   EXPECT_NEAR(fastResult, generalResult, 1e-6);
 }
@@ -791,7 +791,7 @@ TEST(StructuralSimilarityImageFilter, ThreeDimensional_ConstantInputs_AnalyticMa
   filter->SetDynamicRange(255.0);
   filter->SetScaleWeights(Filter3DType::ScaleWeightsType(1, 1.0));
   filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), AnalyticConstantSSIM(80.0, 120.0), 1e-9);
+  EXPECT_NEAR(filter->GetMSSSIM(), AnalyticConstantSSIM(80.0, 120.0), 1e-9);
 }
 
 TEST(StructuralSimilarityImageFilter, FourDimensional_ConstantInputs_AnalyticMatch)
@@ -816,7 +816,7 @@ TEST(StructuralSimilarityImageFilter, FourDimensional_ConstantInputs_AnalyticMat
   filter->SetDynamicRange(255.0);
   filter->SetScaleWeights(Filter4DType::ScaleWeightsType(1, 1.0));
   filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), AnalyticConstantSSIM(60.0, 80.0), 1e-9);
+  EXPECT_NEAR(filter->GetMSSSIM(), AnalyticConstantSSIM(60.0, 80.0), 1e-9);
 }
 
 

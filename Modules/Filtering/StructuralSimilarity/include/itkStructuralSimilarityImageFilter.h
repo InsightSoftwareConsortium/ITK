@@ -35,7 +35,8 @@ namespace itk
  * \cite wang2004image and its multi-scale extension (MS-SSIM)
  * \cite wang2003multiscale between two input images of identical geometry.
  * The output image stores the per-pixel SSIM map at the original resolution.
- * The scalar (MS-)SSIM is available via GetMeanSSIM() after Update().
+ * The scalar SSIM, or MS-SSIM when there is more than one scale, is
+ * available via GetMSSSIM() after Update().
  *
  * \par Local statistics
  * With \f$G_\sigma\f$ the DiscreteGaussianImageFilter kernel of standard
@@ -220,8 +221,12 @@ public:
    *  product, keeping it finite and non-zero when a mean is not positive. */
   static constexpr RealType MinimumScaleValue{ 1e-6 };
 
-  /** Mean (MS-)SSIM.  Available after Update(). */
-  itkGetConstMacro(MeanSSIM, double);
+  /** (MS-)SSIM.  Available after Update().
+   *  With one scale it is the spatial mean of the output SSIM map,
+   *  \f$\overline{\mathrm{ssim}}_0\f$.  With more scales it is not a mean
+   *  but the MS-SSIM product of floored per-scale means given in the class
+   *  documentation. */
+  itkGetConstMacro(MSSSIM, double);
 
   /** Per-scale means \f$\overline{\mathrm{ssim}}_j\f$ and \f$\overline{cs}_j\f$,
    *  finest scale first, before flooring.  Available after Update(). */
@@ -278,7 +283,7 @@ private:
 
   ScaleWeightsType m_ScaleWeights{ WangEtAl2003ScaleWeights() };
 
-  double          m_MeanSSIM{ 0.0 };
+  double          m_MSSSIM{ 0.0 };
   ScaleValuesType m_SSIMPerScale{};
   ScaleValuesType m_ContrastStructurePerScale{};
 };
