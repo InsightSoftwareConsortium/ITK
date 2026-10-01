@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionRange.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -644,6 +645,34 @@ TEST(StructuralSimilarityImageFilter, NegatedImage_StronglyAntiCorrelated)
   filter->Update();
   EXPECT_LT(filter->GetMeanSSIM(), -0.5);
   EXPECT_DOUBLE_EQ(filter->GetMeanSSIM(), filter->GetSSIMPerScale()[0]);
+}
+
+TEST(StructuralSimilarityImageFilter, NonUnitExponents_AntiCorrelated_IsFinite)
+{
+  // A negative structure term raised to a fractional exponent would be NaN.
+  auto base = MakeRandomImage(64, 99);
+  auto neg = ScaledCopy(base, -1.0, 255.0);
+
+  for (const unsigned int numberOfScales : { 1u, 5u })
+  {
+    auto filter = FilterType::New();
+    filter->SetInput1(base);
+    filter->SetInput2(neg);
+    filter->SetDynamicRange(255.0);
+    filter->SetLuminanceExponent(0.5);
+    filter->SetContrastExponent(0.5);
+    filter->SetStructureExponent(0.5);
+    filter->SetScaleWeights(FilterType::ScaleWeightsType(numberOfScales, 1.0 / numberOfScales));
+    filter->Update();
+
+    EXPECT_TRUE(std::isfinite(filter->GetMeanSSIM()));
+    EXPECT_GE(filter->GetMeanSSIM(), 0.0);
+    EXPECT_LT(filter->GetMeanSSIM(), 0.1);
+    for (const auto pixel : itk::ImageRegionRange(*filter->GetOutput()))
+    {
+      ASSERT_TRUE(std::isfinite(pixel));
+    }
+  }
 }
 
 

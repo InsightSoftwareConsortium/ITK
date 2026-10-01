@@ -54,7 +54,9 @@ namespace itk
  * (\f$\beta\f$) or \c StructureExponent (\f$\gamma\f$) differs from 1,
  * \f$cs = c^\beta s^\gamma\f$ and \f$\mathrm{ssim} = l^\alpha c^\beta s^\gamma\f$
  * with the separate contrast and structure terms of \cite wang2004image and
- * \f$C_3 = C_2/2\f$.
+ * \f$C_3 = C_2/2\f$.  In that case \f$l\f$ and \f$s\f$ are clamped at 0
+ * before exponentiation, because a negative base with a fractional exponent
+ * is undefined; unlike the unit-exponent form, that map is non-negative.
  *
  * \par Multi-scale combination
  * Scale \f$j = 0, \dots, M-1\f$ uses the inputs downsampled \f$j\f$ times

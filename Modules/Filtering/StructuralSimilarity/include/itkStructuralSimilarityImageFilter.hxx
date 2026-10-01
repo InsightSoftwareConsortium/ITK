@@ -291,8 +291,9 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
             const RealType sigma_y = std::sqrt(var_y);
             const RealType c = (RealType{ 2 } * sigma_x * sigma_y + C2) / (var_x + var_y + C2);
             const RealType s = (cov_xy + C3) / (sigma_x * sigma_y + C3);
-            cs = std::pow(c, beta) * std::pow(s, gamma);
-            ssim = std::pow(l, alpha) * cs;
+            // A negative base with a fractional exponent is NaN.
+            cs = std::pow(c, beta) * std::pow(std::max(s, RealType{}), gamma);
+            ssim = std::pow(std::max(l, RealType{}), alpha) * cs;
           }
 
           if (writeOutput)
