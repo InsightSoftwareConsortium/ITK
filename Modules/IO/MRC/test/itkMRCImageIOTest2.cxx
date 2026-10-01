@@ -44,7 +44,6 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
   const typename ImageType::Pointer image = reader->GetOutput();
 
   using DictionaryType = itk::MetaDataDictionary;
-  using MetaDataStringType = itk::MetaDataObject<std::string>;
 
   // prepare to iterate over the dictionary
   DictionaryType & dic = image->GetMetaDataDictionary();
@@ -72,18 +71,10 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
     }
     else
     {
-      // just print the strings now
-      const itk::MetaDataObjectBase::Pointer entry = itr->second;
-
-      const MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>(entry.GetPointer());
-      if (entryvalue)
-      {
-
-        const std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-
-        std::cout << '(' << key << ") ";
-        std::cout << " = " << tagvalue << std::endl;
-      }
+      // MetaDataObjectBase::Print dispatches to the value's own Print/operator<<.
+      std::cout << '(' << key << ")  = ";
+      itr->second->Print(std::cout);
+      std::cout << std::endl;
     }
     ++itr;
   }
