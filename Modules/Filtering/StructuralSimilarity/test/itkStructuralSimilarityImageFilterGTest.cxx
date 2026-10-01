@@ -148,6 +148,23 @@ ComputeFiltered(const ImageType * a, const ImageType * b)
   return filter->GetMeanSSIM();
 }
 
+// (MS-)SSIM of an image with itself, which should be 1.
+template <typename TImage>
+double
+SelfSimilarity(const TImage *                                                                  image,
+               double                                                                          dynamicRange,
+               const typename itk::StructuralSimilarityImageFilter<TImage>::ScaleWeightsType & weights =
+                 itk::StructuralSimilarityImageFilter<TImage>::WangEtAl2003ScaleWeights())
+{
+  auto filter = itk::StructuralSimilarityImageFilter<TImage>::New();
+  filter->SetInput1(image);
+  filter->SetInput2(image);
+  filter->SetDynamicRange(dynamicRange);
+  filter->SetScaleWeights(weights);
+  filter->Update();
+  return filter->GetMeanSSIM();
+}
+
 // Reads an image as gray levels rescaled to [0, 1].
 ImageType::Pointer
 ReadAsNormalizedGray(const std::string & fileName)
@@ -278,35 +295,17 @@ TEST(StructuralSimilarityImageFilter, SetGetParameters)
 
 TEST(StructuralSimilarityImageFilter, IdenticalConstantImagesYieldOne)
 {
-  auto image = MakeConstantImage(100.0, 64);
-  auto filter = FilterType::New();
-  filter->SetInput1(image);
-  filter->SetInput2(image);
-  filter->SetDynamicRange(255.0);
-  filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 1.0, 1e-9);
+  EXPECT_NEAR(SelfSimilarity(MakeConstantImage(100.0, 64).get(), 255.0), 1.0, 1e-9);
 }
 
 TEST(StructuralSimilarityImageFilter, IdenticalRandomImagesYieldOne)
 {
-  auto image = MakeRandomImage(64, 42);
-  auto filter = FilterType::New();
-  filter->SetInput1(image);
-  filter->SetInput2(image);
-  filter->SetDynamicRange(255.0);
-  filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 1.0, 1e-9);
+  EXPECT_NEAR(SelfSimilarity(MakeRandomImage(64, 42).get(), 255.0), 1.0, 1e-9);
 }
 
 TEST(StructuralSimilarityImageFilter, IdenticalGradientImagesYieldOne)
 {
-  auto image = MakeGradientImage(64);
-  auto filter = FilterType::New();
-  filter->SetInput1(image);
-  filter->SetInput2(image);
-  filter->SetDynamicRange(255.0);
-  filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 1.0, 1e-9);
+  EXPECT_NEAR(SelfSimilarity(MakeGradientImage(64).get(), 255.0), 1.0, 1e-9);
 }
 
 TEST(StructuralSimilarityImageFilter, SymmetryProperty)
@@ -467,16 +466,7 @@ TEST(StructuralSimilarityImageFilter, NonPositiveDynamicRange_Throws)
 
 TEST(StructuralSimilarityImageFilter, MultiScaleConstantImage)
 {
-  auto a = MakeConstantImage(100.0, 32);
-  auto b = MakeConstantImage(100.0, 32);
-  auto filter = FilterType::New();
-  filter->SetInput1(a);
-  filter->SetInput2(b);
-  FilterType::ScaleWeightsType weights(5);
-  weights.Fill(0.2);
-  filter->SetScaleWeights(weights);
-  filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 1.0, 10e-9);
+  EXPECT_NEAR(SelfSimilarity(MakeConstantImage(100.0, 32).get(), 1.0, FilterType::ScaleWeightsType(5, 0.2)), 1.0, 1e-9);
 }
 
 TEST(StructuralSimilarityImageFilter, EmptyScaleWeights_Throws)
@@ -528,17 +518,13 @@ TEST(StructuralSimilarityImageFilter, OddStartIndexNeedsLargerImage)
   {
     auto image = MakeConstantImage(100.0, size);
     image->SetRegions(ImageType::RegionType({ { 1, 1 } }, ImageType::SizeType::Filled(size)));
-    auto filter = FilterType::New();
-    filter->SetInput1(image);
-    filter->SetInput2(image);
     if (size == 30u)
     {
-      EXPECT_THROW(filter->Update(), itk::ExceptionObject);
+      EXPECT_THROW(SelfSimilarity(image.get(), 1.0), itk::ExceptionObject);
     }
     else
     {
-      EXPECT_NO_THROW(filter->Update());
-      EXPECT_NEAR(filter->GetMeanSSIM(), 1.0, 1e-9);
+      EXPECT_NEAR(SelfSimilarity(image.get(), 1.0), 1.0, 1e-9);
     }
   }
 }
@@ -729,7 +715,6 @@ TEST(StructuralSimilarityImageFilter, SimplifiedAndGeneralFormulaAgreeWhenExpone
 TEST(StructuralSimilarityImageFilter, ThreeDimensional_IdenticalRandomYieldsOne)
 {
   using Image3DType = itk::Image<double, 3>;
-  using Filter3DType = itk::StructuralSimilarityImageFilter<Image3DType>;
 
   auto                  image = Image3DType::New();
   Image3DType::SizeType size;
@@ -745,12 +730,7 @@ TEST(StructuralSimilarityImageFilter, ThreeDimensional_IdenticalRandomYieldsOne)
     it.Set(dist(gen));
   }
 
-  auto filter = Filter3DType::New();
-  filter->SetInput1(image);
-  filter->SetInput2(image);
-  filter->SetDynamicRange(255.0);
-  filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 1.0, 1e-9);
+  EXPECT_NEAR(SelfSimilarity(image.get(), 255.0), 1.0, 1e-9);
 }
 
 TEST(StructuralSimilarityImageFilter, ThreeDimensional_ConstantInputs_AnalyticMatch)
@@ -844,11 +824,7 @@ TEST(StructuralSimilarityImageFilter, UnsignedCharPixelType_IdenticalYieldsOne)
   image->Allocate();
   image->FillBuffer(static_cast<unsigned char>(128));
 
-  auto filter = UCharFilter::New();
-  filter->SetInput1(image);
-  filter->SetInput2(image);
-  filter->Update();
-  EXPECT_NEAR(filter->GetMeanSSIM(), 1.0, 1e-9);
+  EXPECT_NEAR(SelfSimilarity(image.get(), UCharFilter::New()->GetDynamicRange()), 1.0, 1e-9);
 }
 
 
