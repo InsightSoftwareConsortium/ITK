@@ -41,8 +41,9 @@ namespace itk
  * With \f$G_\sigma\f$ the DiscreteGaussianImageFilter kernel of standard
  * deviation \f$\sigma\f$ (in physical units), \f$\mu_x = G_\sigma * x\f$,
  * \f$\sigma_x^2 = G_\sigma * x^2 - \mu_x^2\f$ (likewise for \f$y\f$) and
- * \f$\sigma_{xy} = G_\sigma * (xy) - \mu_x\mu_y\f$, the luminance and
- * contrast-structure terms are
+ * \f$\sigma_{xy} = G_\sigma * (xy) - \mu_x\mu_y\f$ (clamped to
+ * \f$|\sigma_{xy}| \le \sigma_x\sigma_y\f$ against round-off), the
+ * luminance and contrast-structure terms are
  * \f[
  *   l = \frac{2\mu_x\mu_y + C_1}{\mu_x^2 + \mu_y^2 + C_1}, \qquad
  *   cs = \frac{2\sigma_{xy} + C_2}{\sigma_x^2 + \sigma_y^2 + C_2}, \qquad

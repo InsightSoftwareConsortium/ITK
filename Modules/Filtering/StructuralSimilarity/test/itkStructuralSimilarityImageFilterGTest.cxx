@@ -295,17 +295,24 @@ TEST(StructuralSimilarityImageFilter, SetGetParameters)
 
 TEST(StructuralSimilarityImageFilter, IdenticalConstantImagesYieldOne)
 {
-  EXPECT_NEAR(SelfSimilarity(MakeConstantImage(100.0, 64).get(), 255.0), 1.0, 1e-9);
+  const auto image = MakeConstantImage(100.0, 64);
+  EXPECT_DOUBLE_EQ(SelfSimilarity(image.get(), 255.0), 1.0);
+  // A small dynamic range makes C2 small, exposing round-off in the covariance.
+  EXPECT_DOUBLE_EQ(SelfSimilarity(image.get(), 1.0), 1.0);
 }
 
 TEST(StructuralSimilarityImageFilter, IdenticalRandomImagesYieldOne)
 {
-  EXPECT_NEAR(SelfSimilarity(MakeRandomImage(64, 42).get(), 255.0), 1.0, 1e-9);
+  const double ssim = SelfSimilarity(MakeRandomImage(64, 42).get(), 255.0);
+  EXPECT_NEAR(ssim, 1.0, 1e-9);
+  EXPECT_LE(ssim, 1.0);
 }
 
 TEST(StructuralSimilarityImageFilter, IdenticalGradientImagesYieldOne)
 {
-  EXPECT_NEAR(SelfSimilarity(MakeGradientImage(64).get(), 255.0), 1.0, 1e-9);
+  const double ssim = SelfSimilarity(MakeGradientImage(64).get(), 255.0);
+  EXPECT_NEAR(ssim, 1.0, 1e-9);
+  EXPECT_LE(ssim, 1.0);
 }
 
 TEST(StructuralSimilarityImageFilter, SymmetryProperty)
@@ -466,7 +473,7 @@ TEST(StructuralSimilarityImageFilter, NonPositiveDynamicRange_Throws)
 
 TEST(StructuralSimilarityImageFilter, MultiScaleConstantImage)
 {
-  EXPECT_NEAR(SelfSimilarity(MakeConstantImage(100.0, 32).get(), 1.0, FilterType::ScaleWeightsType(5, 0.2)), 1.0, 1e-9);
+  EXPECT_DOUBLE_EQ(SelfSimilarity(MakeConstantImage(100.0, 32).get(), 1.0, FilterType::ScaleWeightsType(5, 0.2)), 1.0);
 }
 
 TEST(StructuralSimilarityImageFilter, EmptyScaleWeights_Throws)
@@ -524,7 +531,7 @@ TEST(StructuralSimilarityImageFilter, OddStartIndexNeedsLargerImage)
     }
     else
     {
-      EXPECT_NEAR(SelfSimilarity(image.get(), 1.0), 1.0, 1e-9);
+      EXPECT_DOUBLE_EQ(SelfSimilarity(image.get(), 1.0), 1.0);
     }
   }
 }
@@ -824,7 +831,7 @@ TEST(StructuralSimilarityImageFilter, UnsignedCharPixelType_IdenticalYieldsOne)
   image->Allocate();
   image->FillBuffer(static_cast<unsigned char>(128));
 
-  EXPECT_NEAR(SelfSimilarity(image.get(), UCharFilter::New()->GetDynamicRange()), 1.0, 1e-9);
+  EXPECT_DOUBLE_EQ(SelfSimilarity(image.get(), UCharFilter::New()->GetDynamicRange()), 1.0);
 }
 
 

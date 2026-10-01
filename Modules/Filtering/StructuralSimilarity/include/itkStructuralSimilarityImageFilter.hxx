@@ -272,7 +272,10 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
           // Round-off can make the variance of a flat region slightly negative.
           const RealType var_x = std::max(muXXIt.Get() - mean_x * mean_x, RealType{});
           const RealType var_y = std::max(muYYIt.Get() - mean_y * mean_y, RealType{});
-          const RealType cov_xy = muXYIt.Get() - mean_x * mean_y;
+          // Cauchy-Schwarz bound; without it, round-off (e.g. from FMA contraction)
+          // can push the SSIM of identical images above 1.
+          const RealType cov_bound = std::sqrt(var_x * var_y);
+          const RealType cov_xy = std::clamp(muXYIt.Get() - mean_x * mean_y, -cov_bound, cov_bound);
 
           const RealType l = (RealType{ 2 } * mean_x * mean_y + C1) / (mean_x * mean_x + mean_y * mean_y + C1);
           RealType       cs;
