@@ -69,7 +69,7 @@ namespace itk
  *   \mathrm{MS\mbox{-}SSIM}(x,y) =
  *     \max(\overline{\mathrm{ssim}}_{M-1}, \epsilon)^{w_{M-1}}
  *     \prod_{j=0}^{M-2} \max(\overline{cs}_j, \epsilon)^{w_j},
- *     \qquad \epsilon = 10^{-6}.
+ *     \qquad \epsilon = \mathrm{MinimumScaleValue} = 10^{-6}.
  * \f]
  * The floor keeps the product finite and away from zero when a per-scale
  * mean is not positive.  The default weights are
@@ -215,6 +215,10 @@ public:
    *  Throws if \c sigma is not finite and strictly positive. */
   static ScaleWeightsType
   GaussianScaleWeights(unsigned int size, double sigma);
+
+  /** Floor \f$\epsilon\f$ applied to the per-scale means in the MS-SSIM
+   *  product, keeping it finite and non-zero when a mean is not positive. */
+  static constexpr RealType MinimumScaleValue{ 1e-6 };
 
   /** Mean (MS-)SSIM.  Available after Update(). */
   itkGetConstMacro(MeanSSIM, double);

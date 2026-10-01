@@ -554,11 +554,11 @@ TEST(StructuralSimilarityImageFilter, MeanSSIMCombinesPerScaleValues)
   ASSERT_EQ(cs.GetSize(), weights.GetSize());
 
   const unsigned int last = weights.GetSize() - 1;
-  double             expected = std::pow(std::max(ssim[last], 1e-6), weights[last]);
+  double             expected = std::pow(std::max(ssim[last], FilterType::MinimumScaleValue), weights[last]);
   for (unsigned int j = 0; j < last; ++j)
   {
     EXPECT_LT(cs[j], 1.0);
-    expected *= std::pow(std::max(cs[j], 1e-6), weights[j]);
+    expected *= std::pow(std::max(cs[j], FilterType::MinimumScaleValue), weights[j]);
   }
   EXPECT_NEAR(filter->GetMeanSSIM(), expected, 1e-12);
 }
@@ -898,7 +898,7 @@ TEST(StructuralSimilarityImageFilter, RealImages_Cthead1PngVsMorphologicalClosin
 
 TEST(StructuralSimilarityImageFilter, RealImages_Cthead1PngVsInverted)
 {
-  // Anti-correlated: three of the five per-scale means are floored at 1e-6.
+  // Anti-correlated: three of the five per-scale means are floored at MinimumScaleValue.
   EXPECT_NEAR(
     ComputeDefaultMSSSIM(TOSTRING(CTHEAD1_PNG_INPUT), TOSTRING(CTHEAD1_INVERTED_PNG)), 3.2193928432230837e-05, 1e-12);
 }

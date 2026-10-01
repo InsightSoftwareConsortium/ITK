@@ -330,14 +330,12 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
     return;
   }
 
-  // Keeps the product finite and non-zero when a per-scale mean is not positive.
-  constexpr RealType minimumScaleValue{ 1e-6 };
   const unsigned int coarsest = numberOfScales - 1;
 
-  RealType msssim = std::pow(std::max(m_SSIMPerScale[coarsest], minimumScaleValue), m_ScaleWeights[coarsest]);
+  RealType msssim = std::pow(std::max(m_SSIMPerScale[coarsest], MinimumScaleValue), m_ScaleWeights[coarsest]);
   for (unsigned int scale = 0; scale < coarsest; ++scale)
   {
-    msssim *= std::pow(std::max(m_ContrastStructurePerScale[scale], minimumScaleValue), m_ScaleWeights[scale]);
+    msssim *= std::pow(std::max(m_ContrastStructurePerScale[scale], MinimumScaleValue), m_ScaleWeights[scale]);
   }
   m_MeanSSIM = static_cast<double>(msssim);
 }
