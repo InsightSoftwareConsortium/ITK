@@ -192,6 +192,13 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       }
     }
   }
+  else if (isImplicitDCMTKSliceAxis)
+  {
+    for (unsigned int i = 0; i < numberOfDimensionsIO; ++i)
+    {
+      directionIO[i] = m_ImageIO->GetDefaultDirection(i);
+    }
+  }
 
   std::vector<double> axis;
 
