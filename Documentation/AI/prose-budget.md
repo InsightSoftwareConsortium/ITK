@@ -14,7 +14,7 @@ preference.
 |---|---|---|---|
 | In-source comment (`// …`) | future reader | forever | 1 line (ColumnLimit from .clang-format, currently ≤ 120 chars); default = none |
 | Commit subject | bisecter / `git log --oneline` reader | forever | ≤ 78 chars (enforced by `kw-commit-msg.py`) |
-| Commit message body | bisecter, archaeologist | forever | ≤ 12 lines, ≤ 72 chars/line; trailers excluded |
+| Commit message body | bisecter, archaeologist | forever | ≤ 12 lines, ≤ 80 chars/line; trailers excluded |
 | PR visible summary (above first `<details>`) | reviewer at merge time | until merged | ≤ 3 sentences, ≤ 250 chars |
 | PR `<details>` blocks | reviewer who wants depth | until merged | unbounded (hidden by default) |
 | PR HTML comments (`<!-- … -->`) | future automation, raw-body readers | survives merge | unbounded (invisible) |
@@ -108,9 +108,9 @@ Verified locally on macOS / clang and Ubuntu / gcc.
 ```
 Add a non-macro replacement for the recurring PrintSelf boilerplate.
 
-Explicit os/indent parameters (no implicit capture). constexpr
-dispatch elides the cast when NumericTraits<T>::PrintType == T,
-so only char-family types take the casting branch.
+Explicit os/indent parameters (no implicit capture). constexpr dispatch elides
+the cast when NumericTraits<T>::PrintType == T, so only char-family types take
+the casting branch.
 ```
 
 ### In-source comment — too verbose
