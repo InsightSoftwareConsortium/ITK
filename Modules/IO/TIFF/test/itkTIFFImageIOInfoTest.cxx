@@ -63,7 +63,6 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
   std::cout << ')' << std::endl;
 
   using DictionaryType = itk::MetaDataDictionary;
-  using MetaDataStringType = itk::MetaDataObject<std::string>;
 
   const DictionaryType & dictionary = tiffImageIO->GetMetaDataDictionary();
   auto                   itr = dictionary.Begin();
@@ -72,19 +71,10 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
   std::cout << "MetaDataDictionary" << std::endl;
   while (itr != end)
   {
-    const itk::MetaDataObjectBase::Pointer entry = itr->second;
-    const std::string                      tagkey = itr->first;
-
-    const MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>(entry.GetPointer());
-
-    if (entryvalue)
-    {
-      std::cout << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << std::endl;
-    }
-    else
-    {
-      std::cout << tagkey << ": " << entry << std::endl;
-    }
+    // MetaDataObjectBase::Print dispatches to the value's own Print/operator<<, unlike streaming the pointer itself.
+    std::cout << itr->first << ": ";
+    itr->second->Print(std::cout);
+    std::cout << std::endl;
 
     ++itr;
   }
