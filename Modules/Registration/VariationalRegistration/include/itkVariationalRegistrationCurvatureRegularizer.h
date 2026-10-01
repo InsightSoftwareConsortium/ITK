@@ -22,9 +22,10 @@
 #include "itkMultiThreaderBase.h"
 
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-
-// other includes:
 #  include "itkFFTWCommon.h"
+#else
+#  include "itk_pocketfft.h"
+#endif
 
 namespace itk
 {
@@ -88,15 +89,16 @@ public:
   using ValueType = typename Superclass::ValueType;
   typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
-  /** Types for FFTW proxy */
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  if defined(ITK_USE_FFTWD)
-  // Prefer double precision when available; otherwise use single precision.
   using RealTypeFFT = double;
 #  else
   using RealTypeFFT = float;
 #  endif
-
   using FFTWProxyType = typename fftw::Proxy<RealTypeFFT>;
+#else
+  using RealTypeFFT = double;
+#endif
 
   /** Set the regularization weight alpha */
   itkSetMacro(Alpha, ValueType);
@@ -146,6 +148,18 @@ protected:
   typename DisplacementFieldType::IndexType
   CalculateImageIndex(OffsetValueType offset);
 
+  bool
+  CreateFFTPlans();
+
+  void
+  DestroyFFTPlans();
+
+  void
+  ExecuteForwardDCT();
+
+  void
+  ExecuteBackwardDCT();
+
 private:
   /** Weight of the regularization term. */
   ValueType m_Alpha;
@@ -166,12 +180,15 @@ private:
   RealTypeFFT * m_DiagonalMatrix[ImageDimension];
 
   /** FFT plans and buffers */
-  typename FFTWProxyType::PlanType m_PlanForward;  /** FFT forward plan  */
-  typename FFTWProxyType::PlanType m_PlanBackward; /** FFT backward plan */
-  typename FFTWProxyType::PixelType *
-    m_VectorFieldComponentBuffer; /** FFT memory space for input/output spatial data */
-  typename FFTWProxyType::PixelType *
-    m_DCTVectorFieldComponentBuffer; /** FFT memory space for output/input frequency data */
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  typename FFTWProxyType::PlanType m_PlanForward{ nullptr };
+  typename FFTWProxyType::PlanType m_PlanBackward{ nullptr };
+#else
+  void
+  PocketDCT(int type, const RealTypeFFT * in, RealTypeFFT * out) const;
+#endif
+  RealTypeFFT * m_VectorFieldComponentBuffer;    /** spatial-domain component */
+  RealTypeFFT * m_DCTVectorFieldComponentBuffer; /** frequency-domain component */
 
   struct CurvatureFFTThreadStruct
   {
@@ -186,9 +203,8 @@ private:
 
 } // namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkVariationalRegistrationCurvatureRegularizer.hxx"
-#  endif
-
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVariationalRegistrationCurvatureRegularizer.hxx"
 #endif
+
 #endif
