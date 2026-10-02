@@ -24,9 +24,18 @@
 #include "itkMakeUniqueForOverwrite.h"
 
 #include <algorithm>
+#include <mutex>
 
 namespace itk
 {
+
+namespace
+{
+// HDF5's C++ API has no internal locking ("--enable-threadsafe" only covers the
+// C API), so every call into it must be serialized here. Recursive because
+// Write() calls WriteImageInformation() while already holding the lock.
+std::recursive_mutex hdf5ImageIOMutex;
+} // namespace
 
 HDF5ImageIO::HDF5ImageIO()
 
@@ -597,6 +606,8 @@ HDF5ImageIO::CanReadFile(const char * FileNameToRead)
     return false;
   }
 
+  const std::lock_guard<std::recursive_mutex> lockGuard(hdf5ImageIOMutex);
+
   // HDF5 is so exception happy, we have to worry about
   // it throwing a wobbly here if the file doesn't exist
   // or has some other problem.
@@ -661,6 +672,7 @@ HDF5ImageIO::ResetToInitialState()
 void
 HDF5ImageIO::ReadImageInformation()
 {
+  const std::lock_guard<std::recursive_mutex> lockGuard(hdf5ImageIOMutex);
   try
   {
     this->ResetToInitialState();
@@ -967,6 +979,8 @@ HDF5ImageIO::SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpac
 void
 HDF5ImageIO::Read(void * buffer)
 {
+  const std::lock_guard<std::recursive_mutex> lockGuard(hdf5ImageIOMutex);
+
   ImageIORegion            regionToRead = this->GetIORegion();
   ImageIORegion::SizeType  size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
@@ -1019,6 +1033,8 @@ HDF5ImageIO::WriteMetaArray(const std::string & name, MetaDataObjectBase * metaO
 void
 HDF5ImageIO::WriteImageInformation()
 {
+  const std::lock_guard<std::recursive_mutex> lockGuard(hdf5ImageIOMutex);
+
   //
   // guard so that image information is only written once
   // if WriteImageInformation followed by Write
@@ -1279,6 +1295,8 @@ HDF5ImageIO::WriteImageInformation()
 void
 HDF5ImageIO::Write(const void * buffer)
 {
+  const std::lock_guard<std::recursive_mutex> lockGuard(hdf5ImageIOMutex);
+
   this->WriteImageInformation();
   try
   {
