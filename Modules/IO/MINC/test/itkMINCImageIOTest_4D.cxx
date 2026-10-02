@@ -18,12 +18,14 @@
 
 #include <iostream>
 
+#include "itkMINCImageIO.h"
 #include "itkMINCImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkMath.h"
+#include "itkMetaDataObject.h"
 #include "itkTestingMacros.h"
 
 
@@ -123,6 +125,44 @@ itkMINCImageIOTest_4D(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
+
+  // ImageBase rejects a zero spacing, so write the zero time step through the ImageIO directly.
+  const std::string zeroStep = std::string(argv[2]) + "_zerostep.mnc";
+  {
+    auto               zeroStepIO = itk::MINCImageIO::New();
+    itk::ImageIORegion ioRegion(ImageType::ImageDimension);
+    zeroStepIO->SetNumberOfDimensions(ImageType::ImageDimension);
+    for (unsigned int d = 0; d < ImageType::ImageDimension; ++d)
+    {
+      zeroStepIO->SetDimensions(d, region.GetSize(d));
+      ioRegion.SetSize(d, region.GetSize(d));
+    }
+    zeroStepIO->SetSpacing(0, 0.0);
+    zeroStepIO->SetSpacing(3, 0.0);
+    zeroStepIO->SetPixelType(itk::IOPixelEnum::SCALAR);
+    zeroStepIO->SetComponentType(itk::IOComponentEnum::FLOAT);
+    zeroStepIO->SetFileName(zeroStep);
+    zeroStepIO->SetIORegion(ioRegion);
+    ITK_TRY_EXPECT_NO_EXCEPTION(zeroStepIO->Write(synthImage->GetBufferPointer()));
+  }
+
+  auto zeroStepReader = ReaderType::New();
+  zeroStepReader->SetFileName(zeroStep);
+  ITK_TRY_EXPECT_NO_EXCEPTION(zeroStepReader->Update());
+  for (const unsigned int axis : { 0U, 3U })
+  {
+    ITK_TEST_EXPECT_EQUAL(zeroStepReader->GetOutput()->GetSpacing()[axis], 1.0);
+    ITK_TEST_EXPECT_EQUAL(zeroStepReader->GetOutput()->GetOrigin()[axis], 0.0);
+  }
+  ITK_TEST_EXPECT_EQUAL(zeroStepReader->GetOutput()->GetSpacing()[1], 1.0);
+
+  double                          tstep = -1.0;
+  double                          tstart = -1.0;
+  const itk::MetaDataDictionary & zeroStepDictionary = zeroStepReader->GetOutput()->GetMetaDataDictionary();
+  ITK_TEST_EXPECT_TRUE(itk::ExposeMetaData<double>(zeroStepDictionary, "tstep", tstep));
+  ITK_TEST_EXPECT_TRUE(itk::ExposeMetaData<double>(zeroStepDictionary, "tstart", tstart));
+  ITK_TEST_EXPECT_EQUAL(tstep, 1.0);
+  ITK_TEST_EXPECT_EQUAL(tstart, 0.0);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
