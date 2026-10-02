@@ -472,12 +472,12 @@ MINCImageIO::ReadImageInformation()
 
   int spatial_dimension_count = 0;
 
-  // extract direction cosines
+  // x, y and z are ITK axes 0, 1 and 2, so the highest spatial dimension present sets the axis count.
   for (int i = 1; i < 4; ++i)
   {
     if (m_MINCPImpl->m_DimensionIndices[i] != -1) // this dimension is present
     {
-      ++spatial_dimension_count;
+      spatial_dimension_count = i;
     }
   }
 
@@ -590,7 +590,7 @@ MINCImageIO::ReadImageInformation()
     }
   }
 
-  if (haveTimeDimension)
+  if (spatial_dimension_count == 3)
   {
     MINCIOCompleteDirections(dir_cos, m_MINCPImpl->m_DimensionIndices);
   }

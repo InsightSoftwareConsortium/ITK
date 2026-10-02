@@ -197,3 +197,38 @@ TEST(MINCImageIO, SingleFrameTimeSeriesReadsAs3D)
     ASSERT_EQ(it.Get(), static_cast<float>(index[0] + nx * (index[1] + ny * index[2]))) << "at index " << index;
   }
 }
+
+TEST(MINCImageIO, MissingYSpaceBecomesSingletonAxis)
+{
+  constexpr unsigned int nz = 4;
+  using Image3DType = itk::Image<float, 3>;
+  using LayoutType = std::vector<std::pair<const char *, unsigned int>>;
+  const std::vector<std::pair<std::string, LayoutType>> cases{
+    { "itkMINCImageIOGTest_z_x.mnc", { { MIzspace, nz }, { MIxspace, nx } } },
+    { "itkMINCImageIOGTest_t1_z_x.mnc", { { MItime, 1 }, { MIzspace, nz }, { MIxspace, nx } } }
+  };
+  for (const auto & [name, layout] : cases)
+  {
+    const std::string fileName = OutputPath(name);
+    WriteRamp(fileName, layout);
+
+    const Image3DType::Pointer  image = ReadWithMINCIO<Image3DType>(fileName);
+    const Image3DType::SizeType expectedSize{ { nx, 1, nz } };
+    EXPECT_EQ(image->GetLargestPossibleRegion().GetSize(), expectedSize) << name;
+    EXPECT_DOUBLE_EQ(image->GetSpacing()[1], 1.0) << name;
+
+    // The missing y axis is the cross product of x and z, here in LPS.
+    const Image3DType::DirectionType direction = image->GetDirection();
+    EXPECT_NEAR(direction[0][1], -0.8, 1e-12) << name;
+    EXPECT_NEAR(direction[1][1], 0.6, 1e-12) << name;
+    EXPECT_NEAR(direction[2][1], 0.0, 1e-12) << name;
+
+    for (itk::ImageRegionConstIteratorWithIndex<Image3DType> it(image, image->GetLargestPossibleRegion());
+         !it.IsAtEnd();
+         ++it)
+    {
+      const auto & index = it.GetIndex();
+      ASSERT_EQ(it.Get(), static_cast<float>(index[0] + nx * index[2])) << name << " at index " << index;
+    }
+  }
+}
