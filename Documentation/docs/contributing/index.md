@@ -189,12 +189,11 @@ commits, the message body should follow the following guidelines:
   4. Do not end the subject line with a period.
   5. Use the imperative mood in the subject line (e.g. `STYLE: Change
   template parameter name prefix N to V`).
-  6. Wrap the body at 80 characters.
-  7. Use semantic line feeds to separate different ideas, which improves the
+  6. Use semantic line feeds to separate different ideas, which improves the
   readability.
-  8. Be concise, but honor the change: if significant alternative solutions
+  7. Be concise, but honor the change: if significant alternative solutions
   were available, explain why they were discarded.
-  9. If the commit refers to a topic discussed in [ITK's Discourse], or fixes
+  8. If the commit refers to a topic discussed in [ITK's Discourse], or fixes
   a regression test, provide the link. If it fixes a compiler error, provide a
   minimal verbatim message of the compiler error. If the commit closes an
   issue, use the [GitHub issue closing
