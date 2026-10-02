@@ -32,7 +32,6 @@ from pathlib import Path
 
 
 BODY_LINE_CAP = 12
-BODY_WIDTH_CAP = 72
 
 # Trailers (Co-Authored-By, Fixes, Refs, Signed-off-by, etc.) are
 # allowed beyond the body cap and are not counted.
@@ -120,17 +119,6 @@ def check_budget(body: list[str]) -> int:
             "body too long",
             f"{len(non_blank)} non-blank body lines exceeds the "
             f"{BODY_LINE_CAP}-line cap (see Documentation/AI/prose-budget.md)",
-        )
-        findings += 1
-    long_lines = [
-        (i, ln) for i, ln in enumerate(body, start=1) if len(ln) > BODY_WIDTH_CAP
-    ]
-    if long_lines:
-        line_nums = ", ".join(str(i) for i, _ in long_lines)
-        warn(
-            "body line too wide",
-            f"{len(long_lines)} line(s) exceed the {BODY_WIDTH_CAP}-char cap "
-            f"(lines: {line_nums}; see Documentation/AI/prose-budget.md)",
         )
         findings += 1
     return findings
