@@ -32,7 +32,7 @@ RegularizedHeavisideStepFunction<TInput, TOutput>::SetEpsilon(const RealType & i
   }
   else
   {
-    itkGenericExceptionMacro("ERROR: Epsilon needs to be greater than " << NumericTraits<RealType>::epsilon());
+    itkGenericExceptionMacro("Epsilon needs to be greater than " << NumericTraits<RealType>::epsilon());
   }
 }
 } // namespace itk

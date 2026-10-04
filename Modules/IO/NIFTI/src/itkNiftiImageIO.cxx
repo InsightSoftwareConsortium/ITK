@@ -2141,7 +2141,7 @@ NiftiImageIO::Write(const void * buffer)
                                    // so will destructor of the image that really owns it.
     if (nifti_write_status)
     {
-      itkExceptionMacro("ERROR: nifti library failed to write image: " << this->GetFileName());
+      itkExceptionMacro("nifti library failed to write image: " << this->GetFileName());
     }
   }
   else /// Image intent is vector image
@@ -2249,7 +2249,7 @@ NiftiImageIO::Write(const void * buffer)
     m_Holder->ptr->data = nullptr; // if left pointing to data buffer
     if (nifti_write_status)
     {
-      itkExceptionMacro("ERROR: nifti library failed to write image: " << this->GetFileName());
+      itkExceptionMacro("nifti library failed to write image: " << this->GetFileName());
     }
   }
 }

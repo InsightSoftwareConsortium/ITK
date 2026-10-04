@@ -331,7 +331,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   // a 3D point or cell dimension. This implementation is hard-coded to 3D.
   if ((Self::CellDimension3D != 3) || (Self::PointDimension3D != 3))
   {
-    itkGenericExceptionMacro("ERROR: only 3D supported for HexahedronCell");
+    itkGenericExceptionMacro("only 3D supported for HexahedronCell");
     // return false;
   }
 
@@ -540,7 +540,7 @@ HexahedronCell<TCellInterface>::InterpolationFunctions(CoordinateType          p
   // a 3D point or cell dimension. This implementation is hard-coded to 3D.
   if ((Self::CellDimension3D != 3) || (Self::PointDimension3D != 3))
   {
-    itkGenericExceptionMacro("ERROR: only 3D supported for HexahedronCell");
+    itkGenericExceptionMacro("only 3D supported for HexahedronCell");
     // return false;
   }
   else
@@ -584,7 +584,7 @@ HexahedronCell<TCellInterface>::InterpolationDerivs(CoordinateType pcoords[Self:
   // a 3D point or cell dimension. This implementation is hard-coded to 3D.
   if ((Self::CellDimension3D != 3) || (Self::PointDimension3D != 3))
   {
-    itkGenericExceptionMacro("ERROR: only 3D supported for HexahedronCell");
+    itkGenericExceptionMacro("only 3D supported for HexahedronCell");
     // return false;
   }
   else
@@ -663,7 +663,7 @@ HexahedronCell<TCellInterface>::EvaluateLocation(int &                     itkNo
   // a 3D point or cell dimension. This implementation is hard-coded to 3D.
   if ((Self::CellDimension3D != 3) || (Self::PointDimension3D != 3))
   {
-    itkGenericExceptionMacro("ERROR: only 3D supported for HexahedronCell");
+    itkGenericExceptionMacro("only 3D supported for HexahedronCell");
     // return false;
   }
   else
