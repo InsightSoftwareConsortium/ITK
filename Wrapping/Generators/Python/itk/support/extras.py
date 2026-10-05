@@ -1167,6 +1167,12 @@ def dict_from_transform(
 
     datatype_dict = {"double": itk.D, "float": itk.F}
 
+    def get_parameters_as_array(parameters):
+        # GetArrayFromVnlVector cannot wrap the null buffer of an empty vector
+        if parameters.GetSize() == 0:
+            return np.empty(0, dtype=np.float64)
+        return GetArrayFromVnlVector(parameters).astype(np.float64, copy=False)
+
     def update_transform_dict(current_transform):
         current_transform_type = current_transform.GetTransformTypeAsString()
         current_transform_type_split = current_transform_type.split("_")
@@ -1193,10 +1199,10 @@ def dict_from_transform(
         # To avoid copying the parameters for the Composite Transform
         # as it is a copy of child transforms.
         if "Composite" not in current_transform_type_split[0]:
-            p = np.array(current_transform.GetParameters())
+            p = get_parameters_as_array(current_transform.GetParameters())
             transform_dict["parameters"] = p
 
-            fp = np.array(current_transform.GetFixedParameters())
+            fp = get_parameters_as_array(current_transform.GetFixedParameters())
             transform_dict["fixedParameters"] = fp
 
             transform_dict["numberOfParameters"] = p.shape[0]
