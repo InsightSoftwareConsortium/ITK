@@ -1193,10 +1193,21 @@ def dict_from_transform(
         # To avoid copying the parameters for the Composite Transform
         # as it is a copy of child transforms.
         if "Composite" not in current_transform_type_split[0]:
-            p = np.array(current_transform.GetParameters())
+            # GetArrayFromVnlVector cannot wrap the null buffer of an empty vector
+            parameters = current_transform.GetParameters()
+            if parameters.GetSize() == 0:
+                p = np.empty(0, dtype=np.float64)
+            else:
+                p = GetArrayFromVnlVector(parameters).astype(np.float64, copy=False)
             transform_dict["parameters"] = p
 
-            fp = np.array(current_transform.GetFixedParameters())
+            fixed_parameters = current_transform.GetFixedParameters()
+            if fixed_parameters.GetSize() == 0:
+                fp = np.empty(0, dtype=np.float64)
+            else:
+                fp = GetArrayFromVnlVector(fixed_parameters).astype(
+                    np.float64, copy=False
+                )
             transform_dict["fixedParameters"] = fp
 
             transform_dict["numberOfParameters"] = p.shape[0]
