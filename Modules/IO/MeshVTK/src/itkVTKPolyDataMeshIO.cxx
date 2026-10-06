@@ -411,12 +411,12 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       // Check whether numberOfVertices and numberOfVertexIndices are correct
       if (numberOfVertices < 1)
       {
-        itkExceptionMacro("ERROR: numberOfVertices < 1\n numberOfVertices= " << numberOfVertices);
+        itkExceptionMacro("numberOfVertices < 1\n numberOfVertices= " << numberOfVertices);
       }
 
       if (numberOfVertexIndices < numberOfVertices)
       {
-        itkExceptionMacro("ERROR: numberOfVertexIndices < numberOfVertices\n"
+        itkExceptionMacro("numberOfVertexIndices < numberOfVertices\n"
                           << "numberOfVertexIndices= " << numberOfVertexIndices << '\n'
                           << "numberOfVertices= " << numberOfVertices);
       }
@@ -457,12 +457,12 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       // Check whether numberOfPolylines and numberOfPolylineIndices are correct
       if (numberOfLines < 1)
       {
-        itkExceptionMacro("ERROR: numberOfLines < 1\n numberOfLines= " << numberOfLines);
+        itkExceptionMacro("numberOfLines < 1\n numberOfLines= " << numberOfLines);
       }
 
       if (numberOfLineIndices < numberOfLines)
       {
-        itkExceptionMacro("ERROR: numberOfLineIndices < numberOfLines\n"
+        itkExceptionMacro("numberOfLineIndices < numberOfLines\n"
                           << "numberOfLineIndices= " << numberOfLineIndices << '\n'
                           << "numberOfLines= " << numberOfLines);
       }
@@ -503,12 +503,12 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       // Check whether numberOfPolygons and numberOfPolygonIndices are correct
       if (numberOfPolygons < 1)
       {
-        itkExceptionMacro("ERROR: numberOfPolygons < 1\n numberOfPolygons= " << numberOfPolygons);
+        itkExceptionMacro("numberOfPolygons < 1\n numberOfPolygons= " << numberOfPolygons);
       }
 
       if (numberOfPolygonIndices < numberOfPolygons)
       {
-        itkExceptionMacro("ERROR: numberOfPolygonIndices < numberOfPolygons\n"
+        itkExceptionMacro("numberOfPolygonIndices < numberOfPolygons\n"
                           << "numberOfPolygonIndices= " << numberOfPolygonIndices << '\n'
                           << "numberOfPolygons= " << numberOfPolygons);
       }
