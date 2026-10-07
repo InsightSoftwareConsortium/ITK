@@ -904,6 +904,7 @@ install(
     CMake/ITKSetPython3Vars.cmake
     CMake/ITKInitializeBuildType.cmake
     CMake/ITKWindowsUtf8.cmake
+    CMake/Windows-utf8-codepage.manifest
     CMake/ITKExternalData.cmake
     CMake/ITKDownloadSetup.cmake
     CMake/ExternalData.cmake
