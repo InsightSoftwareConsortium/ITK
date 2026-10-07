@@ -12,10 +12,13 @@ itk_module(
   StructuralSimilarity
   DEPENDS
     ITKImageFilterBase
+    ITKImageGrid
     ITKImageIntensity
     ITKSmoothing
   TEST_DEPENDS
     ITKTestKernel
     ITKGoogleTest
+    ITKIOPNG
+    ITKIOJPEG
   DESCRIPTION "${DOCUMENTATION}"
 )
