@@ -53,7 +53,13 @@ cmake -DITK_WRAP_PYTHON:BOOL=ON \
       -DITK_INSTALL_WRAPPING_DEVELOPMENT_FILES:BOOL=ON <itk-source>
 ```
 
-then rebuilt and reinstalled. Configuring a module with `ITK_WRAP_PYTHON=ON`
+then rebuilt and reinstalled. The Python bindings install into
+`PY_SITE_PACKAGES_PATH`, which defaults to the interpreter's own
+`site-packages`; when that directory is not writable, or the bindings should
+stay inside the prefix, set it explicitly, for example
+`-DPY_SITE_PACKAGES_PATH=<prefix>/lib/python<version>/site-packages`.
+
+Configuring a module with `ITK_WRAP_PYTHON=ON`
 against a prefix that lacks these files fails with "Could not find wrapping
 infrastructure"; the remedy is to reconfigure, rebuild, and reinstall the ITK
 the module points at, not to change anything in the module.
