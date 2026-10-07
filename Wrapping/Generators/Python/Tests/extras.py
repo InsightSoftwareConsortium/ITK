@@ -561,6 +561,16 @@ view = itk.GetArrayViewFromVnlVector(v1)
 assert v1.get(0) == view[0]
 view[0] = 0
 assert v1.get(0) == view[0]
+# lowercase aliases must match their camelCase counterparts, not each other's sibling
+v1.fill(1)
+copy = itk.array_from_vnl_vector(v1)
+assert v1.get(0) == copy[0]
+copy[0] = 0
+assert v1.get(0) != copy[0]
+view = itk.array_view_from_vnl_vector(v1)
+assert v1.get(0) == view[0]
+view[0] = 0
+assert v1.get(0) == view[0]
 # VNL Matrices
 m1 = itk.vnl_matrix.D(2, 2)
 m1.fill(1)

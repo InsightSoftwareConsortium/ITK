@@ -608,7 +608,7 @@ def GetArrayViewFromVnlVector(vnl_vector, ttype=None) -> np.ndarray:
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayViewFromVnlVector", ttype)
 
 
-array_view_from_vnl_vector = GetArrayFromVnlVector
+array_view_from_vnl_vector = GetArrayViewFromVnlVector
 
 
 def GetArrayFromVnlMatrix(vnl_matrix, ttype=None) -> np.ndarray:
