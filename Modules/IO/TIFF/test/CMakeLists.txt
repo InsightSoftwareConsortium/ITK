@@ -468,6 +468,20 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "17 19 1"
 )
+itk_add_test(
+  NAME itkTIFFImageIOInfoTest4
+  COMMAND
+    ITKIOTIFFTestDriver
+    itkTIFFImageIOInfoTest
+    DATA{Input/ps-separated.tif}
+)
+# A scalar (EXIFIFDOffset) and an array (Photoshop) metadata value, printed in dictionary order.
+set_tests_properties(
+  itkTIFFImageIOInfoTest4
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "EXIFIFDOffset: 17932.*Photoshop: \\[8, B, I, M, "
+)
 
 ######################
 # Test Compression
