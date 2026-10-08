@@ -384,9 +384,6 @@ assert np.allclose(parameters, np.array(baseline_additional_transform_params))
 transform_dict = itk.dict_from_transform(transforms[0])
 transform_back = itk.transform_from_dict(transform_dict)
 transform_dict = itk.dict_from_transform(transforms)
-# A multi-entry dict must reconstruct as a CompositeTransform built from the
-# *dict* entries, not from the transform objects accumulated while looping
-# over them (those objects have no "transformType" key to read).
 transform_back = itk.transform_from_dict(transform_dict)
 assert transform_back.GetNumberOfTransforms() == len(transform_dict)
 
