@@ -40,9 +40,14 @@ public:
     , m_ClassName(std::move(className))
     , m_Thrower(thrower)
     , m_Line(line)
-    , m_What(m_File)
   {
-    m_What += ':' + std::to_string(m_Line) + ':';
+    UpdateWhat();
+  }
+
+  void
+  UpdateWhat()
+  {
+    m_What = m_File + ':' + std::to_string(m_Line) + ':';
     if (!m_Location.empty())
     {
       m_What += " in '" + m_Location + "':";
@@ -63,8 +68,8 @@ public:
     }
   }
 
-  const std::string  m_Location;
-  const std::string  m_Description;
+  std::string        m_Location;
+  std::string        m_Description;
   const std::string  m_File;
   const std::string  m_ClassName;
   const void *       m_Thrower;
@@ -77,12 +82,12 @@ ExceptionObject::ExceptionObject(std::string         file,
                                  std::string         description,
                                  std::string         location,
                                  const LightObject * thrower)
-  : m_ExceptionData(std::make_shared<const ExceptionData>(std::move(file),
-                                                          lineNumber,
-                                                          std::move(description),
-                                                          std::move(location),
-                                                          thrower ? thrower->GetNameOfClass() : std::string{},
-                                                          thrower))
+  : m_ExceptionData(std::make_shared<ExceptionData>(std::move(file),
+                                                    lineNumber,
+                                                    std::move(description),
+                                                    std::move(location),
+                                                    thrower ? thrower->GetNameOfClass() : std::string{},
+                                                    thrower))
 {}
 
 ExceptionObject::ExceptionObject(std::string  file,
@@ -91,7 +96,7 @@ ExceptionObject::ExceptionObject(std::string  file,
                                  std::string  location,
                                  const void *)
   : m_ExceptionData(
-      std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(description), std::move(location)))
+      std::make_shared<ExceptionData>(std::move(file), lineNumber, std::move(description), std::move(location)))
 {}
 
 // Note: It appears necessary to define the destructor "out-of-line" for external linkage.
@@ -119,29 +124,29 @@ ExceptionObject::operator==(const ExceptionObject & orig) const
 void
 ExceptionObject::SetLocation(const std::string & s)
 {
-  const bool IsNull = m_ExceptionData == nullptr;
-
-  m_ExceptionData =
-    std::make_shared<const ExceptionData>(IsNull ? std::string{} : std::move(m_ExceptionData->m_File),
-                                          IsNull ? 0 : m_ExceptionData->m_Line,
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_Description),
-                                          s,
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_ClassName),
-                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
+  if (m_ExceptionData)
+  {
+    m_ExceptionData->m_Location = s;
+    m_ExceptionData->UpdateWhat();
+  }
+  else
+  {
+    m_ExceptionData = std::make_shared<ExceptionData>(std::string{}, 0, std::string{}, s);
+  }
 }
 
 void
 ExceptionObject::SetDescription(const std::string & s)
 {
-  const bool IsNull = m_ExceptionData == nullptr;
-
-  m_ExceptionData =
-    std::make_shared<const ExceptionData>(IsNull ? std::string{} : std::move(m_ExceptionData->m_File),
-                                          IsNull ? 0 : m_ExceptionData->m_Line,
-                                          s,
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_Location),
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_ClassName),
-                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
+  if (m_ExceptionData)
+  {
+    m_ExceptionData->m_Description = s;
+    m_ExceptionData->UpdateWhat();
+  }
+  else
+  {
+    m_ExceptionData = std::make_shared<ExceptionData>(std::string{}, 0, s, std::string{});
+  }
 }
 
 void
