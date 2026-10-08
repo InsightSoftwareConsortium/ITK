@@ -133,6 +133,15 @@ macro(itk_wrap_module library_name)
   set(WRAPPER_LIBRARY_NAME "${library_name}")
   message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating module.")
 
+  # Drop the register managers the consumer tree's UseITK put on this directory.
+  if(ITK_WRAPPING_NO_FACTORY_REGISTER_MANAGER)
+    foreach(_factory_name ${ITK_FACTORY_LIST})
+      string(TOUPPER ${_factory_name} _factory_uc)
+      remove_definitions(-DITK_${_factory_uc}_FACTORY_REGISTER_MANAGER)
+    endforeach()
+    unset(_factory_uc)
+  endif()
+
   # Mark the current source dir for inclusion because it may contain header files.
   include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
   include_directories(BEFORE ${WRAPPER_LIBRARY_INCLUDE_DIRECTORIES})

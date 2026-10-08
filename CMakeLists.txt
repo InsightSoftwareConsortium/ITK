@@ -896,6 +896,31 @@ install(
     CMake/itkTransformIOFactoryRegisterManager.h.in
     CMake/itkMeshIOFactoryRegisterManager.h.in
     CMake/ITKInitializeCXXStandard.cmake
+    # The transitive closure of include(ITKModuleExternal).
+    CMake/ITKModuleExternal.cmake
+    CMake/ITKModuleMacros.cmake
+    CMake/ITKModuleTest.cmake
+    CMake/ITKModuleInfo.cmake.in
+    CMake/ITKSetPython3Vars.cmake
+    CMake/ITKInitializeBuildType.cmake
+    CMake/ITKWindowsUtf8.cmake
+    CMake/Windows-utf8-codepage.manifest
+    CMake/ITKExternalData.cmake
+    CMake/ITKDownloadSetup.cmake
+    CMake/ExternalData.cmake
+    CMake/ExternalData_config.cmake.in
+    CMake/WrappingConfigCommon.cmake
+    CMake/itkRemoveTestFiles.cmake
+    CMake/ITKModuleDoxygen.cmake
+    CMake/ITKModuleHeaderTest.cmake
+    CMake/ITKModuleKWStyleTest.cmake
+    CMake/ITKModuleCPPCheckTest.cmake
+    CMake/CppcheckTargets.cmake
+    # Remote modules include it through ITK_CMAKE_DIR for their version strings.
+    CMake/GetGitRevisionDescription.cmake
+    CMake/itkVersion.cmake
+    Utilities/Maintenance/BuildHeaderTest.py
+    Utilities/Doxygen/mcdoc.py
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR}
   COMPONENT Development
 )
