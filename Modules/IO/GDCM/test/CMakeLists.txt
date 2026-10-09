@@ -536,11 +536,4 @@ target_compile_definitions(
     "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
 )
 
-set_property(
-  TARGET
-    ITKGDCMImageIOGTestDriver
-  APPEND
-  PROPERTY
-    DEPENDS
-      ITKData
-)
+add_dependencies(ITKGDCMImageIOGTestDriver ITKData)
