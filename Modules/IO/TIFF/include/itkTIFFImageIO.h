@@ -38,6 +38,12 @@ class TIFFReaderInternal;
  * supports the compression level for JPEG quality parameter in the
  * range 0-100.
  *
+ * On ReadImageInformation, TIFF baseline and custom directory tags are published
+ * in the MetaDataDictionary, keyed by their libtiff field name (e.g. "ImageWidth",
+ * "Compression"). StripOffsets/StripByteCounts/TileOffsets/TileByteCounts are
+ * not exposed, since they are storage-layout details that can have one entry
+ * per strip or tile.
+ *
  * \ingroup IOFilters
  * \ingroup ITKIOTIFF
  *

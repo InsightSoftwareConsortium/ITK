@@ -24,7 +24,10 @@
 
 #include "itk_tiff.h"
 
+#include <iterator>
+#include <memory>
 #include <type_traits>
+#include <vector>
 
 namespace itk
 {
@@ -1090,26 +1093,49 @@ TIFFImageIO::ReadTIFFTags()
 
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
-  void * raw_data = nullptr;
-  bool   mem_alloc = false;
-
   const int tagCount = TIFFGetTagListCount(m_InternalImage->m_Image);
 
   this->InitializeColors();
   this->PopulateColorPalette();
 
+  // Baseline tags are explicitly listed in the baselineTags array below. Additionally the tags associated with the
+  // TiledImages extension are include.
+  //
+  // ColorMap and SampleFormat are intentionally not included here.
+  static constexpr uint32_t baselineTags[] = {
+    TIFFTAG_BITSPERSAMPLE, TIFFTAG_COMPRESSION,  TIFFTAG_IMAGELENGTH,    TIFFTAG_IMAGEWIDTH,      TIFFTAG_ORIENTATION,
+    TIFFTAG_PHOTOMETRIC,   TIFFTAG_PLANARCONFIG, TIFFTAG_RESOLUTIONUNIT, TIFFTAG_SAMPLESPERPIXEL, TIFFTAG_TILELENGTH,
+    TIFFTAG_TILEWIDTH,     TIFFTAG_XRESOLUTION,  TIFFTAG_YRESOLUTION,
+  };
+
+  const bool isTiled = TIFFIsTiled(m_InternalImage->m_Image) != 0;
+
+  std::vector<uint32_t> tags;
+  tags.reserve(sizeof(baselineTags) / sizeof(baselineTags[0]) + static_cast<size_t>(tagCount) + 1);
+  tags.insert(tags.end(), std::begin(baselineTags), std::end(baselineTags));
   for (int i = 0; i < tagCount; ++i)
   {
+    tags.push_back(TIFFGetTagListEntry(m_InternalImage->m_Image, i));
+  }
+  if (!isTiled)
+  {
+    tags.push_back(TIFFTAG_ROWSPERSTRIP);
+  }
 
-    // clean up allocation from prior iteration
-    if (mem_alloc)
+  // SampleFormat cannot go through the generic loop below; fetch it directly instead.
+  {
+    const TIFFField * field = TIFFFieldWithTag(m_InternalImage->m_Image, TIFFTAG_SAMPLEFORMAT);
+    uint16_t          value = 0;
+    if (field != nullptr && TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_SAMPLEFORMAT, &value) == 1)
     {
-      _TIFFfree(raw_data);
-      mem_alloc = false;
+      EncapsulateMetaData<unsigned short>(dict, TIFFFieldName(field), value);
     }
-    raw_data = nullptr;
+  }
 
-    const uint32_t tag = TIFFGetTagListEntry(m_InternalImage->m_Image, i);
+  for (const uint32_t tag : tags)
+  {
+    std::unique_ptr<void, void (*)(void *)> ownedData(nullptr, _TIFFfree);
+    void *                                  raw_data = nullptr;
 
     const TIFFField * field = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
@@ -1174,8 +1200,10 @@ TIFFImageIO::ReadTIFFTags()
       {
         const size_t dataSize = itkTIFFDataSize(TIFFFieldDataType(field));
         raw_data = _TIFFmalloc(static_cast<tmsize_t>(dataSize * static_cast<size_t>(value_count)));
-        mem_alloc = true;
-        if (TIFFGetField(m_InternalImage->m_Image, tag, raw_data) != 1)
+        ownedData.reset(raw_data);
+        // Use the Defaulted variant so baseline tags (e.g. BitsPerSample) that libtiff fills in with a
+        // spec-mandated default when absent are still captured; this is a no-op for custom tags.
+        if (TIFFGetFieldDefaulted(m_InternalImage->m_Image, tag, raw_data) != 1)
         {
           continue;
         }
@@ -1260,6 +1288,10 @@ TIFFImageIO::ReadTIFFTags()
 #endif
         case TIFF_RATIONAL:
         case TIFF_SRATIONAL:
+          // libtiff marshals RATIONAL/SRATIONAL values as float, regardless of the on-disk numerator/denominator
+          // encoding.
+          itkEncapsulate(float, float);
+          break;
         case TIFF_UNDEFINED:
         default:
           itkWarningMacro(<< field_name << " has unsupported data type (" << TIFFFieldDataType(field)
@@ -1269,17 +1301,8 @@ TIFFImageIO::ReadTIFFTags()
     }
     catch (...)
     {
-      if (mem_alloc)
-      {
-        _TIFFfree(raw_data);
-        mem_alloc = false;
-      }
+      // raw_data, if self-allocated, is freed automatically when ownedData goes out of scope below.
     }
-  }
-
-  if (mem_alloc)
-  {
-    _TIFFfree(raw_data);
   }
 }
 
