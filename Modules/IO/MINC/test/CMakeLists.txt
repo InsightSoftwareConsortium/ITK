@@ -23,6 +23,14 @@ set(
 
 createtestdriver(ITKIOMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOMINCTests}")
 
+set(ITKIOMINCGTests itkMINCImageIOGTest.cxx)
+creategoogletestdriver(ITKIOMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOMINCGTests}")
+target_compile_definitions(
+  ITKIOMINCGTestDriver
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)
+
 itk_add_test(
   NAME itkMINCImageIOTest1
   COMMAND

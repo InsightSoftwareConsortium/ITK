@@ -12,8 +12,10 @@ itk_module(
   PRIVATE_DEPENDS
     ITKMINC
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageStatistics
+    ITKMINC
   FACTORY_NAMES
     ImageIO::MINC
   DESCRIPTION "${DOCUMENTATION}"
