@@ -107,6 +107,22 @@ normalize3(const std::array<double, 3> & v)
   return { { v[0] / n, v[1] / n, v[2] / n } };
 }
 
+struct Frame
+{
+  std::array<double, 3> row;
+  std::array<double, 3> col;
+};
+
+// Three rotations give the slice normal three nonzero components for generic angles.
+Frame
+rotatedFrame(const double a, const double b, const double c)
+{
+  const double ca = std::cos(a), sa = std::sin(a);
+  const double cb = std::cos(b), sb = std::sin(b);
+  const double cc = std::cos(c), sc = std::sin(c);
+  return { { { cc * cb, sc * cb, -sb } }, { { cc * sb * sa - sc * ca, sc * sb * sa + cc * ca, cb * sa } } };
+}
+
 // Synthesize a DICOM series by writing one 2D slice per file with controlled
 // ImagePositionPatient / ImageOrientationPatient tags.  Returns full file
 // paths in the order written.
@@ -479,15 +495,7 @@ TEST_F(GDCMSeriesDirection, Oblique_NonAxisAligned_Reversal)
   // Build an oblique row/col by rotating the axial (e_x, e_y) about an axis
   // that mixes all three world components.  Use angles chosen so no element
   // of the resulting row/col is 0 or ±1.
-  const double a = 0.27; // ~15.5°
-  const double b = 0.41; // ~23.5°
-  const double ca = std::cos(a), sa = std::sin(a);
-  const double cb = std::cos(b), sb = std::sin(b);
-  // Compose Rz(a) * Rx(b) applied to (1,0,0) and (0,1,0).
-  std::array<double, 3> row = { { ca, sa * cb, sa * sb } };
-  std::array<double, 3> col = { { -sa, ca * cb, ca * sb } };
-  row = normalize3(row);
-  col = normalize3(col);
+  const auto [row, col] = rotatedFrame(0.27, 0.41, 0.58);
   // Slice stacking direction = row × col, then offset every slice along it.
   const std::array<double, 3> n = normalize3(cross(row, col));
 
@@ -531,11 +539,7 @@ TEST_F(GDCMSeriesDirection, Oblique_NonAxisAligned_Reversal)
 // ---------------------------------------------------------------------------
 TEST_F(GDCMSeriesDirection, ThirdColumnEqualsCrossProduct_Oblique)
 {
-  const double          a = 0.31, b = 0.19;
-  const double          ca = std::cos(a), sa = std::sin(a);
-  const double          cb = std::cos(b), sb = std::sin(b);
-  std::array<double, 3> row = normalize3({ { ca, sa * cb, sa * sb } });
-  std::array<double, 3> col = normalize3({ { -sa, ca * cb, ca * sb } });
+  const auto [row, col] = rotatedFrame(0.31, 0.19, 0.47);
   std::array<double, 3> n = normalize3(cross(row, col));
 
   SeriesSpec spec;
@@ -801,14 +805,7 @@ TEST_F(GDCMSeriesDirection, RandomizedStress_PhysicalPointInvariance)
 
   for (unsigned int trial = 0; trial < 8; ++trial)
   {
-    const double          a = ang(rng), b = ang(rng);
-    const double          ca = std::cos(a), sa = std::sin(a);
-    const double          cb = std::cos(b), sb = std::sin(b);
-    std::array<double, 3> row = normalize3({ { ca, sa * cb, sa * sb } });
-    std::array<double, 3> col = normalize3({ { -sa, ca * cb, ca * sb } });
-    // Re-orthogonalize col against row (Gram–Schmidt) to keep DICOM happy.
-    double dot = row[0] * col[0] + row[1] * col[1] + row[2] * col[2];
-    col = normalize3({ { col[0] - dot * row[0], col[1] - dot * row[1], col[2] - dot * row[2] } });
+    const auto [row, col] = rotatedFrame(ang(rng), ang(rng), ang(rng));
     auto         n = normalize3(cross(row, col));
     const double step = sp(rng);
 
