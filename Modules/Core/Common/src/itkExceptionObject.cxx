@@ -121,13 +121,12 @@ ExceptionObject::SetLocation(const std::string & s)
 {
   const bool IsNull = m_ExceptionData == nullptr;
 
-  m_ExceptionData =
-    std::make_shared<const ExceptionData>(IsNull ? std::string{} : std::move(m_ExceptionData->m_File),
-                                          IsNull ? 0 : m_ExceptionData->m_Line,
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_Description),
-                                          s,
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_ClassName),
-                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
+  m_ExceptionData = std::make_shared<const ExceptionData>(IsNull ? std::string{} : m_ExceptionData->m_File,
+                                                          IsNull ? 0 : m_ExceptionData->m_Line,
+                                                          IsNull ? std::string{} : m_ExceptionData->m_Description,
+                                                          s,
+                                                          IsNull ? std::string{} : m_ExceptionData->m_ClassName,
+                                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
 }
 
 void
@@ -135,13 +134,12 @@ ExceptionObject::SetDescription(const std::string & s)
 {
   const bool IsNull = m_ExceptionData == nullptr;
 
-  m_ExceptionData =
-    std::make_shared<const ExceptionData>(IsNull ? std::string{} : std::move(m_ExceptionData->m_File),
-                                          IsNull ? 0 : m_ExceptionData->m_Line,
-                                          s,
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_Location),
-                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_ClassName),
-                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
+  m_ExceptionData = std::make_shared<const ExceptionData>(IsNull ? std::string{} : m_ExceptionData->m_File,
+                                                          IsNull ? 0 : m_ExceptionData->m_Line,
+                                                          s,
+                                                          IsNull ? std::string{} : m_ExceptionData->m_Location,
+                                                          IsNull ? std::string{} : m_ExceptionData->m_ClassName,
+                                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
 }
 
 void
