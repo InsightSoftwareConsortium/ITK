@@ -710,6 +710,8 @@ itkIOTransformMINCTest(int argc, char * argv[])
   itk::TransformFactory<itk::DisplacementFieldTransform<double, 3>>::RegisterTransform();
   itk::TransformFactory<itk::DisplacementFieldTransform<float, 3>>::RegisterTransform();
 
+  ITK_TEST_EXPECT_TRUE(itk::MINCTransformIO::New()->GetRAStoLPS());
+
   bool result = true;
   for (bool ras_to_lps : { false, true })
   {
