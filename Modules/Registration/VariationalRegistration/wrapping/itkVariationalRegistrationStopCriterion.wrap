@@ -1,5 +1,15 @@
+itk_wrap_include("itkVariationalRegistrationFilter.h")
+itk_wrap_include("itkVariationalRegistrationMultiResolutionFilter.h")
+
 itk_wrap_class("itk::VariationalRegistrationStopCriterion" POINTER)
-#  itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 2)
-#  itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" 2)
-itk_wrap_image_filter("${WRAP_ITK_REAL}" 2)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  # Wrap only vector dimensions which are the same as image dimensions
+  foreach(s ${WRAP_ITK_SCALAR})
+    foreach(v ${WRAP_ITK_VECTOR_REAL})
+      itk_wrap_template(
+        "VRF${ITKM_I${s}${d}}${ITKM_I${s}${d}}${ITKM_I${v}${d}${d}}VRMRF${ITKM_I${s}${d}}${ITKM_I${s}${d}}${ITKM_I${v}${d}${d}}"
+        "itk::VariationalRegistrationFilter<${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, ${ITKT_I${v}${d}${d}}>, itk::VariationalRegistrationMultiResolutionFilter<${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, ${ITKT_I${v}${d}${d}}>")
+    endforeach()
+  endforeach()
+endforeach()
 itk_end_wrap_class()
