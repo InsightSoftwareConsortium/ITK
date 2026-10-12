@@ -27,6 +27,7 @@
 
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
+#include <cmath>
 #include <fstream>
 
 namespace itk
@@ -151,22 +152,42 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   std::vector<std::vector<double>> directionIO;
 
   const unsigned int numberOfDimensionsIO = m_ImageIO->GetNumberOfDimensions();
+  const bool isReducedDimensionalRead = numberOfDimensionsIO > TOutputImage::ImageDimension;
 
-  if (numberOfDimensionsIO > TOutputImage::ImageDimension)
+  for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
   {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDefaultDirection(k));
-    }
-  }
-  else
-  {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDirection(k));
-    }
+    directionIO.push_back(m_ImageIO->GetDirection(k));
   }
 
+  const double directionTolerance = DefaultImageDirectionTolerance;
+  bool         preserveReducedDirection = true;
+  if (isReducedDimensionalRead)
+  {
+    for (unsigned int i = 0; i < numberOfDimensionsIO && preserveReducedDirection; ++i)
+    {
+      for (unsigned int j = 0; j < numberOfDimensionsIO; ++j)
+      {
+        if (j < directionIO[i].size() && !std::isfinite(directionIO[i][j]))
+        {
+          preserveReducedDirection = false;
+          break;
+        }
+        if ((i < TOutputImage::ImageDimension) != (j < TOutputImage::ImageDimension) &&
+            (j >= directionIO[i].size() || std::abs(directionIO[i][j]) > directionTolerance))
+        {
+          preserveReducedDirection = false;
+          break;
+        }
+      }
+    }
+    if (!preserveReducedDirection)
+    {
+      for (unsigned int i = 0; i < numberOfDimensionsIO; ++i)
+      {
+        directionIO[i] = m_ImageIO->GetDefaultDirection(i);
+      }
+    }
+  }
   std::vector<double> axis;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
@@ -212,6 +233,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
         }
       }
     }
+  }
+  if (isReducedDimensionalRead && preserveReducedDirection &&
+      !(direction.GetVnlMatrix().transpose() * direction.GetVnlMatrix()).is_identity(directionTolerance))
+  {
+    direction.SetIdentity();
   }
   MetaDataDictionary & thisDic = m_ImageIO->GetMetaDataDictionary();
   // Store original directions and spacing
