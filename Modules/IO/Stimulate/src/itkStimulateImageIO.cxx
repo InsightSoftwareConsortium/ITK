@@ -208,11 +208,13 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   // char fidName[256] = "";
   // char orient[256] = "";
 
-  bool         fov_specified = false;
-  bool         origin_specified = false;
-  bool         spacing_specified = false;
-  float        fov[4];
-  unsigned int dims[4];
+  bool                   fov_specified = false;
+  bool                   origin_specified = false;
+  bool                   spacing_specified = false;
+  bool                   dimensions_specified = false;
+  constexpr unsigned int maximumDimensions = 4;
+  float                  fov[maximumDimensions]{};
+  unsigned int           dims[maximumDimensions]{};
   while ((static_cast<void>(file.getline(line, 255)), file.gcount() > 0))
   {
     text = line;
@@ -220,13 +222,20 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     if (text.find("numDim") < text.length())
     {
       unsigned int dim = 0;
-      sscanf(line, "%*s %u", &dim);
+      if (sscanf(line, "%*s %u", &dim) != 1 || dim < 1 || dim > maximumDimensions)
+      {
+        itkExceptionMacro("Stimulate numDim must be between 1 and " << maximumDimensions << ", got: " << line);
+      }
       this->SetNumberOfDimensions(dim);
     }
     else if (text.find("dim") < text.length())
     {
       // extract dimensions, spacing, origin
-      sscanf(line, "%*s %u %u %u %u", dims, dims + 1, dims + 2, dims + 3);
+      if (sscanf(line, "%*s %u %u %u %u", dims, dims + 1, dims + 2, dims + 3) < static_cast<int>(m_NumberOfDimensions))
+      {
+        itkExceptionMacro("Stimulate dim must specify one value for each dimension, got: " << line);
+      }
+      dimensions_specified = true;
       if (m_NumberOfDimensions > 3 && dims[3] <= 1)
       {
         this->SetNumberOfDimensions(3);
@@ -249,11 +258,15 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // to be centered:
 
       // save and reset old locale
-      float             origin[4];
+      float             origin[maximumDimensions]{};
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
+      const int         valuesRead = sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
       // reset locale
       std::locale::global(currentLocale);
+      if (valuesRead < static_cast<int>(m_NumberOfDimensions))
+      {
+        itkExceptionMacro("Stimulate origin must specify one value for each dimension, got: " << line);
+      }
       for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         m_Origin[i] = origin[i];
@@ -276,9 +289,13 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      sscanf(line, "%*s %f %f %f %f", fov, fov + 1, fov + 2, fov + 3);
+      const int         valuesRead = sscanf(line, "%*s %f %f %f %f", fov, fov + 1, fov + 2, fov + 3);
       // reset locale
       std::locale::global(currentLocale);
+      if (valuesRead < static_cast<int>(m_NumberOfDimensions))
+      {
+        itkExceptionMacro("Stimulate fov must specify one value for each dimension, got: " << line);
+      }
       fov_specified = true;
     }
     else if (text.find("interval") < text.length())
@@ -291,10 +308,14 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      float             spacing[4];
-      sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
+      float             spacing[maximumDimensions]{};
+      const int         valuesRead = sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
       // reset locale
       std::locale::global(currentLocale);
+      if (valuesRead < static_cast<int>(m_NumberOfDimensions))
+      {
+        itkExceptionMacro("Stimulate interval must specify one value for each dimension, got: " << line);
+      }
       for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         m_Spacing[i] = spacing[i];
@@ -437,8 +458,16 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   // compute any missing informations:
   if (!spacing_specified && fov_specified)
   {
+    if (!dimensions_specified)
+    {
+      itkExceptionStringMacro("Stimulate fov requires a dim field");
+    }
     for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
     {
+      if (dims[i] == 0)
+      {
+        itkExceptionStringMacro("Stimulate image dimensions must be greater than zero");
+      }
       m_Spacing[i] = fov[i] / dims[i];
     }
   }
