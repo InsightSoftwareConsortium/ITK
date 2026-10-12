@@ -1,1 +1,2 @@
 itkGDCMSeriesFileNames\.h Namespace Disable
+itkGDCMImageIOGTest\.cxx Namespace Disable
