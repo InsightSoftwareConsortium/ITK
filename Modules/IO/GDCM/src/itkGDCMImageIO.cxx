@@ -70,15 +70,6 @@
 namespace itk
 {
 
-
-class InternalHeader
-{
-public:
-  InternalHeader() = default;
-  ~InternalHeader() { delete m_Header; }
-  gdcm::File * m_Header{ nullptr };
-};
-
 GDCMImageIO::GDCMImageIO()
   : m_RescaleSlope(1.0)
   , m_UIDPrefix("1.2.826.0.1.3680043.2.1125.1")
@@ -87,10 +78,9 @@ GDCMImageIO::GDCMImageIO()
   , m_FrameOfReferenceInstanceUID("")
   , m_ReadYBRtoRGB(true)
   , m_GlobalNumberOfDimensions(2)
-  , m_InternalComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   // UIDPrefix is the ITK root id tacked with a ".1"
   // allowing to designate a subspace of the id space for ITK generated DICOM
-  , m_DICOMHeader(new InternalHeader)
+  , m_InternalComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE)
 {
   static std::once_flag imageHelperPolicyOnce;
   std::call_once(imageHelperPolicyOnce, [] {
@@ -122,7 +112,7 @@ GDCMImageIO::GDCMImageIO()
   }
 }
 
-GDCMImageIO::~GDCMImageIO() { delete this->m_DICOMHeader; }
+GDCMImageIO::~GDCMImageIO() = default;
 
 /**
  * Helper function to test for some dicom like formatting.
@@ -1512,12 +1502,6 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "CompressionType: " << m_CompressionType << std::endl;
   itkPrintSelfBooleanMacro(SingleBit);
   os << indent << "InternalComponentType: " << m_InternalComponentType << std::endl;
-
-  os << indent << "DICOMHeader: ";
-  if (m_DICOMHeader != nullptr)
-  {
-    os << m_DICOMHeader << std::endl;
-  }
 }
 
 std::ostream &

@@ -120,7 +120,6 @@ extern ITKIOGDCM_EXPORT std::ostream &
  * \sphinxexample{IO/GDCM/ReadDICOMSeriesAndWrite3DImage,Read DICOM Series and Write 3D Image}
  * \endsphinx
  */
-class InternalHeader;
 class ITKIOGDCM_EXPORT GDCMImageIO : public ImageIOBase
 {
 public:
@@ -298,8 +297,6 @@ private:
   bool m_SingleBit{};
 
   IOComponentEnum m_InternalComponentType{};
-
-  InternalHeader * m_DICOMHeader{};
 };
 
 } // end namespace itk
