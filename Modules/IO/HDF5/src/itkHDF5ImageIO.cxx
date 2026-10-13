@@ -674,6 +674,8 @@ HDF5ImageIO::CanReadFile(const char * FileNameToRead)
 void
 HDF5ImageIO::ResetToInitialState()
 {
+  const std::lock_guard<std::recursive_mutex> lockGuard(hdf5ImageIOMutex);
+
   // close the H5 File
   {
     if (m_H5File != nullptr)
