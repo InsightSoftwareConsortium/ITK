@@ -142,11 +142,15 @@ if(NOT ITK_USE_SYSTEM_FFTW)
   endif()
 
   if(NOT _fftw_is_universal)
-    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
+    set(_fftw_target_processor "${CMAKE_SYSTEM_PROCESSOR}")
+    if(APPLE AND CMAKE_OSX_ARCHITECTURES)
+      set(_fftw_target_processor "${CMAKE_OSX_ARCHITECTURES}")
+    endif()
+    if(_fftw_target_processor MATCHES "aarch64|arm64|ARM64")
       # NEON is mandatory in the AArch64 ABI — every arm64 CPU has it.
       # Safe for all conda/pip arm64 packages and manylinux aarch64.
       set(_fftw_default_neon ON)
-    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
+    elseif(_fftw_target_processor MATCHES "x86_64|AMD64")
       # SSE and SSE2 are required by the AMD64 ABI — universally present on
       # every 64-bit x86 CPU, including the oldest manylinux build targets.
       # Safe for all conda/pip x86_64 packages.
@@ -184,7 +188,7 @@ if(NOT ITK_USE_SYSTEM_FFTW)
       if(_fftw_compiler_targets_avx2)
         set(_fftw_default_avx2 ON)
       endif()
-    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i686|i386")
+    elseif(_fftw_target_processor MATCHES "i686|i386")
       # 32-bit x86 ABI does not mandate SSE/SSE2.  Leave defaults OFF;
       # users may opt in explicitly if their minimum target CPU supports them.
     endif()
