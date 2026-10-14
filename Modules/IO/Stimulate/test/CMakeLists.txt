@@ -30,6 +30,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/stimulate-huge-num-dim.spr
     ${ITK_TEST_OUTPUT_DIR}/stimulate-malformed-num-dim.spr
     ${ITK_TEST_OUTPUT_DIR}/stimulate-missing-dim.spr
+    ${ITK_TEST_OUTPUT_DIR}/stimulate-short-dim.spr
+    ${ITK_TEST_OUTPUT_DIR}/stimulate-short-origin.spr
+    ${ITK_TEST_OUTPUT_DIR}/stimulate-short-fov.spr
+    ${ITK_TEST_OUTPUT_DIR}/stimulate-short-interval.spr
+    ${ITK_TEST_OUTPUT_DIR}/stimulate-zero-dim.spr
 )
 itk_add_test(
   NAME itkStimulateImageIOTest2

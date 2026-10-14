@@ -25,7 +25,9 @@
 namespace
 {
 bool
-ExpectInvalidHeader(const std::string & fileName, const std::string & header)
+ExpectInvalidHeader(const std::string & fileName,
+                    const std::string & header,
+                    const std::string & expectedDescription = "")
 {
   std::ofstream file(fileName);
   if (!file)
@@ -42,10 +44,16 @@ ExpectInvalidHeader(const std::string & fileName, const std::string & header)
   {
     io->ReadImageInformation();
   }
-  catch (const itk::ExceptionObject &)
+  catch (const itk::ExceptionObject & error)
   {
+    if (std::string(error.GetDescription()).find(expectedDescription) == std::string::npos)
+    {
+      std::cerr << "Unexpected exception for " << fileName << ": " << error << std::endl;
+      return false;
+    }
     return true;
   }
+  std::cerr << "Expected an exception for " << fileName << std::endl;
   return false;
 }
 } // namespace
@@ -64,11 +72,31 @@ itkStimulateImageIOInvalidHeaderTest(int argc, char * argv[])
   const std::string hugeHeader = outputDirectory + "/stimulate-huge-num-dim.spr";
   const std::string malformedHeader = outputDirectory + "/stimulate-malformed-num-dim.spr";
   const std::string missingDimensionsHeader = outputDirectory + "/stimulate-missing-dim.spr";
+  const std::string shortDimensionsHeader = outputDirectory + "/stimulate-short-dim.spr";
+  const std::string shortOriginHeader = outputDirectory + "/stimulate-short-origin.spr";
+  const std::string shortFieldOfViewHeader = outputDirectory + "/stimulate-short-fov.spr";
+  const std::string shortIntervalHeader = outputDirectory + "/stimulate-short-interval.spr";
+  const std::string zeroDimensionHeader = outputDirectory + "/stimulate-zero-dim.spr";
 
   if (!ExpectInvalidHeader(oversizedHeader, "numDim: 9\ndim: 4 4 2 2\ndataType: WORD\n") ||
       !ExpectInvalidHeader(hugeHeader, "numDim: 4294967295\ndataType: WORD\n") ||
       !ExpectInvalidHeader(malformedHeader, "numDim: malformed\ndim: 4 4\ndataType: WORD\n") ||
-      !ExpectInvalidHeader(missingDimensionsHeader, "numDim: 2\nfov: 1 1\ndataType: WORD\n"))
+      !ExpectInvalidHeader(missingDimensionsHeader, "numDim: 2\nfov: 1 1\ndataType: WORD\n") ||
+      !ExpectInvalidHeader(shortDimensionsHeader,
+                           "numDim: 2\ndim: 4\ndataType: WORD\n",
+                           "Stimulate dim must specify one value for each dimension, got: dim: 4") ||
+      !ExpectInvalidHeader(shortOriginHeader,
+                           "numDim: 2\ndim: 4 4\norigin: 0\ndataType: WORD\n",
+                           "Stimulate origin must specify one value for each dimension, got: origin: 0") ||
+      !ExpectInvalidHeader(shortFieldOfViewHeader,
+                           "numDim: 2\ndim: 4 4\nfov: 1\ndataType: WORD\n",
+                           "Stimulate fov must specify one value for each dimension, got: fov: 1") ||
+      !ExpectInvalidHeader(shortIntervalHeader,
+                           "numDim: 2\ndim: 4 4\ninterval: 1\ndataType: WORD\n",
+                           "Stimulate interval must specify one value for each dimension, got: interval: 1") ||
+      !ExpectInvalidHeader(zeroDimensionHeader,
+                           "numDim: 2\ndim: 0 4\nfov: 1 1\ndataType: WORD\n",
+                           "Stimulate image dimensions must be greater than zero"))
   {
     return EXIT_FAILURE;
   }
