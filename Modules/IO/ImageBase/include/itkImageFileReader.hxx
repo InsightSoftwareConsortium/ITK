@@ -152,7 +152,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   std::vector<std::vector<double>> directionIO;
 
   const unsigned int numberOfDimensionsIO = m_ImageIO->GetNumberOfDimensions();
-  const bool isReducedDimensionalRead = numberOfDimensionsIO > TOutputImage::ImageDimension;
+  const bool         isReducedDimensionalRead = numberOfDimensionsIO > TOutputImage::ImageDimension;
 
   for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
   {
