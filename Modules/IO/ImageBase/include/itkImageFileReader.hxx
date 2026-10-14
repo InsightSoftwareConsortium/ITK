@@ -27,7 +27,6 @@
 
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
-#include <cmath>
 #include <fstream>
 
 namespace itk
@@ -53,6 +52,28 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream & os, 
 
   os << indent << "ExceptionMessage: " << m_ExceptionMessage << std::endl;
   os << indent << "ActualIORegion: " << m_ActualIORegion << std::endl;
+  os << indent << "DirectionCollapseStrategy: " << m_DirectionCollapseStrategy << std::endl;
+}
+
+template <typename TOutputImage, typename ConvertPixelTraits>
+void
+ImageFileReader<TOutputImage, ConvertPixelTraits>::SetDirectionCollapseToStrategy(
+  DirectionCollapseStrategyEnum strategy)
+{
+  switch (strategy)
+  {
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+      break;
+    default:
+      itkExceptionStringMacro("Invalid strategy chosen for ImageFileReader.");
+  }
+  if (m_DirectionCollapseStrategy != strategy)
+  {
+    m_DirectionCollapseStrategy = strategy;
+    this->Modified();
+  }
 }
 
 template <typename TOutputImage, typename ConvertPixelTraits>
@@ -159,35 +180,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
     directionIO.push_back(m_ImageIO->GetDirection(k));
   }
 
-  const double directionTolerance = DefaultImageDirectionTolerance;
-  bool         preserveReducedDirection = true;
-  if (isReducedDimensionalRead)
-  {
-    for (unsigned int i = 0; i < numberOfDimensionsIO && preserveReducedDirection; ++i)
-    {
-      for (unsigned int j = 0; j < numberOfDimensionsIO; ++j)
-      {
-        if (j < directionIO[i].size() && !std::isfinite(directionIO[i][j]))
-        {
-          preserveReducedDirection = false;
-          break;
-        }
-        if ((i < TOutputImage::ImageDimension) != (j < TOutputImage::ImageDimension) &&
-            (j >= directionIO[i].size() || std::abs(directionIO[i][j]) > directionTolerance))
-        {
-          preserveReducedDirection = false;
-          break;
-        }
-      }
-    }
-    if (!preserveReducedDirection)
-    {
-      for (unsigned int i = 0; i < numberOfDimensionsIO; ++i)
-      {
-        directionIO[i] = m_ImageIO->GetDefaultDirection(i);
-      }
-    }
-  }
   std::vector<double> axis;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
@@ -234,10 +226,28 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       }
     }
   }
-  if (isReducedDimensionalRead && preserveReducedDirection &&
-      !(direction.GetVnlMatrix().transpose() * direction.GetVnlMatrix()).is_identity(directionTolerance))
+  if (isReducedDimensionalRead)
   {
-    direction.SetIdentity();
+    switch (m_DirectionCollapseStrategy)
+    {
+      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+        direction.SetIdentity();
+        break;
+      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
+        if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+        {
+          itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
+        }
+        break;
+      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+        if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+        {
+          direction.SetIdentity();
+        }
+        break;
+      default:
+        itkExceptionStringMacro("Invalid strategy chosen for ImageFileReader.");
+    }
   }
   MetaDataDictionary & thisDic = m_ImageIO->GetMetaDataDictionary();
   // Store original directions and spacing
