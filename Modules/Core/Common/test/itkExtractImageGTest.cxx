@@ -340,3 +340,52 @@ TEST(ExtractImage, ConvertedLegacyTest)
 
   ExtractImageInPlaceTest();
 }
+
+TEST(ExtractImage, CollapseDirection)
+{
+  using ExtractFilterType = itk::ExtractImageFilter<itk::Image<float, 3>, itk::Image<float, 2>>;
+  using StrategyEnum = itk::ExtractImageFilterEnums::DirectionCollapseStrategy;
+  using Matrix2 = itk::Matrix<double, 2, 2>;
+  using Matrix3 = itk::Matrix<double, 3, 3>;
+
+  // 90 degree rotation in the xy plane, z unchanged.
+  Matrix3 direction = Matrix3::GetIdentity();
+  direction[0][0] = 0.0;
+  direction[0][1] = -1.0;
+  direction[1][0] = 1.0;
+  direction[1][1] = 0.0;
+
+  Matrix2 rotation = Matrix2::GetIdentity();
+  rotation[0][0] = 0.0;
+  rotation[0][1] = -1.0;
+  rotation[1][0] = 1.0;
+  rotation[1][1] = 0.0;
+  const Matrix2 identity = Matrix2::GetIdentity();
+
+  // Collapsing z retains the invertible xy block; collapsing x leaves a singular yz block.
+  const itk::FixedArray<bool, 3> collapseZ(std::array<bool, 3>{ false, false, true });
+  const itk::FixedArray<bool, 3> collapseX(std::array<bool, 3>{ true, false, false });
+
+  EXPECT_EQ(ExtractFilterType::CollapseDirection<2>(direction, collapseZ, StrategyEnum::DIRECTIONCOLLAPSETOIDENTITY),
+            identity);
+
+  EXPECT_EQ(ExtractFilterType::CollapseDirection<2>(direction, collapseZ, StrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX),
+            rotation);
+  EXPECT_THROW(
+    ExtractFilterType::CollapseDirection<2>(direction, collapseX, StrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX),
+    itk::ExceptionObject);
+
+  EXPECT_EQ(ExtractFilterType::CollapseDirection<2>(direction, collapseZ, StrategyEnum::DIRECTIONCOLLAPSETOGUESS),
+            rotation);
+  EXPECT_EQ(ExtractFilterType::CollapseDirection<2>(direction, collapseX, StrategyEnum::DIRECTIONCOLLAPSETOGUESS),
+            identity);
+
+  EXPECT_THROW(ExtractFilterType::CollapseDirection<2>(direction, collapseZ, StrategyEnum::DIRECTIONCOLLAPSETOUNKOWN),
+               itk::ExceptionObject);
+
+  // The retained dimension count must match the output dimension.
+  const itk::FixedArray<bool, 3> collapseNone(false);
+  EXPECT_THROW(
+    ExtractFilterType::CollapseDirection<2>(direction, collapseNone, StrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX),
+    itk::ExceptionObject);
+}

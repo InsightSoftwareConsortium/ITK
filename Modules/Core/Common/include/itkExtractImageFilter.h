@@ -19,6 +19,8 @@
 #define itkExtractImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
+#include "itkFixedArray.h"
+#include "itkMatrix.h"
 #include "itkSmartPointer.h"
 #include "itkExtractImageFilterRegionCopier.h"
 #include "ITKCommonExport.h"
@@ -243,6 +245,18 @@ public:
   {
     this->SetDirectionCollapseToStrategy(DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX);
   }
+
+  /** Extract the direction of a collapsed image from \a direction, the
+   * full-dimension direction matrix. Axes where \a collapseDimensions is
+   * true are removed (rows and columns), and the remaining sub-matrix is
+   * resolved according to \a strategy. The number of retained axes must
+   * equal VOutputDimension. Throws for DIRECTIONCOLLAPSETOUNKOWN, and for a
+   * singular sub-matrix with DIRECTIONCOLLAPSETOSUBMATRIX. */
+  template <unsigned int VOutputDimension, unsigned int VInputDimension>
+  static Matrix<double, VOutputDimension, VOutputDimension>
+  CollapseDirection(const Matrix<double, VInputDimension, VInputDimension> & direction,
+                    const FixedArray<bool, VInputDimension> &                collapseDimensions,
+                    DirectionCollapseStrategyEnum                            strategy);
 
 
   /** ImageDimension enumeration */
