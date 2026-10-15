@@ -59,6 +59,7 @@
 
 #include <fstream>
 #include <itkImageBase.h>
+#include <mutex>
 #include <sstream>
 
 
@@ -91,6 +92,16 @@ GDCMImageIO::GDCMImageIO()
   // allowing to designate a subspace of the id space for ITK generated DICOM
   , m_DICOMHeader(new InternalHeader)
 {
+  static std::once_flag imageHelperPolicyOnce;
+  std::call_once(imageHelperPolicyOnce, [] {
+    gdcm::ImageHelper::SetForceRescaleInterceptSlope(true);
+#if (!defined(ITK_USE_SYSTEM_GDCM) ||                                                    \
+     ((GDCM_MAJOR_VERSION == 3 && GDCM_MINOR_VERSION == 0 && GDCM_BUILD_VERSION > 23) || \
+      (GDCM_MAJOR_VERSION == 3 && GDCM_MINOR_VERSION > 0) || GDCM_MAJOR_VERSION > 3))
+    gdcm::ImageHelper::SetSecondaryCaptureImagePlaneModule(true);
+#endif
+  });
+
   this->SetNumberOfDimensions(3);              // needed for getting the 3 coordinates of
                                                // the origin, even if it is a 2D slice.
   m_ByteOrder = IOByteOrderEnum::LittleEndian; // default
@@ -454,16 +465,6 @@ GDCMImageIO::InternalReadImageInformation()
   // let any exceptions propagate
   this->OpenFileForReading(inputFileStream, m_FileName);
   inputFileStream.close();
-
-  // In general this should be relatively safe to assume
-  gdcm::ImageHelper::SetForceRescaleInterceptSlope(true);
-// Only available in newer versions
-#if (!defined(ITK_USE_SYSTEM_GDCM) ||                                                    \
-     ((GDCM_MAJOR_VERSION == 3 && GDCM_MINOR_VERSION == 0 && GDCM_BUILD_VERSION > 23) || \
-      (GDCM_MAJOR_VERSION == 3 && GDCM_MINOR_VERSION > 0) || GDCM_MAJOR_VERSION > 3))
-  // Secondary capture image orientation patient and image position patient support
-  gdcm::ImageHelper::SetSecondaryCaptureImagePlaneModule(true);
-#endif
 
   gdcm::ImageReader reader;
   reader.SetFileName(m_FileName.c_str());
