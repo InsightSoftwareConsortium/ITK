@@ -1057,7 +1057,7 @@ MINCImageIO::WriteImageInformation()
   if ((this->GetComponentType() == IOComponentEnum::FLOAT || this->GetComponentType() == IOComponentEnum::DOUBLE) &&
       ExposeMetaData<std::string>(thisDic, "storage_data_type", storage_data_type))
   {
-    if (storage_data_type == typeid(char).name())
+    if (storage_data_type == typeid(int8_t).name() || storage_data_type == typeid(char).name())
     {
       m_MINCPImpl->m_Volume_type = MI_TYPE_BYTE;
     }
