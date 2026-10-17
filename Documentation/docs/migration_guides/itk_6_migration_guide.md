@@ -1189,6 +1189,46 @@ approximation) are unchanged and intentionally do not return their own type.
   the new concrete type. Such a dependency is uncommon and was not found in a
   survey of downstream ITK consumers.
 
+## MINC coordinates are converted from RAS to LPS by default
+
+MINC stores world coordinates in RAS: +x is right, +y is anterior, +z is
+superior. ITK physical space is LPS. `MINCImageIO` and `MINCTransformIO` now
+convert between the two by default (`RAStoLPS` is `true`). In ITKv5 and in
+earlier ITKv6 releases, they put the RAS coordinates into ITK physical space
+unchanged, so MINC images did not line up with images from other ITK readers.
+
+For a MINC image read with default settings:
+
+- The x and y components of the origin change sign.
+- The x and y components of each direction cosine change sign.
+- Size, spacing, voxel order and voxel values do not change.
+
+`MINCTransformIO` converts `.xfm` matrices, offsets and displacement grids in
+the same way. The writers convert back to RAS, so a MINC → ITK → MINC round
+trip writes the same world coordinates as before. MINC files written from
+other formats (NIfTI, NRRD, DICOM) now have correct world coordinates; before,
+x and y were mirrored.
+
+### What you need to do
+
+Nothing, if a pipeline uses only MINC images and MINC transforms, or if it
+mixes MINC with other image formats: MINC data now lines up with them.
+
+Check code that stores or compares physical coordinates of MINC data made with
+an earlier ITK, such as seed points, landmarks, bounding boxes, or `.tfm` and
+`.h5` transforms computed on MINC images. Their x and y values are now
+mirrored. To keep the earlier behavior, turn the conversion off:
+
+```cpp
+auto imageIO = itk::MINCImageIO::New();
+imageIO->RAStoLPSOff();
+reader->SetImageIO(imageIO);
+
+auto transformIO = itk::MINCTransformIO::New();
+transformIO->RAStoLPSOff();
+transformReader->SetTransformIO(transformIO);
+```
+
 ## `GradientImageFilter::OverrideBoundaryCondition` deprecated in favor of `SetBoundaryCondition`
 
 `GradientImageFilter` is the only ITK class whose `OverrideBoundaryCondition` *takes
