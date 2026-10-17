@@ -940,6 +940,7 @@ if(BUILD_TESTING)
     "Configurable path to CTest cost data file."
   )
   mark_as_advanced(CTEST_COST_DATA_FILE)
+  add_subdirectory(CMake/Tests)
   add_subdirectory(Utilities/InstallTest)
 endif()
 
