@@ -18,13 +18,11 @@
 #ifndef itkVariationalRegistrationCurvatureRegularizer_hxx
 #define itkVariationalRegistrationCurvatureRegularizer_hxx
 
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#include "itkVariationalRegistrationCurvatureRegularizer.h"
 
-#  include "itkVariationalRegistrationCurvatureRegularizer.h"
-
-#  include "itkImageRegionConstIterator.h"
-#  include "itkImageRegionConstIteratorWithIndex.h"
-#  include "itkNeighborhoodAlgorithm.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkNeighborhoodAlgorithm.h"
 
 namespace itk
 {
@@ -51,8 +49,6 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::VariationalRegi
     this->m_DiagonalMatrix[i] = nullptr;
   }
 
-  this->m_PlanForward = nullptr;
-  this->m_PlanBackward = nullptr;
   this->m_VectorFieldComponentBuffer = nullptr;
   this->m_DCTVectorFieldComponentBuffer = nullptr;
 }
@@ -71,10 +67,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalReg
   if (this->m_DCTVectorFieldComponentBuffer != nullptr)
     delete[] this->m_DCTVectorFieldComponentBuffer;
 
-  if (this->m_PlanForward != nullptr)
-    FFTWProxyType::DestroyPlan(this->m_PlanForward);
-  if (this->m_PlanBackward != nullptr)
-    FFTWProxyType::DestroyPlan(this->m_PlanBackward);
+  this->DestroyFFTPlans();
 
   //
   // Free old data, if already allocated
@@ -167,15 +160,20 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
   if (this->m_DCTVectorFieldComponentBuffer != nullptr)
     delete[] this->m_DCTVectorFieldComponentBuffer;
 
-  if (this->m_PlanForward != nullptr)
-    FFTWProxyType::DestroyPlan(this->m_PlanForward);
-  if (this->m_PlanBackward != nullptr)
-    FFTWProxyType::DestroyPlan(this->m_PlanBackward);
+  this->DestroyFFTPlans();
 
-  // Allocate input and output buffers for DCT
-  this->m_VectorFieldComponentBuffer = new FFTWProxyType::PixelType[this->m_TotalSize];
-  this->m_DCTVectorFieldComponentBuffer = new FFTWProxyType::PixelType[this->m_TotalSize];
+  this->m_VectorFieldComponentBuffer = new RealTypeFFT[this->m_TotalSize];
+  this->m_DCTVectorFieldComponentBuffer = new RealTypeFFT[this->m_TotalSize];
 
+  return this->CreateFFTPlans();
+}
+
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+
+template <typename TDisplacementField>
+bool
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::CreateFFTPlans()
+{
   //
   // different methods for the DCT are available in FFTW
   // (look here: https://www.fftw.org/doc/Real_002dto_002dReal-Transforms.html)
@@ -225,6 +223,96 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
 
   return true;
 }
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::DestroyFFTPlans()
+{
+  if (this->m_PlanForward != nullptr)
+  {
+    FFTWProxyType::DestroyPlan(this->m_PlanForward);
+    this->m_PlanForward = nullptr;
+  }
+  if (this->m_PlanBackward != nullptr)
+  {
+    FFTWProxyType::DestroyPlan(this->m_PlanBackward);
+    this->m_PlanBackward = nullptr;
+  }
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ExecuteForwardDCT()
+{
+  FFTWProxyType::Execute(this->m_PlanForward);
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ExecuteBackwardDCT()
+{
+  FFTWProxyType::Execute(this->m_PlanBackward);
+}
+
+#else
+
+template <typename TDisplacementField>
+bool
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::CreateFFTPlans()
+{
+  return true;
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::DestroyFFTPlans()
+{}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::PocketDCT(int                 type,
+                                                                           const RealTypeFFT * in,
+                                                                           RealTypeFFT *       out) const
+{
+  itk::detail::pocketfft::shape_t  shape(ImageDimension);
+  itk::detail::pocketfft::stride_t stride(ImageDimension);
+  itk::detail::pocketfft::shape_t  axes(ImageDimension);
+  ptrdiff_t                        step = sizeof(RealTypeFFT);
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    shape[i] = this->m_Size[i];
+    stride[i] = step;
+    step *= static_cast<ptrdiff_t>(this->m_Size[i]);
+    axes[i] = i;
+  }
+  itk::detail::pocketfft::dct(shape,
+                              stride,
+                              stride,
+                              axes,
+                              type,
+                              in,
+                              out,
+                              RealTypeFFT{ 1 },
+                              false,
+                              static_cast<size_t>(this->GetNumberOfWorkUnits()));
+}
+
+// DCT-III forward and DCT-II backward, the pair FFTW_REDFT01 / FFTW_REDFT10 the FFTW path uses.
+template <typename TDisplacementField>
+void
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ExecuteForwardDCT()
+{
+  this->PocketDCT(3, this->m_VectorFieldComponentBuffer, this->m_DCTVectorFieldComponentBuffer);
+}
+
+template <typename TDisplacementField>
+void
+VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ExecuteBackwardDCT()
+{
+  this->PocketDCT(2, this->m_DCTVectorFieldComponentBuffer, this->m_VectorFieldComponentBuffer);
+}
+
+#endif
 
 /**
  * Initialize elastic matrix
@@ -326,7 +414,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize()
     itkDebugMacro(<< "Performing Forward FFT of dimension " << dim << "...");
 
     // Execute FFT for component
-    FFTWProxyType::Execute(this->m_PlanForward);
+    this->ExecuteForwardDCT();
 
     // Solve the LES in Fourier domain
     itkDebugMacro(<< "Solving Curvature LES in frequency space (dimension " << dim << ")...");
@@ -335,7 +423,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize()
     // Perform Backward FFT for the result in the complex domain
     itkDebugMacro(<< "Performing Backward FFT of dimension " << dim << "...");
     //  Execute FFT for component
-    FFTWProxyType::Execute(this->m_PlanBackward);
+    this->ExecuteBackwardDCT();
 
     // Copy buffer from inverse DCT to component of field
     for (n = 0, outIt.GoToBegin(); !outIt.IsAtEnd(); ++n, ++outIt)
@@ -492,7 +580,5 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::PrintSelf(std::
 }
 
 } // end namespace itk
-
-#endif
 
 #endif
