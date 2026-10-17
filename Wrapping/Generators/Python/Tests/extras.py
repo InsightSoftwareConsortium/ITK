@@ -401,6 +401,21 @@ assert all("parameters" in d for d in nested_dict)
 nested_back = itk.transform_from_dict(nested_dict)
 assert nested_back.GetNumberOfTransforms() == 2
 
+# Parameters are serialized as float64, whatever the transform's value type
+field = np.arange(24, dtype=np.float32).reshape(3, 4, 2)
+field_transform = itk.DisplacementFieldTransform[itk.F, 2].New()
+field_transform.SetDisplacementField(itk.image_from_array(field, is_vector=True))
+field_dict = itk.dict_from_transform(field_transform)
+assert field_dict["parameters"].dtype == np.float64
+assert np.array_equal(field_dict["parameters"], field.ravel())
+assert field_dict["numberOfParameters"] == field.size
+assert field_dict["fixedParameters"].dtype == np.float64
+
+# A transform without fixed parameters serializes them as an empty array
+translation_dict = itk.dict_from_transform(itk.TranslationTransform[itk.D, 3].New())
+assert translation_dict["fixedParameters"].dtype == np.float64
+assert translation_dict["fixedParameters"].shape == (0,)
+
 # Write single transform
 itk.transformwrite(transforms[0], sys.argv[7], compression=True)
 
