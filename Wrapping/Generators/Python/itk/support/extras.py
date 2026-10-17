@@ -1330,7 +1330,7 @@ def transform_from_dict(
             transform_dict[0]["transformType"]["parametersValueType"]
         ]
         transform = itk.CompositeTransform[
-            data_type, transforms_list[0]["transformType"]["inputDimension"]
+            data_type, transform_dict[0]["transformType"]["inputDimension"]
         ].New()
         for current_transform in transforms_list:
             transform.AddTransform(current_transform)
