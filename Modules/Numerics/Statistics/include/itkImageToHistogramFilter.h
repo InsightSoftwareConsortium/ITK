@@ -24,6 +24,7 @@
 #include "itkImageSink.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkProgressReporter.h"
+#include "itkGreedyReduceAlgorithm.h"
 
 namespace itk::Statistics
 {
@@ -176,7 +177,7 @@ protected:
 
   std::mutex m_Mutex{};
 
-  HistogramPointer m_MergeHistogram{};
+  typename GreedyReduceAlgorithm<HistogramPointer>::Pointer m_Reducer{};
 
   HistogramMeasurementVectorType m_Minimum{};
   HistogramMeasurementVectorType m_Maximum{};
