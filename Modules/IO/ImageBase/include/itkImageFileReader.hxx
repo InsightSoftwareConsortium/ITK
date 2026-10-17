@@ -52,6 +52,28 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream & os, 
 
   os << indent << "ExceptionMessage: " << m_ExceptionMessage << std::endl;
   os << indent << "ActualIORegion: " << m_ActualIORegion << std::endl;
+  os << indent << "DirectionCollapseStrategy: " << m_DirectionCollapseStrategy << std::endl;
+}
+
+template <typename TOutputImage, typename ConvertPixelTraits>
+void
+ImageFileReader<TOutputImage, ConvertPixelTraits>::SetDirectionCollapseToStrategy(
+  DirectionCollapseStrategyEnum strategy)
+{
+  switch (strategy)
+  {
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+      break;
+    default:
+      itkExceptionStringMacro("Invalid strategy chosen for ImageFileReader.");
+  }
+  if (m_DirectionCollapseStrategy != strategy)
+  {
+    m_DirectionCollapseStrategy = strategy;
+    this->Modified();
+  }
 }
 
 template <typename TOutputImage, typename ConvertPixelTraits>
@@ -151,20 +173,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   std::vector<std::vector<double>> directionIO;
 
   const unsigned int numberOfDimensionsIO = m_ImageIO->GetNumberOfDimensions();
+  const bool         isReducedDimensionalRead = numberOfDimensionsIO > TOutputImage::ImageDimension;
 
-  if (numberOfDimensionsIO > TOutputImage::ImageDimension)
+  for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
   {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDefaultDirection(k));
-    }
-  }
-  else
-  {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDirection(k));
-    }
+    directionIO.push_back(m_ImageIO->GetDirection(k));
   }
 
   std::vector<double> axis;
@@ -211,6 +224,29 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
           direction[j][i] = 0.0;
         }
       }
+    }
+  }
+  if (isReducedDimensionalRead)
+  {
+    switch (m_DirectionCollapseStrategy)
+    {
+      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+        direction.SetIdentity();
+        break;
+      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
+        if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+        {
+          itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
+        }
+        break;
+      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+        if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+        {
+          direction.SetIdentity();
+        }
+        break;
+      default:
+        itkExceptionStringMacro("Invalid strategy chosen for ImageFileReader.");
     }
   }
   MetaDataDictionary & thisDic = m_ImageIO->GetMetaDataDictionary();
