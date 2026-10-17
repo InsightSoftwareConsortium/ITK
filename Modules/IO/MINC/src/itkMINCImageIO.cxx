@@ -57,6 +57,21 @@ MINCIOFreeTmpDimHandle(unsigned int size, const midimhandle_t * const ptr)
   }
 }
 
+// libminc rejects a zero step; fall back to the MINC tools defaults (step 1, see mincresample).
+static double
+MINCIOGetSeparation(midimhandle_t dim)
+{
+  double separation = 1.0;
+  return miget_dimension_separation(dim, MI_ORDER_APPARENT, &separation) == MI_NOERROR ? separation : 1.0;
+}
+
+static double
+MINCIOGetStart(midimhandle_t dim)
+{
+  double start = 0.0;
+  return miget_dimension_start(dim, MI_ORDER_APPARENT, &start) == MI_NOERROR ? start : 0.0;
+}
+
 namespace itk
 {
 
@@ -474,10 +489,8 @@ MINCImageIO::ReadImageInformation()
     miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
     misize_t _sz = 0;
     miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
-    double _sep = NAN;
-    miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
-    double _start = NAN;
-    miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
+    const double _sep = MINCIOGetSeparation(m_MINCPImpl->m_MincApparentDims[usableDimensions]);
+    const double _start = MINCIOGetStart(m_MINCPImpl->m_MincApparentDims[usableDimensions]);
 
     this->SetDimensions(spatial_dimension_count, static_cast<unsigned int>(_sz));
     this->SetSpacing(spatial_dimension_count, _sep);
@@ -505,12 +518,10 @@ MINCImageIO::ReadImageInformation()
       misize_t _sz = 0;
       miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
 
-      double _sep = NAN;
-      miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
+      const double          _sep = MINCIOGetSeparation(m_MINCPImpl->m_MincApparentDims[usableDimensions]);
       std::array<double, 3> _dir{};
       miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_dir[0]);
-      double _start = NAN;
-      miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
+      const double _start = MINCIOGetStart(m_MINCPImpl->m_MincApparentDims[usableDimensions]);
 
       for (int j = 0; j < 3; ++j)
       {
@@ -712,13 +723,9 @@ MINCImageIO::ReadImageInformation()
   if (m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
   {
     // store time dimension start and step in metadata for preservation
-    double _sep = NAN;
-    miget_dimension_separation(
-      m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_sep);
-    double _start = NAN;
-    miget_dimension_start(m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_start);
-    EncapsulateMetaData<double>(thisDic, "tstart", _start);
-    EncapsulateMetaData<double>(thisDic, "tstep", _sep);
+    const midimhandle_t timeDim = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
+    EncapsulateMetaData<double>(thisDic, "tstart", MINCIOGetStart(timeDim));
+    EncapsulateMetaData<double>(thisDic, "tstep", MINCIOGetSeparation(timeDim));
   }
 
   EncapsulateMetaData<std::string>(thisDic, "dimension_order", dimension_order);
