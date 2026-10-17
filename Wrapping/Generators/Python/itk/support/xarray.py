@@ -128,7 +128,7 @@ def image_from_xarray(data_array: "xr.DataArray") -> "itkt.ImageBase":
 
     l_origin = [0.0] * image_dimension
     l_spacing = [1.0] * image_dimension
-    for l_index, dim in enumerate(image_dims):
+    for l_index, dim in enumerate(ordered_dims[:image_dimension]):
         coords = data_array.coords[dim]
         if coords.shape[0] > 1:
             l_origin[l_index] = float(coords[0])

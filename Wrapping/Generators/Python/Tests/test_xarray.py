@@ -135,10 +135,23 @@ try:
 
     if "(<itkCType unsigned char>, 4)" in itk.Image.GetTypesAsList():
         arr = np.random.randint(0, 255, size=(4, 5, 6, 3), dtype=np.uint8)
-        data_array = xr.DataArray(arr, dims=["t", "z", "y", "x"])
+        data_array = xr.DataArray(
+            arr,
+            dims=["t", "z", "y", "x"],
+            coords={
+                "t": 100.0 + np.arange(4) * 2.0,
+                "z": 10.0 + np.arange(5) * 3.0,
+                "y": 20.0 + np.arange(6) * 4.0,
+                "x": 30.0 + np.arange(3) * 5.0,
+            },
+        )
         image = itk.image_from_xarray(data_array)
         assert np.allclose(arr, itk.array_view_from_image(image))
         assert np.allclose(arr.shape, itk.array_view_from_image(image).shape)
+        # Origin and spacing must map to the (x, y, z, t) index order,
+        # not be scrambled across axes.
+        assert np.allclose(image.GetSpacing(), (5.0, 4.0, 3.0, 2.0))
+        assert np.allclose(image.GetOrigin(), (30.0, 20.0, 10.0, 100.0))
 
 except ImportError:
     print("xarray not imported. Skipping xarray conversion tests")
