@@ -215,11 +215,12 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   constexpr unsigned int maximumDimensions = 4;
   float                  fov[maximumDimensions]{};
   unsigned int           dims[maximumDimensions]{};
+  const auto             hasKey = [&text](const char * key) { return text.rfind(key, 0) == 0; };
   while ((static_cast<void>(file.getline(line, 255)), file.gcount() > 0))
   {
     text = line;
 
-    if (text.find("numDim") < text.length())
+    if (hasKey("numDim:"))
     {
       unsigned int dim = 0;
       if (sscanf(line, "%*s %u", &dim) != 1 || dim < 1 || dim > maximumDimensions)
@@ -228,7 +229,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       }
       this->SetNumberOfDimensions(dim);
     }
-    else if (text.find("dim") < text.length())
+    else if (hasKey("dim:"))
     {
       // extract dimensions, spacing, origin
       if (sscanf(line, "%*s %u %u %u %u", dims, dims + 1, dims + 2, dims + 3) < static_cast<int>(m_NumberOfDimensions))
@@ -249,7 +250,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
         m_Dimensions[i] = dims[i];
       }
     }
-    else if (text.find("origin") < text.length())
+    else if (hasKey("origin:"))
     {
       // origin
       // Position of the center of the first voxel. One value for each dimension.
@@ -273,12 +274,12 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       }
       origin_specified = true;
     }
-    else if (text.find("extent") < text.length())
+    else if (hasKey("extent:"))
     {
       // not documented
       itkDebugMacro("Extent was specified");
     }
-    else if (text.find("fov") < text.length())
+    else if (hasKey("fov:"))
     {
       // fov
       // Field of view: The distance between the outside edges of the first and
@@ -298,7 +299,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       }
       fov_specified = true;
     }
-    else if (text.find("interval") < text.length())
+    else if (hasKey("interval:"))
     {
       // interval
       // The center to center distance between adjacent voxels along each
@@ -322,7 +323,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       }
       spacing_specified = true;
     }
-    else if (text.find("dataType") < text.length())
+    else if (hasKey("dataType:"))
     {
       char pixelType[256];
       sscanf(line, "%*s %255s", pixelType);
@@ -354,7 +355,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
         itkExceptionStringMacro("Unrecognized type");
       }
     } // found scalars
-    else if (text.find("displayRange") < text.length())
+    else if (hasKey("displayRange:"))
     {
       // displayRange:
       // Two values giving the low_value and high_value. Voxel values below the
@@ -374,7 +375,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       m_DisplayRange[0] = range[0];
       m_DisplayRange[1] = range[1];
     }
-    else if (text.find("fidName") < text.length())
+    else if (hasKey("fidName:"))
     {
       // Not well documented
       // This is a bit tricky to get the value as there is sometime no white
@@ -384,7 +385,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       sscanf(++pch, "%255s", m_FidName); // delete any white space left
       itkDebugMacro("fidName was specified");
     }
-    else if (text.find("sdtOrient") < text.length())
+    else if (hasKey("sdtOrient:"))
     {
       // Not used now, but later when  ITK Dictionary will be ready
       // don't know for now the format in which to save this.
@@ -395,12 +396,12 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       sscanf(++pch, "%255s", m_SdtOrient); // delete any white space left
       itkDebugMacro("Orientation was specified");
     }
-    else if (text.find("dsplyThres") < text.length())
+    else if (hasKey("dsplyThres:"))
     {
       // not documented
       itkDebugMacro("Display threshold was specified");
     }
-    else if (text.find("endian") < text.length())
+    else if (hasKey("endian:"))
     {
       // BigEndian ieee-be / LittleEndian: ieee-le
       if (text.find("ieee-le") < text.length())
@@ -408,17 +409,17 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
         itkExceptionStringMacro("Little Endian Stimulate files are not handled.");
       }
     }
-    else if (text.find("mapParmFileName") < text.length())
+    else if (hasKey("mapParmFileName:"))
     {
       // not documented
       itkDebugMacro("mapParmFileName was specified");
     }
-    else if (text.find("mapTypeName") < text.length())
+    else if (hasKey("mapTypeName:"))
     {
       // not documented
       itkDebugMacro("mapTypeName was specified");
     }
-    else if (text.find("stimFileName:") < text.length())
+    else if (hasKey("stimFileName:"))
     {
       // file data name is explicitly specified
       std::string datafilename;
@@ -443,12 +444,12 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
         m_DataFileName = datafilename;
       }
     }
-    else if (text.find("mapConf") < text.length())
+    else if (hasKey("mapConf:"))
     {
       // not documented
       itkDebugMacro("mapConf was specified");
     }
-    else if (text.find("periodStr") < text.length())
+    else if (hasKey("periodStr:"))
     {
       // not documented
       itkDebugMacro("periodStr was specified");

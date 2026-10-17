@@ -25,9 +25,7 @@
 namespace
 {
 bool
-ExpectInvalidHeader(const std::string & fileName,
-                    const std::string & header,
-                    const std::string & expectedDescription = "")
+ExpectInvalidHeader(const std::string & fileName, const std::string & header, const std::string & expectedDescription)
 {
   std::ofstream file(fileName);
   if (!file)
@@ -78,10 +76,17 @@ itkStimulateImageIOInvalidHeaderTest(int argc, char * argv[])
   const std::string shortIntervalHeader = outputDirectory + "/stimulate-short-interval.spr";
   const std::string zeroDimensionHeader = outputDirectory + "/stimulate-zero-dim.spr";
 
-  if (!ExpectInvalidHeader(oversizedHeader, "numDim: 9\ndim: 4 4 2 2\ndataType: WORD\n") ||
-      !ExpectInvalidHeader(hugeHeader, "numDim: 4294967295\ndataType: WORD\n") ||
-      !ExpectInvalidHeader(malformedHeader, "numDim: malformed\ndim: 4 4\ndataType: WORD\n") ||
-      !ExpectInvalidHeader(missingDimensionsHeader, "numDim: 2\nfov: 1 1\ndataType: WORD\n") ||
+  if (!ExpectInvalidHeader(oversizedHeader,
+                           "numDim: 9\ndim: 4 4 2 2\ndataType: WORD\n",
+                           "Stimulate numDim must be between 1 and 4, got: numDim: 9") ||
+      !ExpectInvalidHeader(hugeHeader,
+                           "numDim: 4294967295\ndataType: WORD\n",
+                           "Stimulate numDim must be between 1 and 4, got: numDim: 4294967295") ||
+      !ExpectInvalidHeader(malformedHeader,
+                           "numDim: malformed\ndim: 4 4\ndataType: WORD\n",
+                           "Stimulate numDim must be between 1 and 4, got: numDim: malformed") ||
+      !ExpectInvalidHeader(
+        missingDimensionsHeader, "numDim: 2\nfov: 1 1\ndataType: WORD\n", "Stimulate fov requires a dim field") ||
       !ExpectInvalidHeader(shortDimensionsHeader,
                            "numDim: 2\ndim: 4\ndataType: WORD\n",
                            "Stimulate dim must specify one value for each dimension, got: dim: 4") ||

@@ -8,6 +8,8 @@ set(
 
 createtestdriver(ITKIOStimulate "${ITKIOStimulate-Test_LIBRARIES}" "${ITKIOStimulateTests}")
 
+creategoogletestdriver(ITKIOStimulate "${ITKIOStimulate-Test_LIBRARIES}" itkStimulateImageIOGTest.cxx)
+
 itk_add_test(
   NAME itkStimulateImageIOTest
   COMMAND
