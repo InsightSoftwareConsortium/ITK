@@ -2,7 +2,6 @@ itk_module_test()
 set(
   ITKThresholdingTests
   itkBinaryThresholdImageFilterTest2.cxx
-  itkBinaryThresholdImageFilterTest.cxx
   itkBinaryThresholdProjectionImageFilterTest.cxx
   itkBinaryThresholdSpatialFunctionTest.cxx
   itkHuangThresholdImageFilterTest.cxx
@@ -73,12 +72,6 @@ itk_add_test(
   COMMAND
     ITKThresholdingTestDriver
     itkThresholdLabelerImageFilterTest
-)
-itk_add_test(
-  NAME itkBinaryThresholdImageFilterTest
-  COMMAND
-    ITKThresholdingTestDriver
-    itkBinaryThresholdImageFilterTest
 )
 itk_add_test(
   NAME itkThresholdImageFilterTest
