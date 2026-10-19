@@ -78,13 +78,8 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 #  define DB(x)
 #endif
 
-// #define GE_PROD_STR "SIEMENS"
 #define TEMPLEN 2048
-  auto * hdr = new GEImageHeader;
-  if (hdr == nullptr)
-  {
-    RAISE_EXCEPTION();
-  }
+  auto * hdr = new GEImageHeader; // throws std::bad_alloc on failure, never returns nullptr
 #if defined(DEBUGHEADER)
   std::cerr << "----------------------" << FileNameToRead << "----------------------" << std::endl;
 #endif
@@ -103,7 +98,6 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   this->GetStringAt(f, HDR_PAT_ID, hdr->patientId, HDR_PAT_ID_LEN);
   hdr->patientId[HDR_PAT_ID_LEN] = '\0';
   DB(hdr->patientId);
-  // fprintf(stderr, "Patient %s\n", hdr->patientId);a
 
   this->GetStringAt(f, HDR_PAT_NAME, hdr->name, HDR_PAT_NAME_LEN);
   hdr->name[HDR_PAT_NAME_LEN] = '\0';
@@ -215,21 +209,16 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
     if (text_angle_len.empty() ||
         itk::Math::Absolute(itk::StringToDouble(text_angle_len, "Siemens Vision header TEXT_ANGLE")) <= 45.0)
     {
-      // hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RSP);
     }
     else
     {
       if (strcmp(tmpStr2, "Sag") == 0)
       {
-        // hdr->imagePlane =
-        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
         hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::AIR);
       }
       else
       {
-        // hdr->imagePlane =
-        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
         hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RAI);
       }
     }
@@ -239,22 +228,16 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
     if (text_angle_len.empty() ||
         itk::Math::Absolute(itk::StringToDouble(text_angle_len, "Siemens Vision header TEXT_ANGLE")) <= 45.0)
     {
-      // hdr->imagePlane =
-      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
       hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::AIR);
     }
     else
     {
       if (strcmp(tmpStr2, "Cor") == 0)
       {
-        // hdr->imagePlane =
-        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
         hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RSP);
       }
       else
       {
-        // hdr->imagePlane =
-        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
         hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RAI);
       }
     }
@@ -264,34 +247,26 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
     if (text_angle_len.empty() ||
         itk::Math::Absolute(itk::StringToDouble(text_angle_len, "Siemens Vision header TEXT_ANGLE")) <= 45.0)
     {
-      // hdr->imagePlane =
-      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
       hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RAI);
     }
     else
     {
       if (strcmp(tmpStr2, "Cor") == 0)
       {
-        // hdr->imagePlane =
-        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
         hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RSP);
       }
       else
       {
-        // hdr->imagePlane =
-        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
         hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::AIR);
       }
     }
   }
 
-  /* fprintf(stderr, "Plane %d\n", hdr->imagePlane); */
   this->GetStringAt(f, TEXT_SLICE_POS, tmpStr, TEXT_SLICE_POS_LEN);
   tmpStr[TEXT_SLICE_POS_LEN] = '\0';
   hdr->sliceLocation = static_cast<float>(itk::StringToDouble(tmpStr, "Siemens Vision header TEXT_SLICE_POS"));
   DB(hdr->sliceLocation);
 
-  /* fprintf(stderr, "Slice Location %f\n", hdr->sliceLocation); */
   this->GetDoubleAt(f, HDR_TR, &tmpDble, sizeof(double));
   hdr->TR = static_cast<float>(tmpDble) / 1000.0f;
   DB(hdr->TR);
