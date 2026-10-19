@@ -282,6 +282,7 @@ class ITKClass:
                 and self.is_abstract == other.is_abstract
                 and self.class_name == other.class_name
                 and self.is_enum == other.is_enum
+                and self.has_superclass == other.has_superclass
                 and self.enums == other.enums
                 and self.submodule_name == other.submodule_name
             )
