@@ -336,7 +336,7 @@ def wasm_type_from_image_type(itkimage):  # noqa: C901
     elif component in [i[1] for i in itk.SymmetricSecondRankTensor.items()]:
         # SymmetricSecondRankTensor
         componentType = python_to_js(itk.template(component)[1][0])
-        pixelType = "SymmetrySecondRankTensor"
+        pixelType = "SymmetricSecondRankTensor"
     else:
         raise RuntimeError(f"Unrecognized component type: {str(component)}")
 
