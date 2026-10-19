@@ -18,14 +18,12 @@
 
 #include "itkRandomImageSource.h"
 #include "itkBinaryThresholdImageFilter.h"
+#include "itkGTest.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
-#include "itkMath.h"
-#include "itkTestingMacros.h"
 
 
-int
-itkBinaryThresholdImageFilterTest(int, char *[])
+TEST(BinaryThresholdImageFilter, ConvertedLegacyTest)
 {
   // Define the dimension of the images
   constexpr unsigned int Dimension{ 3 };
@@ -57,7 +55,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
   auto filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryThresholdImageFilter, UnaryFunctorImageFilter);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryThresholdImageFilter, UnaryFunctorImageFilter);
 
   // Set up ivars
   constexpr InputPixelType lower{ 64 };
@@ -71,70 +69,32 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   // Lower threshold
   const FilterType::InputPixelObjectType::Pointer lowerThreshold1 = filter->GetLowerThresholdInput();
 
-  if (lowerThreshold1->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetLowerThresholdInput():" << std::endl;
-    std::cerr << "Expected: "
-              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
-                   itk::NumericTraits<InputPixelType>::NonpositiveMin())
-              << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(lowerThreshold1->Get())
-              << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(lowerThreshold1->Get(), itk::NumericTraits<InputPixelType>::NonpositiveMin())
+    << "GetLowerThresholdInput() default";
 
   const FilterType::InputPixelObjectType::Pointer lowerThreshold2 = FilterType::InputPixelObjectType::New();
   filter->SetLowerThresholdInput(lowerThreshold2);
 
-  if (lowerThreshold2->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetLowerThresholdInput():" << std::endl;
-    std::cerr << "Expected: "
-              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
-                   itk::NumericTraits<InputPixelType>::NonpositiveMin())
-              << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(lowerThreshold2->Get())
-              << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(lowerThreshold2->Get(), itk::NumericTraits<InputPixelType>::NonpositiveMin()) << "GetLowerThresholdInput()";
 
   // Upper threshold
   const FilterType::InputPixelObjectType::Pointer upperThreshold1 = filter->GetUpperThresholdInput();
 
-  if (upperThreshold1->Get() != itk::NumericTraits<InputPixelType>::max())
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetUpperThresholdInput():" << std::endl;
-    std::cerr << "Expected: "
-              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(itk::NumericTraits<InputPixelType>::max())
-              << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(upperThreshold1->Get())
-              << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(upperThreshold1->Get(), itk::NumericTraits<InputPixelType>::max()) << "GetUpperThresholdInput() default";
 
   const FilterType::InputPixelObjectType::Pointer upperThreshold2 = FilterType::InputPixelObjectType::New();
   filter->SetUpperThresholdInput(upperThreshold2);
 
-  if (upperThreshold2->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetUpperThresholdInput():" << std::endl;
-    std::cerr << "Expected: "
-              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
-                   itk::NumericTraits<InputPixelType>::NonpositiveMin())
-              << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(upperThreshold2->Get())
-              << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(upperThreshold2->Get(), itk::NumericTraits<InputPixelType>::NonpositiveMin()) << "GetUpperThresholdInput()";
 
   // Exercise the const variants
   const FilterType::ConstPointer constFilter = (const FilterType *)(filter.GetPointer());
 
   const FilterType::InputPixelObjectType * lowerThresholdInput = constFilter->GetLowerThresholdInput();
-  ITK_TEST_SET_GET_VALUE(lowerThresholdInput->Get(), lowerThreshold2->Get());
+  EXPECT_EQ(lowerThresholdInput->Get(), lowerThreshold2->Get());
 
   const FilterType::InputPixelObjectType * upperThresholdInput = constFilter->GetUpperThresholdInput();
-  ITK_TEST_SET_GET_VALUE(upperThresholdInput->Get(), upperThreshold2->Get());
+  EXPECT_EQ(upperThresholdInput->Get(), upperThreshold2->Get());
 
 
   // Deliberately cause an exception by setting lower threshold to be
@@ -142,22 +102,22 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   filter->SetLowerThreshold(upper);
   filter->SetUpperThreshold(lower);
 
-  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
 
 
   filter->SetLowerThreshold(lower);
-  ITK_TEST_SET_GET_VALUE(lower, filter->GetLowerThreshold());
+  EXPECT_EQ(lower, filter->GetLowerThreshold());
 
   filter->SetUpperThreshold(upper);
-  ITK_TEST_SET_GET_VALUE(upper, filter->GetUpperThreshold());
+  EXPECT_EQ(upper, filter->GetUpperThreshold());
 
   constexpr OutputPixelType inside{ -0.5 };
   filter->SetInsideValue(inside);
-  ITK_TEST_SET_GET_VALUE(inside, filter->GetInsideValue());
+  EXPECT_EQ(inside, filter->GetInsideValue());
 
   constexpr OutputPixelType outside{ 0.5 };
   filter->SetOutsideValue(outside);
-  ITK_TEST_SET_GET_VALUE(outside, filter->GetOutsideValue());
+  EXPECT_EQ(outside, filter->GetOutsideValue());
 
 
   filter->SetFunctor(filter->GetFunctor());
@@ -165,7 +125,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   filter->SetInput(source->GetOutput());
 
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  ASSERT_NO_THROW(filter->Update());
 
   // Get the filter output
   const OutputImageType::Pointer outputImage = filter->GetOutput();
@@ -184,33 +144,21 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
     if (lower <= input && input <= upper)
     {
-      if (itk::Math::NotExactlyEquals(output, inside))
-      {
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error checking the inside value:" << std::endl;
-        std::cout << "Lower threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(lower)
-                  << ", upper threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper)
-                  << std::endl;
-        std::cerr << "Expected: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(inside)
-                  << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(output) << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_EQ(output, inside) << "Error checking the inside value:" << std::endl
+                                << "Lower threshold: "
+                                << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(lower)
+                                << ", upper threshold: "
+                                << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper);
     }
-    else if (itk::Math::NotExactlyEquals(output, outside))
+    else
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error checking the outside value:" << std::endl;
-      std::cout << "Lower threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(lower)
-                << ", upper threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper)
-                << std::endl;
-      std::cerr << "Expected: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(outside)
-                << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(output) << std::endl;
-      return EXIT_FAILURE;
+      EXPECT_EQ(output, outside) << "Error checking the outside value:" << std::endl
+                                 << "Lower threshold: "
+                                 << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(lower)
+                                 << ", upper threshold: "
+                                 << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper);
     }
     ++ot;
     ++it;
   }
-
-  std::cout << "Test finished" << std::endl;
-  return EXIT_SUCCESS;
 }

@@ -1148,6 +1148,7 @@ itk_add_test(
 
 set(
   ITKThresholdingGTests
+  itkBinaryThresholdImageFilterGTest.cxx
   itkMaximumEntropyThresholdCalculatorGTest.cxx
   itkRenyiEntropyThresholdCalculatorGTest.cxx
 )
