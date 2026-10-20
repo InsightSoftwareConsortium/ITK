@@ -26,7 +26,9 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <cstring>
 #include <fstream>
+#include <type_traits>
 #include <vector>
 #include <string>
 
@@ -604,4 +606,625 @@ TEST(TIFFImageIOGTest, ReadImageInformationSucceedsAndReadThrowsForUnregisteredC
   {
     EXPECT_NE(std::string(e.GetDescription()).find(std::to_string(unregisteredCompression)), std::string::npos);
   }
+}
+
+namespace
+{
+
+struct TiledSpec
+{
+  uint32_t          width{ 64 };
+  uint32_t          height{ 48 };
+  uint32_t          tileWidth{ 16 };
+  uint32_t          tileHeight{ 16 };
+  uint16_t          samplesPerPixel{ 1 };
+  uint16_t          photometric{ PHOTOMETRIC_MINISBLACK };
+  uint16_t          compression{ COMPRESSION_NONE };
+  uint16_t          orientation{ ORIENTATION_TOPLEFT };
+  uint16_t          planarConfig{ PLANARCONFIG_CONTIG };
+  uint32_t          pages{ 1 };
+  std::vector<bool> stripPages{}; // pages written as strips instead of tiles
+};
+
+// Deterministic, position-dependent sample value that fits every tested sample type.
+template <typename T>
+T
+TiledPixel(uint32_t x, uint32_t y, uint32_t c, uint32_t page)
+{
+  const int64_t v = (x * 7u + y * 13u + c * 31u + page * 57u) % 251u;
+  if constexpr (std::is_floating_point_v<T>)
+  {
+    return static_cast<T>(v) * static_cast<T>(0.5);
+  }
+  else
+  {
+    constexpr int64_t scale = sizeof(T) == 1 ? 1 : (sizeof(T) == 2 ? 100 : 1000000);
+    if constexpr (std::is_signed_v<T>)
+    {
+      return static_cast<T>(v * scale - 125 * scale);
+    }
+    else
+    {
+      return static_cast<T>(v * scale);
+    }
+  }
+}
+
+template <typename T>
+bool
+WriteTiledImage(const std::string & fileName, const TiledSpec & s)
+{
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  if (tif == nullptr)
+  {
+    return false;
+  }
+
+  uint16_t sampleFormat = SAMPLEFORMAT_UINT;
+  if constexpr (std::is_floating_point_v<T>)
+  {
+    sampleFormat = SAMPLEFORMAT_IEEEFP;
+  }
+  else if constexpr (std::is_signed_v<T>)
+  {
+    sampleFormat = SAMPLEFORMAT_INT;
+  }
+  const uint16_t colorSamples = s.photometric == PHOTOMETRIC_RGB ? 3 : 1;
+
+  bool ok = true;
+  for (uint32_t page = 0; page < s.pages; ++page)
+  {
+    const bool strips = page < s.stripPages.size() && s.stripPages[page];
+
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, s.width);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, s.height);
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, static_cast<uint16_t>(sizeof(T) * 8));
+    TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, sampleFormat);
+    TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, s.samplesPerPixel);
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, s.planarConfig);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, s.photometric);
+    TIFFSetField(tif, TIFFTAG_COMPRESSION, s.compression);
+    TIFFSetField(tif, TIFFTAG_ORIENTATION, s.orientation);
+    if (s.samplesPerPixel > colorSamples && s.photometric != PHOTOMETRIC_PALETTE)
+    {
+      const std::vector<uint16_t> extraSamples(s.samplesPerPixel - colorSamples, EXTRASAMPLE_UNSPECIFIED);
+      TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, static_cast<uint16_t>(extraSamples.size()), extraSamples.data());
+    }
+    if (s.photometric == PHOTOMETRIC_PALETTE)
+    {
+      const size_t          paletteSize = size_t{ 1 } << (sizeof(T) * 8);
+      std::vector<uint16_t> red(paletteSize);
+      std::vector<uint16_t> green(paletteSize);
+      std::vector<uint16_t> blue(paletteSize);
+      for (size_t i = 0; i < paletteSize; ++i)
+      {
+        red[i] = static_cast<uint16_t>(i);
+        green[i] = static_cast<uint16_t>(paletteSize - 1 - i);
+        blue[i] = static_cast<uint16_t>((i * 3) & (paletteSize - 1));
+      }
+      TIFFSetField(tif, TIFFTAG_COLORMAP, red.data(), green.data(), blue.data());
+    }
+
+    if (strips)
+    {
+      TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, s.height);
+      std::vector<T> row(static_cast<size_t>(s.width) * s.samplesPerPixel);
+      for (uint32_t y = 0; y < s.height; ++y)
+      {
+        for (uint32_t x = 0; x < s.width; ++x)
+        {
+          for (uint32_t c = 0; c < s.samplesPerPixel; ++c)
+          {
+            row[x * s.samplesPerPixel + c] = TiledPixel<T>(x, y, c, page);
+          }
+        }
+        ok = ok && TIFFWriteScanline(tif, row.data(), y, 0) >= 0;
+      }
+    }
+    else
+    {
+      TIFFSetField(tif, TIFFTAG_TILEWIDTH, s.tileWidth);
+      TIFFSetField(tif, TIFFTAG_TILELENGTH, s.tileHeight);
+      const uint32_t planes = s.planarConfig == PLANARCONFIG_SEPARATE ? s.samplesPerPixel : 1;
+      const uint32_t samplesPerTilePixel = planes > 1 ? 1 : s.samplesPerPixel;
+      for (uint32_t tileY = 0; tileY < s.height; tileY += s.tileHeight)
+      {
+        for (uint32_t tileX = 0; tileX < s.width; tileX += s.tileWidth)
+        {
+          for (uint32_t plane = 0; plane < planes; ++plane)
+          {
+            // Tiles are always stored full size; the part outside the image stays zero.
+            std::vector<T> tile(static_cast<size_t>(s.tileWidth) * s.tileHeight * samplesPerTilePixel, T{});
+            for (uint32_t ly = 0; ly < s.tileHeight && tileY + ly < s.height; ++ly)
+            {
+              for (uint32_t lx = 0; lx < s.tileWidth && tileX + lx < s.width; ++lx)
+              {
+                for (uint32_t k = 0; k < samplesPerTilePixel; ++k)
+                {
+                  tile[(static_cast<size_t>(ly) * s.tileWidth + lx) * samplesPerTilePixel + k] =
+                    TiledPixel<T>(tileX + lx, tileY + ly, planes > 1 ? plane : k, page);
+                }
+              }
+            }
+            ok = ok && TIFFWriteTile(tif, tile.data(), tileX, tileY, 0, static_cast<uint16_t>(plane)) >= 0;
+          }
+        }
+      }
+    }
+    ok = ok && TIFFWriteDirectory(tif) != 0;
+  }
+  TIFFClose(tif);
+  return ok;
+}
+
+void
+SetFullIORegion(itk::TIFFImageIO * io)
+{
+  const unsigned int dimension = io->GetNumberOfDimensions();
+  itk::ImageIORegion ioRegion(dimension);
+  for (unsigned int d = 0; d < dimension; ++d)
+  {
+    ioRegion.SetIndex(d, 0);
+    ioRegion.SetSize(d, io->GetDimensions(d));
+  }
+  io->SetIORegion(ioRegion);
+}
+
+// Writes a tiled TIFF, reads it back through the native (non-RGBA) path, and checks every sample.
+template <typename T>
+void
+VerifyTiledRead(const std::string & name, const TiledSpec & s, itk::IOComponentEnum expectedComponentType)
+{
+  const std::string fileName = TIFFImageIOGTestOutputPath(name);
+  ASSERT_TRUE(WriteTiledImage<T>(fileName, s));
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  // The RGBA fallback would report 4 uchar components, so this also proves the native path was taken.
+  ASSERT_EQ(tiffImageIO->GetComponentType(), expectedComponentType);
+  ASSERT_EQ(tiffImageIO->GetNumberOfComponents(), s.samplesPerPixel);
+  ASSERT_EQ(tiffImageIO->GetDimensions(0), s.width);
+  ASSERT_EQ(tiffImageIO->GetDimensions(1), s.height);
+  if (s.pages > 1)
+  {
+    ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
+    ASSERT_EQ(tiffImageIO->GetDimensions(2), s.pages);
+  }
+  SetFullIORegion(tiffImageIO);
+
+  std::vector<T> buffer(static_cast<size_t>(s.width) * s.height * s.pages * s.samplesPerPixel);
+  std::memset(buffer.data(), 0x5A, buffer.size() * sizeof(T));
+  ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+  size_t mismatches = 0;
+  size_t firstMismatch = 0;
+  size_t idx = 0;
+  for (uint32_t page = 0; page < s.pages; ++page)
+  {
+    for (uint32_t row = 0; row < s.height; ++row)
+    {
+      const uint32_t storedRow = s.orientation == ORIENTATION_BOTLEFT ? s.height - 1 - row : row;
+      for (uint32_t x = 0; x < s.width; ++x)
+      {
+        for (uint32_t c = 0; c < s.samplesPerPixel; ++c, ++idx)
+        {
+          T expected = TiledPixel<T>(x, storedRow, c, page);
+          if constexpr (std::is_integral_v<T>)
+          {
+            if (s.photometric == PHOTOMETRIC_MINISWHITE)
+            {
+              expected = static_cast<T>(~expected);
+            }
+          }
+          if (buffer[idx] != expected)
+          {
+            if (mismatches++ == 0)
+            {
+              firstMismatch = idx;
+            }
+          }
+        }
+      }
+    }
+  }
+  EXPECT_EQ(mismatches, 0u) << "first mismatch at sample index " << firstMismatch;
+}
+
+} // namespace
+
+TEST(TIFFImageIOGTest, ReadTiledGray8TileGridMatchesImage)
+{
+  TiledSpec s;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8Aligned.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledGray8PartialEdgeTiles)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8Edge.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledGray8PartialEdgeTilesInXOnly)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 32;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8EdgeX.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledGray8PartialEdgeTilesInYOnly)
+{
+  TiledSpec s;
+  s.width = 48;
+  s.height = 37;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8EdgeY.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledGray8TileLargerThanImage)
+{
+  TiledSpec s;
+  s.width = 20;
+  s.height = 10;
+  s.tileWidth = 64;
+  s.tileHeight = 32;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8Large.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledGray8NonSquareTiles)
+{
+  TiledSpec s;
+  s.width = 70;
+  s.height = 40;
+  s.tileWidth = 32;
+  s.tileHeight = 16;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8NonSquare.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledSignedChar)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  VerifyTiledRead<int8_t>("itkTIFFImageIOGTest_TiledInt8.tif", s, itk::IOComponentEnum::CHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledUnsignedShort)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledUInt16.tif", s, itk::IOComponentEnum::USHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledShort)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  VerifyTiledRead<int16_t>("itkTIFFImageIOGTest_TiledInt16.tif", s, itk::IOComponentEnum::SHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledUnsignedInt)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  VerifyTiledRead<uint32_t>("itkTIFFImageIOGTest_TiledUInt32.tif", s, itk::IOComponentEnum::UINT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledInt)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  VerifyTiledRead<int32_t>("itkTIFFImageIOGTest_TiledInt32.tif", s, itk::IOComponentEnum::INT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledFloat)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  VerifyTiledRead<float>("itkTIFFImageIOGTest_TiledFloat.tif", s, itk::IOComponentEnum::FLOAT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledRGB8)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.samplesPerPixel = 3;
+  s.photometric = PHOTOMETRIC_RGB;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledRGB8.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledRGB16)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.samplesPerPixel = 3;
+  s.photometric = PHOTOMETRIC_RGB;
+  VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledRGB16.tif", s, itk::IOComponentEnum::USHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledGrayWithExtraSample)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.samplesPerPixel = 2;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGrayAlpha.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledMinIsWhiteIsInverted)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.photometric = PHOTOMETRIC_MINISWHITE;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledMinIsWhite8.tif", s, itk::IOComponentEnum::UCHAR);
+  VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledMinIsWhite16.tif", s, itk::IOComponentEnum::USHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledBottomLeftOrientation)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.orientation = ORIENTATION_BOTLEFT;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledBotLeft.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledCompressed)
+{
+  for (const uint16_t compression : { COMPRESSION_LZW, COMPRESSION_PACKBITS, COMPRESSION_ADOBE_DEFLATE })
+  {
+    TiledSpec s;
+    s.width = 50;
+    s.height = 37;
+    s.compression = compression;
+    VerifyTiledRead<uint16_t>(
+      "itkTIFFImageIOGTest_TiledCompressed" + std::to_string(compression) + ".tif", s, itk::IOComponentEnum::USHORT);
+  }
+}
+
+TEST(TIFFImageIOGTest, ReadTiledMultiPageVolume)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.pages = 3;
+  VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledVolume.tif", s, itk::IOComponentEnum::USHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadMixedTiledAndStrippedPagesVolume)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.pages = 3;
+  s.stripPages = { false, true, false };
+  VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_MixedTiledStripVolume.tif", s, itk::IOComponentEnum::USHORT);
+}
+
+namespace
+{
+// Palette image whose colormap is red=i, green=max-i, blue=3i mod (max+1), read expanded and as scalar indices.
+template <typename T>
+void
+VerifyTiledPalette(const std::string & name, itk::IOComponentEnum expectedComponentType)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.photometric = PHOTOMETRIC_PALETTE;
+  const std::string fileName = TIFFImageIOGTestOutputPath(name);
+  ASSERT_TRUE(WriteTiledImage<T>(fileName, s));
+  constexpr size_t paletteMask = (size_t{ 1 } << (sizeof(T) * 8)) - 1;
+
+  for (const bool expand : { true, false })
+  {
+    auto tiffImageIO = itk::TIFFImageIO::New();
+    tiffImageIO->SetFileName(fileName);
+    tiffImageIO->SetExpandRGBPalette(expand);
+    tiffImageIO->ReadImageInformation();
+    ASSERT_EQ(tiffImageIO->GetComponentType(), expectedComponentType);
+    ASSERT_EQ(tiffImageIO->GetNumberOfComponents(), expand ? 3u : 1u);
+    SetFullIORegion(tiffImageIO);
+
+    std::vector<T> buffer(static_cast<size_t>(s.width) * s.height * (expand ? 3 : 1));
+    ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+    size_t mismatches = 0;
+    size_t idx = 0;
+    for (uint32_t y = 0; y < s.height; ++y)
+    {
+      for (uint32_t x = 0; x < s.width; ++x)
+      {
+        const T index = TiledPixel<T>(x, y, 0, 0);
+        mismatches += buffer[idx++] != index;
+        if (expand)
+        {
+          mismatches += buffer[idx++] != static_cast<T>(paletteMask - index);
+          mismatches += buffer[idx++] != static_cast<T>((index * 3u) & paletteMask);
+        }
+      }
+    }
+    EXPECT_EQ(mismatches, 0u) << "expandRGBPalette=" << expand;
+  }
+}
+} // namespace
+
+TEST(TIFFImageIOGTest, ReadTiledPalette8)
+{
+  VerifyTiledPalette<unsigned char>("itkTIFFImageIOGTest_TiledPalette8.tif", itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledPalette16)
+{
+  VerifyTiledPalette<uint16_t>("itkTIFFImageIOGTest_TiledPalette16.tif", itk::IOComponentEnum::USHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledMinIsWhiteWideAndSignedTypes)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.photometric = PHOTOMETRIC_MINISWHITE;
+  VerifyTiledRead<uint32_t>("itkTIFFImageIOGTest_TiledMinIsWhite32.tif", s, itk::IOComponentEnum::UINT);
+  VerifyTiledRead<int16_t>("itkTIFFImageIOGTest_TiledMinIsWhiteInt16.tif", s, itk::IOComponentEnum::SHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledPlanarSeparateSingleSample)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.planarConfig = PLANARCONFIG_SEPARATE;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledSeparateOneSample.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledSingleRowAndSingleColumnImages)
+{
+  TiledSpec s;
+  s.width = 1;
+  s.height = 40;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledOneColumn.tif", s, itk::IOComponentEnum::UCHAR);
+  s.width = 40;
+  s.height = 1;
+  VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledOneRow.tif", s, itk::IOComponentEnum::UCHAR);
+}
+
+// A tile that fails to decode must raise an exception, not leave unwritten data in the output.
+TEST(TIFFImageIOGTest, ReadTiledCorruptTileDataThrows)
+{
+  TiledSpec s;
+  s.width = 64;
+  s.height = 64;
+  s.compression = COMPRESSION_LZW;
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_TiledCorrupt.tif");
+  ASSERT_TRUE(WriteTiledImage<unsigned char>(fileName, s));
+
+  // Tile data follows the 8-byte header; an all-ones LZW stream is an invalid code sequence.
+  std::vector<unsigned char> bytes;
+  {
+    std::ifstream in(fileName, std::ios::binary);
+    bytes.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+  }
+  ASSERT_GT(bytes.size(), 72u);
+  std::fill_n(bytes.begin() + 8, 64, static_cast<unsigned char>(0xFF));
+  {
+    std::ofstream out(fileName, std::ios::binary);
+    out.write(reinterpret_cast<const char *>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+  }
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  SetFullIORegion(tiffImageIO);
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(s.width) * s.height);
+  EXPECT_THROW(tiffImageIO->Read(buffer.data()), itk::ExceptionObject);
+}
+
+// Layouts the native reader does not handle must keep using the RGBA fallback.
+TEST(TIFFImageIOGTest, ReadTiledPlanarSeparateRGBUsesRGBAFallback)
+{
+  TiledSpec s;
+  s.width = 50;
+  s.height = 37;
+  s.samplesPerPixel = 3;
+  s.photometric = PHOTOMETRIC_RGB;
+  s.planarConfig = PLANARCONFIG_SEPARATE;
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_TiledPlanarSeparate.tif");
+  ASSERT_TRUE(WriteTiledImage<unsigned char>(fileName, s));
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  ASSERT_EQ(tiffImageIO->GetComponentType(), itk::IOComponentEnum::UCHAR);
+  ASSERT_EQ(tiffImageIO->GetNumberOfComponents(), 4u);
+  SetFullIORegion(tiffImageIO);
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(s.width) * s.height * 4);
+  ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+  size_t mismatches = 0;
+  size_t idx = 0;
+  for (uint32_t y = 0; y < s.height; ++y)
+  {
+    for (uint32_t x = 0; x < s.width; ++x)
+    {
+      for (uint32_t c = 0; c < 3; ++c)
+      {
+        mismatches += buffer[idx++] != TiledPixel<unsigned char>(x, y, c, 0);
+      }
+      mismatches += buffer[idx++] != 255;
+    }
+  }
+  EXPECT_EQ(mismatches, 0u);
+}
+
+TEST(TIFFImageIOGTest, ReadTiledOneBitUsesRGBAFallback)
+{
+  constexpr uint32_t width = 20;
+  constexpr uint32_t height = 20;
+  constexpr uint32_t tileSize = 16;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_TiledOneBit.tif");
+  TIFF *            tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 1);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_TILEWIDTH, tileSize);
+  TIFFSetField(tif, TIFFTAG_TILELENGTH, tileSize);
+  for (uint32_t tileY = 0; tileY < height; tileY += tileSize)
+  {
+    for (uint32_t tileX = 0; tileX < width; tileX += tileSize)
+    {
+      std::vector<unsigned char> tile(tileSize / 8 * tileSize, 0);
+      for (uint32_t ly = 0; ly < tileSize; ++ly)
+      {
+        for (uint32_t lx = 0; lx < tileSize; ++lx)
+        {
+          if (((tileX + lx + tileY + ly) & 1u) != 0)
+          {
+            tile[ly * (tileSize / 8) + lx / 8] |= static_cast<unsigned char>(0x80u >> (lx % 8));
+          }
+        }
+      }
+      ASSERT_GE(TIFFWriteTile(tif, tile.data(), tileX, tileY, 0, 0), 0);
+    }
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  ASSERT_EQ(tiffImageIO->GetNumberOfComponents(), 4u);
+  SetFullIORegion(tiffImageIO);
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(width) * height * 4);
+  ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+  size_t mismatches = 0;
+  for (uint32_t y = 0; y < height; ++y)
+  {
+    for (uint32_t x = 0; x < width; ++x)
+    {
+      const unsigned char gray = ((x + y) & 1u) != 0 ? 255 : 0;
+      const size_t        idx = (static_cast<size_t>(y) * width + x) * 4;
+      mismatches += buffer[idx] != gray || buffer[idx + 1] != gray || buffer[idx + 2] != gray || buffer[idx + 3] != 255;
+    }
+  }
+  EXPECT_EQ(mismatches, 0u);
 }

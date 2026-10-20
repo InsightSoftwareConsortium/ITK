@@ -24,6 +24,7 @@
 
 #include "itk_tiff.h"
 
+#include <algorithm>
 #include <iterator>
 #include <type_traits>
 #include <vector>
@@ -1403,15 +1404,9 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 {
   using ComponentType = TComponent;
 
-#ifdef TIFF_INT64_T // detect if libtiff4
-  uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
-#else
-  tsize_t isize = TIFFScanlineSize(m_InternalImage->m_Image);
-#endif
+  TIFF * const tif = m_InternalImage->m_Image;
 
-  size_t  inc = 0;
-  tdata_t buf = _TIFFmalloc(static_cast<tmsize_t>(isize));
-  isize /= sizeof(ComponentType);
+  size_t inc = 0;
 
   auto * out = static_cast<ComponentType *>(_out);
 
@@ -1454,87 +1449,135 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
       break;
   }
 
+  const bool topLeft = m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT;
+
+  if (TIFFIsTiled(tif))
+  {
+    uint32_t tileWidth = 0;
+    uint32_t tileHeight = 0;
+    if (!TIFFGetField(tif, TIFFTAG_TILEWIDTH, &tileWidth) || !TIFFGetField(tif, TIFFTAG_TILELENGTH, &tileHeight) ||
+        tileWidth == 0 || tileHeight == 0)
+    {
+      itkExceptionMacro("Cannot read tile width and tile length from file");
+    }
+
+    const uint64_t tileSize = TIFFTileSize64(tif);
+    const uint64_t tileRowSize = TIFFTileRowSize64(tif);
+    if (tileSize == 0 || tileRowSize == 0 || tileSize / tileRowSize < tileHeight)
+    {
+      itkExceptionMacro("Invalid TIFF tile size");
+    }
+    const auto tileBuffer = make_unique_for_overwrite<unsigned char[]>(static_cast<size_t>(tileSize));
+
+    // Edge tiles are stored padded to the full tile size; only the in-image part is copied.
+    for (uint64_t tileY = 0; tileY < height; tileY += tileHeight)
+    {
+      const auto rows = static_cast<uint32_t>(std::min<uint64_t>(tileHeight, height - tileY));
+      for (uint64_t tileX = 0; tileX < width; tileX += tileWidth)
+      {
+        if (TIFFReadTile(tif, tileBuffer.get(), static_cast<uint32_t>(tileX), static_cast<uint32_t>(tileY), 0, 0) < 0)
+        {
+          itkExceptionMacro("Problem reading the tile at x=" << tileX << ", y=" << tileY);
+        }
+        const auto columns = static_cast<unsigned int>(std::min<uint64_t>(tileWidth, width - tileX));
+        for (uint32_t r = 0; r < rows; ++r)
+        {
+          const uint64_t row = tileY + r;
+          const uint64_t destRow = topLeft ? row : height - 1 - row;
+          this->PutRow(out + inc * (destRow * width + tileX), tileBuffer.get() + r * tileRowSize, columns);
+        }
+      }
+    }
+    return;
+  }
+
+#ifdef TIFF_INT64_T // detect if libtiff4
+  const uint64_t scanlineSize = TIFFScanlineSize64(tif);
+#else
+  const uint64_t scanlineSize = TIFFScanlineSize(tif);
+#endif
+  if (scanlineSize == 0)
+  {
+    itkExceptionMacro("Invalid TIFF scanline size");
+  }
+  const auto scanline = make_unique_for_overwrite<unsigned char[]>(static_cast<size_t>(scanlineSize));
+
   for (uint32_t row = 0; row < height; ++row)
   {
-    if (TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0)
+    if (TIFFReadScanline(tif, scanline.get(), row, 0) <= 0)
     {
       itkExceptionMacro("Problem reading the row: " << row);
     }
-    ComponentType * image = nullptr;
-    if (m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT)
-    {
-      image = out + inc * row * width;
-    }
-    else // bottom left
-    {
-      image = out + inc * width * (height - (row + 1));
-    }
+    const size_t destRow = topLeft ? row : height - (row + 1);
+    this->PutRow(out + inc * destRow * width, scanline.get(), width);
+  }
+}
 
-    switch (this->GetFormat())
-    {
-      case TIFFImageIO::GRAYSCALE:
-        // check inverted
-        PutGrayscale<ComponentType>(image, static_cast<ComponentType *>(buf), width, 1, 0, 0);
-        break;
-      case TIFFImageIO::RGB_:
-        PutRGB_<ComponentType>(image, static_cast<ComponentType *>(buf), width, 1, 0, 0);
-        break;
+// Converts one decoded row of xsize pixels at `from` into the output row at `to`.
+template <typename TType>
+void
+TIFFImageIO::PutRow(TType * to, void * from, unsigned int xsize)
+{
+  switch (this->GetFormat())
+  {
+    case TIFFImageIO::GRAYSCALE:
+      // check inverted
+      PutGrayscale<TType>(to, static_cast<TType *>(from), xsize, 1, 0, 0);
+      break;
+    case TIFFImageIO::RGB_:
+      PutRGB_<TType>(to, static_cast<TType *>(from), xsize, 1, 0, 0);
+      break;
 
-      case TIFFImageIO::PALETTE_GRAYSCALE:
+    case TIFFImageIO::PALETTE_GRAYSCALE:
+      switch (m_InternalImage->m_BitsPerSample)
+      {
+        case 8:
+          PutPaletteGrayscale<TType, unsigned char>(to, static_cast<unsigned char *>(from), xsize, 1, 0, 0);
+          break;
+        case 16:
+          PutPaletteGrayscale<TType, unsigned short>(to, static_cast<unsigned short *>(from), xsize, 1, 0, 0);
+          break;
+        default:
+          itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
+                                                                << "-bit samples with palette.");
+      }
+      break;
+    case TIFFImageIO::PALETTE_RGB:
+      if (!this->GetIsReadAsScalarPlusPalette())
+      {
         switch (m_InternalImage->m_BitsPerSample)
         {
           case 8:
-            PutPaletteGrayscale<ComponentType, unsigned char>(image, static_cast<unsigned char *>(buf), width, 1, 0, 0);
+            PutPaletteRGB<TType, unsigned char>(to, static_cast<unsigned char *>(from), xsize, 1, 0, 0);
             break;
           case 16:
-            PutPaletteGrayscale<ComponentType, unsigned short>(
-              image, static_cast<unsigned short *>(buf), width, 1, 0, 0);
+            PutPaletteRGB<TType, unsigned short>(to, static_cast<unsigned short *>(from), xsize, 1, 0, 0);
             break;
           default:
             itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
                                                                   << "-bit samples with palette.");
         }
-        break;
-      case TIFFImageIO::PALETTE_RGB:
-        if (!this->GetIsReadAsScalarPlusPalette())
+      }
+      else
+      {
+        switch (m_InternalImage->m_BitsPerSample)
         {
-          switch (m_InternalImage->m_BitsPerSample)
-          {
-            case 8:
-              PutPaletteRGB<ComponentType, unsigned char>(image, static_cast<unsigned char *>(buf), width, 1, 0, 0);
-              break;
-            case 16:
-              PutPaletteRGB<ComponentType, unsigned short>(image, static_cast<unsigned short *>(buf), width, 1, 0, 0);
-              break;
-            default:
-              itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
-                                                                    << "-bit samples with palette.");
-          }
+          case 8:
+            PutPaletteScalar<TType, unsigned char>(to, static_cast<unsigned char *>(from), xsize, 1, 0, 0);
+            break;
+          case 16:
+            PutPaletteScalar<TType, unsigned short>(to, static_cast<unsigned short *>(from), xsize, 1, 0, 0);
+            break;
+          default:
+            itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
+                                                                  << "-bit samples with palette.");
         }
-        else
-        {
-          switch (m_InternalImage->m_BitsPerSample)
-          {
-            case 8:
-              PutPaletteScalar<ComponentType, unsigned char>(image, static_cast<unsigned char *>(buf), width, 1, 0, 0);
-              break;
-            case 16:
-              PutPaletteScalar<ComponentType, unsigned short>(
-                image, static_cast<unsigned short *>(buf), width, 1, 0, 0);
-              break;
-            default:
-              itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
-                                                                    << "-bit samples with palette.");
-          }
-        }
-        break;
+      }
+      break;
 
-      default:
-        itkExceptionStringMacro("Logic Error: Unexpected format!");
-    }
+    default:
+      itkExceptionStringMacro("Logic Error: Unexpected format!");
   }
-
-  _TIFFfree(buf);
 }
 
 // iso component scalar
