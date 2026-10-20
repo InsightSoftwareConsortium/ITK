@@ -685,7 +685,7 @@ WriteTiledImage(const std::string & fileName, const TiledSpec & s)
     TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, s.photometric);
     TIFFSetField(tif, TIFFTAG_COMPRESSION, s.compression);
     TIFFSetField(tif, TIFFTAG_ORIENTATION, s.orientation);
-    if (s.samplesPerPixel > colorSamples && s.photometric != PHOTOMETRIC_PALETTE)
+    if (s.samplesPerPixel > colorSamples)
     {
       const std::vector<uint16_t> extraSamples(s.samplesPerPixel - colorSamples, EXTRASAMPLE_UNSPECIFIED);
       TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, static_cast<uint16_t>(extraSamples.size()), extraSamples.data());
@@ -1014,14 +1014,20 @@ TEST(TIFFImageIOGTest, ReadMixedTiledAndStrippedPagesVolume)
 namespace
 {
 // Palette image whose colormap is red=i, green=max-i, blue=3i mod (max+1), read expanded and as scalar indices.
+// Extra samples after the index are not part of the output.
 template <typename T>
 void
-VerifyTiledPalette(const std::string & name, itk::IOComponentEnum expectedComponentType)
+VerifyPalette(const std::string &       name,
+              itk::IOComponentEnum      expectedComponentType,
+              uint16_t                  samplesPerPixel = 1,
+              const std::vector<bool> & stripPages = {})
 {
   TiledSpec s;
   s.width = 50;
   s.height = 37;
   s.photometric = PHOTOMETRIC_PALETTE;
+  s.samplesPerPixel = samplesPerPixel;
+  s.stripPages = stripPages;
   const std::string fileName = TIFFImageIOGTestOutputPath(name);
   ASSERT_TRUE(WriteTiledImage<T>(fileName, s));
   constexpr size_t paletteMask = (size_t{ 1 } << (sizeof(T) * 8)) - 1;
@@ -1061,12 +1067,20 @@ VerifyTiledPalette(const std::string & name, itk::IOComponentEnum expectedCompon
 
 TEST(TIFFImageIOGTest, ReadTiledPalette8)
 {
-  VerifyTiledPalette<unsigned char>("itkTIFFImageIOGTest_TiledPalette8.tif", itk::IOComponentEnum::UCHAR);
+  VerifyPalette<unsigned char>("itkTIFFImageIOGTest_TiledPalette8.tif", itk::IOComponentEnum::UCHAR);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledPalette16)
 {
-  VerifyTiledPalette<uint16_t>("itkTIFFImageIOGTest_TiledPalette16.tif", itk::IOComponentEnum::USHORT);
+  VerifyPalette<uint16_t>("itkTIFFImageIOGTest_TiledPalette16.tif", itk::IOComponentEnum::USHORT);
+}
+
+TEST(TIFFImageIOGTest, ReadPaletteWithExtraSampleSkipsExtraSample)
+{
+  VerifyPalette<unsigned char>("itkTIFFImageIOGTest_TiledPaletteExtra8.tif", itk::IOComponentEnum::UCHAR, 2);
+  VerifyPalette<uint16_t>("itkTIFFImageIOGTest_TiledPaletteExtra16.tif", itk::IOComponentEnum::USHORT, 2);
+  VerifyPalette<unsigned char>(
+    "itkTIFFImageIOGTest_StrippedPaletteExtra8.tif", itk::IOComponentEnum::UCHAR, 2, { true });
 }
 
 TEST(TIFFImageIOGTest, ReadTiledMinIsWhiteWideAndSignedTypes)

@@ -1671,7 +1671,7 @@ TIFFImageIO::PutPaletteRGB(TType *      to,
       *(to + 1) = green;
       *(to + 2) = blue;
       to += 3;
-      ++from;
+      from += m_InternalImage->m_SamplesPerPixel;
     }
     to += toskew;
     from += fromskew;
@@ -1697,7 +1697,7 @@ TIFFImageIO::PutPaletteGrayscale(TType *      to,
       *(to) = static_cast<TType>(*(m_ColorRed + index));
 
       ++to;
-      ++from;
+      from += m_InternalImage->m_SamplesPerPixel;
     }
     to += toskew;
     from += fromskew;
@@ -1722,7 +1722,7 @@ TIFFImageIO::PutPaletteScalar(TType *      to,
       *(to) = static_cast<TType>(index);
 
       ++to;
-      ++from;
+      from += m_InternalImage->m_SamplesPerPixel;
     }
     to += toskew;
     from += fromskew;
