@@ -66,8 +66,9 @@ namespace itk
 // end namespace itk - this is here for documentation purposes
 }
 
-/** A convenience macro marks variables as not being used by a method,
- * avoiding compile-time warnings. */
+/** A convenience macro that marks function parameter `x` as not being used by its function or member function, avoiding
+ * compile-time warnings. When a parameter is not being used at all, itkNotUsed(x) is preferable to `[[maybe_unused]]`.
+ */
 #define itkNotUsed(x)
 
 // clang-format off
