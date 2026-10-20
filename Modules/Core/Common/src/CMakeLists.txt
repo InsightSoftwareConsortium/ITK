@@ -266,6 +266,14 @@ if(ITK_WRAP_PYTHON)
   if(MSVC)
     target_link_directories(ITKCommon PRIVATE ${Python3_LIBRARY_DIRS})
   endif()
+  if(BUILD_SHARED_LIBS AND NOT APPLE AND NOT WIN32)
+    # Python symbols are resolved by the interpreter, not by executables.
+    target_link_options(
+      ITKCommon
+      INTERFACE
+        "$<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>:LINKER:--allow-shlib-undefined>"
+    )
+  endif()
 endif()
 
 if(ITK_USE_TBB)
