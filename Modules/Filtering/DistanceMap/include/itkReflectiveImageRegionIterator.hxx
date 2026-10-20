@@ -29,7 +29,10 @@ ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator()
 template <typename TImage>
 ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(ImageType * ptr, const RegionType & region)
   : ReflectiveImageRegionConstIterator<TImage>(ptr, region)
-{}
+{
+  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
+  static_cast<void>(ptr->GetBufferPointer());
+}
 
 template <typename TImage>
 ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(const ImageIteratorWithIndex<TImage> & it)
