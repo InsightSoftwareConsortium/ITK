@@ -27,6 +27,7 @@
 
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkDirectionCollapse.h"
 #include <fstream>
 
 namespace itk
@@ -228,24 +229,14 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   }
   if (isReducedDimensionalRead)
   {
-    switch (m_DirectionCollapseStrategy)
+    switch (detail::ResolveDirectionCollapse(direction, m_DirectionCollapseStrategy))
     {
-      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
-        direction.SetIdentity();
+      case detail::DirectionCollapseResult::Success:
         break;
-      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
-        if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
-        {
-          itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
-        }
+      case detail::DirectionCollapseResult::Singular:
+        itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
         break;
-      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
-        if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
-        {
-          direction.SetIdentity();
-        }
-        break;
-      default:
+      case detail::DirectionCollapseResult::InvalidStrategy:
         itkExceptionStringMacro("Invalid strategy chosen for ImageFileReader.");
     }
   }

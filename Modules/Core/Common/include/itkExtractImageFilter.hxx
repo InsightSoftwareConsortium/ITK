@@ -19,7 +19,7 @@
 #define itkExtractImageFilter_hxx
 
 #include "itkImageAlgorithm.h"
-#include "itkBridgeMathDeterminant.h"
+#include "itkDirectionCollapse.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 
@@ -185,31 +185,16 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // or throw an exception, depending on the collapse strategy.
   if constexpr (InputImageDimension != OutputImageDimension)
   {
-    switch (m_DirectionCollapseStrategy)
+    switch (detail::ResolveDirectionCollapse(outputDirection, m_DirectionCollapseStrategy))
     {
-      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+      case detail::DirectionCollapseResult::Success:
+        break;
+      case detail::DirectionCollapseResult::Singular:
       {
-        outputDirection.SetIdentity();
+        itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
       }
       break;
-      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
-      {
-        if (bridge::Math::Determinant(outputDirection.GetVnlMatrix()) == 0.0)
-        {
-          itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
-        }
-      }
-      break;
-      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
-      {
-        if (bridge::Math::Determinant(outputDirection.GetVnlMatrix()) == 0.0)
-        {
-          outputDirection.SetIdentity();
-        }
-      }
-      break;
-      case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
-      default:
+      case detail::DirectionCollapseResult::InvalidStrategy:
       {
         itkExceptionMacro(
           << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
