@@ -984,6 +984,7 @@ set(
   itkMixtureModelComponentBaseGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx
   itkRandomVariateGeneratorBaseGTest.cxx
+  itkSampleToHistogramFilterExceptionsGTest.cxx
   itkStatisticsTypesGTest.cxx
   itkTDistributionGTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerGTest.cxx

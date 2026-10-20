@@ -1427,6 +1427,7 @@ set(
   itkByteSwapGTest.cxx
   itkBridgeCholeskySolveGTest.cxx
   itkCommandObserverObjectGTest.cxx
+  itkCommonExceptionsGTest.cxx
   itkCommonTypeTraitsGTest.cxx
   itkCompensatedSummationGTest.cxx
   itkConicShellInteriorExteriorSpatialFunctionGTest.cxx
