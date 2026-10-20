@@ -136,8 +136,8 @@ public:
    * pixel values in the outputRequestedRegion.
    */
   [[nodiscard]] virtual RegionType
-  GetInputRequestedRegion(const RegionType &                  inputLargestPossibleRegion,
-                          [[maybe_unused]] const RegionType & itkNotUsed(outputRequestedRegion)) const
+  GetInputRequestedRegion(const RegionType & inputLargestPossibleRegion,
+                          const RegionType & itkNotUsed(outputRequestedRegion)) const
   {
     return inputLargestPossibleRegion;
   }
