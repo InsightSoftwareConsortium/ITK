@@ -25,7 +25,10 @@ template <typename TImage>
 ImageRandomNonRepeatingIteratorWithIndex<TImage>::ImageRandomNonRepeatingIteratorWithIndex(TImage *           ptr,
                                                                                            const RegionType & region)
   : ImageRandomNonRepeatingConstIteratorWithIndex<TImage>(ptr, region)
-{}
+{
+  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
+  static_cast<void>(ptr->GetBufferPointer());
+}
 
 template <typename TImage>
 ImageRandomNonRepeatingIteratorWithIndex<TImage>::ImageRandomNonRepeatingIteratorWithIndex(

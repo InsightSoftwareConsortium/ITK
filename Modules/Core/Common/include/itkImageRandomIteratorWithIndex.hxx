@@ -24,7 +24,10 @@ namespace itk
 template <typename TImage>
 ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(TImage * ptr, const RegionType & region)
   : ImageRandomConstIteratorWithIndex<TImage>(ptr, region)
-{}
+{
+  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
+  static_cast<void>(ptr->GetBufferPointer());
+}
 
 template <typename TImage>
 ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)

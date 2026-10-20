@@ -20,6 +20,7 @@
 #include "itkReflectiveImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkGTest.h"
+#include "itkTestingGetBufferPointerCountingImage.h"
 
 
 TEST(ReflectiveImageRegionIterator, Test)
@@ -124,4 +125,13 @@ TEST(ReflectiveImageRegionIterator, Test)
   {
     EXPECT_EQ(rit.Get(), myImage->GetPixel(rit.GetIndex()));
   }
+}
+
+
+// Checks that the iterator calls the non-const GetBufferPointer() overload of the image on construction.
+TEST(ReflectiveImageRegionIterator, ConstructorCallsNonConstGetBufferPointer)
+{
+  using ImageType = itk::Testing::GetBufferPointerCountingImage<int>;
+  EXPECT_TRUE(
+    itk::Testing::IteratorConstructorCallsNonConstGetBufferPointer<itk::ReflectiveImageRegionIterator<ImageType>>());
 }

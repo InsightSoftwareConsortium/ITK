@@ -24,12 +24,18 @@ namespace itk
 template <typename TImage>
 ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(TImage * ptr, const RegionType & region)
   : ImageRegionReverseConstIterator<TImage>(ptr, region)
-{}
+{
+  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
+  static_cast<void>(ptr->GetBufferPointer());
+}
 
 template <typename TImage>
 ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(const ImageConstIterator<TImage> & it)
   : Superclass(it)
-{}
+{
+  // Source iterator holds a const image; call the non-const GetBufferPointer() for its side effects (e.g. CudaImage).
+  static_cast<void>(const_cast<TImage *>(this->m_Image.GetPointer())->GetBufferPointer());
+}
 
 template <typename TImage>
 ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(const ImageRegionReverseConstIterator<TImage> & it)
