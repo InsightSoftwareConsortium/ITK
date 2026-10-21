@@ -65,6 +65,10 @@ str = str
 %typemap(out) float &, const float &, double &, const double &
   {$result = PyFloat_FromDouble( *$1 );}
 
+// GetCommandCallable returns a borrowed reference; Python must own the one it receives.
+%typemap(out) PyObject * itkPyCommand::GetCommandCallable
+  {$result = $1 ? $1 : Py_None; Py_INCREF($result);}
+
 // ignore reference count management
 %ignore Delete;
 %ignore SetReferenceCount;
