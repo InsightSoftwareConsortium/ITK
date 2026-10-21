@@ -138,6 +138,45 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+  // Collapsing a leading or middle axis keeps the input rows and columns of the retained axes.
+  for (unsigned int collapsedAxis = 0; collapsedAxis < 2; ++collapsedAxis)
+  {
+    FilterType::InputImageRegionType sliceRegion = inputImage->GetBufferedRegion();
+    InputImageType::SizeType         sliceSize = sliceRegion.GetSize();
+    sliceSize[collapsedAxis] = 0;
+    sliceRegion.SetSize(sliceSize);
+    filter->SetExtractionRegion(sliceRegion);
+    filter->SetDirectionCollapseToSubmatrix();
+    ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+    const OutputImageType::DirectionType & sliceDirection = filter->GetOutput()->GetDirection();
+    unsigned int                           outRow = 0;
+    for (unsigned int inRow = 0; inRow < InputDimension; ++inRow)
+    {
+      if (inRow == collapsedAxis)
+      {
+        continue;
+      }
+      unsigned int outCol = 0;
+      for (unsigned int inCol = 0; inCol < InputDimension; ++inCol)
+      {
+        if (inCol == collapsedAxis)
+        {
+          continue;
+        }
+        if (sliceDirection[outRow][outCol] != direction[inRow][inCol])
+        {
+          std::cerr << "Collapsing axis " << collapsedAxis << " gave direction" << std::endl
+                    << sliceDirection << "expected element (" << inRow << ',' << inCol << ") of" << std::endl
+                    << direction << std::endl;
+          return EXIT_FAILURE;
+        }
+        ++outCol;
+      }
+      ++outRow;
+    }
+  }
+
   // Test streaming enumeration for HashImageFilterEnums::HashFunction elements
   const std::set<itk::Testing::HashImageFilterEnums::HashFunction> allHashFunction{
     itk::Testing::HashImageFilterEnums::HashFunction::MD5
