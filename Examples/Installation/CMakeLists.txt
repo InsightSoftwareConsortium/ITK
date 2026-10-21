@@ -16,6 +16,6 @@ add_executable(HelloWorld HelloWorld.cxx)
 # python <ITK_SOURCE>/Utilities/Maintenance/WhatModulesITK.py <ITK_SOURCE> HelloWorld.cxx
 
 # Link the executable to the specific ITK interface library modules used.
-target_link_libraries(HelloWorld ITK::ITKCommonModule)
+target_link_libraries(HelloWorld PRIVATE ITK::ITKCommonModule)
 #  Alternatively, all the ITK interface libraries can be linked as shown below.
-# target_link_libraries(HelloWorld ${ITK_INTERFACE_LIBRARIES})
+# target_link_libraries(HelloWorld PRIVATE ${ITK_INTERFACE_LIBRARIES})

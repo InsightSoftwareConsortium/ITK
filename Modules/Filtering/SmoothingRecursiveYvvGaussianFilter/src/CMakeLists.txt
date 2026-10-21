@@ -19,7 +19,8 @@ if(ITK_USE_GPU)
   itk_module_add_library(${itk-module} ${GPU_SRC})
   target_link_libraries(
     ${itk-module}
-    ${INRIA_ITK_LIBRARIES}
-    ${OPENCL_LIBRARIES}
+    PUBLIC
+      ${INRIA_ITK_LIBRARIES}
+      ${OPENCL_LIBRARIES}
   )
 endif()

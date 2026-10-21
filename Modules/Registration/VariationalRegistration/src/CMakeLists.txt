@@ -41,7 +41,8 @@ set(
 add_executable(VariationalRegistration ${VariationalRegistration_SRC})
 target_link_libraries(
   VariationalRegistration
-  ${_VariationalRegistration_example_link_libraries}
+  PRIVATE
+    ${_VariationalRegistration_example_link_libraries}
 )
 target_include_directories(
   VariationalRegistration
@@ -60,7 +61,8 @@ endif()
 add_executable(VariationalRegistration2D ${VariationalRegistration_SRC})
 target_link_libraries(
   VariationalRegistration2D
-  ${_VariationalRegistration_example_link_libraries}
+  PRIVATE
+    ${_VariationalRegistration_example_link_libraries}
 )
 target_include_directories(
   VariationalRegistration2D

@@ -11,4 +11,4 @@ itk_generate_factory_registration()
 add_executable(HelloFetchITK FetchWorld.cxx)
 
 # If ITK was fetched and configure, only the required modules are built.
-target_link_libraries(HelloFetchITK ITK::ITKCommonModule)
+target_link_libraries(HelloFetchITK PRIVATE ITK::ITKCommonModule)
