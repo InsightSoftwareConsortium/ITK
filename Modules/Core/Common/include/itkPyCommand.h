@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT PyCommand : public Command
+class PyCommand : public Command
 {
 public:
   ///! Standard "Self" typedef.

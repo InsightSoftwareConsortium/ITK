@@ -1,5 +1,11 @@
 itk_wrap_module(ITKCommon)
 list(APPEND WRAPPER_LIBRARY_INCLUDE_DIRECTORIES ${Python3_INCLUDE_DIRS})
+# Built into the Python module, not libITKCommon, which must not reference libpython symbols.
+list(
+  APPEND
+  WRAPPER_LIBRARY_CXX_SOURCES
+  "${CMAKE_CURRENT_LIST_DIR}/../src/itkPyCommand.cxx"
+)
 set(
   WRAPPER_SUBMODULE_ORDER
   itkFixedArray
