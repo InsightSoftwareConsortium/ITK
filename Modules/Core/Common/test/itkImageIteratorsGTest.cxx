@@ -44,10 +44,14 @@
 #include "itkImageScanlineIterator.h"
 #include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkImageSliceIteratorWithIndex.h"
+#include "itkNeighborhoodIterator.h"
+#include "itkShapedNeighborhoodIterator.h"
 
 #include "itkImage.h"
+#include "itkTestingGetBufferPointerCountingImage.h"
 #include <gtest/gtest.h>
 #include <type_traits> // For false_type and true_type.
+#include <typeinfo>
 
 namespace
 {
@@ -150,6 +154,24 @@ CheckConstIteratorsSupportClassTemplateArgumentDeduction()
   (CheckConstIteratorSupportsClassTemplateArgumentDeduction<TIteratorTemplate, itk::Image<int>>(), ...);
   (CheckConstIteratorSupportsClassTemplateArgumentDeduction<TIteratorTemplate, itk::Image<double, 3>>(), ...);
 }
+
+
+template <typename TIterator>
+void
+ExpectConstructorCallsNonConstGetBufferPointer()
+{
+  EXPECT_TRUE(itk::Testing::IteratorConstructorCallsNonConstGetBufferPointer<TIterator>()) << typeid(TIterator).name();
+}
+
+
+template <template <typename> typename... TIteratorTemplate>
+void
+CheckIteratorsCallNonConstGetBufferPointer()
+{
+  (ExpectConstructorCallsNonConstGetBufferPointer<
+     TIteratorTemplate<itk::Testing::GetBufferPointerCountingImage<int>>>(),
+   ...);
+}
 } // namespace
 
 
@@ -228,4 +250,44 @@ TEST(ImageIterators, SupportClassTemplateArgumentDeduction)
                                                            itk::ImageReverseConstIterator,
                                                            itk::ImageScanlineConstIterator,
                                                            itk::ImageSliceConstIteratorWithIndex>();
+}
+
+
+// Checks that non-const iterators call the non-const GetBufferPointer() overload of the image on construction.
+TEST(ImageIterators, ConstructorCallsNonConstGetBufferPointer)
+{
+  CheckIteratorsCallNonConstGetBufferPointer<itk::ImageIterator,
+                                             itk::ImageIteratorWithIndex,
+                                             itk::ImageLinearIteratorWithIndex,
+                                             itk::ImageRandomIteratorWithIndex,
+                                             itk::ImageRandomNonRepeatingIteratorWithIndex,
+                                             itk::ImageRegionExclusionIteratorWithIndex,
+                                             itk::ImageRegionIterator,
+                                             itk::ImageRegionIteratorWithIndex,
+                                             itk::ImageRegionReverseIterator,
+                                             itk::ImageReverseIterator,
+                                             itk::ImageScanlineIterator,
+                                             itk::ImageSliceIteratorWithIndex>();
+
+  using ImageType = itk::Testing::GetBufferPointerCountingImage<int>;
+  const auto radius = ImageType::SizeType::Filled(1);
+  EXPECT_TRUE(
+    itk::Testing::IteratorConstructorCallsNonConstGetBufferPointer<itk::NeighborhoodIterator<ImageType>>(radius));
+  EXPECT_TRUE(
+    itk::Testing::IteratorConstructorCallsNonConstGetBufferPointer<itk::ShapedNeighborhoodIterator<ImageType>>(radius));
+}
+
+
+// Checks that ImageRegionReverseIterator(const ImageConstIterator &) calls the non-const GetBufferPointer() overload.
+TEST(ImageIterators, ReverseIteratorConversionCallsNonConstGetBufferPointer)
+{
+  using ImageType = itk::Testing::GetBufferPointerCountingImage<int>;
+  const auto image = ImageType::New();
+  image->SetRegions(ImageType::SizeType::Filled(4));
+  image->Allocate();
+  const itk::ImageRegionConstIterator<ImageType> constIterator(image, image->GetBufferedRegion());
+
+  const size_t numberOfCallsBefore = image->GetNumberOfNonConstGetBufferPointerCalls();
+  [[maybe_unused]] const itk::ImageRegionReverseIterator<ImageType> reverseIterator(constIterator);
+  EXPECT_GT(image->GetNumberOfNonConstGetBufferPointerCalls(), numberOfCallsBefore);
 }
