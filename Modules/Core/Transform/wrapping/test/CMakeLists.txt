@@ -1,11 +1,14 @@
 if(ITK_WRAP_PYTHON)
-  itk_python_add_test(
-    NAME itkTransformSerializationTest
-    COMMAND
-      ${CMAKE_CURRENT_SOURCE_DIR}/itkTransformSerializationTest.py
-      DATA{Baseline/BSplineDeformationTransformDisplacements5.txt}
-      ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png
-  )
+  # Uses itk.DisplacementFieldTransform, which ITKTransform does not depend on.
+  if(ITKDisplacementField_ENABLED)
+    itk_python_add_test(
+      NAME itkTransformSerializationTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/itkTransformSerializationTest.py
+        DATA{Baseline/BSplineDeformationTransformDisplacements5.txt}
+        ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png
+    )
+  endif()
 
   list(FIND ITK_WRAP_IMAGE_DIMS 3 wrap_3_index)
   if(wrap_3_index GREATER -1)
