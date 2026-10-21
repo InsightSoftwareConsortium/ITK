@@ -18,7 +18,7 @@ if(ITK_WRAP_PYTHON)
   endif()
 endif()
 
-if(ITK_BUILD_SHARED_LIBS)
+if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
   itk_add_test(
     NAME ExampleIOPluginTest
     COMMAND

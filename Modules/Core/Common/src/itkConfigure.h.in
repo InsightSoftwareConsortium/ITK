@@ -86,6 +86,10 @@
 // Provide conditional compilation support when building wrapped languages
 #cmakedefine ITK_WRAPPING
 
+// ObjectFactoryBase scans ITK_AUTOLOAD_PATH for factory plugins; see the
+// definition in the top-level CMakeLists.txt for the two conditions.
+#cmakedefine ITK_USE_AUTOLOAD_PATH
+
 // C++11 should be assumed now, defines always true for C++11 will be
 // removed in the future.
 #ifndef ITK_LEGACY_REMOVE

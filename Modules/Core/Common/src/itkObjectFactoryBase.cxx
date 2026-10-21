@@ -237,7 +237,7 @@ ObjectFactoryBase::Initialize()
     // Register all factories registered by the "RegisterFactoryInternal" method
     m_PimplGlobals->m_RegisteredFactories = m_PimplGlobals->m_InternalFactories;
 
-#if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
+#ifdef ITK_USE_AUTOLOAD_PATH
     ObjectFactoryBase::LoadDynamicFactories();
 #endif
   }
