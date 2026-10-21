@@ -27,6 +27,7 @@
 #include "itkImageRegion.h"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkDirectionCollapse.h"
 
 namespace itk
 {
@@ -121,6 +122,41 @@ public:
   itkGetConstReferenceMacro(UseStreaming, bool);
   itkBooleanMacro(UseStreaming);
   /** @ITKEndGrouping */
+
+  using DirectionCollapseStrategyEnum = ExtractImageFilterEnums::DirectionCollapseStrategy;
+
+  /** Select how the direction is derived when the file has more dimensions
+   * than the output image. The trailing file axes are collapsed as in
+   * ExtractImageFilter. Identity is the default. */
+  /** @ITKStartGrouping */
+  void
+  SetDirectionCollapseToStrategy(DirectionCollapseStrategyEnum strategy);
+
+  [[nodiscard]] DirectionCollapseStrategyEnum
+  GetDirectionCollapseToStrategy() const
+  {
+    return m_DirectionCollapseStrategy;
+  }
+
+  void
+  SetDirectionCollapseToIdentity()
+  {
+    this->SetDirectionCollapseToStrategy(DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY);
+  }
+
+  void
+  SetDirectionCollapseToSubmatrix()
+  {
+    this->SetDirectionCollapseToStrategy(DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX);
+  }
+
+  void
+  SetDirectionCollapseToGuess()
+  {
+    this->SetDirectionCollapseToStrategy(DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS);
+  }
+  /** @ITKEndGrouping */
+
 protected:
   ImageFileReader();
   ~ImageFileReader() override = default;
@@ -164,6 +200,10 @@ protected:
   bool m_UseStreaming{};
 
 private:
+  DirectionCollapseStrategyEnum m_DirectionCollapseStrategy{
+    DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY
+  };
+
   std::string m_ExceptionMessage{};
 
   // The region that the ImageIO class will return when we ask to
