@@ -68,11 +68,11 @@ set(
   itkCovariantVector.cxx
   itkCreateObjectFunction.cxx
   itkDataObject.cxx
+  itkDirectionCollapse.cxx
   itkDirectory.cxx
   itkEquivalencyTable.cxx
   itkEventObject.cxx
   itkExceptionObject.cxx
-  itkExtractImageFilter.cxx
   itkFileOutputWindow.cxx
   itkFloatingPointExceptions.cxx
   itkFrustumSpatialFunction.cxx

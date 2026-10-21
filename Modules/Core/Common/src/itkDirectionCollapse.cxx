@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkExtractImageFilter.h"
+#include "itkDirectionCollapse.h"
 
 namespace itk
 {
