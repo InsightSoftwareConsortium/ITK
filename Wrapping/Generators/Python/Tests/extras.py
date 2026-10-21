@@ -385,6 +385,7 @@ transform_dict = itk.dict_from_transform(transforms[0])
 transform_back = itk.transform_from_dict(transform_dict)
 transform_dict = itk.dict_from_transform(transforms)
 transform_back = itk.transform_from_dict(transform_dict)
+assert transform_back.GetNumberOfTransforms() == len(transform_dict)
 
 # A nested CompositeTransform is flattened, one entry per leaf transform
 inner_composite = itk.CompositeTransform[itk.D, 3].New()
