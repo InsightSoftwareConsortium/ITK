@@ -130,8 +130,9 @@ def image_from_xarray(data_array: "xr.DataArray") -> "itkt.ImageBase":
     l_spacing = [1.0] * image_dimension
     for l_index, dim in enumerate(ordered_dims[:image_dimension]):
         coords = data_array.coords[dim]
-        if coords.shape[0] > 1:
+        if coords.shape[0] > 0:
             l_origin[l_index] = float(coords[0])
+        if coords.shape[0] > 1:
             l_spacing[l_index] = float(coords[1]) - float(coords[0])
     l_spacing.reverse()
     itk_image.SetSpacing(l_spacing)

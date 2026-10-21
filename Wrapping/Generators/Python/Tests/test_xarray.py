@@ -84,6 +84,52 @@ try:
     assert np.isclose(direction(1, 1), cosine)
     assert round_trip["MyMeta"] == 4.0
 
+    # A singleton coordinate defines an origin but not a spacing.
+    for shape in ((1, 3), (1, 1)):
+        arr = np.arange(np.prod(shape), dtype=np.uint8).reshape(shape)
+        singleton_da = xr.DataArray(
+            arr,
+            dims=["y", "x"],
+            coords={
+                "y": 44.0 + np.arange(shape[0]) * 4.0,
+                "x": -30.0 + np.arange(shape[1]) * 5.0,
+            },
+        )
+        for ordered_da in (singleton_da, singleton_da.transpose("x", "y")):
+            singleton_image = itk.image_from_xarray(ordered_da)
+            assert np.array_equal(itk.array_from_image(singleton_image), arr)
+            assert np.allclose(singleton_image.GetOrigin(), (-30.0, 44.0))
+            assert np.allclose(
+                singleton_image.GetSpacing(),
+                (5.0 if shape[1] > 1 else 1.0, 4.0 if shape[0] > 1 else 1.0),
+            )
+            singleton_round_trip = itk.image_from_xarray(
+                itk.xarray_from_image(singleton_image)
+            )
+            assert np.allclose(singleton_round_trip.GetOrigin(), (-30.0, 44.0))
+
+    for shape in ((1, 2, 3), (2, 1, 3), (2, 3, 1)):
+        arr = np.arange(np.prod(shape), dtype=np.uint8).reshape(shape)
+        singleton_da = xr.DataArray(
+            arr,
+            dims=["z", "y", "x"],
+            coords={
+                "z": 12.0 + np.arange(shape[0]) * 3.0,
+                "y": 44.0 + np.arange(shape[1]) * 4.0,
+                "x": -30.0 + np.arange(shape[2]) * 5.0,
+            },
+        )
+        singleton_image = itk.image_from_xarray(singleton_da)
+        assert np.array_equal(itk.array_from_image(singleton_image), arr)
+        assert np.allclose(singleton_image.GetOrigin(), (-30.0, 44.0, 12.0))
+        assert np.allclose(
+            singleton_image.GetSpacing(),
+            tuple(
+                step if size > 1 else 1.0
+                for size, step in zip(shape[::-1], (5.0, 4.0, 3.0))
+            ),
+        )
+
     wrong_order = data_array.swap_dims({"y": "z"})
     try:
         round_trip = itk.image_from_xarray(wrong_order)
@@ -152,6 +198,12 @@ try:
         # not be scrambled across axes.
         assert np.allclose(image.GetSpacing(), (5.0, 4.0, 3.0, 2.0))
         assert np.allclose(image.GetOrigin(), (30.0, 20.0, 10.0, 100.0))
+
+        single_time = data_array.isel(t=slice(0, 1))
+        single_time_image = itk.image_from_xarray(single_time)
+        assert np.allclose(single_time_image.GetOrigin(), (30.0, 20.0, 10.0, 100.0))
+        assert np.allclose(single_time_image.GetSpacing(), (5.0, 4.0, 3.0, 1.0))
+        assert np.array_equal(itk.array_from_image(single_time_image), arr[:1])
 
 except ImportError:
     print("xarray not imported. Skipping xarray conversion tests")
