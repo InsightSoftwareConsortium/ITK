@@ -59,6 +59,12 @@ if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   )
 endif()
 
+# VTK exports no shared/static variable, so ask an imported target directly.
+set(_vtk_common_core_type)
+if(TARGET VTK::CommonCore)
+  get_target_property(_vtk_common_core_type VTK::CommonCore TYPE)
+endif()
+
 if(ITK_WRAP_PYTHON)
   if(NOT VTK_WRAP_PYTHON)
     message(
@@ -69,21 +75,32 @@ if(ITK_WRAP_PYTHON)
       "or set Module_ITKVtkGlue=OFF."
     )
   endif()
-  # VTK exports no shared/static variable, so ask an imported target directly.
-  if(TARGET VTK::CommonCore)
-    get_target_property(_vtk_common_core_type VTK::CommonCore TYPE)
-    if(_vtk_common_core_type STREQUAL "STATIC_LIBRARY")
-      message(
-        FATAL_ERROR
-        "ITK_WRAP_PYTHON is ON and Module_ITKVtkGlue is enabled, but the VTK at\n"
-        "  ${VTK_DIR}\n"
-        "is a static build. Its Python wrapping collapses into a single\n"
-        "_vtkmodules_static module that ITK's wrapping cannot import. Rebuild VTK\n"
-        "with BUILD_SHARED_LIBS=ON, or set Module_ITKVtkGlue=OFF."
-      )
-    endif()
-    unset(_vtk_common_core_type)
+  if(_vtk_common_core_type STREQUAL "STATIC_LIBRARY")
+    message(
+      FATAL_ERROR
+      "ITK_WRAP_PYTHON is ON and Module_ITKVtkGlue is enabled, but the VTK at\n"
+      "  ${VTK_DIR}\n"
+      "is a static build. Its Python wrapping collapses into a single\n"
+      "_vtkmodules_static module that ITK's wrapping cannot import. Rebuild VTK\n"
+      "with BUILD_SHARED_LIBS=ON, or set Module_ITKVtkGlue=OFF."
+    )
   endif()
 endif()
+
+# MSVC builds reset BUILD_SHARED_LIBS before this point; ITK_BUILD_SHARED_LIBS keeps the user's choice.
+if(ITK_BUILD_SHARED_LIBS AND _vtk_common_core_type STREQUAL "STATIC_LIBRARY")
+  if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
+    message(
+      WARNING
+      "BUILD_SHARED_LIBS is ON, but the VTK at\n"
+      "  ${VTK_DIR}\n"
+      "is a static build. ITKVtkGlue and each executable linking it get separate\n"
+      "copies of VTK, so object factory overrides registered in one copy are\n"
+      "missing in the other (e.g. vtkRenderWindow::New() returns nullptr in\n"
+      "QuickView). Use a shared VTK, or build ITK with BUILD_SHARED_LIBS=OFF."
+    )
+  endif()
+endif()
+unset(_vtk_common_core_type)
 
 set(ITKVtkGlue_VTK_LIBRARIES ${_required_vtk_libraries})
