@@ -617,8 +617,10 @@ while(NOT dashboard_done)
       # leave the per-step results unsubmitted.  The Done part is sent
       # below after the loop, *unconditionally*, so the CDash GitHub
       # check on the commit can flip from in-progress to success/failure.
-      ctest_submit(RETRY_COUNT 3 RETRY_DELAY 30 RETURN_VALUE submit_return)
-      if(NOT submit_return EQUAL 0)
+      # CAPTURE_CMAKE_ERROR keeps a CDash outage from making ctest -S exit non-zero.
+      ctest_submit(RETRY_COUNT 3 RETRY_DELAY 30 RETURN_VALUE submit_return
+                   CAPTURE_CMAKE_ERROR submit_error)
+      if(NOT submit_return EQUAL 0 OR NOT submit_error EQUAL 0)
         message(WARNING "ctest_submit returned ${submit_return}; final Done submit will retry.")
       endif()
     endif()
@@ -656,8 +658,9 @@ if(NOT dashboard_no_submit)
   ctest_submit(PARTS Done
                RETRY_COUNT 5
                RETRY_DELAY 60
-               RETURN_VALUE done_submit_return)
-  if(NOT done_submit_return EQUAL 0)
+               RETURN_VALUE done_submit_return
+               CAPTURE_CMAKE_ERROR done_submit_error)
+  if(NOT done_submit_return EQUAL 0 OR NOT done_submit_error EQUAL 0)
     message(WARNING
       "Final ctest_submit(PARTS Done) returned ${done_submit_return}; "
       "the CDash PR check may remain in-progress.")
