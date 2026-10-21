@@ -42,10 +42,10 @@ add_executable( vnl_test_all
 if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
-target_link_libraries(vnl_test_all itkvnl itktestlib ${CMAKE_THREAD_LIBS})
+target_link_libraries(vnl_test_all PRIVATE itkvnl itktestlib ${CMAKE_THREAD_LIBS})
 
 add_executable(vnl_basic_operation_timings basic_operation_timings.cxx)
-target_link_libraries(vnl_basic_operation_timings itkvnl)
+target_link_libraries(vnl_basic_operation_timings PRIVATE itkvnl)
 add_test( NAME vnl_basic_operation_timings COMMAND vnl_basic_operation_timings   )
 
 add_test( NAME vnl_test_complex COMMAND vnl_test_all test_complex                )
@@ -82,6 +82,6 @@ add_test( NAME test_pow_log COMMAND vnl_test_all test_pow_log                )
 add_test( NAME test_vnl_index_sort COMMAND vnl_test_all test_vnl_index_sort         )
 
 add_executable(vnl_test_include test_include.cxx)
-target_link_libraries(vnl_test_include itkvnl)
+target_link_libraries(vnl_test_include PRIVATE itkvnl)
 add_executable(vnl_test_template_include test_template_include.cxx)
-target_link_libraries(vnl_test_template_include itkvnl)
+target_link_libraries(vnl_test_template_include PRIVATE itkvnl)
