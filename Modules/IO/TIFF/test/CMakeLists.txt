@@ -482,6 +482,33 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "EXIFIFDOffset: 17932.*Photoshop: \\[8, B, I, M, "
 )
+# Baseline tags (printed in dictionary order), including float-marshalled rationals.
+itk_add_test(
+  NAME itkTIFFImageIOInfoTest5
+  COMMAND
+    ITKIOTIFFTestDriver
+    itkTIFFImageIOInfoTest
+    DATA{Input/ps-separated.tif}
+)
+set_tests_properties(
+  itkTIFFImageIOInfoTest5
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "BitsPerSample: 8.*Compression: 5.*ImageLength: 10.*ImageWidth: 10.*PhotometricInterpretation: 5.*PlanarConfiguration: 2.*ResolutionUnit: 2.*RowsPerStrip: 10.*SampleFormat: 1.*SamplesPerPixel: 4.*XResolution: 72.*YResolution: 72"
+)
+itk_add_test(
+  NAME itkTIFFImageIOInfoTest6
+  COMMAND
+    ITKIOTIFFTestDriver
+    itkTIFFImageIOInfoTest
+    DATA{Input/3d_spacing.tif}
+)
+set_tests_properties(
+  itkTIFFImageIOInfoTest6
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "BitsPerSample: 8.*Compression: 1.*ImageLength: 2.*ImageWidth: 2.*PhotometricInterpretation: 1.*PlanarConfiguration: 1.*ResolutionUnit: 2.*RowsPerStrip: 4096.*SampleFormat: 1.*SamplesPerPixel: 1.*XResolution: 1\\.49412.*YResolution: 1\\.33684"
+)
 
 ######################
 # Test Compression
