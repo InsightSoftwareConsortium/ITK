@@ -21,10 +21,8 @@
 
 #include "itkCommand.h"
 
-// The python header defines _POSIX_C_SOURCE without a preceding #undef
-#undef _POSIX_C_SOURCE
-#undef _XOPEN_SOURCE
-#include <Python.h>
+// Forward declaration matching Python.h, so the header does not require it.
+typedef struct _object PyObject;
 
 namespace itk
 {
