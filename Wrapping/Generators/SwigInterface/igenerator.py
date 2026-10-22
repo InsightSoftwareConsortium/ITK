@@ -1758,8 +1758,9 @@ from . import _ITKCommonPython
                     base = base.related_class.decl_string
                     if base.startswith("::"):
                         base = base[2:]
-                    if "itk::" in base:
-                        base = base[base.find("itk::") + len("itk::") :]
+                    # Prefix only: std::vector<itk::X> must not become base X.
+                    if base.startswith("itk::"):
+                        base = base[len("itk::") :]
 
                     if "<" in base:
                         base = base[: base.find("<")]
