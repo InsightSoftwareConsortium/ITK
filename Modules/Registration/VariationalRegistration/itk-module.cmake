@@ -14,6 +14,7 @@ itk_module(
     ITKImageFilterBase
     ITKSmoothing
     ITKFFT
+    ITKPocketFFT
     ITKFiniteDifference
     ITKDisplacementField
     ITKRegistrationCommon

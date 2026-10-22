@@ -1,9 +1,7 @@
-if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
-  # ThreadedSolveElasticLES supports only 2-D and 3-D images.
-  set(elastic_dimensions ${ITK_WRAP_IMAGE_DIMS})
-  list(FILTER elastic_dimensions INCLUDE REGEX "^[23]$")
-  itk_wrap_class("itk::VariationalRegistrationElasticRegularizer" POINTER)
-  variational_registration_wrap_field("${elastic_dimensions}")
-  itk_end_wrap_class()
-  unset(elastic_dimensions)
-endif()
+# ThreadedSolveElasticLES supports only 2-D and 3-D images.
+set(elastic_dimensions ${ITK_WRAP_IMAGE_DIMS})
+list(FILTER elastic_dimensions INCLUDE REGEX "^[23]$")
+itk_wrap_class("itk::VariationalRegistrationElasticRegularizer" POINTER)
+variational_registration_wrap_field("${elastic_dimensions}")
+itk_end_wrap_class()
+unset(elastic_dimensions)
