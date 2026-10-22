@@ -18,6 +18,11 @@
 
 #include "itkPyCommand.h"
 
+// The python header defines _POSIX_C_SOURCE without a preceding #undef
+#undef _POSIX_C_SOURCE
+#undef _XOPEN_SOURCE
+#include <Python.h>
+
 namespace
 {
 // Wrapper to automatics obtain and release GIL
