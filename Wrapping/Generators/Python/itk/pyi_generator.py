@@ -475,7 +475,10 @@ def merge(class_definitions: []) -> ITKClass | None:
 
             # In some instances, not all parent classes are represented in each overload
             # This merges them together but may provide some type dependent hints
-            base.parent_class = list(set(base.parent_class + class_def.parent_class))
+            # Keep first-seen order: base order is the stub's MRO, and set order varies per run.
+            base.parent_class = list(
+                dict.fromkeys(base.parent_class + class_def.parent_class)
+            )
 
             # merge class methods together
             for (

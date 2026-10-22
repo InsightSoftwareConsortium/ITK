@@ -301,3 +301,10 @@ itk_python_add_test(
   COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/test_ctype.py
 )
+
+itk_python_add_test(
+  NAME PythonPyiGeneratorMergeTest
+  COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/pyi_generator_merge_test.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/../itk/pyi_generator.py
+)
