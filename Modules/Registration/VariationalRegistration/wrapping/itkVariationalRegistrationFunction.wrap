@@ -1,3 +1,3 @@
-itk_wrap_class("itk::VariationalRegistrationFunction" POINTER_WITH_SUPERCLASS)
+itk_wrap_class("itk::VariationalRegistrationFunction" POINTER)
 variational_registration_wrap_images_and_field()
 itk_end_wrap_class()
