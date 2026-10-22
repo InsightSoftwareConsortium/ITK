@@ -79,6 +79,11 @@ If the hook environment is broken (e.g., a stale pixi environment),
 fix the environment first: `pixi install` or
 `./Utilities/SetupForDevelopment.sh`.
 
+Hooks are stale if `git config hooks.SetupForDevelopment` is below
+`SetupForDevelopment_VERSION` in `Utilities/SetupForDevelopment.sh`;
+stale hooks skip checks CI runs (e.g. gersemi). To check changed files
+without committing: `pixi exec pre-commit run --files <files>`.
+
 ## First-Time Setup
 
 Run once after cloning:
