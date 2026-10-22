@@ -29,6 +29,33 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
     def setUp(self):
         pass
 
+    def test_NumPyBridge_EmptyVectorContainer(self):
+        "Convert empty itk.VectorContainers into NumPy arrays."
+
+        empty_array = np.array([], dtype=np.uint64)
+        vector = itk.vector_container_from_array(empty_array)
+        self.assertEqual(vector.Size(), 0)
+        round_trip = itk.array_from_vector_container(vector)
+        self.assertEqual(round_trip.shape, (0,))
+        self.assertEqual(round_trip.dtype, np.uint64)
+
+        for element_type, shape, dtype in (
+            (itk.F, (0,), np.float32),
+            (itk.UI, (0,), np.uint32),
+            (itk.Point[itk.F, 3], (0, 3), np.float32),
+        ):
+            for conversion in (
+                itk.array_view_from_vector_container,
+                itk.array_from_vector_container,
+            ):
+                with self.subTest(element_type=element_type, conversion=conversion):
+                    vector = itk.VectorContainer[itk.IT, element_type].New()
+                    array = conversion(vector)
+                    self.assertEqual(array.shape, shape)
+                    self.assertEqual(array.dtype, dtype)
+                    self.assertEqual(array.size, 0)
+                    self.assertEqual(vector.Size(), 0)
+
     def test_NumPyBridge_VectorContainer(self):
         "Try to convert a itk.VectorContainer into a Numpy array and back."
 
