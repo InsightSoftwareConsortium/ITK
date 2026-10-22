@@ -36,7 +36,10 @@ ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const Self & it)
 template <typename TImage>
 ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(TImage * ptr, const RegionType & region)
   : ImageConstIteratorWithIndex<TImage>(ptr, region)
-{}
+{
+  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
+  static_cast<void>(ptr->GetBufferPointer());
+}
 
 //----------------------------------------------------------------------
 //  Constructor

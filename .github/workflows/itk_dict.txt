@@ -190,6 +190,7 @@ cryosectional
 ctwd
 Cuadra
 cuboidal
+CudaImage
 cum
 cumGaussianArrayCopySize
 cumGaussianArraySize
