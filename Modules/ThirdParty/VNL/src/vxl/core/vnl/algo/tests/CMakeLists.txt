@@ -56,7 +56,7 @@ if(ITK_FUTURE_LEGACY_REMOVE)
   )
 endif()
 
-target_link_libraries( vnl_algo_test_all itkvnl_algo itktestlib ${CMAKE_THREAD_LIBS} )
+target_link_libraries( vnl_algo_test_all PRIVATE itkvnl_algo itktestlib ${CMAKE_THREAD_LIBS} )
 
 add_test( NAME vnl_algo_test_algo COMMAND vnl_algo_test_all test_algo                    )
 add_test( NAME vnl_algo_test_amoeba COMMAND vnl_algo_test_all test_amoeba                  )
@@ -86,6 +86,6 @@ if(NOT ITK_FUTURE_LEGACY_REMOVE)
 endif()
 
 add_executable( vnl_algo_test_include test_include.cxx )
-target_link_libraries( vnl_algo_test_include itkvnl_algo )
+target_link_libraries( vnl_algo_test_include PRIVATE itkvnl_algo )
 add_executable( vnl_algo_test_template_include test_template_include.cxx )
-target_link_libraries( vnl_algo_test_template_include itkvnl_algo )
+target_link_libraries( vnl_algo_test_template_include PRIVATE itkvnl_algo )
