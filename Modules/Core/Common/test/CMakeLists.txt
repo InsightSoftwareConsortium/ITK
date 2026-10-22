@@ -148,7 +148,7 @@ target_link_libraries(
 )
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
 
-if(ITK_BUILD_SHARED_LIBS)
+if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
   ## Create a library to test ITK loadable factories
   set(FactoryTest_Source itkFactoryTestLib.cxx)
   add_library(FactoryTestLib MODULE ${FactoryTest_Source})
@@ -946,7 +946,7 @@ itk_add_test(
     itkNumberToStringTest
 )
 
-if(ITK_BUILD_SHARED_LIBS)
+if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
   itk_add_test(
     NAME itkObjectFactoryTest2
     COMMAND

@@ -360,6 +360,19 @@ mark_as_advanced(ITK_DYNAMIC_LOADING)
 # Wrapping options
 include(Wrapping/CMakeUtilityFunctions.cmake)
 include(Wrapping/WrappingOptions.cmake)
+# ITK_USE_AUTOLOAD_PATH: ObjectFactoryBase::Initialize() scans the
+# ITK_AUTOLOAD_PATH environment variable for factory plugins. Two
+# independent conditions must hold:
+#   ITK_DYNAMIC_LOADING  the build can dlopen a plugin library.
+#   NOT ITK_WRAPPING     a wrapped ITK may be imported into a host process
+#                        (e.g. 3D Slicer) whose ITK_AUTOLOAD_PATH names
+#                        plugins built against a different ITK; loading them
+#                        crashes. Python code registers factories explicitly.
+# Tests that rely on the scan use this variable, never the inputs directly.
+set(ITK_USE_AUTOLOAD_PATH OFF)
+if(ITK_DYNAMIC_LOADING AND NOT ITK_WRAPPING)
+  set(ITK_USE_AUTOLOAD_PATH ON)
+endif()
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
 

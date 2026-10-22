@@ -930,7 +930,7 @@ itk_add_test(
     png
 )
 
-if(ITK_BUILD_SHARED_LIBS)
+if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
   ## Create a library to test ITK IO plugins
   set(
     FileFreeTest_Source
