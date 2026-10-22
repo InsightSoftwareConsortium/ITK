@@ -330,9 +330,10 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
   add_executable(${exe} ${KitTests})
   target_link_libraries(
     ${exe}
-    ${KIT_LIBS}
-    GTest::gtest
-    GTest::gtest_main
+    PRIVATE
+      ${KIT_LIBS}
+      GTest::gtest
+      GTest::gtest_main
   )
   target_link_options(
     ${exe}
