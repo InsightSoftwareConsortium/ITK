@@ -22,6 +22,8 @@
 
         element_type     = "@ElementType@"
         numpydatatype = _get_numpy_pixelid(element_type)
+        if itksize == 0:
+            return np.empty(shape, dtype=numpydatatype)
         memview       = itkPyVectorContainer@PyVectorContainerTypes@._array_view_from_vector_container(vector_container)
         ndarrview  = np.asarray(memview).view(dtype = numpydatatype).reshape(shape).view(np.ndarray)
 
