@@ -27,6 +27,11 @@ if(ITK_WRAP_PYTHON)
       ${CMAKE_CURRENT_SOURCE_DIR}/itkImageDuplicatorTest.py
   )
   itk_python_add_test(
+    NAME itkPyCommandPythonTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkPyCommandTest.py
+  )
+  itk_python_add_test(
     NAME itkImagePythonTest
     COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/itkImageTest.py
