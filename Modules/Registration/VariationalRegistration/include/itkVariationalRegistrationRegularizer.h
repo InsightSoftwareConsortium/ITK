@@ -19,6 +19,7 @@
 #define itkVariationalRegistrationRegularizer_h
 
 #include "itkInPlaceImageFilter.h"
+#include "itkNumericTraitsVectorPixel.h"
 
 namespace itk
 {
