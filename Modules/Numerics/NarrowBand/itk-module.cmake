@@ -11,6 +11,7 @@ itk_module(
     ITKFiniteDifference
     ITKCurvatureFlow
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )
