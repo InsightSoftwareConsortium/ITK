@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkNarrowBand_hxx
 #define itkNarrowBand_hxx
-#include <cmath>
 
 namespace itk
 {
@@ -45,12 +44,7 @@ NarrowBand<NodeType>::SplitBand(const SizeType & n)
     t_n = t_size;
   }
 
-  auto regionsize = static_cast<SizeType>(std::floor(static_cast<float>(t_size) / static_cast<float>(t_n)));
-
-  if (regionsize == 0)
-  {
-    regionsize = 1;
-  }
+  const SizeType regionsize = t_n > 0 ? t_size / t_n : 0;
 
   RegionType region;
   auto       pos = this->Begin();
@@ -72,6 +66,8 @@ NarrowBand<NodeType>::SplitBand(const SizeType & n)
     regionList.push_back(region);
   }
 
+  const RegionType emptyRegion{ this->End(), this->End() };
+  regionList.resize(n, emptyRegion);
   return regionList;
 }
 
