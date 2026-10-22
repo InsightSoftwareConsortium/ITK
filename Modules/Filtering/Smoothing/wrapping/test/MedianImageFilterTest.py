@@ -55,7 +55,14 @@ compare_filter.Update()
 assert compare_filter.GetMaximumDifference() < 0.000000001
 
 # Check the type hints
-type_hints = get_type_hints(itk.median_image_filter, globalns={"itk": itk})
+# Optional array types appear in the hints as forward references.
+type_hint_namespace = {"itk": itk}
+for module_name, alias in (("xarray", "xr"), ("torch", "torch")):
+    try:
+        type_hint_namespace[alias] = __import__(module_name)
+    except ImportError:
+        pass
+type_hints = get_type_hints(itk.median_image_filter, globalns=type_hint_namespace)
 
 assert "args" in type_hints
 args_hints = type_hints["args"]
