@@ -30,6 +30,28 @@ if(NOT EXISTS ${ITK_CMAKE_DIR}/ITKModuleMacros.cmake)
   )
 endif()
 
+include("${CMAKE_CURRENT_LIST_DIR}/ITKModuleExternalSettings.cmake")
+
+if(
+  ITK_CXX_COMPILER_ID
+  AND
+    NOT
+      (
+        CMAKE_CXX_COMPILER_ID
+          STREQUAL
+          ITK_CXX_COMPILER_ID
+        AND
+          CMAKE_CXX_COMPILER_VERSION
+            VERSION_EQUAL
+            ITK_CXX_COMPILER_VERSION
+      )
+)
+  message(
+    WARNING
+    "C++ compiler ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION} differs from ${ITK_CXX_COMPILER_ID} ${ITK_CXX_COMPILER_VERSION} used to build ITK at ${ITK_DIR}."
+  )
+endif()
+
 set(PYTHON_DEVELOPMENT_REQUIRED ${ITK_WRAP_PYTHON})
 include(ITKSetPython3Vars)
 
@@ -159,7 +181,6 @@ set(
 )
 set(BUILD_EXAMPLES ${ITK_BUILD_EXAMPLES})
 set(BUILD_DOCUMENTATION ${ITK_BUILD_DOCUMENTATION})
-option(BUILD_SHARED_LIBS "Build ITK with shared libraries." ${ITK_BUILD_SHARED})
 if(NOT CMAKE_POSITION_INDEPENDENT_CODE)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()

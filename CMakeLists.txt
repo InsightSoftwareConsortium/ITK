@@ -911,6 +911,7 @@ install(
     CMake/ITKInitializeCXXStandard.cmake
     # The transitive closure of include(ITKModuleExternal).
     CMake/ITKModuleExternal.cmake
+    CMake/ITKModuleExternalSettings.cmake
     CMake/ITKModuleMacros.cmake
     CMake/ITKModuleTest.cmake
     CMake/ITKModuleInfo.cmake.in
