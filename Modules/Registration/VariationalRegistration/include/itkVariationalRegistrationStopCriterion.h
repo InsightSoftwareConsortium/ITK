@@ -84,6 +84,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(VariationalRegistrationStopCriterion);
+
   /** Set iteration modulus.
    *
    * The iteration modulus determines, if check is only performed every
