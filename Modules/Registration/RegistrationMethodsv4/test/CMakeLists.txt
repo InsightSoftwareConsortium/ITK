@@ -534,3 +534,7 @@ set_tests_properties(
     COST
       30
 )
+
+creategoogletestdriver(ITKRegistrationMethodsv4 "${ITKRegistrationMethodsv4-Test_LIBRARIES}"
+  itkImageRegistrationMethodv4ShortDimensionsGTest.cxx
+)
