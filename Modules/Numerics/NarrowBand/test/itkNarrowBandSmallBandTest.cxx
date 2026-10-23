@@ -66,8 +66,7 @@ public:
 protected:
   UnitUpdateFunction()
   {
-    RadiusType radius;
-    radius.Fill(0);
+    const auto radius = RadiusType::Filled(0);
     this->SetRadius(radius);
   }
   ~UnitUpdateFunction() override = default;
