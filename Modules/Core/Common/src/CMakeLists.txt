@@ -238,12 +238,12 @@ target_link_libraries(ITKCommon PUBLIC itksys)
 if(UNIX)
   target_link_libraries(
     ITKCommon
-    LINK_PUBLIC
+    PUBLIC
       ${CMAKE_THREAD_LIBS}
-      -lm
+      m
   )
   if(ITK_DYNAMIC_LOADING)
-    target_link_libraries(ITKCommon LINK_PUBLIC ${CMAKE_DL_LIBS})
+    target_link_libraries(ITKCommon PUBLIC ${CMAKE_DL_LIBS})
   endif()
 endif()
 if(ITK_USE_TBB)

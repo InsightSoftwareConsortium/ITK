@@ -141,11 +141,7 @@ target_link_options(
     "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
 )
 itk_module_target_label(itkSystemInformation)
-target_link_libraries(
-  itkSystemInformation
-  LINK_PUBLIC
-    ${ITKCommon-Test_LIBRARIES}
-)
+target_link_libraries(itkSystemInformation PUBLIC ${ITKCommon-Test_LIBRARIES})
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
 
 if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
@@ -153,7 +149,7 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
   set(FactoryTest_Source itkFactoryTestLib.cxx)
   add_library(FactoryTestLib MODULE ${FactoryTest_Source})
   itk_module_target_label(FactoryTestLib)
-  target_link_libraries(FactoryTestLib LINK_PUBLIC ${ITKCommon-Test_LIBRARIES})
+  target_link_libraries(FactoryTestLib PUBLIC ${ITKCommon-Test_LIBRARIES})
   set_property(
     TARGET
       FactoryTestLib
@@ -1361,7 +1357,7 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
     itk_module_target_label(ClientTestLibrary${_name})
     target_link_libraries(
       ClientTestLibrary${_name}
-      LINK_PUBLIC
+      PUBLIC
         ${ITKCommon-Test_LIBRARIES}
     )
     set_property(
@@ -1578,7 +1574,7 @@ if(
     itk_module_target_label(SharedTestLibrary${_name})
     target_link_libraries(
       SharedTestLibrary${_name}
-      LINK_PUBLIC
+      PUBLIC
         ${ITKCommon-Test_LIBRARIES}
     )
     set_property(
@@ -1611,7 +1607,7 @@ if(
   itk_module_target_label(itkObjectFactoryBasePrivateDestructor)
   target_link_libraries(
     itkObjectFactoryBasePrivateDestructor
-    LINK_PUBLIC
+    PUBLIC
       SharedTestLibraryA
       SharedTestLibraryB
   )
