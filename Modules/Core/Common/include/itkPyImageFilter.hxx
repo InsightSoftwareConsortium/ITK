@@ -148,6 +148,7 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_GenerateOutputInformationCallable))
   {
@@ -168,6 +169,7 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       itkExceptionStringMacro("There was an error executing the CommandCallable.");
     }
   }
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
 
@@ -177,6 +179,7 @@ PyImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObjec
 {
   Superclass::EnlargeOutputRequestedRegion(data);
 
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_EnlargeOutputRequestedRegionCallable))
   {
@@ -200,6 +203,7 @@ PyImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObjec
       itkExceptionStringMacro("There was an error executing the CommandCallable.");
     }
   }
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
 
@@ -209,6 +213,7 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
 
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_GenerateInputRequestedRegionCallable))
   {
@@ -229,12 +234,14 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
       itkExceptionStringMacro("There was an error executing the CommandCallable.");
     }
   }
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
 template <class TInputImage, class TOutputImage>
 void
 PyImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (!PyCallable_Check(this->m_GenerateDataCallable))
   {
@@ -262,6 +269,7 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateData()
       itkExceptionStringMacro("There was an error executing the CommandCallable.");
     }
   }
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
 } // namespace itk

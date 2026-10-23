@@ -20,9 +20,9 @@ import itk
 import numpy as np
 import functools
 
-input_image = itk.image_from_array(
-    np.random.randint(0, 255, size=(6, 6), dtype=np.uint8)
-)
+input_image = itk.Image[itk.F, 2].New()
+input_image.SetRegions([6, 6])
+input_image.AllocateInitialized()
 
 
 def constant_output(py_image_filter, constant=42):
@@ -107,3 +107,21 @@ assert region.GetIndex()[0] == 0
 assert region.GetIndex()[1] == 0
 assert region.GetSize()[0] == 6
 assert region.GetSize()[1] == 6
+
+py_filter.Modified()
+median = itk.MedianImageFilter.New(Input=py_filter, Radius=1)
+median.Update()
+assert np.all(np.asarray(median.GetOutput()) == 42)
+
+
+def failing_generate_data(py_image_filter):
+    raise ValueError("callback failure")
+
+
+py_filter.SetPyGenerateData(failing_generate_data)
+try:
+    median.Update()
+except RuntimeError:
+    pass
+else:
+    raise AssertionError("Expected the Python callback failure to propagate")

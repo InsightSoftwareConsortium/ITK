@@ -211,16 +211,17 @@ print("=" * 60)
 print("Test 3: Exception propagation across GIL boundary")
 print("=" * 60)
 
-# itk.imread on a non-existent file throws RuntimeError through the
-# SWIG wrapper.  With -threads, the GIL is released before the C++ call
-# and must be re-acquired before setting the Python exception.
+image_type = itk.Image[itk.F, 2]
+median_type = itk.MedianImageFilter[image_type, image_type]
+
+# A missing input forces Update() to throw across the native GIL-release boundary.
 try:
-    itk.imread("/nonexistent/path/that/does/not/exist.nii.gz")
-    check("exception from imread", False, "should have raised")
+    median_type.New().Update()
+    check("exception from Update", False, "should have raised")
 except RuntimeError:
     check("C++ RuntimeError propagated correctly", True)
 except Exception as e:
-    check("exception propagation", True, f"got {type(e).__name__}")
+    check("exception propagation", False, f"got {type(e).__name__}")
 
 # Exception from a threaded context
 exception_results = []
@@ -228,7 +229,7 @@ exception_results = []
 
 def threaded_exception():
     try:
-        itk.imread("/nonexistent/threaded.nii.gz")
+        median_type.New().Update()
         exception_results.append("no_exception")
     except RuntimeError:
         exception_results.append("ok")
