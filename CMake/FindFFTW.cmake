@@ -2,6 +2,15 @@
 ## various data types.
 ## There is a single set of include files, and then multiple libraries,
 ## One for each type.  I.e. libfftw.a-->double, libfftwf.a-->float
+##
+## Usage:
+##   find_package(FFTW REQUIRED COMPONENTS Double Float)
+## Without COMPONENTS, the precisions enabled by `ITK_USE_FFTWD` and
+## `ITK_USE_FFTWF` are searched for.
+##
+## Imported targets (carrying include directories and link dependencies):
+##   FFTW::Double  -- double precision FFTW (with threads support if found)
+##   FFTW::Float   -- single precision FFTW (with threads support if found)
 
 ## The following logic belongs in the individual package
 ## mark_as_advanced(ITK_USE_FFTWD)
@@ -30,7 +39,23 @@
 ## to set the initial value of the CMake variable `MKLROOT` (see
 ## https://software.intel.com/en-us/mkl-linux-developer-guide-scripts-to-set-environment-variables).
 
-if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
+set(_fftw_double ${ITK_USE_FFTWD})
+set(_fftw_float ${ITK_USE_FFTWF})
+if(FFTW_FIND_COMPONENTS)
+  set(_fftw_double OFF)
+  set(_fftw_float OFF)
+  foreach(_fftw_component IN LISTS FFTW_FIND_COMPONENTS)
+    if(_fftw_component STREQUAL "Double")
+      set(_fftw_double ON)
+    elseif(_fftw_component STREQUAL "Float")
+      set(_fftw_float ON)
+    else()
+      message(FATAL_ERROR "Unknown FFTW component: ${_fftw_component}")
+    endif()
+  endforeach()
+endif()
+
+if(_fftw_double OR _fftw_float)
   if(ITK_USE_MKL)
     # If the user has provided the MKL include path then search nearby for library files
     if(FFTW_INCLUDE_PATH)
@@ -53,8 +78,6 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
   else()
     set(
       FFTW_INC_SEARCHPATH
-      ${FFTW3f_INCLUDE_DIRS} # Defined in fftwf local build
-      ${FFTW3_INCLUDE_DIRS} # Defined in fftwd local build
       /sw/include
       /usr/include
       /usr/local/include
@@ -194,20 +217,17 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       endif()
     endforeach()
     fftwd_libraries_end()
-    add_compile_options(${MKL_OPTIONS})
   else()
     get_filename_component(FFTW_INSTALL_BASE_PATH ${FFTW_INCLUDE_PATH} PATH)
     set(
       FFTW_LIB_SEARCHPATH
-      ${FFTW3f_LIBRARY_DIRS} # Defined in fftwf local build
-      ${FFTW3_LIBRARY_DIRS} # Defined in fftwd local build
       ${FFTW_INSTALL_BASE_PATH}/lib
       ${FFTW_INSTALL_BASE_PATH}/lib64
       /usr/lib/fftw
       /usr/local/lib/fftw
     )
     unset(FFTWD_FOUND)
-    if(ITK_USE_FFTWD)
+    if(_fftw_double)
       mark_as_advanced(
         FFTWD_BASE_LIB
         FFTWD_THREADS_LIB
@@ -219,8 +239,6 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       if(FFTWD_BASE_LIB)
         set(FFTWD_FOUND 1)
         get_filename_component(FFTW_LIBDIR ${FFTWD_BASE_LIB} PATH) #NOTE FFTWD_BASE_LIB and FFTWF_BASE_LIB must be installed in the same location
-        get_filename_component(FFTWD_BASE_LIB ${FFTWD_BASE_LIB} NAME)
-        get_filename_component(FFTWD_THREADS_LIB ${FFTWD_THREADS_LIB} NAME)
         set(FFTWD_LIBRARIES ${FFTWD_BASE_LIB})
         if(FFTWD_THREADS_LIB)
           set(
@@ -235,7 +253,7 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     endif()
 
     unset(FFTWF_FOUND)
-    if(ITK_USE_FFTWF)
+    if(_fftw_float)
       mark_as_advanced(
         FFTWF_BASE_LIB
         FFTWF_THREADS_LIB
@@ -247,8 +265,6 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       if(FFTWF_BASE_LIB)
         set(FFTWF_FOUND 1)
         get_filename_component(FFTW_LIBDIR ${FFTWF_BASE_LIB} PATH) #NOTE FFTWD_BASE_LIB and FFTWF_BASE_LIB must be installed in the same location
-        get_filename_component(FFTWF_BASE_LIB ${FFTWF_BASE_LIB} NAME)
-        get_filename_component(FFTWF_THREADS_LIB ${FFTWF_THREADS_LIB} NAME)
         set(FFTWF_LIBRARIES ${FFTWF_BASE_LIB})
         if(FFTWF_THREADS_LIB)
           set(
@@ -262,6 +278,61 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       endif()
     endif()
   endif()
-  unset(FFTWD_THREADS_LIB)
-  unset(FFTWF_THREADS_LIB)
+  if(ITK_USE_MKL)
+    set(FFTWF_LIBRARIES ${FFTWD_LIBRARIES})
+  endif()
+  set(_fftw_required_vars FFTW_INCLUDE)
+  if(_fftw_double)
+    list(APPEND _fftw_required_vars FFTWD_LIBRARIES)
+  endif()
+  if(_fftw_float)
+    list(APPEND _fftw_required_vars FFTWF_LIBRARIES)
+  endif()
+  if(ITK_USE_CUFFTW)
+    list(
+      APPEND
+      _fftw_required_vars
+      CUFFT_LIB
+      CUFFTW_LIB
+    )
+  endif()
+  include(FindPackageHandleStandardArgs)
+  find_package_handle_standard_args(FFTW REQUIRED_VARS ${_fftw_required_vars})
+
+  if(FFTW_FOUND)
+    set(_fftw_extra_libraries "")
+    if(NOT ITK_USE_MKL AND NOT ITK_USE_CUFFTW)
+      find_package(Threads REQUIRED)
+      list(APPEND _fftw_extra_libraries Threads::Threads)
+      if(UNIX)
+        list(APPEND _fftw_extra_libraries m)
+      endif()
+    endif()
+    foreach(_fftw_precision IN ITEMS Double Float)
+      string(SUBSTRING ${_fftw_precision} 0 1 _fftw_suffix)
+      string(TOLOWER ${_fftw_precision} _fftw_selected)
+      if(_fftw_${_fftw_selected} AND NOT TARGET FFTW::${_fftw_precision})
+        add_library(FFTW::${_fftw_precision} INTERFACE IMPORTED)
+        target_include_directories(
+          FFTW::${_fftw_precision}
+          SYSTEM
+          INTERFACE
+            "${FFTW_INCLUDE}"
+        )
+        target_link_libraries(
+          FFTW::${_fftw_precision}
+          INTERFACE
+            ${FFTW${_fftw_suffix}_LIBRARIES}
+            ${_fftw_extra_libraries}
+        )
+        if(ITK_USE_MKL)
+          target_compile_options(
+            FFTW::${_fftw_precision}
+            INTERFACE
+              ${MKL_OPTIONS}
+          )
+        endif()
+      endif()
+    endforeach()
+  endif()
 endif()

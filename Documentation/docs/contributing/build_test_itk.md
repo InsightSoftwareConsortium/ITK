@@ -4,6 +4,25 @@ The [CMake] build system was initially created to support development of ITK; IT
 
 ITK's tests are defined with CTest, and the tests can be executed via `ctest`.
 
+## FFTW
+
+Enable `ITK_USE_FFTWF` for single precision or `ITK_USE_FFTWD` for double
+precision. Either option adds the `ITKFFTW` third-party module to `ITKFFT`.
+Enabling `Module_ITKFFTW` with neither option is a configuration error.
+FFTW is GPL licensed; linking it changes the licensing requirements of
+the resulting binaries.
+
+By default, `ITKFFTW` downloads FFTW 3.3.10 at configuration time with CMake
+`FetchContent`. Both precisions share one source download and use separate
+build directories. Set `FETCHCONTENT_SOURCE_DIR_FFTW` to an unpacked FFTW
+source directory to build offline, or set `ITK_USE_SYSTEM_FFTW=ON` to use an
+installed library instead.
+
+`FFTW_ENABLE_NEON`, `FFTW_ENABLE_SSE`, `FFTW_ENABLE_SSE2`,
+`FFTW_ENABLE_AVX`, and `FFTW_ENABLE_AVX2` control SIMD codelets. Defaults
+follow the target architecture and compiler flags, not the build host.
+Link consumers to `ITK::ITKFFTModule` to inherit FFTW dependencies.
+
 ## Pixi
 
 An easy and reproducible way to build and test ITK for development is via [Pixi]. Pixi will provide locally-scoped build tools such as toolchains, `cmake`, `ninja`,  and `python`.

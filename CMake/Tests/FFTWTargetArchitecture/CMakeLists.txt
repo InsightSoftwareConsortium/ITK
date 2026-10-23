@@ -1,30 +1,23 @@
 cmake_minimum_required(VERSION 3.22.1)
 project(FFTWTargetArchitectureCheck LANGUAGES NONE)
 
-file(READ "${CMAKE_CURRENT_LIST_DIR}/../../itkExternal_FFTW.cmake" source)
-string(FIND "${source}" "set(_fftw_default_neon OFF)" selection_start)
-string(FIND "${source}" "# Macro to generate library filename" selection_end)
-math(EXPR selection_length "${selection_end} - ${selection_start}")
-string(SUBSTRING "${source}" ${selection_start} ${selection_length} selection)
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/selection.cmake" "${selection}")
+include(CheckCSourceCompiles)
 
 function(check_c_source_compiles source result)
-  set(${result} OFF PARENT_SCOPE)
+  set(${result} "${compiler_simd}" PARENT_SCOPE)
 endfunction()
 
-set(APPLE TRUE)
-set(failures "")
-foreach(host IN ITEMS arm64 x86_64)
-  set(CMAKE_SYSTEM_PROCESSOR "${host}")
-  if(host STREQUAL "arm64")
-    set(CMAKE_OSX_ARCHITECTURES x86_64)
-    set(expected_neon OFF)
-    set(expected_sse ON)
-  else()
-    set(CMAKE_OSX_ARCHITECTURES arm64)
-    set(expected_neon ON)
-    set(expected_sse OFF)
-  endif()
+function(
+  check_target
+  processor
+  architectures
+  expected_neon
+  expected_sse
+  expected_avx
+)
+  set(APPLE TRUE)
+  set(CMAKE_SYSTEM_PROCESSOR "${processor}")
+  set(CMAKE_OSX_ARCHITECTURES "${architectures}")
   foreach(
     isa
     IN
@@ -38,7 +31,9 @@ foreach(host IN ITEMS arm64 x86_64)
     unset(FFTW_ENABLE_${isa} CACHE)
     unset(FFTW_ENABLE_${isa})
   endforeach()
-  include("${CMAKE_CURRENT_BINARY_DIR}/selection.cmake")
+  include(
+    "${CMAKE_CURRENT_LIST_DIR}/../../../Modules/ThirdParty/FFTW/itkFFTWOptions.cmake"
+  )
   if(
     NOT
       "${FFTW_ENABLE_NEON}"
@@ -54,10 +49,40 @@ foreach(host IN ITEMS arm64 x86_64)
         "${FFTW_ENABLE_SSE2}"
           STREQUAL
           "${expected_sse}"
+    OR
+      NOT
+        "${FFTW_ENABLE_AVX}"
+          STREQUAL
+          "${expected_avx}"
+    OR
+      NOT
+        "${FFTW_ENABLE_AVX2}"
+          STREQUAL
+          "${expected_avx}"
   )
-    list(APPEND failures "${host}->${CMAKE_OSX_ARCHITECTURES}")
+    message(
+      FATAL_ERROR
+      "FFTW defaults disagree with target: ${processor}->${architectures}"
+    )
   endif()
-endforeach()
-if(failures)
-  message(FATAL_ERROR "FFTW defaults disagree with target: ${failures}")
+endfunction()
+
+set(compiler_simd OFF)
+check_target(arm64 x86_64 OFF ON OFF)
+check_target(x86_64 arm64 ON OFF OFF)
+check_target(x86_64 "" OFF ON OFF)
+check_target(aarch64 "" ON OFF OFF)
+check_target(i686 "" OFF OFF OFF)
+check_target(arm64 "arm64;x86_64" OFF OFF OFF)
+
+set(compiler_simd ON)
+check_target(x86_64 "" OFF ON ON)
+
+set(FFTW_ENABLE_AVX OFF CACHE BOOL "" FORCE)
+set(CMAKE_SYSTEM_PROCESSOR x86_64)
+include(
+  "${CMAKE_CURRENT_LIST_DIR}/../../../Modules/ThirdParty/FFTW/itkFFTWOptions.cmake"
+)
+if(FFTW_ENABLE_AVX)
+  message(FATAL_ERROR "FFTW SIMD defaults override an explicit user option")
 endif()
