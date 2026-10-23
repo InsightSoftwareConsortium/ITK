@@ -114,17 +114,8 @@ itkObjectFactoryTest2(int argc, char * argv[])
 #ifdef CMAKE_INTDIR
   path += std::string("/") + std::string(CMAKE_INTDIR);
 #endif
-  const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };
-  const std::string myenv{ itk_autoload_env + "=" + path };
-  itksys::SystemTools::PutEnv(myenv);
-  std::cout << "SetValue => " << myenv << std::endl;
-  std::string getmyenv;
-  if (!itksys::SystemTools::GetEnv(itk_autoload_env, getmyenv))
-  {
-    std::cerr << "ERROR: Environmental variable not set as requested : " << itk_autoload_env << "!=" << path
-              << std::endl;
-  }
-  std::cout << "GetValue => " << itk_autoload_env + "=" + getmyenv << std::endl;
+  itk::ObjectFactoryBase::SetAutoloadPath(path);
+  std::cout << "Autoload path => " << itk::ObjectFactoryBase::GetAutoloadPath() << std::endl;
 
   itk::ObjectFactoryBase::ReHash();
 
