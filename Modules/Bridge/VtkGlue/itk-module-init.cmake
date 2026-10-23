@@ -14,7 +14,27 @@
 # but not required.
 set(VERSION_MIN "9.1.0")
 
-find_package(VTK ${VERSION_MIN} NO_MODULE REQUIRED)
+find_package(VTK ${VERSION_MIN} NO_MODULE)
+if(NOT VTK_FOUND)
+  message(
+    FATAL_ERROR
+    "Module_ITKVtkGlue requires VTK >= ${VERSION_MIN}. Set VTK_DIR to its CMake package directory.\n"
+    "${VTK_NOT_FOUND_MESSAGE}"
+  )
+endif()
+# Not REQUIRED, so a Python-wrapped VTK reports an unusable Python here instead of failing inside FindPython3.
+if(VTK_WRAP_PYTHON AND DEFINED VTK_Python_FOUND AND NOT VTK_Python_FOUND)
+  message(
+    FATAL_ERROR
+    "The VTK at\n"
+    "  ${VTK_DIR}\n"
+    "is Python-wrapped, but its Python is inconsistent with the selected one:\n"
+    "  Python3_EXECUTABLE=${Python3_EXECUTABLE} (Python ${Python3_VERSION})\n"
+    "  Python3_INCLUDE_DIR=${Python3_INCLUDE_DIR}\n"
+    "  Python3_LIBRARY=${Python3_LIBRARY}\n"
+    "Set Python3_EXECUTABLE to the Python VTK was built with, or set Module_ITKVtkGlue=OFF."
+  )
+endif()
 
 # VTK 9 omits VTK_RENDERING_BACKEND; infer rendering support from its OpenGL2 target.
 if(NOT VTK_RENDERING_BACKEND)
