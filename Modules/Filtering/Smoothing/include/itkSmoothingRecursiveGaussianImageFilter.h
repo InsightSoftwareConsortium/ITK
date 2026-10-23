@@ -37,6 +37,10 @@ namespace itk
  * filters. For multi-component images, the filter works on each
  * component independently.
  *
+ * Axes with fewer than four pixels are not smoothed. If all axes are shorter
+ * than four pixels, the input is only cast to the output pixel type.
+ * Image dimensionality and physical geometry are preserved.
+ *
  * For this filter to be able to run in-place the input and output
  * image types need to be the same and/or the same type as the
  * RealImageType.

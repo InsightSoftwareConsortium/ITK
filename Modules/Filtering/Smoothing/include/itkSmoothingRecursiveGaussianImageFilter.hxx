@@ -27,12 +27,7 @@ template <typename TInputImage, typename TOutputImage>
 SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecursiveGaussianImageFilter()
   : m_FirstSmoothingFilter(FirstGaussianFilterType::New())
 {
-  // NB: The first filter is the last dimension because it does not
-  // always run in-place. As this dimension provides the least amount
-  // of cache coherency, it will provide the least  amount of performance
-  // gains from running in-place. In fact, some performance tests
-  // indicate that the running in-place in the 3rd dimension the
-  // performance actually declines compared to not in-place methods.
+  // The highest eligible dimension benefits least from in-place execution, so process it first.
   m_FirstSmoothingFilter->SetOrder(GaussianOrderEnum::ZeroOrder);
   m_FirstSmoothingFilter->SetDirection(ImageDimension - 1);
   m_FirstSmoothingFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
@@ -49,14 +44,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
     m_SmoothingFilters[i]->InPlaceOn();
   }
 
-  m_SmoothingFilters[0]->SetInput(m_FirstSmoothingFilter->GetOutput());
-  for (unsigned int i = 1; i < ImageDimension - 1; ++i)
-  {
-    m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput());
-  }
-
   m_CastingFilter = CastingFilterType::New();
-  m_CastingFilter->SetInput(m_SmoothingFilters.back()->GetOutput());
   m_CastingFilter->InPlaceOn();
 
   this->InPlaceOff();
@@ -202,18 +190,67 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   const typename TInputImage::ConstPointer inputImage(this->GetInput());
 
-  const typename TInputImage::RegionType region = inputImage->GetRequestedRegion();
-  const typename TInputImage::SizeType   size = region.GetSize();
-
+  const auto   size = inputImage->GetLargestPossibleRegion().GetSize();
+  unsigned int numberOfActiveDimensions = 0;
+  unsigned int firstDirection = 0;
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
-    if (size[d] < 4)
+    if (m_Sigma[d] <= 0.0)
     {
-      itkExceptionMacro(
-        "The number of pixels along dimension "
-        << d << " is less than 4. This filter requires a minimum of four pixels along the dimension to be processed.");
+      itkExceptionStringMacro("Sigma must be greater than zero.");
+    }
+    if (size[d] == 0)
+    {
+      itkExceptionMacro("The number of pixels along dimension " << d << " is zero.");
+    }
+    if (size[d] >= 4)
+    {
+      firstDirection = d;
+      ++numberOfActiveDimensions;
     }
   }
+
+  auto progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
+  m_FirstSmoothingFilter->SetInput(inputImage);
+
+  if (numberOfActiveDimensions == 0)
+  {
+    m_CastingFilter->SetInput(nullptr);
+    m_CastingFilter->GetOutput()->ReleaseData();
+    auto cast = CastImageFilter<InputImageType, OutputImageType>::New();
+    cast->SetInput(inputImage);
+    cast->SetInPlace(this->GetInPlace());
+    cast->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+    progress->RegisterInternalFilter(cast, 1.0);
+    cast->GraftOutput(this->GetOutput());
+    cast->Update();
+    this->GraftOutput(cast->GetOutput());
+    return;
+  }
+
+  m_FirstSmoothingFilter->SetDirection(firstDirection);
+  m_FirstSmoothingFilter->SetSigma(m_Sigma[firstDirection]);
+  progress->RegisterInternalFilter(m_FirstSmoothingFilter, 1.0 / numberOfActiveDimensions);
+
+  typename RealImageType::Pointer previousOutput = m_FirstSmoothingFilter->GetOutput();
+  for (unsigned int d = 0; d < ImageDimension - 1; ++d)
+  {
+    if (d != firstDirection && size[d] >= 4)
+    {
+      auto & filter = m_SmoothingFilters[d];
+      filter->SetSigma(m_Sigma[d]);
+      filter->SetInput(previousOutput);
+      progress->RegisterInternalFilter(filter, 1.0 / numberOfActiveDimensions);
+      previousOutput = filter->GetOutput();
+    }
+    else
+    {
+      m_SmoothingFilters[d]->SetInput(nullptr);
+    }
+  }
+  m_CastingFilter->SetInput(previousOutput);
 
   // If this filter is running in-place, then set the first smoothing
   // filter to steal the bulk data, by running in-place.
@@ -237,20 +274,6 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     this->GetOutput()->ReleaseData();
   }
-
-  // Create a process accumulator for tracking the progress of this minipipeline.
-  auto progress = ProgressAccumulator::New();
-  progress->SetMiniPipelineFilter(this);
-
-  // Register the filter with the with progress accumulator using
-  // equal weight proportion.
-  for (const auto & filter : m_SmoothingFilters)
-  {
-    progress->RegisterInternalFilter(filter, 1.0 / (ImageDimension));
-  }
-
-  progress->RegisterInternalFilter(m_FirstSmoothingFilter, 1.0 / (ImageDimension));
-  m_FirstSmoothingFilter->SetInput(inputImage);
 
   // Graft our output to the internal filter to force the proper regions
   // to be generated, and the bulk data which be be from the input due
