@@ -21,37 +21,11 @@
 #include "itkInPlaceImageFilter.h"
 #include "itkSmartPointer.h"
 #include "itkExtractImageFilterRegionCopier.h"
+#include "itkDirectionCollapse.h"
 #include "ITKCommonExport.h"
 
 namespace itk
 {
-
-/** \class ExtractionImageFilterEnums
- *
- * \brief enums for itk::ExtractImageFilter
- *
- * \ingroup ITKCommon
- */
-class ExtractImageFilterEnums
-{
-public:
-  /**
-   * \ingroup ITKCommon
-   * Strategy to be used to collapse physical space dimensions
-   */
-  enum class DirectionCollapseStrategy : uint8_t
-  {
-    DIRECTIONCOLLAPSETOUNKOWN = 0,
-    DIRECTIONCOLLAPSETOIDENTITY = 1,
-    DIRECTIONCOLLAPSETOSUBMATRIX = 2,
-    DIRECTIONCOLLAPSETOGUESS = 3
-  };
-};
-
-/** Define how to print enumerations */
-extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ExtractImageFilterEnums::DirectionCollapseStrategy value);
-
 
 /** \class ExtractImageFilter
  * \brief Decrease the image size by cropping the image to the selected
