@@ -89,6 +89,17 @@ SynchronizeList(FactoryListType & output, FactoryListType & input, bool internal
     }
   }
 }
+
+std::string
+GetAutoloadPathFromEnvironment()
+{
+  std::string path;
+  if (!itksys::SystemTools::GetEnv("ITK_AUTOLOAD_PATH", path))
+  {
+    path.clear();
+  }
+  return path;
+}
 } // end of anonymous namespace
 
 namespace itk
@@ -125,6 +136,7 @@ public:
   FactoryListType   m_InternalFactories{};
   std::atomic<bool> m_Initialized{ false };
   bool              m_StrictVersionChecking{ false };
+  std::string       m_AutoloadPath{ GetAutoloadPathFromEnvironment() };
 };
 
 auto
@@ -184,6 +196,19 @@ ObjectFactoryBase::GetStrictVersionChecking()
   return m_PimplGlobals->m_StrictVersionChecking;
 }
 
+void
+ObjectFactoryBase::SetAutoloadPath(const std::string & path)
+{
+  itkInitGlobalsMacro(PimplGlobals);
+  m_PimplGlobals->m_AutoloadPath = path;
+}
+
+std::string
+ObjectFactoryBase::GetAutoloadPath()
+{
+  itkInitGlobalsMacro(PimplGlobals);
+  return m_PimplGlobals->m_AutoloadPath;
+}
 
 /**
  * Create an instance of a named ITK object using the loaded
@@ -259,12 +284,8 @@ ObjectFactoryBase::LoadDynamicFactories()
   const char PathSeparator = ':';
 #  endif
 
-  const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };
-  std::string       LoadPath;
-  if (!itksys::SystemTools::GetEnv(itk_autoload_env, LoadPath))
-  {
-    return;
-  }
+  itkInitGlobalsMacro(PimplGlobals);
+  const std::string LoadPath = m_PimplGlobals->m_AutoloadPath;
   if (LoadPath.empty())
   {
     return;
@@ -452,7 +473,7 @@ ObjectFactoryBase::LoadLibrariesInPath(const char * path)
 }
 
 /**
- * Recheck the ITK_AUTOLOAD_PATH for new libraries
+ * Recheck the autoload path for new libraries
  */
 void
 ObjectFactoryBase::ReHash()
