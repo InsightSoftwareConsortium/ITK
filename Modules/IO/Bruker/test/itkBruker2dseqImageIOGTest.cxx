@@ -156,18 +156,12 @@ TEST(Bruker2dseqImageIO, RejectShortGeometryArrays)
     unsigned int Dimension;
   };
   const std::vector<Case> cases{
-    { "VisuCoreSize", "", 0, 2 },
-    { "VisuCoreSize", "4", 1, 2 },
-    { "VisuCoreSize", "4 2", 2, 3 },
-    { "VisuCoreExtent", "", 0, 2 },
-    { "VisuCoreExtent", "4", 1, 2 },
-    { "VisuCoreExtent", "4 2", 2, 3 },
-    { "VisuCorePosition", "", 0, 2 },
-    { "VisuCorePosition", "0 0", 2, 2 },
-    { "VisuCoreOrientation", "", 0, 2 },
-    { "VisuCoreOrientation", "1 0 0 0 1 0 0 0", 8, 2 },
-    { "VisuCoreFrameThickness", "", 0, 2 },
-    { "VisuAcqRepetitionTime", "", 0, 2 }
+    { "VisuCoreSize", "", 0, 2 },           { "VisuCoreSize", "4", 1, 2 },
+    { "VisuCoreSize", "4 2", 2, 3 },        { "VisuCoreExtent", "", 0, 2 },
+    { "VisuCoreExtent", "4", 1, 2 },        { "VisuCoreExtent", "4 2", 2, 3 },
+    { "VisuCorePosition", "", 0, 2 },       { "VisuCorePosition", "0 0", 2, 2 },
+    { "VisuCoreOrientation", "", 0, 2 },    { "VisuCoreOrientation", "1 0 0 0 1 0 0 0", 8, 2 },
+    { "VisuCoreFrameThickness", "", 0, 2 }, { "VisuAcqRepetitionTime", "", 0, 2 }
   };
   unsigned int caseNumber = 0;
   for (const auto & testCase : cases)
@@ -175,9 +169,9 @@ TEST(Bruker2dseqImageIO, RejectShortGeometryArrays)
     SCOPED_TRACE(testCase.Name);
     SCOPED_TRACE(testCase.Count);
     std::string visu = MakeVisuPars();
-    const auto replaceRecord = [&visu](const std::string & name, const std::string & value) {
+    const auto  replaceRecord = [&visu](const std::string & name, const std::string & value) {
       const std::string prefix = "##$" + name + "=";
-      const auto begin = visu.find(prefix);
+      const auto        begin = visu.find(prefix);
       if (begin == std::string::npos)
       {
         return false;
@@ -225,9 +219,9 @@ TEST(Bruker2dseqImageIO, RejectUnsupportedGeometryDimension)
 {
   for (const std::string dimension : { "0", "2.5", "4" })
   {
-    std::string visu = MakeVisuPars();
+    std::string       visu = MakeVisuPars();
     const std::string record = "##$VisuCoreDim=2";
-    const auto position = visu.find(record);
+    const auto        position = visu.find(record);
     ASSERT_NE(position, std::string::npos);
     visu.replace(position, record.size(), "##$VisuCoreDim=" + dimension);
     ExpectReadThrows("bruker_dimension_" + dimension, visu);

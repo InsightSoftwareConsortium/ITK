@@ -61,7 +61,7 @@ GetParameterArray(const MetaDataDictionary & dict, const std::string & name, con
   if (values.size() < minimumSize)
   {
     itkGenericExceptionMacro("Bruker parameter " << name << " has " << values.size() << " values, need at least "
-                                               << minimumSize);
+                                                 << minimumSize);
   }
   return values;
 }
