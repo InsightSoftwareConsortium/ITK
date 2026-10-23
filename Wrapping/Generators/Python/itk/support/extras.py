@@ -753,7 +753,7 @@ def image_from_vtk_image(vtk_image: vtk.vtkImageData) -> itkt.ImageBase:
     number_of_components = point_data.GetScalars().GetNumberOfComponents()
     is_vector = number_of_components != 1
     dims = list(vtk_image.GetDimensions())
-    if is_vector and dims[-1] == 1:
+    if dims[-1] == 1:
         dims = dims[:-1]  # 2D, not 3D
     dims.reverse()
     if is_vector:
