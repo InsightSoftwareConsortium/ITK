@@ -59,8 +59,6 @@ if(NOT ITK_FORBID_DOWNLOADS)
     "https://ipfs.filebase.io/ipfs/%(hash)"
     # Gateway for data pinned on pinata
     "https://gateway.pinata.cloud/ipfs/%(hash)"
-    # Cloudflare gateway
-    "https://cloudflare-ipfs.com/ipfs/%(hash)"
     # Additional gateway (modern but has redirect)
     "https://dweb.link/ipfs/%(hash)"
     # Data published on Girder

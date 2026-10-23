@@ -9,7 +9,7 @@ committed to the ITK source tree.
 This complements [`CMake/ITKExternalData.cmake`](../../../CMake/ITKExternalData.cmake),
 which fetches content at test configure time from the gateways listed there
 (`ITKTestingData` on GitHub Pages, local Kubo
-gateway, `ipfs.filebase.io`, `ipfs.io`, `gateway.pinata.cloud`, `cloudflare-ipfs.com`,
+gateway, `ipfs.filebase.io`, `ipfs.io`, `gateway.pinata.cloud`,
 `dweb.link`).
 
 ## How the upload works
@@ -250,7 +250,7 @@ ITK's CMake layer recognises the `.cid` extension via
 [`CMake/ITKExternalData.cmake`](../../../CMake/ITKExternalData.cmake). At
 configure time, `ExternalData.cmake` substitutes the CID into each
 `ExternalData_URL_TEMPLATES` entry (local Kubo gateway, `ipfs.io`,
-`gateway.pinata.cloud`, `cloudflare-ipfs.com`, `dweb.link`, plus the
+`gateway.pinata.cloud`, `dweb.link`, plus the
 `ITKTestingData` GitHub Pages mirror) and downloads from the first one that
 responds. The downloaded content is cached in
 `ExternalData_OBJECT_STORES` under `cid/<cid>`.
