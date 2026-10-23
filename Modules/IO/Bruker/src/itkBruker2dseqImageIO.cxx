@@ -55,7 +55,9 @@ GetParameter(const itk::MetaDataDictionary & dict, const std::string & name)
 }
 
 std::vector<double>
-GetParameterArray(const MetaDataDictionary & dict, const std::string & name, const SizeType minimumSize)
+GetParameterArray(const MetaDataDictionary &           dict,
+                  const std::string &                  name,
+                  const std::vector<double>::size_type minimumSize)
 {
   auto values = GetParameter<std::vector<double>>(dict, name);
   if (values.size() < minimumSize)
