@@ -157,7 +157,7 @@ Commit the ITK changes with an appropriate prefix per
 A `.cid` file is one line of plain text: a CIDv1, base32-encoded. ITK's
 `CMake/ITKExternalData.cmake` recognises the `.cid` extension and fetches
 through the gateway list declared there (local Kubo, `ipfs.io`,
-`gateway.pinata.cloud`, `cloudflare-ipfs.com`, `dweb.link`, plus the
+`gateway.pinata.cloud`, `dweb.link`, plus the
 `ITKTestingData` GitHub Pages mirror at
 `insightsoftwareconsortium.github.io/ITKTestingData/CID/<cid>`).
 

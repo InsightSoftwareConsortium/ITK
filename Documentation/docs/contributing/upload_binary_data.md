@@ -49,7 +49,7 @@ locations so it can be retrieved from any of the following at build time:
 
 - [Filebase] IPFS gateway (where uploads land)
 - [ITKTestingData] GitHub Pages mirror
-- Public IPFS HTTP gateways (`ipfs.io`, `dweb.link`, `cloudflare-ipfs.com`,
+- Public IPFS HTTP gateways (`ipfs.io`, `dweb.link`,
   `gateway.pinata.cloud`)
 - Local [Kubo] gateway (typically `127.0.0.1:8080`) when present
 - Kitware's Apache HTTP Server
