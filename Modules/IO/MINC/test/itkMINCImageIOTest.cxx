@@ -661,6 +661,49 @@ MINCReadWriteTestVector(const char * fileName,
   return success;
 }
 
+// The reader records MINC signed bytes as typeid(int8_t); the writer must store them as signed bytes again.
+static int
+MINCSignedByteStorageTest(const char * fileName)
+{
+  using ImageType = itk::Image<float, 3>;
+  auto                  image = ImageType::New();
+  ImageType::RegionType region;
+  region.SetSize({ { 4, 4, 4 } });
+  image->SetRegions(region);
+  image->Allocate();
+  float value = -3.2F;
+  for (itk::ImageRegionIterator<ImageType> it(image, region); !it.IsAtEnd(); ++it, value += 0.1F)
+  {
+    it.Set(value);
+  }
+  itk::EncapsulateMetaData<std::string>(image->GetMetaDataDictionary(), "storage_data_type", typeid(int8_t).name());
+
+  itk::IOTestHelper::WriteImage<ImageType, itk::MINCImageIO>(image, std::string(fileName));
+  const ImageType::Pointer back = itk::IOTestHelper::ReadImage<ImageType>(std::string(fileName));
+  std::string              storage;
+  itk::ExposeMetaData<std::string>(back->GetMetaDataDictionary(), "storage_data_type", storage);
+  if (storage != typeid(int8_t).name())
+  {
+    std::cerr << fileName << ": stored as " << storage << ", expected " << typeid(int8_t).name() << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // One byte step is 6.3 / 255; allow for its rounding.
+  constexpr float                          tolerance = 0.02F;
+  itk::ImageRegionConstIterator<ImageType> in(image, region);
+  itk::ImageRegionConstIterator<ImageType> out(back, region);
+  for (; !in.IsAtEnd(); ++in, ++out)
+  {
+    if (itk::Math::Absolute(in.Get() - out.Get()) > tolerance)
+    {
+      std::cerr << fileName << ": " << out.Get() << " read at " << in.ComputeIndex() << ", expected " << in.Get()
+                << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+  return EXIT_SUCCESS;
+}
+
 int
 itkMINCImageIOTest(int argc, char * argv[])
 {
@@ -705,6 +748,8 @@ itkMINCImageIOTest(int argc, char * argv[])
 
   result += MINCReadWriteTest<double, 3>("3DDoubleImage_double_byte.mnc", typeid(unsigned char).name(), 0.2);
   result += MINCReadWriteTest<double, 3>("3DDoubleImage_double_short.mnc", typeid(short).name(), 0.01);
+
+  result += MINCSignedByteStorageTest("3DFloatImage_sbyte.mnc");
 
   result += MINCReadWriteTest<itk::Vector<float, 3>, 3>(
     "3DVectorImage_float_byte.mnc", typeid(unsigned char).name(), 0.5 * sqrt(3.0));
