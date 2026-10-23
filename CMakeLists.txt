@@ -704,13 +704,6 @@ option(
 )
 mark_as_advanced(ITK_USE_SYSTEM_FFTW)
 
-if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
-  include(itkExternal_FFTW)
-  # This pollutes the global namespace, but is needed for backward compatibility
-  include_directories(${FFTW_INCLUDE})
-  link_directories(${FFTW_LIBDIR})
-endif()
-
 set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
 # Note WIN32 is true when targeting any windows system
 if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)
@@ -883,17 +876,6 @@ set(
   ITK_CONFIG_MODULE_API_FILE
   "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKModuleAPI.cmake"
 )
-if(NOT ITK_USE_SYSTEM_FFTW)
-  # Location installed with the FFTW ExternalProject.
-  set(
-    FFTW_LIBDIR
-    "\${ITK_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}"
-  )
-  set(
-    FFTW_INCLUDE_PATH
-    "\${ITK_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms"
-  )
-endif()
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
 
 #-----------------------------------------------------------------------------
@@ -920,6 +902,7 @@ install(
     CMake/Windows-utf8-codepage.manifest
     CMake/ITKExternalData.cmake
     CMake/ITKDownloadSetup.cmake
+    CMake/FindFFTW.cmake
     CMake/ExternalData.cmake
     CMake/ExternalData_config.cmake.in
     CMake/WrappingConfigCommon.cmake

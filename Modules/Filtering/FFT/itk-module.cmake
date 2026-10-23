@@ -9,7 +9,9 @@ implementation you must comply with the GPL license."
 )
 
 set(_fft_backends "FFTImageFilterInit::Pocket")
+set(_fft_dependencies "")
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+  list(APPEND _fft_dependencies ITKFFTW)
   # Prepend so that FFTW constructor is preferred
   list(PREPEND _fft_backends "FFTImageFilterInit::FFTW")
 endif()
@@ -20,6 +22,7 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKPocketFFT
+    ${_fft_dependencies}
   COMPILE_DEPENDS
     ITKImageGrid
   TEST_DEPENDS
