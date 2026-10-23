@@ -129,7 +129,7 @@ protected:
 
 private:
   unsigned int m_Count{};
-  bool m_Shrink{};
+  bool         m_Shrink{};
 };
 } // namespace
 
@@ -166,7 +166,7 @@ itkNarrowBandSmallBandTest(int, char *[])
     {
       for (const bool shrink : { false, true })
       {
-        const auto input = ImageType::New();
+        const auto                input = ImageType::New();
         const ImageType::SizeType size{ 8, 4 };
         input->SetRegions(ImageType::RegionType{ size });
         input->Allocate();
@@ -183,8 +183,8 @@ itkNarrowBandSmallBandTest(int, char *[])
           for (unsigned int x = 0; x < 8; ++x)
           {
             const ImageType::IndexType index{ static_cast<itk::IndexValueType>(x),
-                                             static_cast<itk::IndexValueType>(y) };
-            const float expected = 10.0f + ((y == 1 && x > 0 && x <= count) ? iterations : 0);
+                                              static_cast<itk::IndexValueType>(y) };
+            const float                expected = 10.0f + ((y == 1 && x > 0 && x <= count) ? iterations : 0);
             ITK_TEST_EXPECT_EQUAL(filter->GetOutput()->GetPixel(index), expected);
             ITK_TEST_EXPECT_EQUAL(input->GetPixel(index), 10.0f);
           }
