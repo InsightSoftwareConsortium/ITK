@@ -26,6 +26,34 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest_cthead1.tif
 )
 itk_add_test(
+  NAME itkTIFFImageIOTiledTest
+  COMMAND
+    ITKIOTIFFTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTiledTest.tif
+    itkTIFFImageIOTest
+    DATA{Input/cthead1-tiled.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTiledTest.tif
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTiledTest.tif
+)
+itk_add_test(
+  NAME itkTIFFImageIOTiledUShortTest
+  COMMAND
+    ITKIOTIFFTestDriver
+    --compare
+    DATA{Baseline/cthead1-uint16.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTiledUShortTest.tif
+    itkTIFFImageIOTest
+    DATA{Input/cthead1-tiled-uint16.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTiledUShortTest.tif
+    2
+    5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTiledUShortTest.tif
+)
+itk_add_test(
   NAME itkTIFFImageIOTest1
   COMMAND
     ITKIOTIFFTestDriver

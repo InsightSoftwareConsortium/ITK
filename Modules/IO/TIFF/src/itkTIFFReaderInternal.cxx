@@ -216,14 +216,15 @@ TIFFReaderInternal::Initialize()
       this->m_NumberOfTiles = TIFFNumberOfTiles(this->m_Image);
 
       if (!TIFFGetField(this->m_Image, TIFFTAG_TILEWIDTH, &this->m_TileWidth) ||
-          !TIFFGetField(this->m_Image, TIFFTAG_TILELENGTH, &this->m_TileHeight))
+          !TIFFGetField(this->m_Image, TIFFTAG_TILELENGTH, &this->m_TileHeight) || this->m_TileWidth == 0 ||
+          this->m_TileHeight == 0)
       {
         itkGenericExceptionMacro("Cannot read tile width and tile length from file");
       }
       else
       {
-        this->m_TileRows = this->m_Height / this->m_TileHeight;
-        this->m_TileColumns = this->m_Width / this->m_TileWidth;
+        this->m_TileRows = this->m_Height / this->m_TileHeight + (this->m_Height % this->m_TileHeight != 0);
+        this->m_TileColumns = this->m_Width / this->m_TileWidth + (this->m_Width % this->m_TileWidth != 0);
       }
     }
 
@@ -280,9 +281,7 @@ TIFFReaderInternal::CanRead()
 {
   const bool compressionSupported = (TIFFIsCODECConfigured(this->m_Compression) == 1);
   return (this->m_Image && (this->m_Width > 0) && (this->m_Height > 0) && (this->m_SamplesPerPixel > 0) &&
-          compressionSupported && (m_NumberOfTiles == 0) // just use TIFFReadRGBAImage, an
-                                                         // native optimized version would be nice
-          && (this->m_HasValidPhotometricInterpretation) &&
+          compressionSupported && (this->m_HasValidPhotometricInterpretation) &&
           (this->m_Photometrics == PHOTOMETRIC_RGB || this->m_Photometrics == PHOTOMETRIC_MINISWHITE ||
            this->m_Photometrics == PHOTOMETRIC_MINISBLACK ||
            (this->m_Photometrics == PHOTOMETRIC_PALETTE && this->m_BitsPerSample != 32)) &&
