@@ -125,7 +125,7 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   if (numberOfParameters > NumericTraits<NumberOfParametersType>::max())
   {
     itkExceptionMacro("Moving transform has " << numberOfParameters << " parameters, exceeding the metric limit of "
-                                             << NumericTraits<NumberOfParametersType>::max());
+                                              << NumericTraits<NumberOfParametersType>::max());
   }
   return static_cast<NumberOfParametersType>(numberOfParameters);
 }

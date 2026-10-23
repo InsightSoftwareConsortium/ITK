@@ -83,6 +83,12 @@ public:
     this->GetDerivative(derivative);
   }
 
+  bool
+  SupportsArbitraryVirtualDomainSamples() const override
+  {
+    return false;
+  }
+
 protected:
   CountMetric() = default;
   ~CountMetric() override = default;
