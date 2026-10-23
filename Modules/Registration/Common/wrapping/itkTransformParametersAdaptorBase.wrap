@@ -1,9 +1,17 @@
 itk_wrap_include("itkTransform.h")
 itk_wrap_class("itk::TransformParametersAdaptorBase" POINTER)
 unique(real_types "${WRAP_ITK_REAL};D")
-foreach(d ${ITK_WRAP_DIMS})
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${real_types})
     itk_wrap_template("${ITKM_${t}}${d}" "itk::Transform< ${ITKT_${t}},${d},${d} >")
+    set(adaptor_name "itkTransformParametersAdaptorBase${ITKM_${t}}${d}")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+      "DECL_PYTHON_STD_VEC_RAW_TO_SMARTPTR_TYPEMAP(${adaptor_name}, ${adaptor_name}_Pointer)\n"
+      "%template(vector${adaptor_name}) std::vector< ${adaptor_name}_Pointer >;\n"
+    )
+    add_python_config_template("vector" "std::vector" "vector${adaptor_name}"
+      "itk::TransformParametersAdaptorBase< itk::Transform< ${ITKT_${t}},${d},${d} > >"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
