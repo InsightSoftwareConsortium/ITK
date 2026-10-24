@@ -34,6 +34,35 @@ function(itk_fftw_add_precision precision)
     set(HAVE_${isa} 0)
   endforeach()
 
+  # FFTW is always built optimized; other flags are kept.
+  # Optimization tokens are removed in place so quoted arguments are left intact.
+  set(_fftw_opt_flag " [-/](O[0-9sgdxz]?|Ob[0-9]|RTC[1csu]*) ")
+  set(
+    _fftw_configs
+    DEBUG
+    RELWITHDEBINFO
+    MINSIZEREL
+  )
+  foreach(_config IN LISTS CMAKE_BUILD_TYPE CMAKE_CONFIGURATION_TYPES)
+    string(TOUPPER "${_config}" _config)
+    if(NOT _config STREQUAL "RELEASE")
+      list(APPEND _fftw_configs ${_config})
+    endif()
+  endforeach()
+  list(REMOVE_DUPLICATES _fftw_configs)
+  foreach(_config IN LISTS _fftw_configs)
+    set(_fftw_flags " ${CMAKE_C_FLAGS_${_config}} ")
+    while(_fftw_flags MATCHES "${_fftw_opt_flag}")
+      string(REGEX REPLACE "${_fftw_opt_flag}" " " _fftw_flags "${_fftw_flags}")
+    endwhile()
+    string(STRIP "${_fftw_flags}" _fftw_flags)
+    set(CMAKE_C_FLAGS_${_config} "${_fftw_flags} ${CMAKE_C_FLAGS_RELEASE}")
+  endforeach()
+  get_property(_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+  if(NOT _multi_config AND NOT CMAKE_BUILD_TYPE)
+    string(APPEND CMAKE_C_FLAGS " ${CMAKE_C_FLAGS_RELEASE}")
+  endif()
+
   add_subdirectory("${fftw_SOURCE_DIR}" "${precision}" EXCLUDE_FROM_ALL)
 
   foreach(_target IN ITEMS ${_fftw_library} ${_fftw_library}_threads)
