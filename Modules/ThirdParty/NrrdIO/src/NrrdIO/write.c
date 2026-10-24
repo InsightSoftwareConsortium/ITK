@@ -586,7 +586,10 @@ _nrrdSprintFieldInfo(char **strP, const char *prefix,
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
       strcat(*strP, " \"");
-      if (airStrlen(nrrd->axis[ii].label)) {
+      /* Check the string that is written (label or units), not always the label:
+         otherwise units are dropped on axes that have no label, and an axis with a
+         label but no units makes _nrrdWriteEscaped dereference a NULL string. */
+      if (airStrlen(LABEL_OR_UNITS)) {
         _nrrdWriteEscaped(NULL, *strP, LABEL_OR_UNITS,
                           "\"", _NRRD_WHITESPACE_NOTAB);
       }
