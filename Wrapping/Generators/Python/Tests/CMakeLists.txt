@@ -225,6 +225,10 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_xarray.py
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     )
+    set_tests_properties(
+      PythonXarrayTest
+      PROPERTIES SKIP_REGULAR_EXPRESSION "xarray not imported"
+    )
     itk_python_add_test(
       NAME PythonImreadSingleFileListTest
       COMMAND
