@@ -20,7 +20,12 @@ import itk
 import numpy as np
 import functools
 
-input_image = itk.Image[itk.F, 2].New()
+image_type = next(
+    input_type
+    for input_type, output_type in itk.PyImageFilter.keys()
+    if input_type == output_type and input_type.GetImageDimension() == 2
+)
+input_image = image_type.New()
 input_image.SetRegions([6, 6])
 input_image.AllocateInitialized()
 
