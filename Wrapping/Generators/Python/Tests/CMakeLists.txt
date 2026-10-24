@@ -227,7 +227,9 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
     )
     set_tests_properties(
       PythonXarrayTest
-      PROPERTIES SKIP_REGULAR_EXPRESSION "xarray not imported"
+      PROPERTIES
+        SKIP_REGULAR_EXPRESSION
+          "xarray not imported"
     )
     itk_python_add_test(
       NAME PythonImreadSingleFileListTest
