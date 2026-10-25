@@ -160,7 +160,7 @@ testFancyStringWithStdVector()
   itk::FancyString   s = svalue;
   s.ToData(dataOut1);
   // check successful or not
-  if (dataOut1.size() != (dataIn.size() + 1) && dataOut1.back() != 10.0f)
+  if (dataOut1.size() != (dataIn.size() + 1) || dataOut1.back() != 10.0f)
   {
     throw "testFancyStringWithStdVector: failed reading all elements in the string (1)";
   }
@@ -196,7 +196,7 @@ testFancyStringWithStdVector()
   s = svalue;
   s.ToData(dataOut3, 5);
   // check successful or not
-  if (dataOut3.size() != 10 && dataOut3[5] != 0.0f)
+  if (dataOut3.size() != 10 || dataOut3[5] != 0.0f)
   {
     throw "testFancyStringWithStdVector: failed reading user-specified number of elements (1.1)";
   }
@@ -248,7 +248,7 @@ testFancyStringWithItkArray()
   itk::FancyString s = svalue;
   s.ToData(dataOut1);
   // check successful or not
-  if (dataOut1.GetSize() != (dataIn.GetSize() + 1) && dataOut1[10] != 10.0)
+  if (dataOut1.GetSize() != (dataIn.GetSize() + 1) || dataOut1[10] != 10.0)
   {
     throw "testFancyStringWithItkArray: failed reading all elements in the string (1)";
   }
@@ -284,7 +284,7 @@ testFancyStringWithItkArray()
   s = svalue;
   s.ToData(dataOut3, 5);
   // check successful or not
-  if (dataOut3.GetSize() != 10 && dataOut3[5] != 0.0)
+  if (dataOut3.GetSize() != 10 || dataOut3[5] != 0.0)
   {
     throw "testFancyStringWithItkArray: failed reading user-specified number of elements (1.1)";
   }
