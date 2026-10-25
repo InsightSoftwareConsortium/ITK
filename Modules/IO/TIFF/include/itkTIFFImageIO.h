@@ -279,6 +279,10 @@ private:
 
   template <typename TType>
   void
+  PutRow(TType * to, void * from, unsigned int xsize);
+
+  template <typename TType>
+  void
   PutGrayscale(TType *      to,
                TType *      from,
                unsigned int xsize,
