@@ -523,7 +523,16 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
         ${lib}
         PROPERTIES
           COMPILE_FLAGS
-            "-fno-strict-aliasing -w"
+            "-fno-strict-aliasing"
+      )
+      set_property(
+        SOURCE
+          "${cpp_file}"
+          ${ITK_WRAP_PYTHON_CXX_FILES}
+        APPEND
+        PROPERTY
+          COMPILE_OPTIONS
+            -w
       )
     else()
       if(MSVC)
