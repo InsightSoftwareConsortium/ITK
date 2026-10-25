@@ -51,17 +51,25 @@ itkFancyStringTest(int, char *[])
 {
   int testStatus = EXIT_SUCCESS;
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithBasicType());
+  try
+  {
+    ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithBasicType());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithStdVector());
+    ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithStdVector());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithItkArray());
+    ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithItkArray());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringForStringOperations());
+    ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringForStringOperations());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testStatus |= testFancyStringUnequalOperator());
+    ITK_TRY_EXPECT_NO_EXCEPTION(testStatus |= testFancyStringUnequalOperator());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testStatus |= testFancyStringEqualOperator());
+    ITK_TRY_EXPECT_NO_EXCEPTION(testStatus |= testFancyStringEqualOperator());
+  }
+  catch (const char * emsg)
+  {
+    std::cerr << emsg << std::endl;
+    return EXIT_FAILURE;
+  }
 
 
   std::cout << "Test finished." << std::endl;
