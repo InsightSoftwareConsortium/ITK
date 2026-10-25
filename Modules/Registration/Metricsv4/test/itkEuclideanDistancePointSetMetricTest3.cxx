@@ -187,7 +187,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
   auto derivativeTestMean = derivativeTest / numberOfPoints;
   std::cout << "Derivative is [ " << derivativeTestMean << " ]" << std::endl;
 
-  for (unsigned int i = 0; i << Dimension; ++i)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     if (itk::Math::NotExactlyEquals(derivativeTestMean[i], derivative2[i]))
     {
