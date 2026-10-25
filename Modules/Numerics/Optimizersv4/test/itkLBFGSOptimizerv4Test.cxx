@@ -267,9 +267,10 @@ itkLBFGSOptimizerv4Test(int, char *[])
   //
   bool             pass = true;
   constexpr double trueParameters[2]{ 2, -2 };
+  constexpr double tolerance{ 1e-2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
+    if (std::abs(finalPosition[j] - trueParameters[j]) > tolerance)
     {
       pass = false;
     }
@@ -296,6 +297,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
   //
   // Test stopping when number of iterations reached
   //
+  const auto numberOfIterations = itkOptimizer->GetNumberOfIterations();
   itkOptimizer->SetNumberOfIterations(5);
   metric->SetParameters(initialValue);
 
@@ -324,6 +326,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
 
   // Test with non-identity scales
   //
+  itkOptimizer->SetNumberOfIterations(numberOfIterations);
   std::cout << std::endl << "Test with non-identiy scales." << std::endl;
   OptimizerType::ScalesType scales(2);
   scales[0] = 1.5;
@@ -354,7 +357,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
   pass = true;
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
+    if (std::abs(finalPosition[j] - trueParameters[j]) > tolerance)
     {
       pass = false;
     }
