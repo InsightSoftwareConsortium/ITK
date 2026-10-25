@@ -101,13 +101,12 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   // Upper threshold
   const FilterType::InputPixelObjectType::Pointer upperThreshold1 = filter->GetUpperThresholdInput();
 
-  if (lowerThreshold1->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
+  if (upperThreshold1->Get() != itk::NumericTraits<InputPixelType>::max())
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetUpperThresholdInput():" << std::endl;
     std::cerr << "Expected: "
-              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
-                   itk::NumericTraits<InputPixelType>::NonpositiveMin())
+              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(itk::NumericTraits<InputPixelType>::max())
               << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(upperThreshold1->Get())
               << std::endl;
     return EXIT_FAILURE;
@@ -119,7 +118,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   if (upperThreshold2->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
   {
     std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetLowerThresholdInput():" << std::endl;
+    std::cerr << "Error in GetUpperThresholdInput():" << std::endl;
     std::cerr << "Expected: "
               << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
                    itk::NumericTraits<InputPixelType>::NonpositiveMin())
