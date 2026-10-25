@@ -59,7 +59,7 @@ jobs:
     - script: |
         python -m pip install ninja numpy>=1.20 typing-extensions
         python -m pip install --upgrade setuptools
-        python -m pip install scikit-ci-addons dask distributed lxml
+        python -m pip install scikit-ci-addons dask distributed lxml xarray
         choco install ccache -y
       displayName: 'Install dependencies'
 
