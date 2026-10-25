@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 #include "vnl/vnl_cross.h"
 
@@ -171,7 +172,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
                                                         << "Reason: " << reason);
   }
 
-  auto * curImage = new GEImageHeader();
+  auto curImage = std::make_unique<GEImageHeader>();
 
   std::ifstream f;
   this->OpenFileForReading(f, FileNameToRead);
@@ -231,6 +232,11 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   std::unique_ptr<char[]> buffer;
   if (pixelHdrFlag)
   {
+    const int minimumExamHeaderLength = VOff(305, 309) + 3;
+    if (imageHdr.GENESIS_IH_img_l_exam < minimumExamHeaderLength)
+    {
+      itkExceptionMacro("Invalid GE5 exam header length: " << imageHdr.GENESIS_IH_img_l_exam);
+    }
     buffer = make_unique_for_overwrite<char[]>(imageHdr.GENESIS_IH_img_l_exam);
     f.seekg(imageHdr.GENESIS_IH_img_p_exam, std::ios::beg);
     f.read(buffer.get(), imageHdr.GENESIS_IH_img_l_exam);
@@ -278,6 +284,11 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   // Now seek to the series header and read the data into the buffer.
   if (pixelHdrFlag)
   {
+    constexpr int minimumSeriesHeaderLength = 12 + 4;
+    if (imageHdr.GENESIS_IH_img_l_series < minimumSeriesHeaderLength)
+    {
+      itkExceptionMacro("Invalid GE5 series header length: " << imageHdr.GENESIS_IH_img_l_series);
+    }
     buffer = make_unique_for_overwrite<char[]>(imageHdr.GENESIS_IH_img_l_series);
     f.seekg(imageHdr.GENESIS_IH_img_p_series, std::ios::beg);
     f.read(buffer.get(), imageHdr.GENESIS_IH_img_l_series);
@@ -304,6 +315,11 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   buffer.reset();
   if (pixelHdrFlag)
   {
+    const int minimumImageHeaderLength = isCT ? VOff(186, 192) + 4 : VOff(398, 416) + 2;
+    if (imageHdr.GENESIS_IH_img_l_image < minimumImageHeaderLength)
+    {
+      itkExceptionMacro("Invalid GE5 image header length: " << imageHdr.GENESIS_IH_img_l_image);
+    }
     buffer = make_unique_for_overwrite<char[]>(imageHdr.GENESIS_IH_img_l_image);
     // Now seek to the MR header and read the data into the buffer.
     f.seekg(imageHdr.GENESIS_IH_img_p_image, std::ios::beg);
@@ -437,7 +453,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   // Return the pointer to the header.
   // The function that receives the pointer must do memory
   // cleanup or a memory leak will occur.
-  return curImage;
+  return curImage.release();
 }
 
 void

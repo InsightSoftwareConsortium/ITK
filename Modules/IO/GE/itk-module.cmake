@@ -13,6 +13,7 @@ itk_module(
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
     ITKIOIPL
     ITKIOSiemens
   FACTORY_NAMES

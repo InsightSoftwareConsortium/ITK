@@ -3,6 +3,8 @@ set(ITKIOGETests itkGEImageIOTest.cxx)
 
 createtestdriver(ITKIOGE "${ITKIOGE-Test_LIBRARIES}" "${ITKIOGETests}")
 
+creategoogletestdriver(ITKIOGE "${ITKIOGE-Test_LIBRARIES}" itkGE5ImageIOHeaderGTest.cxx)
+
 itk_add_test(
   NAME itkGE4
   COMMAND
