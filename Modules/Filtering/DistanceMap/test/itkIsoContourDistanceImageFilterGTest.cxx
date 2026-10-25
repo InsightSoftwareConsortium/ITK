@@ -184,3 +184,50 @@ TEST(IsoContourDistanceImageFilter, Test)
   // isocontour->SetInputNarrowBand( nodes );
   // isocontour->Update();
 }
+
+
+TEST(IsoContourDistanceImageFilter, NarrowBandWithFewerNodesThanWorkUnits)
+{
+  using ImageType = itk::Image<float, 2>;
+  using IsoContourType = itk::IsoContourDistanceImageFilter<ImageType, ImageType>;
+
+  constexpr unsigned int        numberOfWorkUnits{ 8 };
+  constexpr double              contourColumn{ 3.5 };
+  const ImageType::IndexType    bandNodeIndex{ { 3, 8 } };
+  constexpr ImageType::SizeType imageSize{ { 16, 16 } };
+
+  // A signed distance to the vertical line x = contourColumn.
+  auto image = ImageType::New();
+  image->SetRegions(ImageType::RegionType{ imageSize });
+  image->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<ImageType> it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
+  {
+    it.Set(static_cast<float>(it.GetIndex()[0] - contourColumn));
+  }
+
+  auto full = IsoContourType::New();
+  full->SetInput(image);
+  full->SetNumberOfWorkUnits(numberOfWorkUnits);
+  full->NarrowBandingOff();
+  ASSERT_NO_THROW(full->Update());
+
+  auto                         band = IsoContourType::NarrowBandType::New();
+  IsoContourType::BandNodeType node;
+  node.m_Index = bandNodeIndex;
+  band->PushBack(node);
+
+  auto banded = IsoContourType::New();
+  banded->SetInput(image);
+  banded->SetNumberOfWorkUnits(numberOfWorkUnits);
+  banded->NarrowBandingOn();
+  banded->SetNarrowBand(band);
+  ASSERT_NO_THROW(banded->Update());
+
+  // A node updates itself and its forward neighbor across the contour.
+  for (const ImageType::IndexType & index :
+       { bandNodeIndex, ImageType::IndexType{ { bandNodeIndex[0] + 1, bandNodeIndex[1] } } })
+  {
+    EXPECT_FLOAT_EQ(banded->GetOutput()->GetPixel(index), full->GetOutput()->GetPixel(index)) << "at " << index;
+    EXPECT_FLOAT_EQ(banded->GetOutput()->GetPixel(index), index[0] - contourColumn) << "at " << index;
+  }
+}
