@@ -626,6 +626,19 @@ struct TiledSpec
   std::vector<bool> stripPages{}; // pages written as strips instead of tiles
 };
 
+// Neither is a multiple of the default 16-pixel tile, so the last tile row and column are partial.
+constexpr uint32_t partialEdgeWidth{ 50 };
+constexpr uint32_t partialEdgeHeight{ 37 };
+
+TiledSpec
+PartialEdgeTiledSpec()
+{
+  TiledSpec s;
+  s.width = partialEdgeWidth;
+  s.height = partialEdgeHeight;
+  return s;
+}
+
 // Deterministic, position-dependent sample value that fits every tested sample type.
 template <typename T>
 T
@@ -841,16 +854,14 @@ TEST(TIFFImageIOGTest, ReadTiledGray8TileGridMatchesImage)
 
 TEST(TIFFImageIOGTest, ReadTiledGray8PartialEdgeTiles)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8Edge.tif", s, itk::IOComponentEnum::UCHAR);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledGray8PartialEdgeTilesInXOnly)
 {
   TiledSpec s;
-  s.width = 50;
+  s.width = partialEdgeWidth;
   s.height = 32;
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8EdgeX.tif", s, itk::IOComponentEnum::UCHAR);
 }
@@ -859,7 +870,7 @@ TEST(TIFFImageIOGTest, ReadTiledGray8PartialEdgeTilesInYOnly)
 {
   TiledSpec s;
   s.width = 48;
-  s.height = 37;
+  s.height = partialEdgeHeight;
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGray8EdgeY.tif", s, itk::IOComponentEnum::UCHAR);
 }
 
@@ -885,57 +896,43 @@ TEST(TIFFImageIOGTest, ReadTiledGray8NonSquareTiles)
 
 TEST(TIFFImageIOGTest, ReadTiledSignedChar)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   VerifyTiledRead<int8_t>("itkTIFFImageIOGTest_TiledInt8.tif", s, itk::IOComponentEnum::CHAR);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledUnsignedShort)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledUInt16.tif", s, itk::IOComponentEnum::USHORT);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledShort)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   VerifyTiledRead<int16_t>("itkTIFFImageIOGTest_TiledInt16.tif", s, itk::IOComponentEnum::SHORT);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledUnsignedInt)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   VerifyTiledRead<uint32_t>("itkTIFFImageIOGTest_TiledUInt32.tif", s, itk::IOComponentEnum::UINT);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledInt)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   VerifyTiledRead<int32_t>("itkTIFFImageIOGTest_TiledInt32.tif", s, itk::IOComponentEnum::INT);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledFloat)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   VerifyTiledRead<float>("itkTIFFImageIOGTest_TiledFloat.tif", s, itk::IOComponentEnum::FLOAT);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledRGB8)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.samplesPerPixel = 3;
   s.photometric = PHOTOMETRIC_RGB;
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledRGB8.tif", s, itk::IOComponentEnum::UCHAR);
@@ -943,9 +940,7 @@ TEST(TIFFImageIOGTest, ReadTiledRGB8)
 
 TEST(TIFFImageIOGTest, ReadTiledRGB16)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.samplesPerPixel = 3;
   s.photometric = PHOTOMETRIC_RGB;
   VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledRGB16.tif", s, itk::IOComponentEnum::USHORT);
@@ -953,18 +948,14 @@ TEST(TIFFImageIOGTest, ReadTiledRGB16)
 
 TEST(TIFFImageIOGTest, ReadTiledGrayWithExtraSample)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.samplesPerPixel = 2;
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledGrayAlpha.tif", s, itk::IOComponentEnum::UCHAR);
 }
 
 TEST(TIFFImageIOGTest, ReadTiledMinIsWhiteIsInverted)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.photometric = PHOTOMETRIC_MINISWHITE;
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledMinIsWhite8.tif", s, itk::IOComponentEnum::UCHAR);
   VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledMinIsWhite16.tif", s, itk::IOComponentEnum::USHORT);
@@ -972,9 +963,7 @@ TEST(TIFFImageIOGTest, ReadTiledMinIsWhiteIsInverted)
 
 TEST(TIFFImageIOGTest, ReadTiledBottomLeftOrientation)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.orientation = ORIENTATION_BOTLEFT;
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledBotLeft.tif", s, itk::IOComponentEnum::UCHAR);
 }
@@ -983,9 +972,7 @@ TEST(TIFFImageIOGTest, ReadTiledCompressed)
 {
   for (const uint16_t compression : { COMPRESSION_LZW, COMPRESSION_PACKBITS, COMPRESSION_ADOBE_DEFLATE })
   {
-    TiledSpec s;
-    s.width = 50;
-    s.height = 37;
+    auto s = PartialEdgeTiledSpec();
     s.compression = compression;
     VerifyTiledRead<uint16_t>(
       "itkTIFFImageIOGTest_TiledCompressed" + std::to_string(compression) + ".tif", s, itk::IOComponentEnum::USHORT);
@@ -994,18 +981,14 @@ TEST(TIFFImageIOGTest, ReadTiledCompressed)
 
 TEST(TIFFImageIOGTest, ReadTiledMultiPageVolume)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.pages = 3;
   VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_TiledVolume.tif", s, itk::IOComponentEnum::USHORT);
 }
 
 TEST(TIFFImageIOGTest, ReadMixedTiledAndStrippedPagesVolume)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.pages = 3;
   s.stripPages = { false, true, false };
   VerifyTiledRead<uint16_t>("itkTIFFImageIOGTest_MixedTiledStripVolume.tif", s, itk::IOComponentEnum::USHORT);
@@ -1022,9 +1005,7 @@ VerifyPalette(const std::string &       name,
               uint16_t                  samplesPerPixel = 1,
               const std::vector<bool> & stripPages = {})
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.photometric = PHOTOMETRIC_PALETTE;
   s.samplesPerPixel = samplesPerPixel;
   s.stripPages = stripPages;
@@ -1085,9 +1066,7 @@ TEST(TIFFImageIOGTest, ReadPaletteWithExtraSampleSkipsExtraSample)
 
 TEST(TIFFImageIOGTest, ReadTiledMinIsWhiteWideAndSignedTypes)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.photometric = PHOTOMETRIC_MINISWHITE;
   VerifyTiledRead<uint32_t>("itkTIFFImageIOGTest_TiledMinIsWhite32.tif", s, itk::IOComponentEnum::UINT);
   VerifyTiledRead<int16_t>("itkTIFFImageIOGTest_TiledMinIsWhiteInt16.tif", s, itk::IOComponentEnum::SHORT);
@@ -1095,9 +1074,7 @@ TEST(TIFFImageIOGTest, ReadTiledMinIsWhiteWideAndSignedTypes)
 
 TEST(TIFFImageIOGTest, ReadTiledPlanarSeparateSingleSample)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.planarConfig = PLANARCONFIG_SEPARATE;
   VerifyTiledRead<unsigned char>("itkTIFFImageIOGTest_TiledSeparateOneSample.tif", s, itk::IOComponentEnum::UCHAR);
 }
@@ -1129,8 +1106,10 @@ TEST(TIFFImageIOGTest, ReadTiledCorruptTileDataThrows)
     std::ifstream in(fileName, std::ios::binary);
     bytes.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
   }
-  ASSERT_GT(bytes.size(), 72u);
-  std::fill_n(bytes.begin() + 8, 64, static_cast<unsigned char>(0xFF));
+  constexpr size_t tiffHeaderSize{ 8 };
+  constexpr size_t corruptByteCount{ 64 };
+  ASSERT_GT(bytes.size(), tiffHeaderSize + corruptByteCount);
+  std::fill_n(bytes.begin() + tiffHeaderSize, corruptByteCount, static_cast<unsigned char>(0xFF));
   {
     std::ofstream out(fileName, std::ios::binary);
     out.write(reinterpret_cast<const char *>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
@@ -1148,9 +1127,7 @@ TEST(TIFFImageIOGTest, ReadTiledCorruptTileDataThrows)
 // Layouts the native reader does not handle must keep using the RGBA fallback.
 TEST(TIFFImageIOGTest, ReadTiledPlanarSeparateRGBUsesRGBAFallback)
 {
-  TiledSpec s;
-  s.width = 50;
-  s.height = 37;
+  auto s = PartialEdgeTiledSpec();
   s.samplesPerPixel = 3;
   s.photometric = PHOTOMETRIC_RGB;
   s.planarConfig = PLANARCONFIG_SEPARATE;
