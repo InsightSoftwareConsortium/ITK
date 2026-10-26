@@ -7,16 +7,6 @@ set(ITKDCMTK_NO_SRC 1)
 
 include(CMakeParseArguments)
 
-if(DCMTK_USE_ICU)
-  option(ITK_USE_SYSTEM_ICU "Use an installed version of ICU" OFF)
-  if(NOT ITK_USE_SYSTEM_ICU)
-    message(
-      FATAL_ERROR
-      "DCMTK_USE_ICU requires ITK_USE_SYSTEM_ICU=ON: building ICU from source is incompatible with DCMTK's in-scope FetchContent configuration, which runs DCMTK's find_package(ICU) at configure time. Provide a system ICU or disable DCMTK_USE_ICU."
-    )
-  endif()
-endif()
-
 set(
   _ITKDCMTK_LIB_NAMES
   dcmdata
@@ -118,17 +108,12 @@ else(ITK_USE_SYSTEM_DCMTK)
   set(DCMTK_WITH_WRAP OFF)
   set(DCMTK_ENABLE_PRIVATE_TAGS ON)
 
-  # Charset conversion: system ICU when DCMTK_USE_ICU is set, otherwise
-  # DCMTK's built-in oficonv data.
-  if(DCMTK_USE_ICU)
-    set(DCMTK_WITH_ICU ON)
-    set(DCMTK_WITH_STDLIBC_ICONV OFF)
-    set(DCMTK_ENABLE_CHARSET_CONVERSION "ICU" CACHE INTERNAL "") # NOTE: DCMTK requires a cache entry
-  else()
-    set(DCMTK_WITH_ICU OFF)
-    set(DCMTK_ENABLE_BUILTIN_OFICONV_DATA ON)
-    set(DCMTK_ENABLE_CHARSET_CONVERSION "oficonv" CACHE INTERNAL "")
-  endif()
+  # DCMTK 3.7 has no ICU backend; pin built-in oficonv and skip external iconv probes.
+  set(DCMTK_WITH_ICU OFF)
+  set(DCMTK_WITH_ICONV OFF)
+  set(DCMTK_WITH_STDLIBC_ICONV OFF)
+  set(DCMTK_ENABLE_BUILTIN_OFICONV_DATA ON)
+  set(DCMTK_ENABLE_CHARSET_CONVERSION "oficonv" CACHE INTERNAL "") # NOTE: DCMTK requires a cache entry
 
   set(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS OFF)
 

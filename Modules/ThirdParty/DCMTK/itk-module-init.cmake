@@ -14,21 +14,4 @@ else()
     "Embed oficonv data files into oficonv library"
     ON
   )
-  # ICU creates problems on macOS and Windows, so it is disabled by default;
-  # DCMTK's in-scope configuration selects builtin oficonv otherwise.
-  if(NOT DEFINED DCMTK_USE_ICU)
-    option(DCMTK_USE_ICU "Use system ICU for DCMTK charset conversion" OFF)
-  endif()
-  if(DCMTK_USE_ICU)
-    if(ITK_USE_SYSTEM_ICU)
-      find_package(
-        ICU
-        REQUIRED
-        COMPONENTS
-          uc
-          data
-      )
-      set(ITKDCMTK_ICU_LIBRARIES ${ICU_LIBRARIES})
-    endif()
-  endif()
 endif()
