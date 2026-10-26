@@ -18,3 +18,10 @@
 #ifndef itkImageConstIterator_h
 #define itkImageConstIterator_h
 
+#include "itkImageIterator.h"
+
+/** This header is retained for backward compatibility.
+ * itk::ImageConstIterator is provided by the included header.
+ */
+
+#endif

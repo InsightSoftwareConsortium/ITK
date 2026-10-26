@@ -172,6 +172,31 @@ CheckIteratorsCallNonConstGetBufferPointer()
      TIteratorTemplate<itk::Testing::GetBufferPointerCountingImage<int>>>(),
    ...);
 }
+
+template <typename T, typename U, typename = void>
+struct is_comparable : std::false_type
+{};
+
+template <typename T, typename U>
+struct is_comparable<T,
+                     U,
+                     std::void_t<decltype(std::declval<const T &>() == std::declval<const U &>()),
+                                 decltype(std::declval<const T &>() != std::declval<const U &>()),
+                                 decltype(std::declval<const T &>() < std::declval<const U &>()),
+                                 decltype(std::declval<const T &>() <= std::declval<const U &>()),
+                                 decltype(std::declval<const T &>() > std::declval<const U &>()),
+                                 decltype(std::declval<const T &>() >= std::declval<const U &>()),
+                                 decltype(std::declval<const U &>() == std::declval<const T &>()),
+                                 decltype(std::declval<const U &>() != std::declval<const T &>()),
+                                 decltype(std::declval<const U &>() < std::declval<const T &>()),
+                                 decltype(std::declval<const U &>() <= std::declval<const T &>()),
+                                 decltype(std::declval<const U &>() > std::declval<const T &>()),
+                                 decltype(std::declval<const U &>() >= std::declval<const T &>())>> : std::true_type
+{};
+
+template <typename T, typename U>
+inline constexpr bool is_comparable_v = is_comparable<T, U>::value;
+
 } // namespace
 
 
@@ -290,4 +315,23 @@ TEST(ImageIterators, ReverseIteratorConversionCallsNonConstGetBufferPointer)
   const size_t numberOfCallsBefore = image->GetNumberOfNonConstGetBufferPointerCalls();
   [[maybe_unused]] const itk::ImageRegionReverseIterator<ImageType> reverseIterator(constIterator);
   EXPECT_GT(image->GetNumberOfNonConstGetBufferPointerCalls(), numberOfCallsBefore);
+}
+
+// Checks conversion and comparison between const and non-const iterators
+TEST(ImageIterators, ConstNonConstConversionAndComparison)
+{
+  using ImageType = itk::Image<int>;
+
+  using MutableIt = itk::ImageIterator<ImageType>;
+  using ConstIt = itk::ImageIterator<const ImageType>;
+  using LegacyConstIt = itk::ImageConstIterator<ImageType>;
+
+  static_assert(std::is_convertible_v<MutableIt, ConstIt>);
+  static_assert(!std::is_convertible_v<ConstIt, MutableIt>);
+  static_assert(std::is_convertible_v<LegacyConstIt, ConstIt>);
+  static_assert(!std::is_base_of_v<LegacyConstIt, MutableIt>);
+
+  static_assert(is_comparable_v<MutableIt, ConstIt>);
+  static_assert(is_comparable_v<MutableIt, LegacyConstIt>);
+  static_assert(is_comparable_v<ConstIt, LegacyConstIt>);
 }
