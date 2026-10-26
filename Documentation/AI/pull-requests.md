@@ -15,6 +15,21 @@ to *Ready for Review* until every item below is satisfied.
 - [ ] The diff has been reviewed for security issues: buffer overflows,
       deprecated APIs, injection vectors, license conflicts.
 
+## Updating a PR
+
+Keep a rebase and review changes in separate force-pushes, so GitHub's
+per-push compare shows only the PR's changes:
+
+```bash
+git rebase upstream/main
+git push --force-with-lease          # rebase only
+# apply review fixups, autosquash, pre-commit run --all-files
+git push --force-with-lease          # changes only
+```
+
+Conflict resolutions belong in the rebase push. Either order works; never
+combine both in one push.
+
 ## AI Disclosure and Attribution
 
 See [attribution.md](./attribution.md) for the full policy. Key points:
