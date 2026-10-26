@@ -158,6 +158,40 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
         ${ITK_TEST_OUTPUT_DIR}
   )
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
+
+  # Standalone tests: the autoload path must be configurable before the
+  # factories are dynamically loaded, either by environment or by API.
+  add_executable(
+    itkObjectFactoryAutoloadPathTest
+    itkObjectFactoryAutoloadPathTest.cxx
+  )
+  itk_module_target_label(itkObjectFactoryAutoloadPathTest)
+  target_link_libraries(
+    itkObjectFactoryAutoloadPathTest
+    PUBLIC
+      ${ITKCommon_LIBRARIES}
+  )
+  add_dependencies(itkObjectFactoryAutoloadPathTest FactoryTestLib)
+  itk_add_test(
+    NAME itkObjectFactoryAutoloadPathEnvTest
+    COMMAND
+      itkObjectFactoryAutoloadPathTest
+      env
+      $<TARGET_FILE_DIR:FactoryTestLib>
+  )
+  set_tests_properties(
+    itkObjectFactoryAutoloadPathEnvTest
+    PROPERTIES
+      ENVIRONMENT
+        "ITK_AUTOLOAD_PATH=$<TARGET_FILE_DIR:FactoryTestLib>"
+  )
+  itk_add_test(
+    NAME itkObjectFactoryAutoloadPathApiTest
+    COMMAND
+      itkObjectFactoryAutoloadPathTest
+      api
+      $<TARGET_FILE_DIR:FactoryTestLib>
+  )
 endif()
 
 itk_add_test(
