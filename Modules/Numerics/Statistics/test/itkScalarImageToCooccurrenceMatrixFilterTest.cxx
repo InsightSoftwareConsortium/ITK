@@ -311,7 +311,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     if (filter3->GetMax() != 2)
     {
       std::cerr << "Error: " << std::endl;
-      std::cerr << "GetMin() is not returning the value that is expected: 2" << std::endl;
+      std::cerr << "GetMax() is not returning the value that is expected: 2" << std::endl;
       passed = false;
     }
 
