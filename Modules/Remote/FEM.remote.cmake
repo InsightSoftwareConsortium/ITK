@@ -15,7 +15,7 @@ itk_fetch_module(
   "Finite Element Method modules (ITKFEM, ITKFEMRegistration), retired from the ITK main tree. UNMAINTAINED, scheduled for removal in ITK 7. See InsightSoftwareConsortium/ITK#6511."
   MODULE_COMPLIANCE_LEVEL 1
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKFEM.git
-  GIT_TAG e460bc7fb2988a29aa366e1ae33790dca70413c1
+  GIT_TAG 0325e63bfa6e73bf7ff4aaa702ffc1c196774e3c
 )
 
 if(Module_FEM)
