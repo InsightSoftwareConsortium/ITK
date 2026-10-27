@@ -34,6 +34,21 @@
 
 namespace
 {
+// libminc rejects a zero step; fall back to the MINC tools defaults (step 1, see mincresample).
+double
+MINCIOGetSeparation(midimhandle_t dim)
+{
+  double separation = 1.0;
+  return miget_dimension_separation(dim, MI_ORDER_APPARENT, &separation) == MI_NOERROR ? separation : 1.0;
+}
+
+double
+MINCIOGetStart(midimhandle_t dim)
+{
+  double start = 0.0;
+  return miget_dimension_start(dim, MI_ORDER_APPARENT, &start) == MI_NOERROR ? start : 0.0;
+}
+
 struct MINCApparentDimensionGeometry
 {
   misize_t size{ 0 };
@@ -50,8 +65,8 @@ MINCAttachApparentDimension(midimhandle_t * const apparentDims, const unsigned i
 
   MINCApparentDimensionGeometry geometry;
   miget_dimension_size(apparentDims[slot], &geometry.size);
-  miget_dimension_separation(apparentDims[slot], MI_ORDER_APPARENT, &geometry.separation);
-  miget_dimension_start(apparentDims[slot], MI_ORDER_APPARENT, &geometry.start);
+  geometry.separation = MINCIOGetSeparation(apparentDims[slot]);
+  geometry.start = MINCIOGetStart(apparentDims[slot]);
   return geometry;
 }
 } // namespace
@@ -793,13 +808,9 @@ MINCImageIO::ReadImageInformation()
   if (m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
   {
     // store time dimension start and step in metadata for preservation
-    double _sep = NAN;
-    miget_dimension_separation(
-      m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_sep);
-    double _start = NAN;
-    miget_dimension_start(m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_start);
-    EncapsulateMetaData<double>(thisDic, "tstart", _start);
-    EncapsulateMetaData<double>(thisDic, "tstep", _sep);
+    const midimhandle_t timeDim = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
+    EncapsulateMetaData<double>(thisDic, "tstart", MINCIOGetStart(timeDim));
+    EncapsulateMetaData<double>(thisDic, "tstep", MINCIOGetSeparation(timeDim));
   }
 
   EncapsulateMetaData<std::string>(thisDic, "dimension_order", dimension_order);
