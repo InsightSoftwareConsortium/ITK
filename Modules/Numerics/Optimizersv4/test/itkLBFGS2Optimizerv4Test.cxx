@@ -293,9 +293,10 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   //
   bool             pass = true;
   constexpr double trueParameters[2]{ 2, -2 };
+  constexpr double tolerance{ 1e-2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
+    if (std::abs(finalPosition[j] - trueParameters[j]) > tolerance)
     {
       pass = false;
     }
