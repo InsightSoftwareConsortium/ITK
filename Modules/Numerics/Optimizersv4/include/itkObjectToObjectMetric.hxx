@@ -121,7 +121,13 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::GetNumberOfParameters()
     const
 {
-  return this->m_MovingTransform->GetNumberOfParameters();
+  const auto numberOfParameters = this->m_MovingTransform->GetNumberOfParameters();
+  if (numberOfParameters > NumericTraits<NumberOfParametersType>::max())
+  {
+    itkExceptionMacro("Moving transform has " << numberOfParameters << " parameters, exceeding the metric limit of "
+                                              << NumericTraits<NumberOfParametersType>::max());
+  }
+  return static_cast<NumberOfParametersType>(numberOfParameters);
 }
 
 template <unsigned int TFixedDimension,
