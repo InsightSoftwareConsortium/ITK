@@ -23,6 +23,14 @@ installed library instead.
 follow the target architecture and compiler flags, not the build host.
 Link consumers to `ITK::ITKFFTModule` to inherit FFTW dependencies.
 
+Set `ITK_USE_MKL=ON` to use the FFTW interface of the Intel oneAPI Math
+Kernel Library (oneMKL) instead; it turns on both precisions and
+`ITK_USE_SYSTEM_FFTW`. Point `MKLROOT` at the oneMKL installation, the
+directory holding `include/fftw` and `lib` (the oneAPI `setvars` script
+sets the environment variable). oneMKL is 64-bit only and no longer
+supports macOS. Projects that use ITK reuse ITK's `MKLROOT` unless they
+set their own.
+
 ## Pixi
 
 An easy and reproducible way to build and test ITK for development is via [Pixi]. Pixi will provide locally-scoped build tools such as toolchains, `cmake`, `ninja`,  and `python`.
