@@ -14,7 +14,7 @@ preference.
 |---|---|---|---|
 | In-source comment (`// …`) | future reader | forever | 1 line (ColumnLimit from .clang-format, currently ≤ 120 chars); default = none |
 | Commit subject | bisecter / `git log --oneline` reader | forever | ≤ 78 chars (enforced by `kw-commit-msg.py`) |
-| Commit message body | bisecter, archaeologist | forever | ≤ 12 lines, ≤ 72 chars/line; trailers excluded |
+| Commit message body | bisecter, archaeologist | forever | ≤ 12 lines; trailers excluded |
 | PR visible summary (above first `<details>`) | reviewer at merge time | until merged | ≤ 3 sentences, ≤ 250 chars |
 | PR `<details>` blocks | reviewer who wants depth | until merged | unbounded (hidden by default) |
 | PR HTML comments (`<!-- … -->`) | future automation, raw-body readers | survives merge | unbounded (invisible) |
@@ -171,7 +171,7 @@ self-audit against this document before producing any of the above.
 ## Enforcement
 
 - `Utilities/Hooks/kw-prose-budget.py` runs at commit-msg stage and
-  warns on body length, line width, and forbidden-content patterns.
+  warns on body length and forbidden-content patterns.
   Default is advisory (exit 0); set `ITK_PROSE_BUDGET_HARD=1` to
   block.
 - Reviewers remain the authoritative gate. The hook reduces
