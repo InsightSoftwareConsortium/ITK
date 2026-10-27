@@ -1237,3 +1237,39 @@ at runtime. `ReHash()` no longer re-reads the environment.
 Code that calls `putenv("ITK_AUTOLOAD_PATH=...")` after startup and then
 `ObjectFactoryBase::ReHash()` must call `ObjectFactoryBase::SetAutoloadPath(...)`
 instead. When factories were already initialized, follow it with `ReHash()`.
+
+## `MINCImageIO` reads a MINC time dimension as a fourth image axis
+
+A MINC file whose `time` dimension has more than one frame now reads as a 4D
+image. Time is always axis 3: the time step becomes `GetSpacing()[3]` and the
+time start becomes `GetOrigin()[3]`. Missing spatial axes read as size 1, so a
+2D series reads as `[x, y, 1, t]`. In ITKv5, each time frame was a pixel
+component, so the file read as a `VectorImage` with one component per frame. A
+MINC `vector_dimension` still maps to pixel components.
+
+When writing, the fourth axis of a 4D image becomes the MINC `time` dimension,
+with its start and step taken from `GetOrigin()[3]` and `GetSpacing()[3]`. The
+writer no longer reads the `tstart` and `tstep` metadata entries. Pixel
+components are always written as `vector_dimension`; the writer no longer turns
+more than three components into a `time` dimension.
+
+### What you need to do
+
+Read MINC time series into a 4D image type:
+
+```cpp
+using ImageType = itk::Image<float, 4>;
+const auto image = itk::ReadImage<ImageType>("series.mnc");
+const double frameStep = image->GetSpacing()[3];
+```
+
+Use `itk::VectorImage<T, 4>` if the file also has a `vector_dimension`.
+Reading a time series into a 3D image type returns only the first frame, with
+identity direction cosines, because `ImageFileReader` uses default directions
+when the file has more dimensions than the image type. To get one frame with
+its geometry, read the 4D image and use `ExtractImageFilter` with
+`SetDirectionCollapseToSubmatrix()`.
+
+To write a time series, write a 4D image instead of a `VectorImage` with one
+component per frame, and set the time start and step through the image origin
+and spacing rather than `tstart` and `tstep`.
