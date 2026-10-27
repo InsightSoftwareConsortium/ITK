@@ -40,36 +40,42 @@ if(ITK_USE_SYSTEM_FFTW)
   find_package(FFTW REQUIRED COMPONENTS ${_fftw_components})
   set(ITKFFTW_NO_SRC 1)
 
-  # Seed the app's cache with the files ITK found, unless the app provides FFTW_ROOT.
-  set(_fftw_hint_code "")
-  if(NOT ITK_USE_MKL AND NOT ITK_USE_CUFFTW)
-    foreach(
-      _fftw_var
-      IN
-      ITEMS
-        FFTW_INCLUDE_PATH
-        FFTWD_BASE_LIB
-        FFTWD_THREADS_LIB
-        FFTWF_BASE_LIB
-        FFTWF_THREADS_LIB
+  # Seed the app's cache with what ITK found, unless the app provides its own root.
+  set(_fftw_root_var FFTW_ROOT)
+  set(_fftw_hint_vars "")
+  if(ITK_USE_MKL)
+    set(_fftw_root_var MKLROOT)
+    set(_fftw_hint_vars MKLROOT)
+  elseif(NOT ITK_USE_CUFFTW)
+    set(
+      _fftw_hint_vars
+      FFTW_INCLUDE_PATH
+      FFTWD_BASE_LIB
+      FFTWD_THREADS_LIB
+      FFTWF_BASE_LIB
+      FFTWF_THREADS_LIB
     )
-      if(${_fftw_var})
-        set(_fftw_type FILEPATH)
-        if(_fftw_var STREQUAL "FFTW_INCLUDE_PATH")
-          set(_fftw_type PATH)
-        endif()
-        string(
-          APPEND
-          _fftw_hint_code
-          "
-  set(${_fftw_var} \"${${_fftw_var}}\" CACHE ${_fftw_type} \"\")"
-        )
+  endif()
+  set(_fftw_hint_code "")
+  foreach(_fftw_var IN LISTS _fftw_hint_vars)
+    if(${_fftw_var})
+      set(_fftw_type FILEPATH)
+      if(_fftw_var MATCHES "^(FFTW_INCLUDE_PATH|MKLROOT)$")
+        set(_fftw_type PATH)
       endif()
-    endforeach()
+      string(
+        APPEND
+        _fftw_hint_code
+        "
+  set(${_fftw_var} \"${${_fftw_var}}\" CACHE ${_fftw_type} \"\")"
+      )
+    endif()
+  endforeach()
+  if(_fftw_hint_code)
     set(
       _fftw_hint_code
       "
-if(NOT DEFINED FFTW_ROOT AND NOT DEFINED ENV{FFTW_ROOT})${_fftw_hint_code}
+if(NOT DEFINED ${_fftw_root_var} AND NOT DEFINED ENV{${_fftw_root_var}})${_fftw_hint_code}
 endif()"
     )
   endif()
