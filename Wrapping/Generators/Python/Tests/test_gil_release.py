@@ -1,119 +1,87 @@
-"""
-Test that the Python Global Interpreter Lock (GIL) is released during ITK operations.
-
-This test verifies that when ITK_PYTHON_RELEASE_GIL is enabled, multiple Python threads
-can execute ITK operations concurrently.
-"""
-
+from concurrent.futures import ThreadPoolExecutor
 import sys
 import threading
 import time
 
-# Threshold for determining if parallel execution is significantly faster than sequential
-# With 4 outer threads and 1 ITK thread per filter, we expect at least 2x speedup
-# A value of 0.5 means parallel execution should be at most 50% of sequential time
-# This accounts for threading overhead and ensures GIL is being released
-PARALLEL_SPEEDUP_THRESHOLD = 0.5
+import itk
 
 
 def test_gil_release():
-    """Test that GIL is released during ITK operations."""
-    try:
-        import itk
-    except ImportError:
-        print("ITK not available, skipping GIL release test")
-        sys.exit(0)
-
-    # Create a simple test image
     image_type = itk.Image[itk.F, 2]
-    size = [100, 100]
+    image = image_type.New()
+    image.SetRegions([512, 512])
+    image.Allocate()
+    image.FillBuffer(1.0)
+    median = itk.MedianImageFilter[image_type, image_type].New(Input=image, Radius=5)
+    median.SetNumberOfWorkUnits(1)
 
-    # Shared counter to track concurrent execution
-    execution_times = []
-    lock = threading.Lock()
+    for operation in (median.Update, median.UpdateLargestPossibleRegion):
+        median.Modified()
+        ready = threading.Event()
+        start = threading.Event()
+        progressed = threading.Event()
 
-    def run_filter():
-        """Run an ITK filter operation that should release the GIL."""
-        # Create an image
-        image = itk.Image[itk.F, 2].New()
-        region = itk.ImageRegion[2]()
-        region.SetSize(size)
-        image.SetRegions(region)
+        def worker():
+            ready.set()
+            start.wait()
+            progressed.set()
+
+        thread = threading.Thread(target=worker)
+        thread.start()
+        ready.wait()
+        switch_interval = sys.getswitchinterval()
+        try:
+            # Prevent Python bytecode scheduling from masquerading as native GIL release.
+            sys.setswitchinterval(100)
+            start.set()
+            operation()
+            released = progressed.is_set()
+        finally:
+            sys.setswitchinterval(switch_interval)
+            start.set()
+            thread.join()
+
+        assert released, f"{operation.__name__} did not release the GIL"
+
+
+def test_concurrent_filters():
+    image_type = itk.Image[itk.F, 2]
+    filters = []
+    for _ in range(4):
+        image = image_type.New()
+        image.SetRegions([512, 512])
         image.Allocate()
         image.FillBuffer(1.0)
+        median = itk.MedianImageFilter[image_type, image_type].New(
+            Input=image, Radius=5
+        )
+        median.SetNumberOfWorkUnits(1)
+        filters.append(median)
 
-        start_time = time.time()
+    operations = [median.Update for median in filters]
+    ready = threading.Barrier(len(operations), timeout=30)
 
-        # Run a computationally intensive filter
-        # MedianImageFilter is a good test as it performs actual computation
-        median_filter = itk.MedianImageFilter[image_type, image_type].New()
-        median_filter.SetInput(image)
-        median_filter.SetRadius(5)
-        # Limit ITK internal threads to 1 to make the test more reliable
-        median_filter.SetNumberOfWorkUnits(1)
-        median_filter.Update()
+    def run_filter(operation):
+        ready.wait()
+        start = time.perf_counter()
+        operation()
+        end = time.perf_counter()
+        return start, end
 
-        end_time = time.time()
+    switch_interval = sys.getswitchinterval()
+    try:
+        # Exclude Python thread switching between timestamps and serialized native calls.
+        sys.setswitchinterval(100)
+        with ThreadPoolExecutor(max_workers=len(operations)) as executor:
+            intervals = sorted(executor.map(run_filter, operations))
+    finally:
+        sys.setswitchinterval(switch_interval)
 
-        with lock:
-            execution_times.append((start_time, end_time))
-
-    # Run multiple threads
-    num_threads = 4
-    threads = []
-
-    overall_start = time.time()
-
-    for _ in range(num_threads):
-        thread = threading.Thread(target=run_filter)
-        thread.start()
-        threads.append(thread)
-
-    for thread in threads:
-        thread.join()
-
-    overall_end = time.time()
-
-    # If GIL is properly released, the threads should have overlapping execution times
-    # and the total time should be less than the sum of individual execution times
-
-    total_sequential_time = sum(end - start for start, end in execution_times)
-    total_parallel_time = overall_end - overall_start
-
-    print(f"Total sequential time if run serially: {total_sequential_time:.3f}s")
-    print(f"Total parallel time: {total_parallel_time:.3f}s")
-
-    # Check for overlap in execution times
-    has_overlap = False
-    if len(execution_times) >= 2:
-        for i in range(len(execution_times)):
-            for j in range(i + 1, len(execution_times)):
-                start1, end1 = execution_times[i]
-                start2, end2 = execution_times[j]
-                # Check if there's any overlap
-                if (start1 <= start2 < end1) or (start2 <= start1 < end2):
-                    has_overlap = True
-                    break
-            if has_overlap:
-                break
-
-    if has_overlap:
-        print("SUCCESS: Thread execution times overlap - GIL appears to be released")
-        return 0
-    else:
-        # Even without overlap, if parallel time is significantly less than sequential,
-        # it suggests concurrent execution
-        if total_parallel_time < total_sequential_time * PARALLEL_SPEEDUP_THRESHOLD:
-            print("SUCCESS: Parallel execution is faster - GIL appears to be released")
-            return 0
-        else:
-            print("FAILURE: No clear evidence of concurrent execution")
-            print("This indicates that GIL is not being released properly")
-            print(
-                f"Expected parallel time < {total_sequential_time * PARALLEL_SPEEDUP_THRESHOLD:.3f}s, got {total_parallel_time:.3f}s"
-            )
-            return 1
+    assert any(
+        current[0] < previous[1] for previous, current in zip(intervals, intervals[1:])
+    ), "Independent filter updates did not overlap"
 
 
 if __name__ == "__main__":
-    sys.exit(test_gil_release())
+    test_gil_release()
+    test_concurrent_filters()
