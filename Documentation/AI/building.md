@@ -53,6 +53,10 @@ set(Module_ITKCommon ON)
 set(Module_ITKIOImageBase ON)
 ```
 
+With `ITK_WRAP_PYTHON=ON`, also enable `Module_ITKBridgeNumPy`. Without it,
+Python tests that touch NumPy fail with
+`No module named 'itk.itkPyBufferPython'`.
+
 ## Finding Required Modules
 
 ```bash
