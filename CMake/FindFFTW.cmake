@@ -18,26 +18,25 @@
 ## mark_as_advanced(ITK_USE_FFTWF)
 ## option(ITK_USE_FFTWF "Use single precision FFTW if found" ON)
 
-## FFTW can be included from Intel MKL library (static). Both
-## `ITK_USE_FFTWD` and `ITK_USE_FFTWF` will be turned ON.
+## FFTW can be provided by the FFTW3 interface of the Intel oneAPI Math
+## Kernel Library (oneMKL), linked statically. Both `ITK_USE_FFTWD` and
+## `ITK_USE_FFTWF` will be turned ON.
 ##
-## To use the MKL implementation, set `ITK_USE_MKL` to ON and set
-##  `MKLROOT` to the installation directory of the MKL library on
-## your system and point to the `mkl` subdirectory:
-## ** On Linux, the default install directory is:
-## /opt/intel/compilers_and_libraries/linux/
-## ** On Windows, it is:
-## `C:\Program Files (x86)\Intel\oneAPI\mkl\2021.4.0`
-## ** On Mac, it is:
-## `/opt/intel/compilers_and_libraries/mac/mkl`
+## To use oneMKL, set `ITK_USE_MKL` to ON and set `MKLROOT` to the oneMKL
+## installation directory (the one containing `include/fftw` and `lib`).
+## The default install directories are:
+## ** Linux: `/opt/intel/oneapi/mkl/latest`
+## ** Windows: `C:\Program Files (x86)\Intel\oneAPI\mkl\latest`
+## oneMKL is 64-bit only and no longer supports macOS.
 ##
 ## '''Disabled''': If the compiler supports it, `ITK_USE_TBB_WITH_MKL` is automatically
-## set to ON and MKL is linked against `TBB`. Otherwise it is linked against
+## set to ON and oneMKL is linked against `TBB`. Otherwise it is linked against
 ## `mkl_sequential`.
 ##
-## Note: if the environment variable `MKLROOT` is set, its value will be used
-## to set the initial value of the CMake variable `MKLROOT` (see
-## https://software.intel.com/en-us/mkl-linux-developer-guide-scripts-to-set-environment-variables).
+## Note: if the environment variable `MKLROOT` is set (for example by the
+## oneAPI `setvars` script), its value is used as the initial value of the
+## CMake variable `MKLROOT` (see
+## https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-linux/2025-2.html).
 
 set(_fftw_double ${ITK_USE_FFTWD})
 set(_fftw_float ${ITK_USE_FFTWF})
@@ -57,23 +56,31 @@ endif()
 
 if(_fftw_double OR _fftw_float)
   if(ITK_USE_MKL)
-    # If the user has provided the MKL include path then search nearby for library files
-    if(FFTW_INCLUDE_PATH)
-      # mkl/<version>/include/fftw -> mkl/<version>
-      get_filename_component(MKLROOT ${FFTW_INCLUDE_PATH} DIRECTORY)
-      get_filename_component(MKLROOT ${MKLROOT} DIRECTORY)
-    elseif(DEFINED ENV{MKLROOT})
-      set(MKLROOT_default $ENV{MKLROOT})
-    elseif(WIN32)
-      set(MKLROOT_default "C:/Program Files (x86)/Intel/oneAPI/mkl/2021.4.0")
-    elseif(APPLE)
-      set(MKLROOT_default "/opt/intel/compilers_and_libraries/mac/mkl")
-    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-      set(MKLROOT_default "/opt/intel/compilers_and_libraries/linux/mkl")
-    else()
-      message(FATAL_ERROR "System not supported for MKL.")
+    if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+      message(FATAL_ERROR "oneMKL supports only 64-bit targets.")
     endif()
-    set(MKLROOT ${MKLROOT_default} CACHE PATH "Intel path containing MKL")
+    # If the user has provided the oneMKL include path then search nearby for library files
+    if(FFTW_INCLUDE_PATH MATCHES "/include/fftw$")
+      # <MKLROOT>/include/fftw -> <MKLROOT>
+      get_filename_component(MKLROOT_default "${FFTW_INCLUDE_PATH}" DIRECTORY)
+      get_filename_component(MKLROOT_default "${MKLROOT_default}" DIRECTORY)
+    elseif(DEFINED MKLROOT)
+      set(MKLROOT_default "${MKLROOT}")
+    elseif(DEFINED ENV{MKLROOT})
+      file(TO_CMAKE_PATH "$ENV{MKLROOT}" MKLROOT_default)
+    elseif(WIN32)
+      set(MKLROOT_default "C:/Program Files (x86)/Intel/oneAPI/mkl/latest")
+    else()
+      set(MKLROOT_default "/opt/intel/oneapi/mkl/latest")
+    endif()
+    set(
+      MKLROOT
+      "${MKLROOT_default}"
+      CACHE PATH
+      "Intel oneMKL installation directory"
+    )
+    # Set the normal variable too: under policy CMP0126 OLD, set(CACHE) drops it.
+    set(MKLROOT "${MKLROOT_default}")
     set(FFTW_INC_SEARCHPATH ${MKLROOT}/include/fftw)
   else()
     set(
@@ -88,6 +95,18 @@ if(_fftw_double OR _fftw_float)
 
   if(ITK_USE_CUFFTW)
     find_path(CUFFTW_INCLUDE_PATH cufftw.h ${FFTW_INC_SEARCHPATH})
+  elseif(ITK_USE_MKL)
+    # A system FFTW fftw3.h must not shadow the oneMKL one.
+    if(NOT FFTW_INCLUDE_PATH MATCHES "/include/fftw$")
+      unset(FFTW_INCLUDE_PATH CACHE)
+    endif()
+    find_path(
+      FFTW_INCLUDE_PATH
+      fftw3.h
+      PATHS
+        ${FFTW_INC_SEARCHPATH}
+      NO_DEFAULT_PATH
+    )
   else()
     find_path(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
   endif()
@@ -120,12 +139,12 @@ if(_fftw_double OR _fftw_float)
       ${CUFFTW_LIB}
     )
   elseif(ITK_USE_MKL)
-    # '''Disabled''': `ITK_USE_TBB_WITH_MKL`. To configure MKL with TBB, the TBB library
+    # '''Disabled''': `ITK_USE_TBB_WITH_MKL`. To configure oneMKL with TBB, the TBB library
     # has to be found. This is not currently taken care of as part of this file and may
     # result in conflicts if `Module_ITKTBB` is ON.
     #    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    #      # See MKL configuration help page:
-    #      # https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
+    #      # See the oneMKL Link Line Advisor:
+    #      # https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-link-line-advisor.html
     #      message("TBB threading option not available with Clang compiler.")
     #      set(ITK_USE_TBB_WITH_MKL OFF CACHE BOOL "Use TBB threading in MKL" FORCE)
     #    else()
@@ -133,29 +152,21 @@ if(_fftw_double OR _fftw_float)
     #      mark_as_advanced(ITK_USE_TBB_WITH_MKL)
     #    endif()
 
-    if(CMAKE_SIZEOF_VOID_P EQUAL "8")
-      if(APPLE)
-        set(FFTW_LIB_SEARCHPATH ${MKLROOT}/lib)
-      else()
-        set(FFTW_LIB_SEARCHPATH ${MKLROOT}/lib/intel64)
-      endif()
-      set(MKL_LIBRARY mkl_intel_ilp64)
-      if(WIN32)
-        set(MKL_OPTIONS /DMKL_ILP64)
-      else()
-        set(
-          MKL_OPTIONS
-          -DMKL_ILP64
-          -m64
-        )
-      endif()
+    # oneMKL 2024+ installs to lib; earlier releases used lib/intel64.
+    set(
+      FFTW_LIB_SEARCHPATH
+      ${MKLROOT}/lib
+      ${MKLROOT}/lib/intel64
+    )
+    set(MKL_LIBRARY mkl_intel_ilp64)
+    if(WIN32)
+      set(MKL_OPTIONS /DMKL_ILP64)
     else()
-      set(FFTW_LIB_SEARCHPATH ${MKLROOT}/lib/ia32)
-      if(WIN)
-        set(MKL_LIBRARY mkl_intel_c)
-      else()
-        set(MKL_LIBRARY mkl_intel)
-      endif()
+      set(
+        MKL_OPTIONS
+        -DMKL_ILP64
+        -m64
+      )
     endif()
     set(MKL_EXTRA_LIBRARIES mkl_core)
     # Force to sequential for now.
