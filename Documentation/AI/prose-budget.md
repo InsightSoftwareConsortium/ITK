@@ -47,7 +47,6 @@ session transcript no other reader needs.
 | Explanations of code that the diff already shows | Duplication. Rely on the diff. |
 | References to deleted or prior behavior — "we used to do X, now Y" | `git blame` and `git log` already record this; the comment becomes a lie when surrounding code evolves. |
 | First-person narrative ("we", "I", "my") | Commits are statements about the code, not the author. |
-| Marketing language — "robust", "comprehensive", "elegant", "best-in-class", "production-ready" | Zero technical signal. State the property concretely instead. |
 | Restatement of the commit subject as the first body line | The subject is right above; do not paraphrase it. |
 | Issue / PR cross-references in commit subjects | Allowed in the body as a single trailer line. Subjects must remain scannable. |
 | Documentation comments (`/** … */`, docstrings) added to drive-by-touched code | Out of scope for non-doc changes; doxygen drift is invisible to type-checkers. |

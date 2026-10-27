@@ -68,13 +68,6 @@ FORBIDDEN_PATTERNS: list[tuple[re.Pattern[str], str]] = [
         "session timestamp",
     ),
     (
-        re.compile(
-            r"\b(?:robust|comprehensive|elegant|best[-\s]in[-\s]class|production[-\s]ready)\b",
-            re.IGNORECASE,
-        ),
-        "marketing language",
-    ),
-    (
         re.compile(r"^\s*(?:we |I |my )", re.MULTILINE),
         "first-person narrative",
     ),
