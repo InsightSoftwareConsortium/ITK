@@ -1,3 +1,12 @@
 {
-  "ignoreKeywords": "itk-skip-greptile-review"
+  "ignoreKeywords": "itk-skip-greptile-review",
+  "instructions": "Review against ITK project standards only. Documentation/AI/rule-tiers.md defines two tiers: project standards bind every contributor; sections and rows labeled 'Agent default' bind AI agents only. Do not report a violation of an agent default (numeric prose caps, word lists, first-person bans, draft-PR or self-audit steps). When text also misses the project standard behind it, cite that standard instead.",
+  "customContext": {
+    "files": [
+      {
+        "path": "Documentation/AI/rule-tiers.md",
+        "description": "Which ITK rules reviewers may cite (project standards) and which bind AI agents only (agent defaults)"
+      }
+    ]
+  }
 }
