@@ -92,7 +92,10 @@ public:
    * particular region of that image. */
   FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
     : FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>(ptr, region)
-  {}
+  {
+    // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
+    static_cast<void>(ptr->GetBufferPointer());
+  }
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a

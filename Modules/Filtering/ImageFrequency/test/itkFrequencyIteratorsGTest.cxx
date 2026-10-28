@@ -27,11 +27,13 @@
 #include "itkFFTShiftImageFilter.h"
 #include "itkFrequencyBandImageFilter.h" // Simplest of frequency filters for testing
 #include "itkFrequencyFFTLayoutImageRegionConstIteratorWithIndex.h"
+#include "itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkFrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingComparisonImageFilter.h"
+#include "itkTestingGetBufferPointerCountingImage.h"
 #include "itkTestingMacros.h"
 
 #include "itkTestDriverIncludeRequiredFactories.h"
@@ -213,6 +215,21 @@ compareAllTypesOfIterators(typename TImageType::Pointer image, double difference
   bool fullAndHermitian = compareImages<ImageType>(filteredHermitianImage, filteredImage, differenceHermitianThreshold);
   EXPECT_TRUE(fullAndHermitian);
 }
+
+
+// Checks that non-const iterators call the non-const GetBufferPointer() overload of the image on construction.
+TEST_F(FrequencyIterators, ConstructorCallsNonConstGetBufferPointer)
+{
+  using ImageType = itk::Testing::GetBufferPointerCountingImage<float>;
+  using itk::Testing::IteratorConstructorCallsNonConstGetBufferPointer;
+  EXPECT_TRUE(
+    IteratorConstructorCallsNonConstGetBufferPointer<itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType>>());
+  EXPECT_TRUE(IteratorConstructorCallsNonConstGetBufferPointer<
+              itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<ImageType>>());
+  EXPECT_TRUE(IteratorConstructorCallsNonConstGetBufferPointer<
+              itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>());
+}
+
 
 TEST_F(FrequencyIterators, Even3D)
 {
