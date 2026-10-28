@@ -89,16 +89,17 @@ endif()"
   endif()
 
   # When this module is loaded by an app, find FFTW with ITK's finder too.
+  # Inside a function only the FFTW:: imported targets reach the app, not FindFFTW's variables.
   set(
     _fftw_find_code
     "
-set(ITK_USE_MKL ${ITK_USE_MKL})
-set(ITK_USE_CUFFTW ${ITK_USE_CUFFTW})${_fftw_hint_code}
-set(_itk_fftw_module_path \"\${CMAKE_MODULE_PATH}\")
-list(PREPEND CMAKE_MODULE_PATH \"\${ITK_CMAKE_DIR}\")
-find_package(FFTW REQUIRED COMPONENTS ${_fftw_components})
-set(CMAKE_MODULE_PATH \"\${_itk_fftw_module_path}\")
-unset(_itk_fftw_module_path)
+function(_itk_fftw_find)
+  set(ITK_USE_MKL ${ITK_USE_MKL})
+  set(ITK_USE_CUFFTW ${ITK_USE_CUFFTW})${_fftw_hint_code}
+  list(PREPEND CMAKE_MODULE_PATH \"\${ITK_CMAKE_DIR}\")
+  find_package(FFTW REQUIRED COMPONENTS ${_fftw_components})
+endfunction()
+_itk_fftw_find()
 "
   )
   set(ITKFFTW_EXPORT_CODE_INSTALL "${_fftw_find_code}")
