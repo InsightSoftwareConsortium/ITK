@@ -625,6 +625,11 @@ for a different installation instead. The ITK build options `FFTW_INCLUDE_PATH`,
 `FFTWD_THREADS_LIB`, and `FFTWF_THREADS_LIB` are still honored; the library results are now full paths rather than
 file names. A separate FFTW threads library is optional.
 
+The `FindFFTW` result variables `FFTW_INCLUDE`, `FFTWD_LIBRARIES`, `FFTWF_LIBRARIES`, `FFTWD_FOUND`, and `FFTWF_FOUND`
+are no longer set in projects that call `find_package(ITK)`; only the `FFTW::Double` and `FFTW::Float` targets are
+created. This is unlikely to affect existing code. Link `ITK::ITKFFTWModule`, or a module that depends on it such as
+`ITK::ITKFFTModule`, to get FFTW's include directories and libraries.
+
 
 ### Migration for ITK Modules
 
