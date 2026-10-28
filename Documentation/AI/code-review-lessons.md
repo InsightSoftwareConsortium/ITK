@@ -2,8 +2,10 @@
 
 Distilled from 8,484 inline review comments across 1,457 pull requests
 spanning 2017–2026. These are patterns that ITK's core reviewers flag
-repeatedly; an AI assistant that avoids them will produce PRs that pass
-review with fewer round-trips.
+repeatedly. They are project standards: they apply to every PR, and a
+contributor or AI assistant that avoids them passes review with fewer
+round-trips. Sections labeled **Agent default** apply to AI agents only
+(see [rule-tiers.md](./rule-tiers.md)).
 
 ---
 
@@ -270,24 +272,27 @@ ConvertNumberToString(value);
 
 ---
 
-## 13. AI-Generated Descriptions Must Be Factually Verified
+## 13. Descriptions Must Match the Change
 
 **Flagged on 1 PR (2026). Severity: high — incorrect claims erode reviewer trust.**
 
+**Standard:** every concrete claim in a commit message or PR
+description — counts, variable names, file paths, and behavioral
+assertions — is true of the diff.
+
 AI-generated PR descriptions and review summaries have been observed
 claiming incorrect counts (e.g., "three temporary variables eliminated"
-when only one existed). This has been compared to known LLM counting
-errors.
+when only one existed), a known LLM counting failure.
 
-**Rule:** Before submitting an AI-generated description, manually verify
-every concrete claim — counts, variable names, file paths, and behavioral
-assertions. If the AI says "N items were changed," count them yourself.
+**Agent default:** before submitting an AI-generated description,
+manually verify every concrete claim. If the AI says "N items were
+changed," count them yourself.
 
 ### Keep commit messages and PR descriptions in sync with scope
 
 Refactoring, squashing, addressing reviewer comments, and adding fixup
-commits frequently change the scope of a PR. After any such change, AI
-tools must re-read all commit messages and the PR title/body and verify
+commits frequently change the scope of a PR. **Agent default:** after
+any such change, AI tools must re-read all commit messages and the PR title/body and verify
 they still accurately describe what the PR does. Stale descriptions
 that reference removed work, omit added work, or overstate the change
 are a common source of reviewer confusion and erode trust in
