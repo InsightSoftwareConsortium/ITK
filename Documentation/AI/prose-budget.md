@@ -1,25 +1,30 @@
 # ITK Prose Budget for Committed Text
 
-Single contract for every piece of text that lands in ITK's git
-history or its pull-request workflow. Read before producing any
-in-source comment, commit message, or PR body.
+Contract for text that lands in ITK's git history or its pull-request
+workflow: in-source comments, commit messages, and PR bodies.
 
-This document codifies recurring reviewer feedback. **Verbose
-committed text is a review-blocking defect**, not a stylistic
-preference.
+Rules follow the tiers in [rule-tiers.md](./rule-tiers.md). The
+**Project standard** sections bind every contributor and are what
+reviewers, human or AI, cite. The **Agent defaults** section binds AI
+agents only; reviewers do not cite it.
 
-## Caps
+## Project standard
 
-| Artifact | Audience | Lifetime | Hard cap |
+Committed text must be load-bearing for a future reader who has the
+diff open. Text that adds nothing for that reader is a review defect.
+
+### Lengths
+
+| Artifact | Audience | Lifetime | Standard |
 |---|---|---|---|
-| In-source comment (`// …`) | future reader | forever | 1 line (ColumnLimit from .clang-format, currently ≤ 120 chars); default = none |
-| Commit subject | bisecter / `git log --oneline` reader | forever | ≤ 78 chars (enforced by `kw-commit-msg.py`) |
-| Commit message body | bisecter, archaeologist | forever | ≤ 12 lines; trailers excluded |
-| PR visible summary (above first `<details>`) | reviewer at merge time | until merged | ≤ 3 sentences, ≤ 250 chars |
-| PR `<details>` blocks | reviewer who wants depth | until merged | unbounded (hidden by default) |
-| PR HTML comments (`<!-- … -->`) | future automation, raw-body readers | survives merge | unbounded (invisible) |
+| In-source comment (`// …`) | future reader | forever | Short; explains a WHY the code cannot show |
+| Commit subject | `git log --oneline` reader | forever | ≤ 78 chars (enforced by `kw-commit-msg.py`) |
+| Commit message body | bisecter, archaeologist | forever | Short; extended rationale goes in the PR |
+| PR visible summary (above first `<details>`) | reviewer at merge time | until merged | Readable at a glance |
+| PR `<details>` blocks | reviewer who wants depth | until merged | Unbounded (hidden by default) |
+| PR HTML comments (`<!-- … -->`) | automation, raw-body readers | survives merge | Unbounded (invisible) |
 
-## The three-layer rule
+### The three-layer rule
 
 Each artifact has one job. **Do not duplicate content across layers.**
 
@@ -32,27 +37,20 @@ Each artifact has one job. **Do not duplicate content across layers.**
 If a future reader can answer the question by reading the next
 artifact down, prose at this layer is wasted bytes. Cut it.
 
-## Forbidden in committed text
+### Not in committed text
 
-The following content is forbidden in commit messages, in-source
-comments, and PR bodies — including inside `<details>` blocks. It
-belongs in HTML-comment provenance, an external issue tracker, or a
-session transcript no other reader needs.
+| Content | Where | Why |
+|---|---|---|
+| AI tool / model identifiers, session IDs | Commits and source; PRs only in the `<details>` disclosure required by [attribution.md](./attribution.md) | The human committer is accountable for the change. |
+| CDash / Azure DevOps / GitHub Actions URLs, `buildId=…`, ccache stats | All | The resource expires; the text remains as noise. Extract the fact instead. |
+| Backstory — "first I tried X, then Y, then Z…" | Commits and source | The reader needs the final invariant, not the development journey. |
+| Explanations of code that the diff already shows | All | Duplication. Rely on the diff. |
+| References to deleted or prior code — "we used to do X, now Y" | In-source comments | The comment becomes false as the code evolves. A commit body may describe the behavior a fix changes. |
+| Unsupported quality claims ("a robust implementation") | All | State the property concretely ("robust to NaN input") or omit it. |
+| Restatement of the commit subject as the first body line | Commits | The subject is right above. |
+| Issue / PR cross-references in commit subjects | Commits | Subjects stay scannable; references go in the body. |
 
-| Forbidden | Why |
-|---|---|
-| AI tool / model identifiers, "Claude Code", "ChatGPT", "session 2026-…" | The producing agent is irrelevant; the human committer is accountable. |
-| CDash / Azure DevOps / GitHub Actions URLs, `buildId=…`, ccache stats | These resources expire; the commit lives forever. The link rots; the prose remains as noise. |
-| Backstory / transcript narratives — "first I tried X, then Y, then Z…" | The reader needs the final invariant, not the development journey. |
-| Explanations of code that the diff already shows | Duplication. Rely on the diff. |
-| References to deleted or prior behavior — "we used to do X, now Y" | `git blame` and `git log` already record this; the comment becomes a lie when surrounding code evolves. |
-| First-person narrative ("we", "I", "my") | Commits are statements about the code, not the author. |
-| Marketing language — "robust", "comprehensive", "elegant", "best-in-class", "production-ready" | Zero technical signal. State the property concretely instead. |
-| Restatement of the commit subject as the first body line | The subject is right above; do not paraphrase it. |
-| Issue / PR cross-references in commit subjects | Allowed in the body as a single trailer line. Subjects must remain scannable. |
-| Documentation comments (`/** … */`, docstrings) added to drive-by-touched code | Out of scope for non-doc changes; doxygen drift is invisible to type-checkers. |
-
-## When a body or comment is needed
+### When a body or comment is needed
 
 Body / comment content **must** be load-bearing for a future reader
 who has the diff open:
@@ -64,7 +62,29 @@ who has the diff open:
 
 If the text would not change a future reader's behavior, omit it.
 
-## Self-audit
+## Agent defaults
+
+**Agent default.** Proxies for the standard above, tuned to the
+verbosity observed in AI-generated text. Agents follow them unless the
+directing human says otherwise; human contributors may deviate freely.
+
+| Artifact | Agent default |
+|---|---|
+| In-source comment | None unless needed; at most 1 line (ColumnLimit from `.clang-format`) |
+| Commit message body | ≤ 12 non-blank lines; trailers excluded |
+| PR visible summary | ≤ 3 sentences, ≤ 250 chars |
+
+Also avoid:
+
+- Marketing words — "robust", "comprehensive", "elegant",
+  "best-in-class", "production-ready". State the property instead.
+- First-person narrative ("we", "I", "my") in commits and comments.
+- Any mention of prior behavior in commit bodies unless the change
+  fixes it.
+- Documentation comments (`/** … */`, docstrings) added to code the
+  change only touches in passing.
+
+### Self-audit
 
 Before staging any commit message, in-source comment, or PR body,
 read every line and answer:
@@ -82,6 +102,9 @@ read every line and answer:
 
 If anything survives, that is the body. If nothing survives, the
 artifact needs no body.
+
+When a reviewer cites a rule from this document on a PR, apply the
+corresponding cure across the whole PR, not just at the citation point.
 
 ## Examples
 
@@ -157,26 +180,16 @@ sites in 221 files. Supersedes #NNNN.
 
 ## Where this applies
 
-Every text-producing operation in the AI-assisted workflow:
-
 - `git commit -m "…"` and `git commit -F …`
 - `gh pr create --body …`, `gh pr edit --body …`, `gh pr comment --body …`
 - Inline review replies via the GitHub API
 - New `// …` comments added or modified in source files
 
-The rule applies to humans too, but in practice the verbosity
-problem is concentrated in AI-generated text. Agents must
-self-audit against this document before producing any of the above.
-
 ## Enforcement
 
-- `Utilities/Hooks/kw-prose-budget.py` runs at commit-msg stage and
-  warns on body length and forbidden-content patterns.
-  Default is advisory (exit 0); set `ITK_PROSE_BUDGET_HARD=1` to
-  block.
-- Reviewers remain the authoritative gate. The hook reduces
-  round-trips by surfacing the most-cited rejection patterns at
-  commit time.
-- When a reviewer cites a rule from this document on a PR, treat
-  the citation as a request to apply the corresponding cure
-  tree-wide on the PR, not just at the citation point.
+- `Utilities/Hooks/kw-prose-budget.py` runs at commit-msg stage. It
+  checks project-standard patterns for everyone, and the commit body
+  cap and agent-default patterns when `ITK_AI_AGENT=1`. It is advisory
+  (exit 0) unless `ITK_AI_AGENT=1` or `ITK_PROSE_BUDGET_HARD=1` is set.
+- Reviewers remain the authoritative gate, and judge the project
+  standard, not the agent-default proxies.
