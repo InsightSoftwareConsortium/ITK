@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
+#include "itkIndent.h"
 #include "itkPrintHelper.h"
 #include "itkOffset.h"
 #include "gtest/gtest.h"

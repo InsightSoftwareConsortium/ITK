@@ -39,6 +39,13 @@ namespace itk
 // sites already #include "itkNumericTraits.h" directly or transitively.
 template <typename T>
 class NumericTraits;
+
+// Forward declarations breaks the itkIndent.h / itkMacro.h include cycle.
+class Indent;
+
+std::ostream &
+operator<<(std::ostream &, const Indent &);
+
 } // namespace itk
 
 namespace itk::print_helper

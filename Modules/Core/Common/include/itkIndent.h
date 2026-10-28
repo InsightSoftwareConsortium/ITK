@@ -29,6 +29,7 @@
 #define itkIndent_h
 
 #include "ITKCommonExport.h"
+#include "itkMacro.h"
 
 #include <iostream>
 
