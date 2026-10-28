@@ -74,7 +74,8 @@ PR descriptions must be **short and reviewer-friendly by default**.
 A reviewer should understand the PR's purpose in under 10 seconds
 from the visible text.
 
-- **Lead with a 1-3 line summary** — what changed and why.
+- **Lead with a short summary** — what changed and why
+  (**Agent default:** 1-3 lines).
 - **Sequester longer analysis inside `<details>` blocks** — root cause
   analysis, AI assistance details, test output, failed approaches,
   status tables, and dependency discussion.
