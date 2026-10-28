@@ -217,6 +217,9 @@ public:
   operator--();
 
 private:
+  void
+  UpdatePosition();
+
   SizeValueType m_PixelJump;
   SizeValueType m_LineJump;
   unsigned int  m_Direction_A;
