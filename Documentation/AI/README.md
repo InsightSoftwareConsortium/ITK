@@ -19,13 +19,15 @@ Everything else lives here — detailed enough to be useful, scoped enough to
 avoid loading irrelevant context into the agent's working window.
 
 ## Existing Files
-Add file to table in AGENTS.md for routing:
 
-| File | When to load |
-|------|-------------|
-| `building.md` | Configuring or building ITK with Pixi or CMake |
-| `code-review-lessons.md` | Writing or reviewing C++ code — recurring reviewer concerns |
-| `testing.md` | Writing, running, or converting tests |
+The routing table in `AGENTS.md` lists every file and when to load it.
+
+## Rule Tiers
+
+These files are read by agents, human contributors, and reviewers.
+Each rule is either a project standard (binds everyone; reviewers cite
+it) or an **Agent default** (binds AI agents only). See
+[rule-tiers.md](./rule-tiers.md).
 
 ## Adding a New Context File
 
@@ -53,7 +55,12 @@ Add file to table in AGENTS.md for routing:
    The task description should match how an agent would naturally describe
    what it is trying to do — not a file name or category label.
 
-6. **Keep it current.** Context files that describe workflows or commands
+6. **Label agent defaults.** State each rule as a project standard
+   first. A rule that only corrects an AI tendency (a word list, a
+   numeric cap, a workflow gate) is marked **Agent default** and names
+   the standard it serves.
+
+7. **Keep it current.** Context files that describe workflows or commands
    drift as the codebase evolves. Update them when the underlying reality
    changes; stale guidance is worse than no guidance.
 
