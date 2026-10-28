@@ -18,7 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itksys/SystemTools.hxx"
+#include "itkObjectFactoryBase.h"
 
 int
 main(int argc, char * argv[])
@@ -30,30 +30,26 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-
-  const char * envName = "ITK_AUTOLOAD_PATH";
-  char *       oldenv = getenv(envName);
-
-  std::string myenv = std::string(envName) + "=";
-
-  // if the FactoryPath  argument is not "" then add it to the env
+  // if the FactoryPath argument is not "" then add it to the autoload path
   if (argc >= 4)
   {
-    if (oldenv)
+    std::string path = itk::ObjectFactoryBase::GetAutoloadPath();
+    if (!path.empty())
     {
 #if defined(_WIN32)
-      myenv += std::string(oldenv) + ";";
+      path += ";";
 #else
-      myenv += std::string(oldenv) + ":";
+      path += ":";
 #endif
     }
-    myenv += std::string(argv[3]);
-    itksys::SystemTools::PutEnv(myenv);
+    path += argv[3];
+    itk::ObjectFactoryBase::SetAutoloadPath(path);
 
     itk::ObjectFactoryBase::ReHash();
   }
 
-  std::cout << myenv << std::endl;
+  std::cout << "ITK_AUTOLOAD_PATH="
+            << itk::ObjectFactoryBase::GetAutoloadPath() << std::endl;
 
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories =
