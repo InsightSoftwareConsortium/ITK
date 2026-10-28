@@ -40,13 +40,21 @@ if(ITK_USE_SYSTEM_FFTW)
   find_package(FFTW REQUIRED COMPONENTS ${_fftw_components})
   set(ITKFFTW_NO_SRC 1)
 
-  # Seed the app's cache with what ITK found, unless the app provides its own root.
+  # Seed the app's cache with what ITK found; cache entries the app already set are kept.
+  # For FFTW and oneMKL, an app-provided root replaces the seeded hints.
   set(_fftw_root_var FFTW_ROOT)
-  set(_fftw_hint_vars "")
   if(ITK_USE_MKL)
     set(_fftw_root_var MKLROOT)
     set(_fftw_hint_vars MKLROOT)
-  elseif(NOT ITK_USE_CUFFTW)
+  elseif(ITK_USE_CUFFTW)
+    set(_fftw_root_var "")
+    set(
+      _fftw_hint_vars
+      CUFFTW_INCLUDE_PATH
+      CUFFT_LIB
+      CUFFTW_LIB
+    )
+  else()
     set(
       _fftw_hint_vars
       FFTW_INCLUDE_PATH
@@ -60,7 +68,7 @@ if(ITK_USE_SYSTEM_FFTW)
   foreach(_fftw_var IN LISTS _fftw_hint_vars)
     if(${_fftw_var})
       set(_fftw_type FILEPATH)
-      if(_fftw_var MATCHES "^(FFTW_INCLUDE_PATH|MKLROOT)$")
+      if(_fftw_var MATCHES "^(FFTW_INCLUDE_PATH|CUFFTW_INCLUDE_PATH|MKLROOT)$")
         set(_fftw_type PATH)
       endif()
       string(
@@ -71,7 +79,7 @@ if(ITK_USE_SYSTEM_FFTW)
       )
     endif()
   endforeach()
-  if(_fftw_hint_code)
+  if(_fftw_hint_code AND _fftw_root_var)
     set(
       _fftw_hint_code
       "
