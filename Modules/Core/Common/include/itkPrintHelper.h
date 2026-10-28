@@ -21,6 +21,9 @@
 
 #include "itkMacro.h"
 #include "itkIndent.h"
+#ifndef itkIndent_h_complete
+#  error "itk::Indent incomplete: itkIndent.h must not include itkMacro.h (keep ITKCommonExport.h, itkConfigure.h)"
+#endif
 
 #include <array>
 #include <iostream>

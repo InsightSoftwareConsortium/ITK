@@ -28,7 +28,9 @@
 #ifndef itkIndent_h
 #define itkIndent_h
 
+// itkMacro.h includes itkPrintHelper.h, which includes this header: never include itkMacro.h here.
 #include "ITKCommonExport.h"
+#include "itkConfigure.h" // ITK_LEGACY_REMOVE
 
 #include <iostream>
 
@@ -54,15 +56,18 @@ public:
   using Self = Indent;
 
 #ifndef ITK_LEGACY_REMOVE
+  // [[deprecated]] rather than itkLegacyMacro, which would require itkMacro.h.
   /** Method for creation.
   \deprecated Instead of calling `New()`, please simply create an indent by directly constructing the object. Indent is
   default-constructible, so it can be allocated on the stack. */
-  itkLegacyMacro(static Self * New();)
+  [[deprecated]] static Self *
+  New();
 
   /** Destroy this instance.
      \deprecated Instead of calling `Delete()`, please use the C++ pattern RAII ("Resource Acquisition Is
      Initialization"). */
-  itkLegacyMacro(void Delete())
+  [[deprecated]] void
+  Delete()
   {
     delete this;
   }
@@ -93,5 +98,8 @@ private:
   int m_Indent;
 };
 } // end namespace itk
+
+// Tested by itkPrintHelper.h to detect the include cycle described above.
+#define itkIndent_h_complete
 
 #endif
