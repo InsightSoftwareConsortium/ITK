@@ -17,10 +17,13 @@
 #
 # ==========================================================================
 
-"""Warning-level commit-message body budget check.
+"""Commit-message prose check.
 
-Enforces the contract in Documentation/AI/prose-budget.md.
-Advisory by default (exit 0); set ITK_PROSE_BUDGET_HARD=1 to block.
+Enforces the contract in Documentation/AI/prose-budget.md, using the
+tiers in Documentation/AI/rule-tiers.md: project-standard patterns are
+checked for everyone; the body cap and agent-default patterns only when
+ITK_AI_AGENT=1. Advisory (exit 0) unless ITK_AI_AGENT=1 or
+ITK_PROSE_BUDGET_HARD=1 is set.
 """
 
 from __future__ import annotations
@@ -42,9 +45,7 @@ TRAILER_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-# Conservative patterns for content that does not belong in
-# committed prose. Each entry pairs a regex with a short label.
-FORBIDDEN_PATTERNS: list[tuple[re.Pattern[str], str]] = [
+STANDARD_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"https?://open\.cdash\.org\b", re.IGNORECASE), "transient CDash URL"),
     (
         re.compile(r"https?://dev\.azure\.com\b", re.IGNORECASE),
@@ -67,6 +68,9 @@ FORBIDDEN_PATTERNS: list[tuple[re.Pattern[str], str]] = [
         re.compile(r"\bsession\s+\d{4}[-/]\d{1,2}[-/]\d{1,2}\b", re.IGNORECASE),
         "session timestamp",
     ),
+]
+
+AGENT_DEFAULT_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (
         re.compile(
             r"\b(?:robust|comprehensive|elegant|best[-\s]in[-\s]class|production[-\s]ready)\b",
@@ -78,22 +82,23 @@ FORBIDDEN_PATTERNS: list[tuple[re.Pattern[str], str]] = [
         re.compile(r"^\s*(?:we |I |my )", re.MULTILINE),
         "first-person narrative",
     ),
-    (
-        re.compile(
-            r"\bused to (?:do|be|use)\b|\bpreviously (?:was|did)\b", re.IGNORECASE
-        ),
-        "reference to deleted/prior behavior",
-    ),
 ]
+
+# A fix commit may describe the behavior it changes.
+PRIOR_BEHAVIOR_PATTERN = (
+    re.compile(r"\bused to (?:do|be|use)\b|\bpreviously (?:was|did)\b", re.IGNORECASE),
+    "reference to deleted/prior behavior",
+)
+FIX_SUBJECT_PATTERN = re.compile(r"^(?:BUG|COMP):")
 
 
 def warn(label: str, detail: str) -> None:
     print(f"prose-budget: {label}: {detail}", file=sys.stderr)
 
 
-def read_body(commit_msg_path: Path) -> list[str]:
-    """Return the body lines of the commit message, with the subject and
-    leading blank line removed and any trailing trailers stripped."""
+def read_message(commit_msg_path: Path) -> tuple[str, list[str]]:
+    """Return the subject and the body lines of the commit message, with
+    the leading blank line removed and any trailing trailers stripped."""
     raw = commit_msg_path.read_text(errors="replace")
     # Strip comment lines (git's '# ...' guidance lines and scissors).
     cleaned = "\n".join(
@@ -101,14 +106,14 @@ def read_body(commit_msg_path: Path) -> list[str]:
     )
     parts = cleaned.split("\n", 2)
     if len(parts) < 3:
-        return []
+        return parts[0], []
     body = parts[2].rstrip("\n").splitlines()
     # Drop trailing trailers.
     while body and TRAILER_PATTERN.match(body[-1]):
         body.pop()
     while body and body[-1].strip() == "":
         body.pop()
-    return body
+    return parts[0], body
 
 
 def check_budget(body: list[str]) -> int:
@@ -124,10 +129,12 @@ def check_budget(body: list[str]) -> int:
     return findings
 
 
-def check_forbidden(body: list[str]) -> int:
+def check_forbidden(
+    body: list[str], patterns: list[tuple[re.Pattern[str], str]]
+) -> int:
     findings = 0
     text = "\n".join(body)
-    for pattern, label in FORBIDDEN_PATTERNS:
+    for pattern, label in patterns:
         m = pattern.search(text)
         if m:
             warn(
@@ -143,22 +150,30 @@ def main(argv: list[str]) -> int:
     if len(argv) != 2:
         print("usage: kw-prose-budget.py <commit-msg-path>", file=sys.stderr)
         return 2
-    body = read_body(Path(argv[1]))
+    subject, body = read_message(Path(argv[1]))
     if not body:
         return 0
-    findings = check_budget(body) + check_forbidden(body)
+    is_agent = os.environ.get("ITK_AI_AGENT", "0") == "1"
+    findings = check_forbidden(body, STANDARD_PATTERNS)
+    if is_agent:
+        agent_patterns = list(AGENT_DEFAULT_PATTERNS)
+        if not FIX_SUBJECT_PATTERN.match(subject):
+            agent_patterns.append(PRIOR_BEHAVIOR_PATTERN)
+        findings += check_budget(body)
+        findings += check_forbidden(body, agent_patterns)
     if findings == 0:
         return 0
+    if is_agent or os.environ.get("ITK_PROSE_BUDGET_HARD", "0") == "1":
+        print(
+            f"prose-budget: {findings} warning(s); rejecting commit "
+            "(ITK_AI_AGENT=1 or ITK_PROSE_BUDGET_HARD=1).",
+            file=sys.stderr,
+        )
+        return 1
     print(
         f"prose-budget: {findings} warning(s); commit allowed.",
         file=sys.stderr,
     )
-    if os.environ.get("ITK_PROSE_BUDGET_HARD", "0") == "1":
-        print(
-            "prose-budget: ITK_PROSE_BUDGET_HARD=1 set; rejecting commit.",
-            file=sys.stderr,
-        )
-        return 1
     return 0
 
 
