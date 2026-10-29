@@ -45,7 +45,7 @@ if(ITK_USE_SYSTEM_FFTW)
   set(_fftw_root_var FFTW_ROOT)
   if(ITK_USE_MKL)
     set(_fftw_root_var MKLROOT)
-    set(_fftw_hint_vars MKLROOT)
+    set(_fftw_hint_vars MKL_DIR)
   elseif(ITK_USE_CUFFTW)
     set(_fftw_root_var "")
     set(
@@ -68,7 +68,7 @@ if(ITK_USE_SYSTEM_FFTW)
   foreach(_fftw_var IN LISTS _fftw_hint_vars)
     if(${_fftw_var})
       set(_fftw_type FILEPATH)
-      if(_fftw_var MATCHES "^(FFTW_INCLUDE_PATH|CUFFTW_INCLUDE_PATH|MKLROOT)$")
+      if(_fftw_var MATCHES "^(FFTW_INCLUDE_PATH|CUFFTW_INCLUDE_PATH|MKL_DIR)$")
         set(_fftw_type PATH)
       endif()
       string(
@@ -86,6 +86,17 @@ if(ITK_USE_SYSTEM_FFTW)
 if(NOT DEFINED ${_fftw_root_var} AND NOT DEFINED ENV{${_fftw_root_var}})${_fftw_hint_code}
 endif()"
     )
+  endif()
+  # The oneMKL link settings ITK used are the app's defaults, whichever installation it selects.
+  if(ITK_USE_MKL)
+    foreach(_fftw_var IN ITEMS MKL_LINK MKL_INTERFACE MKL_THREADING)
+      string(
+        APPEND
+        _fftw_hint_code
+        "
+  set(${_fftw_var} \"${${_fftw_var}}\" CACHE STRING \"\")"
+      )
+    endforeach()
   endif()
 
   # When this module is loaded by an app, find FFTW with ITK's finder too.

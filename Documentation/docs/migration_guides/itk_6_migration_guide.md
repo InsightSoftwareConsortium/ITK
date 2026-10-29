@@ -630,6 +630,11 @@ are no longer set in projects that call `find_package(ITK)`; only the `FFTW::Dou
 created. This is unlikely to affect existing code. Link `ITK::ITKFFTWModule`, or a module that depends on it such as
 `ITK::ITKFFTModule`, to get FFTW's include directories and libraries.
 
+With `ITK_USE_MKL=ON`, ITK now finds oneMKL through its CMake package (`find_package(MKL CONFIG)`) and links
+`MKL::MKL`, which requires oneMKL 2021.3 or newer. Set `MKL_DIR`, or `MKLROOT` as before, to select the installation;
+`MKL_LINK`, `MKL_INTERFACE`, and `MKL_THREADING` default to `static`, `ilp64`, and `sequential`. The `MKL_INTEL_ILP64_LIB`,
+`MKL_CORE_LIB`, and `MKL_SEQUENTIAL_LIB` cache entries and `FFTW_INCLUDE_PATH` are no longer used with oneMKL.
+
 
 ### Migration for ITK Modules
 
