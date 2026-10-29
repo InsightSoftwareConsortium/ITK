@@ -151,6 +151,11 @@ endif()
 # Provide module selections by groups
 include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
 
+# itk.array_from_image and Python tests need the NumPy bridge.
+if(ITK_WRAP_PYTHON)
+  list(APPEND ITK_MODULE_ITKBridgeNumPy_REQUEST_BY ITK_WRAP_PYTHON)
+endif()
+
 # Provide an option for each module.
 foreach(itk-module ${ITK_MODULES_ALL})
   if(NOT ${itk-module}_IS_TEST)
