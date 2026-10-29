@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+// itkIndent.h first on purpose: it must compile before itkMacro.h is seen (issue #7025).
+#include "itkIndent.h"
 #include "itkPrintHelper.h"
 #include "itkOffset.h"
 #include "gtest/gtest.h"
