@@ -1265,16 +1265,18 @@ for example). Entries are separated by `:` (`;` on Windows). The scan happens
 lazily, the first time a factory is used, and only when ITK is built with
 `ITK_USE_AUTOLOAD_PATH` (dynamic loading enabled, not a Python-wrapped build).
 
-The autoload path is now stored in `ObjectFactoryBase` global state, initialized
-from the `ITK_AUTOLOAD_PATH` environment variable when that state is created.
-`ObjectFactoryBase::SetAutoloadPath()` and `GetAutoloadPath()` set and query it
-at runtime. `ReHash()` no longer re-reads the environment.
+The autoload path is now stored in `ObjectFactoryBase` global state as a
+`std::list<std::string>`, initialized by splitting the `ITK_AUTOLOAD_PATH`
+environment variable when that state is created.
+`ObjectFactoryBase::SetAutoloadPath()` and `GetAutoloadPath()` set and query
+the list at runtime. `ReHash()` no longer re-reads the environment.
 
 ### What you need to do
 
 Code that calls `putenv("ITK_AUTOLOAD_PATH=...")` after startup and then
-`ObjectFactoryBase::ReHash()` must call `ObjectFactoryBase::SetAutoloadPath(...)`
-instead. When factories were already initialized, follow it with `ReHash()`.
+`ObjectFactoryBase::ReHash()` must build a `std::list<std::string>` of
+directories and call `ObjectFactoryBase::SetAutoloadPath(...)` instead. When
+factories were already initialized, follow it with `ReHash()`.
 
 ## `MINCImageIO` reads a MINC time dimension as a fourth image axis
 

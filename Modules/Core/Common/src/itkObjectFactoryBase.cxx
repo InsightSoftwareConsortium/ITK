@@ -38,6 +38,7 @@
 #include <cstring>
 #include <algorithm>
 #include <atomic>
+#include <vector>
 
 namespace
 {
@@ -90,15 +91,21 @@ SynchronizeList(FactoryListType & output, FactoryListType & input, bool internal
   }
 }
 
-std::string
+std::list<std::string>
 GetAutoloadPathFromEnvironment()
 {
   std::string path;
   if (!itksys::SystemTools::GetEnv("ITK_AUTOLOAD_PATH", path))
   {
-    path.clear();
+    return {};
   }
-  return path;
+#ifdef _WIN32
+  constexpr char PathSeparator = ';';
+#else
+  constexpr char PathSeparator = ':';
+#endif
+  const std::vector<std::string> paths = itksys::SystemTools::SplitString(path, PathSeparator);
+  return { paths.begin(), paths.end() };
 }
 } // end of anonymous namespace
 
@@ -132,11 +139,11 @@ public:
 
   ObjectFactoryBasePrivate() = default;
 
-  FactoryListType   m_RegisteredFactories{};
-  FactoryListType   m_InternalFactories{};
-  std::atomic<bool> m_Initialized{ false };
-  bool              m_StrictVersionChecking{ false };
-  std::string       m_AutoloadPath{ GetAutoloadPathFromEnvironment() };
+  FactoryListType        m_RegisteredFactories{};
+  FactoryListType        m_InternalFactories{};
+  std::atomic<bool>      m_Initialized{ false };
+  bool                   m_StrictVersionChecking{ false };
+  std::list<std::string> m_AutoloadPath{ GetAutoloadPathFromEnvironment() };
 };
 
 auto
@@ -197,13 +204,13 @@ ObjectFactoryBase::GetStrictVersionChecking()
 }
 
 void
-ObjectFactoryBase::SetAutoloadPath(const std::string & path)
+ObjectFactoryBase::SetAutoloadPath(const std::list<std::string> & paths)
 {
   itkInitGlobalsMacro(PimplGlobals);
-  m_PimplGlobals->m_AutoloadPath = path;
+  m_PimplGlobals->m_AutoloadPath = paths;
 }
 
-std::string
+std::list<std::string>
 ObjectFactoryBase::GetAutoloadPath()
 {
   itkInitGlobalsMacro(PimplGlobals);
@@ -269,60 +276,16 @@ ObjectFactoryBase::Initialize()
 }
 
 /**
- * Load all libraries in ITK_AUTOLOAD_PATH
+ * Load all libraries in the autoload path (see SetAutoloadPath())
  */
 void
 ObjectFactoryBase::LoadDynamicFactories()
 {
 #ifdef ITK_DYNAMIC_LOADING
-  /**
-   * follow PATH conventions
-   */
-#  ifdef _WIN32
-  char PathSeparator = ';';
-#  else
-  const char PathSeparator = ':';
-#  endif
-
   itkInitGlobalsMacro(PimplGlobals);
-  const std::string LoadPath = m_PimplGlobals->m_AutoloadPath;
-  if (LoadPath.empty())
+  for (const std::string & path : m_PimplGlobals->m_AutoloadPath)
   {
-    return;
-  }
-
-  std::string::size_type EndSeparatorPosition = 0;
-  std::string::size_type StartSeparatorPosition = 0;
-
-  while (StartSeparatorPosition != std::string::npos)
-  {
-    StartSeparatorPosition = EndSeparatorPosition;
-
-    /**
-     * find PathSeparator in LoadPath
-     */
-    EndSeparatorPosition = LoadPath.find(PathSeparator, StartSeparatorPosition);
-    if (EndSeparatorPosition == std::string::npos)
-    {
-      EndSeparatorPosition = LoadPath.size() + 1; // Add 1 to simulate
-                                                  // having a separator
-    }
-    const std::string CurrentPath =
-      LoadPath.substr(StartSeparatorPosition, EndSeparatorPosition - StartSeparatorPosition);
-
-    ObjectFactoryBase::LoadLibrariesInPath(CurrentPath.c_str());
-
-    /**
-     * Move past separator
-     */
-    if (EndSeparatorPosition > LoadPath.size())
-    {
-      StartSeparatorPosition = std::string::npos;
-    }
-    else
-    {
-      ++EndSeparatorPosition; // Skip the separator
-    }
+    ObjectFactoryBase::LoadLibrariesInPath(path.c_str());
   }
 #else // ITK_DYNAMIC_LOADING
   itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");

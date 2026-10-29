@@ -95,27 +95,23 @@ itkObjectFactoryTest2(int argc, char * argv[])
   // This is needed on WIndows to see warnings in the test output
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  // Build up a path from the arguments
-#ifdef _WIN32
-  std::string pathSeparator = ";";
-#else
-  const std::string pathSeparator = ":";
-#endif
-  std::string path = "";
-  for (int ac = 1; ac < argc - 1; ++ac)
+  // Build up a path list from the arguments
+  std::list<std::string> path;
+  for (int ac = 1; ac < argc; ++ac)
   {
-    path += argv[ac];
+    std::string entry = argv[ac];
 #ifdef CMAKE_INTDIR
-    path += std::string("/") + std::string(CMAKE_INTDIR);
+    entry += std::string("/") + std::string(CMAKE_INTDIR);
 #endif
-    path += pathSeparator;
+    path.push_back(entry);
   }
-  path += argv[argc - 1];
-#ifdef CMAKE_INTDIR
-  path += std::string("/") + std::string(CMAKE_INTDIR);
-#endif
   itk::ObjectFactoryBase::SetAutoloadPath(path);
-  std::cout << "Autoload path => " << itk::ObjectFactoryBase::GetAutoloadPath() << std::endl;
+  std::cout << "Autoload path =>";
+  for (const auto & entry : itk::ObjectFactoryBase::GetAutoloadPath())
+  {
+    std::cout << ' ' << entry;
+  }
+  std::cout << std::endl;
 
   itk::ObjectFactoryBase::ReHash();
 
