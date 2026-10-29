@@ -192,6 +192,25 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
       api
       $<TARGET_FILE_DIR:FactoryTestLib>
   )
+
+  if(WIN32)
+    set(ITKObjectFactoryAutoloadPathSeparator ";")
+  else()
+    set(ITKObjectFactoryAutoloadPathSeparator ":")
+  endif()
+  itk_add_test(
+    NAME itkObjectFactoryAutoloadPathConsecutiveSeparatorTest
+    COMMAND
+      itkObjectFactoryAutoloadPathTest
+      envdup
+      $<TARGET_FILE_DIR:FactoryTestLib>
+  )
+  set_tests_properties(
+    itkObjectFactoryAutoloadPathConsecutiveSeparatorTest
+    PROPERTIES
+      ENVIRONMENT
+        "ITK_AUTOLOAD_PATH=bogus${ITKObjectFactoryAutoloadPathSeparator}${ITKObjectFactoryAutoloadPathSeparator}$<TARGET_FILE_DIR:FactoryTestLib>"
+  )
 endif()
 
 itk_add_test(

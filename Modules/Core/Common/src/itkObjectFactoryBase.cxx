@@ -38,7 +38,6 @@
 #include <cstring>
 #include <algorithm>
 #include <atomic>
-#include <vector>
 
 namespace
 {
@@ -91,6 +90,31 @@ SynchronizeList(FactoryListType & output, FactoryListType & input, bool internal
   }
 }
 
+// itksys::SystemTools::SplitString() drops a character after each
+// separator it finds, so consecutive separators swallow the next entry
+// (KWSys issue: split-string-start-edge only fixed the leading case).
+std::list<std::string>
+SplitPathList(const std::string & paths, char separator)
+{
+  std::list<std::string> result;
+  std::string::size_type begin = 0;
+  while (begin <= paths.size())
+  {
+    const std::string::size_type end = paths.find(separator, begin);
+    std::string                  entry = paths.substr(begin, end - begin);
+    if (!entry.empty())
+    {
+      result.push_back(std::move(entry));
+    }
+    if (end == std::string::npos)
+    {
+      break;
+    }
+    begin = end + 1;
+  }
+  return result;
+}
+
 std::list<std::string>
 GetAutoloadPathFromEnvironment()
 {
@@ -104,8 +128,7 @@ GetAutoloadPathFromEnvironment()
 #else
   constexpr char PathSeparator = ':';
 #endif
-  const std::vector<std::string> paths = itksys::SystemTools::SplitString(path, PathSeparator);
-  return { paths.begin(), paths.end() };
+  return SplitPathList(path, PathSeparator);
 }
 } // end of anonymous namespace
 
