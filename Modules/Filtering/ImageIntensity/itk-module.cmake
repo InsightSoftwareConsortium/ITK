@@ -8,6 +8,11 @@ that combine multiple images into images of multiple components, as well as
 filters that compute single scalar images from images of multiple components."
 )
 
+# Python wrapping tests use the NumPy bridge.
+if(ITK_WRAP_PYTHON)
+  set(_numpy_test_depends ITKBridgeNumPy)
+endif()
+
 itk_module(
   ITKImageIntensity
   ENABLE_SHARED
@@ -18,6 +23,7 @@ itk_module(
     ITKPath
   TEST_DEPENDS
     ITKTestKernel
+    ${_numpy_test_depends}
     ITKDistanceMap
     ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"

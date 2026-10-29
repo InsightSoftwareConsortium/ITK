@@ -14,6 +14,11 @@ if(Module_ITKTBB)
   set(ITKCOMMON_TBB_DEPENDS ITKTBB)
 endif()
 
+# Python wrapping tests use the NumPy bridge.
+if(ITK_WRAP_PYTHON)
+  set(_numpy_test_depends ITKBridgeNumPy)
+endif()
+
 itk_module(
   ITKCommon
   ENABLE_SHARED
@@ -28,6 +33,7 @@ itk_module(
   TEST_DEPENDS
     ITKGoogleTest
     ITKTestKernel
+    ${_numpy_test_depends}
     ITKMesh
     ITKImageIntensity
     ITKMathematicalMorphology

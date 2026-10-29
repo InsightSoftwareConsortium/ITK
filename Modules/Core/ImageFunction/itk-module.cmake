@@ -9,6 +9,11 @@ applications. Their main role is to assist in the implementation of ITK
 filters."
 )
 
+# Python wrapping tests use the NumPy bridge.
+if(ITK_WRAP_PYTHON)
+  set(_numpy_test_depends ITKBridgeNumPy)
+endif()
+
 itk_module(
   ITKImageFunction
   COMPILE_DEPENDS
@@ -18,5 +23,6 @@ itk_module(
   TEST_DEPENDS
     ITKGoogleTest
     ITKTestKernel
+    ${_numpy_test_depends}
   DESCRIPTION "${DOCUMENTATION}"
 )

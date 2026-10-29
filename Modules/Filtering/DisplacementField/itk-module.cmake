@@ -8,6 +8,11 @@ computing inverse deformation fields, and computing the Jacobian Determinant of
 a deformation field."
 )
 
+# Python wrapping tests use the NumPy bridge.
+if(ITK_WRAP_PYTHON)
+  set(_numpy_test_depends ITKBridgeNumPy)
+endif()
+
 itk_module(
   ITKDisplacementField
   DEPENDS
@@ -17,6 +22,7 @@ itk_module(
     ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
+    ${_numpy_test_depends}
     ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )

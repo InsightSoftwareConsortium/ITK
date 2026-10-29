@@ -4,6 +4,11 @@ set(
 interface between ITK and VTK."
 )
 
+# Python wrapping tests use the NumPy bridge.
+if(ITK_WRAP_PYTHON)
+  set(_numpy_test_depends ITKBridgeNumPy)
+endif()
+
 itk_module(
   ITKVtkGlue
   ENABLE_SHARED
@@ -14,6 +19,7 @@ itk_module(
     ITKImageIntensity
   TEST_DEPENDS
     ITKTestKernel
+    ${_numpy_test_depends}
     ITKVTK
     ITKSmoothing
     ITKLabelMap
