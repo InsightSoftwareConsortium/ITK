@@ -579,14 +579,14 @@ mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux_2_28_aarch64.ta
 On the macOS build system, we use the same build toolchain, toolchain path, and build
 path as is used in the remote module GitHub Actions builds on the [macos-15 GitHub Action Runner].
 
-- Install Xcode 16.2 from https://developer.apple.com/downloads/all/
-- Unpack and move to /Applications/Xcode_16.2.app
+- Install Xcode 16.4 from https://developer.apple.com/downloads/all/
+- Unpack and move to /Applications/Xcode_16.4.app
 ``` bash
-sudo xcode-select -s /Applications/Xcode_16.2.app
+sudo xcode-select -s /Applications/Xcode_16.4.app
 sudo xcodebuild -license
 xcodebuild -version
-# Xcode 16.2
-# Build version 16C5032a
+# Xcode 16.4
+# Build version 16F6
 ```
 
 Build the wheels for macOS (both amd64 and ARM).
