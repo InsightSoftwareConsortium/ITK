@@ -587,6 +587,44 @@ Use the `--link` option to generate `target_link_libraries()` commands with the 
 This outputs the namespaced interface libraries (e.g., `ITK::ITKCommonModule`) suitable for direct use in
 `target_link_libraries()` commands.
 
+#### FFTW
+
+FFTW is built or found by the `ITKFFTW` third-party module, and its include directories, libraries, and compile
+options are carried by the `ITK::ITKFFTModule` interface library. Link that target, rather than naming FFTW
+directories or libraries. Code that includes `fftw3.h` directly is covered too, because `ITK::ITKFFTModule` provides
+the FFTW include directory.
+
+**Before:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKFFT)
+include(${ITK_USE_FILE})
+include_directories(${ITK_FFTW_INCLUDE_PATH})
+link_directories(${ITK_FFTW_LIBDIR})
+add_executable(Example Example.cxx)
+target_link_libraries(Example ${ITK_LIBRARIES} fftw3 fftw3f)
+```
+
+**After:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKFFT)
+add_executable(Example Example.cxx)
+target_link_libraries(Example PRIVATE ITK::ITKFFTModule)
+```
+
+To use FFTW without the FFT filters, request the module directly with `find_package(ITK COMPONENTS ITKFFTW)` and link
+`ITK::ITKFFTWModule`.
+
+`ITK_FFTW_INCLUDE_PATH` and `ITK_FFTW_LIBDIR` are no longer defined by `ITKConfig.cmake`, and FFTW directories are no
+longer appended to `ITK_INCLUDE_DIRS` and `ITK_LIBRARY_DIRS`. The bundled libraries are installed as `libitkfftw3*`
+instead of `libfftw3*`, so linking `fftw3` or `-lfftw3` by name fails to find the library. Only the precisions ITK was
+built with (`ITK_USE_FFTWF` and `ITK_USE_FFTWD`) are provided.
+
+When ITK is built against a system FFTW (`ITK_USE_SYSTEM_FFTW=ON`), downstream `find_package(ITK)` runs ITK's
+installed `FindFFTW.cmake`, seeded with the include directory and library files ITK found. Set `FFTW_ROOT` to search
+for a different installation instead. The ITK build options `FFTW_INCLUDE_PATH`, `FFTWD_BASE_LIB`, `FFTWF_BASE_LIB`,
+`FFTWD_THREADS_LIB`, and `FFTWF_THREADS_LIB` are still honored; the library results are now full paths rather than
+file names. A separate FFTW threads library is optional.
+
 
 ### Migration for ITK Modules
 
