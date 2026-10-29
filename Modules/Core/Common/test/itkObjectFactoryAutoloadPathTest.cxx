@@ -23,15 +23,19 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <list>
 #include <string>
 
-// Usage: itkObjectFactoryAutoloadPathTest <env|api> <FactoryLibraryDirectory>
+// Usage: itkObjectFactoryAutoloadPathTest <env|api|envdup> <FactoryLibraryDirectory>
 //
 // env: ITK_AUTOLOAD_PATH is set by the test harness before the process starts;
 //      nothing is configured in main().
 // api: ITK_AUTOLOAD_PATH is removed from the environment, then the autoload
 //      path is set with ObjectFactoryBase::SetAutoloadPath() before any
 //      factory is used.
+// envdup: like env, but ITK_AUTOLOAD_PATH has a bogus entry followed by
+//         consecutive separators before the real directory; regression test
+//         for consecutive separators hiding the entry that follows them.
 //
 // In both cases the factory library must be loaded lazily on first use.
 int
@@ -39,17 +43,24 @@ main(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Usage: " << argv[0] << " <env|api> <FactoryLibraryDirectory>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <env|api|envdup> <FactoryLibraryDirectory>" << std::endl;
     return EXIT_FAILURE;
   }
-  const std::string mode{ argv[1] };
-  const std::string factoryDirectory{ argv[2] };
+  const std::string            mode{ argv[1] };
+  const std::string            factoryDirectory{ argv[2] };
+  const std::list<std::string> expectedPath{ factoryDirectory };
+  bool                         checkExactPath = true;
 
   if (mode == "api")
   {
     // Ensure the setter, not an inherited environment, provides the path.
     itksys::SystemTools::UnPutEnv("ITK_AUTOLOAD_PATH");
-    itk::ObjectFactoryBase::SetAutoloadPath(factoryDirectory);
+    itk::ObjectFactoryBase::SetAutoloadPath(expectedPath);
+  }
+  else if (mode == "envdup")
+  {
+    // ITK_AUTOLOAD_PATH also contains a bogus entry before the real one.
+    checkExactPath = false;
   }
   else if (mode != "env")
   {
@@ -57,10 +68,9 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  if (itk::ObjectFactoryBase::GetAutoloadPath() != factoryDirectory)
+  if (checkExactPath && itk::ObjectFactoryBase::GetAutoloadPath() != expectedPath)
   {
-    std::cerr << "Autoload path is \"" << itk::ObjectFactoryBase::GetAutoloadPath() << "\", expected \""
-              << factoryDirectory << '"' << std::endl;
+    std::cerr << "Autoload path does not contain exactly \"" << factoryDirectory << '"' << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -75,7 +85,7 @@ main(int argc, char * argv[])
   }
 
   // An empty path must not load the factory after a rehash.
-  itk::ObjectFactoryBase::SetAutoloadPath("");
+  itk::ObjectFactoryBase::SetAutoloadPath({});
   itk::ObjectFactoryBase::ReHash();
   if (std::strcmp(itk::ImportImageContainer<unsigned long, short>::New()->GetNameOfClass(),
                   "TestImportImageContainer") == 0)

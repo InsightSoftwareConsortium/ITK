@@ -33,23 +33,19 @@ main(int argc, char * argv[])
   // if the FactoryPath argument is not "" then add it to the autoload path
   if (argc >= 4)
   {
-    std::string path = itk::ObjectFactoryBase::GetAutoloadPath();
-    if (!path.empty())
-    {
-#if defined(_WIN32)
-      path += ";";
-#else
-      path += ":";
-#endif
-    }
-    path += argv[3];
+    std::list<std::string> path = itk::ObjectFactoryBase::GetAutoloadPath();
+    path.emplace_back(argv[3]);
     itk::ObjectFactoryBase::SetAutoloadPath(path);
 
     itk::ObjectFactoryBase::ReHash();
   }
 
-  std::cout << "ITK_AUTOLOAD_PATH="
-            << itk::ObjectFactoryBase::GetAutoloadPath() << std::endl;
+  std::cout << "ITK_AUTOLOAD_PATH=";
+  for (const auto & path : itk::ObjectFactoryBase::GetAutoloadPath())
+  {
+    std::cout << path << ' ';
+  }
+  std::cout << std::endl;
 
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories =
