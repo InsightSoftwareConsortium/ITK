@@ -128,11 +128,13 @@ itk_python_add_test(
     DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
     DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm}
 )
-itk_python_add_test(
-  NAME PyImageFilterTest
-  COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/PyImageFilterTest.py
-)
+if(ITKBridgeNumPy_ENABLED)
+  itk_python_add_test(
+    NAME PyImageFilterTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/PyImageFilterTest.py
+  )
+endif()
 itk_python_add_test(
   NAME PythonConvertMetaData
   COMMAND
@@ -294,13 +296,15 @@ itk_python_add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release.py
 )
 
-# Comprehensive GIL release safety tests: callbacks, exceptions,
-# concurrency, deadlock, signals, stress
-itk_python_add_test(
-  NAME PythonGILReleaseSafetyTest
-  COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release_safety.py
-)
+if(ITKBridgeNumPy_ENABLED)
+  # Comprehensive GIL release safety tests: callbacks, exceptions,
+  # concurrency, deadlock, signals, stress
+  itk_python_add_test(
+    NAME PythonGILReleaseSafetyTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release_safety.py
+  )
+endif()
 
 itk_python_add_test(
   NAME CTypeTest
