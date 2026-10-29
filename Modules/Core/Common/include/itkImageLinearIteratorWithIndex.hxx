@@ -24,7 +24,10 @@ namespace itk
 template <typename TImage>
 ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(ImageType * ptr, const RegionType & region)
   : ImageLinearConstIteratorWithIndex<TImage>(ptr, region)
-{}
+{
+  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
+  static_cast<void>(ptr->GetBufferPointer());
+}
 
 template <typename TImage>
 ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)

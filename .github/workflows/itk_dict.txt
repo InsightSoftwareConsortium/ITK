@@ -446,6 +446,7 @@ cryosection
 cryosectional
 ctwd
 cuboidal
+CudaImage
 cum
 cumGaussianArrayCopySize
 cumGaussianArraySize

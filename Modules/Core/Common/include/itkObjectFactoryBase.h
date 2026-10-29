@@ -45,9 +45,10 @@ namespace itk
  * used to create itk objects from the list of registered ObjectFactoryBase
  * sub-classes.  The first time CreateInstance() is called, all dll's or
  * shared libraries in the environment variable ITK_AUTOLOAD_PATH are loaded
- * into the current process.  The C function itkLoad is called on each dll.
- * itkLoad should return an instance of the factory sub-class implemented in
- * the shared library. ITK_AUTOLOAD_PATH is an environment variable
+ * into the current process.  The C function named by ITK_LOAD_FUNCTION_NAME
+ * (itkLoad by default) is called on each dll.  It should return an instance of
+ * the factory sub-class implemented in the shared library.  ITK_AUTOLOAD_PATH
+ * is an environment variable
  * containing a colon separated (semi-colon on win32) list of paths.
  *
  * This can be use to override the creation of any object in ITK.

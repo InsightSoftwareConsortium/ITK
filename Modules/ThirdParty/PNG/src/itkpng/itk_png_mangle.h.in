@@ -243,6 +243,13 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_read_data @MANGLE_PREFIX@_read_data
 #define png_read_end @MANGLE_PREFIX@_read_end
 #define png_read_filter_row @MANGLE_PREFIX@_read_filter_row
+#define png_read_filter_row_avg3_neon @MANGLE_PREFIX@_read_filter_row_avg3_neon
+#define png_read_filter_row_avg4_neon @MANGLE_PREFIX@_read_filter_row_avg4_neon
+#define png_read_filter_row_paeth3_neon @MANGLE_PREFIX@_read_filter_row_paeth3_neon
+#define png_read_filter_row_paeth4_neon @MANGLE_PREFIX@_read_filter_row_paeth4_neon
+#define png_read_filter_row_sub3_neon @MANGLE_PREFIX@_read_filter_row_sub3_neon
+#define png_read_filter_row_sub4_neon @MANGLE_PREFIX@_read_filter_row_sub4_neon
+#define png_read_filter_row_up_neon @MANGLE_PREFIX@_read_filter_row_up_neon
 #define png_read_finish_IDAT @MANGLE_PREFIX@_read_finish_IDAT
 #define png_read_finish_row @MANGLE_PREFIX@_read_finish_row
 #define png_read_image @MANGLE_PREFIX@_read_image
@@ -416,12 +423,5 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_zfree @MANGLE_PREFIX@_zfree
 #define png_zlib_inflate @MANGLE_PREFIX@_zlib_inflate
 #define png_zstream_error @MANGLE_PREFIX@_zstream_error
-#define _png_read_filter_row_avg3_neon @MANGLE_PREFIX@___png_read_filter_row_avg3_neon
-#define _png_read_filter_row_avg4_neon @MANGLE_PREFIX@___png_read_filter_row_avg4_neon
-#define _png_read_filter_row_paeth3_neon @MANGLE_PREFIX@___png_read_filter_row_paeth3_neon
-#define _png_read_filter_row_paeth4_neon @MANGLE_PREFIX@___png_read_filter_row_paeth4_neon
-#define _png_read_filter_row_sub3_neon @MANGLE_PREFIX@___png_read_filter_row_sub3_neon
-#define _png_read_filter_row_sub4_neon @MANGLE_PREFIX@___png_read_filter_row_sub4_neon
-#define _png_read_filter_row_up_neon @MANGLE_PREFIX@___png_read_filter_row_up_neon
 
 #endif
