@@ -1082,11 +1082,15 @@ def dict_from_transform(
     def add_transform_dict(transform):
         transform_type = transform.GetTransformTypeAsString()
         if "CompositeTransform" in transform_type:
-            # Add the transforms inside the composite transform
+            # Add the transforms inside the composite transform, recursing
+            # into nested composite transforms so that they are flattened.
+            # GetNthTransform returns the TransformBase interface, so the
+            # child is down-cast to reach GetNumberOfTransforms when it is
+            # itself a composite transform.
             # range is over-ridden so using this hack to create a list
             for i, _ in enumerate([0] * transform.GetNumberOfTransforms()):
-                current_transform = transform.GetNthTransform(i)
-                dict_array.append(update_transform_dict(current_transform))
+                current_transform = itk.down_cast(transform.GetNthTransform(i))
+                add_transform_dict(current_transform)
             return True
         else:
             dict_array.append(update_transform_dict(transform))

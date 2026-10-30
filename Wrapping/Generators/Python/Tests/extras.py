@@ -386,6 +386,21 @@ transform_back = itk.transform_from_dict(transform_dict)
 transform_dict = itk.dict_from_transform(transforms)
 transform_back = itk.transform_from_dict(transform_dict)
 
+# A nested CompositeTransform is flattened, one entry per leaf transform
+inner_composite = itk.CompositeTransform[itk.D, 3].New()
+inner_composite.AddTransform(itk.TranslationTransform[itk.D, 3].New())
+outer_composite = itk.CompositeTransform[itk.D, 3].New()
+outer_composite.AddTransform(inner_composite)
+outer_composite.AddTransform(itk.AffineTransform[itk.D, 3].New())
+nested_dict = itk.dict_from_transform(outer_composite)
+assert [d["transformType"]["transformParameterization"] for d in nested_dict] == [
+    "Translation",
+    "Affine",
+]
+assert all("parameters" in d for d in nested_dict)
+nested_back = itk.transform_from_dict(nested_dict)
+assert nested_back.GetNumberOfTransforms() == 2
+
 # Write single transform
 itk.transformwrite(transforms[0], sys.argv[7], compression=True)
 

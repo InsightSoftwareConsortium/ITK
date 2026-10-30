@@ -57,6 +57,8 @@ jobs:
 
     - bash: |
         set -x
+        sudo apt-get update
+        sudo apt-get install -y ccache
         python3 -m pip install ninja typing-extensions
         python3 -m pip install --upgrade --pre numpy
         python3 -m pip install lxml scikit-ci-addons dask distributed

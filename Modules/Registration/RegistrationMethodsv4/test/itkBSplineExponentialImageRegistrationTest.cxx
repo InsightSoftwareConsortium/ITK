@@ -406,17 +406,18 @@ itkBSplineExponentialImageRegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  int testStatus = EXIT_SUCCESS;
   switch (std::stoi(argv[1]))
   {
     case 2:
-      PerformBSplineExpImageRegistration<2>(argc, argv);
+      testStatus = PerformBSplineExpImageRegistration<2>(argc, argv);
       break;
     case 3:
-      PerformBSplineExpImageRegistration<3>(argc, argv);
+      testStatus = PerformBSplineExpImageRegistration<3>(argc, argv);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;
+  return testStatus;
 }
