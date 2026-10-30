@@ -20,7 +20,6 @@ set(
   itkHistogramToTextureFeaturesFilterTest.cxx
   itkImageToHistogramFilterTest.cxx
   itkImageToHistogramFilterTest2.cxx
-  itkImageToListSampleAdaptorTest.cxx
   itkImageToListSampleAdaptorTest2.cxx
   itkImageToListSampleFilterTest.cxx
   itkImageToListSampleFilterTest2.cxx
@@ -660,12 +659,6 @@ itk_add_test(
     100
 )
 itk_add_test(
-  NAME itkImageToListSampleAdaptorTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkImageToListSampleAdaptorTest
-)
-itk_add_test(
   NAME itkImageToListSampleAdaptorTest2
   COMMAND
     ITKStatisticsTestDriver
@@ -976,6 +969,7 @@ set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
   itkHistogramToTextureFeaturesFilterNaNGTest.cxx
+  itkImageToListSampleAdaptorGTest.cxx
   itkKdTreeGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
