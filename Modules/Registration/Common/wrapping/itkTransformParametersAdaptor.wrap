@@ -1,0 +1,5 @@
+itk_wrap_include("itkDisplacementFieldTransform.h")
+
+itk_wrap_class("itk::TransformParametersAdaptor" POINTER)
+set(WRAPPER_TEMPLATES "${displacement_field_adaptor_templates}")
+itk_end_wrap_class()
