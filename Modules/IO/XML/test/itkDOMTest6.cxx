@@ -162,7 +162,7 @@ testStringToolsWithStdVector()
   std::string        s = svalue;
   itk::StringTools::ToData(s, dataOut1);
   // check successful or not
-  if (dataOut1.size() != (dataIn.size() + 1) && dataOut1.back() != 10.0f)
+  if (dataOut1.size() != (dataIn.size() + 1) || dataOut1.back() != 10.0f)
   {
     throw "testStringToolsWithStdVector: failed reading all elements in the string (1)";
   }
@@ -198,7 +198,7 @@ testStringToolsWithStdVector()
   s = svalue;
   itk::StringTools::ToData(s, dataOut3, 5);
   // check successful or not
-  if (dataOut3.size() != 10 && dataOut3[5] != 0.0f)
+  if (dataOut3.size() != 10 || dataOut3[5] != 0.0f)
   {
     throw "testStringToolsWithStdVector: failed reading user-specified number of elements (1.1)";
   }
@@ -249,7 +249,7 @@ testStringToolsWithItkArray()
   DataType    dataOut1;
   itk::StringTools::ToData(s, dataOut1);
   // check successful or not
-  if (dataOut1.GetSize() != (dataIn.GetSize() + 1) && dataOut1[10] != 10.0)
+  if (dataOut1.GetSize() != (dataIn.GetSize() + 1) || dataOut1[10] != 10.0)
   {
     throw "testStringToolsWithItkArray: failed reading all elements in the string (1)";
   }
@@ -285,7 +285,7 @@ testStringToolsWithItkArray()
   s = svalue;
   itk::StringTools::ToData(s, dataOut3, 5);
   // check successful or not
-  if (dataOut3.GetSize() != 10 && dataOut3[5] != 0.0)
+  if (dataOut3.GetSize() != 10 || dataOut3[5] != 0.0)
   {
     throw "testStringToolsWithItkArray: failed reading user-specified number of elements (1.1)";
   }
