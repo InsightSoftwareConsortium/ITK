@@ -22,13 +22,6 @@
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkTestingMacros.h"
 
-inline std::ostream &
-operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
-{
-  o << '[' << v[0] << ' ' << v[1] << ' ' << v[2] << ']';
-  return o;
-}
-
 int
 itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
