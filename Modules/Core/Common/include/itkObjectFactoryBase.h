@@ -98,14 +98,14 @@ public:
    * loading is disabled (ITK_USE_AUTOLOAD_PATH is OFF, e.g. in
    * Python-wrapped builds). */
   static void
-  SetAutoloadPath(const std::list<std::string> & paths);
+  SetAutoloadPaths(const std::list<std::string> & paths);
   static std::list<std::string>
-  GetAutoloadPath();
+  GetAutoloadPaths();
 
-  /** Re-check the autoload path (see SetAutoloadPath()) for new factory
+  /** Re-check the autoload path (see SetAutoloadPaths()) for new factory
    * libraries. This calls UnRegisterAll before re-loading.
    * The environment is not re-read: changing ITK_AUTOLOAD_PATH after startup
-   * requires SetAutoloadPath(). */
+   * requires SetAutoloadPaths(). */
   static void
   ReHash();
 

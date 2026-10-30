@@ -30,18 +30,18 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // if the FactoryPath argument is not "" then add it to the autoload path
+  // if the FactoryPath argument is not "" then add it to the autoload paths
   if (argc >= 4)
   {
-    std::list<std::string> path = itk::ObjectFactoryBase::GetAutoloadPath();
-    path.emplace_back(argv[3]);
-    itk::ObjectFactoryBase::SetAutoloadPath(path);
+    std::list<std::string> paths = itk::ObjectFactoryBase::GetAutoloadPaths();
+    paths.emplace_back(argv[3]);
+    itk::ObjectFactoryBase::SetAutoloadPaths(paths);
 
     itk::ObjectFactoryBase::ReHash();
   }
 
   std::cout << "ITK_AUTOLOAD_PATH=";
-  for (const auto & path : itk::ObjectFactoryBase::GetAutoloadPath())
+  for (const auto & path : itk::ObjectFactoryBase::GetAutoloadPaths())
   {
     std::cout << path << ' ';
   }

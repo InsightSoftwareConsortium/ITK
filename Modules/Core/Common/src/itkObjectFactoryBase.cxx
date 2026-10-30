@@ -116,7 +116,7 @@ SplitPathList(const std::string & paths, char separator)
 }
 
 std::list<std::string>
-GetAutoloadPathFromEnvironment()
+GetAutoloadPathsFromEnvironment()
 {
   std::string path;
   if (!itksys::SystemTools::GetEnv("ITK_AUTOLOAD_PATH", path))
@@ -166,7 +166,7 @@ public:
   FactoryListType        m_InternalFactories{};
   std::atomic<bool>      m_Initialized{ false };
   bool                   m_StrictVersionChecking{ false };
-  std::list<std::string> m_AutoloadPath{ GetAutoloadPathFromEnvironment() };
+  std::list<std::string> m_AutoloadPaths{ GetAutoloadPathsFromEnvironment() };
 };
 
 auto
@@ -227,17 +227,17 @@ ObjectFactoryBase::GetStrictVersionChecking()
 }
 
 void
-ObjectFactoryBase::SetAutoloadPath(const std::list<std::string> & paths)
+ObjectFactoryBase::SetAutoloadPaths(const std::list<std::string> & paths)
 {
   itkInitGlobalsMacro(PimplGlobals);
-  m_PimplGlobals->m_AutoloadPath = paths;
+  m_PimplGlobals->m_AutoloadPaths = paths;
 }
 
 std::list<std::string>
-ObjectFactoryBase::GetAutoloadPath()
+ObjectFactoryBase::GetAutoloadPaths()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  return m_PimplGlobals->m_AutoloadPath;
+  return m_PimplGlobals->m_AutoloadPaths;
 }
 
 /**
@@ -299,14 +299,14 @@ ObjectFactoryBase::Initialize()
 }
 
 /**
- * Load all libraries in the autoload path (see SetAutoloadPath())
+ * Load all libraries in the autoload paths (see SetAutoloadPaths())
  */
 void
 ObjectFactoryBase::LoadDynamicFactories()
 {
 #ifdef ITK_DYNAMIC_LOADING
   itkInitGlobalsMacro(PimplGlobals);
-  for (const std::string & path : m_PimplGlobals->m_AutoloadPath)
+  for (const std::string & path : m_PimplGlobals->m_AutoloadPaths)
   {
     ObjectFactoryBase::LoadLibrariesInPath(path.c_str());
   }
