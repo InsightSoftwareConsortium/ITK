@@ -20,6 +20,7 @@
 #include "itkRandomImageSource.h"
 #include "itkComposeImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 template <typename TImage>
 [[nodiscard]] int
@@ -55,57 +56,17 @@ itkImageToListSampleAdaptorTestTemplate()
   auto sample = ImageToListSampleAdaptorType::New();
 
   // Test if the methods throw exceptions if invoked before setting the image
-  try
-  {
-    // purposely call Size() method prematurely in order to trigger an exception.
-    sample->Size();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
-  try
-  {
-    // purposely call GetTotalFrequency() method prematurely in order to trigger an exception.
-    sample->GetTotalFrequency();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  // purposely call Size() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(sample->Size());
+  // purposely call GetTotalFrequency() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(sample->GetTotalFrequency());
 
-  try
-  {
-    const typename ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector(0);
-    std::cerr << "Exception should have been thrown since the input image is not set yet " << m << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(sample->GetMeasurementVector(0));
 
-  try
-  {
-    const typename ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(sample->GetImage());
 
-  try
-  {
-    // purposely call GetFrequency() method prematurely in order to trigger an exception.
-    sample->GetFrequency(0);
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  // purposely call GetFrequency() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(sample->GetFrequency(0));
 
 
   sample->SetImage(composeFilter->GetOutput());
