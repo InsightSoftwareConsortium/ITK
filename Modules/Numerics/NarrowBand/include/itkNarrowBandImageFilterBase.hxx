@@ -99,6 +99,10 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::GenerateData()
                                  // global values, or otherwise setting up
                                  // for the next iteration
 
+    if (m_NarrowBand->Empty())
+    {
+      break;
+    }
 
     mt->ParallelizeArray(
       0,
@@ -114,8 +118,11 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::GenerateData()
 
         // Threaded Calculate Change
         validTimeStepList[threadId] = false;
-        timeStepList[threadId] = this->ThreadedCalculateChange(splitRegion);
-        validTimeStepList[threadId] = true;
+        if (splitRegion.first != splitRegion.last)
+        {
+          timeStepList[threadId] = this->ThreadedCalculateChange(splitRegion);
+          validTimeStepList[threadId] = true;
+        }
       },
       nullptr);
 
@@ -281,6 +288,10 @@ template <typename TInputImage, typename TOutputImage>
 void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>::GetSplitRegion(const size_t & i, ThreadRegionType & splitRegion)
 {
+  if (i >= m_RegionList.size())
+  {
+    itkExceptionMacro("Narrow band region " << i << " is outside " << m_RegionList.size() << " regions");
+  }
   splitRegion.first = m_RegionList[i].Begin;
   splitRegion.last = m_RegionList[i].End;
 }
