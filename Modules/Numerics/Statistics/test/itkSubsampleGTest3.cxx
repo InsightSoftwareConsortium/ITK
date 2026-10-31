@@ -19,9 +19,9 @@
 #include "itkMeanSampleFilter.h"
 #include "itkListSample.h"
 #include "itkSubsample.h"
+#include "itkGTest.h"
 
-int
-itkSubsampleTest3(int, char *[])
+TEST(Subsample, ConvertedLegacyTest3)
 {
   std::cout << "MeanSampleFilter test \n \n";
 
@@ -65,15 +65,7 @@ itkSubsampleTest3(int, char *[])
 
   filter->SetInput(subsample);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
   FilterType::MeasurementVectorType                  meanOutput = decorator->Get();
@@ -87,12 +79,8 @@ itkSubsampleTest3(int, char *[])
 
   constexpr FilterType::MeasurementVectorType::ValueType epsilon{ 1e-6 };
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 
   // Clear and  repopulate the subsample container
   subsample->Clear();
@@ -106,15 +94,7 @@ itkSubsampleTest3(int, char *[])
 
   std::cout << "Subsample size: " << subsample->Size() << std::endl;
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   decorator = filter->GetOutput();
   meanOutput = decorator->Get();
@@ -124,12 +104,6 @@ itkSubsampleTest3(int, char *[])
 
   std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 }
