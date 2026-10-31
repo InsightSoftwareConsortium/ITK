@@ -20,11 +20,9 @@
 
 #include "itkJointDomainImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkMath.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
-int
-itkJointDomainImageToListSampleAdaptorTest(int, char *[])
+TEST(JointDomainImageToListSampleAdaptor, ConvertedLegacyTest)
 {
   constexpr unsigned int MeasurementVectorSize{ 8 };
   using MeasurementComponentType = unsigned long;
@@ -66,35 +64,27 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   auto adaptor = JointDomainImageToListSampleAdaptorType::New();
   // Test if the methods throw exceptions if invoked before setting the image
   // calling Size() method prematurely in order to trigger an exception.
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->Size());
+  EXPECT_THROW(adaptor->Size(), itk::ExceptionObject);
   // calling GetTotalFrequency() method prematurely in order to trigger an exception.
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetTotalFrequency());
+  EXPECT_THROW(adaptor->GetTotalFrequency(), itk::ExceptionObject);
 
   // calling GetMeasurementVector() method prematurely in order to trigger an exception.
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetMeasurementVector(0));
+  EXPECT_THROW(adaptor->GetMeasurementVector(0), itk::ExceptionObject);
 
   // calling GetImage() method prematurely in order to trigger an exception.
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetImage());
+  EXPECT_THROW(adaptor->GetImage(), itk::ExceptionObject);
 
   // calling GetFrequency() method prematurely in order to trigger an exception.
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetFrequency(0));
+  EXPECT_THROW(adaptor->GetFrequency(0), itk::ExceptionObject);
 
 
   adaptor->SetImage(image);
 
   // check size
-  if (totalSize != adaptor->Size())
-  {
-    std::cerr << "Size() is not returning the correct size" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(totalSize, adaptor->Size()) << "Size() is not returning the correct size";
 
   // check frequency
-  if (totalSize != adaptor->GetTotalFrequency())
-  {
-    std::cerr << "GetTotalFrequency() is not returning the correct frequency" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(totalSize, adaptor->GetTotalFrequency()) << "GetTotalFrequency() is not returning the correct frequency";
 
 
   adaptor->Print(std::cout);
@@ -134,12 +124,8 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
         MeasurementVectorType measurementVectorFromAdaptor = adaptor->GetMeasurementVector(iid);
         for (unsigned int m = 0; m < MeasurementVectorType::Length; ++m)
         {
-          if (!itk::Math::FloatAlmostEqual(measurementVectorFromAdaptor[m], measurementVector[m], 4, 1.0E-6))
-          {
-            std::cerr << "Error in measurement vector value accessed using the adaptor "
-                      << (measurementVectorFromAdaptor[m] - measurementVector[m]) << std::endl;
-            return EXIT_FAILURE;
-          }
+          EXPECT_NEAR(measurementVectorFromAdaptor[m], measurementVector[m], 1.0E-6)
+            << "Error in measurement vector value accessed using the adaptor";
         }
       }
     }
@@ -148,18 +134,10 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   // Test the Use_PixelContainer boolean
 
   adaptor->SetUsePixelContainer(false);
-  if (adaptor->GetUsePixelContainer() != false)
-  {
-    std::cerr << "Error in Set/Get UsePixelContainer methods" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_FALSE(adaptor->GetUsePixelContainer()) << "Error in Set/Get UsePixelContainer methods";
 
   adaptor->UsePixelContainerOn();
-  if (adaptor->GetUsePixelContainer() != true)
-  {
-    std::cerr << "Error in Set/Get UsePixelContainerOn method" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(adaptor->GetUsePixelContainer()) << "Error in Set/Get UsePixelContainerOn method";
 
   // Get measurement vector from the pixel container and using ComputeIndex and compare
   // the result
@@ -171,19 +149,13 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
   for (unsigned int m = 0; m < MeasurementVectorType::Length; ++m)
   {
-    if (!itk::Math::FloatAlmostEqual(v1[m], v2[m], 4, epsilon))
-    {
-      std::cerr << "Accessing the measurement vector using the two method produced different result " << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(v1[m], v2[m], epsilon)
+      << "Accessing the measurement vector using the two method produced different result";
   }
 
   // Exercise GetFrequency method on the first and last element
-  if (adaptor->GetFrequency(0) != 1 || adaptor->GetFrequency(adaptor->Size()) != 1)
-  {
-    std::cerr << "GetFrequency is not returning the expected value: " << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(adaptor->GetFrequency(0), 1u) << "GetFrequency is not returning the expected value";
+  EXPECT_EQ(adaptor->GetFrequency(adaptor->Size()), 1u) << "GetFrequency is not returning the expected value";
 
   // iterator tests
   //
@@ -196,53 +168,26 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
     // copy constructor
     const IteratorType bs_iter(s_iter);
-    if (bs_iter != s_iter)
-    {
-      std::cerr << "Iterator::Copy Constructor failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(bs_iter, s_iter) << "Iterator::Copy Constructor failed";
 
     // assignment operator
     IteratorType assignment_iter(bs_iter);
     assignment_iter = s_iter;
-    if (assignment_iter != s_iter)
-    {
-      std::cerr << "Iterator::assignment operator failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(assignment_iter, s_iter) << "Iterator::assignment operator failed";
 
     JointDomainImageToListSampleAdaptorType::InstanceIdentifier iid2 = 0;
     while (s_iter != adaptor->End())
     {
-      if (adaptor->GetMeasurementVector(iid2) != s_iter.GetMeasurementVector())
-      {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
-        return EXIT_FAILURE;
-      }
-      if (iid2 != s_iter.GetInstanceIdentifier())
-      {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
-        return EXIT_FAILURE;
-      }
-      if (s_iter.GetFrequency() != 1)
-      {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
-        return EXIT_FAILURE;
-      }
-      if (adaptor->GetFrequency(iid2) != 1)
-      {
-        std::cerr << "GetFrequency (forward) failed" << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_EQ(adaptor->GetMeasurementVector(iid2), s_iter.GetMeasurementVector())
+        << "Iterator::GetMeasurementVector (forward) failed";
+      EXPECT_EQ(iid2, s_iter.GetInstanceIdentifier()) << "Iterator::GetInstanceIdentifier (forward) failed";
+      EXPECT_EQ(s_iter.GetFrequency(), 1u) << "Iterator::GetFrequency (forward) failed";
+      EXPECT_EQ(adaptor->GetFrequency(iid2), 1u) << "GetFrequency (forward) failed";
       ++iid2;
       ++s_iter;
     }
 
-    if (s_iter != adaptor->End())
-    {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(s_iter, adaptor->End()) << "Iterator::End (forward) failed";
   }
 
 
@@ -256,67 +201,32 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
     // copy constructor
     const ConstIteratorType bs_iter(s_iter);
-    if (bs_iter != s_iter)
-    {
-      std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(bs_iter, s_iter) << "Iterator::Copy Constructor (from const) failed";
 
     // assignment operator
     ConstIteratorType assignment_iter(bs_iter);
     assignment_iter = s_iter;
-    if (assignment_iter != s_iter)
-    {
-      std::cerr << "Const Iterator::operator= () failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(assignment_iter, s_iter) << "Const Iterator::operator= () failed";
 
     // copy from non-const iterator
     const JointDomainImageToListSampleAdaptorType::Iterator nonconst_iter = adaptor->Begin();
     JointDomainImageToListSampleAdaptorType::ConstIterator  s2_iter(nonconst_iter);
-    if (s2_iter != s_iter)
-    {
-      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(s2_iter, s_iter) << "Iterator::Copy Constructor (from non-const) failed";
     // assignment from non-const iterator
     s2_iter = nonconst_iter;
-    if (s2_iter != s_iter)
-    {
-      std::cerr << "Iterator::assignment (from non-const) failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(s2_iter, s_iter) << "Iterator::assignment (from non-const) failed";
 
     JointDomainImageToListSampleAdaptorType::InstanceIdentifier iid3 = 0;
     while (s_iter != adaptor->End())
     {
-      if (adaptor->GetMeasurementVector(iid3) != s_iter.GetMeasurementVector())
-      {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
-        return EXIT_FAILURE;
-      }
-      if (iid3 != s_iter.GetInstanceIdentifier())
-      {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
-        return EXIT_FAILURE;
-      }
-      if (s_iter.GetFrequency() != 1)
-      {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_EQ(adaptor->GetMeasurementVector(iid3), s_iter.GetMeasurementVector())
+        << "Iterator::GetMeasurementVector (forward) failed";
+      EXPECT_EQ(iid3, s_iter.GetInstanceIdentifier()) << "Iterator::GetInstanceIdentifier (forward) failed";
+      EXPECT_EQ(s_iter.GetFrequency(), 1u) << "Iterator::GetFrequency (forward) failed";
       ++iid3;
       ++s_iter;
     }
 
-    if (s_iter != adaptor->End())
-    {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(s_iter, adaptor->End()) << "Iterator::End (forward) failed";
   }
-
-
-  std::cerr << "[PASSED]" << std::endl;
-  return EXIT_SUCCESS;
 }

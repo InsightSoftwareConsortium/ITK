@@ -963,6 +963,7 @@ set(
   itkChiSquareDistributionGTest.cxx
   itkHistogramToTextureFeaturesFilterNaNGTest.cxx
   itkImageToListSampleAdaptorGTest.cxx
+  itkJointDomainImageToListSampleAdaptorGTest.cxx
   itkKdTreeGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
