@@ -17,10 +17,10 @@
  *=========================================================================*/
 
 #include "itkLaplacianSegmentationLevelSetImageFilter.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 
-namespace LSIFTN
+namespace
 {
 
 using ImageType = itk::Image<float, 3>;
@@ -106,18 +106,18 @@ evaluate_function(itk::Image<signed char, 3> * im, float (*f)(float, float, floa
   }
 }
 
-} // namespace LSIFTN
+} // namespace
 
 
-namespace itk
+namespace
 {
 
-class RMSCommand : public Command
+class RMSCommand : public itk::Command
 {
 public:
   /** Smart pointer declaration methods */
   using Self = RMSCommand;
-  using Superclass = Command;
+  using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkOverrideGetNameOfClassMacro(RMSCommand);
@@ -125,18 +125,17 @@ public:
 
   /** Standard Command virtual methods */
   void
-  Execute(Object * caller, const EventObject &) override
+  Execute(itk::Object * caller, const itk::EventObject &) override
   {
-    std::cout << (dynamic_cast<SparseFieldLevelSetImageFilter<::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))
-                   ->GetRMSChange()
+    std::cout << (dynamic_cast<itk::SparseFieldLevelSetImageFilter<SeedImageType, ImageType> *>(caller))->GetRMSChange()
               << std::endl;
-    std::cout << (dynamic_cast<SegmentationLevelSetImageFilter<::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))
+    std::cout << (dynamic_cast<itk::SegmentationLevelSetImageFilter<SeedImageType, ImageType> *>(caller))
                    ->GetSegmentationFunction()
                    ->GetPropagationWeight()
               << std::endl;
   }
   void
-  Execute(const Object *, const EventObject &) override
+  Execute(const itk::Object *, const itk::EventObject &) override
   {
     std::cout << "ack" << std::endl;
   }
@@ -146,36 +145,36 @@ protected:
   ~RMSCommand() override = default;
 };
 
-} // namespace itk
+} // namespace
 
 
-int
-itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
+TEST(LaplacianSegmentationLevelSetImageFilter, ConvertedLegacyTest)
 {
-  constexpr LSIFTN::ImageType::RegionType::SizeType sz{ 64, 64, 64 };
-  LSIFTN::ImageType::RegionType                     reg{ sz };
+  constexpr ImageType::RegionType::SizeType sz{ 64, 64, 64 };
+  ImageType::RegionType                     reg{ sz };
 
-  const LSIFTN::ImageType::Pointer     inputImage = LSIFTN::ImageType::New();
-  const LSIFTN::SeedImageType::Pointer seedImage = LSIFTN::SeedImageType::New();
+  const ImageType::Pointer     inputImage = ImageType::New();
+  const SeedImageType::Pointer seedImage = SeedImageType::New();
   inputImage->SetRegions(reg);
   seedImage->SetRegions(reg);
   inputImage->Allocate();
   seedImage->Allocate();
 
   // Starting surface is a sphere in the center of the image.
-  LSIFTN::evaluate_function(seedImage, LSIFTN::sphere);
+  evaluate_function(seedImage, sphere);
 
   // Target surface is a sphere VERY NEAR to the starting surface.  The
   // laplacian segmentation is not a region growing type segmentation, but is
   // better for refinement of existing approximate segmentations.
 
-  LSIFTN::evaluate_float_function(inputImage, LSIFTN::sphere2);
+  evaluate_float_function(inputImage, sphere2);
 
 
-  const itk::LaplacianSegmentationLevelSetImageFilter<::LSIFTN::SeedImageType, ::LSIFTN::ImageType>::Pointer filter =
-    itk::LaplacianSegmentationLevelSetImageFilter<::LSIFTN::SeedImageType, ::LSIFTN::ImageType>::New();
+  const itk::LaplacianSegmentationLevelSetImageFilter<SeedImageType, ImageType>::Pointer filter =
+    itk::LaplacianSegmentationLevelSetImageFilter<SeedImageType, ImageType>::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LaplacianSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, LaplacianSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
 
   filter->SetInput(seedImage);
@@ -187,58 +186,49 @@ itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
   // function so that negative values result in
   // surface growth.
 
-  const itk::RMSCommand::Pointer c = itk::RMSCommand::New();
+  const RMSCommand::Pointer c = RMSCommand::New();
   filter->AddObserver(itk::IterationEvent(), c);
   filter->SetIsoSurfaceValue(0.5); //<--- IMPORTANT!  Default is zero.
   filter->SetFeatureScaling(100.0);
 
-  try
-  {
-    filter->Update();
-    std::cout << "Done first trial" << std::endl;
-    // Repeat to make sure that the filter is reinitialized properly
-    filter->SetNumberOfIterations(5);
-    filter->Update();
-    std::cout << "Done second trial" << std::endl;
+  ASSERT_NO_THROW(filter->Update());
+  std::cout << "Done first trial" << std::endl;
+  // Repeat to make sure that the filter is reinitialized properly
+  filter->SetNumberOfIterations(5);
+  ASSERT_NO_THROW(filter->Update());
+  std::cout << "Done second trial" << std::endl;
 
-    // Write the output for debugging purposes
-    //        itk::ImageFileWriter<LSIFTN::ImageType>::Pointer writer
-    //          = itk::ImageFileWriter<LSIFTN::ImageType>::New();
-    //        itk::RawImageIO<float, 3>::Pointer io = itk::RawImageIO<float, 3>::New();
-    //        io->SetFileTypeToBinary();
-    //        io->SetFileDimensionality(3);
-    //        io->SetByteOrderToLittleEndian();
-    //        writer->SetImageIO(io);
+  // Write the output for debugging purposes
+  //        itk::ImageFileWriter<LSIFTN::ImageType>::Pointer writer
+  //          = itk::ImageFileWriter<LSIFTN::ImageType>::New();
+  //        itk::RawImageIO<float, 3>::Pointer io = itk::RawImageIO<float, 3>::New();
+  //        io->SetFileTypeToBinary();
+  //        io->SetFileDimensionality(3);
+  //        io->SetByteOrderToLittleEndian();
+  //        writer->SetImageIO(io);
 
-    //        itk::CastImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType>::Pointer
-    //         caster = itk::CastImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType>::New();
-    //        caster->SetInput(seedImage);
-    //        caster->Update();
+  //        itk::CastImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType>::Pointer
+  //         caster = itk::CastImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType>::New();
+  //        caster->SetInput(seedImage);
+  //        caster->Update();
 
-    // writer->SetInput(caster->GetOutput());
-    // writer->SetInput(filter->GetSpeedImage());
-    //    writer->SetInput(filter->GetFeatureImage());
-    //     writer->SetInput(inputImage);
-    //    writer->SetInput(filter->GetOutput());
-    //        writer->SetFileName("featureimage.raw");
-    //        writer->Write();
+  // writer->SetInput(caster->GetOutput());
+  // writer->SetInput(filter->GetSpeedImage());
+  //    writer->SetInput(filter->GetFeatureImage());
+  //     writer->SetInput(inputImage);
+  //    writer->SetInput(filter->GetOutput());
+  //        writer->SetFileName("featureimage.raw");
+  //        writer->Write();
 
-    //        writer->SetInput(caster->GetOutput());
-    //        writer->SetFileName("seedimage.raw");
-    //        writer->Write();
+  //        writer->SetInput(caster->GetOutput());
+  //        writer->SetFileName("seedimage.raw");
+  //        writer->Write();
 
-    //        writer->SetInput(filter->GetOutput());
-    //        writer->SetFileName("outputimage.raw");
-    //        writer->Write();
+  //        writer->SetInput(filter->GetOutput());
+  //        writer->SetFileName("outputimage.raw");
+  //        writer->Write();
 
-    //        writer->SetInput(filter->GetSpeedImage());
-    //        writer->SetFileName("speedimage.raw");
-    //        writer->Write();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e << std::endl;
-  }
-
-  return EXIT_SUCCESS;
+  //        writer->SetInput(filter->GetSpeedImage());
+  //        writer->SetFileName("speedimage.raw");
+  //        writer->Write();
 }

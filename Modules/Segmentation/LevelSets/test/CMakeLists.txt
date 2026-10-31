@@ -12,9 +12,7 @@ set(
   itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
   itkGeodesicActiveContourShapePriorLevelSetImageFilterTest.cxx
   itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
-  itkImplicitManifoldNormalVectorFilterTest.cxx
   itkIsotropicFourthOrderLevelSetImageFilterTest.cxx
-  itkLaplacianSegmentationLevelSetImageFilterTest.cxx
   itkLevelSetFunctionTest.cxx
   itkLevelSetNeighborhoodExtractorTest.cxx
   itkLevelSetVelocityNeighborhoodExtractorTest.cxx
@@ -35,6 +33,8 @@ createtestdriver(ITKLevelSets "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsTe
 
 set(
   ITKLevelSetsGTests
+  itkImplicitManifoldNormalVectorFilterGTest.cxx
+  itkLaplacianSegmentationLevelSetImageFilterGTest.cxx
   itkLevelSetNeighborhoodExtractorGTest.cxx
   itkParallelSparseFieldLevelSetImageFilterRobustnessGTest.cxx
 )
@@ -182,22 +182,10 @@ itk_add_test(
     itkShapePriorMAPCostFunctionTest
 )
 itk_add_test(
-  NAME itkImplicitManifoldNormalVectorFilterTest
-  COMMAND
-    ITKLevelSetsTestDriver
-    itkImplicitManifoldNormalVectorFilterTest
-)
-itk_add_test(
   NAME itkSparseFieldFourthOrderLevelSetImageFilterTest
   COMMAND
     ITKLevelSetsTestDriver
     itkSparseFieldFourthOrderLevelSetImageFilterTest
-)
-itk_add_test(
-  NAME itkLaplacianSegmentationLevelSetImageFilterTest
-  COMMAND
-    ITKLevelSetsTestDriver
-    itkLaplacianSegmentationLevelSetImageFilterTest
 )
 itk_add_test(
   NAME itkShapePriorSegmentationLevelSetFunctionTest

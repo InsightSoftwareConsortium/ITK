@@ -18,11 +18,11 @@
 
 #include <iostream>
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
+#include "itkGTest.h"
 #include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkNormalVectorDiffusionFunction.h"
 
-int
-itkImplicitManifoldNormalVectorFilterTest(int, char *[])
+TEST(ImplicitManifoldNormalVectorFilter, ConvertedLegacyTest)
 {
   using InputImageType = itk::Image<float, 2>;
   using NodeType = itk::NormalBandNode<InputImageType>;
@@ -62,14 +62,5 @@ itkImplicitManifoldNormalVectorFilterTest(int, char *[])
 
   filter->Print(std::cout);
   function->Print(std::cout);
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e << std::endl;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_NO_THROW(filter->Update());
 }
