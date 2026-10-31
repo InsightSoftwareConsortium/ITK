@@ -20,9 +20,9 @@
 #include "itkStandardDeviationPerComponentSampleFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkCovarianceSampleFilter.h"
+#include "itkGTest.h"
 
-int
-itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
+TEST(StandardDeviationPerComponentSampleFilter, ConvertedLegacyTest)
 {
   std::cout << "StandardDeviationPerComponentSampleFilter Test \n \n";
 
@@ -70,15 +70,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
 
   sampleGeneratingFilter->SetInput(image);
 
-  try
-  {
-    sampleGeneratingFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(sampleGeneratingFilter->Update());
 
   using ListSampleType = ImageToListSampleFilterType::ListSampleType;
   using StandardDeviationPerComponentSampleFilterType =
@@ -90,35 +82,16 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   std::cout << standardDeviationFilter->GetNameOfClass() << std::endl;
 
   // Invoke update before adding an input. An exception should be
-  try
-  {
-    standardDeviationFilter->Update();
-    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  EXPECT_THROW(standardDeviationFilter->Update(), itk::ExceptionObject)
+    << "Exception should have been thrown since Update() is invoked without setting an input ";
 
   standardDeviationFilter->ResetPipeline();
 
-  if (standardDeviationFilter->GetInput() != nullptr)
-  {
-    std::cerr << "GetInput() should return nullptr if the input has not been set" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(standardDeviationFilter->GetInput(), nullptr)
+    << "GetInput() should return nullptr if the input has not been set";
 
   standardDeviationFilter->SetInput(sampleGeneratingFilter->GetOutput());
-  try
-  {
-    standardDeviationFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(standardDeviationFilter->Update());
 
   standardDeviationFilter->Print(std::cout);
 
@@ -142,41 +115,32 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
 
   MeasurementVectorRealType standardDeviation2 = standardDeviationFilter->GetStandardDeviationPerComponent();
 
-  if ((itk::Math::Absolute(standardDeviation[0] - standardDeviation2[0]) > epsilon) ||
-      (itk::Math::Absolute(standardDeviation[1] - standardDeviation2[1]) > epsilon) ||
-      (itk::Math::Absolute(standardDeviation[2] - standardDeviation2[2]) > epsilon))
-  {
-    std::cerr << "Standard Deviation value retrieved using Get() and the decorator are not the same:: "
-              << standardDeviation << ',' << standardDeviation2 << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(standardDeviation[0], standardDeviation2[0], epsilon)
+    << "Standard Deviation value retrieved using Get() and the decorator are not the same";
+  EXPECT_NEAR(standardDeviation[1], standardDeviation2[1], epsilon)
+    << "Standard Deviation value retrieved using Get() and the decorator are not the same";
+  EXPECT_NEAR(standardDeviation[2], standardDeviation2[2], epsilon)
+    << "Standard Deviation value retrieved using Get() and the decorator are not the same";
 
 
   using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter<ListSampleType>;
   auto covarianceFilter = CovarianceSampleFilterType::New();
   covarianceFilter->SetInput(sampleGeneratingFilter->GetOutput());
 
-  try
-  {
-    covarianceFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(covarianceFilter->Update());
 
   CovarianceSampleFilterType::MeasurementVectorRealType meanCalculatedUsingCovarianceSampleFilter =
     covarianceFilter->GetMean();
 
-  if ((itk::Math::Absolute(meanCalculatedUsingCovarianceSampleFilter[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanCalculatedUsingCovarianceSampleFilter[1] - mean[1]) > epsilon) ||
-      (itk::Math::Absolute(meanCalculatedUsingCovarianceSampleFilter[2] - mean[2]) > epsilon))
-  {
-    std::cerr << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
-                 "StandardDeviationPerComponentSampleFilter "
-              << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(meanCalculatedUsingCovarianceSampleFilter[0], mean[0], epsilon)
+    << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
+       "StandardDeviationPerComponentSampleFilter ";
+  EXPECT_NEAR(meanCalculatedUsingCovarianceSampleFilter[1], mean[1], epsilon)
+    << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
+       "StandardDeviationPerComponentSampleFilter ";
+  EXPECT_NEAR(meanCalculatedUsingCovarianceSampleFilter[2], mean[2], epsilon)
+    << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
+       "StandardDeviationPerComponentSampleFilter ";
 
   CovarianceSampleFilterType::MatrixType covarianceCalculatedUsingCovarianceSampleFilter =
     covarianceFilter->GetCovarianceMatrix();
@@ -186,15 +150,9 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
     const double variance = covarianceCalculatedUsingCovarianceSampleFilter(k, k);
     const double standardDeviationValue = std::sqrt(variance);
 
-    if ((itk::Math::Absolute(standardDeviationValue - standardDeviation[k]) > epsilon))
-    {
-      std::cerr << "Standard deviation calculated using the CovarianceSampleFilter";
-      std::cerr << " (as the square root of the diagonal) is different from ";
-      std::cerr << " the one calculated using the StandardDeviationPerComponentSampleFilter " << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(standardDeviationValue, standardDeviation[k], epsilon)
+      << "Standard deviation calculated using the CovarianceSampleFilter"
+      << " (as the square root of the diagonal) is different from "
+      << " the one calculated using the StandardDeviationPerComponentSampleFilter ";
   }
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
 }

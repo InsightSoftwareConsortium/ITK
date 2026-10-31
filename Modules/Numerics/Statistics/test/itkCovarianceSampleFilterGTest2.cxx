@@ -18,9 +18,9 @@
 
 #include "itkCovarianceSampleFilter.h"
 #include "itkListSample.h"
+#include "itkGTest.h"
 
-int
-itkCovarianceSampleFilterTest2(int, char *[])
+TEST(CovarianceSampleFilter, ConvertedLegacyTest2)
 {
   std::cout << "CovarianceSampleFilter test \n \n";
 
@@ -57,14 +57,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   filter->SetInput(sample);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   std::cout << "Mean: " << filter->GetMean() << std::endl;
 
@@ -89,11 +82,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (itk::Math::Absolute(meanExpected[i] - mean[i]) > epsilon)
-    {
-      std::cerr << "The computed mean value is incorrect" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(meanExpected[i], mean[i], epsilon);
   }
 
   CovarianceMatrixType matrixExpected(MeasurementVectorSize, MeasurementVectorSize);
@@ -114,11 +103,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   {
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
     {
-      if (itk::Math::Absolute(matrixExpected[i][j] - covarianceOutput[i][j]) > epsilon)
-      {
-        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_NEAR(matrixExpected[i][j], covarianceOutput[i][j], epsilon);
     }
   }
 
@@ -152,14 +137,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   filter->SetInput(sample2);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   std::cout << "Mean: " << filter->GetMean() << std::endl;
   std::cout << "Covariance Matrix: " << filter->GetCovarianceMatrix() << std::endl;
@@ -176,11 +154,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (itk::Math::Absolute(meanExpected2[i] - mean[i]) > epsilon)
-    {
-      std::cerr << "The computed mean value is incorrect" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(meanExpected2[i], mean[i], epsilon);
   }
 
   CovarianceMatrixType matrixExpected2(MeasurementVectorSize, MeasurementVectorSize);
@@ -201,11 +175,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   {
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
     {
-      if (itk::Math::Absolute(matrixExpected2[i][j] - matrix[i][j]) > epsilon)
-      {
-        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_NEAR(matrixExpected2[i][j], matrix[i][j], epsilon);
     }
   }
 
@@ -244,14 +214,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   filter->SetInput(sample3);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
 
   mean = filter->GetMean();
@@ -271,11 +234,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (itk::Math::Absolute(meanExpected3[i] - mean[i]) > epsilon)
-    {
-      std::cerr << "The computed mean value is incorrect" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(meanExpected3[i], mean[i], epsilon);
   }
 
   CovarianceMatrixType matrixExpected3(MeasurementVectorSize, MeasurementVectorSize);
@@ -295,13 +254,6 @@ itkCovarianceSampleFilterTest2(int, char *[])
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
-      if (itk::Math::Absolute(matrixExpected3[i][j] - matrix[i][j]) > epsilon)
-      {
-        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_NEAR(matrixExpected3[i][j], matrix[i][j], epsilon);
   }
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
 }

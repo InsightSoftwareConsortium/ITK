@@ -18,7 +18,10 @@
 
 #include "itkWeightedMeanSampleFilter.h"
 #include "itkListSample.h"
+#include "itkGTest.h"
 
+namespace
+{
 constexpr unsigned int MeasurementVectorSize{ 2 };
 
 using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
@@ -64,10 +67,9 @@ protected:
   WeightedMeanTestFunction() = default;
   ~WeightedMeanTestFunction() override = default;
 }; // end of class
+} // namespace
 
-
-int
-itkWeightedMeanSampleFilterTest(int, char *[])
+TEST(WeightedMeanSampleFilter, ConvertedLegacyTest)
 {
   std::cout << "WeightedMeanSampleFilter test \n \n";
 
@@ -103,35 +105,16 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   // Invoke update before adding an input. An exception should be
   // thrown.
-  try
-  {
-    filter->Update();
-    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject)
+    << "Exception should have been thrown since Update() is invoked without setting an input ";
 
-  if (filter->GetInput() != nullptr)
-  {
-    std::cerr << "GetInput() should return nullptr if the input has not been set" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(filter->GetInput(), nullptr) << "GetInput() should return nullptr if the input has not been set";
 
   filter->ResetPipeline();
   filter->SetInput(sample);
 
   // run the filters without weighting coefficients
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
   FilterType::MeasurementVectorRealType              meanOutput = decorator->Get();
@@ -143,28 +126,15 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   constexpr FilterType::MeasurementVectorType::ValueType epsilon{ 1e-6 };
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "Wrong result " << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 
   using WeightArrayType = FilterType::WeightArrayType;
   WeightArrayType weightArray(sample->Size(), 1.0);
 
   filter->SetWeights(weightArray);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   decorator = filter->GetOutput();
   meanOutput = decorator->Get();
@@ -172,27 +142,14 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "Wrong result " << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 
   // change the weight of the last element to 0.5 and recompute
   weightArray[numberOfMeasurementVectors - 1] = 0.5;
   filter->SetWeights(weightArray);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   decorator = filter->GetOutput();
   meanOutput = decorator->Get();
@@ -200,28 +157,14 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   mean[0] = 1.7777778;
   mean[1] = 1.7777778;
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "Wrong result" << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 
   // set the weight using a function
   auto weightFunction = WeightedMeanTestFunction::New();
   filter->SetWeightingFunction(weightFunction);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   decorator = filter->GetOutput();
   meanOutput = decorator->Get();
@@ -229,15 +172,6 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "Wrong result" << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 }

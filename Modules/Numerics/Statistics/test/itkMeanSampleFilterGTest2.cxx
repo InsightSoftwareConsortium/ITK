@@ -18,13 +18,11 @@
 
 #include "itkMeanSampleFilter.h"
 #include "itkListSample.h"
+#include "itkGTest.h"
 
-int
-itkMeanSampleFilterTest2(int, char *[])
+TEST(MeanSampleFilter, ConvertedLegacyTest2)
 {
   std::cout << "MeanSampleFilter test \n \n";
-  bool        pass = true;
-  std::string failureMeassage = "";
 
   constexpr unsigned int MeasurementVectorSize{ 2 };
   constexpr unsigned int numberOfMeasurementVectors{ 2 };
@@ -59,14 +57,7 @@ itkMeanSampleFilterTest2(int, char *[])
 
   filter->SetInput(sample);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
   FilterType::MeasurementVectorRealType              meanOutput = decorator->Get();
@@ -82,19 +73,6 @@ itkMeanSampleFilterTest2(int, char *[])
   // FilterType::MeasurementVectorType::ValueType is an int in this case
   constexpr FilterType::MeasurementVectorType::ValueType epsilon{ 0 };
 
-  if ((itk::Math::Absolute(meanOutput[0] - expectedMean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - expectedMean[1]) > epsilon))
-  {
-    pass = false;
-    failureMeassage = "The result is not what is expected";
-  }
-
-  if (!pass)
-  {
-    std::cout << "Test failed." << failureMeassage << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_NEAR(meanOutput[0], expectedMean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], expectedMean[1], epsilon) << "The result is not what is expected";
 }
