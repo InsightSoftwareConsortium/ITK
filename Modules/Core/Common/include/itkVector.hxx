@@ -163,27 +163,6 @@ Vector<T, TVectorDimension>::SetVnlVector(const vnl_vector<T> & v)
 }
 
 template <typename T, unsigned int TVectorDimension>
-std::ostream &
-operator<<(std::ostream & os, const Vector<T, TVectorDimension> & vct)
-{
-  os << '[';
-  if constexpr (TVectorDimension == 1)
-  {
-    os << vct[0];
-  }
-  else
-  {
-    for (unsigned int i = 0; i + 1 < TVectorDimension; ++i)
-    {
-      os << vct[i] << ", ";
-    }
-    os << vct[TVectorDimension - 1];
-  }
-  os << ']';
-  return os;
-}
-
-template <typename T, unsigned int TVectorDimension>
 std::istream &
 operator>>(std::istream & is, Vector<T, TVectorDimension> & vct)
 {
