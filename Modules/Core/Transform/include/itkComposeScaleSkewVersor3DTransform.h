@@ -69,7 +69,8 @@ public:
 
   using typename Superclass::InverseTransformBasePointer;
 
-  /** Return an inverse of this transform as a MatrixOffsetTransformBase. */
+  /** Return an inverse of this transform, of the same type unless its rotation cannot be recovered, as with a
+   * large skew; then a MatrixOffsetTransformBase. */
   InverseTransformBasePointer
   GetInverseTransform() const override;
 

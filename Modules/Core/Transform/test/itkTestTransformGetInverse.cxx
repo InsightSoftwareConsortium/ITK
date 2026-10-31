@@ -266,7 +266,7 @@ NonIdentityInverseTests()
     errorCount += InverseRoundTripTest(t.GetPointer());
   }
 
-  // Scaled and skewed versor transforms invert to a MatrixOffsetTransformBase.
+  // ScaleVersor3D and ScaleSkewVersor3D invert to a MatrixOffsetTransformBase.
   itk::Vector<double, 3> anisotropicScale;
   anisotropicScale[0] = 1.5;
   anisotropicScale[1] = 0.75;
@@ -288,6 +288,8 @@ NonIdentityInverseTests()
     t->SetTranslation(translation);
     errorCount += InverseRoundTripTest(t.GetPointer(), false);
   }
+  // ComposeScaleSkewVersor3D inverts to its own type; with a large skew its rotation cannot be recovered, and
+  // it falls back to a MatrixOffsetTransformBase.
   {
     auto t = itk::ComposeScaleSkewVersor3DTransform<double>::New();
     itk::ComposeScaleSkewVersor3DTransform<double>::SkewVectorType skew;
@@ -296,6 +298,14 @@ NonIdentityInverseTests()
     t->SetScale(anisotropicScale);
     t->SetSkew(skew);
     t->SetTranslation(translation);
+    errorCount += InverseRoundTripTest(t.GetPointer());
+  }
+  {
+    auto t = itk::ComposeScaleSkewVersor3DTransform<double>::New();
+    itk::ComposeScaleSkewVersor3DTransform<double>::SkewVectorType skew;
+    skew.Fill(50.0);
+    t->SetRotation(versor);
+    t->SetSkew(skew);
     errorCount += InverseRoundTripTest(t.GetPointer(), false);
   }
 
@@ -315,6 +325,7 @@ itkTestTransformGetInverse(int, char *[])
   errorCount += TransformTest<itk::CenteredAffineTransform<double, 3>>(true);
   errorCount += TransformTest<itk::CenteredRigid2DTransform<double>>(true);
   errorCount += TransformTest<itk::CenteredSimilarity2DTransform<double>>(true);
+  errorCount += TransformTest<itk::ComposeScaleSkewVersor3DTransform<double>>(true);
   errorCount += TransformTest<itk::CompositeTransform<double, 3>>(true);
   errorCount += TransformTest<itk::ElasticBodyReciprocalSplineKernelTransform<double, 3>>(true);
   errorCount += TransformTest<itk::ElasticBodySplineKernelTransform<double, 3>>(true);
