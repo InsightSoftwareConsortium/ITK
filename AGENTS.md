@@ -9,9 +9,15 @@ Apache 2.0 licensed. Build tool: **Pixi** (wraps CMake + Ninja).
 Load only what your task requires. Files are small and focused — load
 the minimum set for the task at hand.
 
+Rules come in two tiers ([rule-tiers.md](./Documentation/AI/rule-tiers.md)):
+project standards bind every contributor and are what reviewers cite;
+rows labeled **Agent default** bind AI agents only. Agents set
+`ITK_AI_AGENT=1` when running `git commit`.
+
 | Task | Read |
 |------|------|
 | Writing ANY committed text (in-source comment, commit message, PR body) | [prose-budget.md](./Documentation/AI/prose-budget.md) |
+| Reviewing a PR (human or AI reviewer), or deciding whether a rule binds human contributors | [rule-tiers.md](./Documentation/AI/rule-tiers.md) |
 | Understanding the codebase layout | [architecture.md](./Documentation/AI/architecture.md) |
 | Building or configuring ITK | [building.md](./Documentation/AI/building.md) |
 | Writing or running tests | [testing.md](./Documentation/AI/testing.md) |
@@ -35,7 +41,7 @@ the minimum set for the task at hand.
 4. **`Update()` is required** — filters don't execute until called; parameter changes after `Update()` need another call.
 5. **Link errors → check `itk-module.cmake`** — missing `DEPENDS` or `PRIVATE_DEPENDS` is the usual cause.
 6. **Licensing** — verify AI output does not reproduce third-party code in conflict with Apache 2.0.
-7. **Verbose committed text is a review-blocking defect** — not a stylistic preference. Reviewers reject PRs whose commit messages, in-source comments, or PR bodies exceed the budgets in [prose-budget.md](./Documentation/AI/prose-budget.md). Cut prose, not code.
+7. **Committed text must be load-bearing** — reviewers reject commit messages, in-source comments, and PR bodies that restate the diff or cite transient URLs, and in-source comments that narrate history ([prose-budget.md](./Documentation/AI/prose-budget.md)). Agents also follow its numeric caps. Cut prose, not code.
 
 ## Resources
 

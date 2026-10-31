@@ -6,6 +6,13 @@ the main source tree.  It complements `README.md` (human-focused)
 and `INGESTION_STRATEGY.md` (policy-focused).  Read this before
 running `ingest-module-v4.sh`.
 
+Under ITK's rule tiers (`Documentation/AI/rule-tiers.md`), the workflow
+steps, escalation triggers, and hand-back rules below are agent
+defaults. The outcomes they protect are project standards for any
+ingest PR, whoever runs it: whitelisted paths only, `.cid` content
+links, preserved merge topology and authorship, and a local build and
+test pass before push.
+
 ## When to invoke this workflow
 
 The user has asked you to:

@@ -54,10 +54,13 @@ authoring any commit body.
 ## Commit Message Length
 
 Keep commit messages concise. A 1-line subject plus a short body
-(≤ ~10 lines) describing *what* and *why* is the norm. Long, essay-style
-commit messages have been explicitly objected to in code review — put
-expanded rationale in the PR description, not the commit body. The
-commit should be readable in `git log --oneline` + a quick `git show`.
+describing *what* and *why* is the norm. Long, essay-style commit
+messages have been explicitly objected to in code review — put expanded
+rationale in the PR description, not the commit body. The commit should
+be readable in `git log --oneline` + a quick `git show`.
+
+**Agent default:** ≤ 12 non-blank body lines, per
+[prose-budget.md](./prose-budget.md).
 
 ## Hook Behavior
 
@@ -108,7 +111,9 @@ context, PR body format) are in
 
 ### Pre-Commit Checklist for C++ Changes
 
-Before committing any C++ code, an AI agent must complete all three steps:
+**Agent default.** Before committing any C++ code, an AI agent must
+complete all three steps (human contributors may commit work in
+progress locally, but CI must pass before merge):
 
 1. **Review compiler cautions** — Read
    [compiler-cautions.md](./compiler-cautions.md) and verify the changed code

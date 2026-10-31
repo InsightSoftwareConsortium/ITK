@@ -2,10 +2,12 @@
 
 ## Opening a PR
 
-All AI-agent-assisted PRs must be opened in **Draft mode**. Do not convert
-to *Ready for Review* until every item below is satisfied.
+**Agent default:** AI-agent-assisted PRs are opened in **Draft mode**
+and stay there until every item below is satisfied.
 
 ## Ready-for-Review Checklist
+
+Applies to every PR, however it was produced.
 
 - [ ] All automated CI tests pass (Azure Pipelines, GitHub Actions).
 - [ ] The implementation is correct, complete, and fully understood.
@@ -43,15 +45,15 @@ See [attribution.md](./attribution.md) for the full policy. Key points:
 
 ## PR Description Format
 
-Lead with a **1-3 line visible summary**. Sequester longer analysis,
-AI disclosure, test output, and background context inside `<details>`
-blocks. See [attribution.md](./attribution.md) for examples.
+Lead with a short visible summary (**Agent default:** 1-3 lines).
+Sequester longer analysis, AI disclosure, test output, and background
+context inside `<details>` blocks. See [attribution.md](./attribution.md) for examples.
 
 ## Visible-summary budget
 
-PR-body caps, forbidden content, and good/bad examples are defined
-in [prose-budget.md](./prose-budget.md). Read it before authoring
-any PR body.
+PR-body standards, the agent-default caps, and good/bad examples are
+defined in [prose-budget.md](./prose-budget.md). Read it before
+authoring any PR body.
 
 Reviewer-actionable call-outs ("Stacked on #NNNN, do not merge
 until that lands") stay visible above the first `<details>`;
