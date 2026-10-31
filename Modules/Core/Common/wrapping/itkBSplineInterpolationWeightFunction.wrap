@@ -1,5 +1,8 @@
 itk_wrap_class("itk::BSplineInterpolationWeightFunction" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  itk_wrap_template("${ITKM_D}${d}3" "${ITKT_D},${d},3")
+  # Order 3 comes first so it is the Python default
+  foreach(order 3 1 2)
+    itk_wrap_template("${ITKM_D}${d}${order}" "${ITKT_D},${d},${order}")
+  endforeach()
 endforeach()
 itk_end_wrap_class()
