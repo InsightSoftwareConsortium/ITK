@@ -145,6 +145,8 @@ itkShrinkImageTest(int, char *[])
   {
     // this should fail due to a bad requested region
     shrink->Update();
+    std::cout << "Expected InvalidRequestedRegionError was not thrown." << std::endl;
+    return EXIT_FAILURE;
   }
   catch (const itk::InvalidRequestedRegionError & e)
   {
