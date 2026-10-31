@@ -77,7 +77,6 @@ set(
   itkWeightedCentroidKdTreeGeneratorTest9.cxx
   itkWeightedCovarianceSampleFilterTest.cxx
   itkWeightedCovarianceSampleFilterTest2.cxx
-  itkWeightedMeanSampleFilterTest.cxx
 )
 
 createtestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsTests}")
@@ -561,12 +560,6 @@ itk_add_test(
     itkWeightedCovarianceSampleFilterTest2
 )
 itk_add_test(
-  NAME itkWeightedMeanSampleFilterTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkWeightedMeanSampleFilterTest
-)
-itk_add_test(
   NAME itkDistanceMetricTest
   COMMAND
     ITKStatisticsTestDriver
@@ -959,5 +952,6 @@ set(
   itkTDistributionGTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerGTest.cxx
   itkVectorContainerToListSampleAdaptorGTest.cxx
+  itkWeightedMeanSampleFilterGTest.cxx
 )
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")
