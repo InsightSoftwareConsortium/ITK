@@ -20,13 +20,13 @@
 #include "itkImageBufferRange.h"
 #include "itkShrinkImageFilter.h"
 #include "itkFileOutputWindow.h"
+#include "itkGTest.h"
 
 #include <iostream>
 #include <numeric> // For iota.
 
 
-int
-itkShrinkImageTest(int, char *[])
+TEST(ShrinkImageFilter, ConvertedLegacyTest)
 {
   const itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
@@ -141,24 +141,10 @@ itkShrinkImageTest(int, char *[])
   fooregion.SetIndex(foo);
   shrink->GetOutput()->SetRequestedRegion(fooregion);
 
-  try
-  {
-    // this should fail due to a bad requested region
-    shrink->Update();
-  }
-  catch (const itk::InvalidRequestedRegionError & e)
-  {
-    std::cout << e << std::endl;
-    std::cout << std::endl << std::endl << "Exception caught, updating largest possible region instead." << std::endl;
-    std::cout << std::flush;
-    shrink->ResetPipeline();
-    shrink->UpdateLargestPossibleRegion();
-  }
-  catch (...)
-  {
-    std::cout << "Exception missed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  // this should fail due to a bad requested region
+  EXPECT_THROW(shrink->Update(), itk::InvalidRequestedRegionError);
+  shrink->ResetPipeline();
+  shrink->UpdateLargestPossibleRegion();
 
   std::cout << std::endl << std::endl;
   std::cout << std::flush;
@@ -207,15 +193,5 @@ itkShrinkImageTest(int, char *[])
 
   std::cout << std::endl;
   std::cout << std::flush;
-  if (passed)
-  {
-    std::cout << "Recovered from the exception." << std::endl;
-    std::cout << "ShrinkImageFilter test passed." << std::endl;
-    std::cout << std::flush;
-    return EXIT_SUCCESS;
-  }
-
-  std::cout << "ShrinkImageFilter test failed." << std::endl;
-  std::cout << std::flush;
-  return EXIT_FAILURE;
+  EXPECT_TRUE(passed) << "ShrinkImageFilter test failed.";
 }

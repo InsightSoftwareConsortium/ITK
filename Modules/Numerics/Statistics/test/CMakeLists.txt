@@ -3,13 +3,11 @@ set(
   ITKStatisticsTests
   itkCovarianceSampleFilterTest.cxx
   itkCovarianceSampleFilterTest2.cxx
-  itkCovarianceSampleFilterTest3.cxx
   itkDecisionRuleTest.cxx
   itkDenseFrequencyContainer2Test.cxx
   itkDistanceMetricTest.cxx
   itkDistanceMetricTest2.cxx
   itkDistanceToCentroidMembershipFunctionTest.cxx
-  itkEuclideanDistanceMetricTest.cxx
   itkEuclideanSquareDistanceMetricTest.cxx
   itkExpectationMaximizationMixtureModelEstimatorTest.cxx
   itkGaussianDistributionTest.cxx
@@ -20,12 +18,10 @@ set(
   itkHistogramToTextureFeaturesFilterTest.cxx
   itkImageToHistogramFilterTest.cxx
   itkImageToHistogramFilterTest2.cxx
-  itkImageToListSampleAdaptorTest.cxx
   itkImageToListSampleAdaptorTest2.cxx
   itkImageToListSampleFilterTest.cxx
   itkImageToListSampleFilterTest2.cxx
   itkImageToListSampleFilterTest3.cxx
-  itkJointDomainImageToListSampleAdaptorTest.cxx
   itkKalmanLinearEstimatorTest.cxx
   itkKdTreeBasedKmeansEstimatorTest.cxx
   itkKdTreeGeneratorTest.cxx
@@ -36,7 +32,6 @@ set(
   itkListSampleTest.cxx
   itkListSampleTest.cxx
   itkMahalanobisDistanceMetricTest.cxx
-  itkManhattanDistanceMetricTest.cxx
   itkMeanSampleFilterTest.cxx
   itkMeanSampleFilterTest2.cxx
   itkMeanSampleFilterTest3.cxx
@@ -497,12 +492,6 @@ itk_add_test(
     itkCovarianceSampleFilterTest2
 )
 itk_add_test(
-  NAME itkCovarianceSampleFilterTest3
-  COMMAND
-    ITKStatisticsTestDriver
-    itkCovarianceSampleFilterTest3
-)
-itk_add_test(
   NAME itkWeightedCentroidKdTreeGeneratorTest1
   COMMAND
     ITKStatisticsTestDriver
@@ -620,12 +609,6 @@ itk_add_test(
     itkDistanceToCentroidMembershipFunctionTest
 )
 itk_add_test(
-  NAME itkEuclideanDistanceMetricTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkEuclideanDistanceMetricTest
-)
-itk_add_test(
   NAME itkEuclideanSquareDistanceMetricTest
   COMMAND
     ITKStatisticsTestDriver
@@ -660,12 +643,6 @@ itk_add_test(
     100
 )
 itk_add_test(
-  NAME itkImageToListSampleAdaptorTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkImageToListSampleAdaptorTest
-)
-itk_add_test(
   NAME itkImageToListSampleAdaptorTest2
   COMMAND
     ITKStatisticsTestDriver
@@ -690,12 +667,6 @@ itk_add_test(
     itkImageToListSampleFilterTest3
 )
 itk_add_test(
-  NAME itkJointDomainImageToListSampleAdaptorTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkJointDomainImageToListSampleAdaptorTest
-)
-itk_add_test(
   NAME itkPointSetToListSampleAdaptorTest
   COMMAND
     ITKStatisticsTestDriver
@@ -712,12 +683,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkMahalanobisDistanceMetricTest
-)
-itk_add_test(
-  NAME itkManhattanDistanceMetricTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkManhattanDistanceMetricTest
 )
 itk_add_test(
   NAME itkMembershipFunctionBaseTest2
@@ -975,8 +940,13 @@ itk_add_test(
 set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
+  itkCovarianceSampleFilterGTest3.cxx
+  itkEuclideanDistanceMetricGTest.cxx
   itkHistogramToTextureFeaturesFilterNaNGTest.cxx
+  itkImageToListSampleAdaptorGTest.cxx
+  itkJointDomainImageToListSampleAdaptorGTest.cxx
   itkKdTreeGTest.cxx
+  itkManhattanDistanceMetricGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
   itkMembershipFunctionBaseGTest.cxx
