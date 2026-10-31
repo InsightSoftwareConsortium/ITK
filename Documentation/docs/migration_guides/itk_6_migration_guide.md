@@ -367,16 +367,15 @@ These names were deprecated in CMake 3.20 and removed in CMake 4.1.0. Additional
 Python Global Interpreter Lock (GIL) Release
 ---------------------------------------------
 
-ITK now releases the Python Global Interpreter Lock (GIL) during C++ operations by default,
-allowing for true multi-threaded execution of ITK operations from Python. This enables
-parallel filter invocation when using ITK in parallel computing frameworks like Dask, Ray, or
-Python's standard `threading` module.
+ITK releases the Python Global Interpreter Lock (GIL) during `Update()` and
+`UpdateLargestPossibleRegion()` by default. Other wrapped methods retain the GIL.
+This allows independent pipelines to execute concurrently from Python threads.
 
 ### Key Changes
 
 **New CMake Option:**
-- `ITK_PYTHON_RELEASE_GIL` (default: `ON`) - Controls whether the GIL is released during ITK operations
-- When enabled, the `-threads` flag is passed to SWIG to generate thread-safe wrappers
+- `ITK_PYTHON_RELEASE_GIL` (default: `ON`) - Controls GIL release during pipeline execution
+- When enabled, SWIG's `-threads` flag supports GIL release in the update wrappers
 
 **Benefits:**
 - Multiple Python threads can execute ITK operations concurrently
@@ -392,7 +391,7 @@ import threading
 image_paths = ["image1.mha", "image2.mha"]
 
 def process_image(image_path):
-    # GIL is released during ITK operations
+    # Pipeline updates release the GIL.
     image = itk.imread(image_path)
     smoothed = itk.median_image_filter(image, radius=5)
     return smoothed
@@ -408,9 +407,9 @@ for thread in threads:
     thread.join()
 ```
 
-**Note:** ITK callbacks and event monitoring may be affected by GIL release. If you encounter
-issues with callbacks, you can disable GIL release by setting `-DITK_PYTHON_RELEASE_GIL=OFF`
-when building ITK.
+**Note:** Python callbacks reacquire the GIL. Concurrent threads must use independent
+pipelines; GIL release does not make shared filters or images thread-safe.
+Build with `-DITK_PYTHON_RELEASE_GIL=OFF` to retain the GIL during updates.
 
 Python lazy loading is always on
 --------------------------------

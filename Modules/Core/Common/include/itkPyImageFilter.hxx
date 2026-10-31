@@ -148,6 +148,7 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_GenerateOutputInformationCallable))
   {
@@ -177,6 +178,7 @@ PyImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObjec
 {
   Superclass::EnlargeOutputRequestedRegion(data);
 
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_EnlargeOutputRequestedRegionCallable))
   {
@@ -209,6 +211,7 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
 
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_GenerateInputRequestedRegionCallable))
   {
@@ -235,6 +238,7 @@ template <class TInputImage, class TOutputImage>
 void
 PyImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   // make sure that the CommandCallable is in fact callable
   if (!PyCallable_Check(this->m_GenerateDataCallable))
   {

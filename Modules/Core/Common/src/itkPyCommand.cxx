@@ -115,6 +115,8 @@ PyCommand::Execute(const Object *, const EventObject &)
 void
 PyCommand::PyExecute()
 {
+  const PyGILStateEnsure gil;
+
   // make sure that the CommandCallable is in fact callable
   if (!PyCallable_Check(this->m_Object))
   {
@@ -125,8 +127,7 @@ PyCommand::PyExecute()
   }
   else
   {
-    const PyGILStateEnsure gil;
-    PyObject *             result = PyObject_Call(this->m_Object, this->m_EmptyArgumentList, (PyObject *)nullptr);
+    PyObject * result = PyObject_Call(this->m_Object, this->m_EmptyArgumentList, (PyObject *)nullptr);
 
     if (result)
     {
