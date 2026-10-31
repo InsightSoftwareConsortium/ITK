@@ -132,7 +132,7 @@ std::ostream &
 operator<<(std::ostream & os, const FixedArray<TValue, VLength> & arr)
 {
   os << '[';
-  if (VLength == 1)
+  if constexpr (VLength == 1)
   {
     os << arr[0];
   }
