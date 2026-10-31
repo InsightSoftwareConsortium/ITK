@@ -163,6 +163,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
+    return EXIT_FAILURE;
   }
 
   const FilterType::MatrixDecoratedType * decorator = filter->GetCovarianceMatrixOutput();
