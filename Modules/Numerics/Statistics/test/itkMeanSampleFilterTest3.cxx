@@ -112,6 +112,7 @@ itkMeanSampleFilterTest3(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
+    return EXIT_FAILURE;
   }
 
   FilterType::MeasurementVectorRealType meanOutput = filter->GetMean();
