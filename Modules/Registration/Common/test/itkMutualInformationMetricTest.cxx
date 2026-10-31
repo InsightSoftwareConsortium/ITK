@@ -230,6 +230,8 @@ itkMutualInformationMetricTest(int, char *[])
     metric->Initialize();
     std::cout << "Value = " << metric->GetValue(parameters);
     std::cout << std::endl;
+    std::cerr << "Exception should have been thrown" << std::endl;
+    return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -248,6 +250,8 @@ itkMutualInformationMetricTest(int, char *[])
     metric->Initialize();
     std::cout << "Value = " << metric->GetValue(parameters);
     std::cout << std::endl;
+    std::cerr << "Exception should have been thrown" << std::endl;
+    return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & err)
   {
