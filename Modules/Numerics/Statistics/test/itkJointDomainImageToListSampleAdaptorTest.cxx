@@ -120,17 +120,19 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
         ImageType::PixelType pixel = adaptor->GetImage()->GetPixel(index);
 
-        measurementVector[0] = tempPoint[0];
-        measurementVector[1] = tempPoint[1];
-        measurementVector[2] = tempPoint[2];
-        measurementVector[3] = pixel[0];
-        measurementVector[4] = pixel[1];
-        measurementVector[5] = pixel[2];
+        for (unsigned int d = 0; d < ImageDimension; ++d)
+        {
+          measurementVector[d] = tempPoint[d];
+        }
+        for (unsigned int c = 0; c < MeasurementVectorSize; ++c)
+        {
+          measurementVector[ImageDimension + c] = pixel[c];
+        }
 
         JointDomainImageToListSampleAdaptorType::InstanceIdentifier iid = adaptor->GetImage()->ComputeOffset(index);
 
         MeasurementVectorType measurementVectorFromAdaptor = adaptor->GetMeasurementVector(iid);
-        for (unsigned int m = 0; m < 5; ++m)
+        for (unsigned int m = 0; m < MeasurementVectorType::Length; ++m)
         {
           if (!itk::Math::FloatAlmostEqual(measurementVectorFromAdaptor[m], measurementVector[m], 4, 1.0E-6))
           {
@@ -167,7 +169,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
   constexpr double epsilon{ 1e-3 };
 
-  for (unsigned int m = 0; m < 5; ++m)
+  for (unsigned int m = 0; m < MeasurementVectorType::Length; ++m)
   {
     if (!itk::Math::FloatAlmostEqual(v1[m], v2[m], 4, epsilon))
     {
