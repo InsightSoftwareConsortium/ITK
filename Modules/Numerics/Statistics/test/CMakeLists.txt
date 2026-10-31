@@ -35,7 +35,6 @@ set(
   itkListSampleTest.cxx
   itkMahalanobisDistanceMetricTest.cxx
   itkManhattanDistanceMetricTest.cxx
-  itkMeanSampleFilterTest2.cxx
   itkMeanSampleFilterTest3.cxx
   itkMeasurementVectorTraitsTest.cxx
   itkMembershipFunctionBaseTest2.cxx
@@ -450,12 +449,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkKdTreeTestSamplePoints
-)
-itk_add_test(
-  NAME itkMeanSampleFilterTest2
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMeanSampleFilterTest2
 )
 itk_add_test(
   NAME itkMeanSampleFilterTest3
@@ -961,6 +954,7 @@ set(
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
   itkMeanSampleFilterGTest.cxx
+  itkMeanSampleFilterGTest2.cxx
   itkMembershipFunctionBaseGTest.cxx
   itkMinimumDecisionRuleGTest.cxx
   itkMixtureModelComponentBaseGTest.cxx
