@@ -1,7 +1,6 @@
 itk_module_test()
 set(
   ITKStatisticsTests
-  itkCovarianceSampleFilterTest2.cxx
   itkCovarianceSampleFilterTest3.cxx
   itkDecisionRuleTest.cxx
   itkDenseFrequencyContainer2Test.cxx
@@ -484,12 +483,6 @@ itk_add_test(
     itkHistogramToTextureFeaturesFilterTest
 )
 itk_add_test(
-  NAME itkCovarianceSampleFilterTest2
-  COMMAND
-    ITKStatisticsTestDriver
-    itkCovarianceSampleFilterTest2
-)
-itk_add_test(
   NAME itkCovarianceSampleFilterTest3
   COMMAND
     ITKStatisticsTestDriver
@@ -969,6 +962,7 @@ set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
   itkCovarianceSampleFilterGTest.cxx
+  itkCovarianceSampleFilterGTest2.cxx
   itkHistogramToTextureFeaturesFilterNaNGTest.cxx
   itkKdTreeGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
