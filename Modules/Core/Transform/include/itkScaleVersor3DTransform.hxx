@@ -271,6 +271,13 @@ ScaleVersor3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParame
   jacobian[2][8] = pz;
 }
 
+template <typename TParametersValueType>
+auto
+ScaleVersor3DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  return Superclass::template InvertTransform<typename Superclass::InverseTransformType>(*this);
+}
+
 } // namespace itk
 
 #endif
