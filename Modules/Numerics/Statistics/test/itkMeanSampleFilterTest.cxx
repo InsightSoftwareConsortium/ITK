@@ -87,6 +87,7 @@ itkMeanSampleFilterTest(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
+    return EXIT_FAILURE;
   }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
