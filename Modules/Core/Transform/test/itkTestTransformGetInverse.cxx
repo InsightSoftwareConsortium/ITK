@@ -24,6 +24,7 @@
 #include "itkCenteredEuler3DTransform.h"
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredSimilarity2DTransform.h"
+#include "itkComposeScaleSkewVersor3DTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
@@ -123,26 +124,47 @@ TransformTest(bool expectSameType)
   return 0;
 }
 
-// Assert the concrete inverse of a non-identity transform inverts it:
-// inverse(forward(p)) == p, not merely that the type is preserved.
+// Assert the inverse of a non-identity transform maps points back in both directions, and that the inverse
+// rebuilt from its fixed and regular parameters, as a transform file stores it, maps them back too.
 template <typename TTransform>
 unsigned
-InverseRoundTripTest(const TTransform * forward)
+InverseRoundTripTest(const TTransform * forward, bool expectSameType = true)
 {
-  const std::string name = forward->GetNameOfClass();
-  const auto        inverseBase = forward->GetInverseTransform();
+  constexpr double                                 tolerance = 1e-6;
+  const std::string                                name = forward->GetNameOfClass();
+  typename TTransform::InverseTransformBasePointer inverseBase;
+  try
+  {
+    inverseBase = forward->GetInverseTransform();
+  }
+  catch (const itk::ExceptionObject & excp)
+  {
+    std::cerr << "ERROR: " << name << " GetInverseTransform() threw: " << excp.GetDescription() << std::endl;
+    return 1;
+  }
   if (inverseBase.IsNull())
   {
     std::cerr << "ERROR: " << name << " GetInverseTransform() returned null for a non-identity instance" << std::endl;
     return 1;
   }
-  const auto * inverse = dynamic_cast<const TTransform *>(inverseBase.GetPointer());
-  if (inverse == nullptr)
+  const auto * inverse = inverseBase.GetPointer();
+  if (expectSameType && dynamic_cast<const TTransform *>(inverse) == nullptr)
   {
     std::cerr << "ERROR: " << name << " inverse is not the concrete type (got " << inverseBase->GetNameOfClass() << ')'
               << std::endl;
     return 1;
   }
+
+  const itk::LightObject::Pointer rebuiltObject = inverse->CreateAnother();
+  auto *                          rebuilt = dynamic_cast<itk::Transform<double, 3, 3> *>(rebuiltObject.GetPointer());
+  if (rebuilt == nullptr)
+  {
+    std::cerr << "ERROR: " << name << " inverse " << inverse->GetNameOfClass() << " could not be recreated"
+              << std::endl;
+    return 1;
+  }
+  rebuilt->SetFixedParameters(inverse->GetFixedParameters());
+  rebuilt->SetParameters(inverse->GetParameters());
 
   const double samples[3][3]{ { 5.0, -3.0, 7.0 }, { -11.0, 2.0, 4.0 }, { 0.5, 9.0, -6.0 } };
   for (const auto & coords : samples)
@@ -151,13 +173,18 @@ InverseRoundTripTest(const TTransform * forward)
     p[0] = coords[0];
     p[1] = coords[1];
     p[2] = coords[2];
-    const auto roundTrip = inverse->TransformPoint(forward->TransformPoint(p));
+    const auto inverseOfForward = inverse->TransformPoint(forward->TransformPoint(p));
+    const auto forwardOfInverse = forward->TransformPoint(inverse->TransformPoint(p));
+    const auto rebuiltOfForward = rebuilt->TransformPoint(forward->TransformPoint(p));
     for (unsigned int d = 0; d < 3; ++d)
     {
-      if (itk::Math::Absolute(roundTrip[d] - p[d]) > 1e-6)
+      if (itk::Math::Absolute(inverseOfForward[d] - p[d]) > tolerance ||
+          itk::Math::Absolute(forwardOfInverse[d] - p[d]) > tolerance ||
+          itk::Math::Absolute(rebuiltOfForward[d] - p[d]) > tolerance)
       {
-        std::cerr << "ERROR: " << name << " inverse round-trip failed: got " << roundTrip << " expected " << p
-                  << std::endl;
+        std::cerr << "ERROR: " << name << " inverse round-trip failed for " << p << ": inverse(forward(p)) is "
+                  << inverseOfForward << ", forward(inverse(p)) is " << forwardOfInverse
+                  << ", inverse rebuilt from its parameters gives " << rebuiltOfForward << std::endl;
         return 1;
       }
     }
@@ -239,6 +266,39 @@ NonIdentityInverseTests()
     errorCount += InverseRoundTripTest(t.GetPointer());
   }
 
+  // Scaled and skewed versor transforms invert to a MatrixOffsetTransformBase.
+  itk::Vector<double, 3> anisotropicScale;
+  anisotropicScale[0] = 1.5;
+  anisotropicScale[1] = 0.75;
+  anisotropicScale[2] = 2.0;
+  {
+    auto t = itk::ScaleVersor3DTransform<double>::New();
+    t->SetRotation(versor);
+    t->SetScale(anisotropicScale);
+    t->SetTranslation(translation);
+    errorCount += InverseRoundTripTest(t.GetPointer(), false);
+  }
+  {
+    auto                                                    t = itk::ScaleSkewVersor3DTransform<double>::New();
+    itk::ScaleSkewVersor3DTransform<double>::SkewVectorType skew;
+    skew.Fill(0.1);
+    t->SetRotation(versor);
+    t->SetScale(anisotropicScale);
+    t->SetSkew(skew);
+    t->SetTranslation(translation);
+    errorCount += InverseRoundTripTest(t.GetPointer(), false);
+  }
+  {
+    auto t = itk::ComposeScaleSkewVersor3DTransform<double>::New();
+    itk::ComposeScaleSkewVersor3DTransform<double>::SkewVectorType skew;
+    skew.Fill(0.2);
+    t->SetRotation(versor);
+    t->SetScale(anisotropicScale);
+    t->SetSkew(skew);
+    t->SetTranslation(translation);
+    errorCount += InverseRoundTripTest(t.GetPointer(), false);
+  }
+
   return errorCount;
 }
 
@@ -267,14 +327,7 @@ itkTestTransformGetInverse(int, char *[])
   errorCount += TransformTest<itk::ScalableAffineTransform<double, 3>>(true);
   errorCount += TransformTest<itk::ScaleLogarithmicTransform<double, 3>>(true);
   errorCount += TransformTest<itk::ScaleTransform<double, 3>>(true);
-  //
-  // ScaleVersor3DTransform can't apparently get an inverse. Gets this
-  // error message:
-  // /scratch/kent/itktest/ITK/Modules/Core/Transform/include/itkScaleVersor3DTransform.hxx:236:
-  // itk::ERROR: ScaleVersor3DTransform(0x1757820): Setting the matrix
-  // of a ScaleVersor3D
-  // transform is not supported at this time.
-  // errorCount += TransformTest< itk::ScaleVersor3DTransform<double> >();
+  // ScaleVersor3D and ScaleSkewVersor3D cannot be set from a matrix, so only NonIdentityInverseTests() covers them.
   errorCount += TransformTest<itk::Similarity2DTransform<double>>(true);
   errorCount += TransformTest<itk::Similarity3DTransform<double>>(true);
   errorCount += TransformTest<itk::ThinPlateR2LogRSplineKernelTransform<double, 3>>(true);
