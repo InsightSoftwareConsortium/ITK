@@ -29,7 +29,7 @@
 #include "itkComplexToImaginaryImageFilter.h"
 
 #include "itkRieszFrequencyFilterBankGenerator.h"
-#include "itkStructureTensorImageFilter.h"
+#include "itkRieszStructureTensorImageFilter.h"
 #include "itkZeroDCImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 
@@ -165,8 +165,8 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
     }
 
     // Structure Tensor
-    using StructureTensorImageFilterType = itk::StructureTensorImageFilter<ImageType>;
-    auto tensor = StructureTensorImageFilterType::New();
+    using RieszStructureTensorImageFilterType = itk::RieszStructureTensorImageFilter<ImageType>;
+    auto tensor = RieszStructureTensorImageFilterType::New();
     tensor->SetInputs(rieszWaveletsSpatial);
     // tensor->SetGaussianWindowRadius(3);
     tensor->Update();

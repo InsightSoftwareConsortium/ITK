@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkStructureTensorImageFilter_hxx
-#define itkStructureTensorImageFilter_hxx
+#ifndef itkRieszStructureTensorImageFilter_hxx
+#define itkRieszStructureTensorImageFilter_hxx
 #include "itkImageScanlineConstIterator.h"
 #include "itkImageScanlineIterator.h"
 #include <itkMultiplyImageFilter.h>
@@ -31,7 +31,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-StructureTensorImageFilter<TInputImage, TOutputImage>::StructureTensorImageFilter()
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::RieszStructureTensorImageFilter()
 {
   this->m_GaussianSource = GaussianSourceType::New();
 
@@ -40,12 +40,12 @@ StructureTensorImageFilter<TInputImage, TOutputImage>::StructureTensorImageFilte
 
 template <typename TInputImage, typename TOutputImage>
 void
-StructureTensorImageFilter<TInputImage, TOutputImage>::SetInputs(const InputsType & inputs)
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::SetInputs(const InputsType & inputs)
 {
   if (inputs.size() <= 1)
   {
     itkExceptionMacro(
-      << "StructureTensorImageFilter requires at least 2 input images. Current size of input vector in SetInputs: "
+      << "RieszStructureTensorImageFilter requires at least 2 input images. Current size of input vector in SetInputs: "
       << inputs.size());
   }
   for (unsigned int nin = 0; nin < inputs.size(); ++nin)
@@ -59,7 +59,7 @@ StructureTensorImageFilter<TInputImage, TOutputImage>::SetInputs(const InputsTyp
 
 template <typename TInputImage, typename TOutputImage>
 void
-StructureTensorImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "GaussianWindowRadius: " << this->m_GaussianWindowRadius << std::endl;
@@ -69,7 +69,7 @@ StructureTensorImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 
 template <typename TInputImage, typename TOutputImage>
 void
-StructureTensorImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   unsigned int nInputs = this->GetNumberOfInputs();
 
@@ -144,7 +144,7 @@ StructureTensorImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDat
 
 template <typename TInputImage, typename TOutputImage>
 void
-StructureTensorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int nInputs = this->GetNumberOfInputs();
@@ -220,8 +220,8 @@ StructureTensorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDa
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename StructureTensorImageFilter<TInputImage, TOutputImage>::EigenMatrixType
-StructureTensorImageFilter<TInputImage, TOutputImage>::GetRotationMatrixFromOutputMatrix(
+typename RieszStructureTensorImageFilter<TInputImage, TOutputImage>::EigenMatrixType
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::GetRotationMatrixFromOutputMatrix(
   const EigenMatrixType & outputMatrix,
   bool                    reOrderLargestEigenvectorInFirstRow) const
 {
@@ -249,8 +249,8 @@ StructureTensorImageFilter<TInputImage, TOutputImage>::GetRotationMatrixFromOutp
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename StructureTensorImageFilter<TInputImage, TOutputImage>::InputImagePointer
-StructureTensorImageFilter<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int eigen_number) const
+typename RieszStructureTensorImageFilter<TInputImage, TOutputImage>::InputImagePointer
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int eigen_number) const
 {
   const unsigned int nInputs = this->GetNumberOfInputs();
 
@@ -310,15 +310,15 @@ StructureTensorImageFilter<TInputImage, TOutputImage>::ComputeProjectionImage(un
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename StructureTensorImageFilter<TInputImage, TOutputImage>::InputImagePointer
-StructureTensorImageFilter<TInputImage, TOutputImage>::ComputeProjectionImageWithLargestResponse() const
+typename RieszStructureTensorImageFilter<TInputImage, TOutputImage>::InputImagePointer
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::ComputeProjectionImageWithLargestResponse() const
 {
   return this->ComputeProjectionImage(this->GetNumberOfInputs() - 1);
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename StructureTensorImageFilter<TInputImage, TOutputImage>::InputImagePointer
-StructureTensorImageFilter<TInputImage, TOutputImage>::ComputeCoherencyImage() const
+typename RieszStructureTensorImageFilter<TInputImage, TOutputImage>::InputImagePointer
+RieszStructureTensorImageFilter<TInputImage, TOutputImage>::ComputeCoherencyImage() const
 {
   const unsigned int nInputs = this->GetNumberOfInputs();
 

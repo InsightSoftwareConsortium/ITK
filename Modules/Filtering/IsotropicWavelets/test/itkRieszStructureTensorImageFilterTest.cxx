@@ -21,7 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkTestingComparisonImageFilter.h"
-#include "itkStructureTensorImageFilter.h"
+#include "itkRieszStructureTensorImageFilter.h"
 #include "itkTestingMacros.h"
 
 #include <string>
@@ -35,7 +35,7 @@
 
 template <unsigned int VDimension>
 [[nodiscard]] int
-runStructureTensorImageFilterTest()
+runRieszStructureTensorImageFilterTest()
 {
   const unsigned int Dimension = VDimension;
 
@@ -104,8 +104,8 @@ runStructureTensorImageFilterTest()
 #endif
 
   // Structure Tensor
-  using StructureTensorImageFilterType = itk::StructureTensorImageFilter<ImageType>;
-  auto tensor = StructureTensorImageFilterType::New();
+  using RieszStructureTensorImageFilterType = itk::RieszStructureTensorImageFilter<ImageType>;
+  auto tensor = RieszStructureTensorImageFilterType::New();
   // Test Set/Get
   // WindowRadius
   unsigned int nonDefaultGaussianRadius = 3;
@@ -114,16 +114,16 @@ runStructureTensorImageFilterTest()
   tensor->SetGaussianWindowRadius(2); // Restore default.
 
   // WindowSigma
-  typename StructureTensorImageFilterType::FloatType nonDefaultGaussianSigma = 2.0;
+  typename RieszStructureTensorImageFilterType::FloatType nonDefaultGaussianSigma = 2.0;
   tensor->SetGaussianWindowSigma(nonDefaultGaussianSigma);
   ITK_TEST_SET_GET_VALUE(nonDefaultGaussianSigma, tensor->GetGaussianWindowSigma());
   tensor->SetGaussianWindowSigma(1.0); // Restore default.
   // Use a external, new GaussianSource:
   // The gaussian source is modified in BeforeThreadedGenerateData() only if
   // the source has different sigma or radius than this class.
-  typename StructureTensorImageFilterType::GaussianSourceType::Pointer gaussianSource =
+  typename RieszStructureTensorImageFilterType::GaussianSourceType::Pointer gaussianSource =
     tensor->GetModifiableGaussianSource();
-  gaussianSource = StructureTensorImageFilterType::GaussianSourceType::New();
+  gaussianSource = RieszStructureTensorImageFilterType::GaussianSourceType::New();
 
   std::vector<typename ImageType::Pointer> inputs;
   inputs.push_back(inputImage1);
@@ -171,7 +171,7 @@ runStructureTensorImageFilterTest()
   typename ImageType::Pointer largestEigenValueProjectionImage;
   for (unsigned int eigenNumber = 0; eigenNumber < nInputs; ++eigenNumber)
   {
-    typename StructureTensorImageFilterType::InputImagePointer projectImage =
+    typename RieszStructureTensorImageFilterType::InputImagePointer projectImage =
       tensor->ComputeProjectionImage(eigenNumber);
     if (eigenNumber == nInputs - 1)
     {
@@ -240,14 +240,14 @@ runStructureTensorImageFilterTest()
 }
 
 int
-itkStructureTensorImageFilterTest(int, char *[])
+itkRieszStructureTensorImageFilterTest(int, char *[])
 {
-  int result2D = runStructureTensorImageFilterTest<2>();
-  int result3D = runStructureTensorImageFilterTest<3>();
+  int result2D = runRieszStructureTensorImageFilterTest<2>();
+  int result3D = runRieszStructureTensorImageFilterTest<3>();
 
 #ifndef ITK_VISUALIZE_TESTS
   // cannot visualize 4D images with viewimage
-  int result4D = runStructureTensorImageFilterTest<4>();
+  int result4D = runRieszStructureTensorImageFilterTest<4>();
   return result2D && result3D && result4D;
 #else
   return result2D && result3D;

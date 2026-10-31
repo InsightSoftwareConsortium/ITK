@@ -1150,6 +1150,27 @@ confined to the two feature/noise-scale smoothers.)
   API — there is no setter for the smoothing direction — so no supported code
   path is removed.
 
+## IsotropicWavelets `StructureTensorImageFilter` is now `RieszStructureTensorImageFilter`
+
+The IsotropicWavelets module and the AnisotropicDiffusionLBR module both defined
+`itk::StructureTensorImageFilter` with the same include guard, so a build that
+enabled both modules could not use either class, and Python wrapping failed to
+compile (issue #7057). The two classes are different algorithms. The
+IsotropicWavelets class takes two or more component images (for example Riesz
+components) and outputs per-pixel eigenvectors and eigenvalues; the
+AnisotropicDiffusionLBR class takes one image and outputs the tensor.
+
+### What you need to do
+
+- Replace `itk::StructureTensorImageFilter` with
+  `itk::RieszStructureTensorImageFilter` and include
+  `itkRieszStructureTensorImageFilter.h`. Template parameters, setters, and
+  output are unchanged.
+- In Python, replace `itk.StructureTensorImageFilter` with
+  `itk.RieszStructureTensorImageFilter`; the wrapped instantiations are the same.
+- The old name is not kept as an alias, because an alias would reintroduce the
+  name clash.
+
 ## `NiftiImageIO` preserves NaN and infinite pixel values
 
 Reading a floating-point or complex NIfTI image previously replaced every
