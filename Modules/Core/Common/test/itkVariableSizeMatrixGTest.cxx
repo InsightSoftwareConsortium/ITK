@@ -178,59 +178,12 @@ DoVariableSizeMatrixTest(int, char *[])
   d55 *= d55;
 
   // Exercise the exceptions
-  try
-  {
-    std::cout << d34 * darray << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    e.Print(std::cout);
-  }
-
-  try
-  {
-    std::cout << d34 * d53 << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    e.Print(std::cout);
-  }
-
-  try
-  {
-    std::cout << d34 + d53 << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    e.Print(std::cout);
-  }
-
-  try
-  {
-    std::cout << d34 - d53 << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    e.Print(std::cout);
-  }
-
-  try
-  {
-    d34 += d53;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    e.Print(std::cout);
-  }
-
-  try
-  {
-    d34 -= d53;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    e.Print(std::cout);
-  }
+  EXPECT_THROW(std::cout << d34 * darray << std::endl, itk::ExceptionObject);
+  EXPECT_THROW(std::cout << d34 * d53 << std::endl, itk::ExceptionObject);
+  EXPECT_THROW(std::cout << d34 + d53 << std::endl, itk::ExceptionObject);
+  EXPECT_THROW(std::cout << d34 - d53 << std::endl, itk::ExceptionObject);
+  EXPECT_THROW(d34 += d53, itk::ExceptionObject);
+  EXPECT_THROW(d34 -= d53, itk::ExceptionObject);
 
   std::cout << "[PASSED]" << std::endl;
 
