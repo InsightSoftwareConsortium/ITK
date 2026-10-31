@@ -30,7 +30,6 @@ set(
   itkListSampleTest.cxx
   itkListSampleTest.cxx
   itkMahalanobisDistanceMetricTest.cxx
-  itkManhattanDistanceMetricTest.cxx
   itkMeasurementVectorTraitsTest.cxx
   itkMembershipFunctionBaseTest2.cxx
   itkMembershipSampleTest1.cxx
@@ -628,12 +627,6 @@ itk_add_test(
     itkMahalanobisDistanceMetricTest
 )
 itk_add_test(
-  NAME itkManhattanDistanceMetricTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkManhattanDistanceMetricTest
-)
-itk_add_test(
   NAME itkMembershipFunctionBaseTest2
   COMMAND
     ITKStatisticsTestDriver
@@ -885,6 +878,7 @@ set(
   itkImageToListSampleAdaptorGTest.cxx
   itkJointDomainImageToListSampleAdaptorGTest.cxx
   itkKdTreeGTest.cxx
+  itkManhattanDistanceMetricGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
   itkMeanSampleFilterGTest.cxx
