@@ -154,13 +154,19 @@ foreach(d ${array_sizes})
 endforeach()
 
 # Wrap FixedArray for BSplineInterpolationWeightFunction:
+# components = (SplineOrder + 1)^SpaceDimension
+set(bspline_weight_sizes)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  # Wrapping for spline order 3, components = (SplineOrder + 1)^SpaceDimension
-  set(comp 1)
-  foreach(i RANGE 1 ${d})
-    math(EXPR comp "${comp}*4")
+  foreach(order RANGE 1 3)
+    set(comp 1)
+    foreach(i RANGE 1 ${d})
+      math(EXPR comp "${comp}*(${order}+1)")
+    endforeach()
+    list(APPEND bspline_weight_sizes ${comp})
   endforeach()
-
+endforeach()
+list(REMOVE_DUPLICATES bspline_weight_sizes)
+foreach(comp ${bspline_weight_sizes})
   # Check if computed comp dimension has already wrapped above
   list(FIND array_sizes ${comp} array_sizes_index)
 
