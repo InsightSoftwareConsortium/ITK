@@ -1257,7 +1257,7 @@ afterwards raises `RuntimeError` rather than crashing.
 Calls to `OverrideBoundaryCondition` on any *other* class are unaffected — those
 never took ownership and keep their current behavior.
 
-## `ITK_AUTOLOAD_PATH` is read once; use `ObjectFactoryBase::SetAutoloadPath`
+## `ITK_AUTOLOAD_PATH` is read once; use `ObjectFactoryBase::SetAutoloadPaths`
 
 The `ITK_AUTOLOAD_PATH` environment variable lists the directories ITK scans for
 shared libraries that register dynamically loaded object factories (IO plugins,
@@ -1265,17 +1265,17 @@ for example). Entries are separated by `:` (`;` on Windows). The scan happens
 lazily, the first time a factory is used, and only when ITK is built with
 `ITK_USE_AUTOLOAD_PATH` (dynamic loading enabled, not a Python-wrapped build).
 
-The autoload path is now stored in `ObjectFactoryBase` global state as a
+The autoload paths are now stored in `ObjectFactoryBase` global state as a
 `std::list<std::string>`, initialized by splitting the `ITK_AUTOLOAD_PATH`
 environment variable when that state is created.
-`ObjectFactoryBase::SetAutoloadPath()` and `GetAutoloadPath()` set and query
+`ObjectFactoryBase::SetAutoloadPaths()` and `GetAutoloadPaths()` set and query
 the list at runtime. `ReHash()` no longer re-reads the environment.
 
 ### What you need to do
 
 Code that calls `putenv("ITK_AUTOLOAD_PATH=...")` after startup and then
 `ObjectFactoryBase::ReHash()` must build a `std::list<std::string>` of
-directories and call `ObjectFactoryBase::SetAutoloadPath(...)` instead. When
+directories and call `ObjectFactoryBase::SetAutoloadPaths(...)` instead. When
 factories were already initialized, follow it with `ReHash()`.
 
 ## `MINCImageIO` reads a MINC time dimension as a fourth image axis

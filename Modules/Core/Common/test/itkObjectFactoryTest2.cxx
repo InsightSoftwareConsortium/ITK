@@ -96,18 +96,18 @@ itkObjectFactoryTest2(int argc, char * argv[])
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   // Build up a path list from the arguments
-  std::list<std::string> path;
+  std::list<std::string> paths;
   for (int ac = 1; ac < argc; ++ac)
   {
     std::string entry = argv[ac];
 #ifdef CMAKE_INTDIR
     entry += std::string("/") + std::string(CMAKE_INTDIR);
 #endif
-    path.push_back(entry);
+    paths.push_back(entry);
   }
-  itk::ObjectFactoryBase::SetAutoloadPath(path);
+  itk::ObjectFactoryBase::SetAutoloadPaths(paths);
   std::cout << "Autoload path =>";
-  for (const auto & entry : itk::ObjectFactoryBase::GetAutoloadPath())
+  for (const auto & entry : itk::ObjectFactoryBase::GetAutoloadPaths())
   {
     std::cout << ' ' << entry;
   }
