@@ -18,16 +18,43 @@
 #ifndef itkImageIterator_h
 #define itkImageIterator_h
 
-#include "itkImageConstIterator.h"
+#include "itkImage.h"
+#include "itkIndex.h"
+#include "itkNumericTraits.h"
+#include "itkWeakPointer.h"
+
+#include <type_traits>
 
 namespace itk
 {
-/**
- * \class ImageIterator
- * \brief A multi-dimensional iterator templated over image type.
+/** \class ImageIterator
+ * \brief A multi-dimensional image iterator templated over image type.
  *
- * This is a base class of ImageConstIterator that adds write-access
- * functionality.  Please see ImageConstIterator for more information.
+ * ImageIterator is a templated class to represent a multi-dimensional
+ * iterator. ImageIterator is templated over the type of the image to be
+ * iterated over.
+ *
+ * The constness of the template image type determines the access semantics of
+ * the iterator: a const-qualified type provides read-only access, while a
+ * non-const type allows both reading and writing.
+ *
+ * ImageIterator is a base class for all the image iterators. It provides
+ * the basic construction and comparison operations.  However, it does not
+ * provide mechanisms for moving the iterator.  A subclass of ImageIterator
+ * must be used to move the iterator.
+ *
+ * ImageIterator is a multi-dimensional iterator, requiring more information
+ * be specified before the iterator can be used than conventional iterators.
+ * Whereas the std::vector::iterator from the STL only needs to be passed
+ * a pointer to establish the iterator, the multi-dimensional image iterator
+ * needs a pointer, the size of the buffer, the size of the region, the
+ * start index of the buffer, and the start index of the region. To gain
+ * access to this information, ImageIterator holds a reference to the image
+ * over which it is traversing.
+ *
+ * ImageIterator assumes a particular layout of the image data. In particular,
+ * the data is arranged in a 1D array as if it were [][][][slice][row][col]
+ * with Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
@@ -36,7 +63,7 @@ namespace itk
  *
  * \ingroup ImageIterators
  *
- * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ImageIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
  * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
  * \sa FloodFilledFunctionConditionalConstIterator
@@ -44,7 +71,7 @@ namespace itk
  * \sa FloodFilledImageFunctionConditionalIterator
  * \sa FloodFilledSpatialFunctionConditionalConstIterator
  * \sa FloodFilledSpatialFunctionConditionalIterator
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
+ * \sa ImageIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
  * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
  * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
@@ -57,16 +84,15 @@ namespace itk
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
- *
- *
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageIterator : public ImageConstIterator<TImage>
+class ITK_TEMPLATE_EXPORT ImageIterator
 {
-public:
-  ITK_DEFAULT_COPY_AND_MOVE(ImageIterator);
+  template <typename>
+  friend class ImageIterator;
 
+public:
   /** Standard class type aliases. */
   using Self = ImageIterator;
 
@@ -76,79 +102,391 @@ public:
    * access to the dimension of the image that the iterator walks. */
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
-  /** Define the superclass */
-  using Superclass = ImageConstIterator<TImage>;
+  /** \see LightObject::GetNameOfClass() */
+  itkVirtualGetNameOfClassMacro(ImageIterator);
 
-  /** Inherit types from the superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
+  /** Index type alias support */
+  using IndexType = typename TImage::IndexType;
+
+  /** Size type alias support */
+  using SizeType = typename TImage::SizeType;
+
+  /** Offset type alias support */
+  using OffsetType = typename TImage::OffsetType;
+
+  /** Region type alias support */
+  using RegionType = typename TImage::RegionType;
+
+  /** Image type alias support */
+  using ImageType = std::remove_const_t<TImage>;
+
+  /** PixelContainer type alias support. Used to refer to the container for
+   * the pixel data. While this was already typedef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc. */
+  using PixelContainer = typename TImage::PixelContainer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
+
+  /** Internal Pixel Type */
+  using InternalPixelType = typename TImage::InternalPixelType;
+
+  /** External Pixel Type */
+  using PixelType = typename TImage::PixelType;
+
+  /**  Accessor type that convert data between internal and external
+   *  representations. */
+  using AccessorType = typename TImage::AccessorType;
+  using AccessorFunctorType = typename TImage::AccessorFunctorType;
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageIterator() = default;
+  ImageIterator()
+    : m_Image(nullptr)
+    , m_Region()
+    , m_Buffer(nullptr)
+    , m_PixelAccessor()
+    , m_PixelAccessorFunctor()
+  {
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
 
-  /** Default Destructor */
-  ~ImageIterator() override = default;
+  /** Default Destructor. */
+  virtual ~ImageIterator() = default;
+
+  /** Copy Constructor. The copy constructor is provided to make sure the
+   * handle to the image is properly reference counted. */
+  ImageIterator(const Self & it)
+    : m_Image(it.m_Image)
+    , m_Region(it.m_Region)
+    , m_Offset(it.m_Offset)
+    , m_BeginOffset(it.m_BeginOffset)
+    , m_EndOffset(it.m_EndOffset)
+    , m_Buffer(it.m_Buffer)
+    , m_PixelAccessor(it.m_PixelAccessor)
+    , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
+  {
+    // copy the smart pointer
+
+
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
+
+  /** Conversion from non-const iterator to const iterator */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && std::is_const_v<T>, int> = 0>
+  ImageIterator(const ImageIterator<std::remove_const_t<T>> & it)
+    : m_Image(it.m_Image)
+    , m_Region(it.m_Region)
+    , m_Offset(it.m_Offset)
+    , m_BeginOffset(it.m_BeginOffset)
+    , m_EndOffset(it.m_EndOffset)
+    , m_Buffer(it.m_Buffer)
+    , m_PixelAccessor(it.m_PixelAccessor)
+    , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
+  {
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageIterator(TImage * ptr, const RegionType & region);
+  ImageIterator(TImage * ptr, const RegionType & region)
+    : m_Image(ptr)
+    , m_Buffer(m_Image->GetBufferPointer())
+    , m_PixelAccessor(ptr->GetPixelAccessor())
+  {
+
+
+    SetRegion(region);
+
+
+    m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
+
+
+  /** operator= is provided to make sure the handle to the image is properly
+   * reference counted. */
+  Self &
+  operator=(const Self & it)
+  {
+    if (this != &it)
+    {
+      m_Image = it.m_Image; // copy the smart pointer
+      m_Region = it.m_Region;
+
+      m_Buffer = it.m_Buffer;
+      m_Offset = it.m_Offset;
+      m_BeginOffset = it.m_BeginOffset;
+      m_EndOffset = it.m_EndOffset;
+      m_PixelAccessor = it.m_PixelAccessor;
+      m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
+      m_PixelAccessorFunctor.SetBegin(m_Buffer);
+    }
+    return *this;
+  }
+
+  /** Set the region of the image to iterate over. */
+  virtual void
+  SetRegion(const RegionType & region)
+  {
+    m_Region = region;
+
+    if (region.GetNumberOfPixels() > 0) // If region is non-empty
+    {
+      const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
+      itkAssertOrThrowMacro((bufferedRegion.IsInside(m_Region)),
+                            "Region " << m_Region << " is outside of buffered region " << bufferedRegion);
+    }
+
+    // Compute the start offset
+    m_Offset = m_Image->ComputeOffset(m_Region.GetIndex());
+    m_BeginOffset = m_Offset;
+
+    // Compute the end offset. If any component of m_Region.GetSize()
+    // is zero, the region is not valid and we set the EndOffset
+    // to be same as BeginOffset so that iterator end condition is met
+    // immediately.
+    IndexType ind(m_Region.GetIndex());
+    SizeType  size(m_Region.GetSize());
+    if (m_Region.GetNumberOfPixels() == 0)
+    {
+      // region is empty, probably has a size of 0 along one dimension
+      m_EndOffset = m_BeginOffset;
+    }
+    else
+    {
+      for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
+      {
+        ind[i] += (static_cast<IndexValueType>(size[i]) - 1);
+      }
+      m_EndOffset = m_Image->ComputeOffset(ind);
+      ++m_EndOffset;
+    }
+  }
+
+  /** Get the dimension (size) of the index. */
+  static unsigned int
+  GetImageIteratorDimension()
+  {
+    return TImage::ImageDimension;
+  }
+
+  /** Comparison operator. Two iterators are the same if they "point to" the
+   * same memory location */
+  template <typename TOtherImage>
+  bool
+  operator==(const ImageIterator<TOtherImage> & it) const
+  {
+    // two iterators are the same if they "point to" the same memory location
+    return (m_Buffer + m_Offset) == (it.m_Buffer + it.m_Offset);
+  }
+
+  /** Comparison operator. Two iterators are different if they "point to" a
+   * different memory location */
+  template <typename TOtherImage>
+  bool
+  operator!=(const ImageIterator<TOtherImage> & it) const
+  {
+    return !(this->operator==(it));
+  }
+
+  /** Comparison operator. An iterator is "less than" another if it "points to"
+   * a lower memory location. */
+  template <typename TOtherImage>
+  bool
+  operator<=(const ImageIterator<TOtherImage> & it) const
+  {
+    // an iterator is "less than" another if it "points to" a lower
+    // memory location
+    return (m_Buffer + m_Offset) <= (it.m_Buffer + it.m_Offset);
+  }
+
+  /** Comparison operator. An iterator is "less than" another if it "points to"
+   * a lower memory location. */
+  template <typename TOtherImage>
+  bool
+  operator<(const ImageIterator<TOtherImage> & it) const
+  {
+    // an iterator is "less than" another if it "points to" a lower
+    // memory location
+    return (m_Buffer + m_Offset) < (it.m_Buffer + it.m_Offset);
+  }
+
+  /** Comparison operator. An iterator is "greater than" another if it
+   * "points to" a higher location. */
+  template <typename TOtherImage>
+  bool
+  operator>=(const ImageIterator<TOtherImage> & it) const
+  {
+    // an iterator is "greater than" another if it "points to" a higher
+    // memory location
+    return (m_Buffer + m_Offset) >= (it.m_Buffer + it.m_Offset);
+  }
+
+  /** Comparison operator. An iterator is "greater than" another if it
+   * "points to" a higher location. */
+  template <typename TOtherImage>
+  bool
+  operator>(const ImageIterator<TOtherImage> & it) const
+  {
+    // an iterator is "greater than" another if it "points to" a higher
+    // memory location
+    return (m_Buffer + m_Offset) > (it.m_Buffer + it.m_Offset);
+  }
+
+  /** Computes the index. Internally calls ImageBase::ComputeIndex, which may be a relatively expensive operation.
+   * \sa SetIndex */
+  [[nodiscard]] IndexType
+  ComputeIndex() const
+  {
+    return m_Image->ComputeIndex(m_Offset);
+  }
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Computes and returns the index. This may be a relatively expensive operation.
+   * \deprecated Please use `ComputeIndex()` instead, or use an iterator with index, like `ImageIteratorWithIndex`! */
+  ITK_FUTURE_DEPRECATED(
+    "Please use `ComputeIndex()` instead, or use an iterator with index, like `ImageIteratorWithIndex`!")
+  [[nodiscard]] IndexType
+  GetIndex() const
+  {
+    return this->ComputeIndex();
+  }
+#endif
+
+  /** Set the index. No bounds checking is performed.
+   * \sa GetIndex */
+  virtual void
+  SetIndex(const IndexType & ind)
+  {
+    m_Offset = m_Image->ComputeOffset(ind);
+  }
+
+  /** Get the region that this iterator walks. ImageConstIterators know the
+   * beginning and the end of the region of the image to iterate over. */
+  [[nodiscard]] const RegionType &
+  GetRegion() const
+  {
+    return m_Region;
+  }
+
+  /** Get the image that this iterator walks. */
+  [[nodiscard]] TImage *
+  GetImage() const
+  {
+    return m_Image.GetPointer();
+  }
+
+  /** Get the pixel value */
+  [[nodiscard]] PixelType
+  Get() const
+  {
+    return m_PixelAccessorFunctor.Get(*(m_Buffer + m_Offset));
+  }
 
   /** Set the pixel value */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
   void
   Set(const PixelType & value) const
   {
-    // const_cast is needed here because m_Buffer is declared as a const
-    // pointer in the superclass which is the ConstIterator.
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer) + this->m_Offset), value);
+    this->m_PixelAccessorFunctor.Set(*(this->m_Buffer + this->m_Offset), value);
+  }
+
+  /** Return a const reference to the pixel
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  [[nodiscard]] const PixelType &
+  Value() const
+  {
+    return *(m_Buffer + m_Offset);
   }
 
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
   PixelType &
   Value()
   {
-    // const_cast is needed here because m_Buffer is declared as a const
-    // pointer in the superclass which is the ConstIterator.
-    return *(const_cast<InternalPixelType *>(this->m_Buffer) + this->m_Offset);
+    return *(this->m_Buffer + this->m_Offset);
   }
 
-  /** Get the image that this iterator walks. */
-  [[nodiscard]] ImageType *
-  GetImage() const
+  /** Move an iterator to the beginning of the region. "Begin" is
+   * defined as the first pixel in the region. */
+  void
+  GoToBegin()
   {
-    // const_cast is needed here because m_Image is declared as a const pointer
-    // in the base class which is the ConstIterator.
-    return const_cast<ImageType *>(this->m_Image.GetPointer());
+    m_Offset = m_BeginOffset;
   }
 
-protected:
-  /** This constructor is declared protected in order to enforce
-    const-correctness */
-  /** @ITKStartGrouping */
-  ImageIterator(const ImageConstIterator<TImage> & it);
-  Self &
-  operator=(const ImageConstIterator<TImage> & it);
-  /** @ITKEndGrouping */
+  /** Move an iterator to the end of the region. "End" is defined as
+   * one pixel past the last pixel of the region. */
+  void
+  GoToEnd()
+  {
+    m_Offset = m_EndOffset;
+  }
+
+  /** Is the iterator at the beginning of the region? "Begin" is defined
+   * as the first pixel in the region. */
+  [[nodiscard]] bool
+  IsAtBegin() const
+  {
+    return m_Offset == m_BeginOffset;
+  }
+
+  /** Is the iterator at the end of the region? "End" is defined as one
+   * pixel past the last pixel of the region. */
+  [[nodiscard]] bool
+  IsAtEnd() const
+  {
+    return m_Offset == m_EndOffset;
+  }
+
+protected: // made protected so other iterators can access
+  WeakPointer<TImage> m_Image{};
+
+  RegionType m_Region{}; // region to iterate over
+
+  OffsetValueType m_Offset{};
+  OffsetValueType m_BeginOffset{}; // offset to first pixel in region
+  OffsetValueType m_EndOffset{};   // offset to one pixel past last pixel in region
+
+  std::conditional_t<std::is_const_v<TImage>, const InternalPixelType, InternalPixelType> * m_Buffer{};
+
+  AccessorType        m_PixelAccessor{};
+  AccessorFunctorType m_PixelAccessorFunctor{};
 };
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
 ImageIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageIterator<TImage>;
 
-} // end namespace itk
+/** \class ImageConstIterator
+ * \brief Alias-like type retained for backward compatibility.
+ *
+ * Implemented as a derived class of ImageIterator to provide the necessary
+ * deduction guides.
+ *
+ * \ingroup ITKCommon
+ */
+template <typename TImage>
+class ImageConstIterator : public ImageIterator<std::add_const_t<TImage>>
+{
+public:
+  using Self = ImageConstIterator;
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageIterator.hxx"
-#endif
+  itkVirtualGetNameOfClassMacro(ImageConstIterator);
+
+  using ImageIterator<std::add_const_t<TImage>>::ImageIterator; // Inherit constructors
+};
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageConstIterator(const TImage *, const typename TImage::RegionType &) -> ImageConstIterator<TImage>;
+
+template <typename TImage>
+ImageConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageConstIterator<std::remove_const_t<TImage>>;
+
+} // end namespace itk
 
 #endif
