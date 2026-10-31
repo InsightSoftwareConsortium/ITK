@@ -18,13 +18,11 @@
 
 #include "itkMeanSampleFilter.h"
 #include "itkListSample.h"
+#include "itkGTest.h"
 
-int
-itkMeanSampleFilterTest(int, char *[])
+TEST(MeanSampleFilter, ConvertedLegacyTest)
 {
   std::cout << "MeanSampleFilter test \n \n";
-  bool        pass = true;
-  std::string failureMeassage = "";
 
   constexpr unsigned int MeasurementVectorSize{ 2 };
   constexpr unsigned int numberOfMeasurementVectors{ 5 };
@@ -60,35 +58,15 @@ itkMeanSampleFilterTest(int, char *[])
 
   // Invoke update before adding an input. An exception should be
   // thrown.
-  try
-  {
-    filter->Update();
-    failureMeassage = "Exception should have been thrown since Update() is invoked without setting an input ";
-    pass = false;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject)
+    << "Exception should have been thrown since Update() is invoked without setting an input ";
 
-  if (filter->GetInput() != nullptr)
-  {
-    pass = false;
-    failureMeassage = "GetInput() should return nullptr if the input has not been set";
-  }
+  EXPECT_EQ(filter->GetInput(), nullptr) << "GetInput() should return nullptr if the input has not been set";
 
   filter->ResetPipeline();
   filter->SetInput(sample);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(filter->Update());
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
   FilterType::MeasurementVectorType                  meanOutput = decorator->Get();
@@ -102,19 +80,6 @@ itkMeanSampleFilterTest(int, char *[])
 
   constexpr FilterType::MeasurementVectorType::ValueType epsilon{ 1e-6 };
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    pass = false;
-    failureMeassage = "The result is not what is expected";
-  }
-
-  if (!pass)
-  {
-    std::cout << "Test failed." << failureMeassage << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 }
