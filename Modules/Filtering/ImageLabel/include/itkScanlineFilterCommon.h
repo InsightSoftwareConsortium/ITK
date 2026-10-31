@@ -19,7 +19,11 @@
 #define itkScanlineFilterCommon_h
 
 #include "itkImageToImageFilter.h"
-#include "itkConstShapedNeighborhoodIterator.h"
+#include "itkConnectedImageNeighborhoodShape.h"
+#include "itkImageNeighborhoodOffsets.h"
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  include "itkConstShapedNeighborhoodIterator.h"
+#endif
 #include <atomic>
 #include <deque>
 #include <functional>
@@ -380,16 +384,12 @@ protected:
   void
   SetupLineOffsets(bool wholeNeighborhood)
   {
-    // Create a neighborhood so that we can generate a table of offsets
-    // to "previous" line indexes
-    // We are going to misuse the neighborhood iterators to compute the
-    // offset for us. All this messing around produces an array of
-    // offsets that will be used to index the map
+    // Offsets to neighboring lines; the line image is never allocated, only its offset table is used.
     const typename TOutputImage::Pointer output = m_EnclosingFilter->GetOutput();
     using PretendImageType = Image<OffsetValueType, TOutputImage::ImageDimension - 1>;
     using PretendSizeType = typename PretendImageType::RegionType::SizeType;
     using PretendIndexType = typename PretendImageType::RegionType::IndexType;
-    using LineNeighborhoodType = ConstShapedNeighborhoodIterator<PretendImageType>;
+    constexpr unsigned int LineDimension = PretendImageType::ImageDimension;
 
     auto fakeImage = PretendImageType::New();
 
@@ -406,26 +406,20 @@ protected:
 
     LineRegion.SetSize(PretendSize);
     fakeImage->SetRegions(LineRegion);
-    auto                 kernelRadius = PretendSizeType::Filled(1);
-    LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
-
-    if (wholeNeighborhood)
-    {
-      setConnectivity(&lnit, m_FullyConnected);
-    }
-    else
-    {
-      setConnectivityPrevious(&lnit, m_FullyConnected);
-    }
-
-    typename LineNeighborhoodType::IndexListType ActiveIndexes = lnit.GetActiveIndexList();
 
     const PretendIndexType idx = LineRegion.GetIndex();
     const OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
-    for (auto LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI)
+    const ConnectedImageNeighborhoodShape<LineDimension> shape{ m_FullyConnected ? LineDimension : 1, false };
+    auto                                                 neighborOffsets = GenerateImageNeighborhoodOffsets(shape);
+    if (!wholeNeighborhood)
     {
-      m_LineOffsets.push_back(fakeImage->ComputeOffset(idx + lnit.GetOffset(*LI)) - offset);
+      // The offsets are symmetric about the center, so the "previous" lines are the first half.
+      neighborOffsets.resize(neighborOffsets.size() / 2);
+    }
+    for (const auto & neighborOffset : neighborOffsets)
+    {
+      m_LineOffsets.push_back(fakeImage->ComputeOffset(idx + neighborOffset) - offset);
     }
 
     if (wholeNeighborhood)
