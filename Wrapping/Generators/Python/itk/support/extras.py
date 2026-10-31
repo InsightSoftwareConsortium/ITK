@@ -709,6 +709,12 @@ def vtk_image_from_image(l_image: itkt.ImageOrImageSource) -> vtk.vtkImageData:
     dims = [1] * 3
     dims[:dim] = itk.size(l_image)
     vtk_image.SetDimensions(dims)
+    # Record the original dimension: a padded 2D->3D image and a genuine
+    # single-slice 3D image both have dims[-1] == 1, so this disambiguates
+    # them for image_from_vtk_image.
+    dim_array = numpy_to_vtk(np.array([dim], dtype=np.int32))
+    dim_array.SetName("ITKOriginalDimension")
+    vtk_image.GetFieldData().AddArray(dim_array)
     # Copy direction matrix for VTK>=9
     import vtk
 
@@ -753,8 +759,15 @@ def image_from_vtk_image(vtk_image: vtk.vtkImageData) -> itkt.ImageBase:
     number_of_components = point_data.GetScalars().GetNumberOfComponents()
     is_vector = number_of_components != 1
     dims = list(vtk_image.GetDimensions())
-    if is_vector and dims[-1] == 1:
-        dims = dims[:-1]  # 2D, not 3D
+    original_dimension_array = vtk_image.GetFieldData().GetArray("ITKOriginalDimension")
+    if original_dimension_array is not None:
+        # From vtk_image_from_image: authoritative.
+        original_dimension = int(vtk_to_numpy(original_dimension_array)[0])
+        if original_dimension == 2 and dims[-1] == 1:
+            dims = dims[:-1]
+    elif is_vector and dims[-1] == 1:
+        # No metadata: same best-effort guess as before.
+        dims = dims[:-1]
     dims.reverse()
     if is_vector:
         dims.append(number_of_components)

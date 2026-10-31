@@ -789,6 +789,22 @@ try:
             itk_image = itk.image_from_vtk_image(vtk_image)
             assert_images_equal(input_image, itk_image)
 
+    # A 2D scalar image must round-trip back to 2D, not grow a spurious
+    # z dimension of size 1 (VTK images are always stored with 3 dimensions).
+    image = itk.image_from_array(np.random.rand(8, 12).astype(np.float32))
+    vtk_image = itk.vtk_image_from_image(image)
+    image_round = itk.image_from_vtk_image(vtk_image)
+    assert image_round.GetImageDimension() == 2
+    assert_images_equal(image, image_round)
+
+    # A 3D scalar image with a single slice must stay 3D, not be mistaken
+    # for a padded 2D image.
+    image = itk.image_from_array(np.random.rand(1, 8, 12).astype(np.float32))
+    vtk_image = itk.vtk_image_from_image(image)
+    image_round = itk.image_from_vtk_image(vtk_image)
+    assert image_round.GetImageDimension() == 3
+    assert_images_equal(image, image_round)
+
 except ImportError:
     print("vtk not imported. Skipping vtk conversion tests")
     pass
