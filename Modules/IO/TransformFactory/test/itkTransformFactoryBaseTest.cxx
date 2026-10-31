@@ -51,8 +51,15 @@ itkTransformFactoryBaseTest(int, char *[])
 
   itkPushIfTransformDim("AzimuthElevationToCartesianTransform_double_3_3", 3);
 
+  itkPushIfTransformDim("BSplineTransform_double_2_2_1", 2);
+  itkPushIfTransformDim("BSplineTransform_double_2_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_double_2_2", 2);
+  itkPushIfTransformDim("BSplineTransform_double_3_3_1", 3);
+  itkPushIfTransformDim("BSplineTransform_double_3_3_2", 3);
   itkPushIfTransformDim("BSplineTransform_double_3_3", 3);
+  itkPushIfTransformDim("BSplineTransform_double_4_4_1", 4);
+  itkPushIfTransformDim("BSplineTransform_double_4_4_2", 4);
+  itkPushIfTransformDim("BSplineTransform_double_4_4", 4);
 #if !defined(ITK_LEGACY_REMOVE)
   itkPushIfTransformDim("BSplineDeformableTransform_double_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_double_3_3", 3);
@@ -133,8 +140,15 @@ itkTransformFactoryBaseTest(int, char *[])
 
   itkPushIfTransformDim("AzimuthElevationToCartesianTransform_float_3_3", 3);
 
+  itkPushIfTransformDim("BSplineTransform_float_2_2_1", 2);
+  itkPushIfTransformDim("BSplineTransform_float_2_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_float_2_2", 2);
+  itkPushIfTransformDim("BSplineTransform_float_3_3_1", 3);
+  itkPushIfTransformDim("BSplineTransform_float_3_3_2", 3);
   itkPushIfTransformDim("BSplineTransform_float_3_3", 3);
+  itkPushIfTransformDim("BSplineTransform_float_4_4_1", 4);
+  itkPushIfTransformDim("BSplineTransform_float_4_4_2", 4);
+  itkPushIfTransformDim("BSplineTransform_float_4_4", 4);
 #if !defined(ITK_LEGACY_REMOVE)
   itkPushIfTransformDim("BSplineDeformableTransform_float_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_float_3_3", 3);
