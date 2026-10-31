@@ -65,7 +65,6 @@ set(
   itkScalarImageToTextureFeaturesFilterTest.cxx
   itkSparseFrequencyContainer2Test.cxx
   itkSpatialNeighborSubsamplerTest.cxx
-  itkStandardDeviationPerComponentSampleFilterTest.cxx
   itkStatisticsAlgorithmTest.cxx
   itkStatisticsAlgorithmTest2.cxx
   itkSubsampleTest.cxx
@@ -830,12 +829,6 @@ itk_add_test(
     itkSpatialNeighborSubsamplerTest
 )
 itk_add_test(
-  NAME itkStandardDeviationPerComponentSampleFilterTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkStandardDeviationPerComponentSampleFilterTest
-)
-itk_add_test(
   NAME itkSubsampleTest
   COMMAND
     ITKStatisticsTestDriver
@@ -934,6 +927,7 @@ set(
   itkNormalVariateGeneratorGTest1.cxx
   itkRandomVariateGeneratorBaseGTest.cxx
   itkSampleToHistogramFilterExceptionsGTest.cxx
+  itkStandardDeviationPerComponentSampleFilterGTest.cxx
   itkStatisticsTypesGTest.cxx
   itkTDistributionGTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerGTest.cxx
