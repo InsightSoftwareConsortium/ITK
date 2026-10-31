@@ -52,6 +52,28 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream & os, 
 
   os << indent << "ExceptionMessage: " << m_ExceptionMessage << std::endl;
   os << indent << "ActualIORegion: " << m_ActualIORegion << std::endl;
+  os << indent << "DirectionCollapseStrategy: " << m_DirectionCollapseStrategy << std::endl;
+}
+
+template <typename TOutputImage, typename ConvertPixelTraits>
+void
+ImageFileReader<TOutputImage, ConvertPixelTraits>::SetDirectionCollapseToStrategy(
+  const DirectionCollapseStrategyEnum strategy)
+{
+  switch (strategy)
+  {
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+      break;
+    default:
+      itkExceptionStringMacro("Invalid strategy chosen for ImageFileReader.");
+  }
+  if (m_DirectionCollapseStrategy != strategy)
+  {
+    m_DirectionCollapseStrategy = strategy;
+    this->Modified();
+  }
 }
 
 template <typename TOutputImage, typename ConvertPixelTraits>
@@ -152,22 +174,10 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
 
   const unsigned int numberOfDimensionsIO = m_ImageIO->GetNumberOfDimensions();
 
-  if (numberOfDimensionsIO > TOutputImage::ImageDimension)
+  for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
   {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDefaultDirection(k));
-    }
+    directionIO.push_back(m_ImageIO->GetDirection(k));
   }
-  else
-  {
-    for (unsigned int k = 0; k < numberOfDimensionsIO; ++k)
-    {
-      directionIO.push_back(m_ImageIO->GetDirection(k));
-    }
-  }
-
-  std::vector<double> axis;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
@@ -176,40 +186,51 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       dimSize[i] = m_ImageIO->GetDimensions(i);
       spacing[i] = m_ImageIO->GetSpacing(i);
       origin[i] = m_ImageIO->GetOrigin(i);
-
-      // Please note: direction cosines are stored as columns of the
-      // direction matrix
-      axis = directionIO[i];
-      for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
-      {
-        if (j < numberOfDimensionsIO && j < axis.size())
-        {
-          direction[j][i] = axis[j];
-        }
-        else
-        {
-          direction[j][i] = (i == j ? 1.0 : 0.0);
-        }
-      }
     }
     else
     {
       // Number of dimensions in the output is more than number of dimensions
       // in the ImageIO object (the file).  Use default values for the size,
-      // spacing, origin and direction for the final (degenerate) dimensions.
+      // spacing, and origin for the final (degenerate) dimensions.
       dimSize[i] = 1;
       spacing[i] = 1.0;
       origin[i] = 0.0;
-      for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
+    }
+  }
+
+  if (numberOfDimensionsIO > TOutputImage::ImageDimension)
+  {
+    // The file has more axes than the output: collapse the trailing axes.
+    // Direction cosines are stored as columns of the direction matrix.
+    VariableSizeMatrix<double> fullDirection(numberOfDimensionsIO, numberOfDimensionsIO);
+    fullDirection.SetIdentity();
+    for (unsigned int col = 0; col < numberOfDimensionsIO; ++col)
+    {
+      const std::vector<double> & axis = directionIO[col];
+      for (unsigned int row = 0; row < numberOfDimensionsIO && row < axis.size(); ++row)
       {
-        if (i == j)
-        {
-          direction[j][i] = 1.0;
-        }
-        else
-        {
-          direction[j][i] = 0.0;
-        }
+        fullDirection(row, col) = axis[row];
+      }
+    }
+    std::vector<bool> collapseDimensions(numberOfDimensionsIO, false);
+    for (unsigned int k = TOutputImage::ImageDimension; k < numberOfDimensionsIO; ++k)
+    {
+      collapseDimensions[k] = true;
+    }
+    direction = DirectionAlgorithm::CollapseDirection<TOutputImage::ImageDimension,
+                                                      typename TOutputImage::DirectionType::ValueType>(
+      fullDirection, collapseDimensions, m_DirectionCollapseStrategy);
+  }
+  else
+  {
+    // Copy the file axes and pad the remaining output axes with identity.
+    direction.SetIdentity();
+    for (unsigned int col = 0; col < numberOfDimensionsIO; ++col)
+    {
+      const std::vector<double> & axis = directionIO[col];
+      for (unsigned int row = 0; row < numberOfDimensionsIO && row < axis.size(); ++row)
+      {
+        direction[row][col] = axis[row];
       }
     }
   }

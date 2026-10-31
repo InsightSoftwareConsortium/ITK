@@ -1494,6 +1494,7 @@ set(
   itkDerefGTest.cxx
   itkDerivativeOperatorGTest.cxx
   itkDiffusionTensor3DGTest.cxx
+  itkDirectionAlgorithmGTest.cxx
   itkEllipsoidInteriorExteriorSpatialFunctionGTest.cxx
   itkEventObjectGTest.cxx
   itkExceptionObjectGTest.cxx

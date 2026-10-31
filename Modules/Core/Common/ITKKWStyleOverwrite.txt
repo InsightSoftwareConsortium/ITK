@@ -36,7 +36,7 @@ itkSingleton\.cxx Namespace Disable
 itkExceptionObject\.h IfNDefDefine Disable
 itkConceptChecking\.h Template Disable
 itkCommonEnums\.h Comments Disable
-itkExtractImageFilter\.h Comments Disable
+itkDirectionAlgorithm\.h Comments Disable
 itkFloatingPointExceptions\.h Comments Disable
 itkFrustumSpatialFunction\.h Comments Disable
 itkGaussianDerivativeOperator\.h Comments Disable

@@ -19,7 +19,7 @@
 #define itkTestingExtractSliceImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkBridgeMathDeterminant.h"
+#include "itkDirectionAlgorithm.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"
 
@@ -168,7 +168,6 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   {
     // copy the non-collapsed part of the input spacing and origin to the
     // output
-    outputDirection.SetIdentity();
     int nonZeroCount = 0;
     for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
@@ -176,53 +175,19 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       {
         outputSpacing[nonZeroCount] = inputSpacing[i];
         outputOrigin[nonZeroCount] = inputOrigin[i];
-        int nonZeroCount2 = 0;
-        for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
-        {
-          if (m_ExtractionRegion.GetSize()[dim])
-          {
-            outputDirection[nonZeroCount][nonZeroCount2] = inputDirection[nonZeroCount][dim];
-            ++nonZeroCount2;
-          }
-        }
         ++nonZeroCount;
       }
     }
-  }
-  // if the filter changes from a higher to a lower dimension, or
-  // if, after rebuilding the direction cosines, there's a zero
-  // length cosine vector, reset the directions to identity.
-  switch (m_DirectionCollaspeStrategy)
-  {
-    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+
+    FixedArray<bool, InputImageDimension> collapseDimensions;
+    for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
-      outputDirection.SetIdentity();
+      collapseDimensions[i] = (m_ExtractionRegion.GetSize()[i] == 0);
     }
-    break;
-    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
-    {
-      if (bridge::Math::Determinant(outputDirection.GetVnlMatrix()) == 0.0)
-      {
-        itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
-      }
-    }
-    break;
-    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
-    {
-      if (bridge::Math::Determinant(outputDirection.GetVnlMatrix()) == 0.0)
-      {
-        outputDirection.SetIdentity();
-      }
-    }
-    break;
-    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
-    default:
-    {
-      itkExceptionMacro(
-        << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
-        << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
-        << typeid(ImageBase<InputImageDimension> *).name());
-    }
+    outputDirection = DirectionAlgorithm::CollapseDirection<OutputImageDimension>(
+      inputDirection,
+      collapseDimensions,
+      static_cast<ExtractImageFilterEnums::DirectionCollapseStrategy>(m_DirectionCollaspeStrategy));
   }
 
   // set the spacing and origin
