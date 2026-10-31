@@ -21,7 +21,10 @@
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 #include "itkThreadedImageRegionPartitioner.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
-#include "itkConstNeighborhoodIterator.h"
+#include "itkNeighborhood.h"
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  include "itkConstNeighborhoodIterator.h"
+#endif
 
 #include <deque>
 #include <mutex>
@@ -101,7 +104,6 @@ public:
   // interested values here updated during scanning
   using QueueRealType = InternalComputationValueType;
   using SumQueueType = std::deque<QueueRealType>;
-  using ScanIteratorType = ConstNeighborhoodIterator<VirtualImageType>;
 
   // one ScanMemType for each thread
   struct ScanMemType
@@ -146,6 +148,92 @@ public:
   };
 
 protected:
+  // Scans the virtual domain by index, because the metric never allocates its virtual image.
+  class VirtualNeighborhoodScanIterator
+  {
+  public:
+    using IndexType = typename VirtualImageType::IndexType;
+
+    VirtualNeighborhoodScanIterator() = default;
+
+    VirtualNeighborhoodScanIterator(const RadiusType &       radius,
+                                    const VirtualImageType * virtualImage,
+                                    const ImageRegionType &  region)
+      : m_Region(region)
+      , m_BufferedRegion(virtualImage->GetBufferedRegion())
+    {
+      m_Neighborhood.SetRadius(radius);
+      GoToBegin();
+    }
+
+    void
+    GoToBegin()
+    {
+      m_Index = m_Region.GetIndex();
+      m_RemainingIndices = m_Region.GetNumberOfPixels();
+    }
+
+    [[nodiscard]] bool
+    IsAtEnd() const
+    {
+      return m_RemainingIndices == 0;
+    }
+
+    VirtualNeighborhoodScanIterator &
+    operator++()
+    {
+      --m_RemainingIndices;
+      for (unsigned int d = 0; d < VirtualImageType::ImageDimension; ++d)
+      {
+        if (++m_Index[d] < m_Region.GetIndex(d) + static_cast<IndexValueType>(m_Region.GetSize(d)))
+        {
+          break;
+        }
+        m_Index[d] = m_Region.GetIndex(d);
+      }
+      return *this;
+    }
+
+    [[nodiscard]] const IndexType &
+    GetIndex() const
+    {
+      return m_Index;
+    }
+
+    [[nodiscard]] IndexType
+    GetIndex(const SizeValueType neighbor) const
+    {
+      return m_Index + m_Neighborhood.GetOffset(neighbor);
+    }
+
+    [[nodiscard]] bool
+    IndexInBounds(const SizeValueType neighbor) const
+    {
+      return m_BufferedRegion.IsInside(this->GetIndex(neighbor));
+    }
+
+    [[nodiscard]] SizeValueType
+    Size() const
+    {
+      return m_Neighborhood.Size();
+    }
+
+    [[nodiscard]] const IndexType &
+    GetBeginIndex() const
+    {
+      return m_Region.GetIndex();
+    }
+
+  private:
+    ImageRegionType                                      m_Region{};
+    ImageRegionType                                      m_BufferedRegion{};
+    Neighborhood<char, VirtualImageType::ImageDimension> m_Neighborhood{};
+    IndexType                                            m_Index{};
+    SizeValueType                                        m_RemainingIndices{ 0 };
+  };
+
+  using ScanIteratorType = VirtualNeighborhoodScanIterator;
+
   ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader()
     : m_ANTSAssociate(nullptr)
   {}
