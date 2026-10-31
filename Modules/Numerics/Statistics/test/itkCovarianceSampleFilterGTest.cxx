@@ -19,9 +19,9 @@
 #include "itkImageToListSampleFilter.h"
 #include "itkCovarianceSampleFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkGTest.h"
 
-int
-itkCovarianceSampleFilterTest(int, char *[])
+TEST(CovarianceSampleFilter, ConvertedLegacyTest)
 {
   std::cout << "CovarianceSampleFilter Test \n \n";
 
@@ -66,15 +66,7 @@ itkCovarianceSampleFilterTest(int, char *[])
 
   sampleGeneratingFilter->SetInput(image);
 
-  try
-  {
-    sampleGeneratingFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(sampleGeneratingFilter->Update());
 
   using ListSampleType = ImageToListSampleFilterType::ListSampleType;
   using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter<ListSampleType>;
@@ -84,35 +76,14 @@ itkCovarianceSampleFilterTest(int, char *[])
   std::cout << "GetNameOfClass() = " << covarianceFilter->GetNameOfClass() << std::endl;
 
   // Invoke update before adding an input. An exception should be
-  try
-  {
-    covarianceFilter->Update();
-    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  EXPECT_THROW(covarianceFilter->Update(), itk::ExceptionObject);
 
   covarianceFilter->ResetPipeline();
 
-  if (covarianceFilter->GetInput() != nullptr)
-  {
-    std::cerr << "GetInput() should return nullptr if the input has not been set" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(covarianceFilter->GetInput(), nullptr);
 
   covarianceFilter->SetInput(sampleGeneratingFilter->GetOutput());
-  try
-  {
-    covarianceFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(covarianceFilter->Update());
 
   covarianceFilter->Print(std::cout);
 
@@ -125,13 +96,9 @@ itkCovarianceSampleFilterTest(int, char *[])
   std::cout << "Mean:   " << mean << std::endl;
   CovarianceSampleFilterType::MeasurementVectorRealType mean2 = covarianceFilter->GetMean();
 
-  if ((itk::Math::Absolute(mean[0] - mean2[0]) > epsilon) || (itk::Math::Absolute(mean[1] - mean2[1]) > epsilon) ||
-      (itk::Math::Absolute(mean[2] - mean2[2]) > epsilon))
-  {
-    std::cerr << "Mean parameter value retrieved using GetMean() and the decorator are not the same:: " << mean << ','
-              << mean2 << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(mean[0], mean2[0], epsilon);
+  EXPECT_NEAR(mean[1], mean2[1], epsilon);
+  EXPECT_NEAR(mean[2], mean2[2], epsilon);
 
 
   const CovarianceSampleFilterType::MatrixDecoratedType * decorator = covarianceFilter->GetCovarianceMatrixOutput();
@@ -144,30 +111,11 @@ itkCovarianceSampleFilterTest(int, char *[])
   auto meanFilter = MeanSampleFilterType::New();
   meanFilter->SetInput(sampleGeneratingFilter->GetOutput());
 
-  try
-  {
-    meanFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(meanFilter->Update());
 
   MeanSampleFilterType::MeasurementVectorRealType meanCalculatedUsingMeanSampleFilter = meanFilter->GetMean();
 
-  if ((itk::Math::Absolute(meanCalculatedUsingMeanSampleFilter[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanCalculatedUsingMeanSampleFilter[1] - mean[1]) > epsilon) ||
-      (itk::Math::Absolute(meanCalculatedUsingMeanSampleFilter[2] - mean[2]) > epsilon))
-  {
-    std::cerr
-      << "Mean calculated using the MeanSampleFilter is different from the one calculated using the covariance filter "
-      << std::endl;
-    std::cerr << "Mean computed with covariance filter = " << mean << std::endl;
-    std::cerr << "Mean computed with mean filter = " << meanCalculatedUsingMeanSampleFilter << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_NEAR(meanCalculatedUsingMeanSampleFilter[0], mean[0], epsilon);
+  EXPECT_NEAR(meanCalculatedUsingMeanSampleFilter[1], mean[1], epsilon);
+  EXPECT_NEAR(meanCalculatedUsingMeanSampleFilter[2], mean[2], epsilon);
 }
