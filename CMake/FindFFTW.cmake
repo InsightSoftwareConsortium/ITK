@@ -18,26 +18,16 @@
 ## mark_as_advanced(ITK_USE_FFTWF)
 ## option(ITK_USE_FFTWF "Use single precision FFTW if found" ON)
 
-## FFTW can be included from Intel MKL library (static). Both
-## `ITK_USE_FFTWD` and `ITK_USE_FFTWF` will be turned ON.
+## FFTW can be provided by the FFTW3 interface of the Intel oneAPI Math
+## Kernel Library (oneMKL) 2021.3 or newer, through oneMKL's own CMake
+## package (`MKL::MKL`). Both `ITK_USE_FFTWD` and `ITK_USE_FFTWF` will be
+## turned ON. Unless already set, `MKL_LINK` is `static`, `MKL_INTERFACE`
+## is `ilp64`, and `MKL_THREADING` is `sequential`.
 ##
-## To use the MKL implementation, set `ITK_USE_MKL` to ON and set
-##  `MKLROOT` to the installation directory of the MKL library on
-## your system and point to the `mkl` subdirectory:
-## ** On Linux, the default install directory is:
-## /opt/intel/compilers_and_libraries/linux/
-## ** On Windows, it is:
-## `C:\Program Files (x86)\Intel\oneAPI\mkl\2021.4.0`
-## ** On Mac, it is:
-## `/opt/intel/compilers_and_libraries/mac/mkl`
-##
-## '''Disabled''': If the compiler supports it, `ITK_USE_TBB_WITH_MKL` is automatically
-## set to ON and MKL is linked against `TBB`. Otherwise it is linked against
-## `mkl_sequential`.
-##
-## Note: if the environment variable `MKLROOT` is set, its value will be used
-## to set the initial value of the CMake variable `MKLROOT` (see
-## https://software.intel.com/en-us/mkl-linux-developer-guide-scripts-to-set-environment-variables).
+## To use oneMKL, set `ITK_USE_MKL` to ON. The package is found from
+## `MKL_DIR` (the directory holding `MKLConfig.cmake`), or from `MKLROOT`
+## as a CMake or environment variable (the oneAPI `setvars` script sets it).
+## oneMKL is 64-bit only and no longer supports macOS.
 
 set(_fftw_double ${ITK_USE_FFTWD})
 set(_fftw_float ${ITK_USE_FFTWF})
@@ -57,24 +47,26 @@ endif()
 
 if(_fftw_double OR _fftw_float)
   if(ITK_USE_MKL)
-    # If the user has provided the MKL include path then search nearby for library files
-    if(FFTW_INCLUDE_PATH)
-      # mkl/<version>/include/fftw -> mkl/<version>
-      get_filename_component(MKLROOT ${FFTW_INCLUDE_PATH} DIRECTORY)
-      get_filename_component(MKLROOT ${MKLROOT} DIRECTORY)
-    elseif(DEFINED ENV{MKLROOT})
-      set(MKLROOT_default $ENV{MKLROOT})
-    elseif(WIN32)
-      set(MKLROOT_default "C:/Program Files (x86)/Intel/oneAPI/mkl/2021.4.0")
-    elseif(APPLE)
-      set(MKLROOT_default "/opt/intel/compilers_and_libraries/mac/mkl")
-    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-      set(MKLROOT_default "/opt/intel/compilers_and_libraries/linux/mkl")
-    else()
-      message(FATAL_ERROR "System not supported for MKL.")
+    if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+      message(FATAL_ERROR "oneMKL supports only 64-bit targets.")
     endif()
-    set(MKLROOT ${MKLROOT_default} CACHE PATH "Intel path containing MKL")
-    set(FFTW_INC_SEARCHPATH ${MKLROOT}/include/fftw)
+    if(NOT DEFINED MKL_LINK)
+      set(MKL_LINK static)
+    endif()
+    if(NOT DEFINED MKL_INTERFACE)
+      set(MKL_INTERFACE ilp64)
+    endif()
+    if(NOT DEFINED MKL_THREADING)
+      set(MKL_THREADING sequential)
+    endif()
+    find_package(
+      MKL
+      CONFIG
+      REQUIRED
+      HINTS
+        "${MKLROOT}"
+        "$ENV{MKLROOT}"
+    )
   else()
     set(
       FFTW_INC_SEARCHPATH
@@ -88,11 +80,14 @@ if(_fftw_double OR _fftw_float)
 
   if(ITK_USE_CUFFTW)
     find_path(CUFFTW_INCLUDE_PATH cufftw.h ${FFTW_INC_SEARCHPATH})
-  else()
+  elseif(NOT ITK_USE_MKL)
     find_path(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
   endif()
 
-  if(FFTW_INCLUDE_PATH OR CUFFTW_INCLUDE_PATH)
+  if(ITK_USE_MKL)
+    # MKL::MKL carries <root>/include; the FFTW3 interface headers are in its fftw subdirectory.
+    set(FFTW_INCLUDE "${MKL_ROOT}/include/fftw")
+  elseif(FFTW_INCLUDE_PATH OR CUFFTW_INCLUDE_PATH)
     if(ITK_USE_CUFFTW)
       file(TO_CMAKE_PATH "${CUFFTW_INCLUDE_PATH}" CUFFTW_INCLUDE_PATH)
       set(FFTW_INCLUDE ${CUFFTW_INCLUDE_PATH})
@@ -120,103 +115,8 @@ if(_fftw_double OR _fftw_float)
       ${CUFFTW_LIB}
     )
   elseif(ITK_USE_MKL)
-    # '''Disabled''': `ITK_USE_TBB_WITH_MKL`. To configure MKL with TBB, the TBB library
-    # has to be found. This is not currently taken care of as part of this file and may
-    # result in conflicts if `Module_ITKTBB` is ON.
-    #    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    #      # See MKL configuration help page:
-    #      # https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
-    #      message("TBB threading option not available with Clang compiler.")
-    #      set(ITK_USE_TBB_WITH_MKL OFF CACHE BOOL "Use TBB threading in MKL" FORCE)
-    #    else()
-    #      option(ITK_USE_TBB_WITH_MKL "Use TBB threading in MKL" ON)
-    #      mark_as_advanced(ITK_USE_TBB_WITH_MKL)
-    #    endif()
-
-    if(CMAKE_SIZEOF_VOID_P EQUAL "8")
-      if(APPLE)
-        set(FFTW_LIB_SEARCHPATH ${MKLROOT}/lib)
-      else()
-        set(FFTW_LIB_SEARCHPATH ${MKLROOT}/lib/intel64)
-      endif()
-      set(MKL_LIBRARY mkl_intel_ilp64)
-      if(WIN32)
-        set(MKL_OPTIONS /DMKL_ILP64)
-      else()
-        set(
-          MKL_OPTIONS
-          -DMKL_ILP64
-          -m64
-        )
-      endif()
-    else()
-      set(FFTW_LIB_SEARCHPATH ${MKLROOT}/lib/ia32)
-      if(WIN)
-        set(MKL_LIBRARY mkl_intel_c)
-      else()
-        set(MKL_LIBRARY mkl_intel)
-      endif()
-    endif()
-    set(MKL_EXTRA_LIBRARIES mkl_core)
-    # Force to sequential for now.
-    list(APPEND MKL_EXTRA_LIBRARIES mkl_sequential)
-    #    if(ITK_USE_TBB_WITH_MKL)
-    #      list(APPEND MKL_EXTRA_LIBRARIES mkl_tbb_thread)
-    #    else()
-    #        list(APPEND MKL_EXTRA_LIBRARIES mkl_sequential)
-    #    endif()
-    set(
-      FFTW_LIBRARY_NAMES
-      ${MKL_LIBRARY}
-      ${MKL_EXTRA_LIBRARIES}
-    )
-
-    macro(FFTWD_LIBRARIES_START)
-      unset(FFTWD_LIBRARIES CACHE)
-      unset(FFTWF_LIBRARIES CACHE)
-      unset(FFTWD_THREADS_LIB CACHE)
-      unset(FFTWF_THREADS_LIB CACHE)
-      if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-        set(FFTWD_LIBRARIES -Wl,--start-group)
-      endif()
-    endmacro()
-
-    macro(FFTWD_LIBRARIES_END)
-      if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-        list(
-          APPEND
-          FFTWD_LIBRARIES
-          -Wl,--end-group
-          -lpthread
-          -lm
-          -ldl
-        )
-        # Force to sequential for now.
-        #        if(ITK_USE_TBB_WITH_MKL)
-        #          list(APPEND FFTWD_LIBRARIES -ltbb -lstdc++)
-        #        endif()
-      endif()
-    endmacro()
-
-    # Because of circular dependencies between the libraries, we need to use
-    # --start-group and --end-group on UNIX.
-    fftwd_libraries_start()
-    foreach(LIB ${FFTW_LIBRARY_NAMES})
-      string(TOUPPER ${LIB} LIB_UPPER)
-      mark_as_advanced(${LIB_UPPER}_LIB)
-      set(
-        LIB_NAME
-        ${CMAKE_STATIC_LIBRARY_PREFIX}${LIB}${CMAKE_STATIC_LIBRARY_SUFFIX}
-      )
-      find_library(${LIB_UPPER}_LIB ${LIB_NAME} ${FFTW_LIB_SEARCHPATH})
-      if(${LIB_UPPER}_LIB)
-        set(${LIB}_FOUND 1)
-        list(APPEND FFTWD_LIBRARIES ${${LIB_UPPER}_LIB})
-      else()
-        message(FATAL_ERROR "${LIB_NAME} not found.")
-      endif()
-    endforeach()
-    fftwd_libraries_end()
+    set(FFTWD_LIBRARIES MKL::MKL)
+    set(FFTWF_LIBRARIES MKL::MKL)
   else()
     get_filename_component(FFTW_INSTALL_BASE_PATH ${FFTW_INCLUDE_PATH} PATH)
     set(
@@ -278,9 +178,6 @@ if(_fftw_double OR _fftw_float)
       endif()
     endif()
   endif()
-  if(ITK_USE_MKL)
-    set(FFTWF_LIBRARIES ${FFTWD_LIBRARIES})
-  endif()
   set(_fftw_required_vars FFTW_INCLUDE)
   if(_fftw_double)
     list(APPEND _fftw_required_vars FFTWD_LIBRARIES)
@@ -325,13 +222,6 @@ if(_fftw_double OR _fftw_float)
             ${FFTW${_fftw_suffix}_LIBRARIES}
             ${_fftw_extra_libraries}
         )
-        if(ITK_USE_MKL)
-          target_compile_options(
-            FFTW::${_fftw_precision}
-            INTERFACE
-              ${MKL_OPTIONS}
-          )
-        endif()
       endif()
     endforeach()
   endif()

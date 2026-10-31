@@ -623,7 +623,7 @@ endif()
 #
 option(
   ITK_USE_MKL
-  "Use system Intel Math Kernel Library (MKL) for FFT computation."
+  "Use the FFTW interface of the system Intel oneAPI Math Kernel Library (oneMKL) for FFT computation."
   OFF
 )
 mark_as_advanced(ITK_USE_MKL)

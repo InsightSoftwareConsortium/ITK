@@ -40,51 +40,77 @@ if(ITK_USE_SYSTEM_FFTW)
   find_package(FFTW REQUIRED COMPONENTS ${_fftw_components})
   set(ITKFFTW_NO_SRC 1)
 
-  # Seed the app's cache with the files ITK found, unless the app provides FFTW_ROOT.
-  set(_fftw_hint_code "")
-  if(NOT ITK_USE_MKL AND NOT ITK_USE_CUFFTW)
-    foreach(
-      _fftw_var
-      IN
-      ITEMS
-        FFTW_INCLUDE_PATH
-        FFTWD_BASE_LIB
-        FFTWD_THREADS_LIB
-        FFTWF_BASE_LIB
-        FFTWF_THREADS_LIB
+  # Seed the app's cache with what ITK found; cache entries the app already set are kept.
+  # For FFTW and oneMKL, an app-provided root replaces the seeded hints.
+  set(_fftw_root_var FFTW_ROOT)
+  if(ITK_USE_MKL)
+    set(_fftw_root_var MKLROOT)
+    set(_fftw_hint_vars MKL_DIR)
+  elseif(ITK_USE_CUFFTW)
+    set(_fftw_root_var "")
+    set(
+      _fftw_hint_vars
+      CUFFTW_INCLUDE_PATH
+      CUFFT_LIB
+      CUFFTW_LIB
     )
-      if(${_fftw_var})
-        set(_fftw_type FILEPATH)
-        if(_fftw_var STREQUAL "FFTW_INCLUDE_PATH")
-          set(_fftw_type PATH)
-        endif()
-        string(
-          APPEND
-          _fftw_hint_code
-          "
-  set(${_fftw_var} \"${${_fftw_var}}\" CACHE ${_fftw_type} \"\")"
-        )
+  else()
+    set(
+      _fftw_hint_vars
+      FFTW_INCLUDE_PATH
+      FFTWD_BASE_LIB
+      FFTWD_THREADS_LIB
+      FFTWF_BASE_LIB
+      FFTWF_THREADS_LIB
+    )
+  endif()
+  set(_fftw_hint_code "")
+  foreach(_fftw_var IN LISTS _fftw_hint_vars)
+    if(${_fftw_var})
+      set(_fftw_type FILEPATH)
+      if(_fftw_var MATCHES "^(FFTW_INCLUDE_PATH|CUFFTW_INCLUDE_PATH|MKL_DIR)$")
+        set(_fftw_type PATH)
       endif()
-    endforeach()
+      string(
+        APPEND
+        _fftw_hint_code
+        "
+  set(${_fftw_var} \"${${_fftw_var}}\" CACHE ${_fftw_type} \"\")"
+      )
+    endif()
+  endforeach()
+  if(_fftw_hint_code AND _fftw_root_var)
     set(
       _fftw_hint_code
       "
-if(NOT DEFINED FFTW_ROOT AND NOT DEFINED ENV{FFTW_ROOT})${_fftw_hint_code}
+if(NOT DEFINED ${_fftw_root_var} AND NOT DEFINED ENV{${_fftw_root_var}})${_fftw_hint_code}
 endif()"
     )
   endif()
+  # The oneMKL link settings ITK used are the app's defaults, whichever installation it selects.
+  if(ITK_USE_MKL)
+    foreach(_fftw_var IN ITEMS MKL_LINK MKL_INTERFACE MKL_THREADING)
+      string(
+        APPEND
+        _fftw_hint_code
+        "
+  set(${_fftw_var} \"${${_fftw_var}}\" CACHE STRING \"\")"
+      )
+    endforeach()
+  endif()
 
   # When this module is loaded by an app, find FFTW with ITK's finder too.
+  # Inside a function only the FFTW:: imported targets reach the app, not FindFFTW's variables.
   set(
     _fftw_find_code
     "
-set(ITK_USE_MKL ${ITK_USE_MKL})
-set(ITK_USE_CUFFTW ${ITK_USE_CUFFTW})${_fftw_hint_code}
-set(_itk_fftw_module_path \"\${CMAKE_MODULE_PATH}\")
-list(PREPEND CMAKE_MODULE_PATH \"\${ITK_CMAKE_DIR}\")
-find_package(FFTW REQUIRED COMPONENTS ${_fftw_components})
-set(CMAKE_MODULE_PATH \"\${_itk_fftw_module_path}\")
-unset(_itk_fftw_module_path)
+function(_itk_fftw_find)
+  set(ITK_USE_MKL ${ITK_USE_MKL})
+  set(ITK_USE_CUFFTW ${ITK_USE_CUFFTW})${_fftw_hint_code}
+  list(PREPEND CMAKE_MODULE_PATH \"\${ITK_CMAKE_DIR}\")
+  find_package(FFTW REQUIRED COMPONENTS ${_fftw_components})
+endfunction()
+_itk_fftw_find()
 "
   )
   set(ITKFFTW_EXPORT_CODE_INSTALL "${_fftw_find_code}")
