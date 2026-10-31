@@ -19,6 +19,7 @@
 #include "itkCovarianceSampleFilter.h"
 #include "itkHistogram.h"
 #include "itkMahalanobisDistanceMetric.h"
+#include "itkTestingMacros.h"
 
 namespace itk::Statistics
 {
@@ -143,15 +144,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
 
   // test if exception is thrown if a derived class tries to create
   // an invalid output
-  try
-  {
-    filter->CreateInvalidOutput();
-    std::cerr << "Exception should have been thrown: " << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(filter->CreateInvalidOutput());
 
   filter->ResetPipeline();
   filter->SetInput(histogram);
