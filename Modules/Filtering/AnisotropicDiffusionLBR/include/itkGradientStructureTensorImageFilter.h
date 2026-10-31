@@ -21,8 +21,8 @@
 //
 //
 
-#ifndef itkStructureTensorImageFilter_h
-#define itkStructureTensorImageFilter_h
+#ifndef itkGradientStructureTensorImageFilter_h
+#define itkGradientStructureTensorImageFilter_h
 
 #include "itkCastImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
@@ -34,7 +34,7 @@
 namespace itk
 {
 /**
- * \class StructureTensorImageFilter
+ * \class GradientStructureTensorImageFilter
  *
  * \brief Computes the structure tensor.
  *
@@ -50,12 +50,12 @@ namespace itk
 template <typename TImage,
           typename TTensorImage = Image<SymmetricSecondRankTensor<typename TImage::PixelType, TImage::ImageDimension>,
                                         TImage::ImageDimension>>
-class StructureTensorImageFilter : public ImageToImageFilter<TImage, TTensorImage>
+class GradientStructureTensorImageFilter : public ImageToImageFilter<TImage, TTensorImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_MOVE(StructureTensorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientStructureTensorImageFilter);
 
-  using Self = StructureTensorImageFilter;
+  using Self = GradientStructureTensorImageFilter;
   using Superclass = ImageToImageFilter<TImage, TTensorImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -63,7 +63,7 @@ public:
   /// Method for creation through the object factory.
   itkNewMacro(Self);
   /// Run-time type information (and related methods).
-  itkOverrideGetNameOfClassMacro(StructureTensorImageFilter);
+  itkOverrideGetNameOfClassMacro(GradientStructureTensorImageFilter);
 
   using InputImageDimensionType = typename Superclass::InputImageType::ImageDimensionType;
   static constexpr InputImageDimensionType InputImageDimension = Superclass::InputImageType::ImageDimension;
@@ -146,13 +146,13 @@ protected:
     }
   };
 
-  StructureTensorImageFilter();
+  GradientStructureTensorImageFilter();
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkStructureTensorImageFilter.hxx"
+#  include "itkGradientStructureTensorImageFilter.hxx"
 #endif
 
 #endif

@@ -21,8 +21,8 @@
 //
 //
 
-#ifndef itkStructureTensorImageFilter_hxx
-#define itkStructureTensorImageFilter_hxx
+#ifndef itkGradientStructureTensorImageFilter_hxx
+#define itkGradientStructureTensorImageFilter_hxx
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
@@ -31,7 +31,7 @@ namespace itk
 {
 
 template <typename TImage, typename TTensorImage>
-StructureTensorImageFilter<TImage, TTensorImage>::StructureTensorImageFilter()
+GradientStructureTensorImageFilter<TImage, TTensorImage>::GradientStructureTensorImageFilter()
   : m_FeatureScale(2)
   , m_NoiseScale(1)
 {}
@@ -39,7 +39,7 @@ StructureTensorImageFilter<TImage, TTensorImage>::StructureTensorImageFilter()
 
 template <typename TImage, typename TTensorImage>
 void
-StructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispatch<true> &)
+GradientStructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispatch<true> &)
 {
   using GradientFilterType = GradientRecursiveGaussianImageFilter<TImage, Self::CovariantImageType>;
   typename GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
@@ -57,7 +57,7 @@ StructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispa
 
 template <typename TImage, typename TTensorImage>
 void
-StructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispatch<false> &)
+GradientStructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispatch<false> &)
 {
   typename Self::ImageType::ConstPointer  input = this->GetInput();
   typename Self::TensorImageType::Pointer output = Self::TensorImageType::New();
@@ -118,7 +118,7 @@ StructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispa
 
 template <typename TImage, typename TTensorImage>
 void
-StructureTensorImageFilter<TImage, TTensorImage>::GenerateData()
+GradientStructureTensorImageFilter<TImage, TTensorImage>::GenerateData()
 {
   this->IntermediateFilter(Dispatch<std::numeric_limits<PixelType>::is_specialized>());
 

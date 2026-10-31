@@ -1097,9 +1097,9 @@ written through the standard writer pipeline are **uncompressed by default**.
 Call `writer->UseCompressionOn()` to restore compressed output. To control the
 deflate level (1–9, default 5), also call `writer->SetCompressionLevel(N)`.
 
-## `StructureTensorImageFilter`: feature-scale smoothing is now isotropic
+## `GradientStructureTensorImageFilter`: feature-scale smoothing is now isotropic
 
-`StructureTensorImageFilter` computes the structure tensor
+`GradientStructureTensorImageFilter` computes the structure tensor
 `J_rho = K_rho * (grad(u_sigma) (x) grad(u_sigma))`, where `K_rho` is a Gaussian
 of standard deviation `rho` (the *feature scale*). The defining property of that
 smoothing step is that it is **isotropic**: the outer-product tensor field is
@@ -1125,10 +1125,15 @@ confined to the two feature/noise-scale smoothers.)
 
 ### What you need to do
 
-- **Nothing in your code changes.** The public API of
-  `StructureTensorImageFilter` is unchanged and consumers compile unmodified.
-- **Expect different output** from `StructureTensorImageFilter` and from the two
-  public filters built on it —
+- **Only code that names the tensor class changes.** The AnisotropicDiffusionLBR
+  class `StructureTensorImageFilter` is now `GradientStructureTensorImageFilter`
+  (header `itkGradientStructureTensorImageFilter.h`), because the
+  IsotropicWavelets module defined a different class with the same name. The
+  class was never wrapped for Python. Its interface is otherwise unchanged, and
+  `AnisotropicDiffusionLBRImageFilter` and
+  `CoherenceEnhancingDiffusionImageFilter` users need no edits.
+- **Expect different output** from `GradientStructureTensorImageFilter` and from
+  the two public filters built on it —
   `CoherenceEnhancingDiffusionImageFilter` (CED/EED) and
   `AnisotropicDiffusionLBRImageFilter`. The new tensors are isotropic, so
   coherence-enhancing and edge-enhancing diffusion now steer along genuinely

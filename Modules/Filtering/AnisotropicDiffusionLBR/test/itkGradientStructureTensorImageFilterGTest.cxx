@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkStructureTensorImageFilter.h"
+#include "itkGradientStructureTensorImageFilter.h"
 #include "itkImage.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -26,7 +26,7 @@ namespace
 {
 
 using ImageType = itk::Image<float, 2>;
-using FilterType = itk::StructureTensorImageFilter<ImageType>;
+using FilterType = itk::GradientStructureTensorImageFilter<ImageType>;
 
 constexpr itk::SizeValueType  imageSize = 64;
 constexpr itk::IndexValueType edge = 32;
@@ -62,7 +62,7 @@ TraceNearEdge(unsigned int stepAxis, FilterType::ScalarType featureScale)
 
 } // namespace
 
-TEST(StructureTensorImageFilter, FeatureScaleSmoothsAlongAllAxes)
+TEST(GradientStructureTensorImageFilter, FeatureScaleSmoothsAlongAllAxes)
 {
   // An edge varying along one axis responds to feature-scale smoothing on that
   // axis only; a per-axis regression would leave its delta at zero.
@@ -77,7 +77,7 @@ TEST(StructureTensorImageFilter, FeatureScaleSmoothsAlongAllAxes)
 // A constant image has zero gradients, so the tensor-trace maximum is zero; the
 // adimensionizing rescale must not divide by it and poison the tensors with NaN
 // (issue #6575, B23).
-TEST(StructureTensorImageFilter, ConstantImageYieldsFiniteZeroTensors)
+TEST(GradientStructureTensorImageFilter, ConstantImageYieldsFiniteZeroTensors)
 {
   auto image = ImageType::New();
   image->SetRegions(ImageType::RegionType{ ImageType::IndexType{}, ImageType::SizeType::Filled(16) });
