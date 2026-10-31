@@ -242,11 +242,8 @@ TEST(CovariantVector, GeometryOperations)
     auto * xp = reinterpret_cast<char *>(&x);
     for (unsigned int i = 0; i < sizeof(CovariantVectorType::ComponentType); ++i)
     {
-      if (compp[i] != xp[i])
-      {
-        std::cerr << "error -- bit pattern for CovariantVectorType::ComponentType doesn't match "
-                  << " double with same value" << std::endl;
-      }
+      EXPECT_EQ(compp[i], xp[i]) << "bit pattern for CovariantVectorType::ComponentType doesn't match "
+                                 << " double with same value";
     }
   }
 }
