@@ -69,7 +69,6 @@ set(
   itkStatisticsAlgorithmTest2.cxx
   itkSubsampleTest.cxx
   itkSubsampleTest2.cxx
-  itkSubsampleTest3.cxx
   itkUniformRandomSpatialNeighborSubsamplerTest.cxx
   itkWeightedCentroidKdTreeGeneratorTest1.cxx
   itkWeightedCentroidKdTreeGeneratorTest8.cxx
@@ -841,12 +840,6 @@ itk_add_test(
     itkSubsampleTest2
 )
 itk_add_test(
-  NAME itkSubsampleTest3
-  COMMAND
-    ITKStatisticsTestDriver
-    itkSubsampleTest3
-)
-itk_add_test(
   NAME itkStatisticsAlgorithmTest
   COMMAND
     ITKStatisticsTestDriver
@@ -929,6 +922,7 @@ set(
   itkSampleToHistogramFilterExceptionsGTest.cxx
   itkStandardDeviationPerComponentSampleFilterGTest.cxx
   itkStatisticsTypesGTest.cxx
+  itkSubsampleGTest3.cxx
   itkTDistributionGTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerGTest.cxx
   itkVectorContainerToListSampleAdaptorGTest.cxx
