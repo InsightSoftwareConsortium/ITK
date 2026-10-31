@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstShapedNeighborhoodIterator.h"
+#include <cstdio> // For puts.
 
 //
 // this is kind of a duff test, in that it doesn't fail w/the old code
@@ -64,7 +65,7 @@ itkConstShapedNeighborhoodIteratorTest2(int, char *[])
   MyDerivedCSNI<TestImageType>::RegionType          reg = { idx, sz };
 
   // initialize an iterator
-  println("Creating ConstShapedNeighborhoodIterator");
+  std::puts("Creating ConstShapedNeighborhoodIterator");
   MyDerivedCSNI<TestImageType> it(radius, img, reg);
   it.Print(std::cout);
   it.TestNewExposedProtectedMembers();

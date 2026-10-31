@@ -21,6 +21,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <iostream>
+#include <cstdio> // For puts.
 #include <cstring>
 #include <string_view>
 
@@ -57,15 +58,9 @@ lookup(const std::unordered_set<const char *, CStrHash, eqstr> & Set, const char
   std::cout << word << ": " << (it != Set.end() ? "present" : "not present") << std::endl;
 }
 
-inline void
-println(const char * s)
-{
-  std::cout << std::endl << s << std::endl;
-}
-
 TEST(HashTable, StdHash)
 {
-  println("Testing std::hash");
+  std::puts("Testing std::hash");
   constexpr std::hash<const char *> H;
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
@@ -79,7 +74,7 @@ TEST(HashTable, StdHash)
 
 TEST(HashTable, UnorderedSet)
 {
-  println("Testing std::unordered_set");
+  std::puts("Testing std::unordered_set");
   using HashSetType = std::unordered_set<const char *, CStrHash, eqstr>;
   HashSetType Set;
   Set.insert("kiwi");
@@ -111,7 +106,7 @@ TEST(HashTable, UnorderedSet)
 
 TEST(HashTable, UnorderedMap)
 {
-  println("Testing std::unordered_map");
+  std::puts("Testing std::unordered_map");
   using HashMapType = std::unordered_map<const char *, int, CStrHash, eqstr>;
 
   HashMapType months;

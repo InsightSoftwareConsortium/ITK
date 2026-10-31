@@ -19,6 +19,7 @@
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include <array>
+#include <cstdio> // For puts.
 
 void
 PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType> & n)
@@ -50,29 +51,29 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   itk::ConstShapedNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
 
   // initialize an iterator
-  println("Creating ConstShapedNeighborhoodIterator");
+  std::puts("Creating ConstShapedNeighborhoodIterator");
   itk::ConstShapedNeighborhoodIterator<TestImageType> it(radius, img, reg);
   it.Print(std::cout);
 
-  println("Moving iterator using SetLocation()");
+  std::puts("Moving iterator using SetLocation()");
   it.SetLocation(loc);
   it.Print(std::cout);
 
-  println("Testing GoToBegin()");
+  std::puts("Testing GoToBegin()");
   it.GoToBegin();
   it.Print(std::cout);
 
-  println("Testing IsAtBegin()");
+  std::puts("Testing IsAtBegin()");
   std::cout << it.IsAtBegin() << std::endl;
 
-  println("Testing GoToEnd()");
+  std::puts("Testing GoToEnd()");
   it.GoToEnd();
   it.Print(std::cout);
 
-  println("Testing IsAtEnd()");
+  std::puts("Testing IsAtEnd()");
   std::cout << it.IsAtEnd() << std::endl;
 
-  println("Testing forward iteration");
+  std::puts("Testing forward iteration");
   it.GoToBegin();
   itk::ConstShapedNeighborhoodIterator<TestImageType>::OffsetType off;
   off[0] = 0;
@@ -86,7 +87,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     ++it;
   }
 
-  println("Testing reverse iteration");
+  std::puts("Testing reverse iteration");
   it.GoToEnd();
   while (!it.IsAtBegin())
   {
@@ -94,7 +95,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     --it;
   }
 
-  println("Moving iterator: it.GoToBegin(); it += (1, 1, 1, 1)");
+  std::puts("Moving iterator: it.GoToBegin(); it += (1, 1, 1, 1)");
   it.GoToBegin();
   off[0] = 1;
   off[1] = 1;
@@ -103,16 +104,16 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it += off;
   PrintShapedNeighborhood(it);
 
-  println("Moving iterator: it -= (1, 1, 1, 1)");
+  std::puts("Moving iterator: it -= (1, 1, 1, 1)");
   it -= off;
   PrintShapedNeighborhood(it);
 
-  println("Moving iterator using SetLocation()");
+  std::puts("Moving iterator using SetLocation()");
   it.SetLocation(loc);
   it.Print(std::cout);
 
-  println("Initializing ConstShapedNeighborhoodIterator");
-  println("...turn on [0,0,0,0], the center pixel");
+  std::puts("Initializing ConstShapedNeighborhoodIterator");
+  std::puts("...turn on [0,0,0,0], the center pixel");
   off[0] = 0;
   off[1] = 0;
   off[2] = 0;
@@ -122,7 +123,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
   for (unsigned int r = 0; r < 1; ++r)
   {
-    println("...turn on [1,0,0,0]");
+    std::puts("...turn on [1,0,0,0]");
     off[0] = 1;
     off[1] = 0;
     off[2] = 0;
@@ -130,7 +131,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [1,0,0,0] again");
+    std::puts("...turn on [1,0,0,0] again");
     off[0] = 1;
     off[1] = 0;
     off[2] = 0;
@@ -138,7 +139,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [-1,0,0,0]");
+    std::puts("...turn on [-1,0,0,0]");
     off[0] = -1;
     off[1] = 0;
     off[2] = 0;
@@ -146,7 +147,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [0,-1,0,0]");
+    std::puts("...turn on [0,-1,0,0]");
     off[0] = 0;
     off[1] = -1;
     off[2] = 0;
@@ -154,7 +155,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [0,1,0,0]");
+    std::puts("...turn on [0,1,0,0]");
     off[0] = 0;
     off[1] = 1;
     off[2] = 0;
@@ -162,7 +163,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn off [-1,0,0,0]");
+    std::puts("...turn off [-1,0,0,0]");
     off[0] = -1;
     off[1] = 0;
     off[2] = 0;
@@ -170,7 +171,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.DeactivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn off [1,0,0,0]");
+    std::puts("...turn off [1,0,0,0]");
     off[0] = 1;
     off[1] = 0;
     off[2] = 0;
@@ -178,7 +179,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.DeactivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn off [0,1,0,0]");
+    std::puts("...turn off [0,1,0,0]");
     off[0] = 0;
     off[1] = 1;
     off[2] = 0;
@@ -186,7 +187,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.DeactivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn off [0,-1,0,0]");
+    std::puts("...turn off [0,-1,0,0]");
     off[0] = 0;
     off[1] = -1;
     off[2] = 0;
@@ -194,7 +195,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.DeactivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn off [0,-1,0,0] again");
+    std::puts("...turn off [0,-1,0,0] again");
     off[0] = 0;
     off[1] = -1;
     off[2] = 0;
@@ -202,7 +203,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.DeactivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn off [0,0 ,0,0]");
+    std::puts("...turn off [0,0 ,0,0]");
     off[0] = 0;
     off[1] = 0;
     off[2] = 0;
@@ -210,7 +211,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.DeactivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [1,0,0,0]");
+    std::puts("...turn on [1,0,0,0]");
     off[0] = 1;
     off[1] = 0;
     off[2] = 0;
@@ -218,7 +219,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [1,0,0,0] again");
+    std::puts("...turn on [1,0,0,0] again");
     off[0] = 1;
     off[1] = 0;
     off[2] = 0;
@@ -226,7 +227,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [-1,0,0,0]");
+    std::puts("...turn on [-1,0,0,0]");
     off[0] = -1;
     off[1] = 0;
     off[2] = 0;
@@ -234,7 +235,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println("...turn on [0,-1,0,0]");
+    std::puts("...turn on [0,-1,0,0]");
     off[0] = 0;
     off[1] = -1;
     off[2] = 0;
@@ -242,14 +243,14 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     it.ActivateOffset(off);
     it.Print(std::cout);
 
-    println(" Testing it.ClearActiveList() ");
+    std::puts(" Testing it.ClearActiveList() ");
     it.ClearActiveList();
     it.Print(std::cout);
 
-    println(" NOW REPEAT ");
+    std::puts(" NOW REPEAT ");
   }
 
-  println("...turn on [1,0,0,0]");
+  std::puts("...turn on [1,0,0,0]");
   off[0] = 1;
   off[1] = 0;
   off[2] = 0;
@@ -257,7 +258,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [1,0,0,0] again");
+  std::puts("...turn on [1,0,0,0] again");
   off[0] = 1;
   off[1] = 0;
   off[2] = 0;
@@ -265,7 +266,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [-1,0,0,0]");
+  std::puts("...turn on [-1,0,0,0]");
   off[0] = -1;
   off[1] = 0;
   off[2] = 0;
@@ -273,7 +274,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [0,-1,0,0]");
+  std::puts("...turn on [0,-1,0,0]");
   off[0] = 0;
   off[1] = -1;
   off[2] = 0;
@@ -281,7 +282,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [0,1,0,0]");
+  std::puts("...turn on [0,1,0,0]");
   off[0] = 0;
   off[1] = 1;
   off[2] = 0;
@@ -291,7 +292,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
   std::cout << "it.GetActiveIndexListSize()=" << it.GetActiveIndexListSize();
 
-  println("Testing GetActiveIndexList()");
+  std::puts("Testing GetActiveIndexList()");
   itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexListType l = it.GetActiveIndexList();
   auto                                                               ali = l.begin();
   while (ali != l.end())
@@ -301,9 +302,9 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   }
   std::cout << std::endl;
 
-  println("Testing const iteration through the neighborhood.");
+  std::puts("Testing const iteration through the neighborhood.");
   {
-    println("Testing using IsAtEnd()");
+    std::puts("Testing using IsAtEnd()");
     itk::ConstShapedNeighborhoodIterator<TestImageType>::ConstIterator ci = it.Begin();
     while (!ci.IsAtEnd())
     {
@@ -312,13 +313,13 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     }
   }
 
-  println("Testing using != it.End()");
+  std::puts("Testing using != it.End()");
   for (auto ci = it.Begin(); ci != it.End(); ++ci)
   {
     std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
   }
 
-  println("Testing reverse iteration using != it.Begin()");
+  std::puts("Testing reverse iteration using != it.Begin()");
   auto ci = it.End();
   --ci;
   while (ci != it.Begin())
@@ -331,8 +332,8 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   std::cout << std::endl;
   std::cout << "------------------------------" << std::endl;
   std::cout << std::endl;
-  println("Testing activating and deactivating pixels on-the-fly");
-  println("it.GoToBegin(); it.ClearActiveList();  Activate 1 0 0 0 and -1 0 0 0 and 0 0 0 0");
+  std::puts("Testing activating and deactivating pixels on-the-fly");
+  std::puts("it.GoToBegin(); it.ClearActiveList();  Activate 1 0 0 0 and -1 0 0 0 and 0 0 0 0");
   it.GoToBegin();
   it.ClearActiveList();
   off[0] = -1;
@@ -355,19 +356,19 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
   PrintShapedNeighborhood(it);
 
-  println("Move the neighborhood two pixels using operator ++");
+  std::puts("Move the neighborhood two pixels using operator ++");
   ++it;
   ++it;
   PrintShapedNeighborhood(it);
 
-  println("Clear the active list");
+  std::puts("Clear the active list");
   it.ClearActiveList();
   PrintShapedNeighborhood(it);
 
-  println("Move the neighborhood one pixel using operator ++");
+  std::puts("Move the neighborhood one pixel using operator ++");
   ++it;
 
-  println("Reactivate the same indices");
+  std::puts("Reactivate the same indices");
   off[0] = -1;
   off[1] = 0;
   off[2] = 0;
@@ -386,7 +387,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
   PrintShapedNeighborhood(it);
 
-  println("Activate 0 1 0 0");
+  std::puts("Activate 0 1 0 0");
   off[0] = 0;
   off[1] = 1;
   off[2] = 0;
@@ -394,7 +395,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   PrintShapedNeighborhood(it);
 
-  println("Testing operator=");
+  std::puts("Testing operator=");
   itk::ConstShapedNeighborhoodIterator<TestImageType> oeIt;
   oeIt = it;
   PrintShapedNeighborhood(it);

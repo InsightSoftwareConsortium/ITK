@@ -19,6 +19,7 @@
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkFlatStructuringElement.h"
+#include <cstdio> // For puts.
 
 int
 itkShapedNeighborhoodIteratorTest(int, char *[])
@@ -40,18 +41,18 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   itk::ShapedNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
 
   // initialize an iterator
-  println("Creating ShapedNeighborhoodIterator");
+  std::puts("Creating ShapedNeighborhoodIterator");
   itk::ShapedNeighborhoodIterator<TestImageType> it(radius, img, reg);
   it.Print(std::cout);
 
-  println("Moving iterator using SetLocation()");
+  std::puts("Moving iterator using SetLocation()");
   it.SetLocation(loc);
   it.Print(std::cout);
 
-  println("Initializing ShapedNeighborhoodIterator");
+  std::puts("Initializing ShapedNeighborhoodIterator");
 
-  println("Activating some offsets");
-  println("...turn on [0,0,0,0], the center pixel");
+  std::puts("Activating some offsets");
+  std::puts("...turn on [0,0,0,0], the center pixel");
   itk::ShapedNeighborhoodIterator<TestImageType>::OffsetType off;
   off[0] = 0;
   off[1] = 0;
@@ -60,7 +61,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [1,0,0,0]");
+  std::puts("...turn on [1,0,0,0]");
   off[0] = 1;
   off[1] = 0;
   off[2] = 0;
@@ -68,7 +69,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [1,0,0,0] again");
+  std::puts("...turn on [1,0,0,0] again");
   off[0] = 1;
   off[1] = 0;
   off[2] = 0;
@@ -76,7 +77,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [-1,0,0,0]");
+  std::puts("...turn on [-1,0,0,0]");
   off[0] = -1;
   off[1] = 0;
   off[2] = 0;
@@ -84,7 +85,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [0,-1,0,0]");
+  std::puts("...turn on [0,-1,0,0]");
   off[0] = 0;
   off[1] = -1;
   off[2] = 0;
@@ -92,7 +93,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("...turn on [0,1,0,0]");
+  std::puts("...turn on [0,1,0,0]");
   off[0] = 0;
   off[1] = 1;
   off[2] = 0;
@@ -100,10 +101,10 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  println("Testing iteration through the neighborhood.");
+  std::puts("Testing iteration through the neighborhood.");
   {
     itk::ShapedNeighborhoodIterator<TestImageType>::Iterator ci = it.Begin();
-    println("Testing using IsAtEnd()");
+    std::puts("Testing using IsAtEnd()");
     while (!ci.IsAtEnd())
     {
       std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
@@ -111,14 +112,14 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     }
   }
 
-  println("Testing using != it.End()");
+  std::puts("Testing using != it.End()");
   for (auto ci = it.Begin(); ci != it.End(); ++ci)
   {
     std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
   }
 
   {
-    println("Testing reverse iteration using != it.Begin()");
+    std::puts("Testing reverse iteration using != it.Begin()");
     auto ci = it.End();
     --ci;
     while (ci != it.Begin())
@@ -129,7 +130,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
   }
 
-  println("Testing read through GetPixel(itk::Offset(0,0,0,0))");
+  std::puts("Testing read through GetPixel(itk::Offset(0,0,0,0))");
   TestImageType::IndexType voff;
   voff[0] = 1;
   voff[1] = 1;
@@ -141,10 +142,10 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   off[3] = 0;
   std::cout << it.GetPixel(off) << std::endl;
 
-  println("Testing read through GetPixel(unsigned int)");
+  std::puts("Testing read through GetPixel(unsigned int)");
   std::cout << it.GetPixel(it.GetNeighborhoodIndex(off)) << std::endl;
 
-  println("Testing write through iterator dereference");
+  std::puts("Testing write through iterator dereference");
   for (auto ci = it.Begin(); ci != it.End(); ++ci)
   {
     ci.Set(voff);
@@ -155,7 +156,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   }
 
 
-  println("Testing write through SetPixel(itk::Offset(0,0,0,0))");
+  std::puts("Testing write through SetPixel(itk::Offset(0,0,0,0))");
   voff[0] = 45000;
   it.SetPixel(off, voff);
   for (auto ci = it.Begin(); ci != it.End(); ++ci)
@@ -163,7 +164,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
   }
 
-  println("Testing iteration through the image");
+  std::puts("Testing iteration through the image");
   off[0] = 0;
   off[1] = 0;
   off[2] = 0;
@@ -173,7 +174,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     std::cout << it.GetPixel(off) << std::endl;
   }
 
-  println("Testing reverse iteration through the image");
+  std::puts("Testing reverse iteration through the image");
   off[0] = 0;
   off[1] = 0;
   off[2] = 0;
@@ -184,7 +185,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   }
   std::cout << it.GetPixel(off) << std::endl;
 
-  println("Testing interoperability with FlatStructuringElement");
+  std::puts("Testing interoperability with FlatStructuringElement");
   using StructuringElementType = itk::FlatStructuringElement<4>;
   constexpr StructuringElementType::RadiusType   radius2{ StructuringElementType::RadiusType::Filled(2) };
   const StructuringElementType                   kernel = StructuringElementType::Cross(radius2);
@@ -196,7 +197,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
   }
 
-  println("testing operator=");
+  std::puts("testing operator=");
   itk::ShapedNeighborhoodIterator<TestImageType> oeIt;
   oeIt = it;
 

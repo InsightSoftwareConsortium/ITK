@@ -20,15 +20,10 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkGTest.h"
+#include <cstdio> // For puts.
 
 namespace
 {
-void
-println(const char * c)
-{
-  std::cout << std::endl << c << std::endl;
-}
-
 template <typename TPixel>
 void
 printn(itk::NeighborhoodAllocator<TPixel> & n, const itk::Size<2> & sz)
@@ -70,7 +65,7 @@ TEST(BoundaryCondition, ConstantBoundaryAtImageEdge)
 {
   using ImageType2D = itk::Image<float, 2>;
 
-  println("Creating some images");
+  std::puts("Creating some images");
 
   itk::ImageRegion<2> Region2D;
   itk::Size<2>        size2D;
@@ -86,10 +81,10 @@ TEST(BoundaryCondition, ConstantBoundaryAtImageEdge)
   image2D->SetRegions(Region2D);
   image2D->Allocate();
 
-  println("Initializing some images");
+  std::puts("Initializing some images");
   filln(image2D);
 
-  println("Initializing smart neighborhood iterators");
+  std::puts("Initializing smart neighborhood iterators");
   itk::Size<2> sz2;
   sz2[0] = 2;
   sz2[1] = 1;

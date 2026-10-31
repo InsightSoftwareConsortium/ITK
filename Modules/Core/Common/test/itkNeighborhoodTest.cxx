@@ -18,59 +18,54 @@
 
 #include "itkNeighborhood.h"
 #include "itkVector.h"
+#include <cstdio> // For puts.
 
-
-static void
-println(const char * s)
-{
-  std::cout << std::endl << s << std::endl;
-}
 
 int
 itkNeighborhoodTest(int, char *[])
 {
-  println("TESTING WITH VNL_VECTOR ALLOCATOR");
+  std::puts("TESTING WITH VNL_VECTOR ALLOCATOR");
   itk::Neighborhood<float, 2, vnl_vector<float>> b;
   b.SetRadius(3);
 
-  println("Test data access");
+  std::puts("Test data access");
   for (unsigned int i = 0; i < b.Size(); ++i)
   {
     b[i] = static_cast<float>(i);
   }
   b.Print(std::cout);
 
-  println("Test non_const iterators");
+  std::puts("Test non_const iterators");
   for (itk::Neighborhood<float, 2>::Iterator it = b.Begin(); it < b.End(); ++it)
   {
     *it = 4.0f;
   }
   b.Print(std::cout);
 
-  println("Test const_iterators");
+  std::puts("Test const_iterators");
   for (itk::Neighborhood<float, 2>::ConstIterator itc = b.Begin(); itc < b.End(); ++itc)
   {
     std::cout << *itc << ' ';
   }
 
-  println("Copy the buffer into a vnl_vector");
+  std::puts("Copy the buffer into a vnl_vector");
   vnl_vector<float> v = b.GetBufferReference();
   v[2] = 0.0f;
   std::cout << &v << std::endl;
   b.Print(std::cout); // b unmodified
 
-  println("Pointer to the buffer with a const vnl_vector");
+  std::puts("Pointer to the buffer with a const vnl_vector");
   const vnl_vector<float> & vcp = b.GetBufferReference();
   std::cout << &vcp << std::endl;
   std::cout << vcp;
 
-  println("Point to the buffer using a vnl_vector");
+  std::puts("Point to the buffer using a vnl_vector");
   vnl_vector<float> & vp = b.GetBufferReference();
   std::cout << &vp << std::endl;
   vp[2] = 0.0f;
   b.Print(std::cout); // b modified
 
-  println("TESTING WITH DEFAULT ALLOCATOR");
+  std::puts("TESTING WITH DEFAULT ALLOCATOR");
   itk::Neighborhood<float, 2> q;
   itk::Size<2>                rad;
   rad[0] = 3;
@@ -78,30 +73,30 @@ itkNeighborhoodTest(int, char *[])
   q.SetRadius(rad);
   q.Print(std::cout);
 
-  println("Testing assignment operator");
+  std::puts("Testing assignment operator");
   const itk::Neighborhood<float, 2> p = q;
   p.Print(std::cout);
 
-  println("Testing copy constructor");
+  std::puts("Testing copy constructor");
   const itk::Neighborhood<float, 2> r(q);
   r.Print(std::cout);
 
-  println("Testing instantiation with itk::Vector");
+  std::puts("Testing instantiation with itk::Vector");
   itk::Neighborhood<itk::Vector<float, 3>, 2> s;
   s.SetRadius(rad);
   s.Print(std::cout);
 
-  println("Testing stride lengths");
+  std::puts("Testing stride lengths");
   itk::Neighborhood<float, 2> stride_2d;
   stride_2d.SetRadius(1);
   stride_2d.Print(std::cout);
 
-  println("3d");
+  std::puts("3d");
   itk::Neighborhood<float, 3> stride_3d;
   stride_3d.SetRadius(1);
   stride_3d.Print(std::cout);
 
-  println("Printing the indices of the 8 neighbors");
+  std::puts("Printing the indices of the 8 neighbors");
   std::cout << stride_3d.GetOffset(4) << std::endl;
   std::cout << stride_3d.GetOffset(10) << std::endl;
   std::cout << stride_3d.GetOffset(12) << std::endl;
@@ -111,7 +106,7 @@ itkNeighborhoodTest(int, char *[])
   std::cout << stride_3d.GetOffset(22) << std::endl;
 
 
-  println("ANOTHER TEST");
+  std::puts("ANOTHER TEST");
   itk::Neighborhood<float, 2> q2;
   q2.SetRadius(3);
   q2.Print(std::cout);
