@@ -138,7 +138,7 @@ operator<<(std::ostream & os, const FixedArray<TValue, VLength> & arr)
   }
   else
   {
-    for (int i = 0; i < static_cast<int>(VLength) - 1; ++i)
+    for (unsigned int i = 0; i + 1 < VLength; ++i)
     {
       os << arr[i] << ", ";
     }
