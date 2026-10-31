@@ -835,6 +835,8 @@ set(
 set(ITK_MODULES_DIR \"${ITK_MODULES_DIR}\")"
 )
 
+# Backslashes in a user-supplied Python3_EXECUTABLE are invalid escapes in the generated file.
+file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" ITK_CONFIG_PYTHON3_EXECUTABLE)
 set(ITK_CONFIG_TARGETS_CONDITION " AND NOT ITK_BINARY_DIR")
 set(ITK_CONFIG_TARGETS_FILE "${ITK_BINARY_DIR}/ITKTargets.cmake")
 set(ITK_CONFIG_MODULE_API_FILE "${ITK_SOURCE_DIR}/CMake/ITKModuleAPI.cmake")
