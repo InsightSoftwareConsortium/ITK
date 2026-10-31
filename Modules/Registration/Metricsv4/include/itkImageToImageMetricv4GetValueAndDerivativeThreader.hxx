@@ -18,7 +18,10 @@
 #ifndef itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 #define itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkIndexRange.h"
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  include "itkImageRegionConstIteratorWithIndex.h"
+#endif
 
 namespace itk
 {
@@ -31,9 +34,10 @@ ImageToImageMetricv4GetValueAndDerivativeThreader<
 {
   const typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
   VirtualPointType                              virtualPoint;
-  for (ImageRegionConstIteratorWithIndex it(virtualImage, imageSubRegion); !it.IsAtEnd(); ++it)
+  // The virtual image is never allocated, so iterate its indices rather than its pixels.
+  for (const VirtualIndexType & virtualIndex :
+       ImageRegionIndexRange<TImageToImageMetricv4::VirtualImageDimension>(imageSubRegion))
   {
-    const VirtualIndexType & virtualIndex = it.GetIndex();
     virtualImage->TransformIndexToPhysicalPoint(virtualIndex, virtualPoint);
     this->ProcessVirtualPoint(virtualIndex, virtualPoint, threadId);
   }
