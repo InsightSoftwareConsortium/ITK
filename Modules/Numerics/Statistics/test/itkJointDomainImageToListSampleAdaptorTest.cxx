@@ -21,6 +21,7 @@
 #include "itkJointDomainImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkJointDomainImageToListSampleAdaptorTest(int, char *[])
@@ -64,59 +65,19 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   using JointDomainImageToListSampleAdaptorType = itk::Statistics::JointDomainImageToListSampleAdaptor<ImageType>;
   auto adaptor = JointDomainImageToListSampleAdaptorType::New();
   // Test if the methods throw exceptions if invoked before setting the image
-  try
-  {
-    // calling Size() method prematurely in order to trigger an exception.
-    adaptor->Size();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
-  try
-  {
-    // calling GetTotalFrequency() method prematurely in order to trigger an exception.
-    adaptor->GetTotalFrequency();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  // calling Size() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->Size());
+  // calling GetTotalFrequency() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetTotalFrequency());
 
-  try
-  {
-    // calling GetMeasurementVector() method prematurely in order to trigger an exception.
-    adaptor->GetMeasurementVector(0);
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  // calling GetMeasurementVector() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetMeasurementVector(0));
 
-  try
-  {
-    // calling GetImage() method prematurely in order to trigger an exception.
-    adaptor->GetImage();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  // calling GetImage() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetImage());
 
-  try
-  {
-    // calling GetFrequency() method prematurely in order to trigger an exception.
-    adaptor->GetFrequency(0);
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
+  // calling GetFrequency() method prematurely in order to trigger an exception.
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetFrequency(0));
 
 
   adaptor->SetImage(image);
