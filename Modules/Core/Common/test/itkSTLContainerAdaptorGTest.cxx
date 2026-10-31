@@ -86,6 +86,7 @@ DoSTLContainerAdaptorTest(int, char *[])
       if (it != vectorSource.end() || cIter != vectorContainer->End())
       {
         std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        return EXIT_FAILURE;
       }
       std::cout << "Passed !" << std::endl;
 
@@ -134,6 +135,7 @@ DoSTLContainerAdaptorTest(int, char *[])
       if (it != destination.end() || cIter != vectorContainer->End())
       {
         std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        return EXIT_FAILURE;
       }
       std::cout << "Passed !" << std::endl;
 
@@ -211,6 +213,7 @@ DoSTLContainerAdaptorTest(int, char *[])
       if (it != mapSource.end() || cIter != mapContainer->End())
       {
         std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        return EXIT_FAILURE;
       }
       std::cout << "Passed !" << std::endl;
 
@@ -262,6 +265,7 @@ DoSTLContainerAdaptorTest(int, char *[])
       if (it != destination.end() || cIter != mapContainer->End())
       {
         std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        return EXIT_FAILURE;
       }
       std::cout << "Passed !" << std::endl;
 
