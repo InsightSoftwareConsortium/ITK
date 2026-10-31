@@ -238,6 +238,7 @@ itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
+    return EXIT_FAILURE;
   }
 
   return EXIT_SUCCESS;
