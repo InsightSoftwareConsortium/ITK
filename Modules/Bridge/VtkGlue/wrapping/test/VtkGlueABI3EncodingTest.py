@@ -36,6 +36,8 @@ its wrapped types heap types.
 import re
 import sys
 
+# itk registers VTK's DLL directory on Windows, so it is imported before vtkmodules.
+import itk  # noqa: F401
 from vtkmodules.vtkCommonDataModel import vtkImageData, vtkPolyData
 from vtkmodules.vtkIOImage import vtkImageExport, vtkImageImport
 

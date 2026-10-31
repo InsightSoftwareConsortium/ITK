@@ -27,9 +27,9 @@ bypass both, so they are deliberately not used here.
 import sys
 
 import numpy as np
-from vtkmodules.vtkCommonDataModel import vtkImageData
 
 import itk
+from vtkmodules.vtkCommonDataModel import vtkImageData
 
 Dimension = 2
 PixelType = itk.F
