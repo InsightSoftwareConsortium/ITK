@@ -34,7 +34,6 @@ set(
   itkImageRegistrationMethodTest_9.cxx
   itkImageToSpatialObjectRegistrationTest.cxx
   itkKappaStatisticImageToImageMetricTest.cxx
-  itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
   itkLandmarkBasedTransformInitializerTest.cxx
   itkMatchCardinalityImageToImageMetricTest.cxx
   itkMattesMutualInformationImageToImageMetricTest.cxx
@@ -48,7 +47,6 @@ set(
   itkMultiResolutionImageRegistrationMethodTest_2.cxx
   itkMultiResolutionPyramidImageFilterTest.cxx
   itkMutualInformationHistogramImageToImageMetricTest.cxx
-  itkMutualInformationMetricTest.cxx
   itkNormalizedCorrelationImageMetricTest.cxx
   itkNormalizedCorrelationPointSetToImageMetricTest.cxx
   itkNormalizedMutualInformationHistogramImageToImageMetricTest.cxx
@@ -248,12 +246,6 @@ itk_add_test(
     itkNormalizedCorrelationPointSetToImageMetricTest
 )
 itk_add_test(
-  NAME itkKullbackLeiblerCompareHistogramImageToImageMetricTest
-  COMMAND
-    ITKRegistrationCommonTestDriver
-    itkKullbackLeiblerCompareHistogramImageToImageMetricTest
-)
-itk_add_test(
   NAME itkNormalizedMutualInformationHistogramImageToImageMetricTest
   COMMAND
     ITKRegistrationCommonTestDriver
@@ -440,12 +432,6 @@ itk_add_test(
     itkMeanSquaresImageMetricTest
 )
 itk_add_test(
-  NAME itkMutualInformationMetricTest
-  COMMAND
-    ITKRegistrationCommonTestDriver
-    itkMutualInformationMetricTest
-)
-itk_add_test(
   NAME itkPointSetToPointSetRegistrationTest
   COMMAND
     ITKRegistrationCommonTestDriver
@@ -509,6 +495,8 @@ itk_add_test(
 set(
   ITKRegistrationGTests
   itkGradientDifferenceImageToImageMetricGTest.cxx
+  itkKullbackLeiblerCompareHistogramImageToImageMetricGTest.cxx
+  itkMutualInformationMetricGTest.cxx
   itkTransformInitializersGTest.cxx
 )
 creategoogletestdriver(ITKRegistration "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationGTests}")

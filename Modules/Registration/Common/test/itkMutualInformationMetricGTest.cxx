@@ -20,6 +20,7 @@
 
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkTimeProbesCollectorBase.h"
+#include "itkGTest.h"
 
 #include <iostream>
 
@@ -32,8 +33,7 @@
  *
  */
 
-int
-itkMutualInformationMetricTest(int, char *[])
+TEST(MutualInformationMetric, ConvertedLegacyTest)
 {
 
   //------------------------------------------------------------
@@ -225,17 +225,13 @@ itkMutualInformationMetricTest(int, char *[])
   std::cout << "Try causing an exception by making standard deviation too small";
   std::cout << std::endl;
   metric->SetFixedImageStandardDeviation(0.001);
-  try
-  {
-    metric->Initialize();
-    std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught the exception." << std::endl;
-    std::cout << err << std::endl;
-  }
+  EXPECT_THROW(
+    {
+      metric->Initialize();
+      std::cout << "Value = " << metric->GetValue(parameters);
+      std::cout << std::endl;
+    },
+    itk::ExceptionObject);
 
   // reset standard deviation
   metric->SetFixedImageStandardDeviation(5.0);
@@ -243,18 +239,11 @@ itkMutualInformationMetricTest(int, char *[])
   std::cout << "Try causing an exception by making fixed image nullptr";
   std::cout << std::endl;
   metric->SetFixedImage(nullptr);
-  try
-  {
-    metric->Initialize();
-    std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught the exception." << std::endl;
-    std::cout << err << std::endl;
-  }
-
-
-  return EXIT_SUCCESS;
+  EXPECT_THROW(
+    {
+      metric->Initialize();
+      std::cout << "Value = " << metric->GetValue(parameters);
+      std::cout << std::endl;
+    },
+    itk::ExceptionObject);
 }

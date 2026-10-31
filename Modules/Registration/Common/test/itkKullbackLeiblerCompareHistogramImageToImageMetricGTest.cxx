@@ -20,6 +20,7 @@
 
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkTimeProbesCollectorBase.h"
+#include "itkGTest.h"
 
 #include <iostream>
 
@@ -32,8 +33,7 @@
  *
  */
 
-int
-itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
+TEST(KullbackLeiblerCompareHistogramImageToImageMetric, ConvertedLegacyTest)
 {
 
   //------------------------------------------------------------
@@ -318,17 +318,11 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   std::cout << "Try causing an exception by making fixed image nullptr";
   std::cout << std::endl;
   metric->SetFixedImage(nullptr);
-  try
-  {
-    metric->Initialize();
-    std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught the exception." << std::endl;
-    std::cout << err << std::endl;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_THROW(
+    {
+      metric->Initialize();
+      std::cout << "Value = " << metric->GetValue(parameters);
+      std::cout << std::endl;
+    },
+    itk::ExceptionObject);
 }
