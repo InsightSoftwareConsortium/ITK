@@ -11,5 +11,6 @@ itk_module(
     ITKMetricsv4
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )

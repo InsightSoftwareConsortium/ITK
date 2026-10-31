@@ -164,12 +164,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
     for (SizeValueType indct = i; indct < hoodlen; indct += (diameter + NumericTraits<SizeValueType>::OneValue()))
     {
-      typename ScanIteratorType::OffsetType internalIndex;
-      typename ScanIteratorType::OffsetType offset;
-      const bool                            isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
-      if (!isInBounds)
+      if (!scanIt.IndexInBounds(indct))
       {
-        // std::cout << "DEBUG: error" << std::endl;
         continue;
       }
 
@@ -248,11 +244,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   for (SizeValueType indct = diameter; indct < hoodlen; indct += (diameter + NumericTraits<SizeValueType>::OneValue()))
   {
-    typename ScanIteratorType::OffsetType internalIndex;
-    typename ScanIteratorType::OffsetType offset;
-    const bool                            isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
-
-    if (!isInBounds)
+    if (!scanIt.IndexInBounds(indct))
     {
       continue;
     }

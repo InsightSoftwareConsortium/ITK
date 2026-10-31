@@ -48,22 +48,7 @@ template <typename TImage>
 void
 ImageRandomConstIteratorWithIndex<TImage>::RandomJump()
 {
-  using PositionValueType = IndexValueType;
-
-  auto position = static_cast<PositionValueType>(
-    m_Generator->GetVariateWithOpenRange(static_cast<double>(m_NumberOfPixelsInRegion) - 0.5));
-
-  const SizeType regionSize = this->m_Region.GetSize();
-
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
-  {
-    const SizeValueType     sizeInThisDimension = regionSize[dim];
-    const PositionValueType residual = position % sizeInThisDimension;
-    this->m_PositionIndex[dim] = residual + this->m_BeginIndex[dim];
-    position -= residual;
-    position /= sizeInThisDimension;
-  }
-
+  this->m_PositionIndex = detail::RandomIndexInRegion(*m_Generator, this->m_Region);
   this->m_Position = this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(this->m_PositionIndex);
 }
 } // end namespace itk
