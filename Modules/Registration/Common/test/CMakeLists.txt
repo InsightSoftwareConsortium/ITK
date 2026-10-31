@@ -34,7 +34,6 @@ set(
   itkImageRegistrationMethodTest_9.cxx
   itkImageToSpatialObjectRegistrationTest.cxx
   itkKappaStatisticImageToImageMetricTest.cxx
-  itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
   itkLandmarkBasedTransformInitializerTest.cxx
   itkMatchCardinalityImageToImageMetricTest.cxx
   itkMattesMutualInformationImageToImageMetricTest.cxx
@@ -245,12 +244,6 @@ itk_add_test(
   COMMAND
     ITKRegistrationCommonTestDriver
     itkNormalizedCorrelationPointSetToImageMetricTest
-)
-itk_add_test(
-  NAME itkKullbackLeiblerCompareHistogramImageToImageMetricTest
-  COMMAND
-    ITKRegistrationCommonTestDriver
-    itkKullbackLeiblerCompareHistogramImageToImageMetricTest
 )
 itk_add_test(
   NAME itkNormalizedMutualInformationHistogramImageToImageMetricTest
@@ -502,6 +495,7 @@ itk_add_test(
 set(
   ITKRegistrationGTests
   itkGradientDifferenceImageToImageMetricGTest.cxx
+  itkKullbackLeiblerCompareHistogramImageToImageMetricGTest.cxx
   itkMutualInformationMetricGTest.cxx
   itkTransformInitializersGTest.cxx
 )
