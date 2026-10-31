@@ -77,6 +77,7 @@ foreach(_f IN LISTS _vti_gtest_fixtures)
   list(APPEND _vti_gtest_staged "${_dst}")
 endforeach()
 add_custom_target(ITKIOVTKGTestFixtures DEPENDS ${_vti_gtest_staged})
+add_dependencies(ITKIOVTKGTestFixtures ITKData)
 add_dependencies(ITKIOVTKGTestDriver ITKIOVTKGTestFixtures)
 target_compile_definitions(
   ITKIOVTKGTestDriver

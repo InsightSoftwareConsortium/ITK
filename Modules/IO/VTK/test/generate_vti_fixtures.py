@@ -2,9 +2,11 @@
 """Generate synthetic .vti test fixtures for VTIImageIO regression tests.
 
 Writes small, deterministic VTK XML ImageData (.vti) files plus MetaIO
-(.mhd + .raw) oracles under Modules/IO/VTK/test/Input/.  Fixtures are
-kept below the 100 KB per-file hook cap so they can live directly in
-the git history without relying on ExternalData infrastructure.
+(.mhd + .raw) oracles under Modules/IO/VTK/test/Input/.  The build does
+not run this script; the committed fixtures are ExternalData .cid
+content links.  After regenerating, upload the outputs and replace the
+.cid files as described in
+Documentation/docs/contributing/upload_binary_data.md.
 
 Usage:
     python3 Modules/IO/VTK/test/generate_vti_fixtures.py
