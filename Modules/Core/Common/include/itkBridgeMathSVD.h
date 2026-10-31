@@ -28,6 +28,7 @@
 #include "itk_eigen.h"
 #include ITK_EIGEN(Dense)
 
+#include <complex>
 #include <limits>
 #include <type_traits>
 
@@ -502,6 +503,50 @@ RectangularSVDEigen(const TReal * inData,
     wData[i] = svd.singularValues()[i];
   }
 }
+template <typename T>
+struct IsComplex : std::false_type
+{};
+template <typename T>
+struct IsComplex<std::complex<T>> : std::true_type
+{};
+
+// Eigen's SVD takes complex input and returns real singular values, so complex
+// matrices bypass SVDResult, whose element type doubles as the singular-value type.
+template <typename TComplex>
+vnl_matrix<TComplex>
+ComplexPseudoInverse(const vnl_matrix<TComplex> & A)
+{
+  using TReal = typename TComplex::value_type;
+  using RowMajor = Eigen::Matrix<TComplex, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+  using ColMajor = Eigen::Matrix<TComplex, Eigen::Dynamic, Eigen::Dynamic>;
+  constexpr int thin = Eigen::ComputeThinU | Eigen::ComputeThinV;
+
+  const unsigned int rows = A.rows();
+  const unsigned int cols = A.cols();
+  if (rows == 0 || cols == 0)
+  {
+    itkGenericExceptionMacro("itk::bridge::Math::PseudoInverse requires a non-empty matrix.");
+  }
+  const Eigen::Map<const RowMajor>    inMap(A.data_block(), rows, cols);
+  const Eigen::BDCSVD<ColMajor, thin> svd(inMap);
+  if (svd.info() != Eigen::Success)
+  {
+    itkGenericExceptionMacro("itk::bridge::Math::PseudoInverse failed; input is likely non-finite (NaN/Inf).");
+  }
+
+  const unsigned int k = svd.singularValues().size();
+  const TReal        tol = ResolveRcond(TReal{ -1 }, k) * svd.singularValues()[0];
+  ColMajor           scaledV = svd.matrixV();
+  for (unsigned int col = 0; col < k; ++col)
+  {
+    const TReal w = svd.singularValues()[col];
+    scaledV.col(col) *= (w > tol) ? TReal{ 1 } / w : TReal{ 0 };
+  }
+  vnl_matrix<TComplex> result(cols, rows);
+  Eigen::Map<RowMajor> resultMap(result.data_block(), cols, rows);
+  resultMap = scaledV * svd.matrixU().adjoint();
+  return result;
+}
 } // namespace detail
 
 // The Eigen JacobiSVD/BDCSVD instantiations behind the detail engines dominate
@@ -536,6 +581,10 @@ extern template ITKCommon_EXPORT_EXPLICIT void
 RectangularSVDEigen<float>(const float *, unsigned int, unsigned int, float *, float *, float *);
 extern template ITKCommon_EXPORT_EXPLICIT void
 RectangularSVDEigen<double>(const double *, unsigned int, unsigned int, double *, double *, double *);
+extern template ITKCommon_EXPORT_EXPLICIT vnl_matrix<std::complex<float>>
+ComplexPseudoInverse<std::complex<float>>(const vnl_matrix<std::complex<float>> &);
+extern template ITKCommon_EXPORT_EXPLICIT vnl_matrix<std::complex<double>>
+ComplexPseudoInverse<std::complex<double>>(const vnl_matrix<std::complex<double>> &);
 
 ITK_GCC_PRAGMA_DIAG_POP()
 } // namespace detail
@@ -651,6 +700,23 @@ SVD(const vnl_matrix<TReal> & A, bool canonicalizeSigns = true)
     itk::bridge::detail::CanonicalizeColumnSignsPaired(result.U, result.V);
   }
   return result;
+}
+
+/** Moore-Penrose pseudo-inverse of a runtime-sized real or complex vnl_matrix. Real
+ * inputs use SVD(A).PseudoInverse(); complex inputs use Eigen's complex SVD with the
+ * same k*epsilon relative threshold. */
+template <typename TScalar>
+vnl_matrix<TScalar>
+PseudoInverse(const vnl_matrix<TScalar> & A)
+{
+  if constexpr (detail::IsComplex<TScalar>::value)
+  {
+    return detail::ComplexPseudoInverse(A);
+  }
+  else
+  {
+    return SVD(A).PseudoInverse();
+  }
 }
 
 } // namespace Math

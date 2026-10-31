@@ -31,6 +31,7 @@
 #include <gtest/gtest.h>
 #include <cmath>
 #include <algorithm>
+#include <complex>
 
 namespace
 {
@@ -622,4 +623,111 @@ TEST(BridgeMathSVD, FixedRectangular)
     Adef(i, 2) = Adef(i, 0) + Adef(i, 1);
   const vnl_vector_fixed<double, cols> nv = itk::bridge::Math::SVD(Adef).NullVector();
   EXPECT_LT((Adef.as_matrix() * nv.as_vector()).inf_norm(), 1e-12);
+}
+
+// Inverse of [[1, i], [0, 1]] is [[1, -i], [0, 1]].
+TEST(BridgeMathSVD, ComplexPseudoInverseOfKnownMatrix)
+{
+  using Complex = std::complex<double>;
+  vnl_matrix<Complex> A(2, 2);
+  A(0, 0) = Complex(1, 0);
+  A(0, 1) = Complex(0, 1);
+  A(1, 0) = Complex(0, 0);
+  A(1, 1) = Complex(1, 0);
+
+  const vnl_matrix<Complex> inverse = itk::bridge::Math::PseudoInverse(A);
+  EXPECT_NEAR(std::abs(inverse(0, 0) - Complex(1, 0)), 0.0, 1e-12);
+  EXPECT_NEAR(std::abs(inverse(0, 1) - Complex(0, -1)), 0.0, 1e-12);
+  EXPECT_NEAR(std::abs(inverse(1, 0) - Complex(0, 0)), 0.0, 1e-12);
+  EXPECT_NEAR(std::abs(inverse(1, 1) - Complex(1, 0)), 0.0, 1e-12);
+}
+
+// Moore-Penrose conditions A A+ A == A and A+ A A+ == A+ for square, tall, and wide input.
+TEST(BridgeMathSVD, ComplexPseudoInverseSatisfiesPenroseConditions)
+{
+  using Complex = std::complex<double>;
+  const auto maxAbsDiff = [](const vnl_matrix<Complex> & a, const vnl_matrix<Complex> & b) {
+    double result = 0.0;
+    for (unsigned int i = 0; i < a.rows(); ++i)
+      for (unsigned int j = 0; j < a.cols(); ++j)
+        result = std::max(result, std::abs(a(i, j) - b(i, j)));
+    return result;
+  };
+
+  const unsigned int shapes[][2] = { { 3, 3 }, { 4, 2 }, { 2, 4 } };
+  for (const auto & shape : shapes)
+  {
+    vnl_matrix<Complex> A(shape[0], shape[1]);
+    for (unsigned int i = 0; i < shape[0]; ++i)
+      for (unsigned int j = 0; j < shape[1]; ++j)
+        A(i, j) = Complex(std::sin(0.7 * i + 1.3 * j) + (i == j ? 3.0 : 0.0), std::cos(0.4 * i + 0.9 * j));
+
+    const vnl_matrix<Complex> pinv = itk::bridge::Math::PseudoInverse(A);
+    ASSERT_EQ(pinv.rows(), shape[1]);
+    ASSERT_EQ(pinv.cols(), shape[0]);
+    EXPECT_LT(maxAbsDiff(A * pinv * A, A), 1e-12);
+    EXPECT_LT(maxAbsDiff(pinv * A * pinv, pinv), 1e-12);
+  }
+}
+
+// Eigen's BDCSVD falls back to Jacobi below 16 columns; 20x20 exercises the divide-and-conquer path.
+TEST(BridgeMathSVD, ComplexPseudoInverseOfLargeMatrix)
+{
+  using Complex = std::complex<double>;
+  constexpr unsigned int n = 20;
+  vnl_matrix<Complex>    A(n, n);
+  for (unsigned int i = 0; i < n; ++i)
+    for (unsigned int j = 0; j < n; ++j)
+      A(i, j) = Complex(std::sin(0.7 * i + 1.3 * j) + (i == j ? 5.0 : 0.0), std::cos(0.4 * i + 0.9 * j));
+
+  const vnl_matrix<Complex> product = A * itk::bridge::Math::PseudoInverse(A);
+  for (unsigned int i = 0; i < n; ++i)
+    for (unsigned int j = 0; j < n; ++j)
+      EXPECT_NEAR(std::abs(product(i, j) - Complex(i == j ? 1.0 : 0.0, 0.0)), 0.0, 1e-11);
+}
+
+// For the rank-1 matrix u v^H the pseudo-inverse is v u^H / (|u|^2 |v|^2); the singular-value cutoff drops the rest.
+TEST(BridgeMathSVD, ComplexPseudoInverseOfRankDeficientMatrix)
+{
+  using Complex = std::complex<double>;
+  constexpr unsigned int n = 20;
+  vnl_vector<Complex>    u(n);
+  vnl_vector<Complex>    v(n);
+  for (unsigned int i = 0; i < n; ++i)
+  {
+    u[i] = Complex(std::sin(0.3 * i + 0.1), std::cos(0.5 * i));
+    v[i] = Complex(std::cos(0.2 * i + 0.4), std::sin(0.6 * i));
+  }
+  double uNormSquared = 0.0;
+  double vNormSquared = 0.0;
+  for (unsigned int i = 0; i < n; ++i)
+  {
+    uNormSquared += std::norm(u[i]);
+    vNormSquared += std::norm(v[i]);
+  }
+
+  vnl_matrix<Complex> A(n, n);
+  for (unsigned int i = 0; i < n; ++i)
+    for (unsigned int j = 0; j < n; ++j)
+      A(i, j) = u[i] * std::conj(v[j]);
+
+  const vnl_matrix<Complex> pinv = itk::bridge::Math::PseudoInverse(A);
+  for (unsigned int i = 0; i < n; ++i)
+    for (unsigned int j = 0; j < n; ++j)
+      EXPECT_NEAR(std::abs(pinv(i, j) - v[i] * std::conj(u[j]) / (uNormSquared * vNormSquared)), 0.0, 1e-12);
+}
+
+// The real-valued overload dispatches to SVD(A).PseudoInverse().
+TEST(BridgeMathSVD, PseudoInverseOfRealMatrixMatchesSVD)
+{
+  vnl_matrix<double> A(3, 2);
+  for (unsigned int i = 0; i < 3; ++i)
+    for (unsigned int j = 0; j < 2; ++j)
+      A(i, j) = std::cos(0.4 * i + 0.9 * j) + (i == j ? 2.0 : 0.0);
+
+  const vnl_matrix<double> viaFunction = itk::bridge::Math::PseudoInverse(A);
+  const vnl_matrix<double> viaSVD = itk::bridge::Math::SVD(A).PseudoInverse();
+  for (unsigned int i = 0; i < viaFunction.rows(); ++i)
+    for (unsigned int j = 0; j < viaFunction.cols(); ++j)
+      EXPECT_EQ(viaFunction(i, j), viaSVD(i, j));
 }
