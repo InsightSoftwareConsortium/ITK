@@ -18,7 +18,10 @@
 #ifndef itkJointHistogramMutualInformationComputeJointPDFThreader_hxx
 #define itkJointHistogramMutualInformationComputeJointPDFThreader_hxx
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkIndexRange.h"
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  include "itkImageRegionConstIteratorWithIndex.h"
+#endif
 
 namespace itk
 {
@@ -30,10 +33,10 @@ JointHistogramMutualInformationComputeJointPDFThreader<
   TJointHistogramMetric>::ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId)
 {
   VirtualPointType virtualPoint;
-  VirtualIndexType virtualIndex;
-  for (ImageRegionConstIteratorWithIndex it(this->m_Associate->GetVirtualImage(), imageSubRegion); !it.IsAtEnd(); ++it)
+  // The virtual image is never allocated, so iterate its indices rather than its pixels.
+  for (const VirtualIndexType & virtualIndex :
+       ImageRegionIndexRange<TJointHistogramMetric::VirtualImageDimension>(imageSubRegion))
   {
-    virtualIndex = it.GetIndex();
     this->m_Associate->TransformVirtualIndexToPhysicalPoint(virtualIndex, virtualPoint);
     this->ProcessPoint(virtualIndex, virtualPoint, threadId);
   }
