@@ -56,11 +56,7 @@ TestCreateRotationMatrixFromAngles(const double alpha, const double beta, const 
   R(2, 1) = sa * cb;
   R(2, 2) = ca * cb;
   const itk::Matrix<double, 3, 3>::InternalMatrixType test = R.GetVnlMatrix() * R.GetTranspose();
-  if (!test.is_identity(1.0e-10))
-  {
-    std::cout << "Computed matrix is not orthogonal!!!" << std::endl;
-    std::cout << R << std::endl;
-  }
+  EXPECT_TRUE(test.is_identity(1.0e-10)) << "Computed matrix is not orthogonal:\n" << R;
   return R;
 }
 
