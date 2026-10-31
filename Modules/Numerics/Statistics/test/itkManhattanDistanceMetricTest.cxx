@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkManhattanDistanceMetric.h"
+#include "itkTestingMacros.h"
 
 int
 itkManhattanDistanceMetricTest(int, char *[])
@@ -42,16 +43,7 @@ itkManhattanDistanceMetricTest(int, char *[])
   // Attempting to compute distance before setting a measurement vector should
   // throw an exception
 
-  try
-  {
-    distance->Evaluate(measurementNew);
-    std::cerr << "Attempting to compute distance w/o setting measurement vectorsize, Exception should have been thrown"
-              << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception: " << excp << std::endl;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(distance->Evaluate(measurementNew));
 
 
   distance->SetMeasurementVectorSize(MeasurementVectorSize);
