@@ -62,6 +62,13 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ScaleVersor3DTransform);
 
+  using typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform as a MatrixOffsetTransformBase: the inverse of a rotation plus a
+   * diagonal scale is generally not one, and this transform cannot be set from a matrix. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
+
   /** Dimension of parameters. */
   static constexpr unsigned int InputSpaceDimension = 3;
   static constexpr unsigned int OutputSpaceDimension = 3;

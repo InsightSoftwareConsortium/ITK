@@ -67,6 +67,13 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ComposeScaleSkewVersor3DTransform);
 
+  using typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform, of the same type unless its rotation cannot be recovered, as with a
+   * large skew; then a MatrixOffsetTransformBase. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
+
   /** Dimension of parameters. */
   static constexpr unsigned int InputSpaceDimension = 3;
   static constexpr unsigned int OutputSpaceDimension = 3;
