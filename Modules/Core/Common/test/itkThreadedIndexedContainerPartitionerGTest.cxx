@@ -218,11 +218,7 @@ TEST(ThreadedIndexedContainerPartitioner, ConvertedLegacyTest)
     fullRange[0] = 6;
     fullRange[1] = fullRange[0] + maxNumberOfThreads - 2;
     ThreadedIndexedContainerPartitionerRunTest(enclosingClass, maxNumberOfThreads, fullRange);
-    if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads - 1)
-    {
-      std::cerr << "Error: Expected to use only " << maxNumberOfThreads - 1 << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
-    }
+    EXPECT_EQ(domainThreader->GetNumberOfWorkUnitsUsed(), maxNumberOfThreads - 1);
   }
   else
   {
