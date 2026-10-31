@@ -305,11 +305,6 @@ operator*(const T & scalar, const Vector<T, VVectorDimension> & v)
   return v.operator*(scalar);
 }
 
-/** Print content to an ostream */
-template <typename T, unsigned int VVectorDimension>
-std::ostream &
-operator<<(std::ostream & os, const Vector<T, VVectorDimension> & vct);
-
 /** Read content from an istream */
 template <typename T, unsigned int VVectorDimension>
 std::istream &

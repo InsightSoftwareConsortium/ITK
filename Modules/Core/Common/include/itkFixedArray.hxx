@@ -132,13 +132,13 @@ std::ostream &
 operator<<(std::ostream & os, const FixedArray<TValue, VLength> & arr)
 {
   os << '[';
-  if (VLength == 1)
+  if constexpr (VLength == 1)
   {
     os << arr[0];
   }
   else
   {
-    for (int i = 0; i < static_cast<int>(VLength) - 1; ++i)
+    for (unsigned int i = 0; i + 1 < VLength; ++i)
     {
       os << arr[i] << ", ";
     }
