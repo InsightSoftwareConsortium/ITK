@@ -167,6 +167,7 @@ itkMaskImageFilterTest(int, char *[])
   {
     std::cout << "Caught unexpected exception when default outside value "
               << "is used." << e;
+    return EXIT_FAILURE;
   }
 
   // Check that the outside value consists of three zeros.
