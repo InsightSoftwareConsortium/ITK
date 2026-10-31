@@ -143,7 +143,8 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Expected exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << std::endl;
+    return EXIT_FAILURE;
   }
 
   MeasurementVectorRealType mean = filter->GetMean();
