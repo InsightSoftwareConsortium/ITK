@@ -76,7 +76,10 @@ itkMultivariateLegendrePolynomialTest(int, char *[])
     polynomial.SetCoefficients(coefficients);
   }
   catch (...)
-  {}
+  {
+    std::cout << "Test fails: SetCoefficients()" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   PolynomialType::SimpleForwardIterator bIter(&polynomial);
   bIter.Begin();
