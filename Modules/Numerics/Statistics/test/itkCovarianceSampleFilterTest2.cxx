@@ -64,6 +64,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
+    return EXIT_FAILURE;
   }
 
   std::cout << "Mean: " << filter->GetMean() << std::endl;
@@ -159,6 +160,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
+    return EXIT_FAILURE;
   }
 
   std::cout << "Mean: " << filter->GetMean() << std::endl;
@@ -251,6 +253,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
+    return EXIT_FAILURE;
   }
 
 
