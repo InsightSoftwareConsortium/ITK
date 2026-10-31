@@ -24,7 +24,6 @@ set(
   itkImageToListSampleFilterTest.cxx
   itkImageToListSampleFilterTest2.cxx
   itkImageToListSampleFilterTest3.cxx
-  itkJointDomainImageToListSampleAdaptorTest.cxx
   itkKalmanLinearEstimatorTest.cxx
   itkKdTreeBasedKmeansEstimatorTest.cxx
   itkKdTreeGeneratorTest.cxx
@@ -681,12 +680,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkImageToListSampleFilterTest3
-)
-itk_add_test(
-  NAME itkJointDomainImageToListSampleAdaptorTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkJointDomainImageToListSampleAdaptorTest
 )
 itk_add_test(
   NAME itkPointSetToListSampleAdaptorTest
