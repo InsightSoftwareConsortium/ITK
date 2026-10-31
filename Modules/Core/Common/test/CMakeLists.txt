@@ -1522,6 +1522,7 @@ set(
   itkImageRandomNonRepeatingIteratorWithIndexGTest.cxx
   itkImageRegionGTest.cxx
   itkImageRegionRangeGTest.cxx
+  itkImageSliceIteratorWithIndexGTest.cxx
   itkImageTransformGTest.cxx
   itkImageVectorOptimizerParametersHelperGTest.cxx
   itkImportContainerGTest.cxx
