@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkMultivariateLegendrePolynomial.h"
+#include "itkGTest.h"
 
 /**
  *  This test exercise the functionality of the
@@ -27,8 +28,7 @@
  */
 
 
-int
-itkMultivariateLegendrePolynomialTest(int, char *[])
+TEST(MultivariateLegendrePolynomial, ConvertedLegacyTest)
 {
 
   using PolynomialType = itk::MultivariateLegendrePolynomial;
@@ -43,43 +43,19 @@ itkMultivariateLegendrePolynomialTest(int, char *[])
 
   PolynomialType polynomial(dimension, degree, domainSize);
 
-  if (polynomial.GetDimension() != dimension)
-  {
-    std::cout << "Test fails: GetDimension()" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(polynomial.GetDimension(), dimension);
 
-  if (polynomial.GetDegree() != degree)
-  {
-    std::cout << "Test fails: GetDegree()" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(polynomial.GetDegree(), degree);
 
-  if (polynomial.GetDomainSize() != domainSize)
-  {
-    std::cout << "Test fails: GetDomainSize()" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(polynomial.GetDomainSize(), domainSize);
 
-  if (polynomial.GetNumberOfCoefficients() != 20)
-  {
-    std::cout << "Test fails: GetNumberOfCoefficients()" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(polynomial.GetNumberOfCoefficients(), 20u);
 
   PolynomialType::CoefficientArrayType coefficients(20);
 
   std::fill(coefficients.begin(), coefficients.end(), 0.1);
 
-  try
-  {
-    polynomial.SetCoefficients(coefficients);
-  }
-  catch (...)
-  {
-    std::cout << "Test fails: SetCoefficients()" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(polynomial.SetCoefficients(coefficients));
 
   PolynomialType::SimpleForwardIterator bIter(&polynomial);
   bIter.Begin();
@@ -88,7 +64,4 @@ itkMultivariateLegendrePolynomialTest(int, char *[])
     bIter.Get();
     ++bIter;
   }
-
-  std::cout << "Test succeeded." << std::endl;
-  return EXIT_SUCCESS;
 }
