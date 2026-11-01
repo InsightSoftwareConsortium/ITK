@@ -1097,9 +1097,9 @@ written through the standard writer pipeline are **uncompressed by default**.
 Call `writer->UseCompressionOn()` to restore compressed output. To control the
 deflate level (1–9, default 5), also call `writer->SetCompressionLevel(N)`.
 
-## `StructureTensorImageFilter`: feature-scale smoothing is now isotropic
+## `GradientStructureTensorImageFilter`: feature-scale smoothing is now isotropic
 
-`StructureTensorImageFilter` computes the structure tensor
+`GradientStructureTensorImageFilter` computes the structure tensor
 `J_rho = K_rho * (grad(u_sigma) (x) grad(u_sigma))`, where `K_rho` is a Gaussian
 of standard deviation `rho` (the *feature scale*). The defining property of that
 smoothing step is that it is **isotropic**: the outer-product tensor field is
@@ -1125,10 +1125,15 @@ confined to the two feature/noise-scale smoothers.)
 
 ### What you need to do
 
-- **Nothing in your code changes.** The public API of
-  `StructureTensorImageFilter` is unchanged and consumers compile unmodified.
-- **Expect different output** from `StructureTensorImageFilter` and from the two
-  public filters built on it —
+- **Only code that names the tensor class changes.** The AnisotropicDiffusionLBR
+  class `StructureTensorImageFilter` is now `GradientStructureTensorImageFilter`
+  (header `itkGradientStructureTensorImageFilter.h`), because the
+  IsotropicWavelets module defined a different class with the same name. The
+  class was never wrapped for Python. Its interface is otherwise unchanged, and
+  `AnisotropicDiffusionLBRImageFilter` and
+  `CoherenceEnhancingDiffusionImageFilter` users need no edits.
+- **Expect different output** from `GradientStructureTensorImageFilter` and from
+  the two public filters built on it —
   `CoherenceEnhancingDiffusionImageFilter` (CED/EED) and
   `AnisotropicDiffusionLBRImageFilter`. The new tensors are isotropic, so
   coherence-enhancing and edge-enhancing diffusion now steer along genuinely
@@ -1144,6 +1149,27 @@ confined to the two feature/noise-scale smoothers.)
   tensor field along one axis only), it was never expressible through the public
   API — there is no setter for the smoothing direction — so no supported code
   path is removed.
+
+## IsotropicWavelets `StructureTensorImageFilter` is now `RieszStructureTensorImageFilter`
+
+The IsotropicWavelets module and the AnisotropicDiffusionLBR module both defined
+`itk::StructureTensorImageFilter` with the same include guard, so a build that
+enabled both modules could not use either class, and Python wrapping failed to
+compile (issue #7057). The two classes are different algorithms. The
+IsotropicWavelets class takes two or more component images (for example Riesz
+components) and outputs per-pixel eigenvectors and eigenvalues; the
+AnisotropicDiffusionLBR class takes one image and outputs the tensor.
+
+### What you need to do
+
+- Replace `itk::StructureTensorImageFilter` with
+  `itk::RieszStructureTensorImageFilter` and include
+  `itkRieszStructureTensorImageFilter.h`. Template parameters, setters, and
+  output are unchanged.
+- In Python, replace `itk.StructureTensorImageFilter` with
+  `itk.RieszStructureTensorImageFilter`; the wrapped instantiations are the same.
+- The old name is not kept as an alias, because an alias would reintroduce the
+  name clash.
 
 ## `NiftiImageIO` preserves NaN and infinite pixel values
 

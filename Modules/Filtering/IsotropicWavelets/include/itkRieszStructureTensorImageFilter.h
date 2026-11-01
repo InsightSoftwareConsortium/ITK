@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkStructureTensorImageFilter_h
-#define itkStructureTensorImageFilter_h
+#ifndef itkRieszStructureTensorImageFilter_h
+#define itkRieszStructureTensorImageFilter_h
 
 #include <itkImageToImageFilter.h>
 #include <itkImageScanlineConstIterator.h>
@@ -27,7 +27,7 @@
 #include <itkGaussianImageSource.h>
 namespace itk
 {
-/** \class StructureTensorImageFilter
+/** \class RieszStructureTensorImageFilter
  * Given an array of inputs, StructureTensor computes the linear combination (or direction) of inputs that maximizes the
 response for each location in the image.
  * Instead of only measuring the response at the pixel of interest, it takes into account a local neighborhood.
@@ -80,14 +80,14 @@ and
  */
 template <typename TInputImage,
           typename TOutputImage = itk::Image<itk::VariableSizeMatrix<double>, TInputImage::ImageDimension>>
-class StructureTensorImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class RieszStructureTensorImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_MOVE(StructureTensorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RieszStructureTensorImageFilter);
 
   /** Some convenient type alias. */
   /** Standard class type alias. */
-  using Self = StructureTensorImageFilter;
+  using Self = RieszStructureTensorImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkOverrideGetNameOfClassMacro(StructureTensorImageFilter);
+  itkOverrideGetNameOfClassMacro(RieszStructureTensorImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = typename Superclass::InputImageType;
@@ -205,8 +205,8 @@ public:
                                     bool                    reOrderLargestEigenvectorInFirstRow = false) const;
 
 protected:
-  StructureTensorImageFilter();
-  ~StructureTensorImageFilter() override = default;
+  RieszStructureTensorImageFilter();
+  ~RieszStructureTensorImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -231,7 +231,7 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkStructureTensorImageFilter.hxx"
+#  include "itkRieszStructureTensorImageFilter.hxx"
 #endif
 
 #endif

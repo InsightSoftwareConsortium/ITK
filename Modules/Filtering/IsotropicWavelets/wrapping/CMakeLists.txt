@@ -3,7 +3,7 @@ set(
   WRAPPER_SUBMODULE_ORDER
   itkMatrixComplex
   itkVariableSizeMatrixComplex
-  itkStructureTensorImageFilter
+  itkRieszStructureTensorImageFilter
   itkMonogenicSignalFrequencyImageFilter
   itkVectorInverseFFTImageFilter
 )

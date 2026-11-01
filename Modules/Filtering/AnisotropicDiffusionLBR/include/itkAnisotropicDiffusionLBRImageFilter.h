@@ -26,7 +26,7 @@
 #define itkAnisotropicDiffusionLBRImageFilter_h
 
 #include "itkLinearAnisotropicDiffusionLBRImageFilter.h"
-#include "itkStructureTensorImageFilter.h"
+#include "itkGradientStructureTensorImageFilter.h"
 
 namespace itk
 {
@@ -70,10 +70,10 @@ public:
   using TensorType = SymmetricSecondRankTensor<ScalarType, ImageDimension>;
   using TensorImageType = Image<TensorType, ImageDimension>;
 
-  using StructureTensorFilterType = StructureTensorImageFilter<ImageType, TensorImageType>;
+  using StructureTensorFilterType = GradientStructureTensorImageFilter<ImageType, TensorImageType>;
   using LinearDiffusionFilterType = LinearAnisotropicDiffusionLBRImageFilter<ImageType, ScalarType>;
 
-  /** Passed to a StructureTensorImageFilter. */
+  /** Passed to a GradientStructureTensorImageFilter. */
   itkSetMacro(NoiseScale, ScalarType);
   itkGetConstMacro(NoiseScale, ScalarType);
   itkSetMacro(FeatureScale, ScalarType);

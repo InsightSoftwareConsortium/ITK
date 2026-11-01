@@ -7,7 +7,7 @@ createtestdriver(AnisotropicDiffusionLBR  "${AnisotropicDiffusionLBR-Test_LIBRAR
 set(
   AnisotropicDiffusionLBRGTests
   itkLinearAnisotropicDiffusionLBRImageFilterGTest.cxx
-  itkStructureTensorImageFilterGTest.cxx
+  itkGradientStructureTensorImageFilterGTest.cxx
 )
 
 creategoogletestdriver(AnisotropicDiffusionLBR "${AnisotropicDiffusionLBR-Test_LIBRARIES}" "${AnisotropicDiffusionLBRGTests}")
