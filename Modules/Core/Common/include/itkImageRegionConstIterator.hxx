@@ -18,6 +18,6 @@
 #ifndef itkImageRegionConstIterator_hxx
 #define itkImageRegionConstIterator_hxx
 
+#include "itkImageRegionIterator.hxx"
 
-namespace itk
-{
+#endif

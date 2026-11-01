@@ -18,8 +18,6 @@
 #ifndef itkImageRegionConstIterator_h
 #define itkImageRegionConstIterator_h
 
-#include "itkImageIterator.h"
-#include <type_traits> // For remove_const_t.
+#include "itkImageRegionIterator.h"
 
-namespace itk
-{
+#endif

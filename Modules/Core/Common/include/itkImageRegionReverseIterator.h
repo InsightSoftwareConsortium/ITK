@@ -100,6 +100,11 @@ public:
    * ImageConstIterator to a ImageRegionReverseIterator. */
   ImageRegionReverseIterator(const ImageConstIterator<TImage> & it);
 
+  /** Constructor from the forward iterator over the same image. */
+  ImageRegionReverseIterator(const ImageRegionIterator<TImage> & it)
+    : Superclass(it)
+  {}
+
   /** Set the pixel value */
   void
   Set(const PixelType & value) const

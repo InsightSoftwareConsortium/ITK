@@ -21,42 +21,13 @@
 
 namespace itk
 {
-template <typename TImage>
-ImageRegionIterator<TImage>::ImageRegionIterator(TImage * ptr, const RegionType & region)
-  : ImageRegionConstIterator<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageRegionIterator<TImage>::ImageRegionIterator(const ImageIterator<TImage> & it)
-  : ImageRegionConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionIterator<TImage>::ImageRegionIterator(const ImageRegionConstIterator<TImage> & it)
-  : ImageRegionConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionIterator<TImage> &
-ImageRegionIterator<TImage>::operator=(const ImageRegionConstIterator<TImage> & it)
-{
-  this->ImageRegionConstIterator<TImage>::operator=(it);
-  return *this;
-}
-
-} // end namespace itk
-
-#endif
 
 //----------------------------------------------------------------------------
 // Increment when the fastest moving direction has reached its bound.
 // This method should *ONLY* be invoked from the operator++() method.
 template <typename TImage>
 void
-ImageRegionConstIterator<TImage>::Increment()
+ImageRegionIterator<TImage>::Increment()
 {
   // We have reached the end of the span (row), need to wrap around.
 
@@ -65,11 +36,10 @@ ImageRegionConstIterator<TImage>::Increment()
   --this->m_Offset;
 
   // Get the index of the last pixel on the span (row)
-  typename ImageIterator<TImage>::IndexType ind =
-    this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
+  IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
 
-  const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-  const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+  const IndexType & startIndex = this->m_Region.GetIndex();
+  const SizeType &  size = this->m_Region.GetSize();
 
   // Increment along a row, then wrap at the end of the region row.
 
@@ -103,7 +73,7 @@ ImageRegionConstIterator<TImage>::Increment()
 // This method should *ONLY* be invoked from the operator--() method.
 template <typename TImage>
 void
-ImageRegionConstIterator<TImage>::Decrement()
+ImageRegionIterator<TImage>::Decrement()
 {
   // We have pasted the beginning of the span (row), need to wrap around.
 
@@ -112,11 +82,10 @@ ImageRegionConstIterator<TImage>::Decrement()
   this->m_Offset++;
 
   // Get the index of the first pixel on the span (row)
-  typename ImageIterator<TImage>::IndexType ind =
-    this->m_Image->ComputeIndex(static_cast<IndexValueType>(this->m_Offset));
+  IndexType ind = this->m_Image->ComputeIndex(static_cast<IndexValueType>(this->m_Offset));
 
-  const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-  const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+  const IndexType & startIndex = this->m_Region.GetIndex();
+  const SizeType &  size = this->m_Region.GetSize();
 
   // Decrement along a row, then wrap at the beginning of the region row.
 
