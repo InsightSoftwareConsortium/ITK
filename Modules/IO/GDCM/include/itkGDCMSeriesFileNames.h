@@ -185,7 +185,7 @@ public:
   itkBooleanMacro(FailOnAmbiguousOrdering);
   /** @ITKEndGrouping */
 
-  /** If ambiguous ordering is encountered, this is set to true. */
+  /** True when any series ordered since the directory was last parsed could not be ordered geometrically. */
   /** @ITKStartGrouping */
   itkGetConstMacro(DidUseAmbiguousOrdering, bool);
   /** @ITKEndGrouping */
