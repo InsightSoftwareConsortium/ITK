@@ -330,10 +330,10 @@ TEST(ImageIterators, ReverseIteratorConversionCallsNonConstGetBufferPointer)
   const auto image = ImageType::New();
   image->SetRegions(ImageType::SizeType::Filled(4));
   image->Allocate();
-  const itk::ImageRegionConstIterator<ImageType> constIterator(image, image->GetBufferedRegion());
+  const itk::ImageRegionIterator<ImageType> iterator(image, image->GetBufferedRegion());
 
   const size_t numberOfCallsBefore = image->GetNumberOfNonConstGetBufferPointerCalls();
-  [[maybe_unused]] const itk::ImageRegionReverseIterator<ImageType> reverseIterator(constIterator);
+  [[maybe_unused]] const itk::ImageRegionReverseIterator<ImageType> reverseIterator(iterator);
   EXPECT_GT(image->GetNumberOfNonConstGetBufferPointerCalls(), numberOfCallsBefore);
 }
 
@@ -366,8 +366,11 @@ TEST(ImageIterators, ConstNonConstConversionAndComparison)
 // Checks that iterators over a const image provide no write access (issue #7003).
 TEST(ImageIterators, NoWriteAccessToConstImage)
 {
-  static_assert(
-    AreWritableOnlyForNonConstImages<itk::ImageIterator, itk::ImageRegionIterator, itk::ImageScanlineIterator>());
+  static_assert(AreWritableOnlyForNonConstImages<itk::ImageIterator,
+                                                 itk::ImageRegionIterator,
+                                                 itk::ImageScanlineIterator,
+                                                 itk::ImageReverseIterator,
+                                                 itk::ImageRegionReverseIterator>());
   static_assert(!HasSet<itk::ImageRegionConstIterator<itk::Image<int>>>::value);
   static_assert(!HasSet<itk::ImageConstIterator<itk::Image<int>>>::value);
 }

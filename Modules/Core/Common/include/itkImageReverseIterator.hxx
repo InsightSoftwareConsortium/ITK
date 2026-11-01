@@ -18,34 +18,6 @@
 #ifndef itkImageReverseIterator_hxx
 #define itkImageReverseIterator_hxx
 
-
-namespace itk
-{
-template <typename TImage>
-ImageReverseIterator<TImage>::ImageReverseIterator(TImage * ptr, const RegionType & region)
-  : ImageRegionReverseConstIterator<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageReverseIterator<TImage>::ImageReverseIterator(const ImageIteratorWithIndex<TImage> & it)
-  : ImageRegionReverseConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageReverseIterator<TImage>::ImageReverseIterator(const ImageRegionReverseConstIterator<TImage> & it)
-  : ImageRegionReverseConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageReverseIterator<TImage> &
-ImageReverseIterator<TImage>::operator=(const ImageRegionReverseConstIterator<TImage> & it)
-{
-  this->ImageRegionReverseConstIterator<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+#include "itkImageRegionReverseIterator.h"
 
 #endif

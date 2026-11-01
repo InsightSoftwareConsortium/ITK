@@ -18,9 +18,6 @@
 #ifndef itkImageRegionReverseConstIterator_h
 #define itkImageRegionReverseConstIterator_h
 
-#include "itkImageReverseConstIterator.h"
-#include "itkImageRegionIterator.h"
-#include <type_traits> // For remove_const_t.
+#include "itkImageRegionReverseIterator.h"
 
-namespace itk
-{
+#endif
