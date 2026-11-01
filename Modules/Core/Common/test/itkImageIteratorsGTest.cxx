@@ -197,6 +197,26 @@ struct is_comparable<T,
 template <typename T, typename U>
 inline constexpr bool is_comparable_v = is_comparable<T, U>::value;
 
+// HasSet tells whether `Set(pixel)` can be called on the specified iterator type.
+template <typename TIterator, typename = void>
+struct HasSet : std::false_type
+{};
+
+template <typename TIterator>
+struct HasSet<TIterator,
+              std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
+  : std::true_type
+{};
+
+// Checks that the writable iterator template provides Set() for a non-const image, and not for a const image.
+template <template <typename> typename... TIteratorTemplate>
+constexpr bool
+AreWritableOnlyForNonConstImages()
+{
+  using ImageType = itk::Image<int>;
+  return ((HasSet<TIteratorTemplate<ImageType>>::value && !HasSet<TIteratorTemplate<const ImageType>>::value) && ...);
+}
+
 } // namespace
 
 
@@ -329,9 +349,23 @@ TEST(ImageIterators, ConstNonConstConversionAndComparison)
   static_assert(std::is_convertible_v<MutableIt, ConstIt>);
   static_assert(!std::is_convertible_v<ConstIt, MutableIt>);
   static_assert(std::is_convertible_v<LegacyConstIt, ConstIt>);
+  static_assert(std::is_convertible_v<ConstIt, LegacyConstIt>);
+  static_assert(std::is_convertible_v<MutableIt, LegacyConstIt>);
+  static_assert(!std::is_constructible_v<MutableIt, ConstIt>);
+  static_assert(!std::is_constructible_v<MutableIt, LegacyConstIt>);
   static_assert(!std::is_base_of_v<LegacyConstIt, MutableIt>);
+
+  static_assert(!is_comparable_v<MutableIt, itk::ImageIterator<itk::Image<int, 3>>>);
 
   static_assert(is_comparable_v<MutableIt, ConstIt>);
   static_assert(is_comparable_v<MutableIt, LegacyConstIt>);
   static_assert(is_comparable_v<ConstIt, LegacyConstIt>);
+}
+
+
+// Checks that iterators over a const image provide no write access (issue #7003).
+TEST(ImageIterators, NoWriteAccessToConstImage)
+{
+  static_assert(AreWritableOnlyForNonConstImages<itk::ImageIterator>());
+  static_assert(!HasSet<itk::ImageConstIterator<itk::Image<int>>>::value);
 }

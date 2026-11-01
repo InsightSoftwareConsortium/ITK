@@ -20,8 +20,4 @@
 
 #include "itkImageIterator.h"
 
-/** This header is retained for backward compatibility.
- * itk::ImageConstIterator is provided by the included header.
- */
-
 #endif
