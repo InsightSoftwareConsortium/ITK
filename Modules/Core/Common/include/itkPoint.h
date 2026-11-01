@@ -303,10 +303,6 @@ public:
 };
 
 template <typename T, unsigned int VPointDimension>
-std::ostream &
-operator<<(std::ostream & os, const Point<T, VPointDimension> & vct);
-
-template <typename T, unsigned int VPointDimension>
 std::istream &
 operator>>(std::istream & is, Point<T, VPointDimension> & vct);
 

@@ -254,30 +254,6 @@ BarycentricCombination<TPointContainer, TWeightContainer>::Evaluate(const PointC
 }
 
 /**
- * Print content to an ostream
- */
-template <typename T, unsigned int TPointDimension>
-std::ostream &
-operator<<(std::ostream & os, const Point<T, TPointDimension> & vct)
-{
-  os << '[';
-  if constexpr (TPointDimension == 1)
-  {
-    os << vct[0];
-  }
-  else
-  {
-    for (unsigned int i = 0; i + 1 < TPointDimension; ++i)
-    {
-      os << vct[i] << ", ";
-    }
-    os << vct[TPointDimension - 1];
-  }
-  os << ']';
-  return os;
-}
-
-/**
  * Read content from an istream
  */
 template <typename T, unsigned int TPointDimension>
