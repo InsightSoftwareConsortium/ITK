@@ -23,6 +23,7 @@
 #include "itkObjectFactory.h"
 #include "itkMacro.h"
 #include <map>
+#include <set>
 #include <utility>
 #include <vector>
 
@@ -39,10 +40,13 @@ class DCMTKFileReader;
  *
  *   1. Extract Image Orientation & Image Position from DICOM images, and then
  *      calculate the ordering based on the 3D coordinate of the slice
- *   2. If for some reason this information is not found or failed, another
- *      strategy is used: the ordering is based on 'Image Number'
- *   3. If this strategy also failed, then the filenames are ordered by
- *      lexicographical order.
+ *   2. If slice positions repeat (for example, a multi-volume acquisition),
+ *      no geometric ordering exists and an exception is thrown by default;
+ *      see FailOnAmbiguousOrdering. When FailOnAmbiguousOrdering is false,
+ *      the files are ordered by 'Instance Number' when unique, else by
+ *      lexicographic file name, and DidUseAmbiguousOrdering is set to true.
+ *   3. If orientation or position is missing, the ordering is based on
+ *      'Instance Number', then on the file name.
  *
  *  If multiple volumes are being grouped as a single series for your
  *    dicom objects, you may want to try calling ->SetUseSeriesDetails(true)
@@ -165,6 +169,19 @@ public:
   void
   AddSeriesRestriction(const std::string & tag);
 
+  /** When true (the default), GetFileNames() and GetInputFileNames() throw
+   * for a series whose slice positions repeat. When false, they return the
+   * series in Instance Number order when the numbers are unique, else in
+   * file name order. */
+  /** @ITKStartGrouping */
+  itkSetMacro(FailOnAmbiguousOrdering, bool);
+  itkGetConstMacro(FailOnAmbiguousOrdering, bool);
+  itkBooleanMacro(FailOnAmbiguousOrdering);
+  /** @ITKEndGrouping */
+
+  /** True when any series returned since the directory was last parsed had repeated slice positions. */
+  itkGetConstMacro(DidUseAmbiguousOrdering, bool);
+
   /** Parse any sequences in the DICOM file. Defaults to false
    *  to skip sequences. This makes loading DICOM files faster when
    *  sequences are not needed.
@@ -192,6 +209,10 @@ private:
   void
   BuildSeriesMap();
 
+  /** Record and, unless FailOnAmbiguousOrdering is false, reject a series with repeated slice positions. */
+  void
+  CheckOrdering(const std::string & series);
+
   /** Build the identifier that groups files into one series. */
   std::string
   CreateSeriesIdentifier(DCMTKFileReader * reader) const;
@@ -213,6 +234,9 @@ private:
    * UseSeriesDetails is enabled. */
   std::vector<std::pair<unsigned short, unsigned short>> m_Restrictions{};
 
+  /** Series identifiers whose slice positions repeat. */
+  std::set<std::string> m_AmbiguousSeries{};
+
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs{};
 
@@ -224,6 +248,8 @@ private:
   bool m_Recursive{};
   bool m_LoadSequences{};
   bool m_LoadPrivateTags{};
+  bool m_FailOnAmbiguousOrdering{ true };
+  bool m_DidUseAmbiguousOrdering{ false };
 };
 } // namespace itk
 
