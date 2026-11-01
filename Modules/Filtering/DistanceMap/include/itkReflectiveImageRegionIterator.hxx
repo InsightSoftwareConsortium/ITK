@@ -23,44 +23,7 @@ namespace itk
 {
 template <typename TImage>
 ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator()
-  : ReflectiveImageRegionConstIterator<TImage>()
-{}
-
-template <typename TImage>
-ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(ImageType * ptr, const RegionType & region)
-  : ReflectiveImageRegionConstIterator<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(const ImageIteratorWithIndex<TImage> & it)
-  : ReflectiveImageRegionConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(
-  const ReflectiveImageRegionConstIterator<TImage> & it)
-  : ReflectiveImageRegionConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ReflectiveImageRegionIterator<TImage> &
-ReflectiveImageRegionIterator<TImage>::operator=(const ReflectiveImageRegionConstIterator<TImage> & it)
-{
-  this->ReflectiveImageRegionConstIterator<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
-
-#endif
-
-namespace itk
-{
-template <typename TImage>
-ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator()
-  : ImageConstIteratorWithIndex<TImage>()
+  : ImageIteratorWithIndex<TImage>()
 {
   for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
@@ -71,8 +34,8 @@ ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator()
 }
 
 template <typename TImage>
-ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator(TImage * ptr, const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(TImage * ptr, const RegionType & region)
+  : ImageIteratorWithIndex<TImage>(ptr, region)
 {
   for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
@@ -84,32 +47,19 @@ ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator(T
 }
 
 template <typename TImage>
-ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator(const Self & it)
+ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(const Self & it)
 {
   this->operator=(it);
   this->GoToBegin();
 }
 
 template <typename TImage>
-ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator(
-  const ImageConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
-  {
-    m_BeginOffset[dim] = 0;
-    m_EndOffset[dim] = 0;
-  }
-}
-
-template <typename TImage>
-ReflectiveImageRegionConstIterator<TImage> &
-ReflectiveImageRegionConstIterator<TImage>::operator=(const Self & it)
+ReflectiveImageRegionIterator<TImage> &
+ReflectiveImageRegionIterator<TImage>::operator=(const Self & it)
 {
   if (this != &it)
   {
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
+    this->ImageIteratorWithIndex<TImage>::operator=(it);
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
@@ -122,7 +72,7 @@ ReflectiveImageRegionConstIterator<TImage>::operator=(const Self & it)
 
 template <typename TImage>
 void
-ReflectiveImageRegionConstIterator<TImage>::GoToBegin()
+ReflectiveImageRegionIterator<TImage>::GoToBegin()
 {
   this->m_PositionIndex = this->m_BeginIndex + this->m_BeginOffset;
   this->m_Position = this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(this->m_PositionIndex);
@@ -143,14 +93,14 @@ ReflectiveImageRegionConstIterator<TImage>::GoToBegin()
 
 template <typename TImage>
 bool
-ReflectiveImageRegionConstIterator<TImage>::IsReflected(unsigned int dim) const
+ReflectiveImageRegionIterator<TImage>::IsReflected(unsigned int dim) const
 {
   return !m_IsFirstPass[dim];
 }
 
 template <typename TImage>
 void
-ReflectiveImageRegionConstIterator<TImage>::FillOffsets(const OffsetValueType & value)
+ReflectiveImageRegionIterator<TImage>::FillOffsets(const OffsetValueType & value)
 {
   for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
@@ -163,8 +113,8 @@ ReflectiveImageRegionConstIterator<TImage>::FillOffsets(const OffsetValueType & 
 //  Advance along the line
 //----------------------------------------------------------------------
 template <typename TImage>
-ReflectiveImageRegionConstIterator<TImage> &
-ReflectiveImageRegionConstIterator<TImage>::operator++()
+ReflectiveImageRegionIterator<TImage> &
+ReflectiveImageRegionIterator<TImage>::operator++()
 {
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; ++in)

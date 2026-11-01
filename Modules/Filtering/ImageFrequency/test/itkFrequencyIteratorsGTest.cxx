@@ -334,3 +334,22 @@ TEST_F(FrequencyIterators, Odd2D)
   constexpr double differenceHermitianThreshold{ 0.0001 };
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
+
+// Checks that frequency iterators can still be built from any indexed image iterator, as in the ITK 5 API.
+TEST(FrequencyIteratorConversions, ConstructibleFromImageIteratorWithIndex)
+{
+  using ImageType = itk::Image<float, 2>;
+  using IndexedIt = itk::ImageIteratorWithIndex<ImageType>;
+  using RegionIndexedIt = itk::ImageRegionIteratorWithIndex<ImageType>;
+  using ConstIndexedIt = itk::ImageIteratorWithIndex<const ImageType>;
+
+  static_assert(std::is_convertible_v<IndexedIt, itk::FrequencyImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_convertible_v<IndexedIt, itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(
+    std::is_convertible_v<IndexedIt, itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(
+    std::is_convertible_v<IndexedIt, itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_convertible_v<RegionIndexedIt, itk::FrequencyImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_constructible_v<itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>, ConstIndexedIt>);
+  static_assert(!std::is_constructible_v<itk::FrequencyImageRegionIteratorWithIndex<ImageType>, ConstIndexedIt>);
+}

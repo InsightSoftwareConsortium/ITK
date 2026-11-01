@@ -18,7 +18,6 @@
 #ifndef itkFrequencyImageRegionConstIteratorWithIndex_h
 #define itkFrequencyImageRegionConstIteratorWithIndex_h
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkFrequencyImageRegionIteratorWithIndex.h"
 
-namespace itk
-{
+#endif

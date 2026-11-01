@@ -18,7 +18,6 @@
 #ifndef itkFrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex_h
 #define itkFrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex_h
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.h"
 
-namespace itk
-{
+#endif

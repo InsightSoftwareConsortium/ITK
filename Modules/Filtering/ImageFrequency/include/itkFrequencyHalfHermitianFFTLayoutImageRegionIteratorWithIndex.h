@@ -18,8 +18,8 @@
 #ifndef itkFrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex_h
 #define itkFrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex_h
 
+
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkFrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
@@ -61,13 +61,16 @@ namespace itk
  *
  */
 template <typename TImage>
-class FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex
-  : public FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex
+  : public ImageRegionIteratorWithIndex<TImage>
 {
+  template <typename>
+  friend class FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex;
+
 public:
   /** Standard class type alias. */
   using Self = FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex;
-  using Superclass = FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>;
+  using Superclass = ImageRegionIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
@@ -85,16 +88,18 @@ public:
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. */
   FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex()
-    : FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>()
-  {}
+    : ImageRegionIteratorWithIndex<TImage>()
+
+  {
+    this->Init();
+  }
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
   FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
-    : FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>(ptr, region)
+    : Superclass(ptr, region)
   {
-    // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-    static_cast<void>(ptr->GetBufferPointer());
+    this->Init();
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -103,67 +108,25 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-    : FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>(it)
-  {}
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
   {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
+    this->Init();
   }
 
-  /** Return a reference to the pixel.
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    return *(const_cast<InternalPixelType *>(this->m_Position));
-  }
-
-protected:
-  /** The construction from a const iterator is declared protected
-      in order to enforce const correctness. */
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
   FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex(
-    const FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage> & it)
-    : FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>(it)
+    const FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+    , m_LargestPositiveFrequencyIndex(it.m_LargestPositiveFrequencyIndex)
+    , m_MinIndex(it.m_MinIndex)
+    , m_MaxIndex(it.m_MaxIndex)
+    , m_FrequencyOrigin(it.m_FrequencyOrigin)
+    , m_FrequencySpacing(it.m_FrequencySpacing)
+    , m_ActualXDimensionIsOdd(it.m_ActualXDimensionIsOdd)
   {}
-
-  Self &
-  operator=(const FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage> & it)
-  {
-    this->FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>::operator=(it);
-    return *this;
-  }
-};
-} // end namespace itk
-#endif
-
-  {
-    this->Init();
-  }
-
-  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
-    : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
-  {
-    this->Init();
-  }
-
-  /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRegionIteratorWithIndex.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it)
-    : ImageRegionConstIteratorWithIndex<TImage>(it)
-  {
-    this->Init();
-  }
 
   /*
    * Image Index [0, N - 1] returns [0 to N/2] (positive) union [-N/2 + 1, -1] (negative).
@@ -322,8 +285,12 @@ private:
   FrequencyType m_FrequencySpacing;
   bool          m_ActualXDimensionIsOdd{ false };
 };
-} // end namespace itk
-#endif
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<TImage>;
+
 /**
  * \class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex
  * \brief A multi-dimensional iterator templated over image type that walks
@@ -419,28 +386,34 @@ private:
  *
  */
 template <typename TImage>
-class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex
-  : public ImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex
+  : public FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<std::add_const_t<TImage>>
 {
 public:
   /** Standard class type alias. */
   using Self = FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex;
-  using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
+  using Superclass = FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<std::add_const_t<TImage>>;
 
-  /** Types inherited from the Superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
+  using Superclass::Superclass;
 
-  using FrequencyType = typename ImageType::SpacingType;
-  using FrequencyValueType = typename ImageType::SpacingValueType;
-  /** Default constructor. */
-  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex()
-    : ImageRegionConstIteratorWithIndex<TImage>()
+  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex() = default;
+
+  /** Conversion from FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<const TImage>. */
+  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage>
+FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(SmartPointer<TImage>,
+                                                                 const typename TImage::RegionType &)
+  -> FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
+} // end namespace itk
+
+#endif

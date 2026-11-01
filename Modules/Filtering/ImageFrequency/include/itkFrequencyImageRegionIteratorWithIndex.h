@@ -18,8 +18,8 @@
 #ifndef itkFrequencyImageRegionIteratorWithIndex_h
 #define itkFrequencyImageRegionIteratorWithIndex_h
 
+
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkFrequencyImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
@@ -61,13 +61,15 @@ namespace itk
  *
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT FrequencyImageRegionIteratorWithIndex
-  : public FrequencyImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT FrequencyImageRegionIteratorWithIndex : public ImageRegionIteratorWithIndex<TImage>
 {
+  template <typename>
+  friend class FrequencyImageRegionIteratorWithIndex;
+
 public:
   /** Standard class type alias. */
   using Self = FrequencyImageRegionIteratorWithIndex;
-  using Superclass = FrequencyImageRegionConstIteratorWithIndex<TImage>;
+  using Superclass = ImageRegionIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
@@ -85,68 +87,15 @@ public:
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. */
   FrequencyImageRegionIteratorWithIndex()
-    : FrequencyImageRegionConstIteratorWithIndex<TImage>()
-  {}
+    : ImageRegionIteratorWithIndex<TImage>()
+  {
+    this->Init();
+  }
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   FrequencyImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
-    : FrequencyImageRegionConstIteratorWithIndex<TImage>(ptr, region)
-  {
-    // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-    static_cast<void>(ptr->GetBufferPointer());
-  }
-
-  /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRegionIteratorWithIndex.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionIteratorWithIndex. */
-  FrequencyImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-    : FrequencyImageRegionConstIteratorWithIndex<TImage>(it)
-  {}
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
-  }
-
-  /** Return a reference to the pixel.
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    return *(const_cast<InternalPixelType *>(this->m_Position));
-  }
-
-protected:
-  /** The construction from a const iterator is declared protected
-      in order to enforce const correctness. */
-  FrequencyImageRegionIteratorWithIndex(const FrequencyImageRegionConstIteratorWithIndex<TImage> & it)
-    : FrequencyImageRegionConstIteratorWithIndex<TImage>(it)
-  {}
-
-  Self &
-  operator=(const FrequencyImageRegionConstIteratorWithIndex<TImage> & it)
-  {
-    this->FrequencyImageRegionConstIteratorWithIndex<TImage>::operator=(it);
-    return *this;
-  }
-};
-} // end namespace itk
-#endif
-  {
-    this->Init();
-  }
-
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
-  FrequencyImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
-    : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
+    : Superclass(ptr, region)
   {
     this->Init();
   }
@@ -157,11 +106,20 @@ protected:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
-    : ImageRegionConstIteratorWithIndex<TImage>(it)
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  FrequencyImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
   {
     this->Init();
   }
+
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  FrequencyImageRegionIteratorWithIndex(const FrequencyImageRegionIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+    , m_FrequencyOrigin(it.m_FrequencyOrigin)
+    , m_FrequencySpacing(it.m_FrequencySpacing)
+  {}
 
   /*
    * The image is in the frequency domain already, return the index.
@@ -224,8 +182,12 @@ private:
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
 };
-} // end namespace itk
-#endif
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+FrequencyImageRegionIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> FrequencyImageRegionIteratorWithIndex<TImage>;
+
 /**
  * \class FrequencyImageRegionConstIteratorWithIndex
  * \brief A multi-dimensional iterator templated over image type that walks
@@ -279,27 +241,33 @@ private:
  *
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT FrequencyImageRegionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT FrequencyImageRegionConstIteratorWithIndex
+  : public FrequencyImageRegionIteratorWithIndex<std::add_const_t<TImage>>
 {
 public:
   /** Standard class type alias. */
   using Self = FrequencyImageRegionConstIteratorWithIndex;
-  using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
+  using Superclass = FrequencyImageRegionIteratorWithIndex<std::add_const_t<TImage>>;
 
-  /** Types inherited from the Superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
+  using Superclass::Superclass;
 
-  using FrequencyType = typename ImageType::SpacingType;
-  using FrequencyValueType = typename ImageType::SpacingValueType;
-  /** Default constructor. */
-  FrequencyImageRegionConstIteratorWithIndex()
-    : ImageRegionConstIteratorWithIndex<TImage>()
+  FrequencyImageRegionConstIteratorWithIndex() = default;
+
+  /** Conversion from FrequencyImageRegionIteratorWithIndex<const TImage>. */
+  FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage>
+FrequencyImageRegionConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> FrequencyImageRegionConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+FrequencyImageRegionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> FrequencyImageRegionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
+} // end namespace itk
+
+#endif

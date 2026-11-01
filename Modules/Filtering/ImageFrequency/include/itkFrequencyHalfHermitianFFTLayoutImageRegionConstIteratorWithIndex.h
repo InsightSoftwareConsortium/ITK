@@ -18,7 +18,6 @@
 #ifndef itkFrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex_h
 #define itkFrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex_h
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkFrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex.h"
 
-namespace itk
-{
+#endif
