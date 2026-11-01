@@ -18,6 +18,6 @@
 #ifndef itkImageLinearConstIteratorWithIndex_hxx
 #define itkImageLinearConstIteratorWithIndex_hxx
 
+#include "itkImageLinearIteratorWithIndex.hxx"
 
-namespace itk
-{
+#endif

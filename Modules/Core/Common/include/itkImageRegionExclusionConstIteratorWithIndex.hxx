@@ -18,11 +18,6 @@
 #ifndef itkImageRegionExclusionConstIteratorWithIndex_hxx
 #define itkImageRegionExclusionConstIteratorWithIndex_hxx
 
+#include "itkImageRegionExclusionIteratorWithIndex.hxx"
 
-namespace itk
-{
-
-template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage>::ImageRegionExclusionConstIteratorWithIndex(
-  const TImage *     ptr,
-  const RegionType & region)
+#endif

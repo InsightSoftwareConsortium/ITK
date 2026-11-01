@@ -21,41 +21,12 @@
 
 namespace itk
 {
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageLinearConstIteratorWithIndex<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-  : ImageLinearConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const ImageLinearConstIteratorWithIndex<TImage> & it)
-  : ImageLinearConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage> &
-ImageLinearIteratorWithIndex<TImage>::operator=(const ImageLinearConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageLinearConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
-
-#endif
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageLinearConstIteratorWithIndex<TImage>::ImageLinearConstIteratorWithIndex(const TImage *     ptr,
-                                                                             const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(TImage * ptr, const RegionType & region)
+  : ImageIteratorWithIndex<TImage>(ptr, region)
 {
   this->SetDirection(0);
 }
@@ -65,7 +36,7 @@ ImageLinearConstIteratorWithIndex<TImage>::ImageLinearConstIteratorWithIndex(con
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
+ImageLinearIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
 {
   const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction] - 1;
 
@@ -78,7 +49,7 @@ ImageLinearConstIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToBeginOfLine()
+ImageLinearIteratorWithIndex<TImage>::GoToBeginOfLine()
 {
   const OffsetValueType distanceToBegin = this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction];
 
@@ -92,7 +63,7 @@ ImageLinearConstIteratorWithIndex<TImage>::GoToBeginOfLine()
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToEndOfLine()
+ImageLinearIteratorWithIndex<TImage>::GoToEndOfLine()
 {
   const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction];
 

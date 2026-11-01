@@ -18,9 +18,6 @@
 #ifndef itkImageRandomConstIteratorWithIndex_h
 #define itkImageRandomConstIteratorWithIndex_h
 
-#include "itkImageConstIteratorWithIndex.h"
-#include "itkMersenneTwisterRandomVariateGenerator.h"
-#include <type_traits> // For remove_const_t.
+#include "itkImageRandomIteratorWithIndex.h"
 
-namespace itk
-{
+#endif

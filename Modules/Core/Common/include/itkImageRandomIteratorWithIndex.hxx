@@ -21,47 +21,23 @@
 
 namespace itk
 {
+
 template <typename TImage>
 ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageRandomConstIteratorWithIndex<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-  : ImageRandomConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(const ImageRandomConstIteratorWithIndex<TImage> & it)
-  : ImageRandomConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRandomIteratorWithIndex<TImage> &
-ImageRandomIteratorWithIndex<TImage>::operator=(const ImageRandomConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageRandomConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
-
-#endif
+  : ImageIteratorWithIndex<TImage>(ptr, region)
   , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
 {}
 
 template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed()
+ImageRandomIteratorWithIndex<TImage>::ReinitializeSeed()
 {
   m_Generator->SetSeed();
 }
 
 template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
+ImageRandomIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
 {
   m_Generator->SetSeed(seed);
   // vnl_sample_reseed(seed);
@@ -69,7 +45,7 @@ ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
 
 template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex<TImage>::RandomJump()
+ImageRandomIteratorWithIndex<TImage>::RandomJump()
 {
   using PositionValueType = IndexValueType;
 

@@ -18,11 +18,6 @@
 #ifndef itkImageRandomConstIteratorWithIndex_hxx
 #define itkImageRandomConstIteratorWithIndex_hxx
 
+#include "itkImageRandomIteratorWithIndex.hxx"
 
-namespace itk
-{
-
-template <typename TImage>
-ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(const TImage *     ptr,
-                                                                             const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+#endif

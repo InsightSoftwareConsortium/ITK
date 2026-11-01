@@ -50,6 +50,7 @@
 #include "itkImage.h"
 #include "itkTestingGetBufferPointerCountingImage.h"
 #include <gtest/gtest.h>
+#include <memory>
 #include <type_traits> // For false_type and true_type.
 #include <typeinfo>
 
@@ -370,7 +371,51 @@ TEST(ImageIterators, NoWriteAccessToConstImage)
                                                  itk::ImageRegionIterator,
                                                  itk::ImageScanlineIterator,
                                                  itk::ImageReverseIterator,
-                                                 itk::ImageRegionReverseIterator>());
+                                                 itk::ImageRegionReverseIterator,
+                                                 itk::ImageIteratorWithIndex,
+                                                 itk::ImageRegionIteratorWithIndex,
+                                                 itk::ImageLinearIteratorWithIndex,
+                                                 itk::ImageSliceIteratorWithIndex,
+                                                 itk::ImageRandomIteratorWithIndex,
+                                                 itk::ImageRandomNonRepeatingIteratorWithIndex,
+                                                 itk::ImageRegionExclusionIteratorWithIndex>());
   static_assert(!HasSet<itk::ImageRegionConstIterator<itk::Image<int>>>::value);
   static_assert(!HasSet<itk::ImageConstIterator<itk::Image<int>>>::value);
+  static_assert(!HasSet<itk::ImageRegionConstIteratorWithIndex<itk::Image<int>>>::value);
+}
+
+
+// Checks that a copied random non-repeating iterator owns its permutation, so it outlives the source.
+TEST(ImageIterators, RandomNonRepeatingCopyOutlivesSource)
+{
+  using ImageType = itk::Image<int>;
+  const auto image = ImageType::New();
+  const auto region = ImageType::RegionType(ImageType::SizeType::Filled(4));
+  image->SetRegions(region);
+  image->AllocateInitialized();
+
+  const auto makeSource = [&image, &region] {
+    auto source =
+      std::make_unique<itk::ImageRandomNonRepeatingIteratorWithIndex<const ImageType>>(image.GetPointer(), region);
+    source->SetNumberOfSamples(region.GetNumberOfPixels());
+    source->GoToBegin();
+    return source;
+  };
+
+  const auto expectUsable = [&region](auto & it) {
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      EXPECT_TRUE(region.IsInside(it.GetIndex()));
+    }
+  };
+
+  auto source = makeSource();
+
+  itk::ImageRandomNonRepeatingIteratorWithIndex<const ImageType> copy(*source);
+  source = makeSource();
+
+  itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType> bridged(*source);
+  source.reset();
+  expectUsable(copy);
+  expectUsable(bridged);
 }

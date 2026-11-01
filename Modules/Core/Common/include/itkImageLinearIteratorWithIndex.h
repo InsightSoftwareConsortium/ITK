@@ -18,8 +18,9 @@
 #ifndef itkImageLinearIteratorWithIndex_h
 #define itkImageLinearIteratorWithIndex_h
 
-#include "itkImageLinearConstIteratorWithIndex.h"
+
 #include "itkImageIteratorWithIndex.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -64,11 +65,15 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageLinearIteratorWithIndex : public ImageLinearConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageLinearIteratorWithIndex : public ImageIteratorWithIndex<TImage>
 {
+  template <typename>
+  friend class ImageLinearIteratorWithIndex;
+
 public:
   /** Standard class type aliases. */
   using Self = ImageLinearIteratorWithIndex;
+  using Superclass = ImageIteratorWithIndex<TImage>;
 
   /** Index type alias support While this was already typedef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
@@ -95,84 +100,33 @@ public:
   using PixelContainerPointer = typename PixelContainer::Pointer;
 
   /** Default constructor. */
-  using Superclass = ImageLinearConstIteratorWithIndex<TImage>;
+  ImageLinearIteratorWithIndex()
+    : ImageIteratorWithIndex<TImage>()
 
-  /** Types inherited from the Superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
-
-  /** Default constructor. */
-  ImageLinearIteratorWithIndex() = default;
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
   ImageLinearIteratorWithIndex(TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageLinearIteratorWithIndex. Many routines return an ImageIterator, but for a
+   * ImageLinearIteratorWithIndex. Many routines return an ImageIterator but for a
    * particular task, you may want an ImageLinearIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageLinearIteratorWithIndex. */
-  ImageLinearIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it);
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
-  }
-
-  /** Return a reference to the pixel.
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    return *(const_cast<InternalPixelType *>(this->m_Position));
-  }
-
-protected:
-  /** the construction from a const iterator is declared protected
-      in order to enforce const correctness. */
-  /** @ITKStartGrouping */
-  ImageLinearIteratorWithIndex(const ImageLinearConstIteratorWithIndex<TImage> & it);
-  Self &
-  operator=(const ImageLinearConstIteratorWithIndex<TImage> & it);
-  /** @ITKEndGrouping */
-};
-
-// Deduction guide for class template argument deduction (CTAD).
-template <typename TImage>
-ImageLinearIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageLinearIteratorWithIndex<TImage>;
-  ImageLinearConstIteratorWithIndex()
-    : ImageConstIteratorWithIndex<TImage>()
-
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageLinearIteratorWithIndex(const ImageIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
   {}
 
-  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  ImageLinearConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
-
-  /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageLinearConstIteratorWithIndex. Many routines return an ImageIterator but for a
-   * particular task, you may want an ImageLinearConstIteratorWithIndex.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageLinearConstIteratorWithIndex. */
-  ImageLinearConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
-  {
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-  }
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageLinearIteratorWithIndex(const ImageLinearIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+    , m_Jump(it.m_Jump)
+    , m_Direction(it.m_Direction)
+  {}
 
   /** Go to the next line.
    * \sa operator++  \sa operator-- \sa IsAtEndOfLine \sa PreviousLine \sa End */
@@ -260,16 +214,15 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageLinearConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageLinearConstIteratorWithIndex<std::remove_const_t<TImage>>;
-
+ImageLinearIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageLinearIteratorWithIndex<TImage>;
 
 //----------------------------------------------------------------------
 //  Go to next line
 //----------------------------------------------------------------------
 template <typename TImage>
 inline void
-ImageLinearConstIteratorWithIndex<TImage>::NextLine()
+ImageLinearIteratorWithIndex<TImage>::NextLine()
 {
   this->m_Position -=
     this->m_OffsetTable[m_Direction] * (this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction]);
@@ -303,7 +256,7 @@ ImageLinearConstIteratorWithIndex<TImage>::NextLine()
 //----------------------------------------------------------------------
 template <typename TImage>
 inline void
-ImageLinearConstIteratorWithIndex<TImage>::PreviousLine()
+ImageLinearIteratorWithIndex<TImage>::PreviousLine()
 {
   this->m_Position +=
     this->m_OffsetTable[m_Direction] * (this->m_EndIndex[m_Direction] - 1 - this->m_PositionIndex[m_Direction]);
@@ -331,13 +284,7 @@ ImageLinearConstIteratorWithIndex<TImage>::PreviousLine()
     this->m_PositionIndex[n] = this->m_EndIndex[n] - 1;
   }
 }
-} // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageLinearConstIteratorWithIndex.hxx"
-#endif
-
-#endif
 /** \class ImageLinearConstIteratorWithIndex
  * \brief A multi-dimensional image iterator that visits image pixels within a
  * region in a "scan-line" order.
@@ -414,12 +361,32 @@ ImageLinearConstIteratorWithIndex<TImage>::PreviousLine()
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageLinearConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageLinearConstIteratorWithIndex
+  : public ImageLinearIteratorWithIndex<std::add_const_t<TImage>>
 {
 public:
-  /** Standard class type aliases. */
+  /** Standard class type alias. */
   using Self = ImageLinearConstIteratorWithIndex;
-  using Superclass = ImageConstIteratorWithIndex<TImage>;
+  using Superclass = ImageLinearIteratorWithIndex<std::add_const_t<TImage>>;
+
+  using Superclass::Superclass;
+
+  ImageLinearConstIteratorWithIndex() = default;
+
+  /** Conversion from ImageLinearIteratorWithIndex<const TImage>. */
+  ImageLinearConstIteratorWithIndex(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage>
+ImageLinearConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> ImageLinearConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+ImageLinearConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageLinearConstIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 

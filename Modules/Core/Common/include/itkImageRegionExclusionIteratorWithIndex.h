@@ -18,8 +18,9 @@
 #ifndef itkImageRegionExclusionIteratorWithIndex_h
 #define itkImageRegionExclusionIteratorWithIndex_h
 
-#include "itkImageRegionExclusionConstIteratorWithIndex.h"
-#include "itkImageIteratorWithIndex.h"
+
+#include "itkImageRegionIteratorWithIndex.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -64,13 +65,15 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionExclusionIteratorWithIndex
-  : public ImageRegionExclusionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionExclusionIteratorWithIndex : public ImageRegionIteratorWithIndex<TImage>
 {
+  template <typename>
+  friend class ImageRegionExclusionIteratorWithIndex;
+
 public:
   /** Standard class type aliases. */
   using Self = ImageRegionExclusionIteratorWithIndex;
-  using Superclass = ImageRegionExclusionConstIteratorWithIndex<TImage>;
+  using Superclass = ImageRegionIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
@@ -91,44 +94,26 @@ public:
    * the iterator at the begin of the region. */
   ImageRegionExclusionIteratorWithIndex(TImage * ptr, const RegionType & region);
 
-  /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionExclusionIteratorWithIndex. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRegionExclusionIteratorWithIndex.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionExclusionIteratorWithIndex. */
-  ImageRegionExclusionIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it);
+  /** Constructor that can be used to cast from an ImageRegionIteratorWithIndex
+   * to an ImageRegionExclusionIteratorWithIndex. Many routines return an
+   * ImageIterator, but for a particular task, you may want an
+   * ImageRegionExclusionIteratorWithIndex. Rather than provide overloaded
+   * APIs that return different types of Iterators, itk returns ImageIterators
+   * and uses constructors to cast from an ImageIterator to a
+   * ImageRegionExclusionIteratorWithIndex. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageRegionExclusionIteratorWithIndex(const ImageIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+  {}
 
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
-  }
-
-  /** Return a reference to the pixel.
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    return *(const_cast<InternalPixelType *>(this->m_Position));
-  }
-
-protected:
-  /** The construction from a const iterator is declared protected
-      in order to enforce const correctness. */
-  /** @ITKStartGrouping */
-  ImageRegionExclusionIteratorWithIndex(const ImageRegionExclusionConstIteratorWithIndex<TImage> & it);
-  Self &
-  operator=(const ImageRegionExclusionConstIteratorWithIndex<TImage> & it);
-  /** @ITKEndGrouping */
-};
-
-// Deduction guide for class template argument deduction (CTAD).
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRegionExclusionIteratorWithIndex<TImage>;
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageRegionExclusionIteratorWithIndex(const ImageRegionExclusionIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+    , m_ExclusionRegion(it.m_ExclusionRegion)
+    , m_ExclusionBegin(it.m_ExclusionBegin)
+    , m_ExclusionEnd(it.m_ExclusionEnd)
+  {}
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the end of the row of the region
@@ -182,16 +167,9 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRegionExclusionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+ImageRegionExclusionIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionExclusionIteratorWithIndex<TImage>;
 
-} // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRegionExclusionConstIteratorWithIndex.hxx"
-#endif
-
-#endif
 /** \class ImageRegionExclusionConstIteratorWithIndex
  *
  *  \brief A multi-dimensional image iterator that walks an image region,
@@ -202,7 +180,7 @@ ImageRegionExclusionConstIteratorWithIndex(SmartPointer<TImage>, const typename 
  * over the image type that represents a multi-dimensional
  * iterator. The exclusion region is set after construction. By
  * default the exclusion region is empty and the iterator will behave
- * as the itk::ImageRegionConstIteratorWithIndex with a penalty in
+ * as the itk::ImageRegionIteratorWithIndex with a penalty in
  * performance due to internal bounds checking. There are no
  * restrictions on valid exclusion regions.
  *
@@ -298,41 +276,32 @@ ImageRegionExclusionConstIteratorWithIndex(SmartPointer<TImage>, const typename 
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionExclusionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionExclusionConstIteratorWithIndex
+  : public ImageRegionExclusionIteratorWithIndex<std::add_const_t<TImage>>
 {
 public:
-  /** Standard class type aliases. */
+  /** Standard class type alias. */
   using Self = ImageRegionExclusionConstIteratorWithIndex;
-  using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
+  using Superclass = ImageRegionExclusionIteratorWithIndex<std::add_const_t<TImage>>;
 
-  /** Types inherited from the Superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
+  using Superclass::Superclass;
 
-  /** Default constructor. */
   ImageRegionExclusionConstIteratorWithIndex() = default;
 
-  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  ImageRegionExclusionConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
+  /** Conversion from ImageRegionExclusionIteratorWithIndex<const TImage>. */
+  ImageRegionExclusionConstIteratorWithIndex(const Superclass & it)
+    : Superclass(it)
+  {}
+};
 
-  /** Constructor that can be used to cast from an ImageRegionConstIteratorWithIndex
-   * to an ImageRegionExclusionConstIteratorWithIndex. Many routines return an
-   * ImageIterator, but for a particular task, you may want an
-   * ImageRegionExclusionConstIteratorWithIndex. Rather than provide overloaded
-   * APIs that return different types of Iterators, itk returns ImageIterators
-   * and uses constructors to cast from an ImageIterator to a
-   * ImageRegionExclusionConstIteratorWithIndex. */
-  ImageRegionExclusionConstIteratorWithIndex(const Superclass & it);
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRegionExclusionConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> ImageRegionExclusionConstIteratorWithIndex<TImage>;
 
+template <typename TImage>
+ImageRegionExclusionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionExclusionConstIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 

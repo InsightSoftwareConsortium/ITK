@@ -18,3 +18,6 @@
 #ifndef itkImageRandomNonRepeatingConstIteratorWithIndex_h
 #define itkImageRandomNonRepeatingConstIteratorWithIndex_h
 
+#include "itkImageRandomNonRepeatingIteratorWithIndex.h"
+
+#endif

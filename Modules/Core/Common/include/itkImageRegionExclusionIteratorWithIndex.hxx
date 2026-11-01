@@ -21,51 +21,19 @@
 
 namespace itk
 {
+
 template <typename TImage>
 ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(TImage *           ptr,
                                                                                      const RegionType & region)
-  : ImageRegionExclusionConstIteratorWithIndex<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(
-  const ImageIteratorWithIndex<TImage> & it)
-  : ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(
-  const ImageRegionExclusionConstIteratorWithIndex<TImage> & it)
-  : ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage> &
-ImageRegionExclusionIteratorWithIndex<TImage>::operator=(const ImageRegionExclusionConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageRegionExclusionConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
-
-#endif
   : Superclass(ptr, region)
 {}
 
-template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage>::ImageRegionExclusionConstIteratorWithIndex(const Superclass & it)
-{
-  Superclass::operator=(it);
-}
 //----------------------------------------------------------------------
 //  Set the region to exclude from the walk
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegion(const RegionType & region)
+ImageRegionExclusionIteratorWithIndex<TImage>::SetExclusionRegion(const RegionType & region)
 {
   // Crop the exclusion region so that it lies entirely within the
   // iterator region.
@@ -87,7 +55,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegion(const Reg
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegionToInsetRegion()
+ImageRegionExclusionIteratorWithIndex<TImage>::SetExclusionRegionToInsetRegion()
 {
   RegionType excludeRegion = this->m_Region;
   for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
@@ -113,7 +81,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegionToInsetReg
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToBegin()
+ImageRegionExclusionIteratorWithIndex<TImage>::GoToBegin()
 {
   // Check whether exclusion region covers the entire region
   if (m_ExclusionRegion == this->m_Region)
@@ -148,7 +116,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToBegin()
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToReverseBegin()
+ImageRegionExclusionIteratorWithIndex<TImage>::GoToReverseBegin()
 {
   // Check whether exclusion region covers the entire region
   if (m_ExclusionRegion == this->m_Region)
@@ -183,8 +151,8 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToReverseBegin()
 //  Advance along the line, skipping the exclusion region
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage> &
-ImageRegionExclusionConstIteratorWithIndex<TImage>::operator++()
+ImageRegionExclusionIteratorWithIndex<TImage> &
+ImageRegionExclusionIteratorWithIndex<TImage>::operator++()
 {
   this->Superclass::operator++();
 
@@ -207,8 +175,8 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::operator++()
 //  Advance along the line in reverse direction, skipping exclusion region
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage> &
-ImageRegionExclusionConstIteratorWithIndex<TImage>::operator--()
+ImageRegionExclusionIteratorWithIndex<TImage> &
+ImageRegionExclusionIteratorWithIndex<TImage>::operator--()
 {
   this->Superclass::operator--();
 

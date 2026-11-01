@@ -21,40 +21,12 @@
 
 namespace itk
 {
-template <typename TImage>
-ImageRegionIteratorWithIndex<TImage>::ImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageRegionIteratorWithIndex<TImage>::ImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-  : ImageRegionConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionIteratorWithIndex<TImage>::ImageRegionIteratorWithIndex(const ImageRegionConstIteratorWithIndex<TImage> & it)
-  : ImageRegionConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionIteratorWithIndex<TImage> &
-ImageRegionIteratorWithIndex<TImage>::operator=(const ImageRegionConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageRegionConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
-
-#endif
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageRegionConstIteratorWithIndex<TImage> &
-ImageRegionConstIteratorWithIndex<TImage>::operator++()
+ImageRegionIteratorWithIndex<TImage> &
+ImageRegionIteratorWithIndex<TImage>::operator++()
 {
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
@@ -83,8 +55,8 @@ ImageRegionConstIteratorWithIndex<TImage>::operator++()
 //  Advance along the line in reverse direction
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageRegionConstIteratorWithIndex<TImage> &
-ImageRegionConstIteratorWithIndex<TImage>::operator--()
+ImageRegionIteratorWithIndex<TImage> &
+ImageRegionIteratorWithIndex<TImage>::operator--()
 {
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
