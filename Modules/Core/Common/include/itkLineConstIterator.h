@@ -18,8 +18,6 @@
 #ifndef itkLineConstIterator_h
 #define itkLineConstIterator_h
 
-#include "itkIndex.h"
-#include "itkImage.h"
+#include "itkLineIterator.h"
 
-namespace itk
-{
+#endif

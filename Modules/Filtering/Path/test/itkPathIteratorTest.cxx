@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <type_traits>
 #include "itkImageRegionIterator.h"
 #include "itkPolyLineParametricPath.h"
 #include "itkPathIterator.h"
@@ -25,6 +26,19 @@
 int
 itkPathIteratorTest(int, char *[])
 {
+  {
+    // The read-only iterator deduces its types from raw pointers, as it does in ITK 5.
+    using CheckImageType = itk::Image<double, 2>;
+    using CheckPathType = itk::PolyLineParametricPath<2>;
+    const CheckImageType * const constImage = nullptr;
+    CheckImageType * const       image = nullptr;
+    const CheckPathType * const  path = nullptr;
+    static_assert(std::is_same_v<decltype(itk::PathConstIterator(constImage, path)),
+                                 itk::PathConstIterator<CheckImageType, CheckPathType>>);
+    static_assert(std::is_same_v<decltype(itk::PathConstIterator(image, path)),
+                                 itk::PathConstIterator<CheckImageType, CheckPathType>>);
+  }
+
   constexpr unsigned int Dimension{ 2 };
   using PixelType = double;
 

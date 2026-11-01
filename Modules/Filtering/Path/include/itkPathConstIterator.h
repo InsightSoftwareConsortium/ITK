@@ -18,8 +18,6 @@
 #ifndef itkPathConstIterator_h
 #define itkPathConstIterator_h
 
-#include "itkImage.h"
-#include "itkPath.h"
+#include "itkPathIterator.h"
 
-namespace itk
-{
+#endif

@@ -18,3 +18,6 @@
 #ifndef itkPathConstIterator_hxx
 #define itkPathConstIterator_hxx
 
+#include "itkPathIterator.hxx"
+
+#endif

@@ -18,7 +18,12 @@
 #ifndef itkPathIterator_h
 #define itkPathIterator_h
 
-#include "itkPathConstIterator.h"
+
+#include "itkImage.h"
+#include "itkPath.h"
+
+#include "itkImageIterator.h"
+#include <type_traits>
 
 namespace itk
 {
@@ -35,6 +40,9 @@ namespace itk
  * For a complete description of the ITK Image Iterators and their API, please
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
  * is available in print and as a free .pdf download from https://www.itk.org.
+ *
+ * The constness of TImage selects the access: PathIterator<const TImage>
+ * (equivalently PathConstIterator<TImage>) is read-only.
  *
  * \ingroup ImageIterators
  *
@@ -65,8 +73,11 @@ namespace itk
  * \ingroup ITKPath
  */
 template <typename TImage, typename TPath>
-class ITK_TEMPLATE_EXPORT PathIterator : public PathConstIterator<TImage, TPath>
+class ITK_TEMPLATE_EXPORT PathIterator
 {
+  template <typename, typename>
+  friend class PathIterator;
+
 public:
   /** Standard class type aliases. */
   using Self = PathIterator;
@@ -96,7 +107,7 @@ public:
   using PointType = typename TImage::PointType;
 
   /** Image type alias support */
-  using ImageType = TImage;
+  using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typedef'ed in the superclass
@@ -124,7 +135,7 @@ public:
   using PathOutputType = typename PathType::OutputType;
 
   /** \see LightObject::GetNameOfClass() */
-  itkVirtualGetNameOfClassMacro(PathConstIterator);
+  itkVirtualGetNameOfClassMacro(PathIterator);
 
   /** Get the dimension (size) of the index. */
   static unsigned int
@@ -185,81 +196,70 @@ public:
   void
   operator++();
 
-
-  /** Dimension of the image the iterator walks.  This constant is needed so
-   * that functions that are templated over image iterator type (as opposed to
-   * being templated over pixel type and dimension) can have compile time
-   * access to the dimension of the image that the iterator walks. */
-  static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
-
-  /** Define the superclass */
-  using Superclass = PathConstIterator<TImage, TPath>;
-
-  /** Inherit types from the superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::SizeType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
-  using typename Superclass::PathType;
-  using typename Superclass::PathInputType;
-  using typename Superclass::PathOutputType;
-
-  /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(PathIterator);
-
-  /** Set the pixel value */
+  /** Set the pixel value. Available only when TImage is not const. */
+#ifdef __cpp_concepts
   void
   Set(const PixelType & value)
+    requires(!std::is_const_v<TImage>)
+#else
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
+  void
+  Set(const PixelType & value)
+#endif
   {
-    // Normally, this would just be the following:
-    //   m_Image->SetPixel(m_CurrentImageIndex,value);
-    // However, we don't want a warning about m_Image being a ConstPointer
-    // in the Superclass.
-    const_cast<ImageType *>(this->m_Image.GetPointer())->SetPixel(this->m_CurrentImageIndex, value);
+    m_Image->SetPixel(m_CurrentImageIndex, value);
   }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel. Available only when TImage is not const.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
+#ifdef __cpp_concepts
   PixelType &
   Value()
+    requires(!std::is_const_v<TImage>)
+#else
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
+  PixelType &
+  Value()
+#endif
   {
-    return this->GetImage()->GetPixel(this->m_ImageIndex);
+    return m_Image->GetPixel(m_CurrentImageIndex);
   }
 
+
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  PathIterator(const PathIterator<TOtherImage, TPath> & it)
+    : m_ZeroOffset(it.m_ZeroOffset)
+    , m_Image(it.m_Image)
+    , m_Path(it.m_Path)
+    , m_Region(it.m_Region)
+    , m_ImageOrigin(it.m_ImageOrigin)
+    , m_ImageSpacing(it.m_ImageSpacing)
+    , m_ImageSize(it.m_ImageSize)
+    , m_VisitStartIndexAsLastIndexIfClosed(it.m_VisitStartIndexAsLastIndexIfClosed)
+    , m_IsAtEnd(it.m_IsAtEnd)
+    , m_CurrentPathPosition(it.m_CurrentPathPosition)
+    , m_CurrentImageIndex(it.m_CurrentImageIndex)
+  {}
+
   /** operator= is provided to make sure the handles to the image and path are
    * properly reference counted. */
   Self &
   operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a path */
-  PathIterator(ImageType * imagePtr, const PathType * pathPtr);
+  PathIterator(TImage * imagePtr, const PathType * pathPtr);
 
   /** Default Destructor. */
-  ~PathIterator() override = default;
-};
-  /** operator= is provided to make sure the handles to the image and path are
-   * properly reference counted. */
-  Self &
-  operator=(const Self & it);
-
-  /** Constructor establishes an iterator to walk along a path */
-  PathConstIterator(const ImageType * imagePtr, const PathType * pathPtr);
-
-  /** Default Destructor. */
-  virtual ~PathConstIterator() = default;
+  virtual ~PathIterator() = default;
 
 protected: // made protected so other iterators can access
   // This "constant" is initialized in the constructor
   OffsetType m_ZeroOffset{}; // = 0 for all dimensions
 
   /** Smart pointer to the source image. */
-  typename ImageType::ConstWeakPointer m_Image{};
+  WeakPointer<TImage> m_Image{};
 
   /** Smart pointer to the path we're following */
   typename PathType::ConstPointer m_Path{};
@@ -291,13 +291,7 @@ protected: // made protected so other iterators can access
   /** Current ND index position in the image of the path */
   IndexType m_CurrentImageIndex{};
 };
-} // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkPathConstIterator.hxx"
-#endif
-
-#endif
 /**
  * \class PathConstIterator
  * \brief PathConstIterator iterates (traces) over a path through an image.
@@ -347,11 +341,28 @@ protected: // made protected so other iterators can access
  * \sa SliceIterator \sa ImageConstIteratorWithIndex
  */
 template <typename TImage, typename TPath>
-class ITK_TEMPLATE_EXPORT PathConstIterator
+class ITK_TEMPLATE_EXPORT PathConstIterator : public PathIterator<std::add_const_t<TImage>, TPath>
 {
 public:
-  /** Standard class type aliases. */
+  /** Standard class type alias. */
   using Self = PathConstIterator;
+  using Superclass = PathIterator<std::add_const_t<TImage>, TPath>;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(PathConstIterator);
+
+  using Superclass::Superclass;
+
+  /** Conversion from PathIterator<const TImage>. */
+  PathConstIterator(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage, typename TPath>
+PathConstIterator(const TImage *, const TPath *) -> PathConstIterator<TImage, TPath>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

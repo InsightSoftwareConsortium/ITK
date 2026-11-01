@@ -18,3 +18,6 @@
 #ifndef itkLineConstIterator_hxx
 #define itkLineConstIterator_hxx
 
+#include "itkLineIterator.hxx"
+
+#endif

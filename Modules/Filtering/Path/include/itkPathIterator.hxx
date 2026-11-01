@@ -23,26 +23,7 @@
 namespace itk
 {
 template <typename TImage, typename TPath>
-PathIterator<TImage, TPath>::PathIterator(ImageType * imagePtr, const PathType * pathPtr)
-  : PathConstIterator<TImage, TPath>(imagePtr, pathPtr)
-{}
-
-template <typename TImage, typename TPath>
-PathIterator<TImage, TPath> &
-PathIterator<TImage, TPath>::operator=(const Self & it)
-{
-  this->PathConstIterator<TImage, TPath>::operator=(it);
-  return *this;
-}
-} // end namespace itk
-
-#endif
-#include "itkOffset.h" // for operator++
-
-namespace itk
-{
-template <typename TImage, typename TPath>
-PathConstIterator<TImage, TPath>::PathConstIterator(const ImageType * imagePtr, const PathType * pathPtr)
+PathIterator<TImage, TPath>::PathIterator(TImage * imagePtr, const PathType * pathPtr)
   : m_Image(imagePtr)
   , m_Path(pathPtr)
   , m_Region(m_Image->GetLargestPossibleRegion())
@@ -56,8 +37,8 @@ PathConstIterator<TImage, TPath>::PathConstIterator(const ImageType * imagePtr, 
 }
 
 template <typename TImage, typename TPath>
-PathConstIterator<TImage, TPath> &
-PathConstIterator<TImage, TPath>::operator=(const Self & it)
+PathIterator<TImage, TPath> &
+PathIterator<TImage, TPath>::operator=(const Self & it)
 {
   if (this != &it)
   {
@@ -76,7 +57,7 @@ PathConstIterator<TImage, TPath>::operator=(const Self & it)
 
 template <typename TImage, typename TPath>
 void
-PathConstIterator<TImage, TPath>::GoToBegin()
+PathIterator<TImage, TPath>::GoToBegin()
 {
   // Go the beginning
   m_CurrentPathPosition = m_Path->StartOfInput();
@@ -98,7 +79,7 @@ PathConstIterator<TImage, TPath>::GoToBegin()
 
 template <typename TImage, typename TPath>
 void
-PathConstIterator<TImage, TPath>::operator++()
+PathIterator<TImage, TPath>::operator++()
 {
   // We need to modify m_CurrentPathPosition, m_CurrentImageIndex, m_IsAtEnd
   const OffsetType offset = m_Path->IncrementInput(m_CurrentPathPosition);

@@ -22,27 +22,7 @@
 namespace itk
 {
 template <typename TImage>
-LineIterator<TImage>::LineIterator(ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
-  : LineConstIterator<TImage>(imagePtr, firstIndex, lastIndex)
-{}
-
-template <typename TImage>
-LineIterator<TImage> &
-LineIterator<TImage>::operator=(const Self & it)
-{
-  this->LineConstIterator<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
-
-#endif
-
-namespace itk
-{
-template <typename TImage>
-LineConstIterator<TImage>::LineConstIterator(const ImageType * imagePtr,
-                                             const IndexType & firstIndex,
-                                             const IndexType & lastIndex)
+LineIterator<TImage>::LineIterator(TImage * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
   : m_Image(imagePtr)
   , m_StartIndex(firstIndex)
   , m_LastIndex(lastIndex)
@@ -99,8 +79,8 @@ LineConstIterator<TImage>::LineConstIterator(const ImageType * imagePtr,
 }
 
 template <typename TImage>
-LineConstIterator<TImage> &
-LineConstIterator<TImage>::operator=(const Self & it)
+LineIterator<TImage> &
+LineIterator<TImage>::operator=(const Self & it)
 {
   if (this != &it)
   {
@@ -123,7 +103,7 @@ LineConstIterator<TImage>::operator=(const Self & it)
 
 template <typename TImage>
 void
-LineConstIterator<TImage>::GoToBegin()
+LineIterator<TImage>::GoToBegin()
 {
   m_CurrentImageIndex = m_StartIndex;
   m_AccumulateError.Fill(0);
@@ -132,7 +112,7 @@ LineConstIterator<TImage>::GoToBegin()
 
 template <typename TImage>
 void
-LineConstIterator<TImage>::operator++()
+LineIterator<TImage>::operator++()
 {
   // We need to modify m_AccumulateError, m_CurrentImageIndex, m_IsAtEnd
   for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
