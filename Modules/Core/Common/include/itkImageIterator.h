@@ -198,7 +198,6 @@ public:
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
   }
 
-
   /** Set the region of the image to iterate over. */
   virtual void
   SetRegion(const RegionType & region)
