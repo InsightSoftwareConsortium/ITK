@@ -18,8 +18,6 @@
 #ifndef itkImageScanlineConstIterator_h
 #define itkImageScanlineConstIterator_h
 
-#include "itkImageIterator.h"
-#include <type_traits> // For remove_const_t.
+#include "itkImageScanlineIterator.h"
 
-namespace itk
-{
+#endif

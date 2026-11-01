@@ -21,39 +21,10 @@
 
 namespace itk
 {
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(TImage * ptr, const RegionType & region)
-  : ImageScanlineConstIterator<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageIterator<TImage> & it)
-  : ImageScanlineConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageScanlineConstIterator<TImage> & it)
-  : ImageScanlineConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageScanlineIterator<TImage> &
-ImageScanlineIterator<TImage>::operator=(const ImageScanlineConstIterator<TImage> & it)
-{
-  this->ImageScanlineConstIterator<TImage>::operator=(it);
-  return *this;
-}
-
-} // end namespace itk
-
-#endif
 
 template <typename TImage>
 void
-ImageScanlineConstIterator<TImage>::NextLine()
+ImageScanlineIterator<TImage>::NextLine()
 {
   // increment to the next scanline
 

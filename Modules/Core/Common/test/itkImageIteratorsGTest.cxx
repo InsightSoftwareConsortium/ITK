@@ -366,7 +366,8 @@ TEST(ImageIterators, ConstNonConstConversionAndComparison)
 // Checks that iterators over a const image provide no write access (issue #7003).
 TEST(ImageIterators, NoWriteAccessToConstImage)
 {
-  static_assert(AreWritableOnlyForNonConstImages<itk::ImageIterator, itk::ImageRegionIterator>());
+  static_assert(
+    AreWritableOnlyForNonConstImages<itk::ImageIterator, itk::ImageRegionIterator, itk::ImageScanlineIterator>());
   static_assert(!HasSet<itk::ImageRegionConstIterator<itk::Image<int>>>::value);
   static_assert(!HasSet<itk::ImageConstIterator<itk::Image<int>>>::value);
 }
