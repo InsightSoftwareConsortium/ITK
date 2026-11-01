@@ -219,6 +219,30 @@ AreWritableOnlyForNonConstImages()
   return ((HasSet<TIteratorTemplate<ImageType>>::value && !HasSet<TIteratorTemplate<const ImageType>>::value) && ...);
 }
 
+// HasAssignableValue tells whether a pixel can be assigned through the reference returned by `Value()`.
+template <typename TIterator, typename = void>
+struct HasAssignableValue : std::false_type
+{};
+
+template <typename TIterator>
+struct HasAssignableValue<
+  TIterator,
+  std::void_t<decltype(std::declval<TIterator &>().Value() = std::declval<typename TIterator::PixelType>())>>
+  : std::true_type
+{};
+
+// Checks that `Value()` is assignable for a non-const image, and not for a const image.
+template <template <typename> typename... TIteratorTemplate>
+constexpr bool
+AreValueAssignableOnlyForNonConstImages()
+{
+  using ImageType = itk::Image<int>;
+  return ((HasAssignableValue<TIteratorTemplate<ImageType>>::value &&
+           !HasAssignableValue<TIteratorTemplate<const ImageType>>::value) &&
+          ...);
+}
+
+
 } // namespace
 
 
@@ -387,6 +411,44 @@ TEST(ImageIterators, NoWriteAccessToConstImage)
   using ImageType = itk::Image<int>;
   static_assert(HasSet<itk::LineIterator<ImageType>>::value && !HasSet<itk::LineIterator<const ImageType>>::value);
   static_assert(!HasSet<itk::LineConstIterator<ImageType>>::value);
+
+  static_assert(AreValueAssignableOnlyForNonConstImages<itk::ImageIterator,
+                                                        itk::ImageRegionIterator,
+                                                        itk::ImageScanlineIterator,
+                                                        itk::ImageIteratorWithIndex,
+                                                        itk::ImageRegionIteratorWithIndex,
+                                                        itk::ImageLinearIteratorWithIndex,
+                                                        itk::ImageSliceIteratorWithIndex,
+                                                        itk::ImageRandomIteratorWithIndex,
+                                                        itk::ImageRandomNonRepeatingIteratorWithIndex,
+                                                        itk::ImageRegionExclusionIteratorWithIndex>());
+  static_assert(!HasAssignableValue<itk::ImageRegionConstIterator<ImageType>>::value);
+  static_assert(!HasAssignableValue<itk::ImageRegionConstIteratorWithIndex<ImageType>>::value);
+}
+
+
+// Checks that the indexed iterators keep the ImageIteratorDimension constant of the ITK 5 API.
+TEST(ImageIterators, IndexedIteratorsHaveImageIteratorDimension)
+{
+  using ImageType = itk::Image<int, 3>;
+  static_assert(itk::ImageIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
+  static_assert(itk::ImageConstIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
+  static_assert(itk::ImageRegionIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
+  static_assert(itk::ImageRegionExclusionIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
+}
+
+
+// Checks that the exclusion iterator can still be constructed from a plain ImageIteratorWithIndex.
+TEST(ImageIterators, ExclusionIteratorConstructibleFromImageIteratorWithIndex)
+{
+  using ImageType = itk::Image<int>;
+  using IndexedIt = itk::ImageIteratorWithIndex<ImageType>;
+  using ConstIndexedIt = itk::ImageIteratorWithIndex<const ImageType>;
+
+  static_assert(std::is_convertible_v<IndexedIt, itk::ImageRegionExclusionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_constructible_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>, IndexedIt>);
+  static_assert(std::is_constructible_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>, ConstIndexedIt>);
+  static_assert(!std::is_constructible_v<itk::ImageRegionExclusionIteratorWithIndex<ImageType>, ConstIndexedIt>);
 }
 
 
