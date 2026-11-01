@@ -18,10 +18,6 @@
 #ifndef itkImageConstIteratorWithIndex_h
 #define itkImageConstIteratorWithIndex_h
 
-#include "itkIndex.h"
-#include "itkImage.h"
-#include <memory>
-#include <type_traits> // For remove_const_t.
+#include "itkImageIteratorWithIndex.h"
 
-namespace itk
-{
+#endif

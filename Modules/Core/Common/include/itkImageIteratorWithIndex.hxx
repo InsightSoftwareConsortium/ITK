@@ -21,43 +21,11 @@
 
 namespace itk
 {
-
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-//----------------------------------------------------------------------
-//  Constructor
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
-  : ImageConstIteratorWithIndex<TImage>(it)
-{}
-
-//----------------------------------------------------------------------
-//    Assignment Operator
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageIteratorWithIndex<TImage> &
-ImageIteratorWithIndex<TImage>::operator=(const ImageConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-
-namespace itk
-{
-//----------------------------------------------------------------------
-//  Constructor
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it)
+ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const Self & it)
   : m_Image(it.m_Image) // copy the smart pointer
   , m_PositionIndex(it.m_PositionIndex)
   , m_BeginIndex(it.m_BeginIndex)
@@ -79,13 +47,13 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(TImage * ptr, const RegionType & region)
   : m_Image(ptr)
   , m_BeginIndex(region.GetIndex())
   , m_Region(region)
   , m_Remaining(region.GetNumberOfPixels() > 0)
 {
-  const InternalPixelType * buffer = m_Image->GetBufferPointer();
+  QualifiedInternalPixelType * buffer = m_Image->GetBufferPointer();
   m_PositionIndex = m_BeginIndex;
   if (region.GetNumberOfPixels() > 0) // If region is non-empty
   {
@@ -120,8 +88,8 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * 
 //    Assignment Operator
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageConstIteratorWithIndex<TImage> &
-ImageConstIteratorWithIndex<TImage>::operator=(const Self & it)
+ImageIteratorWithIndex<TImage> &
+ImageIteratorWithIndex<TImage>::operator=(const Self & it)
 {
   if (this != &it)
   {
@@ -151,7 +119,7 @@ ImageConstIteratorWithIndex<TImage>::operator=(const Self & it)
 //----------------------------------------------------------------------------
 template <typename TImage>
 void
-ImageConstIteratorWithIndex<TImage>::GoToBegin()
+ImageIteratorWithIndex<TImage>::GoToBegin()
 {
   // Set the position at begin
 
@@ -166,7 +134,7 @@ ImageConstIteratorWithIndex<TImage>::GoToBegin()
 //----------------------------------------------------------------------------
 template <typename TImage>
 void
-ImageConstIteratorWithIndex<TImage>::GoToReverseBegin()
+ImageIteratorWithIndex<TImage>::GoToReverseBegin()
 {
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -176,14 +144,9 @@ ImageConstIteratorWithIndex<TImage>::GoToReverseBegin()
   m_Remaining = m_Region.GetNumberOfPixels() > 0;
 
   // Set the position at the end
-  const InternalPixelType * buffer = m_Image->GetBufferPointer();
-  const OffsetValueType     offset = m_Image->ComputeOffset(m_PositionIndex);
+  QualifiedInternalPixelType * buffer = m_Image->GetBufferPointer();
+  const OffsetValueType        offset = m_Image->ComputeOffset(m_PositionIndex);
   m_Position = buffer + offset;
-}
-
-} // end namespace itk
-
-#endif
 }
 
 } // end namespace itk
