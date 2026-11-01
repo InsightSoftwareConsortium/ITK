@@ -318,3 +318,11 @@ itk_add_test(
     itkDCMTKImageIOSpacingTest
     DATA{Input/MultiFrameMRIZSpacing.dcm}
 )
+
+set(ITKIODCMTKGTests itkDCMTKImageIOGTest.cxx)
+creategoogletestdriver(ITKIODCMTK "${ITKIODCMTK-Test_LIBRARIES}" "${ITKIODCMTKGTests}")
+target_compile_definitions(
+  ITKIODCMTKGTestDriver
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)
