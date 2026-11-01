@@ -1207,8 +1207,7 @@ DCMTKFileReader::GetSpacing(double * const spacing) const
 
   int rval = EXIT_SUCCESS;
   /*
-   * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
-   * (0028, 0030) indicates physical X,Y spacing inside a slice;
+   * (0028, 0030) is row spacing then column spacing (DICOM PS3.3 Section 10.7.1.3), reversed below;
    * (0018, 0088) indicates physical Z spacing between slices;
    *  which above are also consistent with dcm2niix software.
    *  when we can not get (0018, 0088), we should compute spacing
@@ -1267,8 +1266,8 @@ DCMTKFileReader::GetSpacing(double * const spacing) const
         if (rval == EXIT_SUCCESS)
         {
           /*
-           * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
-           * (0028, 0030) indicates physical X,Y spacing inside a slice;
+           * (0028, 0030) is row spacing then column spacing (DICOM PS3.3 Section 10.7.1.3),
+           * reversed below;
            * (0018, 0088) indicates physical Z spacing between slices;
            *  which above are also consistent with Dcom2iix software.
            *  when we can not get (0018, 0088), we should compute spacing
@@ -1306,10 +1305,7 @@ DCMTKFileReader::GetSpacing(double * const spacing) const
     return EXIT_SUCCESS;
   }
 
-  // not all (or no) spacing values could be found.
-  spacing[0] = _spacing[0];
-  spacing[1] = _spacing[1];
-  spacing[2] = _spacing[2];
+  // Values that were found are already in the returned order; _spacing is in the DICOM order.
   return EXIT_FAILURE;
 }
 
