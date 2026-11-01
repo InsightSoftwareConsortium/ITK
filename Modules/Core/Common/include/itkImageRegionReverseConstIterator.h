@@ -168,36 +168,24 @@ public:
    * ImageIterator to a ImageRegionReverseConstIterator. */
   ImageRegionReverseConstIterator(const ImageConstIterator<TImage> & it)
     : Superclass(it)
-    , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
-    IndexType ind = this->GetIndex();
-
-    m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
-                        (ind[0] - this->m_Region.GetIndex()[0]);
+    this->InitializeSpans();
   }
 
   /** Constructor that takes in a reverse image iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
   ImageRegionReverseConstIterator(const ImageReverseConstIterator<TImage> & it)
     : Superclass(it)
-    , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
-    IndexType ind = this->GetIndex();
-
-    m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
-                        (ind[0] - this->m_Region.GetIndex()[0]);
+    this->InitializeSpans();
   }
 
   /** Constructor that takes in an image region iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
   ImageRegionReverseConstIterator(const ImageRegionIterator<TImage> & it)
     : Superclass(it)
-    , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
-    IndexType ind = this->GetIndex();
-
-    m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
-                        (ind[0] - this->m_Region.GetIndex()[0]);
+    this->InitializeSpans();
   }
 
   /** Move an iterator to the beginning of the region. "Begin" for a reverse
@@ -231,9 +219,7 @@ public:
   SetIndex(const IndexType & ind) override
   {
     Superclass::SetIndex(ind);
-    m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
-                        (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
+    this->InitializeSpans();
   }
 
   /** iterator's index.  For a reverse iterator, this moves backwards
@@ -347,6 +333,16 @@ public:
 protected:
   SizeValueType m_SpanBeginOffset{}; // offset to last pixel in the row
   SizeValueType m_SpanEndOffset{};   // offset to one pixel before the row
+
+private:
+  void
+  InitializeSpans()
+  {
+    const IndexType ind = this->GetIndex();
+    const auto      rowSize = static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_Offset + rowSize - 1 - (ind[0] - this->m_Region.GetIndex()[0]);
+    m_SpanEndOffset = m_SpanBeginOffset - rowSize;
+  }
 };
 
 // Deduction guide for class template argument deduction (CTAD).

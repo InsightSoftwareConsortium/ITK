@@ -52,6 +52,7 @@
 #include <gtest/gtest.h>
 #include <type_traits> // For false_type and true_type.
 #include <typeinfo>
+#include <vector>
 
 namespace
 {
@@ -290,4 +291,44 @@ TEST(ImageIterators, ReverseIteratorConversionCallsNonConstGetBufferPointer)
   const size_t numberOfCallsBefore = image->GetNumberOfNonConstGetBufferPointerCalls();
   [[maybe_unused]] const itk::ImageRegionReverseIterator<ImageType> reverseIterator(constIterator);
   EXPECT_GT(image->GetNumberOfNonConstGetBufferPointerCalls(), numberOfCallsBefore);
+}
+
+
+// Checks that a reverse region iterator placed in the middle of a region walks only the remaining region pixels.
+TEST(ImageIterators, ReverseRegionIteratorPlacedMidRegionStaysInRegion)
+{
+  using ImageType = itk::Image<int>;
+  using IndexType = ImageType::IndexType;
+  using ReverseIteratorType = itk::ImageRegionReverseConstIterator<ImageType>;
+  const auto image = ImageType::New();
+  image->SetRegions(itk::MakeSize(10, 4));
+  image->AllocateInitialized();
+
+  const ImageType::RegionType  region(itk::MakeIndex(2, 1), itk::MakeSize(3, 2));
+  const std::vector<IndexType> regionInReverseOrder{ itk::MakeIndex(4, 2), itk::MakeIndex(3, 2), itk::MakeIndex(2, 2),
+                                                     itk::MakeIndex(4, 1), itk::MakeIndex(3, 1), itk::MakeIndex(2, 1) };
+
+  const auto remainingIndices = [&region](ReverseIteratorType iterator) {
+    std::vector<IndexType> indices;
+    for (; !iterator.IsAtEnd() && indices.size() <= region.GetNumberOfPixels(); ++iterator)
+    {
+      indices.push_back(iterator.GetIndex());
+    }
+    return indices;
+  };
+
+  // Start at the row's last pixel, then mid-row.
+  for (auto startIt = regionInReverseOrder.cbegin(); startIt != regionInReverseOrder.cbegin() + 2; ++startIt)
+  {
+    const IndexType              start = *startIt;
+    const std::vector<IndexType> expected(startIt, regionInReverseOrder.cend());
+
+    ReverseIteratorType placedIt(image, region);
+    placedIt.SetIndex(start);
+    EXPECT_EQ(remainingIndices(placedIt), expected) << "start " << start;
+
+    itk::ImageRegionIterator<ImageType> forwardIt(image, region);
+    forwardIt.SetIndex(start);
+    EXPECT_EQ(remainingIndices(ReverseIteratorType(forwardIt)), expected) << "start " << start;
+  }
 }
