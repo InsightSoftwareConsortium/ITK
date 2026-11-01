@@ -49,3 +49,46 @@ ImageRandomIteratorWithIndex<TImage>::operator=(const ImageRandomConstIteratorWi
 } // end namespace itk
 
 #endif
+  , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
+{}
+
+template <typename TImage>
+void
+ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed()
+{
+  m_Generator->SetSeed();
+}
+
+template <typename TImage>
+void
+ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
+{
+  m_Generator->SetSeed(seed);
+  // vnl_sample_reseed(seed);
+}
+
+template <typename TImage>
+void
+ImageRandomConstIteratorWithIndex<TImage>::RandomJump()
+{
+  using PositionValueType = IndexValueType;
+
+  auto position = static_cast<PositionValueType>(
+    m_Generator->GetVariateWithOpenRange(static_cast<double>(m_NumberOfPixelsInRegion) - 0.5));
+
+  const SizeType regionSize = this->m_Region.GetSize();
+
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
+  {
+    const SizeValueType     sizeInThisDimension = regionSize[dim];
+    const PositionValueType residual = position % sizeInThisDimension;
+    this->m_PositionIndex[dim] = residual + this->m_BeginIndex[dim];
+    position -= residual;
+    position /= sizeInThisDimension;
+  }
+
+  this->m_Position = this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(this->m_PositionIndex);
+}
+} // end namespace itk
+
+#endif
