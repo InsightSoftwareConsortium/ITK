@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <iostream>
 #include <type_traits> // For remove_const_t.
+#include <utility>
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
 namespace itk
@@ -79,20 +80,34 @@ public:
     this->Shuffle();
   }
 
-  RandomPermutation &
-  operator=(const RandomPermutation & it)
+  RandomPermutation(const RandomPermutation & other)
+    : m_Permutation(nullptr)
+    , m_Generator(Statistics::MersenneTwisterRandomVariateGenerator::New())
+    , m_Size(other.m_Size)
   {
-    delete[] m_Permutation;
-    m_Size = it.m_Size;
+    // Each permutation owns its generator, so reseeding one leaves the other unchanged.
+    m_Generator->SetSeed(other.m_Generator->GetSeed());
     m_Permutation = new NodeOfPermutation[m_Size];
-    m_Generator = it.m_Generator;
+    std::copy(other.m_Permutation, other.m_Permutation + m_Size, m_Permutation);
+  }
+
+  RandomPermutation &
+  operator=(const RandomPermutation & other)
+  {
+    if (this != &other)
+    {
+      RandomPermutation copy(other);
+      std::swap(m_Permutation, copy.m_Permutation);
+      std::swap(m_Generator, copy.m_Generator);
+      std::swap(m_Size, copy.m_Size);
+    }
     return *this;
   }
 
   void
   SetPriority(SizeValueType i, SizeValueType priority) const
   {
-    if (i > m_Size)
+    if (i >= m_Size)
     {
       std::ostringstream ostrm;
       ostrm << "Error: RandomPermuation does not have " << i << " elements" << std::endl;
