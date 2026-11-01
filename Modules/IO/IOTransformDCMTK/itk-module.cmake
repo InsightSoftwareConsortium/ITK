@@ -16,6 +16,7 @@ itk_module(
   TEST_DEPENDS
     ITKIOTransformBase
     ITKTestKernel
+    ITKDCMTK
     ITKIODCMTK
     ITKIOGDCM
     ITKImageGrid
