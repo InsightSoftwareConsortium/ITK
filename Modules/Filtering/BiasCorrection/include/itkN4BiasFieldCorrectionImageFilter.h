@@ -25,6 +25,8 @@
 #include "itkPointSet.h"
 #include "itkVector.h"
 
+#include <vector>
+
 #include "vnl/vnl_vector.h"
 
 namespace itk
@@ -404,13 +406,22 @@ private:
   void
   SharpenImage(const RealImageType * unsharpenedImage, RealImageType * sharpenedImage) const;
 
+  /** Fit points of the included voxels. */
+  struct FitPoints
+  {
+    typename PointSetType::PointsContainerPointer             points;
+    typename PointSetType::PointDataContainerPointer          values;
+    typename BSplineFilterType::WeightsContainerType::Pointer weights;
+    std::vector<SizeValueType>                                bufferIndices;
+  };
+
   /**
    * Given the unsmoothed estimate of the bias field, this function smooths
    * the estimate and adds the resulting control point values to the total
    * bias field estimate.
    */
   RealImagePointer
-  UpdateBiasFieldEstimate(RealImageType *, size_t);
+  UpdateBiasFieldEstimate(RealImageType *, FitPoints &);
 
   /**
    * Convergence is determined by the coefficient of variation of the difference
