@@ -198,8 +198,17 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
   output->SetOrigin(this->m_Origin);
   output->SetSpacing(this->m_Spacing);
   output->SetDirection(this->m_Direction);
-  output->SetRegions(this->m_Size);
-  output->Allocate();
+  if (this->m_GenerateOutputImage)
+  {
+    output->SetRegions(this->m_Size);
+    output->Allocate();
+  }
+  else
+  {
+    // Empty regions keep the requested region inside the buffered one, so a later Update() does not re-execute.
+    output->Initialize();
+    output->SetRegions(RegionType());
+  }
 
 
   // Perform some error checking on the input

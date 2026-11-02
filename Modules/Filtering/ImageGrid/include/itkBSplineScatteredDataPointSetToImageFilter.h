@@ -266,7 +266,8 @@ public:
 
   /** Set/Get whether or not the sampled output B-spline object is constructed.
    * The result of the fitting process is an n-D grid of control points which
-   * describe the continuous B-spline object. */
+   * describe the continuous B-spline object. When off, GetOutput() has its
+   * geometry set but empty regions and no buffer. */
   /** @ITKStartGrouping */
   itkSetMacro(GenerateOutputImage, bool);
   itkGetConstReferenceMacro(GenerateOutputImage, bool);
