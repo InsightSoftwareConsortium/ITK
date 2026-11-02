@@ -10,6 +10,7 @@ itk_module(
     ITKOptimizersv4
     ITKMetricsv4
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

@@ -213,16 +213,26 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     fixedComposer->SetWarpingField(this->m_FixedToMiddleTransform->GetDisplacementField());
     fixedComposer->Update();
 
-    const DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField(
-      fixedComposer->GetOutput(), this->m_GaussianSmoothingVarianceForTheTotalField);
+    DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp = fixedComposer->GetOutput();
+    fixedToMiddleSmoothTotalFieldTmp->DisconnectPipeline();
+    if (this->m_GaussianSmoothingVarianceForTheTotalField > 0.0)
+    {
+      fixedToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField(
+        fixedToMiddleSmoothTotalFieldTmp, this->m_GaussianSmoothingVarianceForTheTotalField);
+    }
 
     auto movingComposer = ComposerType::New();
     movingComposer->SetDisplacementField(movingToMiddleSmoothUpdateField);
     movingComposer->SetWarpingField(this->m_MovingToMiddleTransform->GetDisplacementField());
     movingComposer->Update();
 
-    const DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField(
-      movingComposer->GetOutput(), this->m_GaussianSmoothingVarianceForTheTotalField);
+    DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp = movingComposer->GetOutput();
+    movingToMiddleSmoothTotalFieldTmp->DisconnectPipeline();
+    if (this->m_GaussianSmoothingVarianceForTheTotalField > 0.0)
+    {
+      movingToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField(
+        movingToMiddleSmoothTotalFieldTmp, this->m_GaussianSmoothingVarianceForTheTotalField);
+    }
 
     // Iteratively estimate the inverse fields.
 
@@ -720,17 +730,20 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
     GaussianSmoothDisplacementField(const DisplacementFieldType * field, const RealType variance)
 {
-  using DuplicatorType = ImageDuplicator<DisplacementFieldType>;
-  auto duplicator = DuplicatorType::New();
-  duplicator->SetInputImage(field);
-  duplicator->Update();
-
-  DisplacementFieldPointer smoothField = duplicator->GetOutput();
-
   if (variance <= 0.0)
   {
-    return smoothField;
+    using DuplicatorType = ImageDuplicator<DisplacementFieldType>;
+    auto duplicator = DuplicatorType::New();
+    duplicator->SetInputImage(field);
+    duplicator->Update();
+    return duplicator->GetOutput();
   }
+
+  // A graft shares the caller's buffer, so releasing the smoother's input does not empty the caller's field.
+  const auto input = DisplacementFieldType::New();
+  input->Graft(field);
+
+  DisplacementFieldPointer smoothField;
 
   using GaussianSmoothingOperatorType = GaussianOperator<RealType, ImageDimension>;
   GaussianSmoothingOperatorType gaussianSmoothingOperator;
@@ -745,12 +758,19 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
     gaussianSmoothingOperator.SetDirection(d);
     gaussianSmoothingOperator.SetVariance(variance);
     gaussianSmoothingOperator.SetMaximumError(0.001);
-    gaussianSmoothingOperator.SetMaximumKernelWidth(smoothField->GetRequestedRegion().GetSize()[d]);
+    gaussianSmoothingOperator.SetMaximumKernelWidth(field->GetRequestedRegion().GetSize()[d]);
     gaussianSmoothingOperator.CreateDirectional();
 
     // todo: make sure we only smooth within the buffered region
     smoother->SetOperator(gaussianSmoothingOperator);
-    smoother->SetInput(smoothField);
+    if (d == 0)
+    {
+      smoother->SetInput(input);
+    }
+    else
+    {
+      smoother->SetInput(smoothField);
+    }
     try
     {
       smoother->Update();
