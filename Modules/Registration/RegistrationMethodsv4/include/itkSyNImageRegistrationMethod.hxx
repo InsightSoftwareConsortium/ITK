@@ -489,14 +489,20 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   if (this->m_DownsampleImagesForMetricDerivatives &&
       this->m_Metric->GetMetricCategory() != ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
   {
-    auto identityField = DisplacementFieldType::New();
-    identityField->CopyInformation(virtualDomainImage);
-    identityField->SetRegions(virtualDomainImage->GetLargestPossibleRegion());
-    identityField->AllocateInitialized();
-
-    const DisplacementFieldTransformPointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
-    identityDisplacementFieldTransform->SetDisplacementField(identityField);
-    identityDisplacementFieldTransform->SetInverseDisplacementField(identityField);
+    // The transform is reused while its field is still zero and has the geometry of the virtual domain.
+    const auto & identity = this->m_IdentityDisplacementFieldTransform;
+    if (!identity || !identity->IsZero() ||
+        identity->GetDisplacementField()->GetLargestPossibleRegion() !=
+          virtualDomainImage->GetLargestPossibleRegion() ||
+        identity->GetDisplacementField()->GetOrigin() != virtualDomainImage->GetOrigin() ||
+        identity->GetDisplacementField()->GetSpacing() != virtualDomainImage->GetSpacing() ||
+        identity->GetDisplacementField()->GetDirection() != virtualDomainImage->GetDirection())
+    {
+      this->m_IdentityDisplacementFieldTransform = IdentityDisplacementFieldTransform::New();
+      this->m_IdentityDisplacementFieldTransform->SetZeroDisplacementField(virtualDomainImage);
+    }
+    const DisplacementFieldTransformPointer identityDisplacementFieldTransform =
+      this->m_IdentityDisplacementFieldTransform;
 
     if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC)
     {
