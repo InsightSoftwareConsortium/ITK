@@ -1195,6 +1195,9 @@ def dict_from_transform(
         )
         transform_type["inputDimension"] = int(current_transform_type_split[2])
         transform_type["outputDimension"] = int(current_transform_type_split[3])
+        # BSplineTransform type strings end in the spline order unless it is 3
+        if len(current_transform_type_split) > 4:
+            transform_type["splineOrder"] = int(current_transform_type_split[4])
 
         transform_dict = dict()
         transform_dict["transformType"] = transform_type
@@ -1311,15 +1314,12 @@ def transform_from_dict(
         if special_transform_check(transform_parameterization):
             transform_template = getattr(itk, transform_parameterization)
             transform = transform_template[data_type].New()
-        # Currently only BSpline Transform has 3 template parameters
-        # For future extensions the information will have to be encoded in
-        # the transformType variable. The transform object once added in a
-        # composite transform lose the information for other template parameters ex. BSpline.
-        # The Spline order is fixed as 3 here.
         elif transform_parameterization == "BSplineTransform":
             transform_template = getattr(itk, transform_parameterization)
             transform = transform_template[
-                data_type, transform_type["inputDimension"], 3
+                data_type,
+                transform_type["inputDimension"],
+                transform_type.get("splineOrder", 3),
             ].New()
         else:
             transform_template = getattr(itk, transform_parameterization)
