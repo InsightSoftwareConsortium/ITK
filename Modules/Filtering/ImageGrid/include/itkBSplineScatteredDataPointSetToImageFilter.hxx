@@ -241,6 +241,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
     this->m_ResidualPointSetValues->CastToSTLContainer().assign(pointData.begin(), pointData.end());
   }
 
+  // A previous Update() left the threader callback in reconstruction mode.
+  this->m_IsFittingComplete = false;
   this->m_CurrentLevel = 0;
   this->m_CurrentNumberOfControlPoints = this->m_NumberOfControlPoints;
 
