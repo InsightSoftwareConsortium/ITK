@@ -18,10 +18,9 @@
 
 #include "itkMeanSampleFilter.h"
 #include "itkListSample.h"
-#include "itkSubsample.h"
+#include "itkGTest.h"
 
-int
-itkSubsampleTest3(int, char *[])
+TEST(MeanSampleFilter, ConvertedLegacyTest)
 {
   std::cout << "MeanSampleFilter test \n \n";
 
@@ -50,29 +49,24 @@ itkSubsampleTest3(int, char *[])
     counter++;
   }
 
-  using SubsampleType = itk::Statistics::Subsample<SampleType>;
-
-  auto subsample = SubsampleType::New();
-
-  subsample->SetSample(sample);
-
-  // Initialize the subsample with all the samples
-  subsample->InitializeWithAllInstances();
-
-  using FilterType = itk::Statistics::MeanSampleFilter<SubsampleType>;
+  using FilterType = itk::Statistics::MeanSampleFilter<SampleType>;
 
   auto filter = FilterType::New();
 
-  filter->SetInput(subsample);
+  std::cout << filter->GetNameOfClass() << std::endl;
+  filter->Print(std::cout);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
+  // Invoke update before adding an input. An exception should be
+  // thrown.
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject)
+    << "Exception should have been thrown since Update() is invoked without setting an input ";
+
+  EXPECT_EQ(filter->GetInput(), nullptr) << "GetInput() should return nullptr if the input has not been set";
+
+  filter->ResetPipeline();
+  filter->SetInput(sample);
+
+  ASSERT_NO_THROW(filter->Update());
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
   FilterType::MeasurementVectorType                  meanOutput = decorator->Get();
@@ -86,48 +80,6 @@ itkSubsampleTest3(int, char *[])
 
   constexpr FilterType::MeasurementVectorType::ValueType epsilon{ 1e-6 };
 
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  // Clear and  repopulate the subsample container
-  subsample->Clear();
-
-  // add only the first half of instances of the sample
-  for (SampleType::InstanceIdentifier id = 0; id < static_cast<SampleType::InstanceIdentifier>(sample->Size() / 2);
-       id++)
-  {
-    subsample->AddInstance(id);
-  }
-
-  std::cout << "Subsample size: " << subsample->Size() << std::endl;
-
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught: " << excp << std::endl;
-  }
-
-  decorator = filter->GetOutput();
-  meanOutput = decorator->Get();
-
-  mean[0] = 0.5;
-  mean[1] = 0.5;
-
-  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-
-  if ((itk::Math::Absolute(meanOutput[0] - mean[0]) > epsilon) ||
-      (itk::Math::Absolute(meanOutput[1] - mean[1]) > epsilon))
-  {
-    std::cerr << "The result is not what is expected" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
+  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
 }

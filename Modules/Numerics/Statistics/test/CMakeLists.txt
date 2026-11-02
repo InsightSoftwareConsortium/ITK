@@ -1,8 +1,6 @@
 itk_module_test()
 set(
   ITKStatisticsTests
-  itkCovarianceSampleFilterTest.cxx
-  itkCovarianceSampleFilterTest2.cxx
   itkCovarianceSampleFilterTest3.cxx
   itkDecisionRuleTest.cxx
   itkDenseFrequencyContainer2Test.cxx
@@ -37,9 +35,6 @@ set(
   itkListSampleTest.cxx
   itkMahalanobisDistanceMetricTest.cxx
   itkManhattanDistanceMetricTest.cxx
-  itkMeanSampleFilterTest.cxx
-  itkMeanSampleFilterTest2.cxx
-  itkMeanSampleFilterTest3.cxx
   itkMeasurementVectorTraitsTest.cxx
   itkMembershipFunctionBaseTest2.cxx
   itkMembershipSampleTest1.cxx
@@ -70,19 +65,14 @@ set(
   itkScalarImageToTextureFeaturesFilterTest.cxx
   itkSparseFrequencyContainer2Test.cxx
   itkSpatialNeighborSubsamplerTest.cxx
-  itkStandardDeviationPerComponentSampleFilterTest.cxx
   itkStatisticsAlgorithmTest.cxx
   itkStatisticsAlgorithmTest2.cxx
   itkSubsampleTest.cxx
   itkSubsampleTest2.cxx
-  itkSubsampleTest3.cxx
   itkUniformRandomSpatialNeighborSubsamplerTest.cxx
   itkWeightedCentroidKdTreeGeneratorTest1.cxx
   itkWeightedCentroidKdTreeGeneratorTest8.cxx
   itkWeightedCentroidKdTreeGeneratorTest9.cxx
-  itkWeightedCovarianceSampleFilterTest.cxx
-  itkWeightedCovarianceSampleFilterTest2.cxx
-  itkWeightedMeanSampleFilterTest.cxx
 )
 
 createtestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsTests}")
@@ -455,24 +445,6 @@ itk_add_test(
     itkKdTreeTestSamplePoints
 )
 itk_add_test(
-  NAME itkMeanSampleFilterTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMeanSampleFilterTest
-)
-itk_add_test(
-  NAME itkMeanSampleFilterTest2
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMeanSampleFilterTest2
-)
-itk_add_test(
-  NAME itkMeanSampleFilterTest3
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMeanSampleFilterTest3
-)
-itk_add_test(
   NAME itkHistogramTest
   COMMAND
     ITKStatisticsTestDriver
@@ -483,18 +455,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkHistogramToTextureFeaturesFilterTest
-)
-itk_add_test(
-  NAME itkCovarianceSampleFilterTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkCovarianceSampleFilterTest
-)
-itk_add_test(
-  NAME itkCovarianceSampleFilterTest2
-  COMMAND
-    ITKStatisticsTestDriver
-    itkCovarianceSampleFilterTest2
 )
 itk_add_test(
   NAME itkCovarianceSampleFilterTest3
@@ -582,24 +542,6 @@ itk_add_test(
     1000
     1000
     1
-)
-itk_add_test(
-  NAME itkWeightedCovarianceSampleFilterTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkWeightedCovarianceSampleFilterTest
-)
-itk_add_test(
-  NAME itkWeightedCovarianceSampleFilterTest2
-  COMMAND
-    ITKStatisticsTestDriver
-    itkWeightedCovarianceSampleFilterTest2
-)
-itk_add_test(
-  NAME itkWeightedMeanSampleFilterTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkWeightedMeanSampleFilterTest
 )
 itk_add_test(
   NAME itkDistanceMetricTest
@@ -886,12 +828,6 @@ itk_add_test(
     itkSpatialNeighborSubsamplerTest
 )
 itk_add_test(
-  NAME itkStandardDeviationPerComponentSampleFilterTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkStandardDeviationPerComponentSampleFilterTest
-)
-itk_add_test(
   NAME itkSubsampleTest
   COMMAND
     ITKStatisticsTestDriver
@@ -902,12 +838,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkSubsampleTest2
-)
-itk_add_test(
-  NAME itkSubsampleTest3
-  COMMAND
-    ITKStatisticsTestDriver
-    itkSubsampleTest3
 )
 itk_add_test(
   NAME itkStatisticsAlgorithmTest
@@ -975,19 +905,29 @@ itk_add_test(
 set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
+  itkCovarianceSampleFilterGTest.cxx
+  itkCovarianceSampleFilterGTest2.cxx
   itkHistogramToTextureFeaturesFilterNaNGTest.cxx
   itkKdTreeGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
+  itkMeanSampleFilterGTest.cxx
+  itkMeanSampleFilterGTest2.cxx
+  itkMeanSampleFilterGTest3.cxx
   itkMembershipFunctionBaseGTest.cxx
   itkMinimumDecisionRuleGTest.cxx
   itkMixtureModelComponentBaseGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx
   itkRandomVariateGeneratorBaseGTest.cxx
   itkSampleToHistogramFilterExceptionsGTest.cxx
+  itkStandardDeviationPerComponentSampleFilterGTest.cxx
   itkStatisticsTypesGTest.cxx
+  itkSubsampleGTest3.cxx
   itkTDistributionGTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerGTest.cxx
   itkVectorContainerToListSampleAdaptorGTest.cxx
+  itkWeightedCovarianceSampleFilterGTest.cxx
+  itkWeightedCovarianceSampleFilterGTest2.cxx
+  itkWeightedMeanSampleFilterGTest.cxx
 )
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")
