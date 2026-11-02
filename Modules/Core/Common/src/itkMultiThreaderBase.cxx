@@ -50,6 +50,14 @@
 #if defined(ITK_HAS_SCHED_GETAFFINITY)
 #  include <sched.h>
 #endif
+#if defined(ITK_HAS_CGROUP_CPU_LIMIT)
+namespace itk::detail
+{
+// Defined in itkCgroupCpuLimit.cxx: the CPUs allowed by the cgroup CPU quota of this process, or 0 if there is none.
+unsigned int
+GetProcessCgroupCpuLimit();
+} // namespace itk::detail
+#endif
 
 #if defined(ITK_USE_TBB)
 #  include "itkTBBMultiThreader.h"
@@ -340,8 +348,11 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
   return m_PimplGlobals->m_GlobalDefaultNumberOfThreads;
 }
 
+namespace
+{
+// The CPU count of the platform: the affinity mask where available, otherwise the processor count.
 ThreadIdType
-MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
+GetPlatformCpuCount()
 {
 #if defined(ITK_HAS_SCHED_GETAFFINITY)
   cpu_set_t mask;
@@ -384,7 +395,23 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 #else
   return 1;
 #endif
-} // namespace itk
+}
+} // namespace
+
+ThreadIdType
+MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
+{
+  ThreadIdType count = GetPlatformCpuCount();
+#if defined(ITK_HAS_CGROUP_CPU_LIMIT)
+  // A CPU quota (for example docker --cpus or a Kubernetes CPU limit) does not change the platform CPU count.
+  const ThreadIdType quota = detail::GetProcessCgroupCpuLimit();
+  if (quota > 0 && quota < count)
+  {
+    count = quota;
+  }
+#endif
+  return count;
+}
 
 MultiThreaderBase::Pointer
 MultiThreaderBase::New()
