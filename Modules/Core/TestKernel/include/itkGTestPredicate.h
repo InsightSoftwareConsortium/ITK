@@ -162,6 +162,27 @@ CheckMetaDataPredFormat(const char *              metaDictExpr,
 }
 
 
+/** Number of elements of an array-like object: its size() or Size() when it
+ * has one, otherwise itk::NumericTraits<T>::GetLength(). */
+template <typename T>
+auto
+VectorLength(const T & val, int) -> decltype(static_cast<size_t>(val.size()))
+{
+  return val.size();
+}
+template <typename T>
+auto
+VectorLength(const T & val, long) -> decltype(static_cast<size_t>(val.Size()))
+{
+  return val.Size();
+}
+template <typename T>
+size_t
+VectorLength(const T & val, ...)
+{
+  return itk::NumericTraits<T>::GetLength(val);
+}
+
 /** Implements GTest Predicate Formatter for ITK_EXPECT_VECTOR_NEAR
  * macro. This macro and formatter work with any combination of ITK
  * array-like objects which are supported by itk::NumericTraits. The
@@ -177,8 +198,8 @@ VectorDoubleRMSPredFormat(const char * expr1,
                           const T2 &   val2,
                           double       rmsError)
 {
-  const size_t val1Size = itk::NumericTraits<T1>::GetLength(val1);
-  const size_t val2Size = itk::NumericTraits<T2>::GetLength(val2);
+  const size_t val1Size = VectorLength(val1, 0);
+  const size_t val2Size = VectorLength(val2, 0);
   if (val1Size != val2Size)
   {
     return ::testing::AssertionFailure() << "The size of " << expr1 << " and " << expr2 << " different, where\n"

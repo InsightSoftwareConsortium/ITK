@@ -18,6 +18,7 @@
 
 #include "itkGTest.h"
 #include "itkMath.h"
+#include "itkOptimizerParameters.h"
 
 // Minimal test to verify Google Test works
 TEST(GoogleTest, t1)
@@ -89,4 +90,37 @@ TEST(GoogleTest, TypedefsAndConstructors_Dimension3)
   constexpr SizeType sz1{ 0u, 1u, 2u };
   constexpr auto     sz2 = sz1;
   EXPECT_TRUE(sz1 == sz2);
+}
+
+
+namespace
+{
+template <typename T>
+::testing::AssertionResult
+VectorNear(const T & val1, const T & val2)
+{
+  return itk::GTest::Predicate::VectorDoubleRMSPredFormat("val1", "val2", "1e-10", val1, val2, 1e-10);
+}
+} // namespace
+
+TEST(GoogleTest, VectorNearComparesEveryElement)
+{
+  using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
+
+  EXPECT_FALSE(VectorNear(IndexType{ 0, 1, 2 }, IndexType{ 0, 1, 3 }));
+  EXPECT_FALSE(VectorNear(itk::Offset<3>{ 0, 1, 2 }, itk::Offset<3>{ 0, 5, 2 }));
+  EXPECT_FALSE(VectorNear(SizeType{ 1, 2, 3 }, SizeType{ 1, 2, 4 }));
+
+  itk::OptimizerParameters<double> params1(3, 0.0);
+  itk::OptimizerParameters<double> params2(3, 0.0);
+  params2[2] = 1.0;
+  EXPECT_FALSE(VectorNear(params1, params2));
+  EXPECT_TRUE(VectorNear(params1, params1));
+}
+
+TEST(GoogleTest, VectorNearRejectsDifferentLengths)
+{
+  const itk::OptimizerParameters<double> params2(2, 0.0);
+  const itk::OptimizerParameters<double> params3(3, 0.0);
+  EXPECT_FALSE(VectorNear(params2, params3));
 }
