@@ -70,7 +70,7 @@ TEST(BoundaryCondition, ConstantBoundaryAtImageEdge)
 {
   using ImageType2D = itk::Image<float, 2>;
 
-  println("Creating some images");
+  std::cout << "Creating some images" << std::endl;
 
   itk::ImageRegion<2> Region2D;
   itk::Size<2>        size2D;
@@ -86,10 +86,10 @@ TEST(BoundaryCondition, ConstantBoundaryAtImageEdge)
   image2D->SetRegions(Region2D);
   image2D->Allocate();
 
-  println("Initializing some images");
+  std::cout << "Initializing some images" << std::endl;
   filln(image2D);
 
-  println("Initializing smart neighborhood iterators");
+  std::cout << "Initializing smart neighborhood iterators" << std::endl;
   itk::Size<2> sz2;
   sz2[0] = 2;
   sz2[1] = 1;

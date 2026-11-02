@@ -65,7 +65,7 @@ println(const char * s)
 
 TEST(HashTable, StdHash)
 {
-  println("Testing std::hash");
+  std::cout << "Testing std::hash" << std::endl;
   constexpr std::hash<const char *> H;
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
@@ -79,7 +79,7 @@ TEST(HashTable, StdHash)
 
 TEST(HashTable, UnorderedSet)
 {
-  println("Testing std::unordered_set");
+  std::cout << "Testing std::unordered_set" << std::endl;
   using HashSetType = std::unordered_set<const char *, CStrHash, eqstr>;
   HashSetType Set;
   Set.insert("kiwi");
@@ -111,7 +111,7 @@ TEST(HashTable, UnorderedSet)
 
 TEST(HashTable, UnorderedMap)
 {
-  println("Testing std::unordered_map");
+  std::cout << "Testing std::unordered_map" << std::endl;
   using HashMapType = std::unordered_map<const char *, int, CStrHash, eqstr>;
 
   HashMapType months;

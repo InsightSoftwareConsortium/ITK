@@ -64,7 +64,7 @@ itkConstShapedNeighborhoodIteratorTest2(int, char *[])
   MyDerivedCSNI<TestImageType>::RegionType          reg = { idx, sz };
 
   // initialize an iterator
-  println("Creating ConstShapedNeighborhoodIterator");
+  std::cout << "Creating ConstShapedNeighborhoodIterator" << std::endl;
   MyDerivedCSNI<TestImageType> it(radius, img, reg);
   it.Print(std::cout);
   it.TestNewExposedProtectedMembers();
