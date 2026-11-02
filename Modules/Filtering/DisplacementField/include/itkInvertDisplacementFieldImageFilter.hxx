@@ -102,7 +102,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   this->m_ScaledNormImage->CopyInformation(displacementField);
   this->m_ScaledNormImage->SetRegions(displacementField->GetRequestedRegion());
-  this->m_ScaledNormImage->AllocateInitialized();
+  this->m_ScaledNormImage->Allocate();
 
   const SizeValueType numberOfPixelsInRegion = (displacementField->GetRequestedRegion()).GetNumberOfPixels();
   this->m_MaxErrorNorm = NumericTraits<RealType>::max();

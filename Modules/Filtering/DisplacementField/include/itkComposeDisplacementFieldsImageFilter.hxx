@@ -60,10 +60,6 @@ template <typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  constexpr VectorType zeroVector{};
-
-  this->GetOutput()->FillBuffer(zeroVector);
-
   if (!this->m_Interpolator->GetInputImage())
   {
     itkExceptionStringMacro("Displacement field not set in interpolator.");

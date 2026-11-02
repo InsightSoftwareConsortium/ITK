@@ -18,6 +18,8 @@
 
 #include "itkSyNImageRegistrationMethod.h"
 #include "itkDisplacementFieldTransformParametersAdaptor.h"
+#include "itkGaussianOperator.h"
+#include "itkVectorNeighborhoodOperatorImageFilter.h"
 #include "itkImageMaskSpatialObject.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -399,5 +401,78 @@ TEST(SyNImageRegistrationMethod, ReplacedDerivativeBufferGivesTheSameOutput)
     Options replaced = inPlace;
     replaced.swapDerivative = true;
     EXPECT_EQ(RunSyN(replaced), RunSyN(inPlace)) << "weighted " << weighted;
+  }
+}
+
+namespace
+{
+// The smoothing of ITK main: separable Gaussian passes, then a serial boundary and blend loop.
+std::vector<FieldType::PixelType>
+ReferenceSmooth(const FieldType * field, double variance)
+{
+  const auto size = field->GetLargestPossibleRegion().GetSize();
+  const auto start = field->GetLargestPossibleRegion().GetIndex();
+  if (variance <= 0.0)
+  {
+    return Pixels(field);
+  }
+  FieldType::Pointer smoothField;
+  auto               smoother = itk::VectorNeighborhoodOperatorImageFilter<FieldType, FieldType>::New();
+  for (unsigned int d = 0; d < Dimension; ++d)
+  {
+    itk::GaussianOperator<double, Dimension> gaussian;
+    gaussian.SetDirection(d);
+    gaussian.SetVariance(variance);
+    gaussian.SetMaximumError(0.001);
+    gaussian.SetMaximumKernelWidth(field->GetRequestedRegion().GetSize()[d]);
+    gaussian.CreateDirectional();
+    smoother->SetOperator(gaussian);
+    smoother->SetInput(d == 0 ? field : smoothField.GetPointer());
+    smoother->Update();
+    smoothField = smoother->GetOutput();
+    smoothField->DisconnectPipeline();
+  }
+  const double                                 weight1 = variance < 0.5 ? 1.0 - variance / 0.5 : 1.0;
+  const double                                 weight2 = 1.0 - weight1;
+  std::vector<FieldType::PixelType>            result;
+  itk::ImageRegionIteratorWithIndex<FieldType> itS(smoothField, smoothField->GetLargestPossibleRegion());
+  for (itk::ImageRegionConstIteratorWithIndex<FieldType> itF(field, field->GetLargestPossibleRegion()); !itF.IsAtEnd();
+       ++itF, ++itS)
+  {
+    bool isOnBoundary = false;
+    for (unsigned int d = 0; d < Dimension; ++d)
+    {
+      const auto index = itF.GetIndex()[d];
+      isOnBoundary =
+        isOnBoundary || index == start[d] || index == static_cast<itk::IndexValueType>(size[d]) - start[d] - 1;
+    }
+    result.push_back(isOnBoundary ? FieldType::PixelType{} : itS.Get() * weight1 + itF.Get() * weight2);
+  }
+  return result;
+}
+} // namespace
+
+TEST(SyNImageRegistrationMethod, GaussianSmoothingMatchesSerialReference)
+{
+  auto field = FieldType::New();
+  field->SetRegions(FieldType::SizeType{ { 23, 17 } });
+  field->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<FieldType> it(field, field->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    FieldType::PixelType v;
+    v[0] = std::sin(0.7 * it.GetIndex()[0]) * std::cos(0.2 * it.GetIndex()[1]);
+    v[1] = 0.05 * it.GetIndex()[0] * it.GetIndex()[1];
+    it.Set(v);
+  }
+  for (const itk::ThreadIdType numberOfWorkUnits : { 1, 5 })
+  {
+    auto syn = SmoothingSyN::New();
+    syn->SetNumberOfWorkUnits(numberOfWorkUnits);
+    for (const double variance : { 0.0, 0.1, 0.25, 0.5, 3.0 })
+    {
+      const auto smoothed = syn->GaussianSmoothDisplacementField(field, variance);
+      EXPECT_EQ(Pixels(smoothed), ReferenceSmooth(field, variance))
+        << "variance " << variance << ", work units " << numberOfWorkUnits;
+    }
   }
 }

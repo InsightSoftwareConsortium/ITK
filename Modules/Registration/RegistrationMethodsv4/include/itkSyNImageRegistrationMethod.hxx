@@ -30,6 +30,8 @@
 #include "itkWindowConvergenceMonitoringFunction.h"
 #include "itkPrintHelper.h"
 
+#include <mutex>
+
 namespace itk
 {
 
@@ -637,7 +639,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
     metricDerivative.SetSize(metricDerivativeSize);
   }
 
-  metricDerivative.Fill(typename MetricDerivativeType::ValueType{});
+  // Every v4 metric zeroes the derivative before accumulating into it.
   this->m_Metric->GetValueAndDerivative(value, metricDerivative);
   if (metricDerivative.Size() != metricDerivativeSize)
   {
@@ -689,23 +691,36 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 {
   typename DisplacementFieldType::SpacingType spacing = updateField->GetSpacing();
 
-  RealType maxNorm = NumericTraits<RealType>::NonpositiveMin();
-  for (ImageRegionConstIterator ItF(updateField, updateField->GetLargestPossibleRegion()); !ItF.IsAtEnd(); ++ItF)
-  {
-    DisplacementVectorType vector = ItF.Get();
+  RealType   maxNorm = NumericTraits<RealType>::NonpositiveMin();
+  std::mutex maxNormMutex;
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+    updateField->GetLargestPossibleRegion(),
+    [updateField, &spacing, &maxNorm, &maxNormMutex](const typename DisplacementFieldType::RegionType & region) {
+      RealType regionMaxNorm = NumericTraits<RealType>::NonpositiveMin();
+      for (ImageRegionConstIterator ItF(updateField, region); !ItF.IsAtEnd(); ++ItF)
+      {
+        DisplacementVectorType vector = ItF.Get();
 
-    RealType localNorm = 0;
-    for (SizeValueType d = 0; d < ImageDimension; ++d)
-    {
-      localNorm += itk::Math::sqr(vector[d] / spacing[d]);
-    }
-    localNorm = std::sqrt(localNorm);
+        RealType localNorm = 0;
+        for (SizeValueType d = 0; d < ImageDimension; ++d)
+        {
+          localNorm += itk::Math::sqr(vector[d] / spacing[d]);
+        }
+        localNorm = std::sqrt(localNorm);
 
-    if (localNorm > maxNorm)
-    {
-      maxNorm = localNorm;
-    }
-  }
+        if (localNorm > regionMaxNorm)
+        {
+          regionMaxNorm = localNorm;
+        }
+      }
+      const std::lock_guard<std::mutex> lock(maxNormMutex);
+      if (regionMaxNorm > maxNorm)
+      {
+        maxNorm = regionMaxNorm;
+      }
+    },
+    nullptr);
 
   RealType scale = this->m_LearningRate;
   if (maxNorm > RealType{})
@@ -833,27 +848,59 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   const typename DisplacementFieldType::SizeType   size = region.GetSize();
   const typename DisplacementFieldType::IndexType  startIndex = region.GetIndex();
 
-  ImageRegionIteratorWithIndex ItS(smoothField, smoothField->GetLargestPossibleRegion());
-  for (ImageRegionConstIteratorWithIndex ItF(field, field->GetLargestPossibleRegion()); !ItF.IsAtEnd(); ++ItF, ++ItS)
+  if (variance >= 0.5)
   {
-    typename DisplacementFieldType::IndexType index = ItF.GetIndex();
-    bool                                      isOnBoundary = false;
+    // The interior keeps the smoothed value, so only the boundary faces are written.
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-      if (index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>(size[d]) - startIndex[d] - 1)
+      for (const IndexValueType boundaryIndex :
+           { startIndex[d], static_cast<IndexValueType>(size[d]) - startIndex[d] - 1 })
       {
-        isOnBoundary = true;
-        break;
+        typename DisplacementFieldType::RegionType face = region;
+        face.SetIndex(d, boundaryIndex);
+        face.SetSize(d, 1);
+        if (!region.IsInside(face))
+        {
+          continue;
+        }
+        for (ImageRegionIterator ItS(smoothField, face); !ItS.IsAtEnd(); ++ItS)
+        {
+          ItS.Set(zeroVector);
+        }
       }
     }
-    if (isOnBoundary)
-    {
-      ItS.Set(zeroVector);
-    }
-    else
-    {
-      ItS.Set(ItS.Get() * weight1 + ItF.Get() * weight2);
-    }
+  }
+  else
+  {
+    this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+    this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+      region,
+      [field, &smoothField, &startIndex, &size, &zeroVector, weight1, weight2](
+        const typename DisplacementFieldType::RegionType & subregion) {
+        ImageRegionIterator ItS(smoothField, subregion);
+        for (ImageRegionConstIteratorWithIndex ItF(field, subregion); !ItF.IsAtEnd(); ++ItF, ++ItS)
+        {
+          typename DisplacementFieldType::IndexType index = ItF.GetIndex();
+          bool                                      isOnBoundary = false;
+          for (unsigned int d = 0; d < ImageDimension; ++d)
+          {
+            if (index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>(size[d]) - startIndex[d] - 1)
+            {
+              isOnBoundary = true;
+              break;
+            }
+          }
+          if (isOnBoundary)
+          {
+            ItS.Set(zeroVector);
+          }
+          else
+          {
+            ItS.Set(ItS.Get() * weight1 + ItF.Get() * weight2);
+          }
+        }
+      },
+      nullptr);
   }
 
   return smoothField;
