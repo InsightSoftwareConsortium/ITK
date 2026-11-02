@@ -20,12 +20,6 @@
 #include "itkConstNeighborhoodIterator.h"
 #include <array>
 
-void
-println(const char * s)
-{
-  std::cout << s << std::endl;
-}
-
 TestImageType::Pointer
 GetTestImage(int d1, int d2, int d3, int d4)
 {

@@ -20,12 +20,6 @@
 #include "itkVector.h"
 
 
-static void
-println(const char * s)
-{
-  std::cout << std::endl << s << std::endl;
-}
-
 int
 itkNeighborhoodTest(int, char *[])
 {

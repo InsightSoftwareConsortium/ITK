@@ -57,12 +57,6 @@ lookup(const std::unordered_set<const char *, CStrHash, eqstr> & Set, const char
   std::cout << word << ": " << (it != Set.end() ? "present" : "not present") << std::endl;
 }
 
-inline void
-println(const char * s)
-{
-  std::cout << std::endl << s << std::endl;
-}
-
 TEST(HashTable, StdHash)
 {
   std::cout << "Testing std::hash" << std::endl;
