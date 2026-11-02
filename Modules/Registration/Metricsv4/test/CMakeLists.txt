@@ -424,5 +424,9 @@ itk_add_test(
     ${TEMP}/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.nii.gz
 )
 
-set(ITKMetricsv4GTests itkImageToImageMetricv4WorkUnitsGTest.cxx)
+set(
+  ITKMetricsv4GTests
+  itkImageToImageMetricv4WorkUnitsGTest.cxx
+  itkMattesMutualInformationImageToImageMetricv4GTest.cxx
+)
 creategoogletestdriver(ITKMetricsv4 "${ITKMetricsv4-Test_LIBRARIES}" "${ITKMetricsv4GTests}")

@@ -251,9 +251,8 @@ protected:
 
   mutable PRatioArrayType m_PRatioArray{};
 
-  /** Helper array for storing per-parameter linearized index to
-   * retrieve the pRatio during evaluation with local-support transform. */
-  mutable std::vector<OffsetValueType> m_JointPdfIndex1DArray{};
+  /** Linearized joint PDF index of each virtual point, to retrieve the pRatio with a local-support transform. */
+  mutable std::vector<OffsetValueType> m_JointPdfIndex1DPerPoint{};
 
   /** The moving image marginal PDF. */
   mutable std::vector<PDFValueType>              m_MovingImageMarginalPDF{};

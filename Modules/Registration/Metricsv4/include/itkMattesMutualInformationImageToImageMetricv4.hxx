@@ -19,6 +19,7 @@
 #define itkMattesMutualInformationImageToImageMetricv4_hxx
 
 #include "itkCompensatedSummation.h"
+#include <algorithm>
 #include <mutex>
 
 namespace itk
@@ -479,18 +480,34 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   {
     if (this->HasLocalSupport())
     {
-      for (SizeValueType i = 0, derivativeSize = this->m_DerivativeResult->Size(); i < derivativeSize; ++i)
-      {
-        for (SizeValueType bin = 0; bin < 4; ++bin)
-        {
-          // Increment the m_JointPdfIndex1DArray index by bin in order to recover
-          // the pRatio at the moving indices used for each portion of the derivative.
-          // Note: in old v3 metric ComputeDerivatives, derivativeContribution is subtracted in global case,
-          // but added in "local" (implicit) case. These operations have been switched to minimize the metric.
-          const SizeValueType pRatioIndex = this->m_JointPdfIndex1DArray[i] + bin;
-          (*(this->m_DerivativeResult))[i] -= m_LocalDerivativeByParzenBin[bin][i] * this->m_PRatioArray[pRatioIndex];
-        }
-      }
+      const auto          numberOfLocalParameters = this->GetNumberOfLocalParameters();
+      MultiThreaderBase * multiThreader = this->GetUseSampledPointSet()
+                                            ? this->m_SparseGetValueAndDerivativeThreader->GetMultiThreader()
+                                            : this->m_DenseGetValueAndDerivativeThreader->GetMultiThreader();
+      // Contiguous blocks of parameters keep the number of tasks small; each i writes only derivative[i].
+      const SizeValueType numberOfParameters = this->m_DerivativeResult->Size();
+      const SizeValueType numberOfBlocks =
+        std::min<SizeValueType>(numberOfParameters, 8 * SizeValueType{ multiThreader->GetNumberOfWorkUnits() });
+      const SizeValueType blockSize =
+        numberOfBlocks > 0 ? (numberOfParameters + numberOfBlocks - 1) / numberOfBlocks : 0;
+      multiThreader->ParallelizeArray(
+        0,
+        numberOfBlocks,
+        [this, numberOfLocalParameters, numberOfParameters, blockSize](SizeValueType block) {
+          const SizeValueType end = std::min(numberOfParameters, (block + 1) * blockSize);
+          for (SizeValueType i = block * blockSize; i < end; ++i)
+          {
+            const OffsetValueType jointPdfIndex1D = this->m_JointPdfIndex1DPerPoint[i / numberOfLocalParameters];
+            for (SizeValueType bin = 0; bin < 4; ++bin)
+            {
+              // Offset the joint PDF index by bin to recover the pRatio of each Parzen window bin.
+              const SizeValueType pRatioIndex = jointPdfIndex1D + bin;
+              (*(this->m_DerivativeResult))[i] -=
+                this->m_LocalDerivativeByParzenBin[bin][i] * this->m_PRatioArray[pRatioIndex];
+            }
+          }
+        },
+        nullptr);
     }
   }
 
