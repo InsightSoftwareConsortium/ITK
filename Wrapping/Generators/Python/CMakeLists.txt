@@ -336,7 +336,7 @@ macro(
     )
   endif()
 
-  # Conditionally add -threads flag to release the GIL during ITK operations
+  # Support GIL release in Update() and UpdateLargestPossibleRegion().
   set(_swig_threads_flag "")
   if(ITK_PYTHON_RELEASE_GIL)
     set(_swig_threads_flag "-threads")

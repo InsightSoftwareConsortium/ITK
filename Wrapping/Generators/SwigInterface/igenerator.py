@@ -1561,11 +1561,13 @@ from . import _ITKCommonPython
 
 """
                 )
-                # Also, release the GIL
                 header_file.write(
-                    f'%module(package="itk",threads="1") {self.submodule_name}{lang.title()}\n'
+                    f'%module(package="itk") {self.submodule_name}{lang.title()}\n'
                 )
+                # Python-facing helpers require the GIL; only pipeline execution releases it.
                 header_file.write('%feature("nothreadallow");\n')
+                header_file.write("%threadallow Update;\n")
+                header_file.write("%threadallow UpdateLargestPossibleRegion;\n")
                 header_file.write('%feature("autodoc","2");\n')
             else:
                 header_file.write(f"%module {self.submodule_name}{lang.title()}\n")

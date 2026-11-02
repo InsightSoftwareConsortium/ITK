@@ -1,9 +1,8 @@
 """
 Comprehensive safety tests for Python GIL release during ITK operations.
 
-When SWIG's -threads flag is enabled (ITK_PYTHON_RELEASE_GIL=ON), the GIL is
-released before entering C++ code and re-acquired after return.  This enables
-true concurrent execution but introduces risks that these tests verify against.
+With ITK_PYTHON_RELEASE_GIL=ON, Update() and UpdateLargestPossibleRegion()
+release the GIL during native execution and reacquire it on return.
 
 Each test targets a specific known gotcha from the SWIG -threads literature:
 
@@ -24,9 +23,8 @@ Each test targets a specific known gotcha from the SWIG -threads literature:
       - https://docs.python.org/3/c-api/init.html#non-python-created-threads
 
   Test 3 - Exception propagation across GIL boundary
-    When -threads is enabled, SWIG wraps C++ calls in SaveThread/RestoreThread.
-    If C++ throws, the thread state must be restored correctly before the
-    Python exception is set.  Older SWIG versions crashed here.
+    With GIL release enabled, update wrappers use SaveThread/RestoreThread.
+    The thread state must be restored before setting a Python exception.
     Reference:
       - https://swig-devel.narkive.com/PBt1fCLN (exception + threads segfault)
 
@@ -146,6 +144,16 @@ check(
 check("no callback errors", len(callback_errors) == 0, f"errors: {callback_errors}")
 del median, image
 
+image = make_image()
+median = itk.MedianImageFilter.New(Input=image, Radius=2)
+median.AddObserver(itk.StartEvent(), itk.PyCommand.New())
+try:
+    median.Update()
+    check("unset observer callable rejected", False, "should have raised")
+except RuntimeError as error:
+    check("unset observer callable rejected", "CommandCallable" in str(error))
+del median, image
+
 # ==================================================================
 #  Test 2: Concurrent callbacks from threaded filters
 #  Ref: https://docs.python.org/3/c-api/init.html#non-python-created-threads
@@ -211,16 +219,17 @@ print("=" * 60)
 print("Test 3: Exception propagation across GIL boundary")
 print("=" * 60)
 
-# itk.imread on a non-existent file throws RuntimeError through the
-# SWIG wrapper.  With -threads, the GIL is released before the C++ call
-# and must be re-acquired before setting the Python exception.
+image_type = itk.Image[itk.F, 2]
+median_type = itk.MedianImageFilter[image_type, image_type]
+
+# A missing input forces Update() to throw across the native GIL-release boundary.
 try:
-    itk.imread("/nonexistent/path/that/does/not/exist.nii.gz")
-    check("exception from imread", False, "should have raised")
+    median_type.New().Update()
+    check("exception from Update", False, "should have raised")
 except RuntimeError:
     check("C++ RuntimeError propagated correctly", True)
 except Exception as e:
-    check("exception propagation", True, f"got {type(e).__name__}")
+    check("exception propagation", False, f"got {type(e).__name__}")
 
 # Exception from a threaded context
 exception_results = []
@@ -228,7 +237,7 @@ exception_results = []
 
 def threaded_exception():
     try:
-        itk.imread("/nonexistent/threaded.nii.gz")
+        median_type.New().Update()
         exception_results.append("no_exception")
     except RuntimeError:
         exception_results.append("ok")

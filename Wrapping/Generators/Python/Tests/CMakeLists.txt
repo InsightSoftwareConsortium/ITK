@@ -287,20 +287,21 @@ itk_python_add_test(
     5
 )
 
-# Test GIL release during ITK operations
-itk_python_add_test(
-  NAME PythonGILReleaseTest
-  COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release.py
-)
+if(ITK_WRAP_float)
+  if(ITK_PYTHON_RELEASE_GIL)
+    itk_python_add_test(
+      NAME PythonGILReleaseTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release.py
+    )
+  endif()
 
-# Comprehensive GIL release safety tests: callbacks, exceptions,
-# concurrency, deadlock, signals, stress
-itk_python_add_test(
-  NAME PythonGILReleaseSafetyTest
-  COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release_safety.py
-)
+  itk_python_add_test(
+    NAME PythonGILReleaseSafetyTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release_safety.py
+  )
+endif()
 
 itk_python_add_test(
   NAME CTypeTest
