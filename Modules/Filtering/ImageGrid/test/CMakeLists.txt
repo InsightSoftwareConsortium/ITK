@@ -746,6 +746,7 @@ itk_add_test(
 
 set(
   ITKImageGridGTests
+  itkBSplineScatteredDataPointSetToImageFilterGTest.cxx
   itkChangeInformationImageFilterGTest.cxx
   itkWarpImageFilterGTest.cxx
   itkPasteImageFilterGTest.cxx
