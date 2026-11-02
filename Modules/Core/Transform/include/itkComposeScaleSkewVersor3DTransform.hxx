@@ -413,6 +413,21 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithResp
   jacobian[2][11] = 2 * s1 * x2 * (v0w + v1v2);
 }
 
+template <typename TParametersValueType>
+auto
+ComposeScaleSkewVersor3DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  try
+  {
+    return Superclass::InvertTransform(*this);
+  }
+  catch (const ExceptionObject &)
+  {
+    // Versor::Set() rejects a decomposed rotation that is not orthogonal to within its tolerance.
+    return Superclass::template InvertTransform<typename Superclass::InverseTransformType>(*this);
+  }
+}
+
 } // namespace itk
 
 #endif
