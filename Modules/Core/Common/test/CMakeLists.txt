@@ -194,7 +194,8 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_USE_AUTOLOAD_PATH)
   )
 
   if(WIN32)
-    set(ITKObjectFactoryAutoloadPathSeparator ";")
+    # Escaped so the ENVIRONMENT property list does not split on it.
+    set(ITKObjectFactoryAutoloadPathSeparator "\\;")
   else()
     set(ITKObjectFactoryAutoloadPathSeparator ":")
   endif()
