@@ -20,14 +20,12 @@
 
 
 #include "itkAddImageFilter.h"
-#include "itkBSplineControlPointImageFilter.h"
 #include "itkDivideImageFilter.h"
 #include "itkExpImageFilter.h"
 #include "itkImageBufferRange.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkIterationReporter.h"
-#include "itkSubtractImageFilter.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 
 ITK_GCC_PRAGMA_PUSH
@@ -37,6 +35,7 @@ ITK_GCC_SUPPRESS_Wfloat_equal
 #include "complex"
 #include "itkPrintHelper.h"
 #include <algorithm> // For clamp and copy.
+#include <utility>
 ITK_GCC_PRAGMA_POP
 
 namespace itk
@@ -182,18 +181,29 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
   duplicator->SetInputImage(logInputImage);
   duplicator->Update();
 
-  RealImagePointer logUncorrectedImage = duplicator->GetOutput();
+  const RealImagePointer logUncorrectedImage = duplicator->GetOutput();
+
+  const RealImagePointer residualBiasField = RealImageType::New();
+  residualBiasField->CopyInformation(inputImage);
+  residualBiasField->SetRegions(inputRegion);
+  residualBiasField->Allocate(false);
+
+  // The new estimate is reconstructed into the buffer that held the estimate before the previous one.
+  RealImagePointer newLogBiasField = RealImageType::New();
+  newLogBiasField->CopyInformation(inputImage);
+  newLogBiasField->SetRegions(inputRegion);
+  newLogBiasField->Allocate(false);
 
   // Provide an initial log bias field of zeros
 
   RealImagePointer logBiasField = RealImageType::New();
   logBiasField->CopyInformation(inputImage);
-  logBiasField->SetRegions(inputImage->GetLargestPossibleRegion());
+  logBiasField->SetRegions(inputRegion);
   logBiasField->AllocateInitialized();
 
   const RealImagePointer logSharpenedImage = RealImageType::New();
   logSharpenedImage->CopyInformation(inputImage);
-  logSharpenedImage->SetRegions(inputImage->GetLargestPossibleRegion());
+  logSharpenedImage->SetRegions(inputRegion);
   logSharpenedImage->Allocate(false);
 
   // Iterate until convergence or iterative exhaustion.
@@ -222,42 +232,42 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
       // Sharpen the current estimate of the uncorrected image.
       this->SharpenImage(logUncorrectedImage, logSharpenedImage);
 
-      using SubtracterType = SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
-      auto subtracter1 = SubtracterType::New();
-      subtracter1->SetInput1(logUncorrectedImage);
-      subtracter1->SetInput2(logSharpenedImage);
-
-      const RealImagePointer residualBiasField = subtracter1->GetOutput();
-      residualBiasField->Update();
+      {
+        const RealType * const uncorrected = logUncorrectedImage->GetBufferPointer();
+        const RealType * const sharpened = logSharpenedImage->GetBufferPointer();
+        RealType * const       residual = residualBiasField->GetBufferPointer();
+        this->GetMultiThreader()->ParallelizeArray(
+          0,
+          numberOfPixels,
+          [uncorrected, sharpened, residual](SizeValueType k) { residual[k] = uncorrected[k] - sharpened[k]; },
+          nullptr);
+      }
 
       // Smooth the residual bias field estimate and add the resulting
       // control point grid to get the new total bias field estimate.
 
-      const RealImagePointer newLogBiasField = this->UpdateBiasFieldEstimate(residualBiasField, fitPoints);
+      this->UpdateBiasFieldEstimate(residualBiasField, fitPoints, newLogBiasField);
 
       this->m_CurrentConvergenceMeasurement = this->CalculateConvergenceMeasurement(logBiasField, newLogBiasField);
-      logBiasField = newLogBiasField;
+      std::swap(logBiasField, newLogBiasField);
 
-      auto subtracter2 = SubtracterType::New();
-      subtracter2->SetInput1(logInputImage);
-      subtracter2->SetInput2(logBiasField);
-
-      logUncorrectedImage = subtracter2->GetOutput();
-      logUncorrectedImage->Update();
+      {
+        const RealType * const logInput = logInputImage->GetBufferPointer();
+        const RealType * const bias = logBiasField->GetBufferPointer();
+        RealType * const       uncorrected = logUncorrectedImage->GetBufferPointer();
+        this->GetMultiThreader()->ParallelizeArray(
+          0,
+          numberOfPixels,
+          [logInput, bias, uncorrected](SizeValueType k) { uncorrected[k] = logInput[k] - bias[k]; },
+          nullptr);
+      }
 
       reporter.CompletedStep();
     }
 
-    using BSplineReconstructerType = BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>;
-    auto reconstructer = BSplineReconstructerType::New();
-    reconstructer->SetInput(this->m_LogBiasFieldControlPointLattice);
-    reconstructer->SetOrigin(logBiasField->GetOrigin());
-    reconstructer->SetSpacing(logBiasField->GetSpacing());
-    reconstructer->SetDirection(logBiasField->GetDirection());
-    reconstructer->SetSize(logBiasField->GetLargestPossibleRegion().GetSize());
-    reconstructer->SetSplineOrder(this->m_SplineOrder);
+    const auto reconstructer = this->MakeBiasFieldReconstructer(this->m_LogBiasFieldControlPointLattice);
 
-    auto numberOfLevels = MakeFilled<typename BSplineReconstructerType::ArrayType>(1);
+    auto numberOfLevels = MakeFilled<typename BiasFieldReconstructerType::ArrayType>(1);
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       if (this->m_NumberOfFittingLevels[d] + 1 >= this->m_CurrentLevel &&
@@ -507,10 +517,11 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
-typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
+void
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateBiasFieldEstimate(
   RealImageType * fieldEstimate,
-  FitPoints &     fitPoints)
+  FitPoints &     fitPoints,
+  RealImageType * smoothField)
 {
   auto &       values = fitPoints.values->CastToSTLContainer();
   const auto & bufferIndices = fitPoints.bufferIndices;
@@ -586,9 +597,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
     this->m_LogBiasFieldControlPointLattice = adder->GetOutput();
   }
 
-  RealImagePointer smoothField = this->ReconstructBiasField(this->m_LogBiasFieldControlPointLattice);
-  smoothField->SetRegions(this->GetInput()->GetRequestedRegion());
-  return smoothField;
+  this->ReconstructBiasFieldInto(this->m_LogBiasFieldControlPointLattice, smoothField);
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
@@ -596,16 +605,7 @@ typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::ReconstructBiasField(
   const BiasFieldControlPointLatticeType * controlPointLattice)
 {
-  const InputImageType * inputImage = this->GetInput();
-
-  using BSplineReconstructerType = BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>;
-  auto reconstructer = BSplineReconstructerType::New();
-  reconstructer->SetInput(controlPointLattice);
-  reconstructer->SetOrigin(inputImage->GetOrigin());
-  reconstructer->SetSpacing(inputImage->GetSpacing());
-  reconstructer->SetDirection(inputImage->GetDirection());
-  reconstructer->SetSplineOrder(this->m_SplineOrder);
-  reconstructer->SetSize(inputImage->GetLargestPossibleRegion().GetSize());
+  const auto reconstructer = this->MakeBiasFieldReconstructer(controlPointLattice);
 
   const typename ScalarImageType::Pointer biasFieldBsplineImage = reconstructer->GetOutput();
   biasFieldBsplineImage->Update();
@@ -624,17 +624,46 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Reconst
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
+auto
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::MakeBiasFieldReconstructer(
+  const BiasFieldControlPointLatticeType * controlPointLattice) const -> typename BiasFieldReconstructerType::Pointer
+{
+  const InputImageType * inputImage = this->GetInput();
+
+  auto reconstructer = BiasFieldReconstructerType::New();
+  reconstructer->SetInput(controlPointLattice);
+  reconstructer->SetOrigin(inputImage->GetOrigin());
+  reconstructer->SetSpacing(inputImage->GetSpacing());
+  reconstructer->SetDirection(inputImage->GetDirection());
+  reconstructer->SetSplineOrder(this->m_SplineOrder);
+  reconstructer->SetSize(inputImage->GetLargestPossibleRegion().GetSize());
+  return reconstructer;
+}
+
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
+void
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::ReconstructBiasFieldInto(
+  const BiasFieldControlPointLatticeType * controlPointLattice,
+  RealImageType *                          biasField)
+{
+  const auto reconstructer = this->MakeBiasFieldReconstructer(controlPointLattice);
+  reconstructer->Update();
+
+  const ScalarType * const reconstructed = reconstructer->GetOutput()->GetBufferPointer();
+  RealType * const         field = biasField->GetBufferPointer();
+  this->GetMultiThreader()->ParallelizeArray(
+    0,
+    biasField->GetBufferedRegion().GetNumberOfPixels(),
+    [reconstructed, field](SizeValueType k) { field[k] = reconstructed[k][0]; },
+    nullptr);
+}
+
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealType
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::CalculateConvergenceMeasurement(
   const RealImageType * fieldEstimate1,
   const RealImageType * fieldEstimate2) const
 {
-  using SubtracterType = SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
-  auto subtracter = SubtracterType::New();
-  subtracter->SetInput1(fieldEstimate1);
-  subtracter->SetInput2(fieldEstimate2);
-  subtracter->Update();
-
   // Calculate statistics over the mask region
 
   RealType mu = 0.0;
@@ -646,8 +675,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
   const MaskPixelType maskLabel = this->GetMaskLabel();
   const bool          useMaskLabel = this->GetUseMaskLabel();
 
-  const auto   subtracterImageBufferRange = MakeImageBufferRange(subtracter->GetOutput());
-  const size_t numberOfPixels = subtracterImageBufferRange.size();
+  const auto   fieldEstimate1BufferRange = MakeImageBufferRange(fieldEstimate1);
+  const auto   fieldEstimate2BufferRange = MakeImageBufferRange(fieldEstimate2);
+  const size_t numberOfPixels = fieldEstimate1BufferRange.size();
 
   for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
   {
@@ -655,7 +685,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
          (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
         (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
     {
-      const RealType pixel = std::exp(subtracterImageBufferRange[indexValue]);
+      const RealType pixel =
+        std::exp(static_cast<RealType>(fieldEstimate1BufferRange[indexValue] - fieldEstimate2BufferRange[indexValue]));
       N += 1.0;
 
       if (N > 1.0)

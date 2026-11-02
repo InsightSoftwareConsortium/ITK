@@ -98,7 +98,7 @@ struct N4Inputs
 };
 
 std::vector<float>
-RunN4(const N4Inputs & inputs)
+RunN4(const N4Inputs & inputs, double * convergenceMeasurement = nullptr)
 {
   const auto image = MakeN4Image<N4ImageType>([](double x, double y) {
     const double tissue = (std::hypot(x - 24.0, y - 24.0) < 10.0 ? 140.0 : 100.0) + 20.0 * std::sin(0.3 * x);
@@ -121,6 +121,10 @@ RunN4(const N4Inputs & inputs)
   filter->SetMaximumNumberOfIterations(N4FilterType::VariableSizeArrayType(2, 5));
   filter->SetConvergenceThreshold(0.0);
   filter->Update();
+  if (convergenceMeasurement != nullptr)
+  {
+    *convergenceMeasurement = filter->GetCurrentConvergenceMeasurement();
+  }
 
   const N4ImageType * output = filter->GetOutput();
   return { output->GetBufferPointer(), output->GetBufferPointer() + output->GetBufferedRegion().GetNumberOfPixels() };
@@ -151,7 +155,8 @@ TEST(N4BiasFieldCorrectionImageFilter, MaskLabelAndConfidenceMatchBaseline)
 {
   const auto labelMask = MakeLabelMask();
   const auto confidence = MakeConfidence();
-  const auto output = RunN4({ labelMask, true, 1, confidence });
+  double     convergenceMeasurement = 0.0;
+  const auto output = RunN4({ labelMask, true, 1, confidence }, &convergenceMeasurement);
 
   // Regression baseline.
   const std::vector<std::pair<itk::SizeValueType, double>> baseline{ { 0, 88.56924438 },
@@ -163,5 +168,8 @@ TEST(N4BiasFieldCorrectionImageFilter, MaskLabelAndConfidenceMatchBaseline)
   {
     EXPECT_NEAR(output[offset], expected, 1e-4 * expected) << "offset " << offset;
   }
+  // From ITK main with one thread; other thread counts change it by up to 4e-6 relative through the B-spline fit.
+  constexpr double expectedConvergenceMeasurement = 0.0029679266735911369;
+  EXPECT_NEAR(convergenceMeasurement, expectedConvergenceMeasurement, 1e-4 * expectedConvergenceMeasurement);
   EXPECT_EQ(RunN4({ labelMask, true, 1, confidence }), output);
 }
