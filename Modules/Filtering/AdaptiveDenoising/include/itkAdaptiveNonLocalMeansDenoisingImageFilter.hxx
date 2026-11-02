@@ -32,6 +32,7 @@
 #include "itkVarianceImageFilter.h"
 
 #include <algorithm>
+#include <atomic>
 #include <numeric>
 #include <vector>
 
@@ -177,30 +178,35 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
 
   std::vector<typename OutputImageType::Pointer> slabEstimates(numberOfSlabs);
 
+  // Each work unit takes the next unprocessed slab, so slabs of different cost are balanced across work units.
+  std::atomic<SizeValueType> nextSlab{ 0 };
   this->GetMultiThreader()->ParallelizeArray(
     0,
-    numberOfSlabs,
-    [this, &centerRegion, &targetImageRegion, &slabEstimates](SizeValueType slab) {
-      RegionType          slabRegion = centerRegion;
-      const SizeValueType slabStart = slab * slabThickness;
-      slabRegion.SetIndex(slabAxis, centerRegion.GetIndex(slabAxis) + static_cast<IndexValueType>(slabStart));
-      const SizeValueType remaining = centerRegion.GetSize(slabAxis) - slabStart;
-      slabRegion.SetSize(slabAxis, std::min(remaining, slabThickness));
-
-      RegionType estimateRegion = slabRegion;
-      estimateRegion.PadByRadius(this->GetNeighborhoodPatchRadius());
-      estimateRegion.Crop(targetImageRegion);
-
-      auto estimateImage = OutputImageType::New();
-      estimateImage->CopyInformation(this->GetOutput());
-      estimateImage->SetRegions(estimateRegion);
-      estimateImage->AllocateInitialized();
-
-      // A slab can be smaller than the reporter's update interval, so check for abort here too.
+    std::min<SizeValueType>(this->GetNumberOfWorkUnits(), numberOfSlabs),
+    [this, &centerRegion, &targetImageRegion, &slabEstimates, &nextSlab, numberOfSlabs](SizeValueType) {
+      // One reporter across this work unit's slabs, which can each be smaller than its update interval.
       TotalProgressReporter progress(this, centerRegion.GetNumberOfPixels(), 100, 0.95f);
-      progress.CheckAbortGenerateData();
-      this->AccumulatePatchEstimates(slabRegion, estimateImage, progress);
-      slabEstimates[slab] = estimateImage;
+      for (SizeValueType slab = nextSlab++; slab < numberOfSlabs; slab = nextSlab++)
+      {
+        progress.CheckAbortGenerateData();
+        RegionType          slabRegion = centerRegion;
+        const SizeValueType slabStart = slab * slabThickness;
+        slabRegion.SetIndex(slabAxis, centerRegion.GetIndex(slabAxis) + static_cast<IndexValueType>(slabStart));
+        const SizeValueType remaining = centerRegion.GetSize(slabAxis) - slabStart;
+        slabRegion.SetSize(slabAxis, std::min(remaining, slabThickness));
+
+        RegionType estimateRegion = slabRegion;
+        estimateRegion.PadByRadius(this->GetNeighborhoodPatchRadius());
+        estimateRegion.Crop(targetImageRegion);
+
+        auto estimateImage = OutputImageType::New();
+        estimateImage->CopyInformation(this->GetOutput());
+        estimateImage->SetRegions(estimateRegion);
+        estimateImage->AllocateInitialized();
+
+        this->AccumulatePatchEstimates(slabRegion, estimateImage, progress);
+        slabEstimates[slab] = estimateImage;
+      }
     },
     nullptr);
 
