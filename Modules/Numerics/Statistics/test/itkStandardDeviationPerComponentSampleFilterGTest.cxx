@@ -115,11 +115,7 @@ TEST(StandardDeviationPerComponentSampleFilter, ConvertedLegacyTest)
 
   MeasurementVectorRealType standardDeviation2 = standardDeviationFilter->GetStandardDeviationPerComponent();
 
-  EXPECT_NEAR(standardDeviation[0], standardDeviation2[0], epsilon)
-    << "Standard Deviation value retrieved using Get() and the decorator are not the same";
-  EXPECT_NEAR(standardDeviation[1], standardDeviation2[1], epsilon)
-    << "Standard Deviation value retrieved using Get() and the decorator are not the same";
-  EXPECT_NEAR(standardDeviation[2], standardDeviation2[2], epsilon)
+  ITK_EXPECT_VECTOR_NEAR(standardDeviation, standardDeviation2, epsilon)
     << "Standard Deviation value retrieved using Get() and the decorator are not the same";
 
 
@@ -132,13 +128,7 @@ TEST(StandardDeviationPerComponentSampleFilter, ConvertedLegacyTest)
   CovarianceSampleFilterType::MeasurementVectorRealType meanCalculatedUsingCovarianceSampleFilter =
     covarianceFilter->GetMean();
 
-  EXPECT_NEAR(meanCalculatedUsingCovarianceSampleFilter[0], mean[0], epsilon)
-    << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
-       "StandardDeviationPerComponentSampleFilter ";
-  EXPECT_NEAR(meanCalculatedUsingCovarianceSampleFilter[1], mean[1], epsilon)
-    << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
-       "StandardDeviationPerComponentSampleFilter ";
-  EXPECT_NEAR(meanCalculatedUsingCovarianceSampleFilter[2], mean[2], epsilon)
+  ITK_EXPECT_VECTOR_NEAR(meanCalculatedUsingCovarianceSampleFilter, mean, epsilon)
     << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
        "StandardDeviationPerComponentSampleFilter ";
 
