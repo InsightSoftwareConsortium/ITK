@@ -4,6 +4,13 @@ set(AdaptiveDenoisingTests itkAdaptiveNonLocalMeansDenoisingImageFilterTest.cxx)
 
 createtestdriver(AdaptiveDenoising "${AdaptiveDenoising-Test_LIBRARIES}" "${AdaptiveDenoisingTests}")
 
+set(
+  AdaptiveDenoisingGTests
+  itkAdaptiveNonLocalMeansDenoisingImageFilterGTest.cxx
+)
+
+creategoogletestdriver(AdaptiveDenoising "${AdaptiveDenoising-Test_LIBRARIES}" "${AdaptiveDenoisingGTests}")
+
 itk_add_test(
   NAME AdaptiveNonLocalMeansDenoisingImageFilterTest1
   COMMAND
