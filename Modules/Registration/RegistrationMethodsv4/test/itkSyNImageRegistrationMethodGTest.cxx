@@ -51,6 +51,50 @@ struct Options
   bool   downsample{ true };
   bool   mask{ false };
   bool   multi{ false };
+  bool   swapDerivative{ false };
+  bool   weighted{ false };
+  bool   growDerivative{ false };
+};
+
+// A metric that returns its derivative in a buffer of its own, as a metric that uses Swap() or SetData() may.
+class SwappingMetric : public MetricType
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(SwappingMetric);
+  using Self = SwappingMetric;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
+  {
+    MetricType::GetValueAndDerivative(value, derivative);
+    DerivativeType local(derivative);
+    derivative.Swap(local);
+  }
+
+protected:
+  SwappingMetric() = default;
+};
+
+// A metric that returns a derivative with more elements than it was given.
+class GrowingMetric : public MetricType
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(GrowingMetric);
+  using Self = GrowingMetric;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
+  {
+    MetricType::GetValueAndDerivative(value, derivative);
+    derivative.SetSize(derivative.Size() + Dimension);
+  }
+
+protected:
+  GrowingMetric() = default;
 };
 
 ImageType::Pointer
@@ -96,9 +140,11 @@ Warp(const ImageType * image)
 }
 
 MetricType::Pointer
-MakeMetric()
+MakeMetric(bool swapDerivative = false, bool growDerivative = false)
 {
-  auto metric = MetricType::New();
+  MetricType::Pointer metric = swapDerivative   ? SwappingMetric::New().GetPointer()
+                               : growDerivative ? GrowingMetric::New().GetPointer()
+                                                : MetricType::New().GetPointer();
   metric->SetUseMovingImageGradientFilter(false);
   metric->SetUseFixedImageGradientFilter(false);
   return metric;
@@ -126,7 +172,7 @@ RunSyN(const Options & options)
   const auto fixed = MakeFixedImage();
   const auto moving = Warp(fixed);
 
-  auto metric = MakeMetric();
+  auto metric = MakeMetric(options.swapDerivative, options.growDerivative);
   if (options.mask)
   {
     auto maskImage = MaskImageType::New();
@@ -212,6 +258,13 @@ RunSyN(const Options & options)
   registration->SetConvergenceWindowSize(10);
   registration->SetDownsampleImagesForMetricDerivatives(options.downsample);
   registration->SetAverageMidPointGradients(false);
+  if (options.weighted)
+  {
+    RegistrationType::OptimizerWeightsType weights(Dimension);
+    weights[0] = 1.0;
+    weights[1] = 0.5;
+    registration->SetOptimizerWeights(weights);
+  }
   registration->Update();
 
   std::vector<double> values;
@@ -267,6 +320,13 @@ TEST(SyNImageRegistrationMethod, MatchesBaseline)
         << "configuration " << c << ", offset " << offsets[k];
     }
   }
+}
+
+TEST(SyNImageRegistrationMethod, ThrowsWhenTheMetricResizesTheDerivative)
+{
+  Options options;
+  options.growDerivative = true;
+  EXPECT_THROW(RunSyN(options), itk::ExceptionObject);
 }
 
 namespace
@@ -326,5 +386,18 @@ TEST(SyNImageRegistrationMethod, GaussianSmoothingKeepsTheInputFieldWithGlobalRe
     }
     ASSERT_EQ(field->GetBufferedRegion(), field->GetLargestPossibleRegion()) << "variance " << variance;
     EXPECT_EQ(Pixels(field), input) << "variance " << variance;
+  }
+}
+
+TEST(SyNImageRegistrationMethod, ReplacedDerivativeBufferGivesTheSameOutput)
+{
+  // Without weights the metric has already written the values through the view, so only the weighted case can fail.
+  for (const bool weighted : { false, true })
+  {
+    Options inPlace;
+    inPlace.weighted = weighted;
+    Options replaced = inPlace;
+    replaced.swapDerivative = true;
+    EXPECT_EQ(RunSyN(replaced), RunSyN(inPlace)) << "weighted " << weighted;
   }
 }
