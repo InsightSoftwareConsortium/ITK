@@ -74,7 +74,8 @@ Denoise(const ImageType *                            image,
         bool                                         useRicianNoiseModel,
         itk::ThreadIdType                            numberOfWorkUnits,
         const MaskType *                             mask,
-        const std::optional<ImageType::RegionType> & requestedRegion = std::nullopt)
+        const std::optional<ImageType::RegionType> & requestedRegion = std::nullopt,
+        itk::SizeValueType *                         numberOfLinearOffsetCenters = nullptr)
 {
   auto filter = FilterType::New();
   filter->SetInput(image);
@@ -91,6 +92,10 @@ Denoise(const ImageType *                            image,
     filter->GetOutput()->SetRequestedRegion(*requestedRegion);
   }
   filter->Update();
+  if (numberOfLinearOffsetCenters != nullptr)
+  {
+    *numberOfLinearOffsetCenters = filter->GetNumberOfLinearOffsetCenters();
+  }
 
   const ImageType * output = filter->GetOutput();
   return { output->GetBufferPointer(), output->GetBufferPointer() + output->GetBufferedRegion().GetNumberOfPixels() };
@@ -228,7 +233,11 @@ CheckRequestedRegionsMatchFullOutput(const ImageType *                          
   {
     for (const MaskType * maskImage : std::vector<const MaskType *>{ nullptr, mask })
     {
-      const std::vector<float> full = Denoise(image, useRicianNoiseModel, 4, maskImage);
+      itk::SizeValueType       linearCenters = 0;
+      const std::vector<float> full = Denoise(image, useRicianNoiseModel, 4, maskImage, std::nullopt, &linearCenters);
+      // The full run takes the linear path for interior centers and the indexed path near the border.
+      EXPECT_GT(linearCenters, 0u);
+      EXPECT_LT(linearCenters, image->GetLargestPossibleRegion().GetNumberOfPixels());
       for (const auto & requestedRegion : requestedRegions)
       {
         std::vector<float> expected;
@@ -236,9 +245,10 @@ CheckRequestedRegionsMatchFullOutput(const ImageType *                          
         {
           expected.push_back(full[image->ComputeOffset(it.GetIndex())]);
         }
-        EXPECT_EQ(Denoise(image, useRicianNoiseModel, 4, maskImage, requestedRegion), expected)
+        EXPECT_EQ(Denoise(image, useRicianNoiseModel, 4, maskImage, requestedRegion, &linearCenters), expected)
           << "useRicianNoiseModel: " << useRicianNoiseModel << ", mask: " << (maskImage != nullptr)
           << ", requested region: " << requestedRegion;
+        EXPECT_EQ(linearCenters, 0u) << "requested region: " << requestedRegion;
       }
     }
   }
@@ -261,11 +271,12 @@ Relocate(const TImage * image)
 }
 } // namespace
 
+// Partial regions whose read region is smaller than the image take the indexed path; compare them with the full run.
 TEST(AdaptiveNonLocalMeansDenoisingImageFilter, RequestedRegionMatchesFullOutput)
 {
   CheckRequestedRegionsMatchFullOutput(MakeNoisyImage(),
                                        MakeMask(),
-                                       { { { { 5, 4, 7 } }, { { 10, 8, 15 } } },
+                                       { { { { 5, 4, 10 } }, { { 10, 8, 8 } } },
                                          { { { 0, 9, 21 } }, { { 7, 7, 9 } } },
                                          { { { 13, 0, 2 } }, { { 1, 16, 3 } } } });
 }
@@ -276,7 +287,7 @@ TEST(AdaptiveNonLocalMeansDenoisingImageFilter, RequestedRegionMatchesFullOutput
   // noise ratio the Rician bias, and so its padding, changes the output.
   CheckRequestedRegionsMatchFullOutput(Relocate(MakeNoisyImage(0.08F).GetPointer()),
                                        Relocate(MakeMask().GetPointer()),
-                                       { { { { 8, 2, 12 } }, { { 10, 8, 15 } } },
+                                       { { { { 8, 2, 15 } }, { { 10, 8, 8 } } },
                                          { { { 3, 7, 26 } }, { { 7, 7, 9 } } },
                                          { { { 16, -2, 7 } }, { { 1, 16, 3 } } } });
 }
