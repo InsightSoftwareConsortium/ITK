@@ -79,8 +79,7 @@ TEST(Subsample, ConvertedLegacyTest3)
 
   constexpr FilterType::MeasurementVectorType::ValueType epsilon{ 1e-6 };
 
-  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
-  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
+  ITK_EXPECT_VECTOR_NEAR(meanOutput, mean, epsilon) << "The result is not what is expected";
 
   // Clear and  repopulate the subsample container
   subsample->Clear();
@@ -104,6 +103,5 @@ TEST(Subsample, ConvertedLegacyTest3)
 
   std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
 
-  EXPECT_NEAR(meanOutput[0], mean[0], epsilon) << "The result is not what is expected";
-  EXPECT_NEAR(meanOutput[1], mean[1], epsilon) << "The result is not what is expected";
+  ITK_EXPECT_VECTOR_NEAR(meanOutput, mean, epsilon) << "The result is not what is expected";
 }
