@@ -511,13 +511,15 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   SetMaximumNumberOfWorkUnits(const ThreadIdType number)
 {
-  if (number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads())
+  if (number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() ||
+      number != this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnits())
   {
     this->m_SparseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
     this->m_SparseGetValueAndDerivativeThreader->SetNumberOfWorkUnits(number);
     this->Modified();
   }
-  if (number != this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads())
+  if (number != this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() ||
+      number != this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnits())
   {
     this->m_DenseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
     this->m_DenseGetValueAndDerivativeThreader->SetNumberOfWorkUnits(number);
