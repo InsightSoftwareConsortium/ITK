@@ -30,6 +30,9 @@ ImageToHistogramFilter<TImage>::ImageToHistogramFilter()
 
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
 
+  // Each work unit allocates and merges a whole histogram.
+  this->SetWorkUnitToThreadRatio(2);
+
   // same default values as in the HistogramGenerator
 
   this->Self::SetMarginalScale(100);
