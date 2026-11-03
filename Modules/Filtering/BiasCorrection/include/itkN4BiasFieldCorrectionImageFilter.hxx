@@ -224,7 +224,6 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
     reconstructer->SetDirection(logBiasField->GetDirection());
     reconstructer->SetSize(logBiasField->GetLargestPossibleRegion().GetSize());
     reconstructer->SetSplineOrder(this->m_SplineOrder);
-    reconstructer->Update();
 
     auto numberOfLevels = MakeFilled<typename BSplineReconstructerType::ArrayType>(1);
     for (unsigned int d = 0; d < ImageDimension; ++d)
