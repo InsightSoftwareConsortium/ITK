@@ -101,7 +101,11 @@ public:
   itkBooleanMacro(FullyConnected);
   /** @ITKEndGrouping */
 protected:
-  BinaryOpeningByReconstructionImageFilter() = default;
+  BinaryOpeningByReconstructionImageFilter()
+  {
+    // Forwarded to the internal BinaryReconstructionByDilationImageFilter.
+    this->SetWorkUnitToThreadRatio(1);
+  }
   ~BinaryOpeningByReconstructionImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

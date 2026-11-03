@@ -27,6 +27,8 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1>::AnchorErodeDilateImag
   : m_Boundary(InputImagePixelType{})
 {
   this->DynamicMultiThreadingOn();
+  // Each work unit copies and filters its region padded by the kernel radius.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 template <typename TImage, typename TKernel, typename TFunction1>

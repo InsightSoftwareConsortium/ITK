@@ -32,6 +32,8 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::AnchorOpenClo
   , m_Boundary2(InputImagePixelType{})
 {
   this->DynamicMultiThreadingOn();
+  // Each work unit copies and filters its region padded by twice the kernel radius.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 template <typename TImage, typename TKernel, typename TCompare1, typename TCompare2>
