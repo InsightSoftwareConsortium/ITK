@@ -51,6 +51,9 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::VariationalRegi
 
   this->m_VectorFieldComponentBuffer = nullptr;
   this->m_DCTVectorFieldComponentBuffer = nullptr;
+
+  // The number of work units is also the number of FFT threads.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 /**
