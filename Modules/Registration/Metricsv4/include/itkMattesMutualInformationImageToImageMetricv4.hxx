@@ -19,6 +19,7 @@
 #define itkMattesMutualInformationImageToImageMetricv4_hxx
 
 #include "itkCompensatedSummation.h"
+#include <algorithm>
 #include <mutex>
 
 namespace itk
@@ -612,6 +613,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
              std::mutex *                              parentDerivativeMutexPtr,
              typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives)
 {
+  const size_t bytesPerEntry = sizeof(PDFValueType) * std::max<size_t>(1, cachedNumberOfLocalParameters);
+  maxBufferLength =
+    std::clamp<size_t>(maxBufferLength, 1, std::max<size_t>(1, MaximumMemoryBlockBytes / bytesPerEntry));
   m_CurrentFillSize = 0;
   m_MemoryBlockSize = cachedNumberOfLocalParameters * maxBufferLength;
   m_BufferPDFValuesContainer.resize(maxBufferLength, nullptr);
@@ -673,7 +677,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
     {
       ReduceBuffer();
     }
-    else if (m_MaxBufferSize < 5000)
+    else if (m_MaxBufferSize < MaximumBufferLength &&
+             2 * m_MemoryBlockSize * sizeof(PDFValueType) <= MaximumMemoryBlockBytes)
     {
       DoubleBufferSize();
       // Attempt to acquire the lock a second time

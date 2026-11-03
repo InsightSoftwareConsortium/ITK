@@ -333,6 +333,9 @@ protected:
     ReduceBuffer();
 
   private:
+    static constexpr size_t MaximumMemoryBlockBytes = size_t{ 32 } << 20;
+    static constexpr size_t MaximumBufferLength = 5000;
+
     // How many AccumulatorElements used
     size_t m_CurrentFillSize{ 0 };
     // Contiguous chunk of memory for efficiency
