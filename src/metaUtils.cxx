@@ -55,8 +55,6 @@ namespace METAIO_NAMESPACE
 
 bool META_DEBUG = false;
 
-static char MET_SeperatorChar = '=';
-
 static std::streamoff MET_MaxChunkSize = 1024 * 1024 * 1024;
 
 void
@@ -1115,7 +1113,7 @@ MET_InitReadField(MET_FieldRecordType * _mf,
 }
 
 static bool
-MET_SkipToVal(std::istream & fp)
+MET_SkipToVal(std::istream & fp, char separatorChar)
 {
   int c;
   if (fp.eof())
@@ -1125,12 +1123,12 @@ MET_SkipToVal(std::istream & fp)
 
   c = fp.get();
 
-  while (!fp.eof() && c != MET_SeperatorChar && c != ':')
+  while (!fp.eof() && c != separatorChar && c != ':')
   {
     c = fp.get();
   }
 
-  while (!fp.eof() && (c == MET_SeperatorChar || c == ':' || IsBlank(c)))
+  while (!fp.eof() && (c == separatorChar || c == ':' || IsBlank(c)))
   {
     c = fp.get();
   }
@@ -1209,19 +1207,17 @@ MET_Read(std::istream &                       fp,
 
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
 
-  MET_SeperatorChar = _met_SeperatorChar;
-
   unsigned int linecount = 0;
   while (!fp.eof())
   {
     int i = 0;
     unsigned char c = static_cast<unsigned char>(fp.get());
-    while (!fp.eof() && c != MET_SeperatorChar && c != ':' && isspace(c))
+    while (!fp.eof() && c != _met_SeperatorChar && c != ':' && isspace(c))
     {
       c = static_cast<unsigned char>(fp.get());
     }
     // save name up to separator or end of line
-    while (!fp.eof() && c != MET_SeperatorChar && c != ':' && c != '\r' && c != '\n' && i < 500)
+    while (!fp.eof() && c != _met_SeperatorChar && c != ':' && c != '\r' && c != '\n' && i < 500)
     {
       s[i++] = c;
       c = static_cast<unsigned char>(fp.get());
@@ -1261,7 +1257,7 @@ MET_Read(std::istream &                       fp,
             break;
           case MET_ASCII_CHAR:
           {
-            MET_SkipToVal(fp);
+            MET_SkipToVal(fp, _met_SeperatorChar);
             if (fp.eof())
             {
               break;
@@ -1283,7 +1279,7 @@ MET_Read(std::istream &                       fp,
           case MET_LONG_LONG:
           case MET_ULONG_LONG:
           {
-            MET_SkipToVal(fp);
+            MET_SkipToVal(fp, _met_SeperatorChar);
             if (fp.eof())
             {
               break;
@@ -1295,7 +1291,7 @@ MET_Read(std::istream &                       fp,
           case MET_FLOAT:
           case MET_DOUBLE:
           {
-            MET_SkipToVal(fp);
+            MET_SkipToVal(fp, _met_SeperatorChar);
             if (fp.eof())
             {
               break;
@@ -1309,7 +1305,7 @@ MET_Read(std::istream &                       fp,
           }
           case MET_STRING:
           {
-            MET_SkipToVal(fp);
+            MET_SkipToVal(fp, _met_SeperatorChar);
             if (fp.eof())
             {
               break;
@@ -1331,7 +1327,7 @@ MET_Read(std::istream &                       fp,
           case MET_LONG_LONG_ARRAY:
           case MET_ULONG_LONG_ARRAY:
           {
-            MET_SkipToVal(fp);
+            MET_SkipToVal(fp, _met_SeperatorChar);
             if (fp.eof())
             {
               break;
@@ -1362,7 +1358,7 @@ MET_Read(std::istream &                       fp,
           case MET_FLOAT_ARRAY:
           case MET_DOUBLE_ARRAY:
           {
-            MET_SkipToVal(fp);
+            MET_SkipToVal(fp, _met_SeperatorChar);
             if (fp.eof())
             {
               break;
@@ -1398,7 +1394,7 @@ MET_Read(std::istream &                       fp,
           }
           case MET_FLOAT_MATRIX:
           {
-            MET_SkipToVal(fp);
+            MET_SkipToVal(fp, _met_SeperatorChar);
             if (fp.eof())
             {
               break;
@@ -1451,7 +1447,7 @@ MET_Read(std::istream &                       fp,
     {
       if (newFields != nullptr)
       {
-        MET_SkipToVal(fp);
+        MET_SkipToVal(fp, _met_SeperatorChar);
         if (fp.eof())
         {
           break;
@@ -1501,8 +1497,6 @@ convert_ulonglong_to_string(MET_ULONG_LONG_TYPE val)
 bool
 MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _met_SeperatorChar)
 {
-  MET_SeperatorChar = _met_SeperatorChar;
-
   int                                          j;
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
   for (fieldIter = fields->begin(); fieldIter != fields->end(); ++fieldIter)
@@ -1511,12 +1505,12 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
     {
       case MET_NONE:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " " << '\n';
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar << " " << '\n';
         break;
       }
       case MET_ASCII_CHAR:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar << " ";
         fp << static_cast<MET_CHAR_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
@@ -1525,7 +1519,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_LONG:
       case MET_INT:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar << " ";
         fp << static_cast<MET_LONG_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
@@ -1548,13 +1542,13 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_UINT:
       case MET_ULONG:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar << " ";
         fp << static_cast<MET_ULONG_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
       case MET_ULONG_LONG:
       { // ToDo: check why name was not printed here previously!
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar << " ";
 #if defined(_MSC_VER) || defined(__HP_aCC)
         // NOTE: you cannot use __int64 in an ostream in MSV6 or HPUX
         fp << convert_ulonglong_to_string((MET_ULONG_LONG_TYPE)((*fieldIter)->value[0])) << std::endl;
@@ -1566,7 +1560,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_FLOAT:
       case MET_DOUBLE:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar << " ";
         fp << static_cast<MET_DOUBLE_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
@@ -1579,7 +1573,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
                     << "Refusing to write empty string value.";
           std::cerr << '\n';
         }
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar << " ";
         if ((*fieldIter)->dependsOn >= 0)
         {
           if ((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
@@ -1599,7 +1593,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_INT_ARRAY:
       case MET_LONG_ARRAY:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar;
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar;
         if ((*fieldIter)->dependsOn >= 0)
         {
           if ((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
@@ -1619,7 +1613,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       }
       case MET_LONG_LONG_ARRAY:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar;
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar;
         if ((*fieldIter)->dependsOn >= 0)
         {
           if ((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
@@ -1652,7 +1646,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_UINT_ARRAY:
       case MET_ULONG_ARRAY:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar;
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar;
         if ((*fieldIter)->dependsOn >= 0)
         {
           if ((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
@@ -1672,7 +1666,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       }
       case MET_ULONG_LONG_ARRAY:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar;
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar;
         if ((*fieldIter)->dependsOn >= 0)
         {
           if ((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
@@ -1703,7 +1697,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_FLOAT_ARRAY:
       case MET_DOUBLE_ARRAY:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar;
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar;
         if ((*fieldIter)->dependsOn >= 0)
         {
           if ((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
@@ -1722,7 +1716,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       }
       case MET_FLOAT_MATRIX:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar;
+        fp << (*fieldIter)->name << " " << _met_SeperatorChar;
         if ((*fieldIter)->dependsOn >= 0)
         {
           if ((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
