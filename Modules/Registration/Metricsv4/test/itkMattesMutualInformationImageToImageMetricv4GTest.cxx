@@ -17,8 +17,11 @@
  *=========================================================================*/
 
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
+#include "itkAffineTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMultiThreaderBase.h"
 #include "itkTranslationTransform.h"
 #include "itkGTest.h"
 
@@ -194,4 +197,158 @@ TEST(MattesMutualInformationImageToImageMetricv4, DenseLocalSupportDerivativeMat
 TEST(MattesMutualInformationImageToImageMetricv4, SparseLocalSupportDerivativeMatchesPerPointReference)
 {
   CheckLocalSupportDerivative(true);
+}
+
+namespace
+{
+ImageType::Pointer
+MakeReproducibilityImage()
+{
+  auto image = ImageType::New();
+  image->SetRegions(ImageType::SizeType::Filled(48));
+  image->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<ImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    const auto & index = it.GetIndex();
+    it.Set(100.0 + 50.0 * std::sin(0.2 * index[0]) * std::cos(0.15 * index[1]) + 0.5 * index[2]);
+  }
+  return image;
+}
+
+MetricType::MovingTransformType::Pointer
+MakeAffine()
+{
+  auto transform = itk::AffineTransform<double, Dimension>::New();
+  auto parameters = transform->GetParameters();
+  parameters[0] = 1.02;
+  parameters[4] = 0.98;
+  parameters[9] = 1.5;
+  parameters[10] = -2.0;
+  transform->SetParameters(parameters);
+  return transform;
+}
+
+MetricType::MovingTransformType::Pointer
+MakeBSpline(const ImageType * image)
+{
+  using TransformType = itk::BSplineTransform<double, Dimension, 3>;
+  auto                                  transform = TransformType::New();
+  TransformType::PhysicalDimensionsType dimensions;
+  for (unsigned int d = 0; d < Dimension; ++d)
+  {
+    dimensions[d] = image->GetSpacing()[d] * (image->GetLargestPossibleRegion().GetSize(d) - 1);
+  }
+  transform->SetTransformDomainOrigin(image->GetOrigin());
+  transform->SetTransformDomainPhysicalDimensions(dimensions);
+  transform->SetTransformDomainMeshSize(TransformType::MeshSizeType::Filled(3));
+  transform->SetTransformDomainDirection(image->GetDirection());
+  auto parameters = transform->GetParameters();
+  for (unsigned int i = 0; i < parameters.Size(); ++i)
+  {
+    parameters[i] = 0.5 * std::sin(0.1 * i);
+  }
+  transform->SetParameters(parameters);
+  return transform;
+}
+
+// The derivative with the value appended, and the work units used, of one evaluation.
+struct Result
+{
+  std::vector<double> valueAndDerivative;
+  itk::ThreadIdType   numberOfWorkUnitsUsed;
+};
+
+Result
+Evaluate(MetricType * metric)
+{
+  metric->Initialize();
+  MetricType::MeasureType    value;
+  MetricType::DerivativeType derivative;
+  metric->GetValueAndDerivative(value, derivative);
+  Result result{ { derivative.begin(), derivative.end() }, metric->GetNumberOfWorkUnitsUsed() };
+  result.valueAndDerivative.push_back(value);
+  return result;
+}
+
+// A metric whose threader can run several work units: SingleMultiThreader, if it is the default, always runs one.
+MetricType::Pointer
+NewMetric()
+{
+  using ThreaderEnum = itk::MultiThreaderBase::ThreaderEnum;
+  const auto previousThreader = itk::MultiThreaderBase::GetGlobalDefaultThreader();
+  if (previousThreader == ThreaderEnum::Single)
+  {
+    itk::MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum::Pool);
+  }
+  auto metric = MetricType::New();
+  itk::MultiThreaderBase::SetGlobalDefaultThreader(previousThreader);
+  return metric;
+}
+
+// A dense metric with 32 bins of the image against itself.
+MetricType::Pointer
+MakeMetric(const ImageType * image, MetricType::MovingTransformType * transform, itk::ThreadIdType numberOfWorkUnits)
+{
+  auto metric = NewMetric();
+  metric->SetNumberOfHistogramBins(32);
+  metric->SetFixedImage(image);
+  metric->SetMovingImage(image);
+  metric->SetMovingTransform(transform);
+  metric->SetMaximumNumberOfWorkUnits(numberOfWorkUnits);
+  return metric;
+}
+
+Result
+ComputeValueAndDerivative(const ImageType *                 image,
+                          MetricType::MovingTransformType * transform,
+                          itk::ThreadIdType                 numberOfWorkUnits)
+{
+  return Evaluate(MakeMetric(image, transform, numberOfWorkUnits));
+}
+
+void
+CheckReproducible(const ImageType * image, MetricType::MovingTransformType * transform)
+{
+  // No more work units than the build allows; the tests skip below 2.
+  const itk::ThreadIdType numberOfWorkUnits = std::min<itk::ThreadIdType>(16, itk::ITK_MAX_THREADS);
+
+  // A single work unit gives the reference values up to the summation order.
+  const auto serial = ComputeValueAndDerivative(image, transform, 1).valueAndDerivative;
+  ASSERT_TRUE(std::any_of(serial.begin(), serial.end() - 1, [](double d) { return std::abs(d) > 1e-3; }));
+
+  const auto reference = ComputeValueAndDerivative(image, transform, numberOfWorkUnits);
+  ASSERT_EQ(reference.numberOfWorkUnitsUsed, numberOfWorkUnits);
+  ASSERT_EQ(reference.valueAndDerivative.size(), serial.size());
+  for (size_t i = 0; i < serial.size(); ++i)
+  {
+    EXPECT_NEAR(reference.valueAndDerivative[i], serial[i], 1e-9 * std::max(1.0, std::abs(serial[i]))) << i;
+  }
+
+  for (int repeat = 0; repeat < 10; ++repeat)
+  {
+    const auto result = ComputeValueAndDerivative(image, transform, numberOfWorkUnits);
+    EXPECT_EQ(result.numberOfWorkUnitsUsed, numberOfWorkUnits) << "repeat " << repeat;
+    EXPECT_EQ(result.valueAndDerivative, reference.valueAndDerivative) << "repeat " << repeat;
+  }
+}
+} // namespace
+
+TEST(MattesMutualInformationImageToImageMetricv4, AffineDerivativeIsReproducible)
+{
+  if (itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() < 2 || itk::ITK_MAX_THREADS < 2)
+  {
+    GTEST_SKIP() << "Needs at least 2 threads to run work units concurrently.";
+  }
+  const auto image = MakeReproducibilityImage();
+  CheckReproducible(image, MakeAffine());
+}
+
+TEST(MattesMutualInformationImageToImageMetricv4, BSplineDerivativeIsReproducible)
+{
+  if (itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() < 2 || itk::ITK_MAX_THREADS < 2)
+  {
+    GTEST_SKIP() << "Needs at least 2 threads to run work units concurrently.";
+  }
+  const auto image = MakeReproducibilityImage();
+  CheckReproducible(image, MakeBSpline(image));
 }
