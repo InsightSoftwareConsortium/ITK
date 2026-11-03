@@ -32,7 +32,6 @@ set(
   itkLog10ImageFilterAndAdaptorTest.cxx
   itkLogImageFilterAndAdaptorTest.cxx
   itkMagnitudeAndPhaseToComplexImageFilterTest.cxx
-  itkMaskImageFilterTest.cxx
   itkMaskNegatedImageFilterTest.cxx
   itkMatrixIndexSelectionImageFilterTest.cxx
   itkMaximumImageFilterTest.cxx
@@ -468,12 +467,6 @@ itk_add_test(
     itkAsinImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME itkMaskImageFilterTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkMaskImageFilterTest
-)
-itk_add_test(
   NAME itkHistogramMatchingImageFilterTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -792,6 +785,7 @@ set(
   itkLessEqualGTest.cxx
   itkLessGTest.cxx
   itkMaskedAssignImageFilterGTest.cxx
+  itkMaskImageFilterGTest.cxx
   itkNotEqualGTest.cxx
   itkRoundImageFilterGTest.cxx
   itkSquareImageFilterGTest.cxx
