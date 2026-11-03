@@ -105,3 +105,11 @@ TEST_P(ImageToImageMetricv4WorkUnits, SetMaximumNumberOfWorkUnitsToOne)
 }
 
 INSTANTIATE_TEST_SUITE_P(SparseAndDense, ImageToImageMetricv4WorkUnits, ::testing::Bool(), SparseOrDenseName);
+
+TEST(ImageToImageMetricv4, SparseDefaultWorkUnitsDoNotExceedThreads)
+{
+  const auto image = MakeImage();
+  const auto metric = MakeMetric(image, true);
+
+  EXPECT_LE(WorkUnitsUsed(*metric), itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+}
