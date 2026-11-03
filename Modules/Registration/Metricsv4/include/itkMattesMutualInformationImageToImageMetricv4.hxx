@@ -19,7 +19,10 @@
 #define itkMattesMutualInformationImageToImageMetricv4_hxx
 
 #include "itkCompensatedSummation.h"
+#include "itksys/SystemInformation.hxx"
 #include <algorithm>
+#include <cmath>
+#include <limits>
 #include <mutex>
 
 namespace itk
@@ -572,6 +575,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMetricTraits>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "MaximumDerivativeBufferBytesPerWorkUnit: " << m_MaximumDerivativeBufferBytesPerWorkUnit << std::endl;
 }
 
 template <typename TFixedImage,
@@ -631,7 +635,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 {
   const size_t bytesPerEntry = sizeof(PDFValueType) * std::max<size_t>(1, cachedNumberOfLocalParameters);
   maxBufferLength =
-    std::clamp<size_t>(maxBufferLength, 1, std::max<size_t>(1, MaximumMemoryBlockBytes / bytesPerEntry));
+    std::clamp<size_t>(maxBufferLength, 1, std::max<size_t>(1, m_MaximumMemoryBlockBytes / bytesPerEntry));
   m_CurrentFillSize = 0;
   m_MemoryBlockSize = cachedNumberOfLocalParameters * maxBufferLength;
   m_BufferPDFValuesContainer.resize(maxBufferLength, nullptr);
@@ -694,7 +698,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       ReduceBuffer();
     }
     else if (m_MaxBufferSize < MaximumBufferLength &&
-             2 * m_MemoryBlockSize * sizeof(PDFValueType) <= MaximumMemoryBlockBytes)
+             2 * m_MemoryBlockSize * sizeof(PDFValueType) <= m_MaximumMemoryBlockBytes)
     {
       DoubleBufferSize();
       // Attempt to acquire the lock a second time
@@ -775,6 +779,84 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
     ++bufferIndex;
   }
   m_CurrentFillSize = 0; // Reset fill size back to zero.
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+std::uint64_t
+MattesMutualInformationImageToImageMetricv4<
+  TFixedImage,
+  TMovingImage,
+  TVirtualImage,
+  TInternalComputationValueType,
+  TMetricTraits>::ComputeDerivativeBufferBytesPerWorkUnit(ThreadIdType numberOfWorkUnits) const
+{
+  if (this->m_MaximumDerivativeBufferBytesPerWorkUnit > 0)
+  {
+    return this->m_MaximumDerivativeBufferBytesPerWorkUnit;
+  }
+  return ComputeDefaultDerivativeBufferBytesPerWorkUnit(
+    this->GetNumberOfDomainPoints(), static_cast<SizeValueType>(this->GetNumberOfLocalParameters()), numberOfWorkUnits);
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+std::uint64_t
+MattesMutualInformationImageToImageMetricv4<TFixedImage,
+                                            TMovingImage,
+                                            TVirtualImage,
+                                            TInternalComputationValueType,
+                                            TMetricTraits>::GetHostPhysicalMemoryBytes()
+{
+  static const std::uint64_t physicalBytes = [] {
+    itksys::SystemInformation info;
+    info.RunMemoryCheck();
+    return static_cast<std::uint64_t>(info.GetTotalPhysicalMemory()) << 20;
+  }();
+  return physicalBytes;
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+std::uint64_t
+MattesMutualInformationImageToImageMetricv4<
+  TFixedImage,
+  TMovingImage,
+  TVirtualImage,
+  TInternalComputationValueType,
+  TMetricTraits>::ComputeDefaultDerivativeBufferBytesPerWorkUnit(SizeValueType numberOfSamples,
+                                                                 SizeValueType numberOfLocalParameters,
+                                                                 SizeValueType numberOfWorkUnits,
+                                                                 std::uint64_t physicalMemoryBytes,
+                                                                 double        memoryFraction)
+{
+  constexpr std::uint64_t minimumBytes = std::uint64_t{ 32 } << 20;
+  constexpr std::uint64_t maximumBytes = std::uint64_t{ 1 } << 30;
+  // Each sample adds one buffer row per moving-image Parzen bin of the cubic B-spline window.
+  constexpr std::uint64_t rowsPerSample = 4;
+  const std::uint64_t     memoryBytes = physicalMemoryBytes > 0 ? physicalMemoryBytes : GetHostPhysicalMemoryBytes();
+  const std::uint64_t     workUnits = std::max<std::uint64_t>(1, numberOfWorkUnits);
+  constexpr std::uint64_t largest = std::numeric_limits<std::uint64_t>::max();
+  const auto              saturatingProduct = [](std::uint64_t a, std::uint64_t b) {
+    return (a != 0 && b > largest / a) ? largest : a * b;
+  };
+  const std::uint64_t rowBytes =
+    saturatingProduct(sizeof(PDFValueType), std::max<std::uint64_t>(1, numberOfLocalParameters));
+  const std::uint64_t usefulBytes = saturatingProduct(
+    saturatingProduct(std::min(numberOfSamples / workUnits, largest - 1) + 1, rowsPerSample), rowBytes);
+  const double fraction = std::isfinite(memoryFraction) ? std::clamp(memoryFraction, 0.0, 1.0) : 0.0;
+  const double memoryShare = fraction * static_cast<double>(memoryBytes) / static_cast<double>(workUnits);
+  const auto   memoryShareBytes = memoryShare >= 0x1p64 ? largest : static_cast<std::uint64_t>(memoryShare);
+  return std::clamp(std::min(usefulBytes, memoryShareBytes), minimumBytes, maximumBytes);
 }
 
 } // end namespace itk

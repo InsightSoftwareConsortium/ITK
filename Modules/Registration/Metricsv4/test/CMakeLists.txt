@@ -428,5 +428,6 @@ set(
   ITKMetricsv4GTests
   itkImageToImageMetricv4WorkUnitsGTest.cxx
   itkMattesMutualInformationImageToImageMetricv4GTest.cxx
+  itkMattesMutualInformationImageToImageMetricv4BufferGTest.cxx
 )
 creategoogletestdriver(ITKMetricsv4 "${ITKMetricsv4-Test_LIBRARIES}" "${ITKMetricsv4GTests}")

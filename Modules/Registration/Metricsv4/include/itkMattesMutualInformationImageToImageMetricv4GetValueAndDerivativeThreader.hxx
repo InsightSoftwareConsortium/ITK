@@ -18,6 +18,9 @@
 #ifndef itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 #define itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
+#include <algorithm>
+#include <cstdint>
+#include <limits>
 
 namespace itk
 {
@@ -196,8 +199,12 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     {
       this->m_MattesAssociate->m_ThreaderDerivativeManager.resize(localNumberOfWorkUnitsUsed);
     }
+    const auto bufferBytes = static_cast<size_t>(std::min<std::uint64_t>(
+      this->m_MattesAssociate->ComputeDerivativeBufferBytesPerWorkUnit(localNumberOfWorkUnitsUsed),
+      std::numeric_limits<size_t>::max() / 4));
     for (ThreadIdType workUnitID = 0; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
     {
+      this->m_MattesAssociate->m_ThreaderDerivativeManager[workUnitID].SetMaximumMemoryBlockBytes(bufferBytes);
       this->m_MattesAssociate->m_ThreaderDerivativeManager[workUnitID].Initialize(
         // A heuristic that assumes memory for 2x size of
         // m_JointPDFDerivative efficient and easy to make, so

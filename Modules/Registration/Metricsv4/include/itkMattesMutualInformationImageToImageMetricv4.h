@@ -25,6 +25,8 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
+#include <algorithm>
+#include <cstdint>
 #include <mutex>
 
 namespace itk
@@ -147,6 +149,34 @@ public:
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
   /** @ITKEndGrouping */
 
+  /** Maximum bytes of derivative buffer per work unit for transforms without
+   * local support. Zero (the default) uses
+   * ComputeDefaultDerivativeBufferBytesPerWorkUnit() with this host's memory;
+   * any other value is used as given, even below 32 MiB. */
+  /** @ITKStartGrouping */
+  itkSetMacro(MaximumDerivativeBufferBytesPerWorkUnit, std::uint64_t);
+  itkGetConstMacro(MaximumDerivativeBufferBytesPerWorkUnit, std::uint64_t);
+  /** @ITKEndGrouping */
+
+  /** Derivative buffer bytes per work unit that a zero
+   * MaximumDerivativeBufferBytesPerWorkUnit selects: the bytes a work unit's
+   * samples can fill (four rows per sample), limited to memoryFraction of
+   * physicalMemoryBytes across all work units, then kept from 32 MiB to
+   * 1 GiB; the 32 MiB floor takes precedence over the memory fraction. The
+   * buffer still starts at max(500, bins^2 / work units) rows and doubles
+   * only while below 5,000 rows, within this limit. A physicalMemoryBytes of
+   * zero uses this host's physical memory, which ignores container limits. */
+  [[nodiscard]] static std::uint64_t
+  ComputeDefaultDerivativeBufferBytesPerWorkUnit(SizeValueType numberOfSamples,
+                                                 SizeValueType numberOfLocalParameters,
+                                                 SizeValueType numberOfWorkUnits,
+                                                 std::uint64_t physicalMemoryBytes = 0,
+                                                 double        memoryFraction = 0.25);
+
+  /** Physical memory of this host in bytes, or zero if it cannot be read. */
+  [[nodiscard]] static std::uint64_t
+  GetHostPhysicalMemoryBytes();
+
   void
   Initialize() override;
 
@@ -190,6 +220,11 @@ public:
 
 protected:
   MattesMutualInformationImageToImageMetricv4();
+
+  /** Derivative buffer bytes per work unit for the next evaluation. */
+  [[nodiscard]] std::uint64_t
+  ComputeDerivativeBufferBytesPerWorkUnit(ThreadIdType numberOfWorkUnits) const;
+
   ~MattesMutualInformationImageToImageMetricv4() override = default;
 
   friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
@@ -236,6 +271,7 @@ protected:
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins{ 50 };
+  std::uint64_t m_MaximumDerivativeBufferBytesPerWorkUnit{ 0 };
   PDFValueType  m_MovingImageNormalizedMin{};
   PDFValueType  m_FixedImageNormalizedMin{};
   PDFValueType  m_FixedImageTrueMin{};
@@ -289,6 +325,12 @@ protected:
     void
     DoubleBufferSize();
 
+    void
+    SetMaximumMemoryBlockBytes(size_t bytes)
+    {
+      m_MaximumMemoryBlockBytes = std::max<size_t>(1, bytes);
+    }
+
     DerivativeBufferManager()
       : m_MemoryBlock(0)
     {}
@@ -332,8 +374,9 @@ protected:
     ReduceBuffer();
 
   private:
-    static constexpr size_t MaximumMemoryBlockBytes = size_t{ 32 } << 20;
     static constexpr size_t MaximumBufferLength = 5000;
+
+    size_t m_MaximumMemoryBlockBytes{ size_t{ 32 } << 20 };
 
     // How many AccumulatorElements used
     size_t m_CurrentFillSize{ 0 };
