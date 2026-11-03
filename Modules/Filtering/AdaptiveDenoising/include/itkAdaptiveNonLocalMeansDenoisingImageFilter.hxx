@@ -29,6 +29,7 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
 #include "itkStatisticsImageFilter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkVarianceImageFilter.h"
 
 #include <numeric>
@@ -78,6 +79,50 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
   this->m_MeanImage->Update();
   this->m_MeanImage->DisconnectPipeline();
 
+  // The patch mean squared residual does not depend on the patch center.
+  const RegionType targetImageRegion = this->GetTargetImageRegion();
+  RegionType       searchRegion = targetImageRegion;
+  searchRegion.PadByRadius(this->GetNeighborhoodSearchRadius());
+  searchRegion.Crop(this->m_MeanImage->GetBufferedRegion());
+  const NeighborhoodOffsetListType neighborhoodPatchOffsetList = this->GetNeighborhoodPatchOffsetList();
+
+  this->m_IntensitySquaredDistanceImage = RealImageType::New();
+  this->m_IntensitySquaredDistanceImage->CopyInformation(inputImage);
+  this->m_IntensitySquaredDistanceImage->SetRegions(searchRegion);
+  this->m_IntensitySquaredDistanceImage->Allocate();
+
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+    searchRegion,
+    [this, inputImage, &targetImageRegion, &searchRegion, &neighborhoodPatchOffsetList](const RegionType & region) {
+      TotalProgressReporter progress(this, searchRegion.GetNumberOfPixels(), 100, 0.05f);
+      for (ImageRegionIteratorWithIndex<RealImageType> It(this->m_IntensitySquaredDistanceImage, region); !It.IsAtEnd();
+           ++It)
+      {
+        RealType averageDistance = NumericTraits<RealType>::ZeroValue();
+        RealType count = NumericTraits<RealType>::ZeroValue();
+
+        for (const auto & offset : neighborhoodPatchOffsetList)
+        {
+          const IndexType neighborhoodPatchIndex = It.GetIndex() + offset;
+
+          if (!targetImageRegion.IsInside(neighborhoodPatchIndex))
+          {
+            continue;
+          }
+          const auto neighborhoodInputImagePixel = static_cast<RealType>(inputImage->GetPixel(neighborhoodPatchIndex));
+          const RealType neighborhoodMeanImagePixel = this->m_MeanImage->GetPixel(neighborhoodPatchIndex);
+          averageDistance += Math::sqr(neighborhoodInputImagePixel - neighborhoodMeanImagePixel);
+
+          count += NumericTraits<RealType>::OneValue();
+        }
+        // A patch with no voxel in the target region has residual 0/0; store NaN without dividing.
+        It.Set(count > 0 ? averageDistance / count : NumericTraits<RealType>::quiet_NaN());
+        progress.CompletedPixel();
+      }
+    },
+    nullptr);
+
   typedef VarianceImageFilter<InputImageType, RealImageType> VarianceImageFilterType;
   typename VarianceImageFilterType::Pointer                  varianceImageFilter = VarianceImageFilterType::New();
   varianceImageFilter->SetInput(inputImage);
@@ -119,7 +164,7 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
   const RegionType & region,
   ThreadIdType       threadId)
 {
-  ProgressReporter progress(this, threadId, region.GetNumberOfPixels(), 100);
+  ProgressReporter progress(this, threadId, region.GetNumberOfPixels(), 100, 0.05f, 0.95f);
 
   const InputImageType * inputImage = this->GetInput();
   const MaskImageType *  maskImage = this->GetMaskImage();
@@ -200,24 +245,7 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
             varianceRatio < itk::NumericTraits<RealType>::OneValue() / this->m_VarianceThreshold)
         {
 
-          RealType averageDistance = itk::NumericTraits<RealType>::ZeroValue();
-          RealType count = itk::NumericTraits<RealType>::ZeroValue();
-
-          for (unsigned int n = 0; n < neighborhoodPatchSize; n++)
-          {
-            IndexType neighborhoodPatchIndex = neighborhoodIndex + neighborhoodPatchOffsetList[n];
-
-            if (!targetImageRegion.IsInside(neighborhoodPatchIndex))
-            {
-              continue;
-            }
-            RealType neighborhoodInputImagePixel = static_cast<RealType>(inputImage->GetPixel(neighborhoodPatchIndex));
-            RealType neighborhoodMeanImagePixel = this->m_MeanImage->GetPixel(neighborhoodPatchIndex);
-            averageDistance += itk::Math::sqr(neighborhoodInputImagePixel - neighborhoodMeanImagePixel);
-
-            count += itk::NumericTraits<RealType>::OneValue();
-          }
-          averageDistance /= count;
+          const RealType averageDistance = this->m_IntensitySquaredDistanceImage->GetPixel(neighborhoodIndex);
           minimumDistance = std::min(averageDistance, minimumDistance);
         }
       }
@@ -467,6 +495,9 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
 
     ItO.Set(estimate);
   }
+
+  // Only the threaded pass reads the patch residuals.
+  this->m_IntensitySquaredDistanceImage = nullptr;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>

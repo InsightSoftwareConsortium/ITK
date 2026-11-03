@@ -18,6 +18,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKMetaIO
   DESCRIPTION "Module ingested from upstream."
