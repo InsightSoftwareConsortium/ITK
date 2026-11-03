@@ -528,9 +528,6 @@ TIFF *TIFFClientOpenExt(const char *name, const char *mode,
                     tif->tif_flags |=
                         (TIFF_LAZYSTRILELOAD | TIFF_DEFERSTRILELOAD);
                 break;
-            case 'W':
-                tif->tif_flags |= TIFF_WARNABOUTUNKNOWNTAGS;
-                break;
         }
 
 #ifdef DEFER_STRILE_LOAD

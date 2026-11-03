@@ -150,8 +150,6 @@ struct tiff
 #define TIFF_CHOPPEDUPARRAYS                                                   \
     0x4000000U /* set when allocChoppedUpStripArrays() has modified strip      \
                   array */
-#define TIFF_WARNABOUTUNKNOWNTAGS                                              \
-    0x8000000U /* emit a warning when encountering a unknown tag */
     uint64_t tif_diroff;     /* file offset of current directory */
     uint64_t tif_nextdiroff; /* file offset of following directory */
     uint64_t tif_lastdiroff; /* file offset of last directory written so far */

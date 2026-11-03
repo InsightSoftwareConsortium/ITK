@@ -4403,27 +4403,21 @@ int TIFFReadDirectory(TIFF *tif)
             TIFFReadDirectoryFindFieldInfo(tif, dp->tdir_tag, &fii);
             if (fii == FAILED_FII)
             {
-                if (tif->tif_flags&TIFF_WARNABOUTUNKNOWNTAGS)
-                {
-                    TIFFWarningExtR(tif, module,
-                                    "Unknown field with tag %" PRIu16 " (0x%" PRIx16
-                                    ") encountered",
-                                    dp->tdir_tag, dp->tdir_tag);
-                }
+                TIFFWarningExtR(tif, module,
+                                "Unknown field with tag %" PRIu16 " (0x%" PRIx16
+                                ") encountered",
+                                dp->tdir_tag, dp->tdir_tag);
                 /* the following knowingly leaks the
                    anonymous field structure */
                 const TIFFField *fld = _TIFFCreateAnonField(
                     tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
                 if (fld == NULL || !_TIFFMergeFields(tif, fld, 1))
                 {
-                    if (tif->tif_flags&TIFF_WARNABOUTUNKNOWNTAGS)
-                    {
-                        TIFFWarningExtR(
-                            tif, module,
-                            "Registering anonymous field with tag %" PRIu16
-                            " (0x%" PRIx16 ") failed",
-                            dp->tdir_tag, dp->tdir_tag);
-                    }
+                    TIFFWarningExtR(
+                        tif, module,
+                        "Registering anonymous field with tag %" PRIu16
+                        " (0x%" PRIx16 ") failed",
+                        dp->tdir_tag, dp->tdir_tag);
                     dp->tdir_ignore = TRUE;
                 }
                 else
@@ -5350,13 +5344,10 @@ int TIFFReadCustomDirectory(TIFF *tif, toff_t diroff,
         TIFFReadDirectoryFindFieldInfo(tif, dp->tdir_tag, &fii);
         if (fii == FAILED_FII)
         {
-            if (tif->tif_flags&TIFF_WARNABOUTUNKNOWNTAGS)
-            {
-                TIFFWarningExtR(tif, module,
-                                "Unknown field with tag %" PRIu16 " (0x%" PRIx16
-                                ") encountered",
-                                dp->tdir_tag, dp->tdir_tag);
-            }
+            TIFFWarningExtR(tif, module,
+                            "Unknown field with tag %" PRIu16 " (0x%" PRIx16
+                            ") encountered",
+                            dp->tdir_tag, dp->tdir_tag);
             const TIFFField *fld = _TIFFCreateAnonField(
                 tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
             if (fld == NULL || !_TIFFMergeFields(tif, fld, 1))
