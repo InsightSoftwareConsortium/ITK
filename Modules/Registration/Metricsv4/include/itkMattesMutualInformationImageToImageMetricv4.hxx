@@ -20,7 +20,6 @@
 
 #include "itkCompensatedSummation.h"
 #include <algorithm>
-#include <mutex>
 
 namespace itk
 {

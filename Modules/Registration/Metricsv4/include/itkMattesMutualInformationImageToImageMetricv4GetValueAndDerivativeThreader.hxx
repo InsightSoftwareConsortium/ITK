@@ -196,7 +196,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
       }
       else
       {
-        jointPDFDerivatives->FillBuffer(0.0F);
+        jointPDFDerivatives->FillBuffer(0.0);
       }
     }
     this->m_MattesAssociate->m_JointPDFDerivatives = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[0];
@@ -343,20 +343,11 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
           (fixedImageParzenWindowIndex * this->m_MattesAssociate->m_JointPDFDerivatives->GetOffsetTable()[2]) +
           (pdfMovingIndex * this->m_MattesAssociate->m_JointPDFDerivatives->GetOffsetTable()[1]);
 
-        JointPDFDerivativesValueType * derivativeContributionPtr =
-          this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadId]->GetBufferPointer() + ThisIndexOffset;
-        for (NumberOfParametersType mu = 0, maxElement = this->GetCachedNumberOfLocalParameters(); mu < maxElement;
-             ++mu)
-        {
-          PDFValueType innerProduct = 0.0;
-          for (SizeValueType dim = 0, lastDim = this->m_MattesAssociate->MovingImageDimension; dim < lastDim; ++dim)
-          {
-            innerProduct += jacobian[dim][mu] * movingImageGradient[dim];
-          }
-
-          *(derivativeContributionPtr) += innerProduct * cubicBSplineDerivativeValue;
-          ++derivativeContributionPtr;
-        }
+        this->AccumulatePDFDerivatives(
+          jacobian,
+          movingImageGradient,
+          cubicBSplineDerivativeValue,
+          this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadId]->GetBufferPointer() + ThisIndexOffset);
       }
     }
 
@@ -382,18 +373,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<TDomain
                                              const PDFValueType &            cubicBSplineDerivativeValue,
                                              DerivativeValueType *           localSupportDerivativeResultPtr) const
 {
-  for (NumberOfParametersType mu = 0, maxElement = this->GetCachedNumberOfLocalParameters(); mu < maxElement; ++mu)
-  {
-    PDFValueType innerProduct = 0.0;
-    for (SizeValueType dim = 0, lastDim = this->m_MattesAssociate->MovingImageDimension; dim < lastDim; ++dim)
-    {
-      innerProduct += jacobian[dim][mu] * movingImageGradient[dim];
-    }
-
-    const PDFValueType derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
-    *(localSupportDerivativeResultPtr) += derivativeContribution;
-    ++localSupportDerivativeResultPtr;
-  }
+  this->AccumulatePDFDerivatives(
+    jacobian, movingImageGradient, cubicBSplineDerivativeValue, localSupportDerivativeResultPtr);
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
