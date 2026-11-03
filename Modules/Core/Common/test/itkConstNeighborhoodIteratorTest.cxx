@@ -20,12 +20,6 @@
 #include "itkConstNeighborhoodIterator.h"
 #include <array>
 
-void
-println(const char * s)
-{
-  std::cout << s << std::endl;
-}
-
 TestImageType::Pointer
 GetTestImage(int d1, int d2, int d3, int d4)
 {
@@ -57,28 +51,28 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   constexpr itk::ConstNeighborhoodIterator<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
   itk::ConstNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
 
-  println("Creating ConstNeighborhoodIterator");
+  std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
   itk::ConstNeighborhoodIterator<TestImageType> it(radius, img, reg);
 
-  println("Moving iterator using SetLocation()");
+  std::cout << "Moving iterator using SetLocation()" << std::endl;
   it.SetLocation(loc);
   it.Print(std::cout);
 
-  println("Testing GoToBegin()");
+  std::cout << "Testing GoToBegin()" << std::endl;
   it.GoToBegin();
   it.Print(std::cout);
 
-  println("Testing IsAtBegin()");
+  std::cout << "Testing IsAtBegin()" << std::endl;
   std::cout << it.IsAtBegin() << std::endl;
 
-  println("Testing GoToEnd()");
+  std::cout << "Testing GoToEnd()" << std::endl;
   it.GoToEnd();
   it.Print(std::cout);
 
-  println("Testing IsAtEnd()");
+  std::cout << "Testing IsAtEnd()" << std::endl;
   std::cout << it.IsAtEnd() << std::endl;
 
-  println("Testing forward iteration");
+  std::cout << "Testing forward iteration" << std::endl;
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -86,7 +80,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     ++it;
   }
 
-  println("Testing reverse iteration");
+  std::cout << "Testing reverse iteration" << std::endl;
   it.GoToEnd();
   while (!it.IsAtBegin())
   {
@@ -94,14 +88,15 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     printnb<itk::ConstNeighborhoodIterator<TestImageType>>(it, false);
   }
 
-  println("Moving iterator using SetLocation()");
+  std::cout << "Moving iterator using SetLocation()" << std::endl;
   it.SetLocation(loc);
   it.Print(std::cout);
 
-  println("Testing GetNeighborhood()");
+  std::cout << "Testing GetNeighborhood()" << std::endl;
   it.GetNeighborhood().Print(std::cout);
 
-  println("Printing neighborhood using GetPixel(i), GetPixel(offset) and GetIndex(i), and GetIndex(offset).");
+  std::cout << "Printing neighborhood using GetPixel(i), GetPixel(offset) and GetIndex(i), and GetIndex(offset)."
+            << std::endl;
   for (unsigned int j = 0; j < it.Size(); ++j)
   {
     std::cout << "GetOffset(" << j << ")=" << it.GetOffset(j);
@@ -112,55 +107,55 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     std::cout << std::endl;
   }
 
-  println("Testing GetCenterPixel()");
+  std::cout << "Testing GetCenterPixel()" << std::endl;
   std::cout << it.GetCenterPixel() << std::endl;
 
-  println("Testing GetCenterPointer()");
+  std::cout << "Testing GetCenterPointer()" << std::endl;
   std::cout << it.GetCenterPointer() << " = " << *(it.GetCenterPointer()) << std::endl;
 
-  println("Testing GetIndex()");
+  std::cout << "Testing GetIndex()" << std::endl;
   std::cout << it.GetIndex() << std::endl;
 
-  println("Testing GetNext(3)");
+  std::cout << "Testing GetNext(3)" << std::endl;
   std::cout << it.GetNext(3) << std::endl;
 
-  println("Testing GetNext(2)");
+  std::cout << "Testing GetNext(2)" << std::endl;
   std::cout << it.GetNext(2) << std::endl;
 
-  println("Testing GetNext(1)");
+  std::cout << "Testing GetNext(1)" << std::endl;
   std::cout << it.GetNext(1) << std::endl;
 
-  println("Testing GetNext(0) = GetNext(0,1)");
+  std::cout << "Testing GetNext(0) = GetNext(0,1)" << std::endl;
   std::cout << it.GetNext(0) << '=' << it.GetNext(0, 1) << std::endl;
 
-  println("Testing GetNext(0, 1)");
+  std::cout << "Testing GetNext(0, 1)" << std::endl;
   std::cout << it.GetNext(0, 1) << std::endl;
 
-  println("Testing GetNext(1, 1)");
+  std::cout << "Testing GetNext(1, 1)" << std::endl;
   std::cout << it.GetNext(1, 1) << std::endl;
 
-  println("Testing GetPrevious(3)");
+  std::cout << "Testing GetPrevious(3)" << std::endl;
   std::cout << it.GetPrevious(3) << std::endl;
 
-  println("Testing GetPrevious(2)");
+  std::cout << "Testing GetPrevious(2)" << std::endl;
   std::cout << it.GetPrevious(2) << std::endl;
 
-  println("Testing GetPrevious(1)");
+  std::cout << "Testing GetPrevious(1)" << std::endl;
   std::cout << it.GetPrevious(1) << std::endl;
 
-  println("Testing GetPrevious(0) = GetPrevious(0,1)");
+  std::cout << "Testing GetPrevious(0) = GetPrevious(0,1)" << std::endl;
   std::cout << it.GetPrevious(0) << '=' << it.GetPrevious(0, 1) << std::endl;
 
-  println("Testing GetPrevious(0, 1)");
+  std::cout << "Testing GetPrevious(0, 1)" << std::endl;
   std::cout << it.GetPrevious(0, 1) << std::endl;
 
-  println("Testing GetPrevious(1, 1)");
+  std::cout << "Testing GetPrevious(1, 1)" << std::endl;
   std::cout << it.GetPrevious(1, 1) << std::endl;
 
-  println("Testing GetBoundingBoxAsImageRegion");
+  std::cout << "Testing GetBoundingBoxAsImageRegion" << std::endl;
   std::cout << it.GetBoundingBoxAsImageRegion() << std::endl;
 
-  println("Testing random access iteration");
+  std::cout << "Testing random access iteration" << std::endl;
 
   const TestImageType::Pointer ra_img = GetTestImage(10, 10, 5, 3);
   loc[0] = 4;
@@ -170,35 +165,35 @@ itkConstNeighborhoodIteratorTest(int, char *[])
 
   radius[0] = radius[1] = radius[2] = radius[3] = 1;
 
-  println("Creating ConstNeighborhoodIterator");
+  std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
   itk::ConstNeighborhoodIterator<TestImageType> ra_it(radius, ra_img, ra_img->GetRequestedRegion());
 
-  println("Testing random access");
+  std::cout << "Testing random access" << std::endl;
   ra_it.Begin();
   printnb<itk::ConstNeighborhoodIterator<TestImageType>>(ra_it, false);
 
-  println("Adding [1, 1, 1, 1]");
+  std::cout << "Adding [1, 1, 1, 1]" << std::endl;
   auto a_off = itk::MakeFilled<OffsetType>(1);
   ra_it += a_off;
   printnb<itk::ConstNeighborhoodIterator<TestImageType>>(ra_it, false);
 
-  println("Subtracting [1, 1, 1, 1]");
+  std::cout << "Subtracting [1, 1, 1, 1]" << std::endl;
   ra_it -= a_off;
   printnb<itk::ConstNeighborhoodIterator<TestImageType>>(ra_it, false);
 
-  println("Adding [0 0 0 2]");
+  std::cout << "Adding [0 0 0 2]" << std::endl;
   a_off.Fill(0);
   a_off[3] = 2;
   ra_it += a_off;
   printnb<itk::ConstNeighborhoodIterator<TestImageType>>(ra_it, false);
 
-  println("Adding [0 8 0 0]");
+  std::cout << "Adding [0 8 0 0]" << std::endl;
   a_off.Fill(0);
   a_off[1] = 8;
   ra_it += a_off;
   printnb<itk::ConstNeighborhoodIterator<TestImageType>>(ra_it, false);
 
-  println("Adding [5 -3 2 -1]");
+  std::cout << "Adding [5 -3 2 -1]" << std::endl;
   a_off[0] = 5;
   a_off[1] = -3;
   a_off[2] = 2;
@@ -209,7 +204,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   //
   // Test IndexInBounds
   //
-  println("Testing IndexInBounds");
+  std::cout << "Testing IndexInBounds" << std::endl;
   constexpr int                dims[4]{ 13, 11, 9, 7 };
   const TestImageType::Pointer iib_img = GetTestImage(dims[0], dims[1], dims[2], dims[3]);
   radius[0] = 4;
@@ -217,7 +212,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   radius[2] = 2;
   radius[3] = 1;
 
-  println("Creating ConstNeighborhoodIterator");
+  std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
   using IteratorType = itk::ConstNeighborhoodIterator<TestImageType>;
   IteratorType             iib_it(radius, iib_img, iib_img->GetRequestedRegion());
   IteratorType::OffsetType resultOffset;

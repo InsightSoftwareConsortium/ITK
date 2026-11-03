@@ -26,8 +26,6 @@
 using TestImageType = itk::Image<itk::Index<4>, 4>;
 using OffsetType = itk::Offset<4>;
 
-extern void
-println(const char * s);
 extern TestImageType::Pointer
 GetTestImage(int, int, int, int);
 
