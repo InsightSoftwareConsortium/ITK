@@ -31,6 +31,7 @@
 #include <cstdio>
 #include <sstream>
 #include <algorithm>
+#include <cstdint>
 #include "itkMultiThreaderBase.h"
 
 namespace itk
@@ -45,6 +46,22 @@ constexpr char   globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDE
                                                                                                  "_4", "_5", "_6", "_7",
                                                                                                  "_8", "_9" };
 
+void
+LimitNumberOfWorkUnits(ProcessObject & processObject, unsigned int maximumWorkUnitPerThreadRatio)
+{
+  if (maximumWorkUnitPerThreadRatio == 0)
+  {
+    return;
+  }
+  const MultiThreaderBase & threader = *processObject.GetMultiThreader();
+  const uint64_t            limit =
+    std::max<uint64_t>(1, uint64_t{ maximumWorkUnitPerThreadRatio } * threader.GetMaximumNumberOfThreads());
+  if (threader.GetNumberOfWorkUnits() > limit)
+  {
+    // Virtual, so composite filters forward the count to their internal filters.
+    processObject.SetNumberOfWorkUnits(static_cast<ThreadIdType>(limit));
+  }
+}
 } // namespace
 
 
@@ -1259,6 +1276,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
   }
 
   os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;
+  os << indent << "MaximumWorkUnitPerThreadRatio: " << m_MaximumWorkUnitPerThreadRatio << std::endl;
   itkPrintSelfBooleanMacro(ReleaseDataBeforeUpdateFlag);
   itkPrintSelfBooleanMacro(AbortGenerateData);
   os << indent << "Progress: " << progressFixedToFloat(m_Progress) << std::endl;
@@ -1575,6 +1593,19 @@ ProcessObject::SetMultiThreader(MultiThreaderBase * threader)
   if (this->m_MultiThreader != threader)
   {
     this->m_MultiThreader = threader;
+    LimitNumberOfWorkUnits(*this, m_MaximumWorkUnitPerThreadRatio);
+    this->Modified();
+  }
+}
+
+
+void
+ProcessObject::SetMaximumWorkUnitPerThreadRatio(unsigned int ratio)
+{
+  if (m_MaximumWorkUnitPerThreadRatio != ratio)
+  {
+    m_MaximumWorkUnitPerThreadRatio = ratio;
+    LimitNumberOfWorkUnits(*this, ratio);
     this->Modified();
   }
 }

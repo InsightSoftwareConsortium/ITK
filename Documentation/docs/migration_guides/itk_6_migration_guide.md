@@ -1485,3 +1485,12 @@ given.
 Call `SetNumberOfWorkUnits()` after `SetMultiThreader()` when a specific count is
 wanted. Filters that share one multi-threader instance also share its number of
 work units.
+
+## Filters can limit their work units per thread
+
+`ProcessObject::SetMaximumWorkUnitPerThreadRatio(ratio)` lowers the filter's
+number of work units to at most `ratio` times the multi-threader's maximum
+number of threads. It is applied when the ratio or the multi-threader is set,
+and never raises the count, so `PlatformMultiThreader` never starts extra
+threads. A later `SetNumberOfWorkUnits()` replaces the limited count. Filters
+whose cost grows with the number of work units set it in their constructor.

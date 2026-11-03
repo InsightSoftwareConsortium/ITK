@@ -507,6 +507,16 @@ public:
   GetNumberOfWorkUnits() const;
   /** @ITKEndGrouping */
 
+  /** Get/Set the maximum number of work units per thread. A non-zero ratio lowers the multithreader's
+   * number of work units to at most ratio * GetMultiThreader()->GetMaximumNumberOfThreads() whenever the
+   * ratio or the multithreader is set; it never raises it. Zero (the default) leaves it unchanged.
+   * Filters with a high cost per work unit set a low ratio in their constructor. */
+  /** @ITKStartGrouping */
+  void
+  SetMaximumWorkUnitPerThreadRatio(unsigned int ratio);
+  itkGetConstMacro(MaximumWorkUnitPerThreadRatio, unsigned int);
+  /** @ITKEndGrouping */
+
   /** Return the multithreader used by this class. */
   MultiThreaderBase *
   GetMultiThreader() const
@@ -1011,6 +1021,7 @@ private:
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   itk::SmartPointer<MultiThreaderBase> m_MultiThreader;
+  unsigned int                         m_MaximumWorkUnitPerThreadRatio{ 0 };
 
   bool m_ThreaderUpdateProgress{ true };
 
