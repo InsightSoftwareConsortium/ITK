@@ -131,7 +131,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   {
     // We only need these if we're computing derivatives.
     this->m_MattesAssociate->m_PRatioArray.clear();
-    this->m_MattesAssociate->m_JointPdfIndex1DArray.clear();
+    this->m_MattesAssociate->m_JointPdfIndex1DPerPoint.clear();
     this->m_MattesAssociate->m_LocalDerivativeByParzenBin.clear();
     this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
   }
@@ -140,7 +140,10 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   {
     this->m_MattesAssociate->m_PRatioArray.assign(
       this->m_MattesAssociate->m_NumberOfHistogramBins * this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0);
-    this->m_MattesAssociate->m_JointPdfIndex1DArray.assign(this->m_MattesAssociate->GetNumberOfParameters(), 0);
+    itkAssertInDebugAndIgnoreInReleaseMacro(
+      this->m_MattesAssociate->GetNumberOfParameters() % this->m_MattesAssociate->GetNumberOfLocalParameters() == 0);
+    this->m_MattesAssociate->m_JointPdfIndex1DPerPoint.assign(
+      this->m_MattesAssociate->GetNumberOfParameters() / this->m_MattesAssociate->GetNumberOfLocalParameters(), 0);
     // Don't need this with local-support
     this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
     // This always has four entries because the parzen window size is fixed.
@@ -161,7 +164,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   {
     // Don't need this with global transforms
     this->m_MattesAssociate->m_PRatioArray.clear();
-    this->m_MattesAssociate->m_JointPdfIndex1DArray.clear();
+    this->m_MattesAssociate->m_JointPdfIndex1DPerPoint.clear();
     this->m_MattesAssociate->m_LocalDerivativeByParzenBin.clear();
 
     // For the derivatives of the joint PDF define a region starting from
@@ -303,12 +306,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
       pdfMovingIndex + (fixedImageParzenWindowIndex * this->m_MattesAssociate->m_NumberOfHistogramBins);
     localDerivativeOffset = this->m_MattesAssociate->ComputeParameterOffsetFromVirtualIndex(
       virtualIndex, this->GetCachedNumberOfLocalParameters());
-    for (NumberOfParametersType i = 0, numLocalParameters = this->GetCachedNumberOfLocalParameters();
-         i < numLocalParameters;
-         ++i)
-    {
-      this->m_MattesAssociate->m_JointPdfIndex1DArray[localDerivativeOffset + i] = jointPdfIndex1D;
-    }
+    this->m_MattesAssociate
+      ->m_JointPdfIndex1DPerPoint[localDerivativeOffset / this->GetCachedNumberOfLocalParameters()] = jointPdfIndex1D;
   }
 
   // Compute the transform Jacobian.
