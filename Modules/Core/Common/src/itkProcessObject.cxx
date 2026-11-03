@@ -1600,7 +1600,11 @@ ProcessObject::SetWorkUnitToThreadRatio(unsigned int ratio)
     m_WorkUnitToThreadRatio = ratio;
     if (m_NumberOfWorkUnits == oldDefaultNumber)
     {
-      m_NumberOfWorkUnits = DefaultNumberOfWorkUnits(*m_MultiThreader, m_WorkUnitToThreadRatio);
+      const ThreadIdType newDefaultNumber = DefaultNumberOfWorkUnits(*m_MultiThreader, m_WorkUnitToThreadRatio);
+      // Virtual, so composite filters forward the new count to their internal filters.
+      this->SetNumberOfWorkUnits(newDefaultNumber);
+      // The setter clamps to ITK_MAX_THREADS; keep the unclamped default, as SetMultiThreader does.
+      m_NumberOfWorkUnits = newDefaultNumber;
     }
     this->Modified();
   }

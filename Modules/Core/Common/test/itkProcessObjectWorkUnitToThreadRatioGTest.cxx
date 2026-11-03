@@ -44,6 +44,28 @@ protected:
   RatioObject() { this->SetWorkUnitToThreadRatio(VRatio); }
 };
 
+class ForwardingObject : public itk::ProcessObject
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(ForwardingObject);
+  using Self = ForwardingObject;
+  using Superclass = itk::ProcessObject;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+
+  void
+  SetNumberOfWorkUnits(itk::ThreadIdType numberOfWorkUnits) override
+  {
+    Superclass::SetNumberOfWorkUnits(numberOfWorkUnits);
+    m_ForwardedWorkUnits = numberOfWorkUnits;
+  }
+
+  itk::ThreadIdType m_ForwardedWorkUnits{ 0 };
+
+protected:
+  ForwardingObject() = default;
+};
+
 std::vector<itk::MultiThreaderBase::Pointer>
 MakeThreaders()
 {
@@ -98,6 +120,13 @@ TEST(ProcessObjectWorkUnitToThreadRatio, ChangingRatioUpdatesDefault)
 
   object->SetWorkUnitToThreadRatio(0);
   EXPECT_EQ(object->GetNumberOfWorkUnits(), threaderDefault);
+}
+
+TEST(ProcessObjectWorkUnitToThreadRatio, RatioGoesThroughSetNumberOfWorkUnits)
+{
+  const auto object = ForwardingObject::New();
+  object->SetWorkUnitToThreadRatio(1);
+  EXPECT_EQ(object->m_ForwardedWorkUnits, ExpectedWorkUnits(*object->GetMultiThreader(), 1));
 }
 
 TEST(ProcessObjectWorkUnitToThreadRatio, ExplicitNumberOfWorkUnitsIsKept)
