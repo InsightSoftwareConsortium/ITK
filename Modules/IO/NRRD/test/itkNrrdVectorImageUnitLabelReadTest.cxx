@@ -18,8 +18,10 @@
 
 #include <fstream>
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkNrrdImageIO.h"
 #include "itkTestingMacros.h"
+#include "itkVectorImage.h"
 
 // Specific ImageIO test
 
@@ -51,7 +53,7 @@ itkNrrdVectorImageUnitLabelReadTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input [Output]\n";
     return EXIT_FAILURE;
   }
 
@@ -131,6 +133,49 @@ itkNrrdVectorImageUnitLabelReadTest(int argc, char * argv[])
   // Test that additional metadata stored in the NRRD file is added to the metadata dictionary
   checkField<std::string>(thisDic, "axis 0 index type", "numeric");
   checkField<std::string>(thisDic, "axis 0 index values", "0.0 0.09 0.18 0.27 0.36 0.45 0.54 0.63 0.72 0.8");
+
+  if (argc < 3)
+  {
+    return EXIT_SUCCESS;
+  }
+
+  // Write the image and read it back: label and units of the pixel component are preserved
+  const char * outputFilename = argv[2];
+  using ImageType = itk::VectorImage<float, 3>;
+  ImageType::Pointer image;
+  ITK_TRY_EXPECT_NO_EXCEPTION(image = itk::ReadImage<ImageType>(filename));
+  auto writer = itk::ImageFileWriter<ImageType>::New();
+  writer->SetInput(image);
+  writer->SetFileName(outputFilename);
+  writer->SetImageIO(ImageIOType::New());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  auto writtenImageIO = ImageIOType::New();
+  writtenImageIO->SetFileName(outputFilename);
+  writtenImageIO->ReadImageInformation();
+  itk::MetaDataDictionary writtenDic = writtenImageIO->GetMetaDataDictionary();
+  checkField<std::string>(writtenDic, "NRRD_labels[pixel]", "time");
+  checkField<std::string>(writtenDic, "NRRD_units[pixel]", "s");
+
+  // The label and units are stored in the standard NRRD fields of the pixel axis, not as custom key/value pairs
+  std::ifstream writtenFile(outputFilename, std::ios::binary);
+  std::string   header;
+  std::string   line;
+  while (std::getline(writtenFile, line) && !line.empty())
+  {
+    header += line + "\n";
+  }
+  std::cout << "Written header:\n" << header << std::endl;
+  if (header.find("labels: \"time\"") == std::string::npos || header.find("units: \"s\"") == std::string::npos)
+  {
+    std::cerr << "Label and units of the pixel axis are not written into the labels and units fields" << std::endl;
+    return EXIT_FAILURE;
+  }
+  if (header.find("NRRD_labels[pixel]") != std::string::npos || header.find("NRRD_units[pixel]") != std::string::npos)
+  {
+    std::cerr << "Label and units of the pixel axis are written as custom key/value pairs" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

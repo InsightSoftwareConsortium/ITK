@@ -137,9 +137,13 @@ const std::string NRRD_KEY_PREFIX{ "NRRD_" };
 // add behaviors such as bare-key promotion or type-coercion fallbacks.
 //
 // The table below replaces the ladder with a uniform dispatch keyed by the
-// teem nrrdField enum.  Handlers come in two flavors:
-//   * per-axis  -- key is "<field>[N]"; the handler receives axis index N.
-//   * scalar    -- key is just "<field>"; the handler receives only ctx.
+// teem nrrdField enum.  Handlers come in three flavors:
+//   * per-axis   -- key is "<field>[N]"; the handler receives axis index N.
+//   * pixel axis -- key is "<field>[pixel]"; the handler receives only ctx and
+//                   sets the field of the pixel (component) axis.  These are
+//                   the keys that Read() uses for the pixel axis, so that the
+//                   label and units of the pixel values survive a round trip.
+//   * scalar     -- key is just "<field>"; the handler receives only ctx.
 // Field names are disjoint in their leading characters, so the first
 // matching entry is always the right one.
 
@@ -157,8 +161,9 @@ using NrrdReservedFieldScalarFn = void (*)(NrrdWriteReservedFieldCtx &);
 struct NrrdReservedField
 {
   int                        fieldEnum;
-  NrrdReservedFieldPerAxisFn perAxis; // nullptr iff this is a scalar field
-  NrrdReservedFieldScalarFn  scalar;  // nullptr iff this is a per-axis field
+  NrrdReservedFieldPerAxisFn perAxis;              // nullptr iff this is a scalar field
+  NrrdReservedFieldScalarFn  scalar;               // nullptr iff this is a per-axis field
+  NrrdReservedFieldScalarFn  pixelAxis{ nullptr }; // per-axis fields that can be set for the pixel axis
 };
 
 // Per-axis handlers.
@@ -196,6 +201,22 @@ WriteUnitPerAxis(NrrdWriteReservedFieldCtx & ctx, unsigned int axi)
   std::string value;
   itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
   ctx.nrrd->axis[axi + ctx.numberOfPixelAxis_nrrd].units = airStrdup(value.c_str());
+}
+
+// Pixel axis handlers (only called if the image has a pixel axis, which is axis 0).
+void
+WriteLabelPixelAxis(NrrdWriteReservedFieldCtx & ctx)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  ctx.nrrd->axis[0].label = airStrdup(value.c_str());
+}
+void
+WriteUnitPixelAxis(NrrdWriteReservedFieldCtx & ctx)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  ctx.nrrd->axis[0].units = airStrdup(value.c_str());
 }
 
 // Scalar handlers.
@@ -272,8 +293,8 @@ constexpr NrrdReservedField kNrrdReservedFields[] = {
   { nrrdField_thicknesses, WriteThicknessPerAxis, nullptr },
   { nrrdField_centers, WriteCenterPerAxis, nullptr },
   { nrrdField_kinds, WriteKindPerAxis, nullptr },
-  { nrrdField_labels, WriteLabelPerAxis, nullptr },
-  { nrrdField_units, WriteUnitPerAxis, nullptr },
+  { nrrdField_labels, WriteLabelPerAxis, nullptr, WriteLabelPixelAxis },
+  { nrrdField_units, WriteUnitPerAxis, nullptr, WriteUnitPixelAxis },
   { nrrdField_old_min, nullptr, WriteOldMin },
   { nrrdField_old_max, nullptr, WriteOldMax },
   { nrrdField_space, nullptr, WriteSpace },
@@ -303,6 +324,15 @@ TryDispatchNrrdReservedField(NrrdWriteReservedFieldCtx & ctx, const char * keyFi
       if (keyField[nameLen] != '[')
       {
         continue;
+      }
+      if (rf.pixelAxis != nullptr && std::strcmp(keyField + nameLen, "[pixel]") == 0)
+      {
+        // Images without a pixel axis (scalar pixel type) have nothing to set
+        if (ctx.numberOfPixelAxis_nrrd == 1)
+        {
+          rf.pixelAxis(ctx);
+        }
+        return true;
       }
       unsigned int axi{ 0 };
       int          consumed{ 0 };
