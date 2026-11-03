@@ -78,10 +78,8 @@ public:
   OutputsType
   GetOutputs();
 
-  // #ifdef ITK_USE_CONCEPT_CHECKING
-  //   itkConceptMacro( OutputPixelTypeIsFloatCheck,
-  //                    ( Concept::IsFloatingPoint< typename OutputImageType::PixelType > ) );
-  // #endif
+  itkConceptMacro(OutputPixelTypeIsComplexAndFloatCheck,
+                  (Concept::IsFloatingPoint<typename OutputImageType::PixelType::value_type>));
 
   /** Order of the generalized riesz transform. */
   virtual void

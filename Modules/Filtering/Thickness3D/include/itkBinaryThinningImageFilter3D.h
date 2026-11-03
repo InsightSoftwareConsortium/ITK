@@ -119,7 +119,6 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, 3>));
   itkConceptMacro(SameTypeCheck, (Concept::SameType<InputImagePixelType, OutputImagePixelType>));
@@ -128,7 +127,6 @@ public:
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
   itkConceptMacro(InputIntComparableCheck, (Concept::Comparable<InputImagePixelType, int>));
   /** End concept checking */
-#endif
 
 protected:
   BinaryThinningImageFilter3D();

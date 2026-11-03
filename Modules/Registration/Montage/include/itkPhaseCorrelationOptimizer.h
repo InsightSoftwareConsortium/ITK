@@ -234,9 +234,7 @@ public:
   itkGetConstMacro(PhaseInterpolated, unsigned int);
   itkSetMacro(PhaseInterpolated, unsigned int);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   static_assert(!std::is_same<TRealPixel, bool>::value, "bool is not supported as RealPixelType");
-#endif
 
 protected:
   PhaseCorrelationOptimizer();

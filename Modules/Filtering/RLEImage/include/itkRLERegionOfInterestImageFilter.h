@@ -85,12 +85,10 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-// End concept checking
-#endif
+  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
@@ -177,12 +175,10 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-// End concept checking
-#endif
+  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
@@ -280,12 +276,10 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-// End concept checking
-#endif
+  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
@@ -366,12 +360,10 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-// End concept checking
-#endif
+  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }

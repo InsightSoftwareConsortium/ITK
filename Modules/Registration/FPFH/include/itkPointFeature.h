@@ -101,10 +101,6 @@ protected:
 
 private:
   FeatureTypePointer m_FpfhFeature;
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Add concept checking such as
-  // itkConceptMacro( FloatingPointPixel, ( itk::Concept::IsFloatingPoint< typename InputImageType::PixelType > ) );
-#endif
 };
 } // namespace itk
 

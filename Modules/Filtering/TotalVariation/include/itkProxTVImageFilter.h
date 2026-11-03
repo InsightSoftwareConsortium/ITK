@@ -91,12 +91,10 @@ private:
   ArrayType    m_Norms = 1.0;
 
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   /** ImageDimension enumeration   */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-#endif
 };
 } // namespace itk
 

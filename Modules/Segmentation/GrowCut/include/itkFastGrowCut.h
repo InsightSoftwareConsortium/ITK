@@ -153,7 +153,6 @@ public:
   GenerateData() override;
 
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   static_assert(TInputImage::ImageDimension == 3, "FastGrowCut only works with 3D images");
   static_assert(TLabelImage::ImageDimension == 3, "FastGrowCut only works with 3D images");
@@ -162,7 +161,6 @@ public:
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<LabelPixelType>));
   itkConceptMacro(MaskHasNumericTraitsCheck, (Concept::HasNumericTraits<MaskPixelType>));
   // End concept checking
-#endif
 
 protected:
   FastGrowCut() = default;

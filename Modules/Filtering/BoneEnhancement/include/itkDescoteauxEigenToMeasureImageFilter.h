@@ -105,13 +105,11 @@ public:
     SetEnhanceType(1.0);
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(InputHaveDimension3Check, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
   itkConceptMacro(OutputHaveDimension3Check, (Concept::SameDimension<TOutputImage::ImageDimension, 3u>));
   itkConceptMacro(InputFixedArrayHasDimension3Check, (Concept::SameDimension<TInputImage::PixelType::Dimension, 3u>));
   // End concept checking
-#endif
 protected:
   DescoteauxEigenToMeasureImageFilter();
   ~DescoteauxEigenToMeasureImageFilter() override = default;

@@ -162,14 +162,12 @@ public:
     return m_Erode->GetUseImageSpacing();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
 
   itkConceptMacro(Comparable, (Concept::Comparable<InputPixelType>));
 
   /** End concept checking */
-#endif
 protected:
   MorphologicalSignedDistanceTransformImageFilter();
   virtual ~MorphologicalSignedDistanceTransformImageFilter() = default;

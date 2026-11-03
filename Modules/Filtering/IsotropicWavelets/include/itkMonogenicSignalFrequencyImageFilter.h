@@ -63,11 +63,9 @@ public:
   /** Runtime information support. */
   itkOverrideGetNameOfClassMacro(MonogenicSignalFrequencyImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   /// This ensure that InputPixelType is complex<float||double>
   itkConceptMacro(InputPixelTypeIsComplexAndFloatCheck,
                   (Concept::IsFloatingPoint<typename TInputImage::PixelType::value_type>));
-#endif
 
   /** Some convenient type alias. */
   using InputFrequencyImageRegionConstIterator = TFrequencyImageRegionConstIterator;
