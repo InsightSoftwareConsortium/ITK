@@ -21,6 +21,8 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include "itkBridgeMathDeterminant.h"
+#include <algorithm>
+#include <limits>
 
 namespace itk
 {
@@ -300,85 +302,82 @@ template <typename T>
 void
 Versor<T>::Set(const MatrixType & mat)
 {
-  // constexpr double epsilon = 1e-30;
-  // Keep the epsilon value large enough so that the alternate routes of
-  // computing the quaternion are used to within floating point precision of the
-  // math to be used.  Using 1e-30 results in degenerate matrices for rotations
-  // near itk::Math::pi due to imprecision of the math.  0.5/std::sqrt(trace) is
-  // not accurate to 1e-30, so the resulting matrices would have very large
-  // errors.  By decreasing this epsilon value to a higher tolerance, the
-  // alternate stable methods for conversion are used.
-  //
-  // The use of std::numeric_limits< T >::epsilon() was not consistent with
-  // the rest of the ITK toolkit with respect to epsilon values for
-  // determining rotational orthogonality, and it occasionally
-  // prevented the conversion between different rigid transform types.
+  // Rounding each entry to T perturbs m * m^T by about numeric_limits<T>::epsilon().
+  const double tolerance = std::max<double>(Self::Epsilon(), 4.0 * std::numeric_limits<T>::epsilon());
 
-  const T epsilon = Self::Epsilon(); // vnl_sqrt( std::numeric_limits< T >::epsilon() );
-  // Use a slightly less epsilon for detecting difference
-  const T epsilonDiff = Self::Epsilon(); // std::numeric_limits< T >::epsilon() * 10.0;
-
-  const vnl_matrix<T> m(mat.GetVnlMatrix());
+  const vnl_matrix<T>            m(mat.GetVnlMatrix());
+  vnl_matrix_fixed<double, 3, 3> md;
+  for (unsigned int r = 0; r < 3; ++r)
+  {
+    for (unsigned int c = 0; c < 3; ++c)
+    {
+      md(r, c) = m(r, c);
+    }
+  }
 
   // check for orthonormality and that it isn't a reflection
-  const vnl_matrix_fixed<T, 3, 3> & I = m * m.transpose();
-  if (itk::Math::Absolute(I[0][1]) > epsilon || itk::Math::Absolute(I[0][2]) > epsilon ||
-      itk::Math::Absolute(I[1][0]) > epsilon || itk::Math::Absolute(I[1][2]) > epsilon ||
-      itk::Math::Absolute(I[2][0]) > epsilon || itk::Math::Absolute(I[2][1]) > epsilon ||
-      itk::Math::Absolute(I[0][0] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
-      itk::Math::Absolute(I[1][1] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
-      itk::Math::Absolute(I[2][2] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
-      bridge::Math::Determinant(I) < 0)
+  const vnl_matrix_fixed<double, 3, 3> I = md * md.transpose();
+  if (itk::Math::Absolute(I[0][1]) > tolerance || itk::Math::Absolute(I[0][2]) > tolerance ||
+      itk::Math::Absolute(I[1][0]) > tolerance || itk::Math::Absolute(I[1][2]) > tolerance ||
+      itk::Math::Absolute(I[2][0]) > tolerance || itk::Math::Absolute(I[2][1]) > tolerance ||
+      itk::Math::Absolute(I[0][0] - 1.0) > tolerance || itk::Math::Absolute(I[1][1] - 1.0) > tolerance ||
+      itk::Math::Absolute(I[2][2] - 1.0) > tolerance || bridge::Math::Determinant(I) < 0)
   {
-    itkGenericExceptionMacro("The following matrix does not represent rotation to within an epsion of "
-                             << epsilon << '.' << std::endl
+    itkGenericExceptionMacro("The following matrix does not represent rotation to within an epsilon of "
+                             << tolerance << '.' << std::endl
                              << m << std::endl
                              << "det(m * m transpose) is: " << bridge::Math::Determinant(I) << std::endl
                              << "m * m transpose is:" << std::endl
                              << I);
   }
 
-  const double trace = m(0, 0) + m(1, 1) + m(2, 2) + 1.0;
-
-  if (trace > epsilon)
+  // Shepperd's method: divide by the largest of 4w^2, 4x^2, 4y^2, 4z^2, so the divisor is never small.
+  const double trace = md(0, 0) + md(1, 1) + md(2, 2);
+  const double w4 = 1.0 + trace;
+  const double x4 = 1.0 + 2.0 * md(0, 0) - trace;
+  const double y4 = 1.0 + 2.0 * md(1, 1) - trace;
+  const double z4 = 1.0 + 2.0 * md(2, 2) - trace;
+  if (w4 >= x4 && w4 >= y4 && w4 >= z4)
   {
-    const double s = 0.5 / std::sqrt(trace);
-    m_W = 0.25 / s;
-    m_X = (m(2, 1) - m(1, 2)) * s;
-    m_Y = (m(0, 2) - m(2, 0)) * s;
-    m_Z = (m(1, 0) - m(0, 1)) * s;
+    const double s = 2.0 * std::sqrt(w4);
+    m_W = 0.25 * s;
+    m_X = (md(2, 1) - md(1, 2)) / s;
+    m_Y = (md(0, 2) - md(2, 0)) / s;
+    m_Z = (md(1, 0) - md(0, 1)) / s;
+  }
+  else if (x4 >= y4 && x4 >= z4)
+  {
+    const double s = 2.0 * std::sqrt(x4);
+    m_X = 0.25 * s;
+    m_Y = (md(0, 1) + md(1, 0)) / s;
+    m_Z = (md(0, 2) + md(2, 0)) / s;
+    m_W = (md(2, 1) - md(1, 2)) / s;
+  }
+  else if (y4 >= z4)
+  {
+    const double s = 2.0 * std::sqrt(y4);
+    m_X = (md(0, 1) + md(1, 0)) / s;
+    m_Y = 0.25 * s;
+    m_Z = (md(1, 2) + md(2, 1)) / s;
+    m_W = (md(0, 2) - md(2, 0)) / s;
   }
   else
   {
-    if (m(0, 0) > m(1, 1) && m(0, 0) > m(2, 2))
-    {
-      const double s = 2.0 * std::sqrt(1.0 + m(0, 0) - m(1, 1) - m(2, 2));
-      m_X = 0.25 * s;
-      m_Y = (m(0, 1) + m(1, 0)) / s;
-      m_Z = (m(0, 2) + m(2, 0)) / s;
-      m_W = (m(1, 2) - m(2, 1)) / s;
-    }
-    else
-    {
-      if (m(1, 1) > m(2, 2))
-      {
-        const double s = 2.0 * std::sqrt(1.0 + m(1, 1) - m(0, 0) - m(2, 2));
-        m_X = (m(0, 1) + m(1, 0)) / s;
-        m_Y = 0.25 * s;
-        m_Z = (m(1, 2) + m(2, 1)) / s;
-        m_W = (m(0, 2) - m(2, 0)) / s;
-      }
-      else
-      {
-        const double s = 2.0 * std::sqrt(1.0 + m(2, 2) - m(0, 0) - m(1, 1));
-        m_X = (m(0, 2) + m(2, 0)) / s;
-        m_Y = (m(1, 2) + m(2, 1)) / s;
-        m_Z = 0.25 * s;
-        m_W = (m(0, 1) - m(1, 0)) / s;
-      }
-    }
+    const double s = 2.0 * std::sqrt(z4);
+    m_X = (md(0, 2) + md(2, 0)) / s;
+    m_Y = (md(1, 2) + md(2, 1)) / s;
+    m_Z = 0.25 * s;
+    m_W = (md(1, 0) - md(0, 1)) / s;
   }
   this->Normalize();
+  // Keep w >= 0, as Set(x, y, z, w) does: Set(const VectorType &) rebuilds w as a positive root.
+  if (m_W < 0)
+  {
+    m_W = -m_W;
+    m_X = -m_X;
+    m_Y = -m_Y;
+    m_Z = -m_Z;
+  }
 }
 
 template <typename T>
