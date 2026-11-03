@@ -41,6 +41,8 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::FFTWComplexToCo
   // We cannot split over the FFT direction
   this->m_ImageRegionSplitter = ImageRegionSplitterDirection::New();
   this->DynamicMultiThreadingOff();
+  // Each work unit gets its own FFTW plan and line buffers.
+  this->SetWorkUnitToThreadRatio(2);
 }
 
 
