@@ -20,6 +20,9 @@
 
 #include "itkNumericTraits.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
+#include <algorithm>
+#include <type_traits>
 
 namespace itk
 {
@@ -30,7 +33,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
   : m_GetValueAndDerivativePerThreadVariables(nullptr)
   , m_CachedNumberOfParameters(0)
   , m_CachedNumberOfLocalParameters(0)
-{}
+{
+  // Each work unit keeps its own derivative; sampled points need no extra work units for load balance.
+  if constexpr (std::is_same_v<TDomainPartitioner, ThreadedIndexedContainerPartitioner>)
+  {
+    this->SetNumberOfWorkUnits(std::min(this->GetNumberOfWorkUnits(), this->GetMaximumNumberOfThreads()));
+  }
+}
 
 template <typename TDomainPartitioner, typename TImageToImageMetricv4>
 void
