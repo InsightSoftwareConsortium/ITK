@@ -20,8 +20,6 @@
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
-#include <mutex>
-
 namespace itk
 {
 
@@ -119,6 +117,26 @@ protected:
                                              const MovingImageGradientType & movingImageGradient,
                                              const PDFValueType &            cubicBSplineDerivativeValue,
                                              DerivativeValueType *           localSupportDerivativeResultPtr) const;
+
+  /** Adds, for each local parameter, the inner product of its Jacobian column with the moving image gradient, times
+   * cubicBSplineDerivativeValue, to derivatives. Shared by the local and global support paths. */
+  template <typename TDerivativeValue>
+  void
+  AccumulatePDFDerivatives(const JacobianType &            jacobian,
+                           const MovingImageGradientType & movingImageGradient,
+                           const PDFValueType &            cubicBSplineDerivativeValue,
+                           TDerivativeValue *              derivatives) const
+  {
+    for (NumberOfParametersType mu = 0, maxElement = this->GetCachedNumberOfLocalParameters(); mu < maxElement; ++mu)
+    {
+      PDFValueType innerProduct = 0.0;
+      for (SizeValueType dim = 0, lastDim = this->m_MattesAssociate->MovingImageDimension; dim < lastDim; ++dim)
+      {
+        innerProduct += jacobian[dim][mu] * movingImageGradient[dim];
+      }
+      derivatives[mu] += innerProduct * cubicBSplineDerivativeValue;
+    }
+  }
 
 private:
   /** Internal pointer to the Mattes metric object in use by this threader.
