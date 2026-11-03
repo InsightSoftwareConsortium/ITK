@@ -20,12 +20,15 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkIndexRange.h"
 #include "itkImageDuplicator.h"
 #include "itkCastImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include "itkBridgeMathSVD.h"
 #include "itkPrintHelper.h"
+
+#include <vector>
 
 namespace itk
 {
@@ -413,11 +416,42 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   {
     size[i] = this->m_SplineOrder[i] + 1;
   }
-  const RealImagePointer neighborhoodWeightImage = RealImageType::New();
-  neighborhoodWeightImage->SetRegions(size);
-  neighborhoodWeightImage->AllocateInitialized();
+  const typename RealImageType::RegionType neighborhoodRegion(size);
+  const SizeValueType                      numberOfNeighbors = neighborhoodRegion.GetNumberOfPixels();
 
-  ImageRegionIteratorWithIndex ItW(neighborhoodWeightImage, neighborhoodWeightImage->GetRequestedRegion());
+  // Per-axis positions of the neighbors, in the raster order of the neighborhood (axis 0 fastest).
+  std::vector<FixedArray<unsigned int, ImageDimension>> neighborPositions;
+  neighborPositions.reserve(numberOfNeighbors);
+  for (const auto & index : ImageRegionIndexRange<ImageDimension>(neighborhoodRegion))
+  {
+    FixedArray<unsigned int, ImageDimension> position;
+    for (unsigned int i = 0; i < ImageDimension; ++i)
+    {
+      position[i] = static_cast<unsigned int>(index[i]);
+    }
+    neighborPositions.push_back(position);
+  }
+
+  // Kernel values stay double so that B is rounded to RealType once per factor.
+  std::vector<double>          kernelValues[ImageDimension];
+  std::vector<OffsetValueType> latticeOffsets[ImageDimension];
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    kernelValues[i].resize(size[i]);
+    latticeOffsets[i].resize(size[i]);
+  }
+  std::vector<RealType> neighborWeights(numberOfNeighbors);
+
+  RealImageType *         currentThreadOmegaLattice = this->m_OmegaLatticePerThread[threadId];
+  PointDataImageType *    currentThreadDeltaLattice = this->m_DeltaLatticePerThread[threadId];
+  RealType * const        omegaBuffer = currentThreadOmegaLattice->GetBufferPointer();
+  PointDataType * const   deltaBuffer = currentThreadDeltaLattice->GetBufferPointer();
+  const OffsetValueType * latticeStrides = currentThreadOmegaLattice->GetOffsetTable();
+  const auto              latticeSize = currentThreadDeltaLattice->GetLargestPossibleRegion().GetSize();
+  // One offset indexes both lattices, so they must share their buffered region, starting at index 0.
+  itkAssertInDebugAndIgnoreInReleaseMacro(
+    currentThreadOmegaLattice->GetBufferedRegion() == currentThreadDeltaLattice->GetBufferedRegion() &&
+    currentThreadOmegaLattice->GetBufferedRegion().GetIndex() == typename RealImageType::IndexType{});
 
   RealArrayType p;
   RealArrayType r;
@@ -469,69 +503,83 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       }
     }
 
-    RealType w2Sum = 0.0;
-    for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      RealType                          B = 1.0;
-      typename RealImageType::IndexType idx = ItW.GetIndex();
-      for (unsigned int i = 0; i < ImageDimension; ++i)
+      // p[i] is non-negative here, so the truncating cast is the floor.
+      const auto pIndex = static_cast<unsigned int>(p[i]);
+      for (unsigned int k = 0; k <= this->m_SplineOrder[i]; ++k)
       {
-        const RealType u = static_cast<RealType>(p[i] - static_cast<unsigned int>(p[i]) - idx[i]) +
-                           0.5 * static_cast<RealType>(this->m_SplineOrder[i] - 1);
+        // Signed, so that p[i] - pIndex - signedK is evaluated with the types of the per-neighbor code.
+        const typename RealImageType::IndexValueType signedK = k;
+
+        const RealType u =
+          static_cast<RealType>(p[i] - pIndex - signedK) + 0.5 * static_cast<RealType>(this->m_SplineOrder[i] - 1);
 
         switch (this->m_SplineOrder[i])
         {
           case 0:
           {
-            B *= this->m_KernelOrder0->Evaluate(u);
+            kernelValues[i][k] = KernelOrder0Type::FastEvaluate(u);
             break;
           }
           case 1:
           {
-            B *= this->m_KernelOrder1->Evaluate(u);
+            kernelValues[i][k] = KernelOrder1Type::FastEvaluate(u);
             break;
           }
           case 2:
           {
-            B *= this->m_KernelOrder2->Evaluate(u);
+            kernelValues[i][k] = KernelOrder2Type::FastEvaluate(u);
             break;
           }
           case 3:
           {
-            B *= this->m_KernelOrder3->Evaluate(u);
+            kernelValues[i][k] = KernelOrder3Type::FastEvaluate(u);
             break;
           }
           default:
           {
-            B *= this->m_Kernel[i]->Evaluate(u);
+            kernelValues[i][k] = this->m_Kernel[i]->Evaluate(u);
             break;
           }
         }
+
+        SizeValueType latticeIndex = SizeValueType{ pIndex } + k;
+        if (this->m_CloseDimension[i])
+        {
+          latticeIndex %= latticeSize[i];
+        }
+        latticeOffsets[i][k] = static_cast<OffsetValueType>(latticeIndex) * latticeStrides[i];
       }
-      ItW.Set(B);
+    }
+
+    RealType w2Sum = 0.0;
+    for (SizeValueType j = 0; j < numberOfNeighbors; ++j)
+    {
+      RealType B = 1.0;
+      for (unsigned int i = 0; i < ImageDimension; ++i)
+      {
+        B *= kernelValues[i][neighborPositions[j][i]];
+      }
+      neighborWeights[j] = B;
       w2Sum += B * B;
     }
 
-    RealImageType *      currentThreadOmegaLattice = this->m_OmegaLatticePerThread[threadId];
-    PointDataImageType * currentThreadDeltaLattice = this->m_DeltaLatticePerThread[threadId];
+    const RealType      wc = this->m_PointWeights->GetElement(n);
+    const PointDataType pointValue = this->m_ResidualPointSetValues->GetElement(n);
 
-    for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
+    for (SizeValueType j = 0; j < numberOfNeighbors; ++j)
     {
-      typename RealImageType::IndexType idx = ItW.GetIndex();
+      OffsetValueType latticeOffset = 0;
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        idx[i] += static_cast<unsigned int>(p[i]);
-        if (this->m_CloseDimension[i])
-        {
-          idx[i] %= currentThreadDeltaLattice->GetLargestPossibleRegion().GetSize()[i];
-        }
+        latticeOffset += latticeOffsets[i][neighborPositions[j][i]];
       }
-      const RealType wc = this->m_PointWeights->GetElement(n);
-      const RealType t = ItW.Get();
-      currentThreadOmegaLattice->SetPixel(idx, currentThreadOmegaLattice->GetPixel(idx) + wc * t * t);
-      PointDataType data = this->m_ResidualPointSetValues->GetElement(n);
+      const RealType t = neighborWeights[j];
+      omegaBuffer[latticeOffset] += wc * t * t;
+      PointDataType data = pointValue;
       data *= (t * t * t * wc / w2Sum);
-      currentThreadDeltaLattice->SetPixel(idx, currentThreadDeltaLattice->GetPixel(idx) + data);
+      deltaBuffer[latticeOffset] += data;
     }
   }
 }
