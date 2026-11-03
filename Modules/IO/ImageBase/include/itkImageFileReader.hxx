@@ -66,6 +66,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::SetDirectionCollapseToStrateg
     case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
     case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
       break;
+    case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
     default:
       itkExceptionStringMacro("Invalid strategy chosen for ImageFileReader.");
   }
