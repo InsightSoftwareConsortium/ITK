@@ -55,6 +55,9 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::VariationalRegist
   }
   this->m_InputBuffer = nullptr;
   this->m_OutputBuffer = nullptr;
+
+  // The number of work units is also the number of FFT threads.
+  this->SetMaximumWorkUnitPerThreadRatio(1);
 }
 
 template <typename TDisplacementField>

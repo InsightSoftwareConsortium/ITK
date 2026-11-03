@@ -37,6 +37,9 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ConnectedC
 
   //  #1 "MaskImage" optional
   Self::AddOptionalInputName("MaskImage", 1);
+
+  // Each work-unit boundary adds a line to the serial label-equivalence pass.
+  this->SetMaximumWorkUnitPerThreadRatio(1);
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
