@@ -74,7 +74,8 @@ VelocityFieldTransform<TParametersValueType, VDimension>::GetInverse(Self * inve
   inverse->SetLowerTimeBound(this->m_UpperTimeBound);
   inverse->SetDisplacementField(this->m_InverseDisplacementField);
   inverse->SetInverseDisplacementField(this->m_DisplacementField);
-  inverse->SetInterpolator(this->m_Interpolator);
+  inverse->SetInterpolator(this->m_InverseInterpolator);
+  inverse->SetInverseInterpolator(this->m_Interpolator);
   inverse->SetVelocityField(this->m_VelocityField);
   inverse->SetVelocityFieldInterpolator(this->m_VelocityFieldInterpolator);
   return true;

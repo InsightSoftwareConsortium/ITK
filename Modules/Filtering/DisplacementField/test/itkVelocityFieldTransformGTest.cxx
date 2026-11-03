@@ -63,3 +63,29 @@ TEST(VelocityFieldTransform, ReplacingTheDisplacementFieldUpdatesTheInterpolator
   EXPECT_EQ(transformed[0], 2.0);
   EXPECT_EQ(transformed[1], 4.5);
 }
+
+TEST(VelocityFieldTransform, GetInverseKeepsTheForwardAndInverseFieldsApart)
+{
+  using VelocityFieldType = TransformType::VelocityFieldType;
+  auto velocity = VelocityFieldType::New();
+  velocity->SetRegions(VelocityFieldType::SizeType{ { 8, 8, 3 } });
+  velocity->Allocate();
+  velocity->FillBuffer(VelocityFieldType::PixelType{});
+
+  auto transform = TransformType::New();
+  transform->SetVelocityField(velocity);
+  transform->SetDisplacementField(MakeConstantField(1.0, 2.0));
+  transform->SetInverseDisplacementField(MakeConstantField(-1.0, -2.0));
+
+  auto inverse = TransformType::New();
+  ASSERT_TRUE(transform->GetInverse(inverse));
+
+  const TransformType::InputPointType point{ { 3.0, 4.0 } };
+  EXPECT_EQ(transform->TransformPoint(point), (TransformType::OutputPointType{ { 4.0, 6.0 } }));
+  EXPECT_EQ(inverse->TransformPoint(point), (TransformType::OutputPointType{ { 2.0, 2.0 } }));
+
+  // Replacing the forward field must not change what the inverse interpolates.
+  transform->SetDisplacementField(MakeConstantField(0.5, 0.5));
+  EXPECT_EQ(transform->TransformPoint(point), (TransformType::OutputPointType{ { 3.5, 4.5 } }));
+  EXPECT_EQ(inverse->TransformPoint(point), (TransformType::OutputPointType{ { 2.0, 2.0 } }));
+}
