@@ -17,6 +17,9 @@
  *=========================================================================*/
 
 #include "itkAdaptiveNonLocalMeansDenoisingImageFilter.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMultiThreaderBase.h"
 #include "itkGTest.h"
@@ -36,7 +39,7 @@ const ImageType::SizeType           imageSize{ { 20, 16, 30 } };
 constexpr std::mt19937::result_type noiseSeed = 42;
 
 ImageType::Pointer
-MakeNoisyImage()
+MakeNoisyImage(float signalScale = 1.0F)
 {
   auto image = ImageType::New();
   image->SetRegions(imageSize);
@@ -48,7 +51,7 @@ MakeNoisyImage()
   for (itk::ImageRegionIteratorWithIndex<ImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
   {
     const auto & index = it.GetIndex();
-    it.Set(std::abs(50.0F + 2.0F * index[0] + 3.0F * index[2] + noise()));
+    it.Set(std::abs((50.0F + 2.0F * index[0] + 3.0F * index[2]) * signalScale + noise()));
   }
   return image;
 }
@@ -174,10 +177,14 @@ TEST(AdaptiveNonLocalMeansDenoisingImageFilter, OutputDoesNotDependOnNumberOfWor
       }
     }
   }
-  // A requested region off the origin, Gaussian model only: the Rician partial-region output is not reproducible.
+  // A requested region that does not start at the image origin.
   const ImageType::RegionType requestedRegion({ { 3, 2, 5 } }, { { 12, 10, 17 } });
-  EXPECT_EQ(Denoise(image, false, 8, mask, requestedRegion), Denoise(image, false, 1, mask, requestedRegion))
-    << "requested region";
+  for (const bool useRicianNoiseModel : { false, true })
+  {
+    EXPECT_EQ(Denoise(image, useRicianNoiseModel, 8, mask, requestedRegion),
+              Denoise(image, useRicianNoiseModel, 1, mask, requestedRegion))
+      << "requested region, useRicianNoiseModel: " << useRicianNoiseModel;
+  }
 }
 
 TEST(AdaptiveNonLocalMeansDenoisingImageFilter, AbortStopsTheSlabPass)
@@ -205,4 +212,75 @@ TEST(AdaptiveNonLocalMeansDenoisingImageFilter, AbortStopsTheSlabPass)
     }
   });
   EXPECT_THROW(filter->Update(), itk::ProcessAborted);
+}
+
+namespace
+{
+void
+CheckRequestedRegionsMatchFullOutput(const ImageType *                          image,
+                                     const MaskType *                           mask,
+                                     const std::vector<ImageType::RegionType> & requestedRegions)
+{
+  for (const auto & requestedRegion : requestedRegions)
+  {
+    ASSERT_TRUE(image->GetLargestPossibleRegion().IsInside(requestedRegion)) << requestedRegion;
+  }
+  for (const bool useRicianNoiseModel : { false, true })
+  {
+    for (const MaskType * maskImage : std::vector<const MaskType *>{ nullptr, mask })
+    {
+      const std::vector<float> full = Denoise(image, useRicianNoiseModel, 4, maskImage);
+      for (const auto & requestedRegion : requestedRegions)
+      {
+        std::vector<float> expected;
+        for (itk::ImageRegionConstIteratorWithIndex<ImageType> it(image, requestedRegion); !it.IsAtEnd(); ++it)
+        {
+          expected.push_back(full[image->ComputeOffset(it.GetIndex())]);
+        }
+        EXPECT_EQ(Denoise(image, useRicianNoiseModel, 4, maskImage, requestedRegion), expected)
+          << "useRicianNoiseModel: " << useRicianNoiseModel << ", mask: " << (maskImage != nullptr)
+          << ", requested region: " << requestedRegion;
+      }
+    }
+  }
+}
+
+// The same pixel values on a region with a non-zero index and anisotropic spacing.
+template <typename TImage>
+typename TImage::Pointer
+Relocate(const TImage * image)
+{
+  const typename TImage::IndexType index{ { 3, -2, 5 } };
+  auto                             relocated = TImage::New();
+  relocated->SetRegions(typename TImage::RegionType(index, image->GetLargestPossibleRegion().GetSize()));
+  relocated->SetSpacing(itk::MakeVector(1.0, 1.5, 0.7));
+  relocated->Allocate();
+  itk::ImageRegionConstIterator<TImage> source(image, image->GetBufferedRegion());
+  for (itk::ImageRegionIterator<TImage> target(relocated, relocated->GetBufferedRegion()); !target.IsAtEnd();
+       ++target, ++source)
+  {
+    target.Set(source.Get());
+  }
+  return relocated;
+}
+} // namespace
+
+TEST(AdaptiveNonLocalMeansDenoisingImageFilter, RequestedRegionMatchesFullOutput)
+{
+  CheckRequestedRegionsMatchFullOutput(MakeNoisyImage(),
+                                       MakeMask(),
+                                       { { { { 5, 4, 7 } }, { { 10, 8, 15 } } },
+                                         { { { 0, 9, 21 } }, { { 7, 7, 9 } } },
+                                         { { { 13, 0, 2 } }, { { 1, 16, 3 } } } });
+}
+
+TEST(AdaptiveNonLocalMeansDenoisingImageFilter, RequestedRegionMatchesFullOutputWithIndexAndSpacing)
+{
+  // The slab grid starts at the region index, the bias kernel radius differs per axis, and at this low signal to
+  // noise ratio the Rician bias, and so its padding, changes the output.
+  CheckRequestedRegionsMatchFullOutput(Relocate(MakeNoisyImage(0.08F).GetPointer()),
+                                       Relocate(MakeMask().GetPointer()),
+                                       { { { { 8, 2, 12 } }, { { 10, 8, 15 } } },
+                                         { { { 3, 7, 26 } }, { { 7, 7, 9 } } },
+                                         { { { 16, -2, 7 } }, { { 1, 16, 3 } } } });
 }
