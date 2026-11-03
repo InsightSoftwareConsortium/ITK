@@ -17,9 +17,9 @@
  *=========================================================================*/
 
 #include "itkManhattanDistanceMetric.h"
+#include "itkGTest.h"
 
-int
-itkManhattanDistanceMetricTest(int, char *[])
+TEST(ManhattanDistanceMetric, ConvertedLegacyTest)
 {
   constexpr unsigned int MeasurementVectorSize{ 3 };
 
@@ -42,25 +42,12 @@ itkManhattanDistanceMetricTest(int, char *[])
   // Attempting to compute distance before setting a measurement vector should
   // throw an exception
 
-  try
-  {
-    distance->Evaluate(measurementNew);
-    std::cerr << "Attempting to compute distance w/o setting measurement vectorsize, Exception should have been thrown"
-              << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception: " << excp << std::endl;
-  }
+  EXPECT_THROW(distance->Evaluate(measurementNew), itk::ExceptionObject);
 
 
   distance->SetMeasurementVectorSize(MeasurementVectorSize);
 
-  if (distance->GetMeasurementVectorSize() != MeasurementVectorSize)
-  {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(distance->GetMeasurementVectorSize(), MeasurementVectorSize) << "GetMeasurementVectorSize() Failed !";
 
   // Test if the distance computed is correct
   DistanceMetricType::OriginType origin;
@@ -80,12 +67,7 @@ itkManhattanDistanceMetricTest(int, char *[])
   const double     distanceComputed = distance->Evaluate(measurement);
   constexpr double tolerance{ 0.001 };
 
-  if (itk::Math::Absolute(distanceComputed - trueValue) > tolerance)
-  {
-    std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(distanceComputed, trueValue, tolerance) << "Distance computed not correct";
 
   // Compute distance between two measurement vectors
   MeasurementVectorType measurement2;
@@ -97,12 +79,5 @@ itkManhattanDistanceMetricTest(int, char *[])
   constexpr double trueValue2{ 1.7 };
   const double     distanceComputed2 = distance->Evaluate(measurement, measurement2);
 
-  if (itk::Math::Absolute(distanceComputed2 - trueValue2) > tolerance)
-  {
-    std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue2 << "ComputedValue=" << distanceComputed2 << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_NEAR(distanceComputed2, trueValue2, tolerance) << "Distance computed not correct";
 }
