@@ -21,6 +21,7 @@
 #include "itkNonLocalPatchBasedImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
+#include "itkDiscreteGaussianImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkTotalProgressReporter.h"
 
@@ -189,8 +190,18 @@ protected:
   void
   AfterThreadedGenerateData() override;
 
+  /** The mean, variance and intensity range are computed over the whole input. */
+  void
+  GenerateInputRequestedRegion() override;
+
 private:
   RealType CalculateCorrectionFactor(RealType);
+
+  using RicianBiasSmootherType = DiscreteGaussianImageFilter<RealImageType, RealImageType>;
+
+  /** The smoother of the Rician bias image, for the geometry of the input. */
+  typename RicianBiasSmootherType::Pointer
+  MakeRicianBiasSmoother() const;
 
   void
   AccumulatePatchEstimates(const RegionType &, OutputImageType *, TotalProgressReporter &);
@@ -209,6 +220,9 @@ private:
 
   RealType m_MaximumInputPixelIntensity;
   RealType m_MinimumInputPixelIntensity;
+
+  /** The patch centers whose estimates reach the output requested region, directly or through the bias smoothing. */
+  RegionType m_CenterRegion{};
 
   RealImagePointer m_MeanImage;
   RealImagePointer m_RicianBiasImage;
