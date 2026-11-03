@@ -28,7 +28,10 @@ BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::BinaryImageToShapeL
   : m_OutputBackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
   , m_InputForegroundValue(NumericTraits<InputImagePixelType>::max())
   , m_ComputePerimeter(true)
-{}
+{
+  // Forwarded to the internal BinaryImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(1);
+}
 
 template <typename TInputImage, typename TOutputImage>
 void

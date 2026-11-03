@@ -32,6 +32,9 @@ BinaryReconstructionByErosionImageFilter<TInputImage>::BinaryReconstructionByEro
 {
   this->SetPrimaryInputName("MarkerImage");
   this->AddRequiredInputName("MaskImage", 1);
+
+  // Forwarded to the internal BinaryImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 template <typename TInputImage>

@@ -31,7 +31,10 @@ namespace itk
 template <typename TInputImage>
 BinaryFillholeImageFilter<TInputImage>::BinaryFillholeImageFilter()
   : m_ForegroundValue(NumericTraits<InputImagePixelType>::max())
-{}
+{
+  // Forwarded, through BinaryImageToShapeLabelMapFilter, to BinaryImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(1);
+}
 
 template <typename TInputImage>
 void

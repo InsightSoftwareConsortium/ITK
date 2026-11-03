@@ -28,7 +28,10 @@ LabelShapeKeepNObjectsImageFilter<TInputImage>::LabelShapeKeepNObjectsImageFilte
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
   , m_NumberOfObjects(1)
   , m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
-{}
+{
+  // Forwarded to the internal LabelImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(2);
+}
 
 template <typename TInputImage>
 void

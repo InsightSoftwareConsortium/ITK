@@ -29,6 +29,9 @@ LabelStatisticsOpeningImageFilter<TInputImage, TFeatureImage>::LabelStatisticsOp
   , m_Attribute(LabelObjectType::MEAN)
 {
   this->SetNumberOfRequiredInputs(2);
+
+  // Forwarded to the internal LabelImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(2);
 }
 
 template <typename TInputImage, typename TFeatureImage>

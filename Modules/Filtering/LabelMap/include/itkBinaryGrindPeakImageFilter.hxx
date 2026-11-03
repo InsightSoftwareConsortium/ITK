@@ -31,7 +31,10 @@ template <typename TInputImage>
 BinaryGrindPeakImageFilter<TInputImage>::BinaryGrindPeakImageFilter()
   : m_ForegroundValue(NumericTraits<InputImagePixelType>::max())
   , m_BackgroundValue(InputImagePixelType{})
-{}
+{
+  // Forwarded, through BinaryImageToShapeLabelMapFilter, to BinaryImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(1);
+}
 
 template <typename TInputImage>
 void

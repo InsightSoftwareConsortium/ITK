@@ -27,7 +27,10 @@ template <typename TInputImage>
 ShapeRelabelImageFilter<TInputImage>::ShapeRelabelImageFilter()
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
   , m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
-{}
+{
+  // Forwarded to the internal LabelImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(2);
+}
 
 template <typename TInputImage>
 void

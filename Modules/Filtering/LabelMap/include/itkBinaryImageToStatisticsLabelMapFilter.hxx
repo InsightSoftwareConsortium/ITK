@@ -32,6 +32,9 @@ BinaryImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>:
   , m_ComputeHistogram(true)
 {
   this->SetNumberOfRequiredInputs(2);
+
+  // Forwarded to the internal BinaryImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
