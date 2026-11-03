@@ -30,6 +30,8 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::LabelImageToLabelMapFilte
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
 {
   this->DynamicMultiThreadingOff();
+  // Each work unit builds a label map, and the maps are merged serially.
+  this->SetMaximumWorkUnitPerThreadRatio(2);
 }
 
 template <typename TInputImage, typename TOutputImage>
