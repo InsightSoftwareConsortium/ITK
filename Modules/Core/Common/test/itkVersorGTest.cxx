@@ -528,3 +528,124 @@ TEST(Versor, ConvertedLegacyTest)
     EXPECT_EQ(RotationMatrixStabilityTestErrors, 0);
   }
 }
+
+namespace
+{
+using DoubleVersorType = itk::Versor<double>;
+using FloatVersorType = itk::Versor<float>;
+
+DoubleVersorType
+MakeVersor(double x, double y, double z, double angle)
+{
+  DoubleVersorType::VectorType axis;
+  axis[0] = x;
+  axis[1] = y;
+  axis[2] = z;
+  DoubleVersorType versor;
+  versor.Set(axis, angle);
+  return versor;
+}
+
+// Set() from a float copy of the rotation matrix must recover that matrix.
+void
+CheckFloatRoundTrip(const DoubleVersorType & reference)
+{
+  const auto                  doubleMatrix = reference.GetMatrix();
+  FloatVersorType::MatrixType floatMatrix;
+  for (unsigned int r = 0; r < 3; ++r)
+  {
+    for (unsigned int c = 0; c < 3; ++c)
+    {
+      floatMatrix[r][c] = static_cast<float>(doubleMatrix[r][c]);
+    }
+  }
+  FloatVersorType versor;
+  ASSERT_NO_THROW(versor.Set(floatMatrix)) << "versor " << reference;
+  EXPECT_GE(versor.GetW(), 0.0F);
+  const auto recovered = versor.GetMatrix();
+  for (unsigned int r = 0; r < 3; ++r)
+  {
+    for (unsigned int c = 0; c < 3; ++c)
+    {
+      EXPECT_NEAR(recovered[r][c], floatMatrix[r][c], 2e-6F) << "versor " << reference;
+    }
+  }
+}
+
+// Set() from the matrix, then rebuilding w from the vector part, must recover the matrix.
+void
+CheckDoubleRoundTrip(const DoubleVersorType & reference)
+{
+  DoubleVersorType fromMatrix;
+  fromMatrix.Set(reference.GetMatrix());
+  EXPECT_GE(fromMatrix.GetW(), 0.0);
+  DoubleVersorType fromVector;
+  fromVector.Set(fromMatrix.GetRight());
+  const auto expected = reference.GetMatrix();
+  const auto actual = fromVector.GetMatrix();
+  for (unsigned int r = 0; r < 3; ++r)
+  {
+    for (unsigned int c = 0; c < 3; ++c)
+    {
+      EXPECT_NEAR(actual[r][c], expected[r][c], 1e-9) << "versor " << reference;
+    }
+  }
+}
+
+constexpr double obliqueAxes[][3] = { { -0.2346172691984836, -0.6042714253627957, 0.7614530724108096 },
+                                      { 0.6, 0.0, 0.8 },
+                                      { 0.48, 0.6, 0.64 } };
+} // namespace
+
+TEST(Versor, SetAcceptsFloatRotationMatrices)
+{
+  constexpr int steps = 3142;
+  for (int i = 0; i <= steps; ++i)
+  {
+    const double angle = itk::Math::pi * i / steps;
+    CheckFloatRoundTrip(MakeVersor(1, 0, 0, angle));
+    CheckFloatRoundTrip(MakeVersor(0, 1, 0, angle));
+    CheckFloatRoundTrip(MakeVersor(0, 0, 1, angle));
+    for (const auto & axis : obliqueAxes)
+    {
+      CheckFloatRoundTrip(MakeVersor(axis[0], axis[1], axis[2], angle));
+    }
+  }
+
+  // Regression parameters [0, 0.6816388, 0] of a VersorRigid3DTransform.
+  DoubleVersorType::VectorType rightPart;
+  rightPart[0] = 0.0;
+  rightPart[1] = 0.6816388;
+  rightPart[2] = 0.0;
+  DoubleVersorType reference;
+  reference.Set(rightPart);
+  CheckFloatRoundTrip(reference);
+}
+
+TEST(Versor, SetFromHalfTurnMatrices)
+{
+  for (const double offset : { 0.0, 1e-6, -1e-6, 1e-3, -1e-3 })
+  {
+    const double angle = itk::Math::pi + offset;
+    CheckFloatRoundTrip(MakeVersor(1, 0, 0, angle));
+    CheckFloatRoundTrip(MakeVersor(0, 1, 0, angle));
+    CheckFloatRoundTrip(MakeVersor(0, 0, 1, angle));
+    CheckDoubleRoundTrip(MakeVersor(1, 0, 0, angle));
+    CheckDoubleRoundTrip(MakeVersor(0, 1, 0, angle));
+    CheckDoubleRoundTrip(MakeVersor(0, 0, 1, angle));
+    for (const auto & axis : obliqueAxes)
+    {
+      CheckFloatRoundTrip(MakeVersor(axis[0], axis[1], axis[2], angle));
+      CheckDoubleRoundTrip(MakeVersor(axis[0], axis[1], axis[2], angle));
+    }
+  }
+}
+
+TEST(Versor, SetRejectsNonRotationMatrix)
+{
+  FloatVersorType::MatrixType notARotation;
+  notARotation.SetIdentity();
+  notARotation[0][1] = 1e-3F;
+  FloatVersorType versor;
+  EXPECT_THROW(versor.Set(notARotation), itk::ExceptionObject);
+}
