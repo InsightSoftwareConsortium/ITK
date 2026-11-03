@@ -254,9 +254,11 @@ protected:
   mutable std::vector<PDFValueType>              m_MovingImageMarginalPDF{};
   mutable std::vector<std::vector<PDFValueType>> m_ThreaderFixedImageMarginalPDF{};
 
-  /** The joint PDF and PDF derivatives. */
+  /** The joint PDF of each work unit. */
   std::vector<typename JointPDFType::Pointer> m_ThreaderJointPDF{};
 
+  /** The joint PDF derivatives of each work unit, and their sum. During the threaded pass the sum is the array of
+   * work unit 0, to which the others are added in work-unit order. */
   std::vector<typename JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives{};
   typename JointPDFDerivativesType::Pointer              m_JointPDFDerivatives{};
 
