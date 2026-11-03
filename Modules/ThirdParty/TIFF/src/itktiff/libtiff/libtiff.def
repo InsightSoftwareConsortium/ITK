@@ -54,6 +54,7 @@ EXPORTS	TIFFAccessTagMethods
 	TIFFGetField
 	TIFFGetFieldDefaulted
 	TIFFGetMapFileProc
+	TIFFGetMaxCompressionRatio
 	TIFFGetMode
 	TIFFGetReadProc
 	TIFFGetSeekProc
@@ -88,6 +89,7 @@ EXPORTS	TIFFAccessTagMethods
 	TIFFOpenOptionsSetMaxCumulatedMemAlloc
 	TIFFOpenOptionsSetMaxSingleMemAlloc
 	TIFFOpenOptionsSetErrorHandlerExtR
+	TIFFOpenOptionsSetWarnAboutUnknownTags
 	TIFFOpenOptionsSetWarningHandlerExtR
 	TIFFPrintDirectory
 	TIFFRGBAImageBegin
@@ -180,9 +182,17 @@ EXPORTS	TIFFAccessTagMethods
 	TIFFXYZToRGB
 	TIFFYCbCrToRGBInit
 	TIFFYCbCrtoRGB
+	_TIFFAdd64
+	_TIFFAddSSize
+	_TIFFCastUInt64ToSSize
+	_TIFFCastUInt64ToUInt32
 	_TIFFCheckMalloc
 	_TIFFCheckRealloc
 	_TIFFClampDoubleToUInt32
+	_TIFFComputeBitOffset
+	_TIFFComputeRowOffset
+	_TIFFComputeRowSize64
+	_TIFFMultiplySSize
 	_TIFFRewriteField
 	_TIFFfree
 	_TIFFmalloc

@@ -24,13 +24,13 @@
 # OF THIS SOFTWARE.
 
 if(TRUE) # XXX(ITK): hard-code settings
-  set(cxx 0)
+  set(tiff-cxx OFF)
 endif()
 
 # C++ support
-option(cxx "Enable C++ stream API building (requires C++ compiler)" ON)
+option(tiff-cxx "Enable C++ stream API building (requires C++ compiler)" ON)
 set(CXX_SUPPORT FALSE)
-if (cxx)
+if (tiff-cxx)
     enable_language(CXX)
     set(CXX_SUPPORT TRUE)
 endif()
