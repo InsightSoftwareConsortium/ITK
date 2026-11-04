@@ -22,8 +22,8 @@ set(
 
 set(
   ${itk-module}Tests
-  VariationalRegistrationFilterTest.cxx
-  VariationalRegistrationMultiResolutionFilterTest.cxx
+  itkVariationalRegistrationFilterTest.cxx
+  itkVariationalRegistrationMultiResolutionFilterTest.cxx
 )
 
 # both approaches do not work
@@ -40,17 +40,17 @@ createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
 
 itk_add_test(
-  NAME VariationalRegistrationFilterTest
+  NAME itkVariationalRegistrationFilterTest
   COMMAND
     ${itk-module}TestDriver
-    VariationalRegistrationFilterTest
+    itkVariationalRegistrationFilterTest
 )
 
 itk_add_test(
-  NAME VariationalRegistrationMultiResolutionFilterTest
+  NAME itkVariationalRegistrationMultiResolutionFilterTest
   COMMAND
     ${itk-module}TestDriver
-    VariationalRegistrationMultiResolutionFilterTest
+    itkVariationalRegistrationMultiResolutionFilterTest
 )
 
 add_custom_target(
