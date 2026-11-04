@@ -19,12 +19,14 @@
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkBSplineKernelFunction.h"
 #include "itkCoxDeBoorBSplineKernelFunction.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkIndexRange.h"
 #include "itkPointSet.h"
 #include "itkVector.h"
 #include "itkGTest.h"
 
+#include <cmath>
 #include <random>
 #include <vector>
 
@@ -256,4 +258,101 @@ TEST(BSplineScatteredDataPointSetToImageFilter, FitMatchesReferenceInOneDimensio
     CheckFitAgainstReference<1, 1>({ order }, { false });
     CheckFitAgainstReference<1, 3>({ order }, { order % 2 == 0 });
   }
+}
+
+namespace
+{
+namespace refit
+{
+constexpr unsigned int Dimension = 2;
+using DataType = itk::Vector<float, 1>;
+using PointSetType = itk::PointSet<DataType, Dimension>;
+using ImageType = itk::Image<DataType, Dimension>;
+using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, ImageType>;
+
+PointSetType::Pointer
+MakePoints(double frequency)
+{
+  auto         points = PointSetType::New();
+  unsigned int count = 0;
+  for (unsigned int i = 0; i < 20; ++i)
+  {
+    for (unsigned int j = 0; j < 20; ++j)
+    {
+      PointSetType::PointType point;
+      point[0] = 0.5 * i;
+      point[1] = 0.5 * j;
+      DataType value;
+      value[0] = static_cast<float>(std::sin(frequency * i) + 0.1 * j);
+      points->SetPoint(count, point);
+      points->SetPointData(count, value);
+      ++count;
+    }
+  }
+  return points;
+}
+
+FilterType::Pointer
+MakeFilter(const PointSetType * points)
+{
+  auto filter = FilterType::New();
+  filter->SetInput(points);
+  filter->SetOrigin(FilterType::PointType());
+  filter->SetSpacing(itk::MakeFilled<FilterType::SpacingType>(0.5));
+  filter->SetSize(FilterType::SizeType{ { 20, 20 } });
+  filter->SetSplineOrder(3);
+  filter->SetNumberOfControlPoints(itk::MakeFilled<FilterType::ArrayType>(6));
+  filter->SetNumberOfLevels(itk::MakeFilled<FilterType::ArrayType>(2));
+  return filter;
+}
+
+std::vector<float>
+Values(const ImageType * image)
+{
+  std::vector<float> values;
+  for (itk::ImageRegionConstIteratorWithIndex<ImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    values.push_back(it.Get()[0]);
+  }
+  return values;
+}
+} // namespace refit
+} // namespace
+
+TEST(BSplineScatteredDataPointSetToImageFilter, SecondUpdateFitsTheNewInput)
+{
+  const auto firstPoints = refit::MakePoints(0.3);
+  const auto secondPoints = refit::MakePoints(0.5);
+
+  const auto filter = refit::MakeFilter(firstPoints);
+  filter->Update();
+  filter->SetInput(secondPoints);
+  filter->Update();
+
+  const auto reference = refit::MakeFilter(secondPoints);
+  reference->Update();
+
+  const auto lattice = refit::Values(filter->GetPhiLattice());
+  ASSERT_FALSE(lattice.empty());
+  EXPECT_EQ(lattice, refit::Values(reference->GetPhiLattice()));
+  EXPECT_EQ(refit::Values(filter->GetOutput()), refit::Values(reference->GetOutput()));
+}
+
+TEST(BSplineScatteredDataPointSetToImageFilter, SecondUpdateAfterChangingLevelsMatchesAFreshFilter)
+{
+  const auto points = refit::MakePoints(0.3);
+
+  const auto filter = refit::MakeFilter(points);
+  filter->Update();
+  filter->SetNumberOfLevels(itk::MakeFilled<refit::FilterType::ArrayType>(3));
+  filter->Update();
+
+  const auto reference = refit::MakeFilter(points);
+  reference->SetNumberOfLevels(itk::MakeFilled<refit::FilterType::ArrayType>(3));
+  reference->Update();
+
+  const auto lattice = refit::Values(filter->GetPhiLattice());
+  ASSERT_FALSE(lattice.empty());
+  EXPECT_EQ(lattice, refit::Values(reference->GetPhiLattice()));
+  EXPECT_EQ(refit::Values(filter->GetOutput()), refit::Values(reference->GetOutput()));
 }
