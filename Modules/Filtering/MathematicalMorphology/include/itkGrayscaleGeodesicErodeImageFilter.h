@@ -140,7 +140,7 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
   /** @ITKEndGrouping */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<MarkerImageDimension, OutputImageDimension>));
+  static_assert(MarkerImageDimension == OutputImageDimension);
   itkConceptMacro(InputComparableCheck, (Concept::Comparable<MarkerImagePixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<MarkerImagePixelType, OutputImagePixelType>));
 

@@ -120,8 +120,8 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, 3>));
-  itkConceptMacro(SameTypeCheck, (Concept::SameType<InputImagePixelType, OutputImagePixelType>));
+  static_assert(InputImageDimension == 3);
+  static_assert(std::is_same_v<InputImagePixelType, OutputImagePixelType>);
   itkConceptMacro(InputAdditiveOperatorsCheck, (Concept::AdditiveOperators<InputImagePixelType>));
   itkConceptMacro(InputConvertibleToIntCheck, (Concept::Convertible<InputImagePixelType, int>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));

@@ -66,7 +66,7 @@ public:
   [[nodiscard]] SizeValueType
   GetSizeGreatestPrimeFactor() const override;
 
-  itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 
 protected:
   PocketFFTRealToHalfHermitianForwardFFTImageFilter() = default;

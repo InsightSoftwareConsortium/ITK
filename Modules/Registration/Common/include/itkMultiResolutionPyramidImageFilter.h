@@ -213,7 +213,7 @@ public:
   itkGetConstMacro(UseShrinkImageFilter, bool);
   itkBooleanMacro(UseShrinkImageFilter);
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TOutputImage::PixelType>));
 
 protected:

@@ -120,7 +120,7 @@ public:
 
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
 
 protected:
   SliceImageFilter();

@@ -78,7 +78,7 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LabelMapToLabelImageFilter);
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 
 protected:
   LabelMapToLabelImageFilter() = default;

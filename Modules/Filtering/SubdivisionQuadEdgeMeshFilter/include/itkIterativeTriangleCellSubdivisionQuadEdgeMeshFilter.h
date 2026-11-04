@@ -62,9 +62,8 @@ public:
   itkOverrideGetNameOfClassMacro(IterativeTriangleCellSubdivisionQuadEdgeMeshFilter);
   itkNewMacro(Self);
 
-  itkConceptMacro(SameTypeCheck,
-                  (Concept::SameType<typename CellSubdivisionFilterType::InputMeshType,
-                                     typename CellSubdivisionFilterType::OutputMeshType>));
+  static_assert(std::is_same_v<typename CellSubdivisionFilterType::InputMeshType,
+                               typename CellSubdivisionFilterType::OutputMeshType>);
 
   itkSetMacro(ResolutionLevels, unsigned int);
   itkGetConstMacro(ResolutionLevels, unsigned int);

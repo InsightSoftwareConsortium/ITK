@@ -139,7 +139,7 @@ public:
 
   itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputPixelType>));
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<PixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, PixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, PixelType>));
   itkConceptMacro(OutputAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));

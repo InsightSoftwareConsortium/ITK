@@ -174,10 +174,8 @@ public:
   static SigmaArrayType
   GenerateLogarithmicSigmaArray(SigmaType SigmaMinimum, SigmaType SigmaMaximum, SigmaStepsType NumberOfSigmaSteps);
 
-  // Begin concept checking
-  itkConceptMacro(InputOutputHaveSamePixelDimensionCheck,
-                  (Concept::SameDimension<TInputImage::ImageDimension, TOutputImage::ImageDimension>));
-  // End concept checking
+  static_assert(TInputImage::ImageDimension == TOutputImage::ImageDimension);
+
 protected:
   MultiScaleHessianEnhancementImageFilter();
   ~MultiScaleHessianEnhancementImageFilter() override = default;

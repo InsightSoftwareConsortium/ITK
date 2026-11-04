@@ -79,9 +79,7 @@ public:
   itkOverrideGetNameOfClassMacro(HigherOrderAccurateDerivativeImageFilter);
 
   /** The output pixel type must be signed. */
-  /** Begin concept checking */
-  itkConceptMacro(SignedOutputPixelType, (Concept::Signed<OutputPixelType>));
-  /** End concept checking */
+  static_assert(NumericTraits<OutputPixelType>::is_signed);
 
   /** Standard get/set macros for filter parameters. */
   itkSetMacro(Order, unsigned int);

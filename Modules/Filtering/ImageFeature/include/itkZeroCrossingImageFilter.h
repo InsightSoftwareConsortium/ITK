@@ -117,7 +117,7 @@ public:
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
   /** @ITKEndGrouping */
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputComparableCheck, (Concept::Comparable<InputImagePixelType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputImagePixelType>));
 

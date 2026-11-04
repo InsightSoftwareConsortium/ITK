@@ -136,9 +136,9 @@ public:
   itkSetClampMacro(SelectFraction, double, 0, 1);
   itkGetMacro(SelectFraction, double);
   /** @ITKEndGrouping */
-  itkConceptMacro(ImageDimensionShouldBe3, (Concept::SameDimension<TImage::ImageDimension, 3u>));
-  itkConceptMacro(MaskDimensionShouldBe3, (Concept::SameDimension<TMask::ImageDimension, 3u>));
-  itkConceptMacro(PointDimensionShouldBe3, (Concept::SameDimension<TFeatures::PointType::PointDimension, 3u>));
+  static_assert(TImage::ImageDimension == 3u);
+  static_assert(TMask::ImageDimension == 3u);
+  static_assert(TFeatures::PointType::PointDimension == 3u);
 
 protected:
   MaskFeaturePointSelectionFilter();

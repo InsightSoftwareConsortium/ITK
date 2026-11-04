@@ -115,9 +115,7 @@ public:
   Initialize();
   /** Input and output images must be the same dimension, or the output's
   dimension must be one less than that of the input. */
-  /** Begin concept checking */
-  itkConceptMacro(ImageDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  /** End concept checking */
+  static_assert(InputImageDimension == OutputImageDimension);
 
 
 protected:

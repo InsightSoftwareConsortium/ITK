@@ -89,7 +89,7 @@ public:
   void
   SetInput2(const PolylineType * input);
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<NDimensions, NOutputDimensions>));
+  static_assert(NDimensions == NOutputDimensions);
   itkConceptMacro(IntConvertibleOutputCheck, (Concept::Convertible<int, OutputImagePixelType>));
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));

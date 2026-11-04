@@ -61,15 +61,11 @@ public:
   itkOverrideGetNameOfClassMacro(ConditionalSubdivisionQuadEdgeMeshFilter);
   itkNewMacro(Self);
 
-  itkConceptMacro(
-    SameTypeCheck,
-    (Concept::SameType<typename SubdivisionFilterType::InputMeshType, typename SubdivisionFilterType::OutputMeshType>));
-  itkConceptMacro(
-    SameTypeCheckMesh,
-    (Concept::SameType<typename SubdivisionFilterType::OutputMeshType, typename CriterionType::MeshType>));
-  itkConceptMacro(SameTypeCheckContainer,
-                  (Concept::SameType<typename SubdivisionFilterType::SubdivisionCellContainer,
-                                     typename CriterionType::SubdivisionCellContainer>));
+  static_assert(
+    std::is_same_v<typename SubdivisionFilterType::InputMeshType, typename SubdivisionFilterType::OutputMeshType>);
+  static_assert(std::is_same_v<typename SubdivisionFilterType::OutputMeshType, typename CriterionType::MeshType>);
+  static_assert(std::is_same_v<typename SubdivisionFilterType::SubdivisionCellContainer,
+                               typename CriterionType::SubdivisionCellContainer>);
 
   void
   SetSubdivisionCriterion(CriterionType * criterion);

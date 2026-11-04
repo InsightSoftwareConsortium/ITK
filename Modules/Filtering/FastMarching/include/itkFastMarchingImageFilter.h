@@ -378,7 +378,7 @@ public:
   itkBooleanMacro(OverrideOutputInformation);
   /** @ITKEndGrouping */
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<SetDimension, SpeedImageDimension>));
+  static_assert(SetDimension == SpeedImageDimension);
   itkConceptMacro(SpeedConvertibleToDoubleCheck, (Concept::Convertible<typename TSpeedImage::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToLevelSetCheck, (Concept::Convertible<double, PixelType>));
   itkConceptMacro(LevelSetOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));

@@ -120,9 +120,7 @@ public:
   /** Methods to get the mask different outputs */
 
 
-  // Begin concept checking
-  itkConceptMacro(InputPixelDimensionCheck, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
-  // End concept checking
+  static_assert(TInputImage::ImageDimension == 3u);
 
 protected:
   BoneMorphometryFeaturesImageFilter();

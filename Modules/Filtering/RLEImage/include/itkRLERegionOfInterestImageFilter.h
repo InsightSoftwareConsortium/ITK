@@ -86,7 +86,7 @@ public:
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
   // Begin concept checking
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   // End concept checking
 
@@ -176,7 +176,7 @@ public:
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
   // Begin concept checking
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   // End concept checking
 
@@ -277,7 +277,7 @@ public:
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
   // Begin concept checking
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   // End concept checking
 
@@ -361,7 +361,7 @@ public:
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
   // Begin concept checking
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   // End concept checking
 

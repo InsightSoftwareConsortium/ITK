@@ -109,7 +109,7 @@ public:
   itkSetMacro(IterationNum, int);
   itkGetConstMacro(IterationNum, int);
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename PixelType::ValueType>));
   itkConceptMacro(OutputHasNumericTraitsCheck,
                   (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));

@@ -85,7 +85,7 @@ public:
 
   /** Input and output images must be the same dimension, or the output's
       dimension must be one less than that of the input. */
-  itkConceptMacro(ImageDimensionCheck, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 
   /** Set the direction in which to accumulate the data.  It must be
    * set before the update of the filter. Defaults to the last

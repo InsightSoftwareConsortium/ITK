@@ -177,10 +177,8 @@ public:
   static constexpr unsigned int InputImage2Dimension = TInputImage2::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  itkConceptMacro(SameDimensionCheck1,
-                  (Concept::SameDimension<Self::InputImage1Dimension, Self::InputImage2Dimension>));
-  itkConceptMacro(SameDimensionCheck2,
-                  (Concept::SameDimension<Self::InputImage1Dimension, Self::OutputImageDimension>));
+  static_assert(InputImage1Dimension == InputImage2Dimension);
+  static_assert(InputImage1Dimension == OutputImageDimension);
 
 protected:
   BinaryFunctorImageFilter();

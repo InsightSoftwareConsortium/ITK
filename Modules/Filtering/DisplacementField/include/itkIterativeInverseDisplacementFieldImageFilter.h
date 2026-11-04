@@ -111,8 +111,7 @@ public:
 
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputImageValueType>));
 
-  itkConceptMacro(SameDimensionCheck,
-                  (Concept::SameDimension<TInputImage::ImageDimension, TOutputImage::ImageDimension>));
+  static_assert(TInputImage::ImageDimension == TOutputImage::ImageDimension);
 
 protected:
   IterativeInverseDisplacementFieldImageFilter() = default;

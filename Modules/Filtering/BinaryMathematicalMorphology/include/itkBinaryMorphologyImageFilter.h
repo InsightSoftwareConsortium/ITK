@@ -141,7 +141,7 @@ public:
   using InputSizeValueType = typename InputImageType::SizeValueType;
 
   /** Input and output images must be the same dimension. */
-  itkConceptMacro(ImageDimensionCheck, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to

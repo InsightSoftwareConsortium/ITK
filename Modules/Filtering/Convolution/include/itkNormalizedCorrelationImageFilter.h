@@ -125,11 +125,11 @@ public:
     this->SetOperator(t);
   }
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
+  static_assert(InputImageDimension == MaskImageDimension);
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   itkConceptMacro(OperatorHasNumericTraitsCheck, (Concept::HasNumericTraits<OperatorValueType>));
   // This filter can only operate on data types that are signed.
-  itkConceptMacro(SignedOutputPixelType, (Concept::Signed<OutputPixelType>));
+  static_assert(NumericTraits<OutputPixelType>::is_signed);
 
 protected:
   NormalizedCorrelationImageFilter() = default;

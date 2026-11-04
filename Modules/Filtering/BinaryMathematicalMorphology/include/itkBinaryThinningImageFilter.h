@@ -109,11 +109,11 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
   itkConceptMacro(InputAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));
   itkConceptMacro(InputConvertibleToIntCheck, (Concept::Convertible<PixelType, int>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, PixelType>));
-  itkConceptMacro(SameTypeCheck, (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
+  static_assert(std::is_same_v<PixelType, typename TOutputImage::PixelType>);
 
 protected:
   BinaryThinningImageFilter();

@@ -196,10 +196,8 @@ protected:
   virtual void
   ApplyGPImageFilter();
 
-  itkConceptMacro(
-    SameDimension,
-    (Concept::SameDimension<Self::InputImageType::ImageDimension, Self::ClassifiedImageType::ImageDimension>));
-  itkConceptMacro(DimensionShouldBe3, (Concept::SameDimension<Self::InputImageType::ImageDimension, 3>));
+  static_assert(InputImageType::ImageDimension == ClassifiedImageType::ImageDimension);
+  static_assert(InputImageType::ImageDimension == 3);
 
 private:
   using InputImageSizeType = typename TInputImage::SizeType;

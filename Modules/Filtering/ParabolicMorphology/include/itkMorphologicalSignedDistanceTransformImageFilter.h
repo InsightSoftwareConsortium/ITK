@@ -163,7 +163,7 @@ public:
   }
 
   /** Begin concept checking */
-  itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 
   itkConceptMacro(Comparable, (Concept::Comparable<InputPixelType>));
 

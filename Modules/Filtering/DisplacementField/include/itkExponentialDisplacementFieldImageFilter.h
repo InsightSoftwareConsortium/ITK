@@ -118,9 +118,9 @@ public:
   static constexpr unsigned int OutputPixelDimension = OutputPixelType::Dimension;
 
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename OutputPixelType::ValueType>));
-  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<ImageDimension, PixelDimension>));
-  itkConceptMacro(SameDimensionCheck3, (Concept::SameDimension<ImageDimension, OutputPixelDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
+  static_assert(ImageDimension == PixelDimension);
+  static_assert(ImageDimension == OutputPixelDimension);
 
 protected:
   ExponentialDisplacementFieldImageFilter();

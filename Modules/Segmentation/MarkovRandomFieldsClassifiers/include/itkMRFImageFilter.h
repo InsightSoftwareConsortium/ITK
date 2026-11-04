@@ -333,7 +333,7 @@ public:
                   (Concept::Convertible<LabelledImagePixelType, unsigned int>));
   itkConceptMacro(ClassifiedConvertibleToIntCheck, (Concept::Convertible<LabelledImagePixelType, int>));
   itkConceptMacro(IntConvertibleToClassifiedCheck, (Concept::Convertible<int, LabelledImagePixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ClassifiedImageDimension>));
+  static_assert(InputImageDimension == ClassifiedImageDimension);
 
 protected:
   MRFImageFilter();

@@ -273,7 +273,7 @@ public:
   static int
   CubicSolver(const double *, double *);
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputPixelType::ValueType>));
   itkConceptMacro(RealTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<RealType>));
 

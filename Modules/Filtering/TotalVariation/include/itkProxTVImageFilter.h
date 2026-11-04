@@ -94,7 +94,7 @@ private:
   /** ImageDimension enumeration   */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 };
 } // namespace itk
 

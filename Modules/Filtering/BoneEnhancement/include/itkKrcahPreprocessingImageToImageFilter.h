@@ -108,10 +108,8 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-  // Begin concept checking
-  itkConceptMacro(InputOutputHaveSamePixelDimensionCheck,
-                  (Concept::SameDimension<TInputImage::ImageDimension, TOutputImage::ImageDimension>));
-  // End concept checking
+  static_assert(TInputImage::ImageDimension == TOutputImage::ImageDimension);
+
 protected:
   KrcahPreprocessingImageToImageFilter();
 

@@ -88,8 +88,8 @@ public:
   /** Type of the pixels in the Kernel. */
   using KernelPixelType = typename TKernel::PixelType;
 
-  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
+  static_assert(InputImageDimension == KernelDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(KernelConvertibleToInputCheck, (Concept::Convertible<KernelPixelType, PixelType>));
   itkConceptMacro(InputAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));

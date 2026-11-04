@@ -91,7 +91,7 @@ public:
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
   /** @ITKEndGrouping */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 
 protected:
   LabelImageToLabelMapFilter();

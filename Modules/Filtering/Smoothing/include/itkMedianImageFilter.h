@@ -84,7 +84,7 @@ public:
 
   using InputSizeType = typename InputImageType::SizeType;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(InputLessThanComparableCheck, (Concept::LessThanComparable<InputPixelType>));
 

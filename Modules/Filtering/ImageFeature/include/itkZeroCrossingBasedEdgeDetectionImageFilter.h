@@ -144,8 +144,8 @@ public:
   }
 
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameTypeCheck, (Concept::SameType<InputImagePixelType, OutputImagePixelType>));
+  static_assert(ImageDimension == OutputImageDimension);
+  static_assert(std::is_same_v<InputImagePixelType, OutputImagePixelType>);
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputImagePixelType>));
   itkConceptMacro(PixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<InputImagePixelType>));
 

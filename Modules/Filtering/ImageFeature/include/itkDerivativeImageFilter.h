@@ -80,7 +80,7 @@ public:
   itkOverrideGetNameOfClassMacro(DerivativeImageFilter);
 
   /** The output pixel type must be signed. */
-  itkConceptMacro(SignedOutputPixelType, (Concept::Signed<OutputPixelType>));
+  static_assert(NumericTraits<OutputPixelType>::is_signed);
 
   /** Standard get/set macros for filter parameters. */
   /** @ITKStartGrouping */

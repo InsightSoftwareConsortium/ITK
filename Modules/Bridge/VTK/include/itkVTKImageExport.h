@@ -73,7 +73,7 @@ public:
   /** The type of the input image. */
   using InputImageType = TInputImage;
 
-  itkConceptMacro(ImageDimensionCheck, (Concept::SameDimensionOrMinusOneOrTwo<3, Self::InputImageDimension>));
+  static_assert(InputImageDimension > 0 && InputImageDimension <= 3);
 
   /** Set the input image of this image exporter. */
   /** @ITKStartGrouping */

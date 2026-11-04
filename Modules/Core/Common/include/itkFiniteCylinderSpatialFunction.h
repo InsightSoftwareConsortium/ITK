@@ -85,8 +85,8 @@ public:
   OutputType
   Evaluate(const InputType & position) const override;
 
-  itkConceptMacro(DimensionShouldBe3, (Concept::SameDimension<VDimension, 3u>));
-  itkConceptMacro(PointDimensionShouldBe3, (Concept::SameDimension<InputType::Dimension, 3u>));
+  static_assert(VDimension == 3u);
+  static_assert(InputType::Dimension == 3u);
 
 protected:
   FiniteCylinderSpatialFunction();

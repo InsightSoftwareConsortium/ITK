@@ -91,8 +91,8 @@ protected:
   GenerateData() override;
 
 private:
-  itkConceptMacro(InputDimension3Check, (Concept::SameDimension<InputImageDimension, 3>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == 3);
+  static_assert(InputImageDimension == OutputImageDimension);
 };
 } // namespace itk
 

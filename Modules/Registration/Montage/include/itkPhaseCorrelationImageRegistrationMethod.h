@@ -392,8 +392,7 @@ public:
   }
 
   static constexpr unsigned int MovingImageDimension = MovingImageType::ImageDimension;
-  /** Start concept checking */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, MovingImageDimension>));
+  static_assert(ImageDimension == MovingImageDimension);
 
 protected:
   PhaseCorrelationImageRegistrationMethod();
