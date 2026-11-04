@@ -17,31 +17,33 @@
  *=========================================================================*/
 #include "itkMemoryProbesCollectorBase.h"
 #include "itkTestingMacros.h"
-#if defined(TEST_WITH_SLEEP)
-#  if defined(_WIN32) && !defined(__CYGWIN__)
-#    include <windows.h>
-#  else
-#    include <unistd.h>
-inline void
-Sleep(unsigned int milliseconds)
-{
-  sleep(milliseconds / 1000);
-}
-#  endif
-#else
-#  define Sleep(x) // Empty
-#endif             // defined(TEST_WITH_SLEEP)
+#include <chrono>
+#include <thread>
 
 
 int
 itkMemoryProbesCollecterBaseTest(int, char *[])
 {
+  constexpr auto sleepIfTestWithSleep = [] {
+#ifdef TEST_WITH_SLEEP
+    constexpr bool testWithSleep{ true };
+#else
+    constexpr bool testWithSleep{ false };
+#endif
+    // The `if` below here appears preferable to the equivalent `#ifdef`, because it enables syntax checking of the
+    // sleep_for call, even when TEST_WITH_SLEEP is not defined.
+    if constexpr (testWithSleep)
+    {
+      std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
+  };
+
   constexpr size_t bufsize{ 768L * 1024L * 1024L }; // 768 MiB
 
   itk::MemoryProbesCollectorBase mcollecter;
   itk::MemoryProbe               probe;
   mcollecter.Start("Update");
-  Sleep(5000);
+  sleepIfTestWithSleep();
   mcollecter.Stop("Update");
   mcollecter.Report();
   mcollecter.Clear();
@@ -52,7 +54,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   {
     buf[i] = static_cast<char>(i & 0xff);
   }
-  Sleep(5000);
+  sleepIfTestWithSleep();
   mcollecter.Stop("Update");
   probe.Stop();
   const itk::MemoryProbe::MemoryLoadType total = probe.GetTotal();
@@ -67,7 +69,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   mcollecter.Report();
   probe.Start();
   delete[] buf;
-  Sleep(5000);
+  sleepIfTestWithSleep();
   probe.Stop();
   if (total < probe.GetTotal())
   {
