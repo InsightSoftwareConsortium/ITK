@@ -144,7 +144,102 @@ ExpectReadThrows(const std::string & name, const std::string & visu)
   reader->SetFileName(path);
   EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 }
+
+// Returns the description of the exception from ReadImageInformation, or an empty string if none is thrown
+std::string
+ReadImageInformationError(const std::string & path)
+{
+  const auto io = itk::Bruker2dseqImageIO::New();
+  io->SetFileName(path);
+  try
+  {
+    io->ReadImageInformation();
+  }
+  catch (const itk::ExceptionObject & error)
+  {
+    return error.GetDescription();
+  }
+  return {};
+}
 } // namespace
+
+TEST(Bruker2dseqImageIO, RejectShortGeometryArrays)
+{
+  struct Case
+  {
+    const char * Name;
+    const char * Values;
+    unsigned int Count;
+    unsigned int Dimension;
+  };
+  const std::vector<Case> cases{
+    { "VisuCoreSize", "", 0, 2 },           { "VisuCoreSize", "4", 1, 2 },
+    { "VisuCoreSize", "4 2", 2, 3 },        { "VisuCoreExtent", "", 0, 2 },
+    { "VisuCoreExtent", "4", 1, 2 },        { "VisuCoreExtent", "4 2", 2, 3 },
+    { "VisuCorePosition", "", 0, 2 },       { "VisuCorePosition", "0 0", 2, 2 },
+    { "VisuCoreOrientation", "", 0, 2 },    { "VisuCoreOrientation", "1 0 0 0 1 0 0 0", 8, 2 },
+    { "VisuCoreFrameThickness", "", 0, 2 }, { "VisuAcqRepetitionTime", "", 0, 2 }
+  };
+  unsigned int caseNumber = 0;
+  for (const auto & testCase : cases)
+  {
+    SCOPED_TRACE(testCase.Name);
+    SCOPED_TRACE(testCase.Count);
+    std::string visu = MakeVisuPars();
+    const auto  replaceRecord = [&visu](const std::string & name, const std::string & value) {
+      const std::string prefix = "##$" + name + "=";
+      const auto        begin = visu.find(prefix);
+      if (begin == std::string::npos)
+      {
+        return false;
+      }
+      const auto end = visu.find("\n##", begin);
+      if (end == std::string::npos)
+      {
+        return false;
+      }
+      visu.replace(begin, end - begin, prefix + value);
+      return true;
+    };
+    if (testCase.Dimension == 3)
+    {
+      ASSERT_TRUE(replaceRecord("VisuCoreDim", "3"));
+      // The non-target geometry axis array must itself be valid.
+      const char * other = std::string(testCase.Name) == "VisuCoreSize" ? "VisuCoreExtent" : "VisuCoreSize";
+      ASSERT_TRUE(replaceRecord(other, "( 3 )\n4 2 1"));
+    }
+    if (std::string(testCase.Name) == "VisuCoreFrameThickness")
+    {
+      // Force the thickness fallback without a measured inter-slice step.
+      ASSERT_TRUE(replaceRecord("VisuCorePosition", "( 3, 3 )\n0 0 0 0 0 0 0 0 0"));
+    }
+    ASSERT_TRUE(replaceRecord(testCase.Name, "( " + std::to_string(testCase.Count) + " )\n" + testCase.Values));
+    const auto path = WriteDataset("bruker_short_geometry_" + std::to_string(caseNumber++), visu, 12);
+    ASSERT_FALSE(path.empty());
+    const std::string message = ReadImageInformationError(path);
+    ASSERT_FALSE(message.empty()) << "Short geometry array was accepted";
+    EXPECT_NE(message.find(testCase.Name), std::string::npos);
+    EXPECT_NE(message.find("need at least"), std::string::npos);
+  }
+}
+
+TEST(Bruker2dseqImageIO, RejectUnsupportedGeometryDimension)
+{
+  for (const std::string dimension : { "0", "2.5", "4" })
+  {
+    SCOPED_TRACE(dimension);
+    std::string       visu = MakeVisuPars();
+    const std::string record = "##$VisuCoreDim=2";
+    const auto        position = visu.find(record);
+    ASSERT_NE(position, std::string::npos);
+    visu.replace(position, record.size(), "##$VisuCoreDim=" + dimension);
+    const auto path = WriteDataset("bruker_dimension_" + dimension, visu, 12);
+    ASSERT_FALSE(path.empty());
+    const std::string message = ReadImageInformationError(path);
+    ASSERT_FALSE(message.empty()) << "VisuCoreDim " << dimension << " was accepted";
+    EXPECT_NE(message.find("VisuCoreDim must be"), std::string::npos);
+  }
+}
 
 TEST(Bruker2dseqImageIO, ReadParaVision360Dataset)
 {
