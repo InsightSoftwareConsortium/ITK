@@ -27,6 +27,53 @@ void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
+  TMattesMutualInformationMetric>::DetermineNumberOfWorkUnitsUsed()
+{
+  const auto * mattes = dynamic_cast<const TMattesMutualInformationMetric *>(this->m_Associate);
+  if (mattes == nullptr || !mattes->GetComputeDerivative() || mattes->HasLocalSupport())
+  {
+    Superclass::DetermineNumberOfWorkUnitsUsed();
+    return;
+  }
+  const ThreadIdType requested = this->GetNumberOfWorkUnits();
+  // Not the multithreader's maximum, which PlatformMultiThreader sets to the work units of the last evaluation.
+  const ThreadIdType threads = std::min(requested, MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+  const ThreadIdType bound = TMattesMutualInformationMetric::ComputeMaximumNumberOfDerivativeWorkUnits(
+    mattes->GetNumberOfHistogramBins(),
+    mattes->GetNumberOfLocalParameters(),
+    threads,
+    mattes->GetMaximumJointPDFDerivativesBytes());
+  if (bound >= requested)
+  {
+    Superclass::DetermineNumberOfWorkUnitsUsed();
+    return;
+  }
+  // The multithreader runs the bounded count, so the requested count is restored after the threaded execution.
+  this->m_RequestedNumberOfWorkUnits = requested;
+  this->SetNumberOfWorkUnits(bound);
+  Superclass::DetermineNumberOfWorkUnitsUsed();
+}
+
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
+void
+MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+  TDomainPartitioner,
+  TImageToImageMetric,
+  TMattesMutualInformationMetric>::RestoreRequestedNumberOfWorkUnits()
+{
+  if (this->m_RequestedNumberOfWorkUnits > 0)
+  {
+    const ThreadIdType requested = this->m_RequestedNumberOfWorkUnits;
+    this->m_RequestedNumberOfWorkUnits = 0;
+    this->SetNumberOfWorkUnits(requested);
+  }
+}
+
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
+void
+MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+  TDomainPartitioner,
+  TImageToImageMetric,
   TMattesMutualInformationMetric>::BeforeThreadedExecution()
 {
   /* Most of this code needs to be here because we need to know the number
@@ -181,6 +228,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
                                      this->m_MattesAssociate->m_NumberOfHistogramBins,
                                      this->m_MattesAssociate->m_NumberOfHistogramBins } });
 
+    // Drop the alias of work unit 0's array first, so that each array is freed before its replacement is allocated.
+    this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
     if (this->m_MattesAssociate->m_ThreaderJointPDFDerivatives.size() != localNumberOfWorkUnitsUsed)
     {
       this->m_MattesAssociate->m_ThreaderJointPDFDerivatives.resize(localNumberOfWorkUnitsUsed);
@@ -384,6 +433,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   TImageToImageMetric,
   TMattesMutualInformationMetric>::AfterThreadedExecution()
 {
+  this->RestoreRequestedNumberOfWorkUnits();
+
   const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   /* Store the number of valid points in the enclosing class
    * m_NumberOfValidPoints by collecting the valid points per thread.
