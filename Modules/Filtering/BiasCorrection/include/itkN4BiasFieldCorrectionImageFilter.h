@@ -391,6 +391,11 @@ protected:
   GenerateData() override;
 
 private:
+  /** An image that shares the buffer of the given one, as a mini-pipeline input whose release frees only the view. */
+  template <typename TImage>
+  static typename TImage::Pointer
+  MakeInputView(const TImage * image);
+
   // N4 algorithm functions:  The basic algorithm iterates between sharpening
   // the intensity histogram of the corrected input image and spatially
   // smoothing those results with a B-spline scalar field estimate of the
