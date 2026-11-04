@@ -82,12 +82,16 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::TransformPoint(con
   OutputPointType outputPoint;
   outputPoint.CastFrom(inputPoint);
 
-  if (this->m_Interpolator->IsInsideBuffer(point))
+  const auto cidx =
+    this->m_DisplacementField
+      ->template TransformPhysicalPointToContinuousIndex<typename InterpolatorType::ContinuousIndexType::ValueType>(
+        point);
+  // The index overload tests the same index as the point overload only when the interpolator reads this field.
+  const bool isInside = this->m_Interpolator->GetInputImage() == this->m_DisplacementField.GetPointer()
+                          ? this->m_Interpolator->IsInsideBuffer(cidx)
+                          : this->m_Interpolator->IsInsideBuffer(point);
+  if (isInside)
   {
-    const typename InterpolatorType::ContinuousIndexType cidx =
-      this->m_DisplacementField
-        ->template TransformPhysicalPointToContinuousIndex<typename InterpolatorType::ContinuousIndexType::ValueType>(
-          point);
     typename InterpolatorType::OutputType displacement = this->m_Interpolator->EvaluateAtContinuousIndex(cidx);
     for (unsigned int ii = 0; ii < VDimension; ++ii)
     {
