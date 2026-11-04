@@ -25,6 +25,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
+#include <cstdint>
 
 namespace itk
 {
@@ -146,6 +147,26 @@ public:
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
   /** @ITKEndGrouping */
 
+  /** Total bytes that the joint PDF derivative arrays may use, for transforms without local support. Each work unit
+   * of the derivative pass keeps one array of bins^2 x parameters values, so the pass uses no more work units than
+   * fit in this budget. Zero (the default) allows max(threads, threads x 32 MiB / array bytes) work units, where
+   * threads is the requested number of work units, at most MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), so
+   * the memory grows with the number of threads rather than with the image size. With the default, the number of
+   * work units used, and so the summation order, can follow the global thread count; a nonzero budget with an
+   * explicit number of work units gives the same result on every machine. */
+  /** @ITKStartGrouping */
+  itkSetMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  itkGetConstMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  /** @ITKEndGrouping */
+
+  /** The most work units the derivative pass uses for transforms without local support, given the number of histogram
+   * bins, the number of local parameters, the number of threads and MaximumJointPDFDerivativesBytes. */
+  static ThreadIdType
+  ComputeMaximumNumberOfDerivativeWorkUnits(uint64_t     numberOfHistogramBins,
+                                            uint64_t     numberOfLocalParameters,
+                                            ThreadIdType numberOfThreads,
+                                            uint64_t     maximumJointPDFDerivativesBytes);
+
   void
   Initialize() override;
 
@@ -232,6 +253,7 @@ protected:
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins{ 50 };
+  uint64_t      m_MaximumJointPDFDerivativesBytes{ 0 };
   PDFValueType  m_MovingImageNormalizedMin{};
   PDFValueType  m_FixedImageNormalizedMin{};
   PDFValueType  m_FixedImageTrueMin{};
