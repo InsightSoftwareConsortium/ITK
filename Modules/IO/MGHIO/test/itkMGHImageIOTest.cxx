@@ -69,7 +69,7 @@ itkMGHImageIOTest(int argc, char * argv[])
   }
   else if (TestMode == std::string("TestReadWriteOfSmallImageOfAllTypes"))
   {
-    std::string fn("test.mgz");
+    const std::string fn("itkMGHIOInternalTests.mgz");
     // TODO: Need to test with images of non-identity direction cosigns, spacing, origin
     returnSucceeded &= itkMGHImageIOTestReadWriteTest<unsigned char, 3>(fn, 3, "null", true);
     returnSucceeded &= itkMGHImageIOTestReadWriteTest<short int, 3>(fn, 3, "null", true);
