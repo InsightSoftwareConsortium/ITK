@@ -20,16 +20,12 @@
 
 
 #include "itkAddImageFilter.h"
-#include "itkBSplineControlPointImageFilter.h"
 #include "itkDivideImageFilter.h"
 #include "itkExpImageFilter.h"
 #include "itkImageBufferRange.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImportImageFilter.h"
 #include "itkIterationReporter.h"
-#include "itkSubtractImageFilter.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 
 ITK_GCC_PRAGMA_PUSH
@@ -39,6 +35,7 @@ ITK_GCC_SUPPRESS_Wfloat_equal
 #include "complex"
 #include "itkPrintHelper.h"
 #include <algorithm> // For clamp and copy.
+#include <utility>
 ITK_GCC_PRAGMA_POP
 
 namespace itk
@@ -124,8 +121,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
   const ImageBufferRange logInputImageBufferRange{ *logInputImage };
   const size_t           numberOfPixels = logInputImageBufferRange.size();
 
-  // Number of pixels of the input image that are included with the filter.
-  size_t numberOfIncludedPixels = 0;
+  FitPoints fitPoints;
 
   for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
   {
@@ -133,7 +129,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
          (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
         (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
     {
-      ++numberOfIncludedPixels;
+      fitPoints.bufferIndices.push_back(indexValue);
       auto && logInputPixel = logInputImageBufferRange[indexValue];
 
       if (logInputPixel > typename InputImageType::PixelType{})
@@ -143,6 +139,41 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
     }
   }
 
+  // The B-spline fit works in parametric space, hence the identity direction.
+  typename RealImageType::DirectionType identity;
+  identity.SetIdentity();
+
+  const RealImagePointer parametricImage = RealImageType::New();
+  parametricImage->SetRegions(inputRegion);
+  parametricImage->SetOrigin(inputImage->GetOrigin());
+  parametricImage->SetSpacing(inputImage->GetSpacing());
+  parametricImage->SetDirection(identity);
+
+  const size_t numberOfIncludedPixels = fitPoints.bufferIndices.size();
+
+  fitPoints.points = PointSetType::PointsContainer::New();
+  auto & pointSTLContainer = fitPoints.points->CastToSTLContainer();
+  pointSTLContainer.resize(numberOfIncludedPixels);
+  fitPoints.values = PointSetType::PointDataContainer::New();
+  fitPoints.values->CastToSTLContainer().resize(numberOfIncludedPixels);
+
+  fitPoints.weights = BSplineFilterType::WeightsContainerType::New();
+  auto & weightSTLContainer = fitPoints.weights->CastToSTLContainer();
+  weightSTLContainer.resize(numberOfIncludedPixels);
+
+  for (size_t k = 0; k < numberOfIncludedPixels; ++k)
+  {
+    const SizeValueType indexValue = fitPoints.bufferIndices[k];
+    parametricImage->TransformIndexToPhysicalPoint(parametricImage->ComputeIndex(indexValue), pointSTLContainer[k]);
+
+    RealType confidenceWeight = 1.0;
+    if (!confidenceImageBufferRange.empty())
+    {
+      confidenceWeight = confidenceImageBufferRange[indexValue];
+    }
+    weightSTLContainer[k] = confidenceWeight;
+  }
+
   // Duplicate logInputImage since we reuse the original at each iteration.
 
   using DuplicatorType = ImageDuplicator<RealImageType>;
@@ -150,18 +181,29 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
   duplicator->SetInputImage(logInputImage);
   duplicator->Update();
 
-  RealImagePointer logUncorrectedImage = duplicator->GetOutput();
+  const RealImagePointer logUncorrectedImage = duplicator->GetOutput();
+
+  const RealImagePointer residualBiasField = RealImageType::New();
+  residualBiasField->CopyInformation(inputImage);
+  residualBiasField->SetRegions(inputRegion);
+  residualBiasField->Allocate(false);
+
+  // The new estimate is reconstructed into the buffer that held the estimate before the previous one.
+  RealImagePointer newLogBiasField = RealImageType::New();
+  newLogBiasField->CopyInformation(inputImage);
+  newLogBiasField->SetRegions(inputRegion);
+  newLogBiasField->Allocate(false);
 
   // Provide an initial log bias field of zeros
 
   RealImagePointer logBiasField = RealImageType::New();
   logBiasField->CopyInformation(inputImage);
-  logBiasField->SetRegions(inputImage->GetLargestPossibleRegion());
+  logBiasField->SetRegions(inputRegion);
   logBiasField->AllocateInitialized();
 
   const RealImagePointer logSharpenedImage = RealImageType::New();
   logSharpenedImage->CopyInformation(inputImage);
-  logSharpenedImage->SetRegions(inputImage->GetLargestPossibleRegion());
+  logSharpenedImage->SetRegions(inputRegion);
   logSharpenedImage->Allocate(false);
 
   // Iterate until convergence or iterative exhaustion.
@@ -190,42 +232,42 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
       // Sharpen the current estimate of the uncorrected image.
       this->SharpenImage(logUncorrectedImage, logSharpenedImage);
 
-      using SubtracterType = SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
-      auto subtracter1 = SubtracterType::New();
-      subtracter1->SetInput1(logUncorrectedImage);
-      subtracter1->SetInput2(logSharpenedImage);
-
-      const RealImagePointer residualBiasField = subtracter1->GetOutput();
-      residualBiasField->Update();
+      {
+        const RealType * const uncorrected = logUncorrectedImage->GetBufferPointer();
+        const RealType * const sharpened = logSharpenedImage->GetBufferPointer();
+        RealType * const       residual = residualBiasField->GetBufferPointer();
+        this->GetMultiThreader()->ParallelizeArray(
+          0,
+          numberOfPixels,
+          [uncorrected, sharpened, residual](SizeValueType k) { residual[k] = uncorrected[k] - sharpened[k]; },
+          nullptr);
+      }
 
       // Smooth the residual bias field estimate and add the resulting
       // control point grid to get the new total bias field estimate.
 
-      const RealImagePointer newLogBiasField = this->UpdateBiasFieldEstimate(residualBiasField, numberOfIncludedPixels);
+      this->UpdateBiasFieldEstimate(residualBiasField, fitPoints, newLogBiasField);
 
       this->m_CurrentConvergenceMeasurement = this->CalculateConvergenceMeasurement(logBiasField, newLogBiasField);
-      logBiasField = newLogBiasField;
+      std::swap(logBiasField, newLogBiasField);
 
-      auto subtracter2 = SubtracterType::New();
-      subtracter2->SetInput1(logInputImage);
-      subtracter2->SetInput2(logBiasField);
-
-      logUncorrectedImage = subtracter2->GetOutput();
-      logUncorrectedImage->Update();
+      {
+        const RealType * const logInput = logInputImage->GetBufferPointer();
+        const RealType * const bias = logBiasField->GetBufferPointer();
+        RealType * const       uncorrected = logUncorrectedImage->GetBufferPointer();
+        this->GetMultiThreader()->ParallelizeArray(
+          0,
+          numberOfPixels,
+          [logInput, bias, uncorrected](SizeValueType k) { uncorrected[k] = logInput[k] - bias[k]; },
+          nullptr);
+      }
 
       reporter.CompletedStep();
     }
 
-    using BSplineReconstructerType = BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>;
-    auto reconstructer = BSplineReconstructerType::New();
-    reconstructer->SetInput(this->m_LogBiasFieldControlPointLattice);
-    reconstructer->SetOrigin(logBiasField->GetOrigin());
-    reconstructer->SetSpacing(logBiasField->GetSpacing());
-    reconstructer->SetDirection(logBiasField->GetDirection());
-    reconstructer->SetSize(logBiasField->GetLargestPossibleRegion().GetSize());
-    reconstructer->SetSplineOrder(this->m_SplineOrder);
+    const auto reconstructer = this->MakeBiasFieldReconstructer(this->m_LogBiasFieldControlPointLattice);
 
-    auto numberOfLevels = MakeFilled<typename BSplineReconstructerType::ArrayType>(1);
+    auto numberOfLevels = MakeFilled<typename BiasFieldReconstructerType::ArrayType>(1);
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       if (this->m_NumberOfFittingLevels[d] + 1 >= this->m_CurrentLevel &&
@@ -475,72 +517,26 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
-typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
+void
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateBiasFieldEstimate(
   RealImageType * fieldEstimate,
-  const size_t    numberOfIncludedPixels)
+  FitPoints &     fitPoints,
+  RealImageType * smoothField)
 {
-  // Temporarily set the direction cosine to identity since the B-spline
-  // approximation algorithm works in parametric space and not physical
-  // space.
-  typename ScalarImageType::DirectionType identity;
-  identity.SetIdentity();
+  auto &       values = fitPoints.values->CastToSTLContainer();
+  const auto & bufferIndices = fitPoints.bufferIndices;
+  const auto   fieldRange = MakeImageBufferRange(fieldEstimate);
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  this->GetMultiThreader()->ParallelizeArray(
+    0,
+    bufferIndices.size(),
+    [&values, &bufferIndices, &fieldRange](SizeValueType k) { values[k][0] = fieldRange[bufferIndices[k]]; },
+    nullptr);
 
-  const typename ScalarImageType::RegionType & bufferedRegion = fieldEstimate->GetBufferedRegion();
-  const SizeValueType                          numberOfPixels = bufferedRegion.GetNumberOfPixels();
-  const bool                                   filterHandlesMemory = false;
-
-  using ImporterType = ImportImageFilter<RealType, ImageDimension>;
-  auto importer = ImporterType::New();
-  importer->SetImportPointer(fieldEstimate->GetBufferPointer(), numberOfPixels, filterHandlesMemory);
-  importer->SetRegion(fieldEstimate->GetBufferedRegion());
-  importer->SetOrigin(fieldEstimate->GetOrigin());
-  importer->SetSpacing(fieldEstimate->GetSpacing());
-  importer->SetDirection(identity);
-  importer->Update();
-
-  const typename ImporterType::OutputImageType * parametricFieldEstimate = importer->GetOutput();
-
+  // A fresh point set per fit, since releasing the fit's input drops only its container pointers.
   const PointSetPointer fieldPoints = PointSetType::New();
-  auto &                pointSTLContainer = fieldPoints->GetPoints()->CastToSTLContainer();
-  pointSTLContainer.reserve(numberOfIncludedPixels);
-  auto & pointDataSTLContainer = fieldPoints->GetPointData()->CastToSTLContainer();
-  pointDataSTLContainer.reserve(numberOfIncludedPixels);
-
-  auto   weights = BSplineFilterType::WeightsContainerType::New();
-  auto & weightSTLContainer = weights->CastToSTLContainer();
-  weightSTLContainer.reserve(numberOfIncludedPixels);
-
-  const auto          maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
-  const auto          confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
-  const MaskPixelType maskLabel = this->GetMaskLabel();
-  const bool          useMaskLabel = this->GetUseMaskLabel();
-
-  ImageRegionConstIteratorWithIndex It(parametricFieldEstimate, parametricFieldEstimate->GetRequestedRegion());
-
-  for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue, ++It)
-  {
-    if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
-         (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
-        (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
-    {
-      PointType point;
-      parametricFieldEstimate->TransformIndexToPhysicalPoint(It.GetIndex(), point);
-
-      ScalarType scalar;
-      scalar[0] = It.Get();
-
-      pointDataSTLContainer.push_back(scalar);
-      pointSTLContainer.push_back(point);
-
-      RealType confidenceWeight = 1.0;
-      if (!confidenceImageBufferRange.empty())
-      {
-        confidenceWeight = confidenceImageBufferRange[indexValue];
-      }
-      weightSTLContainer.push_back(confidenceWeight);
-    }
-  }
+  fieldPoints->SetPoints(fitPoints.points);
+  fieldPoints->SetPointData(fitPoints.values);
 
   auto bspliner = BSplineFilterType::New();
 
@@ -572,7 +568,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   bspliner->SetSplineOrder(this->m_SplineOrder);
   bspliner->SetNumberOfControlPoints(numberOfControlPoints);
   bspliner->SetInput(fieldPoints);
-  bspliner->SetPointWeights(weights);
+  bspliner->SetPointWeights(fitPoints.weights);
   bspliner->Update();
 
   const typename BiasFieldControlPointLatticeType::Pointer phiLattice = bspliner->GetPhiLattice();
@@ -601,9 +597,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
     this->m_LogBiasFieldControlPointLattice = adder->GetOutput();
   }
 
-  RealImagePointer smoothField = this->ReconstructBiasField(this->m_LogBiasFieldControlPointLattice);
-  smoothField->SetRegions(this->GetInput()->GetRequestedRegion());
-  return smoothField;
+  this->ReconstructBiasFieldInto(this->m_LogBiasFieldControlPointLattice, smoothField);
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
@@ -611,16 +605,7 @@ typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::ReconstructBiasField(
   const BiasFieldControlPointLatticeType * controlPointLattice)
 {
-  const InputImageType * inputImage = this->GetInput();
-
-  using BSplineReconstructerType = BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>;
-  auto reconstructer = BSplineReconstructerType::New();
-  reconstructer->SetInput(controlPointLattice);
-  reconstructer->SetOrigin(inputImage->GetOrigin());
-  reconstructer->SetSpacing(inputImage->GetSpacing());
-  reconstructer->SetDirection(inputImage->GetDirection());
-  reconstructer->SetSplineOrder(this->m_SplineOrder);
-  reconstructer->SetSize(inputImage->GetLargestPossibleRegion().GetSize());
+  const auto reconstructer = this->MakeBiasFieldReconstructer(controlPointLattice);
 
   const typename ScalarImageType::Pointer biasFieldBsplineImage = reconstructer->GetOutput();
   biasFieldBsplineImage->Update();
@@ -639,17 +624,46 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Reconst
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
+auto
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::MakeBiasFieldReconstructer(
+  const BiasFieldControlPointLatticeType * controlPointLattice) const -> typename BiasFieldReconstructerType::Pointer
+{
+  const InputImageType * inputImage = this->GetInput();
+
+  auto reconstructer = BiasFieldReconstructerType::New();
+  reconstructer->SetInput(controlPointLattice);
+  reconstructer->SetOrigin(inputImage->GetOrigin());
+  reconstructer->SetSpacing(inputImage->GetSpacing());
+  reconstructer->SetDirection(inputImage->GetDirection());
+  reconstructer->SetSplineOrder(this->m_SplineOrder);
+  reconstructer->SetSize(inputImage->GetLargestPossibleRegion().GetSize());
+  return reconstructer;
+}
+
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
+void
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::ReconstructBiasFieldInto(
+  const BiasFieldControlPointLatticeType * controlPointLattice,
+  RealImageType *                          biasField)
+{
+  const auto reconstructer = this->MakeBiasFieldReconstructer(controlPointLattice);
+  reconstructer->Update();
+
+  const ScalarType * const reconstructed = reconstructer->GetOutput()->GetBufferPointer();
+  RealType * const         field = biasField->GetBufferPointer();
+  this->GetMultiThreader()->ParallelizeArray(
+    0,
+    biasField->GetBufferedRegion().GetNumberOfPixels(),
+    [reconstructed, field](SizeValueType k) { field[k] = reconstructed[k][0]; },
+    nullptr);
+}
+
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealType
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::CalculateConvergenceMeasurement(
   const RealImageType * fieldEstimate1,
   const RealImageType * fieldEstimate2) const
 {
-  using SubtracterType = SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
-  auto subtracter = SubtracterType::New();
-  subtracter->SetInput1(fieldEstimate1);
-  subtracter->SetInput2(fieldEstimate2);
-  subtracter->Update();
-
   // Calculate statistics over the mask region
 
   RealType mu = 0.0;
@@ -661,8 +675,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
   const MaskPixelType maskLabel = this->GetMaskLabel();
   const bool          useMaskLabel = this->GetUseMaskLabel();
 
-  const auto   subtracterImageBufferRange = MakeImageBufferRange(subtracter->GetOutput());
-  const size_t numberOfPixels = subtracterImageBufferRange.size();
+  const auto   fieldEstimate1BufferRange = MakeImageBufferRange(fieldEstimate1);
+  const auto   fieldEstimate2BufferRange = MakeImageBufferRange(fieldEstimate2);
+  const size_t numberOfPixels = fieldEstimate1BufferRange.size();
 
   for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
   {
@@ -670,7 +685,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
          (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
         (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
     {
-      const RealType pixel = std::exp(subtracterImageBufferRange[indexValue]);
+      const RealType pixel =
+        std::exp(static_cast<RealType>(fieldEstimate1BufferRange[indexValue] - fieldEstimate2BufferRange[indexValue]));
       N += 1.0;
 
       if (N > 1.0)

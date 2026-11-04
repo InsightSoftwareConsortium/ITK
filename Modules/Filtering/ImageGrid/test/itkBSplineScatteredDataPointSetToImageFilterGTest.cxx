@@ -356,3 +356,32 @@ TEST(BSplineScatteredDataPointSetToImageFilter, SecondUpdateAfterChangingLevelsM
   EXPECT_EQ(lattice, refit::Values(reference->GetPhiLattice()));
   EXPECT_EQ(refit::Values(filter->GetOutput()), refit::Values(reference->GetOutput()));
 }
+
+TEST(BSplineScatteredDataPointSetToImageFilter, OutputIsUnbufferedWithoutGenerateOutputImage)
+{
+  const auto points = refit::MakePoints(0.3);
+  const auto filter = refit::MakeFilter(points);
+  filter->SetGenerateOutputImage(false);
+  filter->Update();
+  const auto * output = filter->GetOutput();
+
+  EXPECT_EQ(output->GetLargestPossibleRegion().GetNumberOfPixels(), 0u);
+  EXPECT_EQ(output->GetBufferedRegion().GetNumberOfPixels(), 0u);
+  EXPECT_EQ(output->GetSpacing(), itk::MakeFilled<refit::FilterType::SpacingType>(0.5));
+
+  // The control point lattice does not depend on whether the sampled output is generated.
+  const auto generating = refit::MakeFilter(points);
+  generating->Update();
+  EXPECT_EQ(generating->GetOutput()->GetBufferedRegion(), generating->GetOutput()->GetLargestPossibleRegion());
+  EXPECT_NE(generating->GetOutput()->GetBufferPointer(), nullptr);
+  const auto lattice = refit::Values(filter->GetPhiLattice());
+  ASSERT_FALSE(lattice.empty());
+  EXPECT_EQ(lattice, refit::Values(generating->GetPhiLattice()));
+
+  // A second Update() of the unmodified filter must not re-execute: same lattice object, output still unbuffered.
+  const auto * latticeObject = filter->GetPhiLattice().GetPointer();
+  EXPECT_NO_THROW(filter->Update());
+  EXPECT_EQ(filter->GetPhiLattice().GetPointer(), latticeObject);
+  EXPECT_EQ(filter->GetOutput()->GetBufferedRegion().GetNumberOfPixels(), 0u);
+  EXPECT_EQ(refit::Values(filter->GetPhiLattice()), lattice);
+}

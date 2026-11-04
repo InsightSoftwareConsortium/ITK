@@ -21,9 +21,12 @@
 #include "itkImageToImageFilter.h"
 
 #include "itkArray.h"
+#include "itkBSplineControlPointImageFilter.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkPointSet.h"
 #include "itkVector.h"
+
+#include <vector>
 
 #include "vnl/vnl_vector.h"
 
@@ -404,13 +407,32 @@ private:
   void
   SharpenImage(const RealImageType * unsharpenedImage, RealImageType * sharpenedImage) const;
 
+  /** Fit points of the included voxels. */
+  struct FitPoints
+  {
+    typename PointSetType::PointsContainerPointer             points;
+    typename PointSetType::PointDataContainerPointer          values;
+    typename BSplineFilterType::WeightsContainerType::Pointer weights;
+    std::vector<SizeValueType>                                bufferIndices;
+  };
+
   /**
    * Given the unsmoothed estimate of the bias field, this function smooths
    * the estimate and adds the resulting control point values to the total
    * bias field estimate.
    */
-  RealImagePointer
-  UpdateBiasFieldEstimate(RealImageType *, size_t);
+  void
+  UpdateBiasFieldEstimate(RealImageType *, FitPoints &, RealImageType *);
+
+  /** Reconstruct the bias field from the control point lattice into an allocated image. */
+  void
+  ReconstructBiasFieldInto(const BiasFieldControlPointLatticeType *, RealImageType *);
+
+  using BiasFieldReconstructerType = BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>;
+
+  /** A reconstructer of the given lattice on the input image grid. */
+  typename BiasFieldReconstructerType::Pointer
+  MakeBiasFieldReconstructer(const BiasFieldControlPointLatticeType *) const;
 
   /**
    * Convergence is determined by the coefficient of variation of the difference
