@@ -25,6 +25,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
+#include <cstdint>
 
 namespace itk
 {
@@ -146,6 +147,28 @@ public:
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
   /** @ITKEndGrouping */
 
+  /** Total bytes the joint PDF derivative arrays may use, for transforms without local support. Each work unit keeps
+   * one array of bins^2 x parameters values. Zero (the default) allows one array plus 32 MiB per thread, where threads
+   * is the requested number of work units, at most MultiThreaderBase::GetGlobalDefaultNumberOfThreads(). A nonzero
+   * value is a hard limit, down to one work unit. */
+  /** @ITKStartGrouping */
+  itkSetMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  itkGetConstMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  /** @ITKEndGrouping */
+
+  /** Restores the requested number of work units if the evaluation throws while the derivative pass bounds it. */
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override;
+
+  /** The most work units the derivative pass uses for transforms without local support, given the number of histogram
+   * bins, the number of local parameters, the number of threads and MaximumJointPDFDerivativesBytes, at most
+   * ITK_MAX_THREADS. */
+  static ThreadIdType
+  ComputeMaximumNumberOfDerivativeWorkUnits(uint64_t     numberOfHistogramBins,
+                                            uint64_t     numberOfLocalParameters,
+                                            ThreadIdType numberOfThreads,
+                                            uint64_t     maximumJointPDFDerivativesBytes);
+
   void
   Initialize() override;
 
@@ -232,6 +255,7 @@ protected:
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins{ 50 };
+  uint64_t      m_MaximumJointPDFDerivativesBytes{ 0 };
   PDFValueType  m_MovingImageNormalizedMin{};
   PDFValueType  m_FixedImageNormalizedMin{};
   PDFValueType  m_FixedImageTrueMin{};

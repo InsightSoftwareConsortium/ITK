@@ -20,6 +20,8 @@
 
 #include "itkCompensatedSummation.h"
 #include <algorithm>
+#include <cstdint>
+#include <limits>
 
 namespace itk
 {
@@ -552,6 +554,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMetricTraits>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "MaximumJointPDFDerivativesBytes: " << this->m_MaximumJointPDFDerivativesBytes << std::endl;
 }
 
 template <typename TFixedImage,
@@ -591,6 +594,77 @@ MattesMutualInformationImageToImageMetricv4<
   }
 
   return pindex;
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+void
+MattesMutualInformationImageToImageMetricv4<TFixedImage,
+                                            TMovingImage,
+                                            TVirtualImage,
+                                            TInternalComputationValueType,
+                                            TMetricTraits>::GetValueAndDerivative(MeasureType &    value,
+                                                                                  DerivativeType & derivative) const
+{
+  try
+  {
+    Superclass::GetValueAndDerivative(value, derivative);
+  }
+  catch (...)
+  {
+    if (auto * dense = dynamic_cast<MattesMutualInformationDenseGetValueAndDerivativeThreaderType *>(
+          this->m_DenseGetValueAndDerivativeThreader.GetPointer()))
+    {
+      dense->RestoreRequestedNumberOfWorkUnits();
+    }
+    if (auto * sparse = dynamic_cast<MattesMutualInformationSparseGetValueAndDerivativeThreaderType *>(
+          this->m_SparseGetValueAndDerivativeThreader.GetPointer()))
+    {
+      sparse->RestoreRequestedNumberOfWorkUnits();
+    }
+    throw;
+  }
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+ThreadIdType
+MattesMutualInformationImageToImageMetricv4<
+  TFixedImage,
+  TMovingImage,
+  TVirtualImage,
+  TInternalComputationValueType,
+  TMetricTraits>::ComputeMaximumNumberOfDerivativeWorkUnits(const uint64_t     numberOfHistogramBins,
+                                                            const uint64_t     numberOfLocalParameters,
+                                                            const ThreadIdType numberOfThreads,
+                                                            const uint64_t     maximumJointPDFDerivativesBytes)
+{
+  // 64-bit products that saturate, because SizeValueType is 32-bit on some platforms.
+  constexpr uint64_t maximumBytes = std::numeric_limits<uint64_t>::max();
+  uint64_t           arrayBytes = sizeof(JointPDFDerivativesValueType);
+  for (const uint64_t factor : { numberOfHistogramBins, numberOfHistogramBins, numberOfLocalParameters })
+  {
+    const uint64_t nonzeroFactor = std::max<uint64_t>(1, factor);
+    arrayBytes = arrayBytes > maximumBytes / nonzeroFactor ? maximumBytes : arrayBytes * nonzeroFactor;
+  }
+  const uint64_t threads = std::max<uint64_t>(1, numberOfThreads);
+  uint64_t       budget = maximumJointPDFDerivativesBytes;
+  if (budget == 0)
+  {
+    // At most one array plus 32 MiB per thread, so large arrays cost parallelism rather than memory.
+    constexpr uint64_t defaultBytesPerThread = uint64_t{ 32 } << 20;
+    const uint64_t     threadBytes =
+      threads > maximumBytes / defaultBytesPerThread ? maximumBytes : threads * defaultBytesPerThread;
+    budget = arrayBytes > maximumBytes - threadBytes ? maximumBytes : arrayBytes + threadBytes;
+  }
+  const uint64_t workUnits = std::max<uint64_t>(1, budget / arrayBytes);
+  return static_cast<ThreadIdType>(std::min<uint64_t>(workUnits, ITK_MAX_THREADS));
 }
 
 } // end namespace itk
