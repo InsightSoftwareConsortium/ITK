@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkPNGImageIO.h"
+#include "itkByteSwapper.h"
 #include "itk_png.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
@@ -37,6 +38,23 @@ extern "C"
 
 namespace itk
 {
+
+namespace
+{
+// PNG stores 16-bit samples in big-endian order.
+void
+SwapSamplesToSystemByteOrder([[maybe_unused]] png_structp png_ptr)
+{
+#if defined(PNG_READ_SWAP_SUPPORTED) || defined(PNG_WRITE_SWAP_SUPPORTED)
+  if constexpr (!ByteSwapper<unsigned short>::SystemIsBigEndian())
+  {
+    png_set_swap(png_ptr);
+  }
+#else
+  static_assert(ByteSwapper<unsigned short>::SystemIsBigEndian(), "libpng was built without 16-bit byte swapping.");
+#endif
+}
+} // namespace
 
 // simple class to call fopen on construct and
 // fclose on destruct
@@ -213,9 +231,7 @@ PNGImageIO::Read(void * buffer)
 
   if (bitDepth > 8)
   {
-#ifndef ITK_WORDS_BIGENDIAN
-    png_set_swap(png_ptr);
-#endif
+    SwapSamplesToSystemByteOrder(png_ptr);
   }
 
 #if (PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 5)
@@ -660,12 +676,9 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 #endif
 
   png_write_info(png_ptr, info_ptr);
-  // default is big endian
   if (bitDepth > 8)
   {
-#ifndef ITK_WORDS_BIGENDIAN
-    png_set_swap(png_ptr);
-#endif
+    SwapSamplesToSystemByteOrder(png_ptr);
   }
   const auto row_pointers = make_unique_for_overwrite<png_bytep[]>(height);
 

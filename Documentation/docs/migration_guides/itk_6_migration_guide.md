@@ -1338,3 +1338,50 @@ its geometry, read the 4D image and use `ExtractImageFilter` with
 To write a time series, write a 4D image instead of a `VectorImage` with one
 component per frame, and set the time start and step through the image origin
 and spacing rather than `tstart` and `tstep`.
+
+## Byte-order macros are deprecated in `itkConfigure.h`
+
+`itkConfigure.h` no longer takes the byte order from CMake; `CMAKE_WORDS_BIGENDIAN`
+and `ITK_WORDS_BIGENDIAN` are defined only when ITK is built without
+`ITK_LEGACY_REMOVE`. `itk::ByteSwapper<T>::SystemIsBigEndian()` is `constexpr`
+and determines the byte order of the architecture being compiled for from the
+compiler (`std::endian` in C++20, otherwise the compiler's own macros), so it is
+correct for each architecture of a universal binary or a cross-compile, which a
+value detected at configure time is not.
+
+### What you need to do
+
+Replace each preprocessor test of either macro with the `constexpr` query; its
+result does not depend on the type argument. A test that selects a value:
+
+```cpp
+// Before
+#ifdef ITK_WORDS_BIGENDIAN
+  m_UseMSBForHashing = true;
+#else
+  m_UseMSBForHashing = false;
+#endif
+
+// After
+#include "itkByteSwapper.h"
+m_UseMSBForHashing = itk::ByteSwapper<TScalar>::SystemIsBigEndian();
+```
+
+A test that guards a statement:
+
+```cpp
+// Before
+#ifndef ITK_WORDS_BIGENDIAN
+  png_set_swap(png_ptr);
+#endif
+
+// After
+#include "itkByteSwapper.h"
+if constexpr (!itk::ByteSwapper<unsigned short>::SystemIsBigEndian())
+{
+  png_set_swap(png_ptr);
+}
+```
+
+The same replacements apply to `CMAKE_WORDS_BIGENDIAN`. The query is usable in
+`static_assert` and template arguments as well, since it is `constexpr`.

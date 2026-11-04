@@ -20,6 +20,8 @@
 #include "itkMath.h"
 #include "itkGTest.h"
 
+#include <cstdint>
+#include <cstring>
 #include <iostream>
 
 TEST(ByteSwap, EndianConsistency)
@@ -28,6 +30,14 @@ TEST(ByteSwap, EndianConsistency)
   EXPECT_NE(itk::ByteSwapper<int>::SystemIsBigEndian(), itk::ByteSwapper<int>::SystemIsLE());
   // SystemIsBE and SystemIsLittleEndian must be opposites
   EXPECT_NE(itk::ByteSwapper<int>::SystemIsBE(), itk::ByteSwapper<int>::SystemIsLittleEndian());
+}
+
+TEST(ByteSwap, SystemIsBigEndianMatchesObjectRepresentation)
+{
+  constexpr std::uint16_t value{ 0x0102 };
+  unsigned char           bytes[sizeof(value)];
+  std::memcpy(bytes, &value, sizeof(value));
+  EXPECT_EQ(itk::ByteSwapper<std::uint16_t>::SystemIsBigEndian(), bytes[0] == 0x01);
 }
 
 TEST(ByteSwap, DoubleSwapRestoresUnsignedChar)
