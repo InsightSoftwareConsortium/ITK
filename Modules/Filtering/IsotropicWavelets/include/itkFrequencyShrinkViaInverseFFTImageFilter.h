@@ -101,9 +101,7 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-  /** Begin concept checking */
   itkConceptMacro(ImageTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TImageType::PixelType>));
-  /** End concept checking */
 
 protected:
   FrequencyShrinkViaInverseFFTImageFilter();

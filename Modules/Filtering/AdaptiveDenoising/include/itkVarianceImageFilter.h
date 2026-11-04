@@ -70,9 +70,7 @@ public:
 
   using InputSizeType = typename InputImageType::SizeType;
 
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
-  // End concept checking
 
 protected:
   VarianceImageFilter();

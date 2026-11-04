@@ -129,12 +129,10 @@ public:
   itkSetMacro(ParabolicAlgorithm, int);
   itkGetConstReferenceMacro(ParabolicAlgorithm, int);
 
-  /** Begin concept checking */
   static_assert(InputImageDimension == OutputImageDimension);
 
   itkConceptMacro(Comparable, (Concept::Comparable<PixelType>));
 
-  /** End concept checking */
 protected:
   ParabolicOpenCloseImageFilter();
   ~ParabolicOpenCloseImageFilter() override = default;

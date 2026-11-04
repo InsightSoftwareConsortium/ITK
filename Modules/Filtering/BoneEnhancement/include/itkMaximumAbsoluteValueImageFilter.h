@@ -111,10 +111,9 @@ public:
 
   /** Runtime information support. */
   itkOverrideGetNameOfClassMacro(MaximumAbsoluteValueImageFilter);
-  // Begin concept checking
   itkConceptMacro(Input1ConvertableToOutputCheck, (Concept::Convertible<Input1PixelType, OutputPixelType>));
   itkConceptMacro(Input2ConvertableToOutputCheck, (Concept::Convertible<Input2PixelType, OutputPixelType>));
-  // End concept checking
+
 protected:
   MaximumAbsoluteValueImageFilter() = default;
   ~MaximumAbsoluteValueImageFilter() override = default;

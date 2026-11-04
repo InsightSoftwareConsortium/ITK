@@ -121,10 +121,8 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
-  // End concept checking
 
 protected:
   ExpandWithZerosImageFilter();

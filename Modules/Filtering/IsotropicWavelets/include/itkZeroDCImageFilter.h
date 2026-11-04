@@ -66,9 +66,7 @@ public:
   using PixelType = typename ImageType::PixelType;
   using ImagePointer = typename ImageType::Pointer;
 
-  // Begin concept checking
   itkConceptMacro(ImageTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TImageType::PixelType>));
-  // End concept checking
   using StatisticsFilterType = itk::StatisticsImageFilter<TImageType>;
   using SubtractFilterType = itk::SubtractImageFilter<ImageType>;
   using RealType = typename StatisticsFilterType::RealType;

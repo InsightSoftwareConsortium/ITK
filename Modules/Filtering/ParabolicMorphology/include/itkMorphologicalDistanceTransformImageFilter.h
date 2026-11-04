@@ -119,12 +119,10 @@ public:
   itkGetConstReferenceMacro(SqrDist, bool);
   itkBooleanMacro(SqrDist);
 
-  /** Begin concept checking */
   static_assert(InputImageDimension == OutputImageDimension);
 
   itkConceptMacro(Comparable, (Concept::Comparable<InputPixelType>));
 
-  /** End concept checking */
 protected:
   MorphologicalDistanceTransformImageFilter();
   ~MorphologicalDistanceTransformImageFilter() override = default;

@@ -119,14 +119,12 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  /** Begin concept checking */
   static_assert(InputImageDimension == 3);
   static_assert(std::is_same_v<InputImagePixelType, OutputImagePixelType>);
   itkConceptMacro(InputAdditiveOperatorsCheck, (Concept::AdditiveOperators<InputImagePixelType>));
   itkConceptMacro(InputConvertibleToIntCheck, (Concept::Convertible<InputImagePixelType, int>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
   itkConceptMacro(InputIntComparableCheck, (Concept::Comparable<InputImagePixelType, int>));
-  /** End concept checking */
 
 protected:
   BinaryThinningImageFilter3D();

@@ -201,9 +201,7 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
   using OutputRealType = typename NumericTraits<OutputPixelType>::ScalarRealType;
 
-  // Begin concept checking
   itkConceptMacro(OutputPixelTypeCheck, (Concept::IsFloatingPoint<OutputRealType>));
-  // End concept checking
 
 protected:
   using HistogramIndexType = int;

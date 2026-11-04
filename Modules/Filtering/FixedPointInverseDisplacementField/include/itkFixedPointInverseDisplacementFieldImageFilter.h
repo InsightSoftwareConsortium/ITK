@@ -134,11 +134,8 @@ public:
   virtual void
   SetOutputOrigin(const double * values);
 
-  /** Begin concept checking */
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputImageValueType>));
   static_assert(TInputImage::ImageDimension == TOutputImage::ImageDimension);
-
-  /** End concept checking */
 
 protected:
   FixedPointInverseDisplacementFieldImageFilter();

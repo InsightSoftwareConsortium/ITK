@@ -135,7 +135,6 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion()
   virtual void GenerateInputRequestedRegion();*/
 
-  // Begin concept checking
   // itkConceptMacro( SameDimensionCheck,
   //                  ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
   // itkConceptMacro( OperatorConvertibleToOutputCheck,
@@ -146,7 +145,6 @@ public:
   //                  ( Concept::MultiplyOperator< OperatorValueType > ) );
   // itkConceptMacro( OperatorAdditiveOperatorsCheck,
   //                  ( Concept::AdditiveOperators< OperatorValueType > ) );
-  // End concept checking
 
 protected:
   GPUNeighborhoodOperatorImageFilter();

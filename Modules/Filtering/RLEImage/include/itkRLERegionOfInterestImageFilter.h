@@ -85,10 +85,8 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-  // Begin concept checking
   static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
@@ -175,10 +173,8 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-  // Begin concept checking
   static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
@@ -276,10 +272,8 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-  // Begin concept checking
   static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
@@ -360,10 +354,8 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
   static constexpr unsigned int OutputImageDimension = VImageDimension;
 
-  // Begin concept checking
   static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  // End concept checking
 
 protected:
   RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }

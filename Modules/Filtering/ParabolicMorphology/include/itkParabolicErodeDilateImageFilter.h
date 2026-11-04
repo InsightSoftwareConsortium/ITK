@@ -161,12 +161,10 @@ public:
   itkBooleanMacro(UseImageSpacing);
   /** Image related type alias. */
 
-  /** Begin concept checking */
   static_assert(InputImageDimension == OutputImageDimension);
 
   itkConceptMacro(Comparable, (Concept::Comparable<PixelType>));
 
-  /** End concept checking */
 protected:
   ParabolicErodeDilateImageFilter();
   ~ParabolicErodeDilateImageFilter() override = default;

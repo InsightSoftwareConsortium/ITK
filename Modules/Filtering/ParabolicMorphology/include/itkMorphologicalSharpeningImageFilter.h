@@ -138,12 +138,10 @@ public:
     return m_Erode->GetUseImageSpacing();
   }
 
-  /** Begin concept checking */
   static_assert(InputImageDimension == OutputImageDimension);
 
   itkConceptMacro(Comparable, (Concept::Comparable<InputPixelType>));
 
-  /** End concept checking */
 protected:
   MorphologicalSharpeningImageFilter();
   ~MorphologicalSharpeningImageFilter() override = default;

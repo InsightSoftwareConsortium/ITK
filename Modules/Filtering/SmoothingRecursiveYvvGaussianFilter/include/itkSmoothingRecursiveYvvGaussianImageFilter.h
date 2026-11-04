@@ -131,9 +131,8 @@ public:
   bool
   CanRunInPlace() const override;
 
-  /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
-  /** End concept checking */
+
 protected:
   SmoothingRecursiveYvvGaussianImageFilter();
   ~SmoothingRecursiveYvvGaussianImageFilter() override = default;
