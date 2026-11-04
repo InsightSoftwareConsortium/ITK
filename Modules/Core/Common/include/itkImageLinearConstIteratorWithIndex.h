@@ -216,7 +216,7 @@ public:
   operator++()
   {
     this->m_PositionIndex[m_Direction]++;
-    this->m_Position += m_Jump;
+    this->MovePosition(m_Jump);
     return *this;
   }
 
@@ -226,7 +226,7 @@ public:
   operator--()
   {
     this->m_PositionIndex[m_Direction]--;
-    this->m_Position -= m_Jump;
+    this->MovePosition(-m_Jump);
     return *this;
   }
 
@@ -248,8 +248,8 @@ template <typename TImage>
 inline void
 ImageLinearConstIteratorWithIndex<TImage>::NextLine()
 {
-  this->m_Position -=
-    this->m_OffsetTable[m_Direction] * (this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction]);
+  this->MovePosition(-this->m_OffsetTable[m_Direction] *
+                     (this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction]));
 
   this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];
 
@@ -265,12 +265,12 @@ ImageLinearConstIteratorWithIndex<TImage>::NextLine()
     this->m_PositionIndex[n]++;
     if (this->m_PositionIndex[n] < this->m_EndIndex[n])
     {
-      this->m_Position += this->m_OffsetTable[n];
+      this->MovePosition(this->m_OffsetTable[n]);
       this->m_Remaining = true;
       break;
     }
 
-    this->m_Position -= this->m_OffsetTable[n] * (this->m_Region.GetSize()[n] - 1);
+    this->MovePosition(-this->m_OffsetTable[n] * static_cast<OffsetValueType>(this->m_Region.GetSize()[n] - 1));
     this->m_PositionIndex[n] = this->m_BeginIndex[n];
   }
 }
@@ -282,8 +282,8 @@ template <typename TImage>
 inline void
 ImageLinearConstIteratorWithIndex<TImage>::PreviousLine()
 {
-  this->m_Position +=
-    this->m_OffsetTable[m_Direction] * (this->m_EndIndex[m_Direction] - 1 - this->m_PositionIndex[m_Direction]);
+  this->MovePosition(this->m_OffsetTable[m_Direction] *
+                     (this->m_EndIndex[m_Direction] - 1 - this->m_PositionIndex[m_Direction]));
 
   this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction] - 1;
 
@@ -299,12 +299,12 @@ ImageLinearConstIteratorWithIndex<TImage>::PreviousLine()
     this->m_PositionIndex[n]--;
     if (this->m_PositionIndex[n] >= this->m_BeginIndex[n])
     {
-      this->m_Position -= this->m_OffsetTable[n];
+      this->MovePosition(-this->m_OffsetTable[n]);
       this->m_Remaining = true;
       break;
     }
 
-    this->m_Position += this->m_OffsetTable[n] * (this->m_Region.GetSize()[n] - 1);
+    this->MovePosition(this->m_OffsetTable[n] * static_cast<OffsetValueType>(this->m_Region.GetSize()[n] - 1));
     this->m_PositionIndex[n] = this->m_EndIndex[n] - 1;
   }
 }

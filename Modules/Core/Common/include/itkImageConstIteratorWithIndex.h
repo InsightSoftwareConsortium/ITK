@@ -20,6 +20,8 @@
 
 #include "itkIndex.h"
 #include "itkImage.h"
+
+#include <cstdint>
 #include <memory>
 #include <type_traits> // For remove_const_t.
 
@@ -286,6 +288,15 @@ public:
   }
 
 protected: // made protected so other iterators can access
+  /** Moves the position by `n` pixels with integer arithmetic, so that a marker past the buffer is not formed by
+   * pointer arithmetic; the position is dereferenced only at a pixel of the buffer. */
+  void
+  MovePosition(const OffsetValueType n)
+  {
+    m_Position = reinterpret_cast<const InternalPixelType *>(
+      reinterpret_cast<std::uintptr_t>(m_Position) + static_cast<std::uintptr_t>(n) * sizeof(InternalPixelType));
+  }
+
   typename TImage::ConstWeakPointer m_Image{};
 
   IndexType m_PositionIndex{ { 0 } }; // Index where we currently are

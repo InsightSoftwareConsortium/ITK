@@ -1518,9 +1518,11 @@ set(
   itkImageGTest.cxx
   itkImageIORegionGTest.cxx
   itkImageIteratorsGTest.cxx
+  itkImageLinearIteratorWithIndexGTest.cxx
   itkImageNeighborhoodOffsetsGTest.cxx
   itkImageRandomConstIteratorWithIndexGTest.cxx
   itkImageRandomNonRepeatingIteratorWithIndexGTest.cxx
+  itkImageSliceIteratorWithIndexGTest.cxx
   itkImageRegionGTest.cxx
   itkImageRegionRangeGTest.cxx
   itkImageTransformGTest.cxx
