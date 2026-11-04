@@ -153,6 +153,10 @@ public:
     if (this->m_DisplacementField != displacementField)
     {
       this->m_DisplacementField = displacementField;
+      if (this->m_Interpolator && displacementField)
+      {
+        this->m_Interpolator->SetInputImage(displacementField);
+      }
       this->Modified();
     }
   }
