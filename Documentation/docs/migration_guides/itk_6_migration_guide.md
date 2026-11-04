@@ -1432,8 +1432,19 @@ Nothing, unless a subclass used `DerivativeBufferManager`, `FinalizeThread()`
 or the members above. Such a subclass should accumulate into
 `m_ThreaderJointPDFDerivatives[threadId]` instead.
 
-The derivative arrays take work units x bins^2 x parameters doubles. For
-example, a 3-D `BSplineTransform` on a 10 x 10 x 10 mesh (6591 parameters)
-with 32 bins needs about 54 MB per work unit. With the default of 4 work units
-per thread, that is about 3.5 GB at 16 threads. To cap it, call
-`SetMaximumNumberOfWorkUnits()` on the metric.
+Each work unit's array takes bins^2 x parameters doubles, so the derivative
+pass uses no more work units than `SetMaximumJointPDFDerivativesBytes()`
+allows. The default (0) allows max(threads, threads x 32 MiB / array bytes)
+work units, where threads is the requested number of work units, at most the
+global default number of threads. The arrays then take at most
+max(threads x 32 MiB, threads x array bytes), whatever the image size. For example, a 3-D `BSplineTransform` on a
+10 x 10 x 10 mesh (6591 parameters) with 32 bins needs about 54 MB per work
+unit, so at 16 threads it uses 16 work units and about 860 MB. A nonzero value
+is a hard limit on the total, down to one work unit. Transforms with local
+support, such as `DisplacementFieldTransform`, keep no such arrays and are not
+limited.
+
+With the default, the number of work units used, and so the summation order,
+can follow the global thread count. To get the same derivative on every
+machine, set both `SetMaximumNumberOfWorkUnits()` and a nonzero
+`SetMaximumJointPDFDerivativesBytes()`.
