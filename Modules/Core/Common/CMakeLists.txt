@@ -58,27 +58,8 @@ check_include_files(
   HAVE_UNISTD_H
 )
 
-if(CMAKE_CXX_STANDARD)
-  set(TRY_COMP_CXX_STANDARD -DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD})
-endif()
-# Identify the version of CXX compiler used when ITK was built. This needs to be
-# identified so that external applications can identify how ITK was built.
-set(ITK_COMPILED_CXX_STANDARD_VERSION 1)
-foreach(CXX_TEST_VERSION 201103L 201402L 201703L)
-  try_compile(
-    ITK_MIN_CXX_LEVEL_TEST
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeTmp
-    ${CMAKE_CURRENT_LIST_DIR}/CMake/itkGetCXXCompilerVersion.cxx
-    CMAKE_FLAGS
-      ${TRY_COMP_CXX_STANDARD}
-    COMPILE_DEFINITIONS
-      -DITK_CXX_TEST_VERSION=${CXX_TEST_VERSION}
-    OUTPUT_VARIABLE ITK_COMPILED_CXX_STANDARD_VERSION_LOG
-  )
-  if(ITK_MIN_CXX_LEVEL_TEST)
-    set(ITK_COMPILED_CXX_STANDARD_VERSION ${CXX_TEST_VERSION})
-  endif()
-endforeach()
+# ITK's minimum standard, and the oldest one a project using ITK may compile with.
+set(ITK_COMPILED_CXX_STANDARD_VERSION 201703L)
 
 # Unsupported, testing-only opt-ins to header code kept for a future minimum C++ standard.
 foreach(_itk_alpha_standard 20 23 26)
