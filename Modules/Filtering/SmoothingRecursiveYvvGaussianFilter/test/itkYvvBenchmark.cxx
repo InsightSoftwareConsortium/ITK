@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "yvvFilter.hxx"
+#include "itkYvvFilterTest.hxx"
 #include <fstream>
 #include <iostream>
 
