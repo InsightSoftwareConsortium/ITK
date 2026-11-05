@@ -209,12 +209,16 @@ protected:
   void
   DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
+  /** The output information comes from the Size, Spacing, Origin and Direction parameters, not from the input. */
+  void
+  GenerateOutputInformation() override;
+
+  /** Every output pixel depends on the whole control point lattice. */
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
-  /**
-   * Before splitting, we need to allocate memory for the output sampled
-   * B-spline object based on the multi-threading functionality
-   */
+  /** Reads the number of control points from the input lattice. */
   void
   BeforeThreadedGenerateData() override;
 

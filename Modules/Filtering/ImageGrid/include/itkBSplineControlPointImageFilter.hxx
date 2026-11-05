@@ -143,10 +143,9 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SetSplineOrder(ArrayT
 
 template <typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
+BSplineControlPointImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
-  const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput();
+  Superclass::GenerateOutputInformation();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -155,11 +154,31 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerat
       itkExceptionStringMacro("Size must be specified.");
     }
   }
+
+  TOutputImage * outputPtr = this->GetOutput();
   outputPtr->SetOrigin(this->m_Origin);
   outputPtr->SetSpacing(this->m_Spacing);
-  outputPtr->SetRegions(this->m_Size);
+  outputPtr->SetLargestPossibleRegion(RegionType(this->m_Size));
   outputPtr->SetDirection(this->m_Direction);
-  outputPtr->Allocate();
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+BSplineControlPointImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+
+  if (auto * inputPtr = const_cast<TInputImage *>(this->GetInput()))
+  {
+    inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+BSplineControlPointImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
+{
+  const TInputImage * inputPtr = this->GetInput();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -211,7 +230,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
   FixedArray<RealType, ImageDimension> U;
   auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
-  typename OutputImageType::IndexType          startIndex = outputPtr->GetRequestedRegion().GetIndex();
+  typename OutputImageType::IndexType          startIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
   const typename PointDataImageType::IndexType startPhiIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   RealArrayType epsilon;
