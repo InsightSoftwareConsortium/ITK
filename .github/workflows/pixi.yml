@@ -82,14 +82,14 @@ jobs:
           id: restore-externaldata
           uses: actions/cache/restore@v5
           with:
-            # ExternalData blobs are platform-agnostic; share a single cache
-            # entry across every workflow/job/OS in the repo.  The SHA suffix
-            # produces an immutable save key per run; restore-keys falls
-            # through to the most recent prior cache under the same version.
-            path: ${{ runner.temp }}/ExternalData
-            key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+            # ExternalData blobs are platform-agnostic. A workspace-relative
+            # path plus enableCrossOsArchive lets every OS restore the one
+            # entry saved by populate-externaldata-cache.yml.
+            path: .ExternalData
+            key: externaldata-v2-${{ hashFiles('**/*.cid') }}
             restore-keys: |
-              externaldata-v1-
+              externaldata-v2-
+            enableCrossOsArchive: true
 
         - name: Disk space reporting BEFORE (optimize free-disk-space)
           run: |
@@ -129,7 +129,7 @@ jobs:
         - name: Export ExternalData_OBJECT_STORES
           shell: bash
           run: |
-            echo "ExternalData_OBJECT_STORES=${{ runner.temp }}/ExternalData" >> "$GITHUB_ENV"
+            echo "ExternalData_OBJECT_STORES=${{ github.workspace }}/.ExternalData" >> "$GITHUB_ENV"
 
         - name: Set up Pixi
           uses: prefix-dev/setup-pixi@v0.9.5
@@ -153,7 +153,20 @@ jobs:
           run: pixi run configure-ci
 
         - name: Fetch ExternalData
-          run: pixi run --skip-deps build-external-data-ci
+          shell: bash
+          run: |
+            # Objects already fetched stay in the store, so a retry only
+            # requests the ones a transient gateway error left missing.
+            for attempt in 1 2 3; do
+              if pixi run --skip-deps build-external-data-ci; then
+                exit 0
+              fi
+              echo "::warning::ExternalData fetch attempt ${attempt} of 3 failed"
+              if [ "$attempt" -lt 3 ]; then
+                sleep $((attempt * 30))
+              fi
+            done
+            exit 1
 
         - name: Build
           run: |
