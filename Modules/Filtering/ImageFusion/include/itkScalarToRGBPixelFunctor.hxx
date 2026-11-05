@@ -34,11 +34,7 @@ ScalarToRGBPixelFunctor<TScalar>::ScalarToRGBPixelFunctor()
     m_ColorIndex[i] = i;
   }
 
-#ifdef ITK_WORDS_BIGENDIAN
-  m_UseMSBForHashing = true;
-#else
-  m_UseMSBForHashing = false;
-#endif
+  m_UseMSBForHashing = ByteSwapper<TScalar>::SystemIsBigEndian();
 }
 
 template <typename TScalar>

@@ -32,6 +32,13 @@
 #include "itkObjectFactory.h"
 #include "itkIntTypes.h"
 
+#if __has_include(<version>)
+#  include <version>
+#endif
+#if defined(__cpp_lib_endian) // C++20 compiler support
+#  include <bit>
+#endif
+
 namespace itk
 {
 /** \class ByteSwapper
@@ -164,10 +171,16 @@ private:
   SwapWriteRange(const T * buffer, SizeValueType numberOfElements, std::ostream & outputStream);
 
   static constexpr bool m_SystemIsBigEndian{
-#ifdef CMAKE_WORDS_BIGENDIAN
+#if defined(__cpp_lib_endian) // C++20 compiler support
+    std::endian::native == std::endian::big
+#elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)
+    __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#elif defined(__BIG_ENDIAN__)
     true
-#else
+#elif defined(__LITTLE_ENDIAN__) || defined(_WIN32)
     false
+#else
+#  error "The byte order of the target architecture is unknown to this compiler."
 #endif
   };
 };

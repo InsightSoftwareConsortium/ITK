@@ -9,11 +9,6 @@ set(
 # enough to distinguish available features of the toolkit.
 set(ITK_VERSION_STRING "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 
-set(CMAKE_WORDS_BIGENDIAN FALSE)
-if(CMAKE_CXX_BYTE_ORDER STREQUAL "BIG_ENDIAN")
-  set(CMAKE_WORDS_BIGENDIAN TRUE)
-endif()
-
 include(FindThreads)
 set(ITK_USE_WIN32_THREADS 0)
 set(ITK_USE_PTHREADS 0)

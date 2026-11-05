@@ -23,23 +23,6 @@
  * change when the target compile platform changes
  */
 
-/* what byte order */
-/* All compilers that support Mac OS X define either __BIG_ENDIAN__ or
-   __LITTLE_ENDIAN__ to match the endianness of the architecture being
-   compiled for. This is not necessarily the same as the architecture of
-   the machine doing the building. In order to support Universal Binaries on
-   Mac OS X, we prefer those defines to decide the endianness.
-   Elsewhere use the platform check result.  */
-#if !defined(__APPLE__)
-  #cmakedefine CMAKE_WORDS_BIGENDIAN
-  #ifdef CMAKE_WORDS_BIGENDIAN
-    #define ITK_WORDS_BIGENDIAN
-  #endif
-#elif defined(__BIG_ENDIAN__)
-  #define CMAKE_WORDS_BIGENDIAN
-  #define ITK_WORDS_BIGENDIAN
-#endif
-
 #define ITK_SIZEOF_VOID_P @CMAKE_SIZEOF_VOID_P@
 
 /* The CXX standard version used when ITK was built */
@@ -95,6 +78,15 @@
 #ifndef ITK_LEGACY_REMOVE
 // defined if std type traits are with C++11
 # define ITK_HAS_CPP11_TYPETRAITS
+#endif
+
+#if !defined(ITK_LEGACY_REMOVE)
+/* Deprecated since ITK 6.0: use itk::ByteSwapper<T>::SystemIsBigEndian(). */
+  #if (defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__) || \
+    defined(__BIG_ENDIAN__)
+    #define CMAKE_WORDS_BIGENDIAN
+    #define ITK_WORDS_BIGENDIAN
+  #endif
 #endif
 
 // defined if the compiler support GNU's __attribute__(( aligned(x) )) extension
