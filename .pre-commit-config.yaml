@@ -102,6 +102,12 @@ repos:
       entry: 'Utilities/Hooks/prepare-commit-msg'
       language: system
       stages: [prepare-commit-msg]
+    - id: check-no-cxx-standard-tests-in-headers
+      name: 'Headers must not select code by C++ standard or feature-test macro'
+      entry: '^\s*#\s*(?!(ifdef|ifndef)\s+__cplusplus\b|if\s+!?\s*defined\s*\(?\s*__cplusplus\s*\)?\s*(/[/*].*)?$)(if|ifdef|ifndef|elif|elifdef|elifndef)\b(?!.*//\s*ABI-neutral\s*$)(?:[^/]|/(?![/*])|/\*.*?\*/)*(__cplusplus\b|_MSVC_LANG|__cpp_)'
+      language: pygrep
+      files: '^Modules/.*\.(h|hxx)$'
+      exclude: '^Modules/ThirdParty/'
     - id: check-setup-for-development
       name: 'Check version of SetupForDevelopment'
       entry: 'Utilities/Hooks/check-setup-for-development'

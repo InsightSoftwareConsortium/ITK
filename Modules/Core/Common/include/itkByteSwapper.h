@@ -35,7 +35,7 @@
 #if __has_include(<version>)
 #  include <version>
 #endif
-#if defined(__cpp_lib_endian) // C++20 compiler support
+#if defined(__cpp_lib_endian) // ABI-neutral
 #  include <bit>
 #endif
 
@@ -171,7 +171,7 @@ private:
   SwapWriteRange(const T * buffer, SizeValueType numberOfElements, std::ostream & outputStream);
 
   static constexpr bool m_SystemIsBigEndian{
-#if defined(__cpp_lib_endian) // C++20 compiler support
+#if defined(__cpp_lib_endian) // ABI-neutral
     std::endian::native == std::endian::big
 #elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)
     __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__

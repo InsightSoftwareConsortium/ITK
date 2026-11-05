@@ -1297,6 +1297,51 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin|Linux")
   )
 endif()
 
+# A client on a newer C++ standard must compile against the definitions ITK was built with.
+set(_itk_newer_client_standard "")
+foreach(_itk_client_standard 20 23 26)
+  if(
+    NOT
+      _itk_newer_client_standard
+    AND
+      _itk_client_standard
+        GREATER
+        CMAKE_CXX_STANDARD
+    AND
+      "cxx_std_${_itk_client_standard}"
+        IN_LIST
+        CMAKE_CXX_COMPILE_FEATURES
+  )
+    set(_itk_newer_client_standard ${_itk_client_standard})
+  endif()
+endforeach()
+if(_itk_newer_client_standard)
+  add_executable(itkNewerStandardClientTest itkNewerStandardClientTest.cxx)
+  set_target_properties(
+    itkNewerStandardClientTest
+    PROPERTIES
+      CXX_STANDARD
+        ${_itk_newer_client_standard}
+      CXX_STANDARD_REQUIRED
+        ON
+      CXX_SCAN_FOR_MODULES
+        OFF
+  )
+  target_link_libraries(
+    itkNewerStandardClientTest
+    PUBLIC
+      ${ITKCommon-Test_LIBRARIES}
+  )
+  itk_module_target_label(itkNewerStandardClientTest)
+  itk_add_test(
+    NAME itkNewerStandardClientTest
+    COMMAND
+      itkNewerStandardClientTest
+  )
+endif()
+unset(_itk_newer_client_standard)
+unset(_itk_client_standard)
+
 add_executable(itkCMakeConfigurationTest itkCMakeConfigurationTest.cxx)
 target_link_libraries(itkCMakeConfigurationTest ${ITKCommon-Test_LIBRARIES})
 itk_module_target_label(itkCMakeConfigurationTest)

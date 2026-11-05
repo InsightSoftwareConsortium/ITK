@@ -29,8 +29,8 @@
 #include "itkPlatformMultiThreader.h"
 #include "itkPrintHelper.h"
 
-#include <atomic> // std::atomic_ref (C++20); defines __cpp_lib_atomic_ref when available
-#if !defined(__cpp_lib_atomic_ref) && defined(_MSC_VER) && !defined(__clang__) && !defined(__GNUC__)
+#include <atomic>
+#if !defined(ITK_ALPHA_FEATURE_CXX20) && defined(_MSC_VER) && !defined(__clang__) && !defined(__GNUC__)
 #  include <intrin.h> // __iso_volatile_load8 / __iso_volatile_store8 (C++17 MSVC fallback)
 #endif
 
@@ -2418,7 +2418,7 @@ auto
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::AtomicGetStatus(const IndexType & index) const
   -> StatusType
 {
-#if defined(__cpp_lib_atomic_ref)
+#if defined(ITK_ALPHA_FEATURE_CXX20)
   return std::atomic_ref<StatusType>(m_StatusImage->GetPixel(index)).load(std::memory_order_relaxed);
 #else
   const StatusType * const p = &(m_StatusImage->GetPixel(index));
@@ -2439,7 +2439,7 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::AtomicSetStatus(const IndexType & index,
                                                                                    StatusType        status)
 {
-#if defined(__cpp_lib_atomic_ref)
+#if defined(ITK_ALPHA_FEATURE_CXX20)
   std::atomic_ref<StatusType>(m_StatusImage->GetPixel(index)).store(status, std::memory_order_relaxed);
 #else
   StatusType * const p = &(m_StatusImage->GetPixel(index));
