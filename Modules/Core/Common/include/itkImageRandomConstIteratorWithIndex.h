@@ -24,6 +24,30 @@
 
 namespace itk
 {
+namespace detail
+{
+// Draws a uniform random index in region, as ImageRandomConstIteratorWithIndex does, without an image.
+template <unsigned int VDimension>
+Index<VDimension>
+RandomIndexInRegion(Statistics::MersenneTwisterRandomVariateGenerator & generator,
+                    const ImageRegion<VDimension> &                     region)
+{
+  auto position = static_cast<IndexValueType>(
+    generator.GetVariateWithOpenRange(static_cast<double>(region.GetNumberOfPixels()) - 0.5));
+
+  Index<VDimension> index;
+  for (unsigned int dim = 0; dim < VDimension; ++dim)
+  {
+    const SizeValueType  sizeInThisDimension = region.GetSize(dim);
+    const IndexValueType residual = position % sizeInThisDimension;
+    index[dim] = residual + region.GetIndex(dim);
+    position -= residual;
+    position /= sizeInThisDimension;
+  }
+  return index;
+}
+} // namespace detail
+
 /** \class ImageRandomConstIteratorWithIndex
  * \brief A multi-dimensional image iterator that visits a random set of pixels
  * within an image region.

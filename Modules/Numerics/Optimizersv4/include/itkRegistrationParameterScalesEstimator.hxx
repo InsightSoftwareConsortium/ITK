@@ -21,7 +21,11 @@
 
 #include "itkCompositeTransform.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkIndexRange.h"
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  include "itkImageRegionIteratorWithIndex.h"
+#endif
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkPointSet.h"
 #include "itkObjectToObjectMetric.h"
 #include "itkPrintHelper.h"
@@ -490,19 +494,13 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithRegion(Vir
   const SizeValueType            total = region.GetNumberOfPixels();
   this->m_SamplePoints.resize(total);
 
-  /* Set up an iterator within the user specified virtual image region. */
-  ImageRegionConstIteratorWithIndex regionIter(image, region);
-
-
-  /* Iterate over the image */
+  // The virtual image is never allocated, so iterate its indices rather than its pixels.
   SizeValueType count = 0;
-  regionIter.GoToBegin();
-  while (!regionIter.IsAtEnd())
+  for (const VirtualIndexType & index : ImageRegionIndexRange<VirtualDimension>(region))
   {
     VirtualPointType point;
-    image->TransformIndexToPhysicalPoint(regionIter.GetIndex(), point);
+    image->TransformIndexToPhysicalPoint(index, point);
     this->m_SamplePoints[count] = point;
-    ++regionIter;
     ++count;
   }
 }
@@ -563,17 +561,14 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainRandomly()
 
   this->m_SamplePoints.resize(m_NumberOfRandomSamples);
 
-  // Set up a random iterator within the user specified virtual image region.
-  ImageRandomConstIteratorWithIndex randIter(image, this->m_Metric->GetVirtualRegion());
-
-  randIter.SetNumberOfSamples(this->m_NumberOfRandomSamples);
-  randIter.GoToBegin();
-  VirtualPointType point;
+  // The virtual image is never allocated, so draw random indices rather than iterating its pixels.
+  const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
+  const auto              indexGenerator = Statistics::MersenneTwisterRandomVariateGenerator::New();
+  VirtualPointType        point;
   for (SizeValueType i = 0; i < m_NumberOfRandomSamples; ++i)
   {
-    image->TransformIndexToPhysicalPoint(randIter.GetIndex(), point);
+    image->TransformIndexToPhysicalPoint(detail::RandomIndexInRegion(*indexGenerator, region), point);
     this->m_SamplePoints[i] = point;
-    ++randIter;
   }
 }
 
