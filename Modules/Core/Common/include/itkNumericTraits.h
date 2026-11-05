@@ -1557,15 +1557,7 @@ class NumericTraits<long double> : public std::numeric_limits<long double>
 {
 public:
   using ValueType = long double;
-#if defined(__SUNPRO_CC) && defined(_ILP32)
-  // sun studio in 32 bit mode is unable to print long double values: it
-  // segfaults.
-  // conversion to double will give usable results if the value is in the double
-  // range - better than nothing.
-  using PrintType = double;
-#else
   using PrintType = long double;
-#endif
   using AbsType = long double;
   using AccumulateType = long double;
   using RealType = long double;

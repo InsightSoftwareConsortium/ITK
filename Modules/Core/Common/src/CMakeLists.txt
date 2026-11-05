@@ -200,27 +200,12 @@ if(CMAKE_CXX_COMPILER MATCHES "^icc")
     )
   endif()
 elseif(CMAKE_COMPILER_IS_GNUCXX)
-  # -fno-associative-math appears to only be present in GCC 4.3 onwards.
-  include(CheckCXXCompilerFlag)
-  check_cxx_compiler_flag(
-    -fno-associative-math
-    gcc_has_no_associative_math
+  set_source_files_properties(
+    itkCompensatedSummation.cxx
+    PROPERTIES
+      COMPILE_FLAGS
+        -fno-associative-math
   )
-  if(gcc_has_no_associative_math)
-    set_source_files_properties(
-      itkCompensatedSummation.cxx
-      PROPERTIES
-        COMPILE_FLAGS
-          -fno-associative-math
-    )
-  else()
-    set_source_files_properties(
-      itkCompensatedSummation.cxx
-      PROPERTIES
-        COMPILE_FLAGS
-          -fno-unsafe-math-optimizations
-    )
-  endif()
 elseif(MSVC)
   set_source_files_properties(
     itkCompensatedSummation.cxx

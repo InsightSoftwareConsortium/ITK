@@ -76,13 +76,6 @@
 // definition in the top-level CMakeLists.txt for the two conditions.
 #cmakedefine ITK_USE_AUTOLOAD_PATH
 
-// C++11 should be assumed now, defines always true for C++11 will be
-// removed in the future.
-#ifndef ITK_LEGACY_REMOVE
-// defined if std type traits are with C++11
-# define ITK_HAS_CPP11_TYPETRAITS
-#endif
-
 #if !defined(ITK_LEGACY_REMOVE)
 /* Deprecated since ITK 6.0: use itk::ByteSwapper<T>::SystemIsBigEndian(). */
   #if (defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__) || \
