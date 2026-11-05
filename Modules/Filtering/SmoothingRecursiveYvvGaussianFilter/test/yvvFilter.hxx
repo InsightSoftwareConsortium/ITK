@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef yvvFilter_hxx
+#define yvvFilter_hxx
 
 #include "itkCastImageFilter.h"
 #include "itkImageFileReader.h"
@@ -370,3 +372,5 @@ testWhite(typename ImageType::SizeType   size,
 #endif
   return EXIT_SUCCESS;
 }
+
+#endif
