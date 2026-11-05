@@ -87,8 +87,6 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 //
 // * ITK_FEENABLEEXCEPT_NOOP   : If it applies, defined above
 // * ITK_HAS_FEENABLEEXCEPT    : If it applies, defined in itkConfigure.h based on try_compile
-// * ITK_HAS_FEGETENV          : idem
-// * ITK_HAS_FESETENV          : idem
 //
 // the logic below will
 //
@@ -132,7 +130,7 @@ itk_fedisableexcept(unsigned int /*excepts*/)
 #  define ITK_HAS_FPE_CAPABILITY
 #  define ITK_FPE_USE_SIGNAL_HANDLER
 
-#elif defined(ITK_HAS_FEGETENV) && defined(ITK_HAS_FESETENV)
+#else
 #  include "itkFloatingPointExceptions_unix_feenableexcept_using_fegetenv.cxx"
 #  define ITK_HAS_FPE_CAPABILITY
 #  define ITK_FPE_USE_SIGNAL_HANDLER

@@ -52,11 +52,6 @@ check_cpp_directive_exists(__FUNCTION__ ITK_CPP_FUNCTION)
 
 include(CheckIncludeFiles)
 
-# check if the platform has the header file "fenv.h" which has been added as part of the C99 standard
-check_include_files(
-  fenv.h
-  HAVE_FENV_H
-)
 # check if the platform has some widely used header files
 check_include_files(
   "unistd.h"
@@ -111,18 +106,6 @@ try_compile(
   ITK_HAS_FEENABLEEXCEPT
   ${ITK_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFeenableexcept.cxx
-)
-
-try_compile(
-  ITK_HAS_FEGETENV
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFegetenv.cxx
-)
-
-try_compile(
-  ITK_HAS_FESETENV
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFesetenv.cxx
 )
 
 try_compile(
