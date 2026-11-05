@@ -1339,6 +1339,16 @@ To write a time series, write a 4D image instead of a `VectorImage` with one
 component per frame, and set the time start and step through the image origin
 and spacing rather than `tstart` and `tstep`.
 
+## `ITK_HAVE_FENV_H` is removed
+
+`itkConfigure.h` no longer defines `ITK_HAVE_FENV_H`. `<cfenv>` is part of
+C++11, so the macro was defined on every toolchain that can build ITK, and ITK
+itself never tested it.
+
+### What you need to do
+
+Delete any `#ifdef ITK_HAVE_FENV_H` test and include `<cfenv>` unconditionally.
+
 ## Byte-order macros are deprecated in `itkConfigure.h`
 
 `itkConfigure.h` no longer takes the byte order from CMake; `CMAKE_WORDS_BIGENDIAN`
