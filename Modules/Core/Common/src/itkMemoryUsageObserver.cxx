@@ -24,12 +24,12 @@
 #  endif
 #endif // defined(WIN32) || defined(_WIN32)
 
-#if defined(__SUNPRO_CC) || defined(__sun__)
+#if defined(__sun__)
 #  include <unistd.h>
 #  include <cstdio>
 #  include <string>
 #  include <sstream>
-#endif // !defined(__SUNPRO_CC) && !defined (__sun__)
+#endif // defined(__sun__)
 
 #if !defined(WIN32) && !defined(_WIN32)
 #  include <sys/resource.h> // getrusage()
@@ -331,7 +331,7 @@ MacOSXMemoryUsageObserver::GetMemoryUsage()
 
 #endif // Mac OS X
 
-#if defined(__SUNPRO_CC) || defined(__sun__)
+#if defined(__sun__)
 
 /**         ----         Sun Solaris Memory Usage Observer       ----       */
 
@@ -414,7 +414,7 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
   return mem;
 }
 
-#endif // defined(__SUNPRO_CC) || defined (__sun__)
+#endif // defined(__sun__)
 
 #if !defined(WIN32) && !defined(_WIN32) || defined(__OpenBSD__)
 

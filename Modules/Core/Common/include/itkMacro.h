@@ -196,26 +196,11 @@ namespace itk
 #if defined(_MSC_VER) && (_MSC_VER < 1920)
 #  error "MSVC versions before Visual Studio 2019 are not supported"
 #endif
-#if defined(__SUNPRO_CC) && (__SUNPRO_CC < 0x5140)
-#  error "SUNPro C++ < 5.14.0 is not supported"
-#endif
 #if defined(__CYGWIN__)
 #  error "The Cygwin compiler is not supported"
 #endif
-#if defined(__BORLANDC__)
-#  error "The Borland C compiler is not supported"
-#endif
-#if defined(__MWERKS__)
-#  error "The MetroWerks compiler is not supported"
-#endif
 #if defined(__GNUC__) && !defined(__clang__) && (__GNUC__ < 7)
 #  error "GCC < 7 is not supported"
-#endif
-#if defined(__sgi)
-// This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
-// TODO: At some future point, it may be necessary to
-// define a minimum __sgi version that will work.
-#  error "The SGI compiler is not supported"
 #endif
 #if defined(__apple_build_version__) && (__apple_build_version__ < 12000032)
 #  error "AppleClang < Xcode 12.4 is not supported"

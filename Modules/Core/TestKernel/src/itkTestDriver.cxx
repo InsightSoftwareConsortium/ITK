@@ -57,20 +57,6 @@
 #  define ITK_TEST_DRIVER_LDPATH "SHLIB_PATH"
 #  define ITK_TEST_DRIVER_LDPATH64 "LD_LIBRARY_PATH"
 
-/* SGI MIPS */
-#elif defined(__sgi) && defined(_MIPS_SIM)
-#  if _MIPS_SIM == _ABIO32
-#    define ITK_TEST_DRIVER_LDPATH "LD_LIBRARY_PATH"
-#  elif _MIPS_SIM == _ABIN32
-#    define ITK_TEST_DRIVER_LDPATH "LD_LIBRARYN32_PATH"
-#  endif
-#  define ITK_TEST_DRIVER_LDPATH64 "LD_LIBRARY64_PATH"
-
-/* Cygwin */
-#elif defined(__CYGWIN__)
-#  define ITK_TEST_DRIVER_LDPATH "PATH"
-#  define ITK_TEST_DRIVER_LDPATH64 ITK_TEST_DRIVER_LDPATH
-
 /* Windows */
 #elif defined(_WIN32)
 #  define ITK_TEST_DRIVER_LDPATH "PATH"
@@ -82,7 +68,7 @@
 #  define ITK_TEST_DRIVER_LDPATH64 ITK_TEST_DRIVER_LDPATH
 #endif
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32)
 #  define ITK_TEST_DRIVER_PATH_SEP ';'
 #else
 #  define ITK_TEST_DRIVER_PATH_SEP ':'

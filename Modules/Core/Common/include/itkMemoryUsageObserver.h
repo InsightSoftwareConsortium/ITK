@@ -105,7 +105,7 @@ public:
 };
 #endif // Mac OS X
 
-#if defined(__SUNPRO_CC) || defined(__sun__)
+#if defined(__sun__)
 class ITKCommon_EXPORT SunSolarisMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
@@ -159,7 +159,7 @@ class ITKCommon_EXPORT MemoryUsageObserver
   public WindowsMemoryUsageObserver
 #elif defined(__linux__)
   public LinuxMemoryUsageObserver
-#elif defined(__SUNPRO_CC) || defined(__sun__)
+#elif defined(__sun__)
   public SunSolarisMemoryUsageObserver
 #elif defined(__APPLE__)
   public MacOSXMemoryUsageObserver

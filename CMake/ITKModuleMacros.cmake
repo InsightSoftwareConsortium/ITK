@@ -685,8 +685,6 @@ macro(itk_module_warnings_disable)
         "${CMAKE_${lang}_FLAGS}"
       )
       set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} /W0")
-    elseif(BORLAND)
-      set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -w-")
     else()
       set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -w")
     endif()

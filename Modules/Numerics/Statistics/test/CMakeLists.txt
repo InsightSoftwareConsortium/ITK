@@ -710,15 +710,12 @@ itk_add_test(
     ITKStatisticsTestDriver
     itkSampleToHistogramFilterTest3
 )
-# There is a bug in VS2008, Release build that causes this test to fail.
-if(NOT MSVC90)
-  itk_add_test(
-    NAME itkSampleToHistogramFilterTest4
-    COMMAND
-      ITKStatisticsTestDriver
-      itkSampleToHistogramFilterTest4
-  )
-endif()
+itk_add_test(
+  NAME itkSampleToHistogramFilterTest4
+  COMMAND
+    ITKStatisticsTestDriver
+    itkSampleToHistogramFilterTest4
+)
 itk_add_test(
   NAME itkSampleToHistogramFilterTest5
   COMMAND
