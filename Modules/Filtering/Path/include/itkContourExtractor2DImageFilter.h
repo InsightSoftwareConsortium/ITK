@@ -196,7 +196,7 @@ public:
   itkSetMacro(ContourValue, InputRealType);
   itkGetConstReferenceMacro(ContourValue, InputRealType);
   /** @ITKEndGrouping */
-  itkConceptMacro(DimensionShouldBe2, (Concept::SameDimension<Self::InputImageDimension, 2>));
+  static_assert(InputImageDimension == 2);
   itkConceptMacro(InputPixelTypeComparable, (Concept::Comparable<InputPixelType>));
   itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputPixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));

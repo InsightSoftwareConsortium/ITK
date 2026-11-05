@@ -57,8 +57,6 @@ LinearInterpolateImageFunction<TInputImage, TCoordinate>::EvaluateUnoptimized(co
   // to all zeros of length equal to the InputImagePtr first pixel length.
   this->MakeZeroInitializer(inputImagePtr, value);
 
-  Concept::Detail::UniqueType<typename NumericTraits<InputPixelType>::ScalarRealType>();
-
   // Number of neighbors used in the interpolation
   constexpr unsigned long numberOfNeighbors = 1 << TInputImage::ImageDimension;
 

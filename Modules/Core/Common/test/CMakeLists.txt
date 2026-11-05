@@ -1484,6 +1484,7 @@ set(
   itkCommonExceptionsGTest.cxx
   itkCommonTypeTraitsGTest.cxx
   itkCompensatedSummationGTest.cxx
+  itkConceptCheckingGTest.cxx
   itkConicShellInteriorExteriorSpatialFunctionGTest.cxx
   itkConnectedImageNeighborhoodShapeGTest.cxx
   itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx

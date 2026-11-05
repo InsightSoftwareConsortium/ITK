@@ -237,7 +237,7 @@ public:
   itkConceptMacro(UnsignedLongConvertibleToInputCheck, (Concept::Convertible<LabelType, InputPixelType>));
   itkConceptMacro(OutputLongConvertibleToUnsignedLongCheck, (Concept::Convertible<OutputPixelType, LabelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
 
 protected:
   RelabelComponentImageFilter();

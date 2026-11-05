@@ -144,7 +144,7 @@ public:
   }
 
 protected:
-  itkConceptMacro(SignedOutputPixelType, (Concept::Signed<typename NumericTraits<TPixel>::ValueType>));
+  static_assert(NumericTraits<typename NumericTraits<TPixel>::ValueType>::is_signed);
 
   /** Type alias support for coefficient vector type.*/
   using typename Superclass::CoefficientVector;

@@ -94,12 +94,9 @@ public:
   itkSetMacro(FrobeniusNormWeight, RealType);
   itkGetConstMacro(FrobeniusNormWeight, RealType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  itkConceptMacro(InputHaveDimension3Check, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
-  itkConceptMacro(InputFixedArrayHasDimension3Check, (Concept::SameDimension<TInputImage::PixelType::Dimension, 3u>));
-  // End concept checking
-#endif
+  static_assert(TInputImage::ImageDimension == 3u);
+  static_assert(TInputImage::PixelType::Dimension == 3u);
+
 protected:
   DescoteauxEigenToMeasureParameterEstimationFilter();
   ~DescoteauxEigenToMeasureParameterEstimationFilter() override = default;

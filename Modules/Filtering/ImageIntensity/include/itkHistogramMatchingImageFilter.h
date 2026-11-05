@@ -176,12 +176,12 @@ public:
   itkGetModifiableObjectMacro(OutputHistogram, HistogramType);
   /** @ITKEndGrouping */
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(DoubleConvertibleToInputCheck, (Concept::Convertible<double, InputPixelType>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, OutputPixelType>));
   itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<InputPixelType, double>));
   itkConceptMacro(OutputConvertibleToDoubleCheck, (Concept::Convertible<OutputPixelType, double>));
-  itkConceptMacro(SameTypeCheck, (Concept::SameType<InputPixelType, OutputPixelType>));
+  static_assert(std::is_same_v<InputPixelType, OutputPixelType>);
 
 protected:
   HistogramMatchingImageFilter();

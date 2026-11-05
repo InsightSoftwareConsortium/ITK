@@ -236,8 +236,8 @@ template <typename TReturn, typename TInput>
 inline auto
 CastWithRangeCheck(TInput x)
 {
-  itkConceptMacro(OnlyDefinedForIntegerTypes1, (itk::Concept::IsInteger<TReturn>));
-  itkConceptMacro(OnlyDefinedForIntegerTypes2, (itk::Concept::IsInteger<TInput>));
+  static_assert(std::is_integral_v<TReturn>);
+  static_assert(std::is_integral_v<TInput>);
 
   auto ret = static_cast<TReturn>(x);
   if constexpr (sizeof(TReturn) > sizeof(TInput) &&

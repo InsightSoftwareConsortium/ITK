@@ -197,9 +197,7 @@ public:
    * Calculated when SetOrder */
   itkGetConstReferenceMacro(Indices, SetType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(OutputTypeIsComplexCheck, (Concept::IsFloatingPoint<typename TFunctionValue::value_type>));
-#endif
 
 protected:
   RieszFrequencyFunction();

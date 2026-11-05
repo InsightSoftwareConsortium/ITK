@@ -156,11 +156,7 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(ImageTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TImageType::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   FrequencyExpandImageFilter();

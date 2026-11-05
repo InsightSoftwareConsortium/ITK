@@ -29,9 +29,33 @@
 #define itkPixelTraits_h
 
 #include "itkMacro.h"
+#include <type_traits>
 
 namespace itk
 {
+namespace detail
+{
+template <typename TPixelType, typename = void>
+struct PixelTraitsDimension
+{};
+template <typename TPixelType>
+struct PixelTraitsDimension<TPixelType, std::void_t<decltype(TPixelType::Length)>>
+{
+  /** Dimension of the pixel (range). */
+  static constexpr unsigned int Dimension = TPixelType::Length;
+};
+
+template <typename TPixelType, typename = void>
+struct PixelTraitsValueType
+{};
+template <typename TPixelType>
+struct PixelTraitsValueType<TPixelType, std::void_t<typename TPixelType::ValueType>>
+{
+  /** Type of a single component of a pixel. */
+  using ValueType = typename TPixelType::ValueType;
+};
+} // namespace detail
+
 /** \class PixelTraits
  * \brief Traits for a pixel that define the dimension and component type.
  *
@@ -39,18 +63,14 @@ namespace itk
  * of a pixel.  The default implementation is suitable for all subclasses
  * of itk::Array. This (will) include RGBPixel and RGBAPixel. Specialized
  * versions of PixelTraits are defined for the standard scalar types.
+ * For other types, the default implementation has no members.
  * \ingroup ITKCommon
  */
 template <typename TPixelType>
 class PixelTraits
-{
-public:
-  /** Dimension of the pixel (range). */
-  static constexpr unsigned int Dimension = TPixelType::Length;
-
-  /** Type of a single component of a pixel. */
-  using ValueType = typename TPixelType::ValueType;
-};
+  : public detail::PixelTraitsDimension<TPixelType>
+  , public detail::PixelTraitsValueType<TPixelType>
+{};
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 

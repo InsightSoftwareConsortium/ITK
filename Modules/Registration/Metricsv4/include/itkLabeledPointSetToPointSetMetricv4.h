@@ -123,7 +123,7 @@ public:
   /**
    * Ensure label type is an integer type
    */
-  itkConceptMacro(LabelTypeIsInteger, (Concept::IsInteger<LabelType>));
+  static_assert(std::is_integral_v<LabelType>);
 
 protected:
   LabeledPointSetToPointSetMetricv4();

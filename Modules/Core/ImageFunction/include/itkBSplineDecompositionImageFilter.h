@@ -107,7 +107,7 @@ public:
   itkGetConstMacro(NumberOfPoles, unsigned int);
 
 
-  itkConceptMacro(DimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));

@@ -203,8 +203,8 @@ public:
   GenerateOutputInformation() override;
 
   itkConceptMacro(InputConvertibleToOutput, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
-  itkConceptMacro(DimensionShouldBe3, (Concept::SameDimension<Self::InputImageDimension, 3>));
+  static_assert(InputImageDimension == OutputImageDimension);
+  static_assert(InputImageDimension == 3);
 
 protected:
   OrientImageFilter();

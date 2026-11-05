@@ -230,8 +230,8 @@ public:
   void
   AfterThreadedGenerateData() override;
 
-  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<ImageDimension, InputImageDimension>));
-  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<ImageDimension, DisplacementFieldDimension>));
+  static_assert(ImageDimension == InputImageDimension);
+  static_assert(ImageDimension == DisplacementFieldDimension);
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::InternalPixelType>));
   itkConceptMacro(DisplacementFieldHasNumericTraitsCheck,
                   (Concept::HasNumericTraits<typename TDisplacementField::PixelType::ValueType>));

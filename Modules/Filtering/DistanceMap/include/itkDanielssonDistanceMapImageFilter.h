@@ -176,8 +176,8 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int VoronoiImageDimension = TVoronoiImage::ImageDimension;
 
-  itkConceptMacro(InputOutputSameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputVoronoiSameDimensionCheck, (Concept::SameDimension<InputImageDimension, VoronoiImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
+  static_assert(InputImageDimension == VoronoiImageDimension);
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, OutputPixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
 

@@ -136,11 +136,7 @@ public:
   virtual void
   SetUp(ScalarRealType spacing);
 
-#  ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
-  /** End concept checking */
-#  endif
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUSmoothingRecursiveYvvGaussianImageFilterKernel);
   void

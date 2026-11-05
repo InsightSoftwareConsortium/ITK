@@ -91,7 +91,7 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   /** @ITKEndGrouping */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
 
 protected:
   LaplacianSharpeningImageFilter()

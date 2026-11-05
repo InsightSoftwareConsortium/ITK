@@ -198,8 +198,8 @@ public:
   itkGetMacro(AreaComputationType, AreaEnum);
   /** @ITKEndGrouping */
 
-  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputPointDimension, OutputPointDimension>));
-  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputPointDimension, 3>));
+  static_assert(InputPointDimension == OutputPointDimension);
+  static_assert(InputPointDimension == 3);
 
 protected:
   /** Default constructor*/

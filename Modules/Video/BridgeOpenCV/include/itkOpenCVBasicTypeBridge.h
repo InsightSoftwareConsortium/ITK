@@ -61,7 +61,7 @@ struct OpenCVBasicTypeBridge<TPoint, cv::Point_<typename TPoint::CoordinateType>
     return OpenCVDataType(iP[0], iP[1]);
   }
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<TPoint::PointDimension, 2>));
+  static_assert(TPoint::PointDimension == 2);
 };
 
 template <typename TPoint>
@@ -88,7 +88,7 @@ struct OpenCVBasicTypeBridge<TPoint, cv::Point3_<typename TPoint::CoordinateType
     return OpenCVDataType(iP[0], iP[1], iP[2]);
   }
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<TPoint::PointDimension, 3>));
+  static_assert(TPoint::PointDimension == 3);
 };
 
 template <>

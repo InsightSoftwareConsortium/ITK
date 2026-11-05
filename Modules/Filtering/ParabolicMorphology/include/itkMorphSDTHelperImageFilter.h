@@ -122,16 +122,13 @@ public:
     this->Modified();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
   itkConceptMacro(Input1ConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage1::PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(Input2ConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage2::PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(GreaterThanComparable,
                   (Concept::GreaterThanComparable<typename TInputImage3::PixelType, typename TInputImage3::PixelType>));
-  /** End concept checking */
-#endif
+
 protected:
   MorphSDTHelperImageFilter() = default;
   virtual ~MorphSDTHelperImageFilter() = default;

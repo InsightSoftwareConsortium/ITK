@@ -97,7 +97,7 @@ public:
     m_Seeds.push_front(seed);
   }
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
   itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, OutputPixelType>));
   itkConceptMacro(UnsignedShortConvertibleToOutputCheck, (Concept::Convertible<unsigned short, OutputPixelType>));
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));

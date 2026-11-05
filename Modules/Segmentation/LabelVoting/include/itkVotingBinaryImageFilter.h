@@ -113,7 +113,7 @@ public:
   itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputPixelType>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputPixelType>));
 
 protected:

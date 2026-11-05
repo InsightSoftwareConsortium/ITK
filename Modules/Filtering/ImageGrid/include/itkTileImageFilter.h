@@ -121,7 +121,7 @@ public:
   itkGetConstMacro(DefaultPixelValue, OutputPixelType);
 
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
-  itkConceptMacro(SameTypeCheck, (Concept::SameType<InputPixelType, OutputPixelType>));
+  static_assert(std::is_same_v<InputPixelType, OutputPixelType>);
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
 
 protected:

@@ -105,7 +105,7 @@ public:
   /** Get the foreground value */
   itkGetConstMacro(ForegroundValue, PixelType);
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, DisplacementFieldDimension>));
+  static_assert(ImageDimension == DisplacementFieldDimension);
   itkConceptMacro(DisplacementFieldHasNumericTraitsCheck,
                   (Concept::HasNumericTraits<typename TDisplacementField::PixelType::ValueType>));
 

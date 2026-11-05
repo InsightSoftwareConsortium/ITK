@@ -104,7 +104,7 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   itkConceptMacro(OutputPixelIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
 

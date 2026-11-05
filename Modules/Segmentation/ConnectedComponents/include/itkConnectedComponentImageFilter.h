@@ -139,7 +139,7 @@ public:
   // only set after completion
   itkGetConstReferenceMacro(ObjectCount, LabelType);
 
-  itkConceptMacro(OutputImagePixelTypeIsInteger, (Concept::IsInteger<OutputImagePixelType>));
+  static_assert(std::is_integral_v<OutputImagePixelType>);
 
   itkSetInputMacro(MaskImage, MaskImageType);
   itkGetInputMacro(MaskImage, MaskImageType);

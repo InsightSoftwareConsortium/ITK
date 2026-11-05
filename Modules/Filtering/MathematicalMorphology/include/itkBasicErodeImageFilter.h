@@ -84,8 +84,8 @@ public:
   using KernelPixelType = typename TKernel::PixelType;
 
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
-  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
+  static_assert(InputImageDimension == KernelDimension);
   itkConceptMacro(InputLessThanComparableCheck, (Concept::LessThanComparable<PixelType>));
   itkConceptMacro(KernelGreaterThanComparableCheck, (Concept::GreaterThanComparable<KernelPixelType>));
 

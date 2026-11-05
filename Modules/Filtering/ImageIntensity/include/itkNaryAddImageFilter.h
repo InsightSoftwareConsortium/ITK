@@ -118,7 +118,7 @@ public:
 
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
-  itkConceptMacro(InputHasZeroCheck, (Concept::HasZero<typename TInputImage::PixelType>));
+  static_assert(std::is_default_constructible_v<typename TInputImage::PixelType>);
 
 protected:
   NaryAddImageFilter() = default;

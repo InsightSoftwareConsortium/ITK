@@ -103,10 +103,8 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
   using InputImageRegionConstIterator = typename itk::ImageScanlineConstIterator<InputImageType>;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   /// This ensure that PixelType is float||double, and not complex.
   itkConceptMacro(OutputPixelTypeIsFloatCheck, (Concept::IsFloatingPoint<typename TOutputImage::PixelType>));
-#endif
   const OutputImageType *
   GetOutputPhase() const
   {

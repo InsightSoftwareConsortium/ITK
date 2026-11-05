@@ -98,8 +98,8 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(OutputHasZeroCheck, (Concept::HasZero<OutputImagePixelType>));
+  static_assert(InputImageDimension == OutputImageDimension);
+  static_assert(std::is_default_constructible_v<OutputImagePixelType>);
 
 protected:
   NaryFunctorImageFilter();

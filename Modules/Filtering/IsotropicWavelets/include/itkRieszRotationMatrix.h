@@ -226,12 +226,6 @@ public:
     this->m_Debug = false;
   }
 
-#ifdef ITK_USE_STRICT_CONCEPT_CHECKING
-  // Begin concept checking
-  itkConceptMacro(ValueTypeIsFloatCheck, (Concept::IsFloatingPoint<ValueType>));
-  // End concept checking
-#endif
-
 private:
   using ResultValueType = std::complex<long double>;
   SpatialRotationMatrixType m_SpatialRotationMatrix;

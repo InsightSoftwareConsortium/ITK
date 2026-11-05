@@ -391,11 +391,8 @@ public:
     return m_Optimizer->GetConfidences();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  static constexpr unsigned int MovingImageDimension = FixedImageType::ImageDimension;
-  /** Start concept checking */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, MovingImageDimension>));
-#endif
+  static constexpr unsigned int MovingImageDimension = MovingImageType::ImageDimension;
+  static_assert(ImageDimension == MovingImageDimension);
 
 protected:
   PhaseCorrelationImageRegistrationMethod();

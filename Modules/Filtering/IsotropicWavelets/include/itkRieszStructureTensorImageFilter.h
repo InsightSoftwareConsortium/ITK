@@ -121,10 +121,8 @@ public:
   using FloatImageType = itk::Image<FloatType, ImageDimension>;
   using FloatImagePointer = typename FloatImageType::Pointer;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   // This ensure that PixelType is float||double, and not complex.
   itkConceptMacro(InputPixelTypeIsFloatCheck, (Concept::IsFloatingPoint<typename TInputImage::PixelType>));
-#endif
   using EigenMatrixImageType = OutputImageType;
   using EigenMatrixType = OutputImagePixelType;
   using EigenValuesType = itk::Array<typename OutputImagePixelType::ValueType>;

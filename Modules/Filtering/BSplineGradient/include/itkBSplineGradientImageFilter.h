@@ -74,12 +74,8 @@ public:
   using OutputPixelType = CovariantVector<OutputValueType, Self::OutputImageDimension>;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputValueType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputValueType>));
-  /** End concept checking */
-#endif
 
   /** Typedefs for the interpolator. */
   using CoordinateType = TCoordRep;

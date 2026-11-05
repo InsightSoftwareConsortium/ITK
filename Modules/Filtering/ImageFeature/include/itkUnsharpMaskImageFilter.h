@@ -100,7 +100,7 @@ public:
    */
   itkNewMacro(Self);
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   itkConceptMacro(InternalTypeIsFloatingPoint, (Concept::IsFloatingPoint<TInternalPrecision>));
 

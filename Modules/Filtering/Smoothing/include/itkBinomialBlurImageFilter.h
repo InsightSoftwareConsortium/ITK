@@ -93,7 +93,7 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<Self::NDimensions, Self::NOutputDimensions>));
+  static_assert(NDimensions == NOutputDimensions);
   itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, PixelType>));
 

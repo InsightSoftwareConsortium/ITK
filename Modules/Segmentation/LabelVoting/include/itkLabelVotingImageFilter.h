@@ -145,8 +145,8 @@ public:
 
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
-  itkConceptMacro(InputUnsignedIntCheck, (Concept::IsUnsignedInteger<InputPixelType>));
+  static_assert(InputImageDimension == ImageDimension);
+  static_assert(!NumericTraits<InputPixelType>::is_signed);
   itkConceptMacro(IntConvertibleToOutputPixelType, (Concept::Convertible<int, OutputPixelType>));
   itkConceptMacro(InputPlusIntCheck, (Concept::AdditiveOperators<InputPixelType, int>));
   itkConceptMacro(InputIncrementDecrementOperatorsCheck, (Concept::IncrementDecrementOperators<InputPixelType>));

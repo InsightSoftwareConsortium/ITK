@@ -158,7 +158,7 @@ public:
   itkGetConstMacro(UseReferenceImage, bool);
   /** @ITKEndGrouping */
   static constexpr unsigned int PixelDimension = PixelType::Dimension;
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, PixelDimension>));
+  static_assert(ImageDimension == PixelDimension);
 
 protected:
   TransformToDisplacementFieldFilter();

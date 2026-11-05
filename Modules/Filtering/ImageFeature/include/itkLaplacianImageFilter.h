@@ -114,7 +114,7 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   /** @ITKEndGrouping */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
   itkConceptMacro(InputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<InputPixelType>));
   itkConceptMacro(OutputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
 

@@ -31,951 +31,247 @@
 #include "itkPixelTraits.h"
 #include "itkNumericTraits.h"
 #include <iostream>
+#include <type_traits>
 
-/** Choose a concept checking implementation based on compiler abilities. */
-#ifndef ITK_CONCEPT_NO_CHECKING
-#  if defined(_MSC_VER) && !defined(__ICL)
-#    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
-// TST_RMV_20100730 #elif defined(__SUNPRO_CC)
-// TST_RMV_20100730 #define ITK_CONCEPT_IMPLEMENTATION_VTABLE
-#  else
-#    define ITK_CONCEPT_IMPLEMENTATION_STANDARD
-#  endif
-#endif
-
-/** Define the concept checking implementation chosen above. */
-#if defined(ITK_CONCEPT_IMPLEMENTATION_STANDARD)
-
-/**
- * Standard instantiation-time concept check.  No run-time overhead
- * introduced.  This implementation is based on "Concept Checking:
- * Binding Parametric Polymorphism in C++" by Jeremy Siek and Andrew
- * Lumsdaine, University of Notre Dame.
+/** \brief Compile-time check that a template argument satisfies an itk::Concept.
+ *
+ * \p conceptType is parenthesized, so it may contain commas. Prefer using a concept directly:
+ * \code
+ * static_assert(Concept::HasNumericTraits<InputPixelType>::value, "InputPixelType must have NumericTraits");
+ * \endcode
  */
+#define itkConceptMacro(name, conceptType)                                    \
+  static_assert(::itk::Concept::Detail::IsSatisfied<void conceptType>::value, \
+                "ITK concept check failed: " #name " " #conceptType)
 
-// Leave ()'s off the sizeof to force the caller to pass them in the
-// concept argument of the itkConceptMacro.  This is necessary because
-// the argument may contain commas.
-#  define itkConceptConstraintsMacro()                                 \
-    template <void (Constraints::*)()>                                 \
-    struct Enforcer                                                    \
-    {};                                                                \
-    using EnforcerInstantiation = Enforcer<&Constraints::constraints>; \
-    ITK_MACROEND_NOOP_STATEMENT
-#  define itkConceptMacro(name, concept) \
-    enum                                 \
-    {                                    \
-      name = sizeof concept              \
-    };                                   \
-    ITK_MACROEND_NOOP_STATEMENT
-
-#elif defined(ITK_CONCEPT_IMPLEMENTATION_VTABLE)
-
-/**
- * Alternate implementation for some compilers.  This introduces no
- * run-time overhead.  The "vtable" approach was invented for this
- * project by Brad King at Kitware.
- */
-/** @ITKStartGrouping */
-#  define itkConceptConstraintsMacro() \
-    virtual void Enforcer() { &Constraints::constraints; }
-#  define itkConceptMacro(name, concept) \
-    enum                                 \
-    {                                    \
-      name = sizeof concept              \
-    }
-/** @ITKEndGrouping */
-#elif defined(ITK_CONCEPT_IMPLEMENTATION_CALL)
-
-/** Not implemented.  */
-#  define itkConceptConstraintsMacro()
-#  define itkConceptMacro(name, concept) \
-    enum                                 \
-    {                                    \
-      name = 0                           \
-    }
-
-#else
-
-/** Disable concept checking.  */
-#  define itkConceptConstraintsMacro()
-#  define itkConceptMacro(name, concept) \
-    enum                                 \
-    {                                    \
-      name = 0                           \
-    }
-
-#endif
-
-
-/** All concept class definitions are contained in the "itk::Concept"
-    namespace. */
 namespace itk::Concept
 {
-
-/**
- * Some concept implementation details are adapted from the BOOST C++
- * libraries (www.boost.org).  These are marked with "(BOOST)" in the
- * corresponding comment.
- */
-
-/** Namespace containing concept check implementation details. */
 namespace Detail
 {
-template <typename T>
-struct UniqueType
-{};
-template <int>
-struct UniqueType_int
-{};
-template <unsigned int>
-struct UniqueType_unsigned_int
-{};
-template <bool>
-struct UniqueType_bool
+/** Unwraps the parenthesized concept passed to itkConceptMacro, as `void(TConcept)`. */
+template <typename TSignature>
+struct IsSatisfied;
+template <typename TConcept>
+struct IsSatisfied<void(TConcept)> : TConcept
 {};
 
-/**
- * Concept checks may require a variable to be declared but not used.
- * This function can be called with the variable to prevent the compiler
- * warning. (BOOST)
- */
-template <typename T>
-inline void
-IgnoreUnusedVariable(T)
-{}
+template <typename TVoid, template <typename...> typename TExpression, typename... TArgs>
+struct IsValidExpressionImpl : std::false_type
+{};
+template <template <typename...> typename TExpression, typename... TArgs>
+struct IsValidExpressionImpl<std::void_t<TExpression<TArgs...>>, TExpression, TArgs...> : std::true_type
+{};
+/** True when the type alias TExpression<TArgs...> is well-formed (detection idiom). */
+template <template <typename...> typename TExpression, typename... TArgs>
+inline constexpr bool IsValidExpression = IsValidExpressionImpl<void, TExpression, TArgs...>::value;
 
-/**
- * Concept checks may require that an expression be convertible to bool.
- * Passing the expression to this function will enforce this requirement.
- * (BOOST)
- */
+template <typename TBoolean>
+using RequireBoolean = std::enable_if_t<std::is_convertible_v<TBoolean, bool>>;
 template <typename T>
-void
-RequireBooleanExpression(const T & t)
-{
-  const bool x = t;
+T &
+Lvalue(); // Shorthand for std::declval<T &>(), only used in unevaluated operands.
 
-  IgnoreUnusedVariable(x);
-}
+template <typename T1, typename T2>
+using StaticCast = decltype(static_cast<T2>(Lvalue<T1>()));
+template <typename T1, typename T2>
+using LessThan = std::void_t<RequireBoolean<decltype(Lvalue<T1>() < Lvalue<T2>())>,
+                             RequireBoolean<decltype(Lvalue<T1>() <= Lvalue<T2>())>>;
+template <typename T1, typename T2>
+using GreaterThan = std::void_t<RequireBoolean<decltype(Lvalue<T1>() > Lvalue<T2>())>,
+                                RequireBoolean<decltype(Lvalue<T1>() >= Lvalue<T2>())>>;
+ITK_GCC_PRAGMA_PUSH
+ITK_GCC_SUPPRESS_Wfloat_equal
+template <typename T1, typename T2>
+using Equality = std::void_t<RequireBoolean<decltype(Lvalue<T1>() == Lvalue<T2>())>,
+                             RequireBoolean<decltype(Lvalue<T1>() != Lvalue<T2>())>>;
+ITK_GCC_PRAGMA_POP
+template <typename T1, typename T2, typename T3>
+using Additive = std::void_t<decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>() + Lvalue<const T2>())),
+                             decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>() - Lvalue<const T2>()))>;
+template <typename T1, typename T2>
+using AdditiveAndAssign =
+  std::void_t<decltype(Lvalue<T2>() += Lvalue<const T1>()), decltype(Lvalue<T2>() -= Lvalue<const T1>())>;
+template <typename T1, typename T2, typename T3>
+using Multiply = decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>() * Lvalue<const T2>()));
+template <typename T1, typename T2>
+using MultiplyAndAssign = decltype(Lvalue<T2>() *= Lvalue<const T1>());
+template <typename T1, typename T2, typename T3>
+using Division = decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>() / Lvalue<const T2>()));
+template <typename T1, typename T2>
+using DivisionAndAssign = decltype(Lvalue<T2>() /= Lvalue<const T1>());
+template <typename T1, typename T2, typename T3>
+using Bitwise = std::void_t<decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>() & Lvalue<const T2>())),
+                            decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>() | Lvalue<const T2>())),
+                            decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>() ^ Lvalue<const T2>())),
+                            decltype(Lvalue<T3>() &= static_cast<T3>(Lvalue<const T2>())),
+                            decltype(Lvalue<T3>() |= static_cast<T3>(Lvalue<const T2>())),
+                            decltype(Lvalue<T3>() ^= static_cast<T3>(Lvalue<const T2>()))>;
+template <typename T1, typename T2, typename T3>
+using Bracket = decltype(Lvalue<T3>() = static_cast<T3>(Lvalue<const T1>()[Lvalue<const T2>()]));
+template <typename T>
+using Not = decltype(Lvalue<T>() = !Lvalue<T>());
+template <typename T>
+using IncrementDecrement =
+  std::void_t<decltype(Lvalue<T>()++), decltype(Lvalue<T>()--), decltype(++Lvalue<T>()), decltype(--Lvalue<T>())>;
+template <typename T>
+using OStreamWrite = decltype(Lvalue<std::ostream>() << Lvalue<T>());
+template <typename T, typename TTraits = NumericTraits<T>>
+using NumericTraitsMembers = std::void_t<typename TTraits::ValueType,
+                                         typename TTraits::PrintType,
+                                         typename TTraits::AbsType,
+                                         typename TTraits::AccumulateType,
+                                         typename TTraits::RealType,
+                                         typename TTraits::ScalarRealType,
+                                         typename TTraits::FloatType,
+                                         decltype(Lvalue<T>() = TTraits::NonpositiveMin(Lvalue<const T>())),
+                                         decltype(Lvalue<T>() = TTraits::ZeroValue(Lvalue<const T>())),
+                                         decltype(Lvalue<T>() = TTraits::OneValue(Lvalue<const T>())),
+                                         RequireBoolean<decltype(TTraits::IsPositive(Lvalue<const T>()))>,
+                                         RequireBoolean<decltype(TTraits::IsNonpositive(Lvalue<const T>()))>,
+                                         RequireBoolean<decltype(TTraits::IsNegative(Lvalue<const T>()))>,
+                                         RequireBoolean<decltype(TTraits::IsNonnegative(Lvalue<const T>()))>>;
+/** The primary NumericTraits template derives from an unspecialized std::numeric_limits<T>. */
+template <typename T>
+inline constexpr bool IsPrimaryNumericTraits =
+  std::is_base_of_v<std::numeric_limits<T>, NumericTraits<T>> && !std::numeric_limits<T>::is_specialized;
+template <typename T>
+using PixelTraitsMembers =
+  std::void_t<typename PixelTraits<T>::ValueType,
+              std::enable_if_t<std::is_convertible_v<decltype(PixelTraits<T>::Dimension), unsigned int>>>;
+template <typename T>
+using ValueTypeMember = typename T::ValueType;
+template <typename T1, typename T2>
+using JoinTraitsMember = typename JoinTraits<T1, T2>::ValueType;
+template <typename T>
+inline constexpr bool IsExact = std::numeric_limits<typename NumericTraits<T>::ValueType>::is_exact;
 } // namespace Detail
 
-/** Concept requiring T to have a default constructor. (BOOST) */
+/** Each concept is a std::bool_constant telling whether its requirement holds. */
 template <typename T>
-struct DefaultConstructible
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      T a;
-
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have a copy constructor. (BOOST) */
+struct DefaultConstructible : std::is_default_constructible<T>
+{};
 template <typename T>
-struct CopyConstructible
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      T   a(b);
-      T * p = &a;
-
-      const_constraints(a);
-      Detail::IgnoreUnusedVariable(p);
-    }
-
-    void
-    const_constraints(const T & a)
-    {
-      T         c(a);
-      const T * p = &a;
-
-      Detail::IgnoreUnusedVariable(c);
-      Detail::IgnoreUnusedVariable(p);
-    }
-
-    T b;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 to be convertible to T2. (BOOST) */
+struct CopyConstructible : std::is_copy_constructible<T>
+{};
+/** T1 is convertible to T2 by static_cast. */
 template <typename T1, typename T2>
-struct Convertible
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      auto b = static_cast<T2>(a);
-
-      Detail::IgnoreUnusedVariable(b);
-    }
-
-    T1 a;
-  };
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have operator =.  (BOOST) */
+struct Convertible : std::bool_constant<Detail::IsValidExpression<Detail::StaticCast, T1, T2>>
+{};
 template <typename T>
-struct Assignable
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      T x = a;
-      const_constraints(x);
-    }
-
-    void
-    const_constraints(const T & b)
-    {
-      a = b;
-    }
-
-    T a;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 to have operators < and <= with a right-hand operator
-    of type T2.  (BOOST) */
+struct Assignable : std::bool_constant<std::is_copy_constructible_v<T> && std::is_copy_assignable_v<T>>
+{};
+/** T1 < T2 and T1 <= T2. */
 template <typename T1, typename T2 = T1>
-struct LessThanComparable
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      Detail::RequireBooleanExpression(a < b);
-      Detail::RequireBooleanExpression(a <= b);
-    }
-
-    T1 a;
-    T2 b;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 to have operators > and >= with a right-hand operator
-    of type T2.  (BOOST) */
+struct LessThanComparable : std::bool_constant<Detail::IsValidExpression<Detail::LessThan, T1, T2>>
+{};
+/** T1 > T2 and T1 >= T2. */
 template <typename T1, typename T2 = T1>
-struct GreaterThanComparable
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      Detail::RequireBooleanExpression(a > b);
-      Detail::RequireBooleanExpression(a >= b);
-    }
-
-    T1 a;
-    T2 b;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 to have operators == and != with a right-hand operator
-    of type T2.  (BOOST) */
+struct GreaterThanComparable : std::bool_constant<Detail::IsValidExpression<Detail::GreaterThan, T1, T2>>
+{};
+/** T1 == T2 and T1 != T2. */
 template <typename T1, typename T2 = T1>
-struct EqualityComparable
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      ITK_GCC_PRAGMA_PUSH
-      ITK_GCC_SUPPRESS_Wfloat_equal
-      Detail::RequireBooleanExpression(a == b);
-      Detail::RequireBooleanExpression(a != b);
-      ITK_GCC_PRAGMA_POP
-    }
-
-    T1 a;
-    T2 b;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 to have operators <, >, <=, >=, ==, != with a
-    right-hand operator of type T2. (BOOST) */
+struct EqualityComparable : std::bool_constant<Detail::IsValidExpression<Detail::Equality, T1, T2>>
+{};
+/** T1 <, >, <=, >=, ==, != T2. */
 template <typename T1, typename T2 = T1>
 struct Comparable
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      Detail::RequireBooleanExpression(a < b);
-      Detail::RequireBooleanExpression(a > b);
-      Detail::RequireBooleanExpression(a <= b);
-      Detail::RequireBooleanExpression(a >= b);
-      ITK_GCC_PRAGMA_PUSH
-      ITK_GCC_SUPPRESS_Wfloat_equal
-      Detail::RequireBooleanExpression(a == b);
-      Detail::RequireBooleanExpression(a != b);
-      ITK_GCC_PRAGMA_POP
-    }
-
-    T1 a;
-    T2 b;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 to have operators +, -, in the form
-    T1 op T2 = T3.  */
+  : std::bool_constant<LessThanComparable<T1, T2>::value && GreaterThanComparable<T1, T2>::value &&
+                       EqualityComparable<T1, T2>::value>
+{};
+/** T3 = T1 + T2 and T3 = T1 - T2. */
 template <typename T1, typename T2 = T1, typename T3 = T1>
-struct AdditiveOperators
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a = static_cast<T3>(b + c);
-      a = static_cast<T3>(b - c);
-      const_constraints(b, c);
-    }
-
-    void
-    const_constraints(const T1 & d, const T2 & e)
-    {
-      a = static_cast<T3>(d + e);
-      a = static_cast<T3>(d - e);
-    }
-
-    T3 a;
-    T1 b;
-    T2 c;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-
-/** Concept requiring T1 to have operators +=, -= in the form
-    T2 op= T1.  */
+struct AdditiveOperators : std::bool_constant<Detail::IsValidExpression<Detail::Additive, T1, T2, T3>>
+{};
+/** T2 += T1 and T2 -= T1. */
 template <typename T1, typename T2 = T1>
-struct AdditiveAndAssignOperators
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a += c;
-      a -= c;
-      const_constraints(c);
-    }
-
-    void
-    const_constraints(const T1 & d)
-    {
-      a += d;
-      a -= d;
-    }
-
-    T2 a;
-    T1 c;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have operator * in the form T1 op T2 = T3. */
+struct AdditiveAndAssignOperators : std::bool_constant<Detail::IsValidExpression<Detail::AdditiveAndAssign, T1, T2>>
+{};
+/** T3 = T1 * T2. */
 template <typename T1, typename T2 = T1, typename T3 = T1>
-struct MultiplyOperator
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a = static_cast<T3>(b * c);
-      const_constraints(b, c);
-    }
-
-    void
-    const_constraints(const T1 & d, const T2 & e)
-    {
-      a = static_cast<T3>(d * e);
-    }
-
-    T3 a;
-    T1 b;
-    T2 c;
-  };
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have operator  *= in the form T2 op= T1. */
+struct MultiplyOperator : std::bool_constant<Detail::IsValidExpression<Detail::Multiply, T1, T2, T3>>
+{};
+/** T2 *= T1. */
 template <typename T1, typename T2 = T1>
-struct MultiplyAndAssignOperator
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a *= b;
-      const_constraints(b);
-    }
-
-    void
-    const_constraints(const T1 & d)
-    {
-      a *= d;
-    }
-
-    T2 a;
-    T1 b;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have operators / the form T1 op T2 = T3. */
+struct MultiplyAndAssignOperator : std::bool_constant<Detail::IsValidExpression<Detail::MultiplyAndAssign, T1, T2>>
+{};
+/** T3 = T1 / T2. */
 template <typename T1, typename T2 = T1, typename T3 = T1>
-struct DivisionOperators
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a = static_cast<T3>(b / c);
-      const_constraints(b, c);
-    }
-
-    void
-    const_constraints(const T1 & d, const T2 & e)
-    {
-      a = static_cast<T3>(d / e);
-    }
-
-    T3 a;
-    T1 b;
-    T2 c;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-
-/** Concept requiring T to have operators /= in the form T2 op= T1. */
+struct DivisionOperators : std::bool_constant<Detail::IsValidExpression<Detail::Division, T1, T2, T3>>
+{};
+/** T2 /= T1. */
 template <typename T1, typename T2 = T1>
-struct DivisionAndAssignOperators
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a /= c;
-      const_constraints(c);
-    }
-
-    void
-    const_constraints(const T1 & d)
-    {
-      a /= d;
-    }
-
-    T1 c;
-    T2 a;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-
-/** Concept requiring T1 to have operators &, |, and ^ in the form
-    T1 op T2 = T3.  */
+struct DivisionAndAssignOperators : std::bool_constant<Detail::IsValidExpression<Detail::DivisionAndAssign, T1, T2>>
+{};
+/** T3 = T1 op T2 and T3 op= T2, for op in &, |, ^. */
 template <typename T1, typename T2 = T1, typename T3 = T1>
-struct BitwiseOperators
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a = static_cast<T3>(b & c);
-      a = static_cast<T3>(b | c);
-      a = static_cast<T3>(b ^ c);
-      a &= static_cast<T3>(c);
-      a |= static_cast<T3>(c);
-      a ^= static_cast<T3>(c);
-      const_constraints(b, c);
-    }
-
-    void
-    const_constraints(const T1 & d, const T2 & e)
-    {
-      a = static_cast<T3>(d & e);
-      a = static_cast<T3>(d | e);
-      a = static_cast<T3>(d ^ e);
-      a &= static_cast<T3>(e);
-      a |= static_cast<T3>(e);
-      a ^= static_cast<T3>(e);
-    }
-
-    T3 a;
-    T1 b;
-    T2 c;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 to have operators []  in the form T1 [] T2 = T3.  */
+struct BitwiseOperators : std::bool_constant<Detail::IsValidExpression<Detail::Bitwise, T1, T2, T3>>
+{};
+/** T3 = T1[T2]. */
 template <typename T1, typename T2 = T1, typename T3 = T1>
-struct BracketOperator
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a = static_cast<T3>(b[c]);
-      const_constraints(b, c);
-    }
-
-    void
-    const_constraints(const T1 & d, const T2 & e)
-    {
-      a = static_cast<T3>(d[e]);
-    }
-
-    T3 a;
-    T1 b;
-    T2 c;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have operator !.  */
+struct BracketOperator : std::bool_constant<Detail::IsValidExpression<Detail::Bracket, T1, T2, T3>>
+{};
 template <typename T>
-struct NotOperator
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a = !a;
-    }
-
-    T a;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have operators ++ and --.  */
+struct NotOperator : std::bool_constant<Detail::IsValidExpression<Detail::Not, T>>
+{};
 template <typename T>
-struct IncrementDecrementOperators
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      a++;
-      a--;
-      ++a;
-      --a;
-    }
-
-    T a;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to be writable to an ostream.  */
+struct IncrementDecrementOperators : std::bool_constant<Detail::IsValidExpression<Detail::IncrementDecrement, T>>
+{};
 template <typename T>
-struct OStreamWritable
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      std::cout << a;
-    }
-
-    T a;
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to be signed. */
+struct OStreamWritable : std::bool_constant<Detail::IsValidExpression<Detail::OStreamWrite, T>>
+{};
 template <typename T>
-struct Signed
-{
-  using Self = Signed;
-  static constexpr bool IsSigned = NumericTraits<T>::is_signed;
-  struct Constraints
-  {
-    using TrueT = Detail::UniqueType_bool<true>;
-    using SignedT = Detail::UniqueType_bool<Self::IsSigned>;
-    void
-    constraints()
-    {
-      const SignedT a = TrueT();
-
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T1 and T2 to be the same type. */
+struct Signed : std::bool_constant<NumericTraits<T>::is_signed>
+{};
 template <typename T1, typename T2>
-struct SameType
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      const Detail::UniqueType<T1> a = Detail::UniqueType<T2>();
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring D1 and D2 to be the same dimension. */
+struct SameType : std::is_same<T1, T2>
+{};
 template <unsigned int D1, unsigned int D2>
-struct SameDimension
-{
-  struct Constraints
-  {
-    using DT1 = Detail::UniqueType_unsigned_int<D1>;
-    using DT2 = Detail::UniqueType_unsigned_int<D2>;
-    void
-    constraints()
-    {
-      DT1 const a = DT2();
-
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have NumericTraits */
+struct SameDimension : std::bool_constant<D1 == D2>
+{};
+/** NumericTraits<T> is specialized and provides the members ITK relies on. */
 template <typename T>
 struct HasNumericTraits
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      // This is here to cause compile-time failures, if a provided custom type is missing some methods.
-      Detail::UniqueType<typename NumericTraits<T>::ValueType>();
-      Detail::UniqueType<typename NumericTraits<T>::PrintType>();
-      Detail::UniqueType<typename NumericTraits<T>::AbsType>();
-      Detail::UniqueType<typename NumericTraits<T>::AccumulateType>();
-      Detail::UniqueType<typename NumericTraits<T>::RealType>();
-      Detail::UniqueType<typename NumericTraits<T>::ScalarRealType>();
-      Detail::UniqueType<typename NumericTraits<T>::FloatType>();
-
-      T a{};
-
-      // Test these methods that take an instance of T to
-      // allow for types with variable length.
-      a = NumericTraits<T>::NonpositiveMin(a);
-      a = NumericTraits<T>::ZeroValue(a);
-      a = NumericTraits<T>::OneValue(a);
-
-      bool b = NumericTraits<T>::IsPositive(a);
-      b &= NumericTraits<T>::IsNonpositive(a);
-      b &= NumericTraits<T>::IsNegative(a);
-      b &= NumericTraits<T>::IsNonnegative(a);
-      Detail::IgnoreUnusedVariable(a);
-      Detail::IgnoreUnusedVariable(b);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have PixelTraits */
+  : std::bool_constant<!Detail::IsPrimaryNumericTraits<T> && std::is_default_constructible_v<T> &&
+                       Detail::IsValidExpression<Detail::NumericTraitsMembers, T>>
+{};
 template <typename T>
-struct HasPixelTraits
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      Detail::UniqueType<typename PixelTraits<T>::ValueType>();
-      const unsigned int a = PixelTraits<T>::Dimension;
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have a trait called ValueType */
+struct HasPixelTraits : std::bool_constant<Detail::IsValidExpression<Detail::PixelTraitsMembers, T>>
+{};
 template <typename T>
-struct HasValueType
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      Detail::UniqueType<typename T::ValueType>();
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have Zero */
+struct HasValueType : std::bool_constant<Detail::IsValidExpression<Detail::ValueTypeMember, T>>
+{};
 template <typename T>
-struct HasZero
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      T a = T{};
-
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to have JoinTraits */
+struct HasZero : std::is_default_constructible<T>
+{};
 template <typename T1, typename T2>
-struct HasJoinTraits
-{
-  struct Constraints
-  {
-    void
-    constraints()
-    {
-      Detail::UniqueType<typename JoinTraits<T1, T2>::ValueType>();
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring D1 and D2 to be the same dimension or D1-1 = D2. */
+struct HasJoinTraits : std::bool_constant<Detail::IsValidExpression<Detail::JoinTraitsMember, T1, T2>>
+{};
+/** D2 is D1 or D1 - 1. */
 template <unsigned int D1, unsigned int D2>
-struct SameDimensionOrMinusOne
-{
-  struct Constraints
-  {
-    using Type1 = Detail::UniqueType_unsigned_int<D1>;
-    using Type2 = Detail::UniqueType_unsigned_int<D1 - 1>;
-
-    void
-    f(Type1)
-    {}
-    void
-    f(Type2, int = 0)
-    {}
-
-    void
-    constraints()
-    {
-      const Detail::UniqueType_unsigned_int<D2> tt;
-      this->f(tt);
-    }
-  };
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring D1 and D2 to be the same dimension, D1-1 = D2 or D1-2 = D2. */
+struct SameDimensionOrMinusOne : std::bool_constant<D2 == D1 || D2 == D1 - 1>
+{};
+/** D2 is D1, D1 - 1 or D1 - 2. */
 template <unsigned int D1, unsigned int D2>
-struct SameDimensionOrMinusOneOrTwo
-{
-  struct Constraints
-  {
-    using Type1 = Detail::UniqueType_unsigned_int<D1>;
-    using Type2 = Detail::UniqueType_unsigned_int<D1 - 1>;
-    using Type3 = Detail::UniqueType_unsigned_int<D1 - 2>;
-
-    void
-    f(Type1)
-    {}
-    void
-    f(Type2, int = 0)
-    {}
-    void
-    f(Type3, int = 0, int = 0)
-    {}
-
-    void
-    constraints()
-    {
-      constexpr Detail::UniqueType_unsigned_int<D2> tt;
-      this->f(tt);
-    }
-  };
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to be integer. */
+struct SameDimensionOrMinusOneOrTwo : std::bool_constant<D2 == D1 || D2 == D1 - 1 || D2 == D1 - 2>
+{};
 template <typename T>
-struct IsInteger
-{
-  using Self = IsInteger;
-  static constexpr bool Integral = std::is_integral_v<T>;
-  struct Constraints
-  {
-    using TrueT = Detail::UniqueType_bool<true>;
-    using IntegralT = Detail::UniqueType_bool<Self::Integral>;
-    void
-    constraints()
-    {
-      const IntegralT a = TrueT();
-
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-
-/** Concept requiring T to be an unsigned integer. */
+struct IsInteger : std::is_integral<T>
+{};
+/** T is unsigned, according to NumericTraits. */
 template <typename T>
-struct IsUnsignedInteger
-{
-  using Self = IsUnsignedInteger;
-  static constexpr bool Unsigned = !NumericTraits<T>::is_signed;
-  struct Constraints
-  {
-    using TrueT = Detail::UniqueType_bool<true>;
-    using UnsignedT = Detail::UniqueType_bool<Self::Unsigned>;
-    void
-    constraints()
-    {
-      const UnsignedT a = TrueT();
-
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-
-/** Concept requiring T to be non-integer. */
+struct IsUnsignedInteger : std::bool_constant<!NumericTraits<T>::is_signed>
+{};
 template <typename T>
-struct IsNonInteger
-{
-  using Self = IsNonInteger;
-  static constexpr bool NonIntegral = std::is_integral_v<T>;
-  struct Constraints
-  {
-    using FalseT = Detail::UniqueType_bool<false>;
-    using NonIntegralT = Detail::UniqueType_bool<Self::NonIntegral>;
-    void
-    constraints()
-    {
-      NonIntegralT a = FalseT();
-
-      Detail::IgnoreUnusedVariable(a);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to be floating point. */
+struct IsNonInteger : std::bool_constant<!std::is_integral_v<T>>
+{};
+/** The NumericTraits ValueType of T is inexact (floating point). */
 template <typename T>
-struct IsFloatingPoint
-{
-  using Self = IsFloatingPoint;
-  static constexpr bool Integral = std::is_integral_v<T>;
-  static constexpr bool IsExact = std::numeric_limits<typename NumericTraits<T>::ValueType>::is_exact;
-  struct Constraints
-  {
-    using FalseT = Detail::UniqueType_bool<false>;
-    using IntegralT = Detail::UniqueType_bool<Self::Integral>;
-    using ExactT = Detail::UniqueType_bool<Self::IsExact>;
-    void
-    constraints()
-    {
-      const IntegralT a = FalseT();
-      const ExactT    b = FalseT();
-
-      Detail::IgnoreUnusedVariable(a);
-      Detail::IgnoreUnusedVariable(b);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
-
-/** Concept requiring T to be fixed point. */
+struct IsFloatingPoint : std::bool_constant<!std::is_integral_v<T> && !Detail::IsExact<T>>
+{};
+/** The NumericTraits ValueType of T is exact, but T is not integral. */
 template <typename T>
-struct IsFixedPoint
-{
-  using Self = IsFixedPoint;
-  static constexpr bool Integral = std::is_integral_v<T>;
-  static constexpr bool IsExact = std::numeric_limits<typename NumericTraits<T>::ValueType>::is_exact;
-  struct Constraints
-  {
-    using TrueT = Detail::UniqueType_bool<true>;
-    using FalseT = Detail::UniqueType_bool<false>;
-    using IntegralT = Detail::UniqueType_bool<Self::Integral>;
-    using ExactT = Detail::UniqueType_bool<Self::IsExact>;
-    void
-    constraints()
-    {
-      IntegralT a = FalseT();
-      ExactT    b = TrueT();
-
-      Detail::IgnoreUnusedVariable(a);
-      Detail::IgnoreUnusedVariable(b);
-    }
-  };
-
-  itkConceptConstraintsMacro();
-};
+struct IsFixedPoint : std::bool_constant<!std::is_integral_v<T> && Detail::IsExact<T>>
+{};
 } // namespace itk::Concept
 
 #endif

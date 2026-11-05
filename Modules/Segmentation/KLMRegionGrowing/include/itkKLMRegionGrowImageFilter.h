@@ -284,11 +284,10 @@ public:
   PrintAlgorithmBorderStats();
 
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputImagePixelType::ValueType>));
-  itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
 #if defined(THIS_CONCEPT_FAILS_ON_GCC)
   /** The input pixel type must be the same as that of the output image. */
-  itkConceptMacro(SameVectorDimension,
-                  (Concept::SameDimension<Self::InputImageVectorDimension, Self::OutputImageVectorDimension>));
+  static_assert(InputImageVectorDimension == OutputImageVectorDimension);
 #endif // end THIS_CONCEPT_FAILS_ON_GCC
 
 protected:

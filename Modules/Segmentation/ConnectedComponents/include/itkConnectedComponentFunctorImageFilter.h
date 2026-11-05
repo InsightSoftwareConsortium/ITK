@@ -139,7 +139,7 @@ public:
     this->Modified();
   }
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
   itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputPixelType>));
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
   itkConceptMacro(OutputConvertibleToUnsignedIntCheck, (Concept::Convertible<OutputPixelType, unsigned int>));

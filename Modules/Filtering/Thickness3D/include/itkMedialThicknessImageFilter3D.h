@@ -91,10 +91,8 @@ protected:
   GenerateData() override;
 
 private:
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Add concept checking such as
-  // itkConceptMacro( FloatingPointPixel, ( itk::Concept::IsFloatingPoint< typename InputImageType::PixelType > ) );
-#endif
+  static_assert(InputImageDimension == 3);
+  static_assert(InputImageDimension == OutputImageDimension);
 };
 } // namespace itk
 

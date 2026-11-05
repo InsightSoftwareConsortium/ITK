@@ -140,7 +140,7 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
   itkConceptMacro(OperatorConvertibleToOutputCheck, (Concept::Convertible<OperatorValueType, OutputPixelType>));
   itkConceptMacro(InputConvertibleToOperatorCheck, (Concept::Convertible<InputPixelValueType, OperatorValueType>));
   itkConceptMacro(OperatorMultiplyOperatorCheck, (Concept::MultiplyOperator<OperatorValueType>));

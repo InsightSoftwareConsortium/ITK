@@ -130,8 +130,8 @@ public:
   NarrowBandPointer
   GetNarrowBand() const;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameTypeCheck, (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
+  static_assert(ImageDimension == OutputImageDimension);
+  static_assert(std::is_same_v<PixelType, typename TOutputImage::PixelType>);
   itkConceptMacro(FloatConvertibleToPixelTypeCheck, (Concept::Convertible<float, PixelType>));
   itkConceptMacro(PixelTypeConvertibleToFloatCheck, (Concept::Convertible<PixelType, float>));
   itkConceptMacro(PixelTypeGreaterThanFloatCheck, (Concept::GreaterThanComparable<PixelType, float>));

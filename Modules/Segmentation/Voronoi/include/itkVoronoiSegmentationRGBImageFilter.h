@@ -202,9 +202,9 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  static_assert(InputImageDimension == OutputImageDimension);
   itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, typename TOutputImage::PixelType>));
-  itkConceptMacro(PixelDimensionCheck, (Concept::SameDimension<PixelType::Dimension, 3u>));
+  static_assert(PixelType::Dimension == 3u);
 
 protected:
   VoronoiSegmentationRGBImageFilter();

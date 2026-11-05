@@ -168,8 +168,8 @@ public:
    * an object's boundary. */
   itkGetConstMacro(UseBoundaryCondition, bool);
 
-  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<ImageDimension, KernelDimension>));
+  static_assert(ImageDimension == OutputImageDimension);
+  static_assert(ImageDimension == KernelDimension);
   itkConceptMacro(OutputInputEqualityComparableCheck,
                   (Concept::EqualityComparable<typename TOutputImage::PixelType, PixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));

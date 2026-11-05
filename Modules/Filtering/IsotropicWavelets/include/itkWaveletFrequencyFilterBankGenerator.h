@@ -127,11 +127,9 @@ public:
   OutputsType
   GetOutputsHighPassBands();
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   /// This ensure that OutputPixelType is complex<float||double>
   itkConceptMacro(OutputPixelTypeIsComplexAndFloatCheck,
                   (Concept::IsFloatingPoint<typename OutputImageType::PixelType::value_type>));
-#endif
 
 protected:
   WaveletFrequencyFilterBankGenerator();

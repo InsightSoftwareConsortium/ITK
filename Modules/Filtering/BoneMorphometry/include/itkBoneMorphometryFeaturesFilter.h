@@ -165,11 +165,7 @@ public:
     return decoratedBSBV;
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  itkConceptMacro(InputPixelDimensionCheck, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
-  // End concept checking
-#endif
+  static_assert(TInputImage::ImageDimension == 3u);
 
 
 protected:

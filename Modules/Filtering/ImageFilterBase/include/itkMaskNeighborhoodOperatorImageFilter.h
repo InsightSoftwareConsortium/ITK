@@ -135,8 +135,8 @@ public:
   itkBooleanMacro(UseDefaultValue);
 
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
-  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputImageDimension, ImageDimension>));
-  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
+  static_assert(InputImageDimension == ImageDimension);
+  static_assert(InputImageDimension == MaskImageDimension);
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(OperatorConvertibleToOutputCheck, (Concept::Convertible<OperatorValueType, OutputPixelType>));
   itkConceptMacro(OutputOStreamWritable, (Concept::OStreamWritable<OutputPixelType>));

@@ -100,13 +100,9 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  /** End concept checking */
-#endif
+  static_assert(ImageDimension == OutputImageDimension);
 
 protected:
   ShrinkDecimateImageFilter();
