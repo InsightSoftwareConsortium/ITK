@@ -128,9 +128,6 @@
  * conditionally defined them here with an ITK_ prefix to prevent
  * collisions and re defined warnings.
  */
-#if ITK_CMAKEDEFINE_VAR_@HAVE_FENV_H@
-# define ITK_HAVE_FENV_H
-#endif /* HAVE_FENV_H */
 #if ITK_CMAKEDEFINE_VAR_@HAVE_UNISTD_H@
 # define ITK_HAVE_UNISTD_H
 #endif /* HAVE_UNISTD_H */
