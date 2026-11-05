@@ -56,6 +56,9 @@
 #cmakedefine ITK_LEGACY_REMOVE
 #cmakedefine ITK_LEGACY_SILENT
 #cmakedefine ITK_FUTURE_LEGACY_REMOVE
+#cmakedefine ITK_ALPHA_FEATURE_CXX20
+#cmakedefine ITK_ALPHA_FEATURE_CXX23
+#cmakedefine ITK_ALPHA_FEATURE_CXX26
 #cmakedefine ITK_USE_FFTWF
 #cmakedefine ITK_USE_FFTWD
 #cmakedefine ITK_USE_CUFFTW

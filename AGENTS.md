@@ -42,6 +42,7 @@ rows labeled **Agent default** bind AI agents only. Agents set
 5. **Link errors → check `itk-module.cmake`** — missing `DEPENDS` or `PRIVATE_DEPENDS` is the usual cause.
 6. **Licensing** — verify AI output does not reproduce third-party code in conflict with Apache 2.0.
 7. **Committed text must be load-bearing** — reviewers reject commit messages, in-source comments, and PR bodies that restate the diff or cite transient URLs, and in-source comments that narrate history ([prose-budget.md](./Documentation/AI/prose-budget.md)). Agents also follow its numeric caps. Cut prose, not code.
+8. **Headers use their C++17 form in every standard** — never select header code by `__cplusplus` value, `_MSVC_LANG`, or a `__cpp_*` macro (`#ifdef __cplusplus` is fine). Clients may use a newer C++ standard or another compiler than ITK, which breaks the One Definition Rule ([compiler-cautions.md](./Documentation/AI/compiler-cautions.md) section 16).
 
 ## Resources
 

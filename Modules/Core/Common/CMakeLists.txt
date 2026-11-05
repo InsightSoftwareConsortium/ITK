@@ -85,6 +85,29 @@ foreach(CXX_TEST_VERSION 201103L 201402L 201703L)
   endif()
 endforeach()
 
+# Unsupported, testing-only opt-ins to header code kept for a future minimum C++ standard.
+foreach(_itk_alpha_standard 20 23 26)
+  option(
+    ITK_ALPHA_FEATURE_CXX${_itk_alpha_standard}
+    "Unsupported: use the C++${_itk_alpha_standard} forms kept in ITK headers."
+    OFF
+  )
+  mark_as_advanced(ITK_ALPHA_FEATURE_CXX${_itk_alpha_standard})
+  if(
+    ITK_ALPHA_FEATURE_CXX${_itk_alpha_standard}
+    AND
+      CMAKE_CXX_STANDARD
+        LESS
+        _itk_alpha_standard
+  )
+    message(
+      FATAL_ERROR
+      "ITK_ALPHA_FEATURE_CXX${_itk_alpha_standard} requires CMAKE_CXX_STANDARD ${_itk_alpha_standard} or newer."
+    )
+  endif()
+endforeach()
+unset(_itk_alpha_standard)
+
 try_compile(
   ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   ${ITK_BINARY_DIR}

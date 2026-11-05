@@ -405,11 +405,13 @@ destructor." (Visual Studio 2022/MSVC)
   TypeName & operator=(TypeName &&) = default
 /** @ITKEndGrouping */
 
+// ITK_ALPHA_FEATURE_* (itkConfigure.h) are unsupported opt-ins; without them every standard gets the C++17 form.
+
 // When ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR is defined, ITK uses
 // the ability for operator!= to be rewritten automatically in terms of
 // operator==, as introduced with C++20. This macro is experimental. It may be
 // modified, renamed, or removed without backward compatibility support.
-#if __cplusplus >= 202002L
+#if defined(ITK_ALPHA_FEATURE_CXX20)
 #  define ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
 #endif
 
@@ -1687,7 +1689,7 @@ ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c,
 #  define ITK_FUTURE_DEPRECATED(message)
 #endif
 
-#if __cplusplus >= 202002L
+#if __cplusplus >= 202002L // ABI-neutral
 #  define ITK_NODISCARD(message) [[nodiscard(message)]]
 #else
 #  define ITK_NODISCARD(message) [[nodiscard]]

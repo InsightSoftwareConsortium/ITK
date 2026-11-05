@@ -646,4 +646,51 @@ When refactoring existing code, verify each item:
 - [ ] ITK deprecated macros replaced (`itkTypeMacro`, `ITK_DISALLOW_COPY_AND_ASSIGN`, `itkStaticConstMacro`)
 - [ ] No new clang-tidy diagnostics introduced; `llvmlibc-*`, `readability-identifier-length`, and `google-*` warnings ignored if pre-existing
 - [ ] `enum class` with `/** */` doxygen comment has a `\class` tag, or use plain `//` comment instead (KWStyle rule)
+- [ ] No `#if` on a `__cplusplus` value, `_MSVC_LANG`, or a `__cpp_*` macro in a header (section 16)
 - [ ] `NumericTraits<float>::min()` is the smallest *positive* value, not the most negative — special-case floating-point dynamic-range defaults
+
+---
+
+## 16. Headers Present Their C++17 Form in Every Standard
+
+**Bug:** ITK supports clients built with a newer C++ standard, and with another
+compiler or standard library, than ITK itself. A header that selects code with
+`__cplusplus`, `_MSVC_LANG`, or a feature-test macro (`__cpp_concepts`,
+`__cpp_lib_endian`) then gives ITK's libraries and the client different
+definitions of the same class or inline function. That violates the One
+Definition Rule: undefined behavior, no diagnostic.
+
+**Rule:** a `.h` or `.hxx` under `Modules/` (outside `ThirdParty`) is written
+for C++17, ITK's minimum, and reads the same in every standard.
+
+```cpp
+// BAD - depends on the compiler and standard of whoever includes the header:
+#if __cplusplus >= 202002L
+#ifdef __cpp_concepts
+#if defined(__cpp_lib_atomic_ref)
+
+// GOOD - write the C++17 form, with no condition.
+
+// ACCEPTABLE - a newer form kept for the day ITK requires that standard:
+#if defined(ITK_ALPHA_FEATURE_CXX20)
+```
+
+- `ITK_ALPHA_FEATURE_CXX20`, `ITK_ALPHA_FEATURE_CXX23`, and
+  `ITK_ALPHA_FEATURE_CXX26` are unsupported and untested. Each is an advanced
+  CMake option, off by default, recorded in `itkConfigure.h` so ITK and its
+  clients agree. Keep them this coarse: one switch per standard, never one
+  per feature, so they stay easy to find with `grep ITK_ALPHA_FEATURE_` and
+  easy to delete.
+- Add an alpha branch only when the newer form is clearly the one to keep
+  later.
+- An existence check for C compatibility (`#ifdef __cplusplus`) is fine.
+- A condition that changes only an attribute, a diagnostic, a
+  `static_assert`, or how a value that is the same either way is computed
+  cannot change layout, a mangled name, or an inline body. It may test the
+  standard; end the `#if` line with `// ABI-neutral`.
+- The rule also covers `__has_include` and standard library identity macros
+  (`_LIBCPP_VERSION`, `__GLIBCXX__`) when they select declarations.
+- `.cxx` files are compiled once with ITK's own standard and are not affected;
+  a check against a newer standard library belongs in a test `.cxx`.
+- The `check-no-cxx-standard-tests-in-headers` pre-commit hook rejects
+  single-line violations only; check backslash continuations by hand.
