@@ -1403,3 +1403,13 @@ forms. They are off by default, unsupported, and for testing only.
 Nothing, in most projects. If your code tests
 `ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR`, note that the macro is no
 longer defined in a C++20 build.
+
+## `ITK_HAS_CPP11_TYPETRAITS` is removed
+
+`itkConfigure.h` no longer defines `ITK_HAS_CPP11_TYPETRAITS`. It was always
+defined in builds without `ITK_LEGACY_REMOVE`, and ITK itself never tested it.
+
+### What you need to do
+
+Delete any `#ifdef ITK_HAS_CPP11_TYPETRAITS` test and keep the branch that uses
+`<type_traits>`.
