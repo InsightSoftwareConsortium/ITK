@@ -33,43 +33,18 @@
 
 #include <cfenv>
 
-#if (defined(ITK_COMPILER_SUPPORTS_SSE2_32) || defined(ITK_COMPILER_SUPPORTS_SSE2_64)) && !defined(ITK_WRAPPING_PARSER)
+#if !defined(ITK_WRAPPING_PARSER) && \
+  (defined(__x86_64__) || defined(__amd64__) || (defined(_M_AMD64) && !defined(_M_ARM64EC)))
 #  include <emmintrin.h> // SSE2 intrinsics
-#endif
-
-// Initially assume no SSE2:
-#define USE_SSE2_64IMPL 0
-#define USE_SSE2_32IMPL 0
-
-// Turn on 32-bit and/or 64-bit SSE2 impl when using any compiler on x86 platform.
-#if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined(ITK_WRAPPING_PARSER)
-#  undef USE_SSE2_32IMPL
 #  define USE_SSE2_32IMPL 1
-#endif
-#if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined(ITK_WRAPPING_PARSER)
-#  undef USE_SSE2_64IMPL
 #  define USE_SSE2_64IMPL 1
-#endif
-
-// Turn on 32-bit and 64-bit asm impl when using GCC/clang on x86 platform with the
-// following exception:
-//   GCCXML
-#if defined(__GNUC__) && !defined(ITK_WRAPPING_PARSER) && \
-  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64))
-#  define GCC_USE_ASM_32IMPL 1
-#  define GCC_USE_ASM_64IMPL 1
+#elif !defined(ITK_WRAPPING_PARSER) && (defined(__i386__) || defined(_M_IX86))
+#  include <emmintrin.h> // SSE2 intrinsics
+#  define USE_SSE2_32IMPL 1
+#  define USE_SSE2_64IMPL 0
 #else
-#  define GCC_USE_ASM_32IMPL 0
-#  define GCC_USE_ASM_64IMPL 0
-#endif
-
-// Turn on 32-bit and 64-bit asm impl when using MSVC on 32-bit x86 Windows
-#if defined(_MSC_VER) && !defined(ITK_WRAPPING_PARSER) && !defined(_WIN64)
-#  define VC_USE_ASM_32IMPL 1
-#  define VC_USE_ASM_64IMPL 1
-#else
-#  define VC_USE_ASM_32IMPL 0
-#  define VC_USE_ASM_64IMPL 0
+#  define USE_SSE2_32IMPL 0
+#  define USE_SSE2_64IMPL 0
 #endif
 
 namespace itk
@@ -176,62 +151,6 @@ RoundHalfIntegerToEven_32(float x)
   return _mm_cvtss_si32(_mm_set_ss(x));
 }
 
-#elif GCC_USE_ASM_32IMPL // GCC/clang x86 asm implementation
-
-inline int32_t
-RoundHalfIntegerToEven_32(double x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int32_t r;
-  __asm__ __volatile__("fistpl %0" : "=m"(r) : "t"(x) : "st");
-  return r;
-}
-
-inline int32_t
-RoundHalfIntegerToEven_32(float x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int32_t r;
-  __asm__ __volatile__("fistpl %0" : "=m"(r) : "t"(x) : "st");
-  return r;
-}
-
-#elif VC_USE_ASM_32IMPL // msvc asm implementation
-
-inline int32_t
-RoundHalfIntegerToEven_32(double x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int32_t r;
-  __asm
-  {
-    fld x
-    fistp r
-  }
-  return r;
-}
-
-inline int32_t
-RoundHalfIntegerToEven_32(float x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int32_t r;
-  __asm
-  {
-    fld x
-    fistp r
-  }
-  return r;
-}
-
 #else // Base implementation
 
 template <typename TInput>
@@ -243,7 +162,7 @@ RoundHalfIntegerToEven_32(TInput x)
 
 #endif
 
-#if USE_SSE2_32IMPL || GCC_USE_ASM_32IMPL || VC_USE_ASM_32IMPL
+#if USE_SSE2_32IMPL
 
 inline int32_t
 RoundHalfIntegerUp_32(double x)
@@ -301,7 +220,7 @@ Ceil_32(TInput x)
   return Ceil_base<int32_t, TInput>(x);
 }
 
-#endif // USE_SSE2_32IMPL || GCC_USE_ASM_32IMPL || VC_USE_ASM_32IMPL
+#endif // USE_SSE2_32IMPL
 
 ////////////////////////////////////////
 // 64 bits versions
@@ -326,62 +245,6 @@ RoundHalfIntegerToEven_64(float x)
   return _mm_cvtss_si64(_mm_set_ss(x));
 }
 
-#elif GCC_USE_ASM_64IMPL // GCC/clang x86 asm implementation
-
-inline int64_t
-RoundHalfIntegerToEven_64(double x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int64_t r;
-  __asm__ __volatile__("fistpll %0" : "=m"(r) : "t"(x) : "st");
-  return r;
-}
-
-inline int64_t
-RoundHalfIntegerToEven_64(float x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int64_t r;
-  __asm__ __volatile__("fistpll %0" : "=m"(r) : "t"(x) : "st");
-  return r;
-}
-
-#elif VC_USE_ASM_64IMPL // msvc asm implementation
-
-inline int64_t
-RoundHalfIntegerToEven_64(double x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int64_t r;
-  __asm
-  {
-    fld x
-    fistp r
-  }
-  return r;
-}
-
-inline int64_t
-RoundHalfIntegerToEven_64(float x)
-{
-#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
-  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-#  endif
-  int64_t r;
-  __asm
-  {
-    fld x
-    fistp r
-  }
-  return r;
-}
-
 #else // Base implementation
 
 template <typename TInput>
@@ -393,7 +256,7 @@ RoundHalfIntegerToEven_64(TInput x)
 
 #endif
 
-#if USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
+#if USE_SSE2_64IMPL
 
 inline int64_t
 RoundHalfIntegerUp_64(double x)
@@ -451,7 +314,7 @@ Ceil_64(TInput x)
   return Ceil_base<int64_t, TInput>(x);
 }
 
-#endif // USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
+#endif // USE_SSE2_64IMPL
 
 template <typename T>
 struct FloatIEEETraits;
@@ -520,11 +383,7 @@ struct FloatOrDouble<double>
 } // end namespace itk
 
 #undef USE_SSE2_32IMPL
-#undef GCC_USE_ASM_32IMPL
-#undef VC_USE_ASM_32IMPL
 
 #undef USE_SSE2_64IMPL
-#undef GCC_USE_ASM_64IMPL
-#undef VC_USE_ASM_64IMPL
 
 #endif // end of itkMathDetail.h

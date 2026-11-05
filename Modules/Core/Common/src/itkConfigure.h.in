@@ -167,16 +167,15 @@
 
 #define ITK_DEFAULT_THREADER_@ITK_DEFAULT_THREADER@
 
-// Most compilers define __SSEn__ macros, but not MSVC.
-// For 32 bit Intel with MSVC, check _M_IX86_FP.
-// 64 bit Intel x86 always supports both 32 and 64 bit SSE2.
-
+// ITK requires SSE2 floating-point math on x86, so ITK and its clients compile one code path.
 #if defined(__x86_64__) || defined(__amd64__) || (defined(_M_AMD64) && !defined(_M_ARM64EC))
 #  define ITK_COMPILER_SUPPORTS_SSE2_32
 #  define ITK_COMPILER_SUPPORTS_SSE2_64
-#else
-#  if defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP >= 2))
+#elif defined(__i386__) || defined(_M_IX86)
+#  if defined(__SSE2_MATH__) || (defined(_M_IX86_FP) && (_M_IX86_FP >= 2)) || defined(ITK_WRAPPING_PARSER)
 #    define ITK_COMPILER_SUPPORTS_SSE2_32
+#  else
+#    error "ITK requires SSE2 floating-point math on 32-bit x86: use -msse2 -mfpmath=sse (GCC, Clang) or /arch:SSE2 (MSVC)"
 #  endif
 #endif
 
