@@ -1385,3 +1385,37 @@ if constexpr (!itk::ByteSwapper<unsigned short>::SystemIsBigEndian())
 
 The same replacements apply to `CMAKE_WORDS_BIGENDIAN`. The query is usable in
 `static_assert` and template arguments as well, since it is `constexpr`.
+
+## `ITK_CXX_ABI` fixes the C++ standard that ITK headers present
+
+`itkConfigure.h` defines `ITK_CXX_ABI` (17, 20, 23, or 26) from the C++ standard
+ITK was configured with, and an `ITK_CXX_ABI_STD_<FEATURE>` macro for each
+standard library feature ITK found and uses. ITK headers select
+standard-dependent code from those macros and no longer from `__cplusplus` or
+feature-test macros, so ITK and every client of one ITK build see the same
+definitions. A client built as C++20
+against an ITK built as C++17 now gets the C++17 form of those headers.
+
+`ITK_CXX_ABI` is always the standard ITK was built with and cannot be set
+separately. It is the lowest C++ standard a project using that ITK may compile
+with, and `ITKConfig.cmake` exports it as the CMake variable `ITK_CXX_ABI`.
+
+A project that uses a C++ standard older than C++17 or older than `ITK_CXX_ABI`
+gets a compiler warning from `itkConfigure.h` in this release. The warning is an
+`#error` when ITK is built with `ITK_FUTURE_LEGACY_REMOVE`, and becomes an
+`#error` for everyone in the following release. A project whose standard
+library lacks a feature that ITK recorded fails to compile.
+
+### What you need to do
+
+Build with at least the C++ standard of the ITK you link to. In a header that
+must select code by C++ standard and that includes ITK headers, test
+`ITK_CXX_ABI`:
+
+```cpp
+// Before
+#if __cplusplus >= 202002L
+
+// After
+#if ITK_CXX_ABI >= 20
+```
