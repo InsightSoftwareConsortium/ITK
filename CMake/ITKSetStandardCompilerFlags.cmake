@@ -320,12 +320,6 @@ macro(check_compiler_platform_flags)
   elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(GNU|Intel)$" AND NOT MINGW)
     set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "-O0")
   endif()
-  if(DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
-    check_cxx_source_compiles(
-      ${ITK_CXX_DISABLE_OPTIMIZATION_FLAG}
-      CXX_HAS_DISABLE_OPTIMIZATION_FLAG
-    )
-  endif()
 endmacro() #End the platform check function
 
 if(NOT ITK_C_WARNING_FLAGS OR NOT ITK_CXX_WARNING_FLAGS) # Only check once if not explicitly set on command line
