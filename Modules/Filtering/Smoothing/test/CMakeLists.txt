@@ -399,5 +399,6 @@ set(
   itkBoxSigmaImageFilterGTest.cxx
   itkMeanImageFilterGTest.cxx
   itkMedianImageFilterGTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterGTest.cxx
 )
 creategoogletestdriver(ITKSmoothing "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingGTests}")
