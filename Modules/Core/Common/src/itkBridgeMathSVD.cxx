@@ -43,6 +43,10 @@ template ITKCommon_EXPORT void
 RectangularSVDEigen<float>(const float *, unsigned int, unsigned int, float *, float *, float *);
 template ITKCommon_EXPORT void
 RectangularSVDEigen<double>(const double *, unsigned int, unsigned int, double *, double *, double *);
+template ITKCommon_EXPORT vnl_matrix<std::complex<float>>
+                          ComplexPseudoInverse<std::complex<float>>(const vnl_matrix<std::complex<float>> &);
+template ITKCommon_EXPORT vnl_matrix<std::complex<double>>
+                          ComplexPseudoInverse<std::complex<double>>(const vnl_matrix<std::complex<double>> &);
 
 ITK_GCC_PRAGMA_DIAG_POP()
 } // namespace detail

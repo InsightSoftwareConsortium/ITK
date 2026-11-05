@@ -212,7 +212,7 @@ public:
   [[nodiscard]] inline vnl_matrix<T>
   GetInverse() const
   {
-    return itk::bridge::Math::SVD(m_Matrix).PseudoInverse();
+    return itk::bridge::Math::PseudoInverse(m_Matrix);
   }
 
   /** Return the transposed matrix. */

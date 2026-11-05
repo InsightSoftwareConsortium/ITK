@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkMatrix.h"
 #include <gtest/gtest.h>
+#include <complex>
 #include <numeric>     // For iota.
 #include <type_traits> // For is_convertible and is_trivially_copyable.
 
@@ -176,4 +177,22 @@ TEST(Matrix, SizeIsDifferenceBetweenBeginEnd)
 
   check(itk::Matrix<float>());
   check(itk::Matrix<double, 2, 3>());
+}
+
+
+// Inverse of [[1, i], [0, 1]] is [[1, -i], [0, 1]].
+TEST(Matrix, GetInverseOfComplexMatrix)
+{
+  using Complex = std::complex<float>;
+  itk::Matrix<Complex, 2, 2> matrix;
+  matrix(0, 0) = Complex(1, 0);
+  matrix(0, 1) = Complex(0, 1);
+  matrix(1, 0) = Complex(0, 0);
+  matrix(1, 1) = Complex(1, 0);
+
+  const auto inverse = matrix.GetInverse();
+  EXPECT_NEAR(std::abs(inverse(0, 0) - Complex(1, 0)), 0.0f, 1e-5f);
+  EXPECT_NEAR(std::abs(inverse(0, 1) - Complex(0, -1)), 0.0f, 1e-5f);
+  EXPECT_NEAR(std::abs(inverse(1, 0) - Complex(0, 0)), 0.0f, 1e-5f);
+  EXPECT_NEAR(std::abs(inverse(1, 1) - Complex(1, 0)), 0.0f, 1e-5f);
 }

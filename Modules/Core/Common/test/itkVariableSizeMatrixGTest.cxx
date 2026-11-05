@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <complex>
 #include <iostream>
 #include "itkVariableSizeMatrix.h"
 #include "itkGTest.h"
@@ -193,3 +194,20 @@ DoVariableSizeMatrixTest(int, char *[])
 
 
 TEST(VariableSizeMatrix, ConvertedLegacyTest) { EXPECT_EQ(0, DoVariableSizeMatrixTest(0, nullptr)); }
+
+// Inverse of [[1, i], [0, 1]] is [[1, -i], [0, 1]].
+TEST(VariableSizeMatrix, GetInverseOfComplexMatrix)
+{
+  using Complex = std::complex<double>;
+  itk::VariableSizeMatrix<Complex> matrix(2, 2);
+  matrix(0, 0) = Complex(1, 0);
+  matrix(0, 1) = Complex(0, 1);
+  matrix(1, 0) = Complex(0, 0);
+  matrix(1, 1) = Complex(1, 0);
+
+  const vnl_matrix<Complex> inverse = matrix.GetInverse();
+  EXPECT_NEAR(std::abs(inverse(0, 0) - Complex(1, 0)), 0.0, 1e-12);
+  EXPECT_NEAR(std::abs(inverse(0, 1) - Complex(0, -1)), 0.0, 1e-12);
+  EXPECT_NEAR(std::abs(inverse(1, 0) - Complex(0, 0)), 0.0, 1e-12);
+  EXPECT_NEAR(std::abs(inverse(1, 1) - Complex(1, 0)), 0.0, 1e-12);
+}

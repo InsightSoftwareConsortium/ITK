@@ -333,7 +333,7 @@ public:
     {
       itkGenericExceptionMacro("Singular matrix. Determinant is 0.");
     }
-    return vnl_matrix_fixed<T, VColumns, VRows>{ bridge::Math::SVD(m_Matrix.as_ref()).PseudoInverse() };
+    return vnl_matrix_fixed<T, VColumns, VRows>{ bridge::Math::PseudoInverse(m_Matrix.as_ref()) };
   }
 
   /** Return the transposed matrix. */
