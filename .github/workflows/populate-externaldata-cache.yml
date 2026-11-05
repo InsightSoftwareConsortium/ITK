@@ -1,6 +1,6 @@
 name: Populate ExternalData Cache
 
-# Single owner of the shared "externaldata-v1-<hashFiles>" GitHub Actions
+# Single owner of the shared "externaldata-v2-<hashFiles>" GitHub Actions
 # cache entry. Every other workflow restores this entry but never saves
 # it — see the comments in arm.yml and pixi.yml for the race that a
 # multi-writer design caused.
@@ -17,6 +17,8 @@ on:
   pull_request:
     paths:
       - '**/*.cid'
+      - '.github/workflows/populate-externaldata-cache.yml'
+      - 'Utilities/Maintenance/PrefetchCIDContentLinks.py'
   # Keep main and release branches' caches populated as new .cid files
   # land.
   push:
@@ -25,6 +27,8 @@ on:
       - 'release*'
     paths:
       - '**/*.cid'
+      - '.github/workflows/populate-externaldata-cache.yml'
+      - 'Utilities/Maintenance/PrefetchCIDContentLinks.py'
   # Nightly safety net: if a populate run was skipped because some CIDs
   # were unreachable on one day, the next night retries.
   schedule:
@@ -57,8 +61,9 @@ jobs:
         id: restore-externaldata
         uses: actions/cache/restore@v5
         with:
-          path: ${{ runner.temp }}/ExternalData
-          key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+          path: .ExternalData
+          key: externaldata-v2-${{ hashFiles('**/*.cid') }}
+          enableCrossOsArchive: true
 
       - name: Skip if cache already complete
         if: steps.restore-externaldata.outputs.cache-hit == 'true'
@@ -68,7 +73,7 @@ jobs:
         if: steps.restore-externaldata.outputs.cache-hit != 'true'
         shell: bash
         env:
-          EXTERNALDATA_STORE: ${{ runner.temp }}/ExternalData
+          EXTERNALDATA_STORE: ${{ github.workspace }}/.ExternalData
         run: |
           python3 Utilities/Maintenance/PrefetchCIDContentLinks.py \
             --repo-root . \
@@ -81,12 +86,12 @@ jobs:
         if: steps.restore-externaldata.outputs.cache-hit != 'true'
         shell: bash
         env:
-          EXTERNALDATA_STORE: ${{ runner.temp }}/ExternalData
+          EXTERNALDATA_STORE: ${{ github.workspace }}/.ExternalData
         run: |
           expected=$(find . -name '*.cid' -not -path './.git/*' -print0 \
                        | xargs -0 -I{} cat {} \
                        | sort -u | wc -l | tr -d ' ')
-          present=$(find "$EXTERNALDATA_STORE/cid" -type f 2>/dev/null | wc -l | tr -d ' ')
+          present=$(find "$EXTERNALDATA_STORE/CID" -type f -not -name '*.part' 2>/dev/null | wc -l | tr -d ' ')
           echo "expected unique CIDs: $expected"
           echo "present on disk     : $present"
           if [ "$present" -lt "$expected" ]; then
@@ -98,5 +103,6 @@ jobs:
         if: steps.restore-externaldata.outputs.cache-hit != 'true'
         uses: actions/cache/save@v5
         with:
-          path: ${{ runner.temp }}/ExternalData
-          key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+          path: .ExternalData
+          key: externaldata-v2-${{ hashFiles('**/*.cid') }}
+          enableCrossOsArchive: true

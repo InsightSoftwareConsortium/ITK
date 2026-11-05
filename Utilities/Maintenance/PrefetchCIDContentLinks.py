@@ -7,7 +7,7 @@ Without this step, only the data for modules selected for compilation (and
 whose tests ran) trigger an ExternalData fetch. Everything else stays out of
 the store, and the next cold boot has to re-download it from the gateways.
 This script walks the whole source tree, reads every ``.cid`` file, and fills
-in any missing object at ``<store>/cid/<cid>`` via the same gateway list used
+in any missing object at ``<store>/CID/<cid>`` via the same gateway list used
 by ``CMake/ITKExternalData.cmake``.
 
 Integrity: the IPFS gateways serve content-addressed bytes, so a correctly
@@ -38,6 +38,8 @@ GATEWAYS = (
 )
 
 PER_URL_TIMEOUT_SECONDS = 60
+RETRY_ROUNDS = 3
+RETRY_PAUSE_SECONDS = 20
 MAX_WORKERS_DEFAULT = 16
 
 
@@ -158,7 +160,8 @@ def main() -> int:
             "ERROR: --store or ExternalData_OBJECT_STORES must be set", file=sys.stderr
         )
         return 2
-    cid_dir = args.store / "cid"
+    # ExternalData.cmake looks objects up under the upper-case algorithm name.
+    cid_dir = args.store / "CID"
     cid_dir.mkdir(parents=True, exist_ok=True)
 
     cids = collect_cids(args.repo_root)
@@ -167,28 +170,41 @@ def main() -> int:
     )
 
     start = time.monotonic()
-    ok = skip = fail = 0
+    ok = skip = 0
     bytes_ok = 0
-    failed: list[str] = []
-    with cf.ThreadPoolExecutor(max_workers=max(1, args.jobs)) as pool:
-        futures = {pool.submit(fetch_one, cid, cid_dir / cid): cid for cid in cids}
-        for i, fut in enumerate(cf.as_completed(futures), 1):
-            cid, status, nbytes = fut.result()
-            if status == "ok":
-                ok += 1
-                bytes_ok += nbytes
-            elif status == "skip":
-                skip += 1
-            else:
-                fail += 1
-                failed.append(f"{cid}: {status}")
-            if i % 500 == 0 or i == len(futures):
-                elapsed = time.monotonic() - start
-                print(
-                    f"  [{i}/{len(futures)}] ok={ok} skip={skip} fail={fail} "
-                    f"downloaded={bytes_ok / 1e6:.1f} MB in {elapsed:.0f}s",
-                    flush=True,
-                )
+    pending = list(cids)
+    for attempt in range(1, RETRY_ROUNDS + 1):
+        failed = []
+        retry: list[str] = []
+        with cf.ThreadPoolExecutor(max_workers=max(1, args.jobs)) as pool:
+            futures = {
+                pool.submit(fetch_one, cid, cid_dir / cid): cid for cid in pending
+            }
+            for i, fut in enumerate(cf.as_completed(futures), 1):
+                cid, status, nbytes = fut.result()
+                if status == "ok":
+                    ok += 1
+                    bytes_ok += nbytes
+                elif status == "skip":
+                    skip += 1
+                else:
+                    retry.append(cid)
+                    failed.append(f"{cid}: {status}")
+                if i % 500 == 0 or i == len(futures):
+                    elapsed = time.monotonic() - start
+                    print(
+                        f"  round {attempt} [{i}/{len(futures)}] ok={ok} skip={skip} fail={len(retry)} "
+                        f"downloaded={bytes_ok / 1e6:.1f} MB in {elapsed:.0f}s",
+                        flush=True,
+                    )
+        pending = retry
+        if not pending or attempt == RETRY_ROUNDS:
+            break
+        print(
+            f"==> round {attempt}: {len(pending)} CID(s) failed; retrying", flush=True
+        )
+        time.sleep(RETRY_PAUSE_SECONDS * attempt)
+    fail = len(pending)
 
     elapsed = time.monotonic() - start
     print(

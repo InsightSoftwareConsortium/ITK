@@ -120,8 +120,8 @@ description = "Test ITK"
 depends-on = ["build"]
 
 [tool.pixi.feature.cxx.tasks.build-external-data-ci]
-cmd = "cmake --build build --target ITKData"
-description = "Fetch ITK ExternalData for CI (fails fast on download errors)"
+cmd = "cmake --build build --target ITKData -- -k 0"
+description = "Fetch ITK ExternalData for CI (keeps going past download errors)"
 depends-on = ["configure-ci"]
 
 [tool.pixi.feature.cxx.tasks.build-ci]
