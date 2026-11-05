@@ -646,4 +646,53 @@ When refactoring existing code, verify each item:
 - [ ] ITK deprecated macros replaced (`itkTypeMacro`, `ITK_DISALLOW_COPY_AND_ASSIGN`, `itkStaticConstMacro`)
 - [ ] No new clang-tidy diagnostics introduced; `llvmlibc-*`, `readability-identifier-length`, and `google-*` warnings ignored if pre-existing
 - [ ] `enum class` with `/** */` doxygen comment has a `\class` tag, or use plain `//` comment instead (KWStyle rule)
+- [ ] No `#if` on `__cplusplus`, `_MSVC_LANG`, or a `__cpp_*` macro in a header — test `ITK_CXX_ABI` or an `ITK_CXX_ABI_STD_*` macro (section 16)
 - [ ] `NumericTraits<float>::min()` is the smallest *positive* value, not the most negative — special-case floating-point dynamic-range defaults
+
+---
+
+## 16. Standard-Dependent Code Must Test `ITK_CXX_ABI`
+
+**Bug:** ITK supports clients built with a newer C++ standard, and with another
+compiler or standard library, than ITK itself. A header that selects code with
+`__cplusplus`, `_MSVC_LANG`, or a feature-test macro (`__cpp_concepts`,
+`__cpp_lib_endian`) then gives ITK's libraries and the client different
+definitions of the same class or inline function. That violates the One
+Definition Rule: undefined behavior, no diagnostic.
+
+**Rule:** ITK decides once, at configure time, and records the decisions in
+`itkConfigure.h`. Headers under `Modules/` (outside `ThirdParty`) test only
+those macros:
+
+- `ITK_CXX_ABI` (17, 20, 23, or 26) for language features. It always equals the
+  standard ITK is built with and is the floor for every client; do not add an
+  option that sets it lower.
+- `ITK_CXX_ABI_STD_<FEATURE>` (for example `ITK_CXX_ABI_STD_ATOMIC_REF`) for a
+  standard library feature, which can lag the language level.
+
+```cpp
+// BAD - depends on the compiler and standard of whoever includes the header:
+#if __cplusplus >= 202002L
+#ifdef __cpp_concepts
+#if ITK_CXX_ABI >= 20 && defined(__cpp_lib_atomic_ref)
+
+// GOOD - the same answer in ITK and in every client of this build:
+#if ITK_CXX_ABI >= 20
+#if defined(ITK_CXX_ABI_STD_ATOMIC_REF)
+```
+
+- A new library feature needs a `check_cxx_source_compiles` probe in
+  `Modules/Core/Common/CMakeLists.txt` and a `#cmakedefine` in
+  `itkConfigure.h.in`.
+- Declarations, base classes, and `#include` lines need `#if`.
+- `if constexpr (ITK_CXX_ABI >= 20)` is allowed inside a function body only
+  when both branches compile in every supported standard.
+- Do not add a newer-standard form only for nicer diagnostics; it doubles the
+  code paths CI must build. Write the C++17 form.
+- `.cxx` files are compiled once with ITK's own standard and are not affected.
+- An existence check for C compatibility (`#ifdef __cplusplus`) is fine.
+- The rule also covers `__has_include` and standard library identity macros
+  (`_LIBCPP_VERSION`, `__GLIBCXX__`) when they select declarations.
+- The `itk-cxx-abi-guard` pre-commit hook rejects single-line `__cplusplus`,
+  `_MSVC_LANG`, and `__cpp_*` conditions only; check backslash continuations
+  and the forms in the previous item by hand.
