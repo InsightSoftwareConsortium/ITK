@@ -102,6 +102,12 @@ repos:
       entry: 'Utilities/Hooks/prepare-commit-msg'
       language: system
       stages: [prepare-commit-msg]
+    - id: itk-cxx-abi-guard
+      name: 'Standard-dependent #if must test ITK_CXX_ABI macros'
+      entry: '^\s*#\s*(?!(ifdef|ifndef)\s+__cplusplus\b|if\s+!?\s*defined\s*\(?\s*__cplusplus\s*\)?\s*(/[/*].*)?$)(if|ifdef|ifndef|elif|elifdef|elifndef)\b[^/]*(__cplusplus\b|_MSVC_LANG|__cpp_)'
+      language: pygrep
+      files: '^Modules/.*\.(h|hxx)$'
+      exclude: '^Modules/ThirdParty/'
     - id: check-setup-for-development
       name: 'Check version of SetupForDevelopment'
       entry: 'Utilities/Hooks/check-setup-for-development'

@@ -28,17 +28,11 @@
 /* The CXX standard version used when ITK was built */
 #define ITK_COMPILED_CXX_STANDARD_VERSION @ITK_COMPILED_CXX_STANDARD_VERSION@
 
-/* Test external applications to ensure that compatible compiler C++ standard API are used
- * by assuming that compiler standards are backwards (but not forwards) compatible with each
- * other. Strange behaviors may occur if external applications do not use the same compiler
- * and compiler language features (i.e. compiler flags).
- * The warning is disabled for NVCC (NVidia CUDA) for use of ITK macros with CUDA versions
- * prior to v7. */
-#if !defined(__CUDACC__)
-  #if ITK_COMPILED_CXX_STANDARD_VERSION > __cplusplus
-    #warning "WARNING:  The current project is configured to use a C++ standard version older than the C++ standard used for this build of ITK"
-  #endif
-#endif
+/* C++ standard (17, 20, 23, or 26) that selects standard-dependent code in ITK headers for ITK and every client. */
+#define ITK_CXX_ABI @ITK_CXX_ABI@
+#cmakedefine ITK_CXX_ABI_STD_ENDIAN
+#cmakedefine ITK_CXX_ABI_STD_MATH_CONSTANTS
+#cmakedefine ITK_CXX_ABI_STD_ATOMIC_REF
 
 /* what threading system are we using */
 #cmakedefine ITK_USE_PTHREADS
@@ -56,6 +50,27 @@
 #cmakedefine ITK_LEGACY_REMOVE
 #cmakedefine ITK_LEGACY_SILENT
 #cmakedefine ITK_FUTURE_LEGACY_REMOVE
+
+/* Compilers report draft standards with intermediate values, so each test is against the preceding standard. */
+#if defined(__cplusplus) && !defined(__CUDACC__)
+  #if defined(_MSVC_LANG)
+    #define ITK_CLIENT_CPLUSPLUS _MSVC_LANG
+  #else
+    #define ITK_CLIENT_CPLUSPLUS __cplusplus
+  #endif
+  #if (ITK_CXX_ABI >= 26 && ITK_CLIENT_CPLUSPLUS <= 202302L) || \
+    (ITK_CXX_ABI >= 23 && ITK_CLIENT_CPLUSPLUS <= 202002L) || \
+    (ITK_CXX_ABI >= 20 && ITK_CLIENT_CPLUSPLUS <= 201703L) || ITK_CLIENT_CPLUSPLUS < 201703L
+    #if defined(ITK_FUTURE_LEGACY_REMOVE)
+      #error "This project uses a C++ standard older than the ITK_CXX_ABI of this build of ITK"
+    #elif defined(_MSC_VER)
+      #pragma message("warning: This project uses a C++ standard older than the ITK_CXX_ABI of this build of ITK")
+    #else
+      #warning "This project uses a C++ standard older than the ITK_CXX_ABI of this build of ITK"
+    #endif
+  #endif
+  #undef ITK_CLIENT_CPLUSPLUS
+#endif
 #cmakedefine ITK_USE_FFTWF
 #cmakedefine ITK_USE_FFTWD
 #cmakedefine ITK_USE_CUFFTW

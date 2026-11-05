@@ -33,13 +33,11 @@
 #include <cmath>
 #include <limits>
 #include <type_traits>
-// _MSVC_LANG tracks /std: even when __cplusplus stays 199711L (no /Zc:__cplusplus),
-// matching the STL condition under which <limits> defines __cpp_lib_math_constants.
-#if (defined(__cplusplus) && __cplusplus >= 202002L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
-#  include <numbers>
-#endif
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
+#if defined(ITK_CXX_ABI_STD_MATH_CONSTANTS)
+#  include <numbers>
+#endif
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
 // itk::Math no longer uses vnl_math; kept transitionally for downstream vnl_math:: users.
 #  include <vnl/vnl_math.h>
@@ -92,7 +90,7 @@ inline constexpr double sqrt1_3 = 0.57735026918962576451;
 /** \brief euler constant */
 inline constexpr double euler = 0.57721566490153286061;
 
-#if defined(__cpp_lib_math_constants)
+#if defined(ITK_CXX_ABI_STD_MATH_CONSTANTS)
 // Bit-exactness proof against C++20 <numbers>. sqrt2pi and one_over_sqrt2pi have no
 // exact std::numbers identity (inv_sqrtpi / sqrt2 double-rounds 1 ULP off).
 static_assert(e == std::numbers::e);

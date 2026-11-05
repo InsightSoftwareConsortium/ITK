@@ -85,6 +85,52 @@ foreach(CXX_TEST_VERSION 201103L 201402L 201703L)
   endif()
 endforeach()
 
+# Always the standard ITK is built with, never a separate setting: it is the floor for every client.
+set(_itk_cxx_abi 17)
+foreach(_itk_cxx_abi_candidate 20 23 26)
+  if(CMAKE_CXX_STANDARD GREATER_EQUAL _itk_cxx_abi_candidate)
+    set(_itk_cxx_abi ${_itk_cxx_abi_candidate})
+  endif()
+endforeach()
+unset(ITK_CXX_ABI)
+set(
+  ITK_CXX_ABI
+  "${_itk_cxx_abi}"
+  CACHE INTERNAL
+  "C++ standard that ITK headers present to ITK and its clients"
+  FORCE
+)
+unset(_itk_cxx_abi)
+unset(_itk_cxx_abi_candidate)
+
+# Library features are part of the ABI level: probed on every configure, never by a client's feature-test macros.
+include(CheckCXXSourceCompiles)
+foreach(_itk_cxx_abi_feature ENDIAN MATH_CONSTANTS ATOMIC_REF)
+  unset(ITK_CXX_ABI_HAS_STD_${_itk_cxx_abi_feature} CACHE)
+  set(ITK_CXX_ABI_STD_${_itk_cxx_abi_feature} OFF)
+endforeach()
+unset(_itk_cxx_abi_feature)
+if(ITK_CXX_ABI GREATER_EQUAL 20)
+  check_cxx_source_compiles(
+    "#include <bit>
+int main() { return std::endian::native == std::endian::big ? 1 : 0; }"
+    ITK_CXX_ABI_HAS_STD_ENDIAN
+  )
+  check_cxx_source_compiles(
+    "#include <numbers>
+int main() { return std::numbers::pi > 3.0 ? 0 : 1; }"
+    ITK_CXX_ABI_HAS_STD_MATH_CONSTANTS
+  )
+  check_cxx_source_compiles(
+    "#include <atomic>
+int main() { signed char value = 0; return std::atomic_ref<signed char>(value).load(); }"
+    ITK_CXX_ABI_HAS_STD_ATOMIC_REF
+  )
+  set(ITK_CXX_ABI_STD_ENDIAN ${ITK_CXX_ABI_HAS_STD_ENDIAN})
+  set(ITK_CXX_ABI_STD_MATH_CONSTANTS ${ITK_CXX_ABI_HAS_STD_MATH_CONSTANTS})
+  set(ITK_CXX_ABI_STD_ATOMIC_REF ${ITK_CXX_ABI_HAS_STD_ATOMIC_REF})
+endif()
+
 try_compile(
   ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   ${ITK_BINARY_DIR}

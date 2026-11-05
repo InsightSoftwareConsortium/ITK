@@ -1297,6 +1297,105 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin|Linux")
   )
 endif()
 
+# A client on a newer C++ standard must compile against the definitions ITK was built with.
+set(_itk_newer_client_standard "")
+foreach(_itk_client_standard 26 23 20)
+  if(
+    _itk_client_standard
+      GREATER
+      ITK_CXX_ABI
+    AND
+      "cxx_std_${_itk_client_standard}"
+        IN_LIST
+        CMAKE_CXX_COMPILE_FEATURES
+  )
+    set(_itk_newer_client_standard ${_itk_client_standard})
+  endif()
+endforeach()
+if(_itk_newer_client_standard)
+  add_executable(itkConfigureNewerClientTest itkConfigureNewerClientTest.cxx)
+  set_target_properties(
+    itkConfigureNewerClientTest
+    PROPERTIES
+      CXX_STANDARD
+        ${_itk_newer_client_standard}
+      CXX_STANDARD_REQUIRED
+        ON
+  )
+  target_link_libraries(
+    itkConfigureNewerClientTest
+    PUBLIC
+      ${ITKCommon-Test_LIBRARIES}
+  )
+  itk_module_target_label(itkConfigureNewerClientTest)
+  itk_add_test(
+    NAME itkConfigureNewerClientTest
+    COMMAND
+      itkConfigureNewerClientTest
+  )
+endif()
+
+# A client on an older C++ standard than ITK_CXX_ABI must be told so by the compiler.
+if(NOT CMAKE_CROSSCOMPILING)
+  set(_itk_older_client_standard 14)
+  foreach(_itk_client_standard 17 20 23)
+    if(_itk_client_standard LESS ITK_CXX_ABI)
+      set(_itk_older_client_standard ${_itk_client_standard})
+    endif()
+  endforeach()
+  get_property(_itk_is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+  set(_itk_older_client_config "")
+  if(_itk_is_multi_config)
+    set(
+      _itk_older_client_config
+      --config
+      $<CONFIG>
+    )
+  endif()
+  add_executable(
+    itkConfigureOlderClientTest
+    EXCLUDE_FROM_ALL
+    itkConfigureOlderClientTest.cxx
+  )
+  set_target_properties(
+    itkConfigureOlderClientTest
+    PROPERTIES
+      CXX_STANDARD
+        ${_itk_older_client_standard}
+      CXX_STANDARD_REQUIRED
+        ON
+  )
+  target_include_directories(
+    itkConfigureOlderClientTest
+    PRIVATE
+      ${ITKCommon_BINARY_DIR}
+  )
+  # The error form never produces an object file, so every test run recompiles.
+  target_compile_definitions(
+    itkConfigureOlderClientTest
+    PRIVATE
+      ITK_FUTURE_LEGACY_REMOVE=
+  )
+  itk_add_test(
+    NAME itkConfigureOlderClientTest
+    COMMAND
+      ${CMAKE_COMMAND}
+      --build
+      ${CMAKE_BINARY_DIR}
+      ${_itk_older_client_config}
+      --target
+      itkConfigureOlderClientTest
+  )
+  set_tests_properties(
+    itkConfigureOlderClientTest
+    PROPERTIES
+      PASS_REGULAR_EXPRESSION
+        "older than the ITK_CXX_ABI"
+      RUN_SERIAL
+        TRUE
+  )
+endif()
+
 add_executable(itkCMakeConfigurationTest itkCMakeConfigurationTest.cxx)
 target_link_libraries(itkCMakeConfigurationTest ${ITKCommon-Test_LIBRARIES})
 itk_module_target_label(itkCMakeConfigurationTest)
@@ -1485,6 +1584,7 @@ set(
   itkCommonTypeTraitsGTest.cxx
   itkCompensatedSummationGTest.cxx
   itkConceptCheckingGTest.cxx
+  itkConfigureGTest.cxx
   itkConicShellInteriorExteriorSpatialFunctionGTest.cxx
   itkConnectedImageNeighborhoodShapeGTest.cxx
   itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx

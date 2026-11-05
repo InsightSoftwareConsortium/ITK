@@ -119,6 +119,8 @@ set(ITK_WRAPPING "@ITK_WRAPPING@")
 
 # expose C++ standard used to build ITK for supporting external packages
 set(ITK_CXX_STANDARD "@CMAKE_CXX_STANDARD@")
+# Lowest C++ standard a project using this ITK may compile with.
+set(ITK_CXX_ABI "@ITK_CXX_ABI@")
 
 if( NOT DEFINED ITK_WRAP_PYTHON)
   set(ITK_WRAP_PYTHON "@ITK_WRAP_PYTHON@")

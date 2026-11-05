@@ -32,10 +32,7 @@
 #include "itkObjectFactory.h"
 #include "itkIntTypes.h"
 
-#if __has_include(<version>)
-#  include <version>
-#endif
-#if defined(__cpp_lib_endian) // C++20 compiler support
+#if defined(ITK_CXX_ABI_STD_ENDIAN)
 #  include <bit>
 #endif
 
@@ -171,7 +168,7 @@ private:
   SwapWriteRange(const T * buffer, SizeValueType numberOfElements, std::ostream & outputStream);
 
   static constexpr bool m_SystemIsBigEndian{
-#if defined(__cpp_lib_endian) // C++20 compiler support
+#if defined(ITK_CXX_ABI_STD_ENDIAN)
     std::endian::native == std::endian::big
 #elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)
     __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__

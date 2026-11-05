@@ -409,7 +409,7 @@ destructor." (Visual Studio 2022/MSVC)
 // the ability for operator!= to be rewritten automatically in terms of
 // operator==, as introduced with C++20. This macro is experimental. It may be
 // modified, renamed, or removed without backward compatibility support.
-#if __cplusplus >= 202002L
+#if ITK_CXX_ABI >= 20
 #  define ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
 #endif
 
@@ -1687,7 +1687,7 @@ ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c,
 #  define ITK_FUTURE_DEPRECATED(message)
 #endif
 
-#if __cplusplus >= 202002L
+#if ITK_CXX_ABI >= 20
 #  define ITK_NODISCARD(message) [[nodiscard(message)]]
 #else
 #  define ITK_NODISCARD(message) [[nodiscard]]
