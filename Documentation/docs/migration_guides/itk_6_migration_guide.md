@@ -1385,3 +1385,21 @@ if constexpr (!itk::ByteSwapper<unsigned short>::SystemIsBigEndian())
 
 The same replacements apply to `CMAKE_WORDS_BIGENDIAN`. The query is usable in
 `static_assert` and template arguments as well, since it is `constexpr`.
+
+## ITK headers present one form in every C++ standard
+
+ITK headers no longer select declarations or inline code from `__cplusplus` or
+feature-test macros. A project built as C++20 or newer now sees the same
+definitions as ITK's own libraries, which are the C++17 forms. For example,
+classes that use `ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION` keep their member
+`operator!=` in a C++20 build.
+
+The advanced CMake options `ITK_ALPHA_FEATURE_CXX20`,
+`ITK_ALPHA_FEATURE_CXX23`, and `ITK_ALPHA_FEATURE_CXX26` select the newer
+forms. They are off by default, unsupported, and for testing only.
+
+### What you need to do
+
+Nothing, in most projects. If your code tests
+`ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR`, note that the macro is no
+longer defined in a C++20 build.
