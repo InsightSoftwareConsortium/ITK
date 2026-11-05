@@ -127,7 +127,7 @@ public:
 
   using typename Superclass::FixedImageType;
   using typename Superclass::MovingImageType;
-  using VirtualImageType = typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImageType;
   using typename Superclass::FixedOutputPointType;
   using typename Superclass::MovingOutputPointType;
 

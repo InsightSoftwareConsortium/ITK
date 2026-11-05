@@ -120,7 +120,7 @@ public:
 
   using DisplacementFieldTransformType = typename Superclass::MovingDisplacementFieldTransformType;
 
-  using ObjectType = typename Superclass::ObjectType;
+  using typename Superclass::ObjectType;
 
   /** Dimension type */
   using typename Superclass::DimensionType;
@@ -171,7 +171,7 @@ public:
   using LocalDerivativeType = FixedArray<DerivativeValueType, Self::PointDimension>;
 
   /** Types for the virtual domain */
-  using VirtualImageType = typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImageType;
   using typename Superclass::VirtualImagePointer;
   using typename Superclass::VirtualPixelType;
   using typename Superclass::VirtualRegionType;

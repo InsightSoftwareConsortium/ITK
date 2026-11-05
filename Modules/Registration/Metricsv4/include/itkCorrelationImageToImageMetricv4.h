@@ -108,7 +108,7 @@ public:
 
   using typename Superclass::MovingTransformType;
   using typename Superclass::JacobianType;
-  using VirtualImageType = typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImageType;
   using typename Superclass::VirtualIndexType;
   using typename Superclass::VirtualPointType;
   using typename Superclass::VirtualPointSetType;
