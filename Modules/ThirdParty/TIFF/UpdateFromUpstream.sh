@@ -8,7 +8,7 @@ readonly name="tiff"
 readonly ownership="Tiff Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/TIFF/src/itk$name"
 readonly repo="https://gitlab.com/libtiff/libtiff.git"
-readonly tag="v4.7.0"
+readonly tag="v4.7.2"
 readonly exact_tree_match=false
 readonly paths="
 CMakeLists.txt

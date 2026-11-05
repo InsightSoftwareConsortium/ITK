@@ -35,7 +35,7 @@
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabShort)
 void TIFFSwabShort(uint16_t *wp)
 {
-    register unsigned char *cp = (unsigned char *)wp;
+    unsigned char *cp = (unsigned char *)wp;
     unsigned char t;
     assert(sizeof(uint16_t) == 2);
     t = cp[1];
@@ -47,7 +47,7 @@ void TIFFSwabShort(uint16_t *wp)
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabLong)
 void TIFFSwabLong(uint32_t *lp)
 {
-    register unsigned char *cp = (unsigned char *)lp;
+    unsigned char *cp = (unsigned char *)lp;
     unsigned char t;
     assert(sizeof(uint32_t) == 4);
     t = cp[3];
@@ -62,7 +62,7 @@ void TIFFSwabLong(uint32_t *lp)
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabLong8)
 void TIFFSwabLong8(uint64_t *lp)
 {
-    register unsigned char *cp = (unsigned char *)lp;
+    unsigned char *cp = (unsigned char *)lp;
     unsigned char t;
     assert(sizeof(uint64_t) == 8);
     t = cp[7];
@@ -81,10 +81,10 @@ void TIFFSwabLong8(uint64_t *lp)
 #endif
 
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabArrayOfShort)
-void TIFFSwabArrayOfShort(register uint16_t *wp, tmsize_t n)
+void TIFFSwabArrayOfShort(uint16_t *wp, tmsize_t n)
 {
-    register unsigned char *cp;
-    register unsigned char t;
+    unsigned char *cp;
+    unsigned char t;
     assert(sizeof(uint16_t) == 2);
     /* XXX unroll loop some */
     while (n-- > 0)
@@ -99,7 +99,7 @@ void TIFFSwabArrayOfShort(register uint16_t *wp, tmsize_t n)
 #endif
 
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabArrayOfTriples)
-void TIFFSwabArrayOfTriples(register uint8_t *tp, tmsize_t n)
+void TIFFSwabArrayOfTriples(uint8_t *tp, tmsize_t n)
 {
     unsigned char *cp;
     unsigned char t;
@@ -117,10 +117,10 @@ void TIFFSwabArrayOfTriples(register uint8_t *tp, tmsize_t n)
 #endif
 
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabArrayOfLong)
-void TIFFSwabArrayOfLong(register uint32_t *lp, tmsize_t n)
+void TIFFSwabArrayOfLong(uint32_t *lp, tmsize_t n)
 {
-    register unsigned char *cp;
-    register unsigned char t;
+    unsigned char *cp;
+    unsigned char t;
     assert(sizeof(uint32_t) == 4);
     /* XXX unroll loop some */
     while (n-- > 0)
@@ -138,10 +138,10 @@ void TIFFSwabArrayOfLong(register uint32_t *lp, tmsize_t n)
 #endif
 
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabArrayOfLong8)
-void TIFFSwabArrayOfLong8(register uint64_t *lp, tmsize_t n)
+void TIFFSwabArrayOfLong8(uint64_t *lp, tmsize_t n)
 {
-    register unsigned char *cp;
-    register unsigned char t;
+    unsigned char *cp;
+    unsigned char t;
     assert(sizeof(uint64_t) == 8);
     /* XXX unroll loop some */
     while (n-- > 0)
@@ -167,7 +167,7 @@ void TIFFSwabArrayOfLong8(register uint64_t *lp, tmsize_t n)
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabFloat)
 void TIFFSwabFloat(float *fp)
 {
-    register unsigned char *cp = (unsigned char *)fp;
+    unsigned char *cp = (unsigned char *)fp;
     unsigned char t;
     assert(sizeof(float) == 4);
     t = cp[3];
@@ -180,10 +180,10 @@ void TIFFSwabFloat(float *fp)
 #endif
 
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabArrayOfFloat)
-void TIFFSwabArrayOfFloat(register float *fp, tmsize_t n)
+void TIFFSwabArrayOfFloat(float *fp, tmsize_t n)
 {
-    register unsigned char *cp;
-    register unsigned char t;
+    unsigned char *cp;
+    unsigned char t;
     assert(sizeof(float) == 4);
     /* XXX unroll loop some */
     while (n-- > 0)
@@ -203,7 +203,7 @@ void TIFFSwabArrayOfFloat(register float *fp, tmsize_t n)
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabDouble)
 void TIFFSwabDouble(double *dp)
 {
-    register unsigned char *cp = (unsigned char *)dp;
+    unsigned char *cp = (unsigned char *)dp;
     unsigned char t;
     assert(sizeof(double) == 8);
     t = cp[7];
@@ -224,8 +224,8 @@ void TIFFSwabDouble(double *dp)
 #if defined(DISABLE_CHECK_TIFFSWABMACROS) || !defined(TIFFSwabArrayOfDouble)
 void TIFFSwabArrayOfDouble(double *dp, tmsize_t n)
 {
-    register unsigned char *cp;
-    register unsigned char t;
+    unsigned char *cp;
+    unsigned char t;
     assert(sizeof(double) == 8);
     /* XXX unroll loop some */
     while (n-- > 0)

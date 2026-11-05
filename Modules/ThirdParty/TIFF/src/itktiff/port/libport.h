@@ -26,8 +26,8 @@
 
 #include <libport_config.h>
 
-#if HAVE_GETOPT
-#if HAVE_UNISTD_H
+#ifdef HAVE_GETOPT
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #else

@@ -106,6 +106,7 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define TIFFGetFieldDefaulted @MANGLE_PREFIX@_TIFFGetFieldDefaulted
 #define TIFFGetField @MANGLE_PREFIX@_TIFFGetField
 #define TIFFGetMapFileProc @MANGLE_PREFIX@_TIFFGetMapFileProc
+#define TIFFGetMaxCompressionRatio @MANGLE_PREFIX@_TIFFGetMaxCompressionRatio
 #define TIFFGetMode @MANGLE_PREFIX@_TIFFGetMode
 #define TIFFGetReadProc @MANGLE_PREFIX@_TIFFGetReadProc
 #define TIFFGetSeekProc @MANGLE_PREFIX@_TIFFGetSeekProc
@@ -160,6 +161,7 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define TIFFOpenOptionsSetErrorHandlerExtR @MANGLE_PREFIX@_TIFFOpenOptionsSetErrorHandlerExtR
 #define TIFFOpenOptionsSetMaxCumulatedMemAlloc @MANGLE_PREFIX@_TIFFOpenOptionsSetMaxCumulatedMemAlloc
 #define TIFFOpenOptionsSetMaxSingleMemAlloc @MANGLE_PREFIX@_TIFFOpenOptionsSetMaxSingleMemAlloc
+#define TIFFOpenOptionsSetWarnAboutUnknownTags @MANGLE_PREFIX@_TIFFOpenOptionsSetWarnAboutUnknownTags
 #define TIFFOpenOptionsSetWarningHandlerExtR @MANGLE_PREFIX@_TIFFOpenOptionsSetWarningHandlerExtR
 #define TIFFPredictorCleanup @MANGLE_PREFIX@_TIFFPredictorCleanup
 #define TIFFPredictorInit @MANGLE_PREFIX@_TIFFPredictorInit
@@ -255,9 +257,12 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define TIFFYCbCrToRGBInit @MANGLE_PREFIX@_TIFFYCbCrToRGBInit
 #define TIFFYCbCrtoRGB @MANGLE_PREFIX@_TIFFYCbCrtoRGB
 
+#define _TIFFAdd64 @MANGLE_PREFIX@__TIFFAdd64
+#define _TIFFAddSSize @MANGLE_PREFIX@__TIFFAddSSize
 #define _TIFFBuiltinCODECS @MANGLE_PREFIX@__TIFFBuiltinCODECS
 #define _TIFFcallocExt @MANGLE_PREFIX@__TIFFcallocExt
 #define _TIFFcalloc @MANGLE_PREFIX@__TIFFcalloc
+#define _TIFFCastUInt64ToUInt32 @MANGLE_PREFIX@__TIFFCastUInt64ToUInt32
 #define _TIFFCastUInt64ToSSize @MANGLE_PREFIX@__TIFFCastUInt64ToSSize
 #define _TIFFCheckDirNumberAndOffset @MANGLE_PREFIX@__TIFFCheckDirNumberAndOffset
 #define _TIFFCheckFieldIsValidForCodec @MANGLE_PREFIX@__TIFFCheckFieldIsValidForCodec
@@ -266,6 +271,9 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define _TIFFClampDoubleToFloat @MANGLE_PREFIX@__TIFFClampDoubleToFloat
 #define _TIFFClampDoubleToUInt32 @MANGLE_PREFIX@__TIFFClampDoubleToUInt32
 #define _TIFFCleanupIFDOffsetAndNumberMaps @MANGLE_PREFIX@__TIFFCleanupIFDOffsetAndNumberMaps
+#define _TIFFComputeBitOffset @MANGLE_PREFIX@__TIFFComputeBitOffset
+#define _TIFFComputeRowOffset @MANGLE_PREFIX@__TIFFComputeRowOffset
+#define _TIFFComputeRowSize64 @MANGLE_PREFIX@__TIFFComputeRowSize64
 #define _TIFFCreateAnonField @MANGLE_PREFIX@__TIFFCreateAnonField
 #define _TIFFDefaultStripSize @MANGLE_PREFIX@__TIFFDefaultStripSize
 #define _TIFFDefaultTileSize @MANGLE_PREFIX@__TIFFDefaultTileSize

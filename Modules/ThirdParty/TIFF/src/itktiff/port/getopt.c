@@ -52,8 +52,8 @@ char *optarg;   /* argument associated with option */
  */
 int getopt(int argc, char *const argv[], const char *optstring)
 {
-    static char *place = EMSG; /* option letter processing */
-    char *oli;                 /* option letter list index */
+    static const char *place = EMSG; /* option letter processing */
+    const char *oli;                 /* option letter list index */
 
     if (optreset || *place == 0)
     { /* update scanning pointer */
@@ -109,7 +109,7 @@ int getopt(int argc, char *const argv[], const char *optstring)
         /* Option-argument is either the rest of this argument or the
            entire next argument. */
         if (*place)
-            optarg = place;
+            optarg = (char *)place;
         else if (argc > ++optind)
             optarg = argv[optind];
         else
