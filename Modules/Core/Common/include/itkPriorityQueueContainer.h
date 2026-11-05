@@ -108,7 +108,9 @@ class ITK_TEMPLATE_EXPORT MinPriorityQueueElementWrapper
                                    TElementIdentifier>
 {
 public:
-  using Superclass = MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>;
+  using Superclass =
+    ElementWrapperInterface<MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>,
+                            TElementIdentifier>;
   using ElementType = TElement;
   using ElementPriorityType = TElementPriority;
   using ElementIdentifierType = TElementIdentifier;
