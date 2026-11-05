@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <limits>
 #include <set>
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
@@ -149,6 +150,33 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() - 1);
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() + 1);
+
+  // Work units per thread ratio: default of 4, clamped to at least 1, and used by the Pool threader.
+  if (itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio() != 4)
+  {
+    std::cerr << "Default WorkUnitPerThreadRatio is not 4" << std::endl;
+    result = false;
+  }
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(0);
+  result &= VerifyRange(itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio(),
+                        1,
+                        1,
+                        "Range error in DefaultWorkUnitPerThreadRatio");
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(std::numeric_limits<itk::ThreadIdType>::max());
+  result &= VerifyRange(itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio(),
+                        1,
+                        std::numeric_limits<itk::ThreadIdType>::max() / itk::ITK_MAX_THREADS,
+                        "Range error in DefaultWorkUnitPerThreadRatio upper bound");
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(itk::ITK_MAX_THREADS);
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(2);
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(3);
+  if (itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio() != 3 ||
+      itk::PoolMultiThreader::New()->GetNumberOfWorkUnits() != 6)
+  {
+    std::cerr << "WorkUnitPerThreadRatio not applied to PoolMultiThreader" << std::endl;
+    result = false;
+  }
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(4);
 
   // Test streaming enumeration for MultiThreaderBaseEnums::Threader elements
   const std::set<itk::MultiThreaderBaseEnums::Threader> allThreader{

@@ -33,6 +33,8 @@
 #  include "itkPoolMultiThreader.h"
 #endif
 #include "itkNumericTraits.h"
+#include <cstdlib>
+#include <limits>
 #include <mutex>
 
 #include "itksys/SystemTools.hxx"
@@ -90,6 +92,12 @@ struct MultiThreaderBaseGlobals
   //  m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
   //  initialized in the constructor of the first MultiThreaderBase instantiation.
   ThreadIdType m_GlobalDefaultNumberOfThreads{ 0 };
+
+  //  Global variable defining the default ratio of work units to threads used
+  //  by multi-threaders that oversubscribe work units for load balancing.
+  //  Zero means not yet initialized; it is then taken from the
+  //  ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO environment variable or 4.
+  ThreadIdType m_GlobalDefaultWorkUnitPerThreadRatio{ 0 };
 };
 
 itkGetGlobalSimpleMacro(MultiThreaderBase, MultiThreaderBaseGlobals, PimplGlobals);
@@ -246,6 +254,47 @@ MultiThreaderBase::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
 
   m_PimplGlobals->m_GlobalDefaultNumberOfThreads =
     std::clamp<ThreadIdType>(val, 1, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
+}
+
+namespace
+{
+// Bounded so that the ratio times any valid number of threads cannot overflow.
+ThreadIdType
+ClampWorkUnitPerThreadRatio(long long val)
+{
+  return static_cast<ThreadIdType>(
+    std::clamp<long long>(val, 1, std::numeric_limits<ThreadIdType>::max() / ITK_MAX_THREADS));
+}
+} // namespace
+
+void
+MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(ThreadIdType val)
+{
+  itkInitGlobalsMacro(PimplGlobals);
+
+  const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->globalDefaultInitializerMutex);
+
+  m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio = ClampWorkUnitPerThreadRatio(val);
+}
+
+ThreadIdType
+MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio()
+{
+  itkInitGlobalsMacro(PimplGlobals);
+
+  const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->globalDefaultInitializerMutex);
+
+  if (m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio == 0) // need to initialize
+  {
+    long long   ratio = 4;
+    std::string envVar;
+    if (itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO", envVar))
+    {
+      ratio = std::atoll(envVar.c_str());
+    }
+    m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio = ClampWorkUnitPerThreadRatio(ratio);
+  }
+  return m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio;
 }
 
 void
@@ -586,6 +635,8 @@ MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Number of Threads: " << m_MaximumNumberOfThreads << '\n';
   os << indent << "Global Maximum Number Of Threads: " << m_PimplGlobals->m_GlobalMaximumNumberOfThreads << std::endl;
   os << indent << "Global Default Number Of Threads: " << m_PimplGlobals->m_GlobalDefaultNumberOfThreads << std::endl;
+  os << indent << "Global Default Work Unit Per Thread Ratio: " << Self::GetGlobalDefaultWorkUnitPerThreadRatio()
+     << std::endl;
   os << indent << "Global Default Threader Type: " << m_PimplGlobals->m_GlobalDefaultThreader << std::endl;
   os << indent << "SingleMethod: " << m_SingleMethod << std::endl;
   os << indent << "SingleData: " << m_SingleData << std::endl;

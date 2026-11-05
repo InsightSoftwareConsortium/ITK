@@ -225,6 +225,20 @@ public:
   static ThreadIdType
   GetGlobalDefaultNumberOfThreads();
   /** @ITKEndGrouping */
+
+  /** Set/Get the ratio of work units to threads used to initialize the
+   * number of work units in multi-threaders that oversubscribe work units for
+   * load balancing (PoolMultiThreader and TBBMultiThreader). The default is 4,
+   * or the value of the ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO
+   * environment variable when it is set to a positive integer.
+   * It is clamped to [1, max(ThreadIdType) / ITK_MAX_THREADS], and only affects multi-threaders
+   * constructed after the value is set. */
+  /** @ITKStartGrouping */
+  static void
+  SetGlobalDefaultWorkUnitPerThreadRatio(ThreadIdType val);
+  static ThreadIdType
+  GetGlobalDefaultWorkUnitPerThreadRatio();
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   /** Get/Set the number of threads to use.
    * DEPRECATED! Use WorkUnits and MaximumNumberOfThreads instead. */
