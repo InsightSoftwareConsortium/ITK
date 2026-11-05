@@ -82,7 +82,7 @@ PoolMultiThreader::PoolMultiThreader()
 {
   for (ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i)
   {
-    m_ThreadInfoArray[i].WorkUnitID = i;
+    m_WorkUnitInfoArray[i].WorkUnitID = i;
   }
 
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
@@ -141,23 +141,23 @@ PoolMultiThreader::SingleMethodExecute()
 
   for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
-    m_ThreadInfoArray[threadLoop].UserData = m_SingleData;
-    m_ThreadInfoArray[threadLoop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-    m_ThreadInfoArray[threadLoop].Future = m_ThreadPool->AddWork(
-      [method = m_SingleMethod, threadInfo = &m_ThreadInfoArray[threadLoop]] { method(threadInfo); });
+    m_WorkUnitInfoArray[threadLoop].UserData = m_SingleData;
+    m_WorkUnitInfoArray[threadLoop].NumberOfWorkUnits = m_NumberOfWorkUnits;
+    m_WorkUnitInfoArray[threadLoop].Future = m_ThreadPool->AddWork(
+      [method = m_SingleMethod, threadInfo = &m_WorkUnitInfoArray[threadLoop]] { method(threadInfo); });
   }
 
   // Now, the parent thread calls this->SingleMethod() itself
-  m_ThreadInfoArray[0].UserData = m_SingleData;
-  m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
+  m_WorkUnitInfoArray[0].UserData = m_SingleData;
+  m_WorkUnitInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
   ExceptionHandler exceptionHandler;
-  exceptionHandler.TryAndCatch([this] { m_SingleMethod(&m_ThreadInfoArray[0]); });
+  exceptionHandler.TryAndCatch([this] { m_SingleMethod(&m_WorkUnitInfoArray[0]); });
 
   // The parent thread has finished SingleMethod()
   // so now it waits for each of the other work units to finish
   for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
-    exceptionHandler.TryAndCatch([this, threadLoop] { m_ThreadInfoArray[threadLoop].Future.get(); });
+    exceptionHandler.TryAndCatch([this, threadLoop] { m_WorkUnitInfoArray[threadLoop].Future.get(); });
   }
 
   exceptionHandler.RethrowFirstCaughtException();
@@ -192,7 +192,8 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
     SizeValueType workUnit = 1;
     for (SizeValueType i = firstIndex + chunkSize; i < lastIndexPlus1; i += chunkSize)
     {
-      m_ThreadInfoArray[workUnit++].Future = m_ThreadPool->AddWork(lambda, i, std::min(i + chunkSize, lastIndexPlus1));
+      m_WorkUnitInfoArray[workUnit++].Future =
+        m_ThreadPool->AddWork(lambda, i, std::min(i + chunkSize, lastIndexPlus1));
     }
     itkAssertOrThrowMacro(workUnit <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
 
@@ -212,7 +213,7 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
         std::future_status status;
         do
         {
-          status = m_ThreadInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
+          status = m_WorkUnitInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
           if (filter && status == std::future_status::timeout)
           {
             filter->IncrementProgress(0);
@@ -275,7 +276,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
         total = splitter->GetSplit(i, splitCount, iRegion);
         if (i < total)
         {
-          m_ThreadInfoArray[i].Future =
+          m_WorkUnitInfoArray[i].Future =
             m_ThreadPool->AddWork([funcP, iRegion]() { funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]); });
         }
         else
@@ -301,13 +302,13 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
           std::future_status status;
           do
           {
-            status = m_ThreadInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
+            status = m_WorkUnitInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
             if (filter && status == std::future_status::timeout)
             {
               filter->IncrementProgress(0);
             }
           } while (status != std::future_status::ready);
-          m_ThreadInfoArray[i].Future.get();
+          m_WorkUnitInfoArray[i].Future.get();
           reporter.CompletedPixel();
         });
       }

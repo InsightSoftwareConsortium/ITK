@@ -119,10 +119,10 @@ private:
   // Thread pool instance and factory
   ThreadPool::Pointer m_ThreadPool{};
 
-  /** An array of work unit information containing a work unit id
-   *  (0, 1, 2, .. ITK_MAX_THREADS-1), work unit count, and a pointer
-   *  to void so that user data can be passed to each thread. */
-  InternalWorkUnitInfo m_ThreadInfoArray[ITK_MAX_THREADS]{};
+  /** Storage for up to ITK_MAX_THREADS work units. SingleMethodExecute uses
+   *  each entry to pass the work unit ID, total work unit count, and user data;
+   *  parallelization methods also use entries to track submitted task futures. */
+  InternalWorkUnitInfo m_WorkUnitInfoArray[ITK_MAX_THREADS]{};
 
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
