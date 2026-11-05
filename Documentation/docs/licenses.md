@@ -145,9 +145,12 @@ They are:
 
 A. JPEG
 
-> Thomas G Lane ( BSD-Like)
->
-> DCMTK : OFFIS... and many others... but BSD-Like
+ITK vendors the core libjpeg API from libjpeg-turbo, which is covered by the
+Independent JPEG Group (IJG) License. The libjpeg-turbo distribution also
+includes a Modified 3-clause BSD License for its TurboJPEG API, associated
+programs, and build/test system. See
+[the libjpeg-turbo license summary](../../Modules/ThirdParty/JPEG/src/itkjpeg-turbo/LICENSE.md)
+and [the IJG license](../../Modules/ThirdParty/JPEG/src/itkjpeg-turbo/README.ijg).
 
 B. OpenJPEG
 
