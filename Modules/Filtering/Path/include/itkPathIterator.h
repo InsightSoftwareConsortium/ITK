@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkPathConstIterator_h
-#define itkPathConstIterator_h
+#ifndef itkPathIterator_h
+#define itkPathIterator_h
 
 #include "itkImage.h"
 #include "itkPath.h"
@@ -24,8 +24,8 @@
 namespace itk
 {
 /**
- * \class PathConstIterator
- * \brief PathConstIterator iterates (traces) over a path through an image.
+ * \class PathIterator
+ * \brief PathIterator iterates (traces) over a path through an image.
  *
  * This iterator visits only those indices of the image that are overlapped by
  * a specified 1D path.  All indices are visited in path order.  If a path
@@ -72,11 +72,11 @@ namespace itk
  * \sa SliceIterator \sa ImageConstIteratorWithIndex
  */
 template <typename TImage, typename TPath>
-class ITK_TEMPLATE_EXPORT PathConstIterator
+class ITK_TEMPLATE_EXPORT PathIterator
 {
 public:
   /** Standard class type aliases. */
-  using Self = PathConstIterator;
+  using Self = PathIterator;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -131,7 +131,7 @@ public:
   using PathOutputType = typename PathType::OutputType;
 
   /** \see LightObject::GetNameOfClass() */
-  itkVirtualGetNameOfClassMacro(PathConstIterator);
+  itkVirtualGetNameOfClassMacro(PathIterator);
 
   /** Get the dimension (size) of the index. */
   static unsigned int
@@ -198,10 +198,10 @@ public:
   operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a path */
-  PathConstIterator(const ImageType * imagePtr, const PathType * pathPtr);
+  PathIterator(const ImageType * imagePtr, const PathType * pathPtr);
 
   /** Default Destructor. */
-  virtual ~PathConstIterator() = default;
+  virtual ~PathIterator() = default;
 
 protected: // made protected so other iterators can access
   // This "constant" is initialized in the constructor
@@ -243,7 +243,7 @@ protected: // made protected so other iterators can access
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkPathConstIterator.hxx"
+#  include "itkPathIterator.hxx"
 #endif
 
 #endif
