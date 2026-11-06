@@ -101,8 +101,7 @@ public:
    * particular region of that image. */
   ReflectiveImageRegionConstIterator(TImage * ptr, const RegionType & region);
 
-  /** Copy Constructor. The copy constructor is provided to make sure the
-   * handle to the image is properly reference counted. */
+  /** The copy keeps the position and the reflection state of it. */
   ReflectiveImageRegionConstIterator(const Self & it);
 
   /** Constructor that can be used to cast from an ImageIterator to an
