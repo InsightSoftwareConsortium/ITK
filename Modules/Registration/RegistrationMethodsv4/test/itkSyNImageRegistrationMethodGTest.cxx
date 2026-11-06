@@ -27,6 +27,7 @@
 #include "itkObjectToObjectMultiMetricv4.h"
 #include "itkResampleImageFilter.h"
 #include "itkShrinkImageFilter.h"
+#include "itkTranslationTransform.h"
 #include "itkGTest.h"
 
 #include <cmath>
@@ -167,9 +168,9 @@ private:
   bool m_Previous;
 };
 
-// Runs a two-level SyN and returns the output displacement and inverse displacement fields.
+// Runs a two-level SyN and returns the output displacement and inverse displacement fields, and the metric if asked.
 std::vector<double>
-RunSyN(const Options & options)
+RunSyN(const Options & options, MetricType::Pointer * usedMetric = nullptr)
 {
   const auto fixed = MakeFixedImage();
   const auto moving = Warp(fixed);
@@ -268,6 +269,10 @@ RunSyN(const Options & options)
     registration->SetOptimizerWeights(weights);
   }
   registration->Update();
+  if (usedMetric)
+  {
+    *usedMetric = metric;
+  }
 
   std::vector<double> values;
   for (const FieldType * result :
@@ -286,10 +291,12 @@ const std::vector<Options> &
 Configurations()
 {
   // Default, smoothed total field with an update variance below 0.5, mask without derivative downsampling,
-  // and two image pairs.
-  static const std::vector<Options> configurations{
-    {}, { 0.25, 1.0, true, false, false }, { 3.0, 0.0, false, true, false }, { 3.0, 0.5, true, false, true }
-  };
+  // two image pairs, and mask with derivative downsampling.
+  static const std::vector<Options> configurations{ {},
+                                                    { 0.25, 1.0, true, false, false },
+                                                    { 3.0, 0.0, false, true, false },
+                                                    { 3.0, 0.5, true, false, true },
+                                                    { 3.0, 0.0, true, true, false } };
   return configurations;
 }
 } // namespace
@@ -305,7 +312,8 @@ TEST(SyNImageRegistrationMethod, MatchesBaseline)
     { -0.28336780395289196, 1.274287937792419, 0.21522601031570865, 0.11025017536445247 },
     { -0.27311490551753081, 1.3763187723850656, 0.20881543269035774, 0.19702995233577525 },
     { -0.27268737095291229, 1.3008609297425906, 0.21090716804163279, 0.17900305205919409 },
-    { -0.34488616123441318, 0.23092394821163253, 0.11462549081682383, -0.63336005356165614 }
+    { -0.34488616123441318, 0.23092394821163253, 0.11462549081682383, -0.63336005356165614 },
+    { -0.28395371732891306, 1.2694115559413852, 0.22097440143027924, 0.10737856101015097 }
   };
   for (size_t c = 0; c < Configurations().size(); ++c)
   {
@@ -321,6 +329,94 @@ TEST(SyNImageRegistrationMethod, MatchesBaseline)
       EXPECT_NEAR(values[offsets[k]], baseline[c][k], 1e-6 * scale)
         << "configuration " << c << ", offset " << offsets[k];
     }
+  }
+}
+
+namespace
+{
+// The identity transform that SyN left in the metric.
+TransformType::Pointer
+MetricIdentityTransform()
+{
+  MetricType::Pointer metric;
+  RunSyN(Options{}, &metric);
+  return dynamic_cast<TransformType *>(metric->GetModifiableMovingTransform());
+}
+
+// The x coordinate of the point (10.25, 20.5) after the transform, which a constant field shifts by its value.
+double
+TransformedX(const TransformType * transform)
+{
+  TransformType::InputPointType point;
+  point[0] = 10.25;
+  point[1] = 20.5;
+  return transform->TransformPoint(point)[0];
+}
+} // namespace
+
+TEST(SyNImageRegistrationMethod, MetricIdentityTransformFollowsChanges)
+{
+  {
+    // The transform as SyN left it.
+    const auto transform = MetricIdentityTransform();
+    ASSERT_NE(transform, nullptr);
+    EXPECT_EQ(TransformedX(transform), 10.25);
+  }
+  {
+    // A write into the field, followed by Modified().
+    const auto           transform = MetricIdentityTransform();
+    FieldType::PixelType displacement;
+    displacement.Fill(0.5);
+    transform->GetModifiableDisplacementField()->FillBuffer(displacement);
+    transform->GetModifiableDisplacementField()->Modified();
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 10.75);
+  }
+  {
+    // A write into the field, followed by setting the same field again.
+    const auto           transform = MetricIdentityTransform();
+    FieldType::PixelType displacement;
+    displacement.Fill(-0.5);
+    transform->GetModifiableDisplacementField()->FillBuffer(displacement);
+    transform->SetDisplacementField(transform->GetModifiableDisplacementField());
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 9.75);
+  }
+  {
+    // A parameter update, which sets the parameters the transform already holds.
+    const auto                    transform = MetricIdentityTransform();
+    TransformType::DerivativeType update(transform->GetNumberOfParameters());
+    update.Fill(0.25);
+    transform->UpdateTransformParameters(update);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 10.5);
+  }
+  {
+    // New parameters.
+    const auto                    transform = MetricIdentityTransform();
+    TransformType::ParametersType parameters(transform->GetNumberOfParameters());
+    parameters.Fill(1.5);
+    transform->SetParameters(parameters);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 11.75);
+  }
+  {
+    // A parameter update through the inverse, which shares the field.
+    const auto                    transform = MetricIdentityTransform();
+    const auto                    inverse = transform->GetInverseTransform();
+    TransformType::DerivativeType update(inverse->GetNumberOfParameters());
+    update.Fill(-0.25);
+    inverse->UpdateTransformParameters(update);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 10.0);
+  }
+  {
+    // A new field.
+    const auto transform = MetricIdentityTransform();
+    auto       field = FieldType::New();
+    field->CopyInformation(transform->GetDisplacementField());
+    field->SetRegions(transform->GetDisplacementField()->GetLargestPossibleRegion());
+    field->Allocate();
+    FieldType::PixelType displacement;
+    displacement.Fill(0.75);
+    field->FillBuffer(displacement);
+    transform->SetDisplacementField(field);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 11.0);
   }
 }
 
@@ -475,4 +571,75 @@ TEST(SyNImageRegistrationMethod, GaussianSmoothingMatchesSerialReference)
         << "variance " << variance << ", work units " << numberOfWorkUnits;
     }
   }
+}
+
+namespace
+{
+// Exposes the protected resampling cache.
+class ResamplingSyN : public RegistrationType
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(ResamplingSyN);
+  using Self = ResamplingSyN;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+  using RegistrationType::ClearResampleCache;
+  using RegistrationType::ResampleImageToVirtualDomain;
+  using RegistrationType::ResampleMaskToVirtualDomain;
+
+protected:
+  ResamplingSyN() = default;
+};
+
+std::vector<double>
+Pixels(const ImageType * image)
+{
+  std::vector<double> pixels;
+  for (itk::ImageRegionConstIterator<ImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    pixels.push_back(it.Get());
+  }
+  return pixels;
+}
+} // namespace
+
+TEST(SyNImageRegistrationMethod, ResampleCacheReusesResultsUntilCleared)
+{
+  const auto image = MakeFixedImage();
+  auto       shift = itk::TranslationTransform<double, Dimension>::New();
+  auto       offset = shift->GetParameters();
+  offset[0] = 1.25;
+  offset[1] = -0.5;
+  shift->SetParameters(offset);
+  const auto other = itk::TranslationTransform<double, Dimension>::New();
+
+  auto resampler = itk::ResampleImageFilter<ImageType, ImageType, double>::New();
+  resampler->SetInput(image);
+  resampler->SetTransform(shift);
+  resampler->UseReferenceImageOn();
+  resampler->SetReferenceImage(image);
+  resampler->SetDefaultPixelValue(0);
+  resampler->Update();
+  const auto expected = Pixels(resampler->GetOutput());
+
+  auto       syn = ResamplingSyN::New();
+  const auto first = syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, image);
+  EXPECT_EQ(Pixels(first), expected);
+  EXPECT_EQ(syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, image), first);
+
+  const auto mask = syn->ResampleMaskToVirtualDomain(image.GetPointer(), shift, image);
+  EXPECT_NE(mask, first);
+  EXPECT_NE(Pixels(mask), expected);
+  EXPECT_EQ(syn->ResampleMaskToVirtualDomain(image.GetPointer(), shift, image), mask);
+  EXPECT_NE(syn->ResampleImageToVirtualDomain(image.GetPointer(), other, image), first);
+  auto shrinker = itk::ShrinkImageFilter<ImageType, ImageType>::New();
+  shrinker->SetInput(image);
+  shrinker->SetShrinkFactors(2);
+  shrinker->Update();
+  EXPECT_NE(syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, shrinker->GetOutput()), first);
+
+  syn->ClearResampleCache();
+  const auto again = syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, image);
+  EXPECT_NE(again, first);
+  EXPECT_EQ(Pixels(again), expected);
 }
