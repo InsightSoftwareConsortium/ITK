@@ -23,7 +23,7 @@
 namespace itk
 {
 template <typename TImage, typename TPath>
-PathIterator<TImage, TPath>::PathIterator(const ImageType * imagePtr, const PathType * pathPtr)
+PathIterator<TImage, TPath>::PathIterator(TImage * imagePtr, const PathType * pathPtr)
   : m_Image(imagePtr)
   , m_Path(pathPtr)
   , m_Region(m_Image->GetLargestPossibleRegion())
