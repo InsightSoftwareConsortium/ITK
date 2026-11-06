@@ -1,0 +1,17 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  The member functions `New()` and `Delete()` of `itk::Indent` and `itk::TimeStamp` are
+  deprecated. If your application is still using them, you may replace their use with
+  constructing instances of these types directly.
+categories:
+  - ApiDeprecated
+environment:
+  - cxx
+impact: low
+pr: 6888
+commits:
+  - f5eab1e261d
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/6897

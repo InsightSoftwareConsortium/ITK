@@ -1,0 +1,19 @@
+schema_version: 1
+title: Modern CMake requirement
+summary: |
+  ITK now requires **CMake 3.10.2** for configuration. While only a few features
+  enabled by this modern version of CMake are being used for 5.0 release, a
+  modern version of CMake is a prerequisite for future more aggressive updates
+  to ITK's build system. This is planned for a later version.
+details: |
+  Before making other changes suggested in this document,
+  your code should work with the latest version of CMake.
+categories:
+  - Dependency
+  - CompilerEnvironment
+environment:
+  - cmake
+impact: medium
+pr: -1
+commits:
+  - a4f6697acd6
