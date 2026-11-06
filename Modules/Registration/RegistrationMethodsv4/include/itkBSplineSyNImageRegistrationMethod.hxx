@@ -99,6 +99,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 
   while (this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged)
   {
+    this->ClearResampleCache();
     auto fixedComposite = CompositeTransformType::New();
     if (fixedInitialTransform != nullptr)
     {
@@ -140,6 +141,8 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
                                this->m_MovingImageMasks,
                                this->m_FixedImageMasks,
                                fixedMetricValue);
+
+    this->ClearResampleCache();
 
     if (this->m_AverageMidPointGradients)
     {

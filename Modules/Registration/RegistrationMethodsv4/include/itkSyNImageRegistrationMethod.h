@@ -20,6 +20,8 @@
 
 #include "itkImageRegistrationMethodv4.h"
 
+#include <vector>
+
 #include "itkImageMaskSpatialObject.h"
 #include "itkDisplacementFieldTransform.h"
 
@@ -45,6 +47,11 @@ namespace itk
  *
  * The method evolved since that time with crucial contributions from Gang Song and
  * Nick Tustison. Though similar in spirit, this implementation is not identical.
+ *
+ * Within an iteration, the two ComputeUpdateField() calls resample each image and mask once to the virtual
+ * domain and share the result. The cache is keyed only on the image, transform and reference objects, not on
+ * their modification times, so a subclass that runs its own iteration loop must call ClearResampleCache() after
+ * the update-field calls of each iteration and whenever it changes an image, mask or transform between them.
  *
  * \todo Need to allow the fixed image to have a composite transform.
  *
@@ -239,6 +246,25 @@ protected:
 
   virtual DisplacementFieldPointer
   ScaleUpdateField(const DisplacementFieldType *);
+
+  /** Resample an image with linear interpolation to the virtual domain; cached until ClearResampleCache(). */
+  template <typename TImage>
+  typename TImage::ConstPointer
+  ResampleImageToVirtualDomain(const TImage *, const TransformBaseType *, const VirtualImageBaseType *);
+
+  /** Resample a mask image with nearest-neighbor interpolation to the virtual domain; cached until
+   * ClearResampleCache(). */
+  template <typename TImage>
+  typename TImage::ConstPointer
+  ResampleMaskToVirtualDomain(const TImage *, const TransformBaseType *, const VirtualImageBaseType *);
+
+  /** Release the resampled images, and the images and transforms they were computed from. */
+  void
+  ClearResampleCache()
+  {
+    this->m_ResampleCache.clear();
+  }
+
   virtual DisplacementFieldPointer
   GaussianSmoothDisplacementField(const DisplacementFieldType *, const RealType);
   virtual DisplacementFieldPointer
@@ -257,6 +283,29 @@ protected:
   bool                        m_AverageMidPointGradients{ false };
 
 private:
+  enum class ResampleInterpolation
+  {
+    Linear,
+    NearestNeighbor
+  };
+
+  template <typename TImage>
+  typename TImage::ConstPointer
+  ResampleToVirtualDomain(const TImage *,
+                          const TransformBaseType *,
+                          const VirtualImageBaseType *,
+                          ResampleInterpolation);
+
+  struct ResampleCacheEntry
+  {
+    DataObject::ConstPointer                 input;
+    typename TransformBaseType::ConstPointer transform;
+    VirtualImageBaseConstPointer             reference;
+    ResampleInterpolation                    interpolation;
+    DataObject::ConstPointer                 output;
+  };
+  std::vector<ResampleCacheEntry> m_ResampleCache{};
+
   RealType m_GaussianSmoothingVarianceForTheUpdateField{ 3.0 };
   RealType m_GaussianSmoothingVarianceForTheTotalField{ 0.5 };
 };
