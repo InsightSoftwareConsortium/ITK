@@ -12,6 +12,7 @@ itk_module(
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   FACTORY_NAMES
     ImageIO::Stimulate
   DESCRIPTION "${DOCUMENTATION}"
