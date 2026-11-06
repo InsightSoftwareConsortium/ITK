@@ -163,6 +163,48 @@ TEST(ReflectiveImageRegionIterator, ConstructorCallsNonConstGetBufferPointer)
     itk::Testing::IteratorConstructorCallsNonConstGetBufferPointer<itk::ReflectiveImageRegionIterator<ImageType>>());
 }
 
+// Checks that the read-only iterator deduces its image type from a raw image pointer.
+TEST(ReflectiveImageRegionIterator, DeduceImageTypeFromRawPointer)
+{
+  using ImageType = itk::Image<int, 3>;
+  ImageType * const       image = nullptr;
+  const ImageType * const constImage = nullptr;
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(image, ImageType::RegionType{})),
+                               itk::ReflectiveImageRegionConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(constImage, ImageType::RegionType{})),
+                               itk::ReflectiveImageRegionConstIterator<ImageType>>);
+}
+
+// Checks that both iterator names deduce their image type from a smart pointer.
+TEST(ReflectiveImageRegionIterator, DeduceImageTypeFromSmartPointer)
+{
+  using ImageType = itk::Image<int, 3>;
+  const ImageType::Pointer      image{};
+  const ImageType::ConstPointer constImage{};
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionIterator(image, ImageType::RegionType{})),
+                               itk::ReflectiveImageRegionIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(image, ImageType::RegionType{})),
+                               itk::ReflectiveImageRegionConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(constImage, ImageType::RegionType{})),
+                               itk::ReflectiveImageRegionConstIterator<ImageType>>);
+}
+
+
+// Checks that the read-only name converts to and from the iterator over a const image, and never to a writable one.
+TEST(ReflectiveImageRegionIterator, ReadOnlyIteratorDoesNotConvertToWritable)
+{
+  using ImageType = itk::Image<int, 2>;
+  using WritableType = itk::ReflectiveImageRegionIterator<ImageType>;
+  using ReadOnlyType = itk::ReflectiveImageRegionConstIterator<ImageType>;
+  using ConstImageType = itk::ReflectiveImageRegionIterator<const ImageType>;
+  static_assert(std::is_convertible_v<WritableType, ReadOnlyType>);
+  static_assert(std::is_convertible_v<ReadOnlyType, ConstImageType>);
+  static_assert(std::is_convertible_v<ConstImageType, ReadOnlyType>);
+  static_assert(!std::is_constructible_v<WritableType, ReadOnlyType>);
+  static_assert(!std::is_constructible_v<WritableType, itk::ReflectiveImageRegionIterator<const ImageType>>);
+}
+
+
 // Checks that converting a writable iterator to the read-only one keeps its position and reflection state.
 TEST(ReflectiveImageRegionIterator, ConversionToConstIteratorKeepsPosition)
 {
@@ -192,6 +234,17 @@ TEST(ReflectiveImageRegionIterator, ConversionToConstIteratorKeepsPosition)
   itk::ReflectiveImageRegionConstIterator<ImageType> assigned(image, region);
   assigned = it;
   expectSameState(assigned);
+
+  const itk::ReflectiveImageRegionIterator<const ImageType> readOnly(it);
+  expectSameState(readOnly);
+  itk::ReflectiveImageRegionIterator<const ImageType> readOnlyAssigned(image, region);
+  readOnlyAssigned = readOnly;
+  expectSameState(readOnlyAssigned);
+
+  const auto writableCopy = it;
+  expectSameState(writableCopy);
+  const auto readOnlyCopy = readOnly;
+  expectSameState(readOnlyCopy);
 }
 
 
@@ -205,4 +258,17 @@ TEST(ReflectiveImageRegionIterator, OnlyWritableIteratorSets)
   static_assert(HasAssignableValue<itk::ReflectiveImageRegionIterator<ImageType>>::value);
   static_assert(!HasAssignableValue<itk::ReflectiveImageRegionConstIterator<ImageType>>::value);
   static_assert(!HasAssignableValue<itk::ReflectiveImageRegionIterator<const ImageType>>::value);
+}
+
+
+// Checks that both iterator names deduce their image type from an indexed base iterator.
+TEST(ReflectiveImageRegionIterator, DeduceImageTypeFromBaseIterator)
+{
+  using ImageType = itk::Image<int, 2>;
+  const itk::ImageIteratorWithIndex<ImageType>      base{};
+  const itk::ImageConstIteratorWithIndex<ImageType> constBase{};
+  static_assert(
+    std::is_same_v<decltype(itk::ReflectiveImageRegionIterator(base)), itk::ReflectiveImageRegionIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(constBase)),
+                               itk::ReflectiveImageRegionConstIterator<ImageType>>);
 }

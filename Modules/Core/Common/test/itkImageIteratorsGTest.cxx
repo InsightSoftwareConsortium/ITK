@@ -758,6 +758,14 @@ TEST(ImageIterators, DeduceImageTypeFromRawPointer)
                                itk::ImageReverseConstIterator<ImageType>>);
   static_assert(std::is_same_v<decltype(itk::ImageRegionReverseConstIterator(constImage, RegionType{})),
                                itk::ImageRegionReverseConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageReverseIterator(constImage, RegionType{})),
+                               itk::ImageReverseIterator<const ImageType>>);
+
+  using IndexType = ImageType::IndexType;
+  static_assert(std::is_same_v<decltype(itk::LineConstIterator(image, IndexType{}, IndexType{})),
+                               itk::LineConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::LineConstIterator(constImage, IndexType{}, IndexType{})),
+                               itk::LineConstIterator<ImageType>>);
 }
 
 
@@ -792,7 +800,7 @@ TEST(ImageIterators, RandomNonRepeatingConversionOutlivesSource)
 }
 
 
-// Checks that the incrementable reverse iterators visit the pixels of a region in reverse order.
+// Checks that every reverse iterator, writable or read-only, visits the pixels of a region in reverse order.
 TEST(ImageIterators, ReverseIteratorsWalkRegionBackward)
 {
   using ImageType = itk::Image<int>;
@@ -821,6 +829,158 @@ TEST(ImageIterators, ReverseIteratorsWalkRegionBackward)
     return values;
   };
   EXPECT_EQ(visit(itk::ImageReverseIterator<ImageType>(image, region)), expected);
+  EXPECT_EQ(visit(itk::ImageReverseConstIterator<ImageType>(image, region)), expected);
   EXPECT_EQ(visit(itk::ImageRegionReverseIterator<ImageType>(image, region)), expected);
   EXPECT_EQ(visit(itk::ImageRegionReverseConstIterator<ImageType>(image, region)), expected);
+}
+
+
+// Checks that a copy of a random non-repeating iterator over a const image owns its permutation.
+TEST(ImageIterators, RandomNonRepeatingReadOnlyCopyOutlivesSource)
+{
+  using ImageType = itk::Image<int>;
+  const auto image = ImageType::New();
+  const auto region = ImageType::RegionType(ImageType::SizeType::Filled(4));
+  image->SetRegions(region);
+  image->AllocateInitialized();
+
+  const auto makeSource = [&image, &region] {
+    auto source =
+      std::make_unique<itk::ImageRandomNonRepeatingIteratorWithIndex<const ImageType>>(image.GetPointer(), region);
+    source->SetNumberOfSamples(region.GetNumberOfPixels());
+    source->ReinitializeSeed(7);
+    return source;
+  };
+  const auto visitOrder = [](auto & it) {
+    std::vector<ImageType::IndexType> visited;
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      visited.push_back(it.GetIndex());
+    }
+    return visited;
+  };
+
+  auto       source = makeSource();
+  const auto expected = visitOrder(*source);
+
+  itk::ImageRandomNonRepeatingIteratorWithIndex<const ImageType> copy(*source);
+  source = makeSource();
+  itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType> bridged(*source);
+  source.reset();
+
+  EXPECT_EQ(visitOrder(copy), expected);
+  EXPECT_EQ(visitOrder(bridged), expected);
+}
+
+
+// Checks that both line iterator names deduce their image type from a smart pointer.
+TEST(ImageIterators, DeduceLineIteratorFromSmartPointer)
+{
+  using ImageType = itk::Image<int>;
+  using IndexType = ImageType::IndexType;
+  const ImageType::Pointer      image{};
+  const ImageType::ConstPointer constImage{};
+  static_assert(
+    std::is_same_v<decltype(itk::LineIterator(image, IndexType{}, IndexType{})), itk::LineIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::LineConstIterator(image, IndexType{}, IndexType{})),
+                               itk::LineConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::LineConstIterator(constImage, IndexType{}, IndexType{})),
+                               itk::LineConstIterator<ImageType>>);
+}
+
+
+// Checks that a default-constructed indexed iterator converts to a read-only one without an image.
+TEST(ImageIterators, DefaultConstructedIndexedIteratorConverts)
+{
+  using ImageType = itk::Image<int>;
+  const itk::ImageIteratorWithIndex<ImageType>      writable{};
+  const itk::ImageConstIteratorWithIndex<ImageType> readOnly(writable);
+  EXPECT_EQ(readOnly.GetIndex(), writable.GetIndex());
+}
+
+
+// Checks that each iterator name deduces its image type from a base iterator.
+TEST(ImageIterators, DeduceImageTypeFromBaseIterator)
+{
+  using ImageType = itk::Image<int>;
+  const itk::ImageIterator<ImageType>               base{};
+  const itk::ImageConstIterator<ImageType>          constBase{};
+  const itk::ImageReverseConstIterator<ImageType>   constReverseBase{};
+  const itk::ImageIteratorWithIndex<ImageType>      indexedBase{};
+  const itk::ImageConstIteratorWithIndex<ImageType> constIndexedBase{};
+
+  static_assert(std::is_same_v<decltype(itk::ImageRegionIterator(base)), itk::ImageRegionIterator<ImageType>>);
+  static_assert(
+    std::is_same_v<decltype(itk::ImageRegionConstIterator(constBase)), itk::ImageRegionConstIterator<ImageType>>);
+  static_assert(
+    std::is_same_v<decltype(itk::ImageRegionConstIterator(base)), itk::ImageRegionConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageScanlineIterator(base)), itk::ImageScanlineIterator<ImageType>>);
+  static_assert(
+    std::is_same_v<decltype(itk::ImageScanlineConstIterator(constBase)), itk::ImageScanlineConstIterator<ImageType>>);
+  static_assert(
+    std::is_same_v<decltype(itk::ImageRegionReverseIterator(base)), itk::ImageRegionReverseIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRegionReverseConstIterator(constBase)),
+                               itk::ImageRegionReverseConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRegionReverseConstIterator(constReverseBase)),
+                               itk::ImageRegionReverseConstIterator<ImageType>>);
+  static_assert(
+    std::is_same_v<decltype(itk::ImageReverseConstIterator(constBase)), itk::ImageReverseConstIterator<ImageType>>);
+
+  static_assert(std::is_same_v<decltype(itk::ImageRegionIteratorWithIndex(indexedBase)),
+                               itk::ImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRegionConstIteratorWithIndex(constIndexedBase)),
+                               itk::ImageRegionConstIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRegionConstIteratorWithIndex(indexedBase)),
+                               itk::ImageRegionConstIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageLinearIteratorWithIndex(indexedBase)),
+                               itk::ImageLinearIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageLinearConstIteratorWithIndex(constIndexedBase)),
+                               itk::ImageLinearConstIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageSliceIteratorWithIndex(indexedBase)),
+                               itk::ImageSliceIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageSliceConstIteratorWithIndex(constIndexedBase)),
+                               itk::ImageSliceConstIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRandomIteratorWithIndex(indexedBase)),
+                               itk::ImageRandomIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRandomConstIteratorWithIndex(constIndexedBase)),
+                               itk::ImageRandomConstIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRandomNonRepeatingIteratorWithIndex(indexedBase)),
+                               itk::ImageRandomNonRepeatingIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRandomNonRepeatingConstIteratorWithIndex(constIndexedBase)),
+                               itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRegionExclusionIteratorWithIndex(indexedBase)),
+                               itk::ImageRegionExclusionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageRegionExclusionConstIteratorWithIndex(constIndexedBase)),
+                               itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>>);
+
+  // The base read-only names deduce from their writable counterparts.
+  const itk::ImageRegionIteratorWithIndex<ImageType> regionIndexed{};
+  const itk::ImageReverseIterator<ImageType>         reverse{};
+  const itk::LineIterator<ImageType> * const         line = nullptr;
+  static_assert(std::is_same_v<decltype(itk::ImageConstIterator(base)), itk::ImageConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ImageConstIteratorWithIndex(regionIndexed)),
+                               itk::ImageConstIteratorWithIndex<ImageType>>);
+  static_assert(
+    std::is_same_v<decltype(itk::ImageReverseConstIterator(reverse)), itk::ImageReverseConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::LineConstIterator(*line)), itk::LineConstIterator<ImageType>>);
+
+  // A writable name given a read-only iterator deduces the iterator over a const image.
+  static_assert(
+    std::is_same_v<decltype(itk::ImageRegionIterator(constBase)), itk::ImageRegionIterator<const ImageType>>);
+}
+
+
+// Checks that ImageType names the image without const, for the writable and read-only names alike.
+TEST(ImageIterators, ImageTypeIsNonConstImage)
+{
+  using ImageType = itk::Image<int>;
+  static_assert(std::is_same_v<itk::ImageRegionConstIterator<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageReverseConstIterator<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageRegionConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageLinearConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageLinearIteratorWithIndex<const ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageSliceConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageRandomConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::LineConstIterator<ImageType>::ImageType, ImageType>);
 }

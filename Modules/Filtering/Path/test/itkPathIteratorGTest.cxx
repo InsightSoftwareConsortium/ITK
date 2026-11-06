@@ -89,3 +89,37 @@ TEST(PathIterator, NoWriteAccessToConstImage)
   static_assert(!HasAssignableValue<itk::PathIterator<const ImageType, PathType>>::value);
   static_assert(!HasAssignableValue<itk::PathConstIterator<ImageType, PathType>>::value);
 }
+
+
+// Checks that both path iterator names deduce their image type from raw and smart pointers.
+TEST(PathIterator, DeduceImageType)
+{
+  ImageType * const             image = nullptr;
+  const ImageType * const       constImage = nullptr;
+  const ImageType::Pointer      imagePointer{};
+  const ImageType::ConstPointer constImagePointer{};
+  const PathType * const        path = nullptr;
+  using WritableType = itk::PathIterator<ImageType, PathType>;
+  using ReadOnlyType = itk::PathConstIterator<ImageType, PathType>;
+  static_assert(std::is_same_v<decltype(itk::PathIterator(imagePointer, path)), WritableType>);
+  static_assert(std::is_same_v<decltype(itk::PathConstIterator(image, path)), ReadOnlyType>);
+  static_assert(std::is_same_v<decltype(itk::PathConstIterator(constImage, path)), ReadOnlyType>);
+  static_assert(std::is_same_v<decltype(itk::PathConstIterator(imagePointer, path)), ReadOnlyType>);
+  static_assert(std::is_same_v<decltype(itk::PathConstIterator(constImagePointer, path)), ReadOnlyType>);
+  const WritableType * const writable = nullptr;
+  static_assert(std::is_same_v<decltype(itk::PathConstIterator(*writable)), ReadOnlyType>);
+}
+
+
+// Checks that the read-only name converts to and from the iterator over a const image, and never to a writable one.
+TEST(PathIterator, ReadOnlyIteratorDoesNotConvertToWritable)
+{
+  using WritableType = itk::PathIterator<ImageType, PathType>;
+  using ConstImageType = itk::PathIterator<const ImageType, PathType>;
+  using ReadOnlyType = itk::PathConstIterator<ImageType, PathType>;
+  static_assert(std::is_convertible_v<WritableType, ReadOnlyType>);
+  static_assert(std::is_convertible_v<ReadOnlyType, ConstImageType>);
+  static_assert(std::is_convertible_v<ConstImageType, ReadOnlyType>);
+  static_assert(!std::is_constructible_v<WritableType, ReadOnlyType>);
+  static_assert(!std::is_constructible_v<WritableType, ConstImageType>);
+}
