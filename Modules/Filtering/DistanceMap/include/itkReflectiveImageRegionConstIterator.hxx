@@ -50,7 +50,6 @@ template <typename TImage>
 ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator(const Self & it)
 {
   this->operator=(it);
-  this->GoToBegin();
 }
 
 template <typename TImage>
@@ -78,6 +77,7 @@ ReflectiveImageRegionConstIterator<TImage>::operator=(const Self & it)
     {
       m_BeginOffset[dim] = it.m_BeginOffset[dim];
       m_EndOffset[dim] = it.m_EndOffset[dim];
+      m_IsFirstPass[dim] = it.m_IsFirstPass[dim];
     }
   }
   return *this;
