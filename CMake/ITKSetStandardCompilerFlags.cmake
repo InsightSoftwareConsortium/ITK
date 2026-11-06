@@ -159,6 +159,10 @@ macro(check_compiler_platform_flags)
       if(MSVC)
         set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
       endif()
+      # MSVC reports __cplusplus as 199711L unless asked to match /std:.
+      if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /Zc:__cplusplus")
+      endif()
     endif()
   endif()
 
