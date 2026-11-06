@@ -23,7 +23,7 @@ namespace itk
 {
 template <typename TImage>
 ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator()
-  : ImageConstIteratorWithIndex<TImage>()
+  : ImageIteratorWithIndex<TImage>()
 {
   for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
@@ -35,7 +35,7 @@ ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator()
 
 template <typename TImage>
 ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(TImage * ptr, const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+  : ImageIteratorWithIndex<TImage>(ptr, region)
 {
   for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
@@ -48,21 +48,11 @@ ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(TImage * pt
 
 template <typename TImage>
 ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(const Self & it)
+  : Superclass(it)
+  , m_BeginOffset(it.m_BeginOffset)
+  , m_EndOffset(it.m_EndOffset)
 {
-  this->operator=(it);
-}
-
-template <typename TImage>
-ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(
-  const ImageConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
-  {
-    m_BeginOffset[dim] = 0;
-    m_EndOffset[dim] = 0;
-  }
+  std::copy_n(it.m_IsFirstPass, TImage::ImageDimension, m_IsFirstPass);
 }
 
 template <typename TImage>
@@ -71,7 +61,7 @@ ReflectiveImageRegionIterator<TImage>::operator=(const Self & it)
 {
   if (this != &it)
   {
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
+    this->ImageIteratorWithIndex<TImage>::operator=(it);
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
