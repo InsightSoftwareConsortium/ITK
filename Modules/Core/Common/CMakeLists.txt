@@ -52,38 +52,14 @@ check_cpp_directive_exists(__FUNCTION__ ITK_CPP_FUNCTION)
 
 include(CheckIncludeFiles)
 
-# check if the platform has the header file "fenv.h" which has been added as part of the C99 standard
-check_include_files(
-  fenv.h
-  HAVE_FENV_H
-)
 # check if the platform has some widely used header files
 check_include_files(
   "unistd.h"
   HAVE_UNISTD_H
 )
 
-if(CMAKE_CXX_STANDARD)
-  set(TRY_COMP_CXX_STANDARD -DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD})
-endif()
-# Identify the version of CXX compiler used when ITK was built. This needs to be
-# identified so that external applications can identify how ITK was built.
-set(ITK_COMPILED_CXX_STANDARD_VERSION 1)
-foreach(CXX_TEST_VERSION 201103L 201402L 201703L)
-  try_compile(
-    ITK_MIN_CXX_LEVEL_TEST
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeTmp
-    ${CMAKE_CURRENT_LIST_DIR}/CMake/itkGetCXXCompilerVersion.cxx
-    CMAKE_FLAGS
-      ${TRY_COMP_CXX_STANDARD}
-    COMPILE_DEFINITIONS
-      -DITK_CXX_TEST_VERSION=${CXX_TEST_VERSION}
-    OUTPUT_VARIABLE ITK_COMPILED_CXX_STANDARD_VERSION_LOG
-  )
-  if(ITK_MIN_CXX_LEVEL_TEST)
-    set(ITK_COMPILED_CXX_STANDARD_VERSION ${CXX_TEST_VERSION})
-  endif()
-endforeach()
+# ITK's minimum standard, and the oldest one a project using ITK may compile with.
+set(ITK_COMPILED_CXX_STANDARD_VERSION 201703L)
 
 # Unsupported, testing-only opt-ins to header code kept for a future minimum C++ standard.
 foreach(_itk_alpha_standard 20 23 26)
@@ -134,18 +110,6 @@ try_compile(
   ITK_HAS_FEENABLEEXCEPT
   ${ITK_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFeenableexcept.cxx
-)
-
-try_compile(
-  ITK_HAS_FEGETENV
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFegetenv.cxx
-)
-
-try_compile(
-  ITK_HAS_FESETENV
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFesetenv.cxx
 )
 
 try_compile(

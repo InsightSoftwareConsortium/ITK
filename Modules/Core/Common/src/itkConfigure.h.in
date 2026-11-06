@@ -25,7 +25,7 @@
 
 #define ITK_SIZEOF_VOID_P @CMAKE_SIZEOF_VOID_P@
 
-/* The CXX standard version used when ITK was built */
+/* The oldest C++ standard a project using ITK may compile with */
 #define ITK_COMPILED_CXX_STANDARD_VERSION @ITK_COMPILED_CXX_STANDARD_VERSION@
 
 /* Test external applications to ensure that compatible compiler C++ standard API are used
@@ -35,8 +35,13 @@
  * The warning is disabled for NVCC (NVidia CUDA) for use of ITK macros with CUDA versions
  * prior to v7. */
 #if !defined(__CUDACC__)
-  #if ITK_COMPILED_CXX_STANDARD_VERSION > __cplusplus
-    #warning "WARNING:  The current project is configured to use a C++ standard version older than the C++ standard used for this build of ITK"
+  #if (defined(_MSVC_LANG) && ITK_COMPILED_CXX_STANDARD_VERSION > _MSVC_LANG) || \
+    (!defined(_MSVC_LANG) && ITK_COMPILED_CXX_STANDARD_VERSION > __cplusplus)
+    #if defined(_MSC_VER) && !defined(__clang__)
+      #pragma message("warning: The current project is configured to use a C++ standard older than this build of ITK requires")
+    #else
+      #warning "WARNING:  The current project is configured to use a C++ standard older than this build of ITK requires"
+    #endif
   #endif
 #endif
 
@@ -128,9 +133,6 @@
  * conditionally defined them here with an ITK_ prefix to prevent
  * collisions and re defined warnings.
  */
-#if ITK_CMAKEDEFINE_VAR_@HAVE_FENV_H@
-# define ITK_HAVE_FENV_H
-#endif /* HAVE_FENV_H */
 #if ITK_CMAKEDEFINE_VAR_@HAVE_UNISTD_H@
 # define ITK_HAVE_UNISTD_H
 #endif /* HAVE_UNISTD_H */

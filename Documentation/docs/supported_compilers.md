@@ -41,7 +41,7 @@ To trigger installation of the Xcode Command Line tools, run:
 xcode-select --install
 ```
 
-* AppleClang 10.0.0 and later (from Xcode 10.0) [should be supported](https://en.wikipedia.org/wiki/Xcode#Version_history)
+* AppleClang 12.0.0 and later (from Xcode 12.4) [should be supported](https://en.wikipedia.org/wiki/Xcode#Version_history)
 
 ## Intel C++ Compiler
 
