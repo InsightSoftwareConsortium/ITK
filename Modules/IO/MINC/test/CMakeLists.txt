@@ -23,12 +23,22 @@ set(
 
 createtestdriver(ITKIOMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOMINCTests}")
 
-set(ITKIOMINCGTests itkMINCImageIOGTest.cxx)
+set(
+  ITKIOMINCGTests
+  itkMINCImageIOGTest.cxx
+  itkMINCImageIOLPSGeometryGTest.cxx
+)
 creategoogletestdriver(ITKIOMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOMINCGTests}")
+ExternalData_Expand_Arguments(
+  ITKData
+  _t1_z_plus_byte_cor
+  DATA{Input/t1_z+_byte_cor.mnc}
+)
 target_compile_definitions(
   ITKIOMINCGTestDriver
   PRIVATE
     "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+    "ITK_MINC_T1_Z_PLUS_BYTE_COR=\"${_t1_z_plus_byte_cor}\""
 )
 
 itk_add_test(
