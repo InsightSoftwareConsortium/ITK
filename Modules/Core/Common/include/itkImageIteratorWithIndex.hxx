@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageConstIteratorWithIndex_hxx
-#define itkImageConstIteratorWithIndex_hxx
+#ifndef itkImageIteratorWithIndex_hxx
+#define itkImageIteratorWithIndex_hxx
 
 
 namespace itk
@@ -25,7 +25,7 @@ namespace itk
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it)
+ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const Self & it)
   : m_Image(it.m_Image) // copy the smart pointer
   , m_PositionIndex(it.m_PositionIndex)
   , m_BeginIndex(it.m_BeginIndex)
@@ -47,7 +47,7 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const TImage * ptr, const RegionType & region)
   : m_Image(ptr)
   , m_BeginIndex(region.GetIndex())
   , m_Region(region)
@@ -88,8 +88,8 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * 
 //    Assignment Operator
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageConstIteratorWithIndex<TImage> &
-ImageConstIteratorWithIndex<TImage>::operator=(const Self & it)
+ImageIteratorWithIndex<TImage> &
+ImageIteratorWithIndex<TImage>::operator=(const Self & it)
 {
   if (this != &it)
   {
@@ -119,7 +119,7 @@ ImageConstIteratorWithIndex<TImage>::operator=(const Self & it)
 //----------------------------------------------------------------------------
 template <typename TImage>
 void
-ImageConstIteratorWithIndex<TImage>::GoToBegin()
+ImageIteratorWithIndex<TImage>::GoToBegin()
 {
   // Set the position at begin
 
@@ -134,7 +134,7 @@ ImageConstIteratorWithIndex<TImage>::GoToBegin()
 //----------------------------------------------------------------------------
 template <typename TImage>
 void
-ImageConstIteratorWithIndex<TImage>::GoToReverseBegin()
+ImageIteratorWithIndex<TImage>::GoToReverseBegin()
 {
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

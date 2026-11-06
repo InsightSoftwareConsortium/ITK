@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageConstIteratorWithIndex_h
-#define itkImageConstIteratorWithIndex_h
+#ifndef itkImageIteratorWithIndex_h
+#define itkImageIteratorWithIndex_h
 
 #include "itkIndex.h"
 #include "itkImage.h"
@@ -25,34 +25,34 @@
 
 namespace itk
 {
-/** \class ImageConstIteratorWithIndex
+/** \class ImageIteratorWithIndex
  * \brief A base class for multi-dimensional iterators templated over image
  * type that are designed to efficiently keep track of the iterator
  * position.
  *
- * ImageConstIteratorWithIndex is a templated class to represent a
+ * ImageIteratorWithIndex is a templated class to represent a
  * multi-dimensional iterator, and is templated over both the dimension
  * and data type of the image.
  *
- * ImageConstIteratorWithIndex is a base class for the "WithIndex" family of
+ * ImageIteratorWithIndex is a base class for the "WithIndex" family of
  * ITK image iterators, which are designed to efficiently keep track of the
  * image index position of the iterator during increment and decrement
  * operations.  This iterator is a base class and provides only the basic
  * construction and comparison operations. It does not provide mechanisms for
- * moving the iterator.  A subclass of ImageConstIteratorWithIndex must be used
+ * moving the iterator.  A subclass of ImageIteratorWithIndex must be used
  * to move the iterator.
  *
- * ImageConstIteratorWithIndex is a multi-dimensional iterator, requiring
+ * ImageIteratorWithIndex is a multi-dimensional iterator, requiring
  * more information be specified before the iterator can be used than
  * conventional iterators.  Whereas the std::vector::iterator from the
  * STL only needs to be passed a pointer to establish the iterator,
  * the multi-dimensional image iterator needs a pointer, the size of
  * the buffer, the size of the region, the start index of the buffer,
  * and the start index of the region. To gain access to this
- * information, ImageConstIteratorWithIndex holds a reference to the image
+ * information, ImageIteratorWithIndex holds a reference to the image
  * over which it is traversing.
  *
- * ImageConstIteratorWithIndex assumes a particular layout of the image
+ * ImageIteratorWithIndex assumes a particular layout of the image
  * data. In particular, the data is arranged in a 1D array as if it
  * were [][][][slice][row][col] with Index[0] = col, Index[1] = row,
  * Index[2] = slice, etc.
@@ -90,11 +90,11 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageConstIteratorWithIndex
+class ITK_TEMPLATE_EXPORT ImageIteratorWithIndex
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageConstIteratorWithIndex;
+  using Self = ImageIteratorWithIndex;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -139,18 +139,18 @@ public:
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageConstIteratorWithIndex() = default;
+  ImageIteratorWithIndex() = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ImageConstIteratorWithIndex(const Self & it);
+  ImageIteratorWithIndex(const Self & it);
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
+  ImageIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Default Destructor. */
-  virtual ~ImageConstIteratorWithIndex() = default;
+  virtual ~ImageIteratorWithIndex() = default;
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -310,13 +310,13 @@ protected: // made protected so other iterators can access
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageConstIteratorWithIndex<std::remove_const_t<TImage>>;
+ImageIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageConstIteratorWithIndex.hxx"
+#  include "itkImageIteratorWithIndex.hxx"
 #endif
 
 #endif
