@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRandomConstIteratorWithIndex_hxx
-#define itkImageRandomConstIteratorWithIndex_hxx
+#ifndef itkImageRandomIteratorWithIndex_hxx
+#define itkImageRandomIteratorWithIndex_hxx
 
 
 namespace itk
 {
 
 template <typename TImage>
-ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(const TImage *     ptr,
+ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(const TImage *     ptr,
                                                                              const RegionType & region)
   : ImageConstIteratorWithIndex<TImage>(ptr, region)
   , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
@@ -31,14 +31,14 @@ ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(con
 
 template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed()
+ImageRandomIteratorWithIndex<TImage>::ReinitializeSeed()
 {
   m_Generator->SetSeed();
 }
 
 template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
+ImageRandomIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
 {
   m_Generator->SetSeed(seed);
   // vnl_sample_reseed(seed);
@@ -46,7 +46,7 @@ ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
 
 template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex<TImage>::RandomJump()
+ImageRandomIteratorWithIndex<TImage>::RandomJump()
 {
   this->m_PositionIndex = detail::RandomIndexInRegion(*m_Generator, this->m_Region);
   this->m_Position = this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(this->m_PositionIndex);

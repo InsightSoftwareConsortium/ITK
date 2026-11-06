@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageLinearConstIteratorWithIndex_hxx
-#define itkImageLinearConstIteratorWithIndex_hxx
+#ifndef itkImageLinearIteratorWithIndex_hxx
+#define itkImageLinearIteratorWithIndex_hxx
 
 
 namespace itk
@@ -25,7 +25,7 @@ namespace itk
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageLinearConstIteratorWithIndex<TImage>::ImageLinearConstIteratorWithIndex(const TImage *     ptr,
+ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const TImage *     ptr,
                                                                              const RegionType & region)
   : ImageConstIteratorWithIndex<TImage>(ptr, region)
 {
@@ -37,7 +37,7 @@ ImageLinearConstIteratorWithIndex<TImage>::ImageLinearConstIteratorWithIndex(con
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
+ImageLinearIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
 {
   const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction] - 1;
 
@@ -50,7 +50,7 @@ ImageLinearConstIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToBeginOfLine()
+ImageLinearIteratorWithIndex<TImage>::GoToBeginOfLine()
 {
   const OffsetValueType distanceToBegin = this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction];
 
@@ -64,7 +64,7 @@ ImageLinearConstIteratorWithIndex<TImage>::GoToBeginOfLine()
 //----------------------------------------------------------------------
 template <typename TImage>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToEndOfLine()
+ImageLinearIteratorWithIndex<TImage>::GoToEndOfLine()
 {
   const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction];
 

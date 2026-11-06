@@ -15,21 +15,21 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRegionExclusionConstIteratorWithIndex_h
-#define itkImageRegionExclusionConstIteratorWithIndex_h
+#ifndef itkImageRegionExclusionIteratorWithIndex_h
+#define itkImageRegionExclusionIteratorWithIndex_h
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include <type_traits> // For remove_const_t.
 
 namespace itk
 {
-/** \class ImageRegionExclusionConstIteratorWithIndex
+/** \class ImageRegionExclusionIteratorWithIndex
  *
  *  \brief A multi-dimensional image iterator that walks an image region,
  *         excluding a second region that may partially or completely
  *         overlap the first, with read-only access to pixels.
  *
- * ImageRegionExclusionConstIteratorWithIndex is a class templated
+ * ImageRegionExclusionIteratorWithIndex is a class templated
  * over the image type that represents a multi-dimensional
  * iterator. The exclusion region is set after construction. By
  * default the exclusion region is empty and the iterator will behave
@@ -38,17 +38,17 @@ namespace itk
  * restrictions on valid exclusion regions.
  *
  * As with other ITK image iterators,
- * ImageRegionExclusionConstIteratorWithIndex requires that more
+ * ImageRegionExclusionIteratorWithIndex requires that more
  * information be specified before the iterator can be used than
  * conventional iterators. Whereas the std::vector::iterator from the
  * STL only needs to be passed a pointer to establish the iterator,
  * the multi-dimensional image iterator needs a pointer, the size of
  * the buffer, the size of the region, the start index of the buffer,
  * and the start index of the region. To gain access to this
- * information, ImageRegionExclusionConstIteratorWithIndex holds a
+ * information, ImageRegionExclusionIteratorWithIndex holds a
  * reference to the image over which it is traversing.
  *
- * ImageRegionExclusionConstIteratorWithIndex assumes a particular
+ * ImageRegionExclusionIteratorWithIndex assumes a particular
  * layout of the image data. The is arranged in a 1D array as if it
  * were [][][][slice][row][col] with Index[0] = col, Index[1] = row,
  * Index[2] = slice, etc.
@@ -129,11 +129,11 @@ namespace itk
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionExclusionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionExclusionIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageRegionExclusionConstIteratorWithIndex;
+  using Self = ImageRegionExclusionIteratorWithIndex;
   using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
@@ -149,20 +149,20 @@ public:
   using typename Superclass::AccessorType;
 
   /** Default constructor. */
-  ImageRegionExclusionConstIteratorWithIndex() = default;
+  ImageRegionExclusionIteratorWithIndex() = default;
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionExclusionConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
+  ImageRegionExclusionIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageRegionConstIteratorWithIndex
-   * to an ImageRegionExclusionConstIteratorWithIndex. Many routines return an
+   * to an ImageRegionExclusionIteratorWithIndex. Many routines return an
    * ImageIterator, but for a particular task, you may want an
-   * ImageRegionExclusionConstIteratorWithIndex. Rather than provide overloaded
+   * ImageRegionExclusionIteratorWithIndex. Rather than provide overloaded
    * APIs that return different types of Iterators, itk returns ImageIterators
    * and uses constructors to cast from an ImageIterator to a
-   * ImageRegionExclusionConstIteratorWithIndex. */
-  ImageRegionExclusionConstIteratorWithIndex(const Superclass & it);
+   * ImageRegionExclusionIteratorWithIndex. */
+  ImageRegionExclusionIteratorWithIndex(const Superclass & it);
 
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
@@ -217,13 +217,13 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRegionExclusionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+ImageRegionExclusionIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionExclusionIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRegionExclusionConstIteratorWithIndex.hxx"
+#  include "itkImageRegionExclusionIteratorWithIndex.hxx"
 #endif
 
 #endif

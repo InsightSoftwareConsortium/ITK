@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRandomConstIteratorWithIndex_h
-#define itkImageRandomConstIteratorWithIndex_h
+#ifndef itkImageRandomIteratorWithIndex_h
+#define itkImageRandomIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -26,7 +26,7 @@ namespace itk
 {
 namespace detail
 {
-// Draws a uniform random index in region, as ImageRandomConstIteratorWithIndex does, without an image.
+// Draws a uniform random index in region, as ImageRandomIteratorWithIndex does, without an image.
 template <unsigned int VDimension>
 Index<VDimension>
 RandomIndexInRegion(Statistics::MersenneTwisterRandomVariateGenerator & generator,
@@ -48,16 +48,16 @@ RandomIndexInRegion(Statistics::MersenneTwisterRandomVariateGenerator & generato
 }
 } // namespace detail
 
-/** \class ImageRandomConstIteratorWithIndex
+/** \class ImageRandomIteratorWithIndex
  * \brief A multi-dimensional image iterator that visits a random set of pixels
  * within an image region.
  *
- * ImageRandomConstIteratorWithIndex is a multi-dimensional iterator class that
- * is templated over image type.  ImageRandomConstIteratorWithIndex is
+ * ImageRandomIteratorWithIndex is a multi-dimensional iterator class that
+ * is templated over image type.  ImageRandomIteratorWithIndex is
  * constrained to walk  only within the specified region. It samples random
  * pixel positions at each increment or decrement.
  *
- * ImageRandomConstIteratorWithIndex assumes a particular layout of the image data. The
+ * ImageRandomIteratorWithIndex assumes a particular layout of the image data. The
  * is arranged in a 1D array as if it were [][][][slice][row][col] with
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
@@ -70,7 +70,7 @@ RandomIndexInRegion(Statistics::MersenneTwisterRandomVariateGenerator & generato
  *
    \code
 
-   ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+   ImageRandomIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
 
    it.SetNumberOfSamples(200);
    it.GoToBegin();
@@ -86,7 +86,7 @@ RandomIndexInRegion(Statistics::MersenneTwisterRandomVariateGenerator & generato
  *
    \code
 
-   ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+   ImageRandomIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
 
    it.SetNumberOfSamples(200);
    it.GoToEnd();
@@ -138,11 +138,11 @@ RandomIndexInRegion(Statistics::MersenneTwisterRandomVariateGenerator & generato
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRandomConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageRandomIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageRandomConstIteratorWithIndex;
+  using Self = ImageRandomIteratorWithIndex;
   using Superclass = ImageConstIteratorWithIndex<TImage>;
 
   /** Inherit types from the superclass */
@@ -161,21 +161,21 @@ public:
   using typename Superclass::SizeValueType;
 
   /** Default constructor. */
-  ImageRandomConstIteratorWithIndex() = default;
+  ImageRandomIteratorWithIndex() = default;
 
-  ~ImageRandomConstIteratorWithIndex() override = default;
+  ~ImageRandomIteratorWithIndex() override = default;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRandomConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
+  ImageRandomIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRandomConstIteratorWithIndex. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRandomConstIteratorWithIndex.  Rather than
+   * ImageRandomIteratorWithIndex. Many routines return an ImageIterator, but for a
+   * particular task, you may want an ImageRandomIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRandomConstIteratorWithIndex. */
-  ImageRandomConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
+   * ImageIterator to a ImageRandomIteratorWithIndex. */
+  ImageRandomIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
   }
@@ -264,13 +264,13 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRandomConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRandomConstIteratorWithIndex<std::remove_const_t<TImage>>;
+ImageRandomIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRandomIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRandomConstIteratorWithIndex.hxx"
+#  include "itkImageRandomIteratorWithIndex.hxx"
 #endif
 
 #endif

@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageSliceConstIteratorWithIndex_h
-#define itkImageSliceConstIteratorWithIndex_h
+#ifndef itkImageSliceIteratorWithIndex_h
+#define itkImageSliceIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 #include <type_traits> // For remove_const_t.
 
 namespace itk
 {
-/** \class ImageSliceConstIteratorWithIndex
+/** \class ImageSliceIteratorWithIndex
  * \brief Multi-dimensional image iterator which only walks a region.
  *
  * A multi-dimensional image iterator that extends the
@@ -56,7 +56,7 @@ namespace itk
  *
    \code
 
-   ImageSliceConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+   ImageSliceIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
 
    it.SetFirstDirection(2);
    it.SetSecondDirection(0);
@@ -111,11 +111,11 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageSliceConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageSliceIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageSliceConstIteratorWithIndex;
+  using Self = ImageSliceIteratorWithIndex;
   using Superclass = ImageConstIteratorWithIndex<TImage>;
 
   /** Inherit types from the superclass */
@@ -131,13 +131,13 @@ public:
   using typename Superclass::AccessorType;
 
   /** Default constructor. */
-  ImageSliceConstIteratorWithIndex()
+  ImageSliceIteratorWithIndex()
     : ImageConstIteratorWithIndex<TImage>()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageSliceConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+  ImageSliceIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageConstIteratorWithIndex<TImage>(ptr, region)
     , m_PixelJump(0)
     , m_LineJump(0)
@@ -146,12 +146,12 @@ public:
   {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageSliceConstIteratorWithIndex. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageSliceConstIteratorWithIndex.  Rather than
+   * ImageSliceIteratorWithIndex. Many routines return an ImageIterator, but for a
+   * particular task, you may want an ImageSliceIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageSliceConstIteratorWithIndex. */
-  ImageSliceConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
+   * ImageIterator to a ImageSliceIteratorWithIndex. */
+  ImageSliceIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
   }
@@ -225,13 +225,13 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageSliceConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageSliceConstIteratorWithIndex<std::remove_const_t<TImage>>;
+ImageSliceIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageSliceIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageSliceConstIteratorWithIndex.hxx"
+#  include "itkImageSliceIteratorWithIndex.hxx"
 #endif
 
 #endif

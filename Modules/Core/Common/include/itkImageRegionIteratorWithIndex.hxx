@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRegionConstIteratorWithIndex_hxx
-#define itkImageRegionConstIteratorWithIndex_hxx
+#ifndef itkImageRegionIteratorWithIndex_hxx
+#define itkImageRegionIteratorWithIndex_hxx
 
 
 namespace itk
@@ -25,8 +25,8 @@ namespace itk
 //  Advance along the line
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageRegionConstIteratorWithIndex<TImage> &
-ImageRegionConstIteratorWithIndex<TImage>::operator++()
+ImageRegionIteratorWithIndex<TImage> &
+ImageRegionIteratorWithIndex<TImage>::operator++()
 {
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
@@ -55,8 +55,8 @@ ImageRegionConstIteratorWithIndex<TImage>::operator++()
 //  Advance along the line in reverse direction
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageRegionConstIteratorWithIndex<TImage> &
-ImageRegionConstIteratorWithIndex<TImage>::operator--()
+ImageRegionIteratorWithIndex<TImage> &
+ImageRegionIteratorWithIndex<TImage>::operator--()
 {
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
