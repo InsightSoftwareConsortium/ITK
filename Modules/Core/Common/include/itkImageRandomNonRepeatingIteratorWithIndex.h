@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRandomNonRepeatingConstIteratorWithIndex_h
-#define itkImageRandomNonRepeatingConstIteratorWithIndex_h
+#ifndef itkImageRandomNonRepeatingIteratorWithIndex_h
+#define itkImageRandomNonRepeatingIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 #include <algorithm>
@@ -150,7 +150,7 @@ public:
   }
 };
 
-/** \class ImageRandomNonRepeatingConstIteratorWithIndex
+/** \class ImageRandomNonRepeatingIteratorWithIndex
  * \brief A multi-dimensional image iterator that visits a random set of pixels
  * within an image region.  All pixels in the image will be visited before any
  * are repeated.  A priority image may be passed to the iterator which
@@ -161,9 +161,9 @@ public:
  *  Machines, Montreal, Canada.  It is heavily based on the
  *  ImageRandomIterator class.
  *
- * ImageRandomNonRepeatingConstIteratorWithIndex is a multi-dimensional
+ * ImageRandomNonRepeatingIteratorWithIndex is a multi-dimensional
  * iterator class that
- * is templated over image type.  ImageRandomNonRepeatingConstIteratorWithIndex
+ * is templated over image type.  ImageRandomNonRepeatingIteratorWithIndex
  * is constrained to walk only within the specified region. When first
  * instantiated, it creates (and stores) a random permutation of the image
  * pixels.  It then visits each pixel in the order specified by the
@@ -178,7 +178,7 @@ public:
  * extreme, this allows the order of the pixel selection to be completely
  * specified.
  *
- * ImageRandomNonRepeatingConstIteratorWithIndex assumes a particular layout
+ * ImageRandomNonRepeatingIteratorWithIndex assumes a particular layout
  * of the image data. The is arranged in a 1D array as if it were
  * [][][][slice][row][col] with
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
@@ -222,11 +222,11 @@ public:
  * Replacing} \sphinxexample{Core/Common/PermuteSequenceOfIndices,Permute Sequence Of Indices} \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageRandomNonRepeatingIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageRandomNonRepeatingConstIteratorWithIndex;
+  using Self = ImageRandomNonRepeatingIteratorWithIndex;
   using Superclass = ImageConstIteratorWithIndex<TImage>;
 
   /** Inherit types from the superclass */
@@ -245,28 +245,28 @@ public:
   using typename Superclass::SizeValueType;
 
   /** Default constructor. */
-  ImageRandomNonRepeatingConstIteratorWithIndex() = default;
+  ImageRandomNonRepeatingIteratorWithIndex() = default;
 
-  ~ImageRandomNonRepeatingConstIteratorWithIndex() override { delete m_Permutation; }
+  ~ImageRandomNonRepeatingIteratorWithIndex() override { delete m_Permutation; }
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRandomNonRepeatingConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
+  ImageRandomNonRepeatingIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRandomNonRepeatingConstIteratorWithIndex. Many routines return an ImageIterator but for a
-   * particular task, you may want an ImageRandomNonRepeatingConstIteratorWithIndex.  Rather than
+   * ImageRandomNonRepeatingIteratorWithIndex. Many routines return an ImageIterator but for a
+   * particular task, you may want an ImageRandomNonRepeatingIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRandomNonRepeatingConstIteratorWithIndex. */
-  ImageRandomNonRepeatingConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
+   * ImageIterator to a ImageRandomNonRepeatingIteratorWithIndex. */
+  ImageRandomNonRepeatingIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
 
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
   }
 
   /** The copy constructor is provided to deep copy m_Permutation. */
-  ImageRandomNonRepeatingConstIteratorWithIndex(const Self & it)
+  ImageRandomNonRepeatingIteratorWithIndex(const Self & it)
     : Superclass(it)
     , m_NumberOfSamplesRequested(it.m_NumberOfSamplesRequested)
     , m_NumberOfSamplesDone(it.m_NumberOfSamplesDone)
@@ -387,13 +387,13 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRandomNonRepeatingConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRandomNonRepeatingConstIteratorWithIndex<std::remove_const_t<TImage>>;
+ImageRandomNonRepeatingIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRandomNonRepeatingIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRandomNonRepeatingConstIteratorWithIndex.hxx"
+#  include "itkImageRandomNonRepeatingIteratorWithIndex.hxx"
 #endif
 
 #endif
