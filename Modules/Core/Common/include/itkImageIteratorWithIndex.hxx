@@ -47,13 +47,13 @@ ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const Self & it)
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const TImage * ptr, const RegionType & region)
+ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(TImage * ptr, const RegionType & region)
   : m_Image(ptr)
   , m_BeginIndex(region.GetIndex())
   , m_Region(region)
   , m_Remaining(region.GetNumberOfPixels() > 0)
 {
-  const InternalPixelType * buffer = m_Image->GetBufferPointer();
+  QualifiedInternalPixelType * buffer = m_Image->GetBufferPointer();
   m_PositionIndex = m_BeginIndex;
   if (region.GetNumberOfPixels() > 0) // If region is non-empty
   {
@@ -144,8 +144,8 @@ ImageIteratorWithIndex<TImage>::GoToReverseBegin()
   m_Remaining = m_Region.GetNumberOfPixels() > 0;
 
   // Set the position at the end
-  const InternalPixelType * buffer = m_Image->GetBufferPointer();
-  const OffsetValueType     offset = m_Image->ComputeOffset(m_PositionIndex);
+  QualifiedInternalPixelType * buffer = m_Image->GetBufferPointer();
+  const OffsetValueType        offset = m_Image->ComputeOffset(m_PositionIndex);
   m_Position = buffer + offset;
 }
 
