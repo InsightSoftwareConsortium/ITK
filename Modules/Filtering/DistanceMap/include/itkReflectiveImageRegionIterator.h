@@ -105,8 +105,7 @@ public:
    * particular region of that image. */
   ReflectiveImageRegionIterator(TImage * ptr, const RegionType & region);
 
-  /** The copy keeps the position and the reflection state of it. */
-  ReflectiveImageRegionIterator(const Self & it);
+  ReflectiveImageRegionIterator(const Self &) = default;
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ReflectiveImageRegionIterator. Many routines return an
@@ -133,9 +132,8 @@ public:
     std::copy_n(it.m_IsFirstPass, TImage::ImageDimension, m_IsFirstPass);
   }
 
-  /** Copy assignment, including the position and the reflection state. */
   Self &
-  operator=(const Self & it);
+  operator=(const Self &) = default;
 
   [[nodiscard]] bool
   IsReflected(unsigned int) const;

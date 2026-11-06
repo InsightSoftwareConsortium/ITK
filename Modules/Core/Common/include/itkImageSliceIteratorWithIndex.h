@@ -134,9 +134,7 @@ public:
   using typename Superclass::AccessorType;
 
   /** Default constructor. */
-  ImageSliceIteratorWithIndex()
-    : ImageConstIteratorWithIndex<TImage>()
-  {}
+  ImageSliceIteratorWithIndex() = default;
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */

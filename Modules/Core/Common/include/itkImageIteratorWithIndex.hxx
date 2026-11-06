@@ -25,28 +25,6 @@ namespace itk
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(const Self & it)
-  : m_Image(it.m_Image) // copy the smart pointer
-  , m_PositionIndex(it.m_PositionIndex)
-  , m_BeginIndex(it.m_BeginIndex)
-  , m_EndIndex(it.m_EndIndex)
-  , m_Region(it.m_Region)
-  , m_Position(it.m_Position)
-  , m_Begin(it.m_Begin)
-  , m_End(it.m_End)
-  , m_Remaining(it.m_Remaining)
-  , m_PixelAccessor(it.m_PixelAccessor)
-  , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
-{
-  std::copy_n(it.m_OffsetTable, ImageDimension + 1, m_OffsetTable);
-
-  m_PixelAccessorFunctor.SetBegin(m_Image->GetBufferPointer());
-}
-
-//----------------------------------------------------------------------
-//  Constructor
-//----------------------------------------------------------------------
-template <typename TImage>
 ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(TImage * ptr, const RegionType & region)
   : m_Image(ptr)
   , m_BeginIndex(region.GetIndex())
@@ -82,36 +60,6 @@ ImageIteratorWithIndex<TImage>::ImageIteratorWithIndex(TImage * ptr, const Regio
   m_PixelAccessor = m_Image->GetPixelAccessor();
   m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
   m_PixelAccessorFunctor.SetBegin(buffer);
-}
-
-//----------------------------------------------------------------------
-//    Assignment Operator
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageIteratorWithIndex<TImage> &
-ImageIteratorWithIndex<TImage>::operator=(const Self & it)
-{
-  if (this != &it)
-  {
-    m_Image = it.m_Image; // copy the smart pointer
-
-    m_BeginIndex = it.m_BeginIndex;
-    m_EndIndex = it.m_EndIndex;
-    m_PositionIndex = it.m_PositionIndex;
-    m_Region = it.m_Region;
-
-    std::copy_n(it.m_OffsetTable, ImageDimension + 1, m_OffsetTable);
-
-    m_Position = it.m_Position;
-    m_Begin = it.m_Begin;
-    m_End = it.m_End;
-    m_Remaining = it.m_Remaining;
-
-    m_PixelAccessor = it.m_PixelAccessor;
-    m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
-    m_PixelAccessorFunctor.SetBegin(m_Image->GetBufferPointer());
-  }
-  return *this;
 }
 
 //----------------------------------------------------------------------------
