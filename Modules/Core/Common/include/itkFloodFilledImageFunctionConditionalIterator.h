@@ -19,6 +19,7 @@
 #define itkFloodFilledImageFunctionConditionalIterator_h
 
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
+#include <type_traits>
 
 namespace itk
 {
@@ -81,6 +82,7 @@ public:
    * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledImageFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr, IndexType startIndex)
     : Superclass(imagePtr, fnPtr, startIndex)
+    , m_WritableImage(imagePtr)
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -90,6 +92,7 @@ public:
                                               FunctionType *           fnPtr,
                                               std::vector<IndexType> & startIndex)
     : Superclass(imagePtr, fnPtr, startIndex)
+    , m_WritableImage(imagePtr)
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -97,24 +100,29 @@ public:
    * should be used when the seed pixel is unknown. */
   FloodFilledImageFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr)
     : Superclass(imagePtr, fnPtr)
+    , m_WritableImage(imagePtr)
   {}
 
   /** Get the pixel value */
   [[nodiscard]] const PixelType
   Get() const override
   {
-    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
+    return this->m_Image->GetPixel(this->m_IndexStack.front());
   }
 
-  /** Set the pixel value */
+  /** Set the pixel value. Available only when the image is not const. */
+  template <typename T = ImageType, std::enable_if_t<std::is_same_v<T, ImageType> && !std::is_const_v<T>, int> = 0>
   void
   Set(const PixelType & value)
   {
-    const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front()) = value;
+    m_WritableImage->GetPixel(this->m_IndexStack.front()) = value;
   }
 
   /** Default Destructor. */
   ~FloodFilledImageFunctionConditionalIterator() override = default;
+
+private:
+  WeakPointer<ImageType> m_WritableImage{};
 };
 } // end namespace itk
 
