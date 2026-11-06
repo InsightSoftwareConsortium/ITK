@@ -56,8 +56,12 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
     closeDimensions[VDimension] = 1;
   }
 
+  // A graft, so that releasing the B-spline filter's input leaves the control point lattice buffered.
+  auto latticeGraft = TimeVaryingVelocityFieldControlPointLatticeType::New();
+  latticeGraft->Graft(this->GetTimeVaryingVelocityFieldControlPointLattice());
+
   auto bspliner = BSplineFilterType::New();
-  bspliner->SetInput(this->GetTimeVaryingVelocityFieldControlPointLattice());
+  bspliner->SetInput(latticeGraft);
   bspliner->SetSplineOrder(this->m_SplineOrder);
   bspliner->SetSpacing(this->m_VelocityFieldSpacing);
   bspliner->SetSize(this->m_VelocityFieldSize);
@@ -71,8 +75,12 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
 
   using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
 
+  // A graft, so that releasing this integrator's input leaves the sampled field buffered for the inverse integrator.
+  auto bsplinerOutputGraft = VelocityFieldType::New();
+  bsplinerOutputGraft->Graft(bsplinerOutput);
+
   auto integrator = IntegratorType::New();
-  integrator->SetInput(bsplinerOutput);
+  integrator->SetInput(bsplinerOutputGraft);
   integrator->SetLowerTimeBound(this->GetLowerTimeBound());
   integrator->SetUpperTimeBound(this->GetUpperTimeBound());
 

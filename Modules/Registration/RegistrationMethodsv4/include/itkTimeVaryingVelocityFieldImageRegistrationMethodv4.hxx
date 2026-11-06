@@ -207,7 +207,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         using MovingResamplerType = ResampleImageFilter<MovingImageType, VirtualImageType, RealType>;
         auto movingResampler = MovingResamplerType::New();
         movingResampler->SetTransform(this->m_CompositeTransform);
-        movingResampler->SetInput(this->m_MovingSmoothImages[n]);
+        movingResampler->SetInput(this->MakeGraft(this->m_MovingSmoothImages[n]));
         movingResampler->SetSize(virtualDomainImage->GetRequestedRegion().GetSize());
         movingResampler->SetOutputOrigin(virtualDomainImage->GetOrigin());
         movingResampler->SetOutputSpacing(virtualDomainImage->GetSpacing());
@@ -218,7 +218,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         using FixedResamplerType = ResampleImageFilter<FixedImageType, VirtualImageType, RealType>;
         auto fixedResampler = FixedResamplerType::New();
         fixedResampler->SetTransform(fixedDisplacementFieldTransform);
-        fixedResampler->SetInput(this->m_FixedSmoothImages[n]);
+        fixedResampler->SetInput(this->MakeGraft(this->m_FixedSmoothImages[n]));
         fixedResampler->SetSize(virtualDomainImage->GetRequestedRegion().GetSize());
         fixedResampler->SetOutputOrigin(virtualDomainImage->GetOrigin());
         fixedResampler->SetOutputSpacing(virtualDomainImage->GetSpacing());

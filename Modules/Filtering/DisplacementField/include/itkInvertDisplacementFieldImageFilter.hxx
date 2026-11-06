@@ -120,8 +120,13 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
     auto composer = ComposerType::New();
-    composer->SetDisplacementField(displacementField);
-    composer->SetWarpingField(inverseDisplacementField);
+    // Grafts, so that releasing the composer's inputs leaves this filter's input and output buffered.
+    auto displacementFieldGraft = DisplacementFieldType::New();
+    displacementFieldGraft->Graft(displacementField);
+    auto inverseDisplacementFieldGraft = InverseDisplacementFieldType::New();
+    inverseDisplacementFieldGraft->Graft(inverseDisplacementField);
+    composer->SetDisplacementField(displacementFieldGraft);
+    composer->SetWarpingField(inverseDisplacementFieldGraft);
 
     this->m_ComposedField = composer->GetOutput();
     this->m_ComposedField->Update();
