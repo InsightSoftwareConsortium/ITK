@@ -129,7 +129,7 @@ public:
   using MetricBaseConstPointer = typename MetricType::ConstPointer;
   using MetricQueueType = std::deque<MetricBasePointer>;
 
-  using ObjectType = typename Superclass::ObjectType;
+  using typename Superclass::ObjectType;
 
   using WeightValueType = typename DerivativeType::ValueType;
   using WeightsArrayType = Array<WeightValueType>;

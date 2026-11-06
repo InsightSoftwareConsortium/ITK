@@ -104,7 +104,7 @@ public:
   using MovingMaskImageType = typename ImageMaskSpatialObjectType::ImageType;
   using typename Superclass::MovingImageMasksContainerType;
 
-  using VirtualImageType = typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImageType;
   using typename Superclass::VirtualImageBaseType;
   using typename Superclass::VirtualImageBaseConstPointer;
 

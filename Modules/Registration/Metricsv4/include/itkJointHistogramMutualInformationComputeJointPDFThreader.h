@@ -74,7 +74,7 @@ public:
   using typename Superclass::DomainType;
   using typename Superclass::AssociateType;
 
-  using VirtualImageType = typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImageType;
   using typename Superclass::VirtualIndexType;
   using typename Superclass::VirtualPointType;
 
@@ -114,7 +114,7 @@ public:
   using typename Superclass::DomainType;
   using typename Superclass::AssociateType;
 
-  using VirtualImageType = typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImageType;
   using typename Superclass::VirtualIndexType;
   using typename Superclass::VirtualPointType;
 

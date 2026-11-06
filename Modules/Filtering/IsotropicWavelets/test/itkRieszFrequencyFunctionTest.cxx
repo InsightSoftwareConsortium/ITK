@@ -26,6 +26,7 @@
 #include <memory>
 #include <string>
 #include <cmath>
+#include <type_traits>
 
 // Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
@@ -44,6 +45,8 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   using InputType = itk::Point<itk::SpacePrecisionType, Dimension>;
 
   using RieszFrequencyFunctionType = itk::RieszFrequencyFunction<OutputType, Dimension, InputType>;
+  static_assert(std::is_same_v<typename RieszFrequencyFunctionType::Superclass,
+                               itk::FrequencyFunction<OutputType, Dimension, InputType>>);
   auto rieszFunction = RieszFrequencyFunctionType::New();
 
   using FrequencyArrayType = typename RieszFrequencyFunctionType::InputType;

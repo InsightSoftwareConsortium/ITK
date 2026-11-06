@@ -86,17 +86,14 @@ non-template classes); ITK PR #5995 (original ABI report by N-Dekker).
 
 ## 2. Template Deduction and Dependent Type Issues
 
-### 2a. `using typename Superclass::X` — MSVC 2017 (historical; VS2017 not supported)
+### 2a. `using typename Superclass::X` — needs VS2019 16.2+
 
-> VS2017 is no longer in the support matrix but commits before 2022 contain many
-> workarounds. Do **not** reintroduce this pattern even in new code.
+MSVC before 19.22 can reject this form with C2653/C2886. ITK's MSVC floor is 19.22, so prefer it when re-exposing a
+base-class type under the same name; it also fails to compile when
+`Superclass` is not actually a base class.
 
 ```cpp
-// Still avoid (clarity and portability):
-using typename Superclass::CellType;   // ambiguous meaning
-
-// Prefer (explicit and universally supported):
-using CellType = typename Superclass::CellType;
+using typename Superclass::CellType;
 ```
 
 ### 2b. Missing `typename` for Dependent Types — AppleClang 12+

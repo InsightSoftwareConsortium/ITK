@@ -47,6 +47,7 @@ public:
   using typename Superclass::ValueType;
   using typename Superclass::CoordinateType;
   using typename Superclass::RealType;
+  using typename Superclass::BaseArray;
   using typename Superclass::Iterator;
   using typename Superclass::ConstIterator;
   using typename Superclass::VectorType;

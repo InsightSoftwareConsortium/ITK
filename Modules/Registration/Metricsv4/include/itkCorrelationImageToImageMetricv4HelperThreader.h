@@ -54,7 +54,7 @@ public:
   using typename Superclass::DomainType;
   using typename Superclass::AssociateType;
 
-  using ImageToImageMetricv4Type = typename Superclass::ImageToImageMetricv4Type;
+  using typename Superclass::ImageToImageMetricv4Type;
   using typename Superclass::VirtualIndexType;
   using typename Superclass::VirtualPointType;
   using typename Superclass::FixedImagePointType;

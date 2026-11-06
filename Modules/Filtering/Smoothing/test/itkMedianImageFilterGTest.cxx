@@ -23,6 +23,7 @@
 #include "itkImageBufferRange.h"
 
 #include <numeric> // For iota.
+#include <type_traits>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -91,6 +92,9 @@ Expect_output_has_specified_pixel_values_when_input_has_sequence_of_natural_numb
 
   EXPECT_EQ(outputPixelValues, expectedPixelValues);
 }
+
+using MedianFilterType = itk::MedianImageFilter<itk::Image<int>, itk::Image<int>>;
+static_assert(std::is_same_v<MedianFilterType::Superclass, itk::BoxImageFilter<itk::Image<int>, itk::Image<int>>>);
 
 } // namespace
 

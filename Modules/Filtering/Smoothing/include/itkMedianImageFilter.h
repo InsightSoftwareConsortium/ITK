@@ -65,7 +65,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = MedianImageFilter;
-  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Superclass = BoxImageFilter<InputImageType, OutputImageType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

@@ -43,7 +43,7 @@ public:
 
   /** Standard class type alias. */
   using Self = RieszFrequencyFunction;
-  using Superclass = SpatialFunction<TFunctionValue, VImageDimension, TInput>;
+  using Superclass = FrequencyFunction<TFunctionValue, VImageDimension, TInput>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

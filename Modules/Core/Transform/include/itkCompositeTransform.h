@@ -102,7 +102,7 @@ public:
   itkNewMacro(Self);
 
   /** Sub transform type **/
-  using TransformType = typename Superclass::TransformType;
+  using typename Superclass::TransformType;
   using typename Superclass::TransformTypePointer;
 
   /** InverseTransform type. */
