@@ -22,6 +22,9 @@
 #include "itkDCMTKSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/Directory.hxx"
+#include "dcmtk/dcmdata/dcdeftag.h"
+#include "dcmtk/dcmdata/dcfilefo.h"
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -163,4 +166,106 @@ TEST(DCMTKSeriesFileNamesParity, CacheReusedAndInvalidatedOnModify)
   sf->SetUseSeriesDetails(true);
   sf->AddSeriesRestriction("0020|0032");
   EXPECT_GT(sf->GetSeriesUIDs().size(), 1u) << "AddSeriesRestriction must invalidate the cache";
+}
+
+// Two copies of one series repeat every slice position, so no geometric order exists.
+TEST(DCMTKSeriesFileNamesParity, RepeatedPositionsThrowByDefault)
+{
+  const std::string root = FreshDir("repeated_throw");
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root, "a_"), 1u);
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root, "b_"), 1u);
+
+  auto sf = itk::DCMTKSeriesFileNames::New();
+  EXPECT_TRUE(sf->GetFailOnAmbiguousOrdering());
+  sf->SetInputDirectory(root);
+  std::vector<std::string> uids;
+  EXPECT_NO_THROW(uids = sf->GetSeriesUIDs()) << "Enumeration does not order and must not throw";
+  ASSERT_EQ(uids.size(), 1u);
+  EXPECT_THROW(sf->GetInputFileNames(), itk::ExceptionObject);
+  EXPECT_THROW(sf->GetFileNames(uids.front()), itk::ExceptionObject);
+  EXPECT_TRUE(sf->GetDidUseAmbiguousOrdering());
+}
+
+// With the exception disabled, repeated positions with repeated InstanceNumbers fall back to file name order.
+TEST(DCMTKSeriesFileNamesParity, RepeatedPositionsFallBackWhenAllowed)
+{
+  const std::string  root = FreshDir("repeated_fallback");
+  const unsigned int nA = CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root, "a_");
+  const unsigned int nB = CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root, "b_");
+  ASSERT_GT(nA, 1u);
+
+  auto sf = itk::DCMTKSeriesFileNames::New();
+  sf->FailOnAmbiguousOrderingOff();
+  sf->SetInputDirectory(root);
+  EXPECT_FALSE(sf->GetDidUseAmbiguousOrdering());
+  const std::vector<std::string> files = sf->GetInputFileNames();
+  ASSERT_EQ(files.size(), static_cast<std::size_t>(nA) + nB);
+  EXPECT_TRUE(std::is_sorted(files.begin(), files.end()));
+  EXPECT_TRUE(sf->GetDidUseAmbiguousOrdering());
+}
+
+// The ambiguity flag must survive a later, unambiguous series and reset only when the directory is parsed again.
+TEST(DCMTKSeriesFileNamesParity, AmbiguityFlagIsSticky)
+{
+  const std::string root = FreshDir("repeated_sticky");
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root, "a_"), 1u);
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root, "c_"), 1u);
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_OFFSET_DIR), root, "b_"), 1u);
+
+  auto sf = itk::DCMTKSeriesFileNames::New();
+  sf->FailOnAmbiguousOrderingOff();
+  sf->SetInputDirectory(root);
+  const std::vector<std::string> uids = sf->GetSeriesUIDs();
+  ASSERT_EQ(uids.size(), 2u);
+  const auto ambiguous =
+    std::max_element(uids.begin(), uids.end(), [&sf](const std::string & a, const std::string & b) {
+      return sf->GetFileNames(a).size() < sf->GetFileNames(b).size();
+    });
+  const std::string ambiguousUID = *ambiguous;
+  const std::string orderedUID = uids.front() == ambiguousUID ? uids.back() : uids.front();
+
+  sf->SetInputDirectory(TOSTRING(RECT_OFFSET_DIR));
+  sf->SetInputDirectory(root);
+  sf->GetSeriesUIDs();
+  EXPECT_FALSE(sf->GetDidUseAmbiguousOrdering()) << "Parsing the directory again clears the flag";
+  sf->GetFileNames(ambiguousUID);
+  EXPECT_TRUE(sf->GetDidUseAmbiguousOrdering());
+  sf->GetFileNames(orderedUID);
+  EXPECT_TRUE(sf->GetDidUseAmbiguousOrdering()) << "A later unambiguous series must not clear the flag";
+}
+
+// A slice without InstanceNumber makes the numbers unusable, so repeated positions fall back to file name order.
+TEST(DCMTKSeriesFileNamesParity, MissingInstanceNumberFallsBackToFileNames)
+{
+  const std::string root = FreshDir("repeated_missing_number");
+  const std::string src = FreshDir("repeated_missing_number_src");
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), src), 0u);
+  itksys::Directory srcDir;
+  srcDir.Load(src.c_str());
+  std::string slice;
+  for (unsigned int i = 0; i < srcDir.GetNumberOfFiles() && slice.empty(); ++i)
+  {
+    if (itksys::SystemTools::GetFilenameLastExtension(srcDir.GetFile(i)) == ".dcm")
+    {
+      slice = src + "/" + srcDir.GetFile(i);
+    }
+  }
+  ASSERT_FALSE(slice.empty());
+
+  const std::string numbered = root + "/a.dcm";
+  const std::string unnumbered = root + "/b.dcm";
+  DcmFileFormat     file;
+  ASSERT_TRUE(file.loadFile(slice.c_str()).good());
+  ASSERT_TRUE(file.getDataset()->putAndInsertString(DCM_InstanceNumber, "5").good());
+  ASSERT_TRUE(file.saveFile(numbered.c_str()).good());
+  file.getDataset()->findAndDeleteElement(DCM_InstanceNumber);
+  ASSERT_TRUE(file.saveFile(unnumbered.c_str()).good());
+
+  auto sf = itk::DCMTKSeriesFileNames::New();
+  sf->FailOnAmbiguousOrderingOff();
+  sf->SetInputDirectory(root);
+  const std::vector<std::string> files = sf->GetInputFileNames();
+  ASSERT_EQ(files.size(), 2u);
+  EXPECT_EQ(itksys::SystemTools::GetFilenameName(files[0]), "a.dcm");
+  EXPECT_EQ(itksys::SystemTools::GetFilenameName(files[1]), "b.dcm");
 }

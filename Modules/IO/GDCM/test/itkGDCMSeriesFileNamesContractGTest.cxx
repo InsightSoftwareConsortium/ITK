@@ -132,6 +132,42 @@ WriteWithInstanceNumber(const std::string & src, const std::string & dst, const 
   return writer.Write();
 }
 
+// Copy every slice of srcDir into dstDir under a new Series Instance UID (0020,000E).
+unsigned int
+CopyAsSeries(const std::string & srcDir, const std::string & dstDir, const char * seriesUID)
+{
+  itksys::SystemTools::MakeDirectory(dstDir);
+  itksys::Directory directory;
+  directory.Load(srcDir.c_str());
+  unsigned int written = 0;
+  for (unsigned int i = 0; i < directory.GetNumberOfFiles(); ++i)
+  {
+    const std::string name = directory.GetFile(i);
+    if (itksys::SystemTools::GetFilenameLastExtension(name) != ".dcm")
+    {
+      continue;
+    }
+    gdcm::Reader reader;
+    reader.SetFileName((srcDir + '/' + name).c_str());
+    if (!reader.Read())
+    {
+      continue;
+    }
+    gdcm::DataElement de(gdcm::Tag(0x0020, 0x000e));
+    de.SetVR(gdcm::VR::UI);
+    de.SetByteValue(seriesUID, static_cast<uint32_t>(std::strlen(seriesUID)));
+    reader.GetFile().GetDataSet().Replace(de);
+    gdcm::Writer writer;
+    writer.SetFileName((dstDir + "/series_" + name).c_str());
+    writer.SetFile(reader.GetFile());
+    if (writer.Write())
+    {
+      ++written;
+    }
+  }
+  return written;
+}
+
 // Copy one slice, stripping Rows/Columns/PixelData so it mimics a non-image
 // DICOM object (SR, RTSTRUCT, ...) sharing the series' SeriesInstanceUID;
 // stripSeriesUID additionally drops SeriesInstanceUID (DICOMDIR-like).
@@ -270,6 +306,37 @@ TEST(GDCMSeriesFileNamesContract, LegacyFallbackUsesInstanceNumberThenFilename)
   const std::vector<std::string> nameOrdered = lex->GetInputFileNames();
   ASSERT_EQ(nameOrdered.size(), 2u);
   EXPECT_LT(nameOrdered[0], nameOrdered[1]);
+}
+
+// The ambiguity flag must survive a later, geometrically ordered series and reset only when the directory is parsed
+// again.
+TEST(GDCMSeriesFileNamesContract, AmbiguityFlagIsSticky)
+{
+  const std::string root = TOSTRING(ITK_TEST_OUTPUT_DIR) + "/gdcmcontract_ambiguous_sticky";
+  itksys::SystemTools::RemoveADirectory(root);
+  itksys::SystemTools::MakeDirectory(root);
+  const std::string slice = FirstDicomSlice(SeriesDir());
+  ASSERT_FALSE(slice.empty());
+  ASSERT_TRUE(itksys::SystemTools::CopyFileAlways(slice, root + "/copy_a.dcm"));
+  ASSERT_TRUE(itksys::SystemTools::CopyFileAlways(slice, root + "/copy_b.dcm"));
+  const char * orderedUID = "1.2.826.0.1.3680043.2.1125.1.99";
+  ASSERT_GT(CopyAsSeries(SeriesDir(), root, orderedUID), 1u);
+  const std::string ambiguousUID = ReadSeriesInstanceUID(slice);
+  ASSERT_FALSE(ambiguousUID.empty());
+
+  auto sf = itk::GDCMSeriesFileNames::New();
+  sf->FailOnAmbiguousOrderingOff();
+  sf->SetInputDirectory(root);
+  ASSERT_EQ(sf->GetSeriesUIDs().size(), 2u);
+  EXPECT_FALSE(sf->GetDidUseAmbiguousOrdering());
+  EXPECT_EQ(sf->GetFileNames(ambiguousUID).size(), 2u);
+  EXPECT_TRUE(sf->GetDidUseAmbiguousOrdering());
+  EXPECT_GT(sf->GetFileNames(orderedUID).size(), 1u);
+  EXPECT_TRUE(sf->GetDidUseAmbiguousOrdering()) << "A later ordered series must not clear the flag";
+
+  sf->SetInputDirectory(SeriesDir());
+  sf->GetInputFileNames();
+  EXPECT_FALSE(sf->GetDidUseAmbiguousOrdering()) << "Parsing another directory clears the flag";
 }
 
 TEST(GDCMSeriesFileNamesContract, NonImageObjectsExcluded)

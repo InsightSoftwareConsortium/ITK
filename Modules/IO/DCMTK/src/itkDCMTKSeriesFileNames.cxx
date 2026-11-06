@@ -24,23 +24,26 @@
 #include "itksys/Directory.hxx"
 #include <algorithm>
 #include <exception>
+#include <iterator>
 #include <vector>
 
 namespace itk
 {
 namespace
 {
+// Positions closer than this along the slice normal are treated as the same slice location.
+constexpr double SamePositionTolerance = 1e-3;
+
 // Order slices by geometric position (ImagePositionPatient projected on the
-// slice normal), matching itk::GDCMSeriesFileNames / gdcm::SerieHelper.
-// Falls back to InstanceNumber then file name when orientation/position is
-// absent, so an unset or constant InstanceNumber can no longer scramble the
-// order via an unstable sort.
-void
+// slice normal), matching itk::GDCMSeriesFileNames. Returns true when positions
+// repeat, in which case no geometric order exists and the readers are left in
+// InstanceNumber order when the numbers are unique, else file name order.
+bool
 OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
 {
   if (headers.size() < 2)
   {
-    return;
+    return false;
   }
 
   // Derive the slice normal from the first slice that carries a valid
@@ -65,6 +68,7 @@ OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
     DCMTKFileReader * reader;
     double            distance;
     long              instanceNumber;
+    bool              hasInstanceNumber;
   };
   std::vector<SortKey> keys;
   keys.reserve(headers.size());
@@ -74,22 +78,58 @@ OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
     double origin[3] = { 0.0, 0.0, 0.0 };
     useGeometry = (reader->GetOrigin(origin) == EXIT_SUCCESS) && useGeometry;
     const double distance = normal[0] * origin[0] + normal[1] * origin[1] + normal[2] * origin[2];
-    keys.push_back({ reader, distance, reader->GetFileNumber() });
+    int32_t      readNumber = 0;
+    const bool   hasInstanceNumber = reader->GetElementIS(0x0020, 0x0013, readNumber, false) == EXIT_SUCCESS;
+    keys.push_back({ reader, distance, reader->GetFileNumber(), hasInstanceNumber });
   }
 
-  std::stable_sort(keys.begin(), keys.end(), [useGeometry](const SortKey & a, const SortKey & b) {
-    if (useGeometry && a.distance != b.distance)
-    {
-      return a.distance < b.distance;
-    }
-    if (a.instanceNumber != b.instanceNumber)
-    {
-      return a.instanceNumber < b.instanceNumber;
-    }
+  bool repeatedPositions = false;
+  if (useGeometry)
+  {
+    std::vector<double> distances;
+    distances.reserve(keys.size());
+    std::transform(
+      keys.begin(), keys.end(), std::back_inserter(distances), [](const SortKey & k) { return k.distance; });
+    std::sort(distances.begin(), distances.end());
+    repeatedPositions = std::adjacent_find(distances.begin(), distances.end(), [](double a, double b) {
+                          return b - a <= SamePositionTolerance;
+                        }) != distances.end();
+  }
+  const auto byFileName = [](const SortKey & a, const SortKey & b) {
     return a.reader->GetFileName() < b.reader->GetFileName();
-  });
+  };
+  if (repeatedPositions)
+  {
+    std::sort(keys.begin(), keys.end(), [](const SortKey & a, const SortKey & b) {
+      return a.instanceNumber < b.instanceNumber;
+    });
+    const bool uniqueInstanceNumbers =
+      std::all_of(keys.begin(), keys.end(), [](const SortKey & k) { return k.hasInstanceNumber; }) &&
+      std::adjacent_find(keys.begin(), keys.end(), [](const SortKey & a, const SortKey & b) {
+        return a.instanceNumber == b.instanceNumber;
+      }) == keys.end();
+    if (!uniqueInstanceNumbers)
+    {
+      std::sort(keys.begin(), keys.end(), byFileName);
+    }
+  }
+  else
+  {
+    std::stable_sort(keys.begin(), keys.end(), [useGeometry, &byFileName](const SortKey & a, const SortKey & b) {
+      if (useGeometry && a.distance != b.distance)
+      {
+        return a.distance < b.distance;
+      }
+      if (a.instanceNumber != b.instanceNumber)
+      {
+        return a.instanceNumber < b.instanceNumber;
+      }
+      return byFileName(a, b);
+    });
+  }
 
   std::transform(keys.begin(), keys.end(), headers.begin(), [](const SortKey & k) { return k.reader; });
+  return repeatedPositions;
 }
 
 // Collect file paths under dir, descending into subdirectories when recursive.
@@ -197,6 +237,8 @@ DCMTKSeriesFileNames::BuildSeriesMap()
 
   this->m_SeriesUIDs.clear();
   this->m_SeriesFiles.clear();
+  this->m_AmbiguousSeries.clear();
+  m_DidUseAmbiguousOrdering = false;
 
   // make an absolute path from whatever is passed in
   std::string fullPath = itksys::SystemTools::CollapseFullPath(m_InputDirectory.c_str());
@@ -237,7 +279,10 @@ DCMTKSeriesFileNames::BuildSeriesMap()
   // Order each series geometrically and store its file names; free the headers.
   for (auto & [id, readers] : groups)
   {
-    OrderFileReadersByPosition(readers);
+    if (OrderFileReadersByPosition(readers))
+    {
+      m_AmbiguousSeries.insert(id);
+    }
     FileNamesContainerType names;
     names.reserve(readers.size());
     for (auto * reader : readers)
@@ -263,9 +308,27 @@ DCMTKSeriesFileNames::GetFileNames(const std::string series)
   }
   else
   {
+    this->CheckOrdering(series);
     m_InputFileNames = it->second;
   }
   return m_InputFileNames;
+}
+
+void
+DCMTKSeriesFileNames::CheckOrdering(const std::string & series)
+{
+  if (m_AmbiguousSeries.count(series) == 0)
+  {
+    return;
+  }
+  m_DidUseAmbiguousOrdering = true;
+  if (m_FailOnAmbiguousOrdering)
+  {
+    itkExceptionMacro("Series " << series
+                                << " cannot be ordered geometrically because slice positions repeat (for example, a "
+                                   "multi-volume acquisition). Set FailOnAmbiguousOrdering to false to accept "
+                                   "InstanceNumber order, or file name order when InstanceNumbers repeat.");
+  }
 }
 
 const DCMTKSeriesFileNames::SeriesUIDContainerType &
@@ -285,6 +348,7 @@ DCMTKSeriesFileNames::GetInputFileNames()
   m_InputFileNames.clear();
   if (!m_SeriesUIDs.empty())
   {
+    this->CheckOrdering(m_SeriesUIDs.front());
     m_InputFileNames = m_SeriesFiles[m_SeriesUIDs.front()];
   }
   return this->m_InputFileNames;
@@ -320,6 +384,8 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
   }
 
   itkPrintSelfBooleanMacro(UseSeriesDetails);
+  itkPrintSelfBooleanMacro(FailOnAmbiguousOrdering);
+  itkPrintSelfBooleanMacro(DidUseAmbiguousOrdering);
   itkPrintSelfBooleanMacro(Recursive);
   itkPrintSelfBooleanMacro(LoadSequences);
   itkPrintSelfBooleanMacro(LoadPrivateTags);
