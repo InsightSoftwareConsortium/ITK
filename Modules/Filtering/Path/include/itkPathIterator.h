@@ -112,8 +112,7 @@ public:
   using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
-   * the pixel data. While this was already typedef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+   * the pixel data. */
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
 
@@ -246,7 +245,7 @@ protected: // made protected so other iterators can access
   // This "constant" is initialized in the constructor
   OffsetType m_ZeroOffset{}; // = 0 for all dimensions
 
-  /** Smart pointer to the source image. */
+  /** Weak pointer to the source image. */
   WeakPointer<TImage> m_Image{};
 
   /** Smart pointer to the path we're following */

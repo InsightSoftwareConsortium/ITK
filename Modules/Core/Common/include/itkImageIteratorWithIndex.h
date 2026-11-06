@@ -61,8 +61,6 @@ namespace itk
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
  * is available in print and as a free .pdf download from https://www.itk.org.
  *
- * \ingroup ImageIterators
- *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
  * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
@@ -120,8 +118,7 @@ public:
   using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
-   * the pixel data. While this was already typedef'ed in the superclass,
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+   * the pixel data. */
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
 

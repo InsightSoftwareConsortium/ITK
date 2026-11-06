@@ -94,8 +94,7 @@ public:
   using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
-   * the pixel data. While this was already typedef'ed in the superclass,
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+   * the pixel data. */
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
 
@@ -195,7 +194,7 @@ public:
   virtual ~LineIterator() = default;
 
 protected: // made protected so other iterators can access
-  /** Smart pointer to the source image. */
+  /** Weak pointer to the source image. */
   WeakPointer<TImage> m_Image{};
 
   /** Region type to iterate over. */

@@ -84,7 +84,7 @@ LineIterator<TImage>::operator=(const Self & it)
 {
   if (this != &it)
   {
-    m_Image = it.m_Image; // copy the smart pointer
+    m_Image = it.m_Image;
     m_Region = it.m_Region;
     m_IsAtEnd = it.m_IsAtEnd;
     m_CurrentImageIndex = it.m_CurrentImageIndex;

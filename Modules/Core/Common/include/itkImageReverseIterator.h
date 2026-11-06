@@ -32,11 +32,9 @@ namespace itk
  * multi-dimensional iterator. ImageReverseIterator is templated over the
  * dimension of the image and the data type of the image.
  *
- * ImageReverseIterator is a base class for all the reverse image
- * iterators. It provides the basic construction and comparison
- * operations.  However, it does not provide mechanisms for moving the
- * iterator.  A subclass of ImageReverseIterator must be used to move
- * the iterator.
+ * ImageReverseIterator is the base class for the reverse image
+ * iterators. It provides construction, comparison, increment, and
+ * decrement operations.
  *
  * ImageReverseIterator is a multi-dimensional iterator, requiring
  * more information be specified before the iterator can be used than
@@ -119,8 +117,7 @@ public:
   using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
-   * the pixel data. While this was already typedef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+   * the pixel data. */
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
 
@@ -150,7 +147,6 @@ public:
   /** Default Destructor. */
   virtual ~ImageReverseIterator() = default;
 
-  /** Copy constructor and copy assignment. */
   ImageReverseIterator(const Self &) = default;
   Self &
   operator=(const Self &) = default;
@@ -240,8 +236,7 @@ public:
     InitializeSpans();
   }
 
-  /** operator= is provided to make sure the handle to the image is properly
-   * reference counted. */
+  /** Assignment from an image iterator. */
   template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
   Self &
   operator=(const ImageIterator<TOtherImage> & it)
@@ -321,7 +316,7 @@ public:
     InitializeSpans();
   }
 
-  /** Get the region that this iterator walks. ImageReverseConstIterators know the
+  /** Get the region that this iterator walks. Reverse iterators know the
    * beginning and the end of the region of the image to iterate over. */
   [[nodiscard]] const RegionType &
   GetRegion() const
@@ -399,7 +394,8 @@ public:
     return m_Offset == m_EndOffset;
   }
 
-  /** iterator's index.  For a reverse iterator, this moves backwards
+  /** Increment (prefix) the fastest moving dimension of the iterator's index.
+   * For a reverse iterator, this moves backwards
    * through the region.  This operator will constrain the iterator
    * within the region (i.e. the iterator will automatically wrap from
    * the start of the row of the region to the end of the previous row
