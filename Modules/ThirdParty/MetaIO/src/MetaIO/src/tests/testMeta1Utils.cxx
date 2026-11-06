@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include <metaUtils.h>
 
@@ -345,6 +346,28 @@ main(int, char *[])
   for (fieldIter = mFields.begin(); fieldIter != mFields.end(); ++fieldIter)
   {
     delete *fieldIter;
+  }
+
+  for (const char separatorChar : { '=', ':', '|' })
+  {
+    MET_FieldRecordType separatorField;
+    MET_InitWriteField(&separatorField, "SeparatorValue", MET_INT, 42);
+    std::vector<MET_FieldRecordType *> separatorFields{ &separatorField };
+    std::stringstream separatorStream;
+    const std::string expected = std::string("SeparatorValue ") + separatorChar + " 42\n";
+    if (!MET_Write(separatorStream, &separatorFields, separatorChar) || separatorStream.str() != expected)
+    {
+      std::cout << "MET_Write separator " << separatorChar << ": FAILED" << '\n';
+      exitCode = EXIT_FAILURE;
+    }
+
+    MET_InitReadField(&separatorField, "SeparatorValue", MET_INT);
+    if (!MET_Read(separatorStream, &separatorFields, separatorChar) || !separatorField.defined ||
+        separatorField.value[0] != 42)
+    {
+      std::cout << "MET_Read separator " << separatorChar << ": FAILED" << '\n';
+      exitCode = EXIT_FAILURE;
+    }
   }
 
   return exitCode;
