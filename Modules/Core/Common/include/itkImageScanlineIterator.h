@@ -15,20 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageScanlineConstIterator_h
-#define itkImageScanlineConstIterator_h
+#ifndef itkImageScanlineIterator_h
+#define itkImageScanlineIterator_h
 
 #include "itkImageIterator.h"
 #include <type_traits> // For remove_const_t.
 
 namespace itk
 {
-/** \class ImageScanlineConstIterator
+/** \class ImageScanlineIterator
  * \brief A multi-dimensional iterator templated over image type that walks a
  * region of pixels, scanline by scanline or in the direction of the
  * fastest axis.
  *
- * The itk::ImageScanlineConstIterator is optimized for iteration speed and is the
+ * The itk::ImageScanlineIterator is optimized for iteration speed and is the
  * first choice for pixel-wise operations on an image.
  * This iterator is preferred over the older ImageRegionConstIterator even when knowledge
  * of the current line state is not desired because of its speed.
@@ -37,7 +37,7 @@ namespace itk
  *
    \code
 
-it = ImageScanlineConstIterator()
+it = ImageScanlineIterator()
 while ( !it.IsAtEnd() )
   {
   while ( !it.IsAtEndOfLine() )
@@ -61,11 +61,11 @@ while ( !it.IsAtEnd() )
  *
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageScanlineConstIterator : public ImageConstIterator<TImage>
+class ITK_TEMPLATE_EXPORT ImageScanlineIterator : public ImageConstIterator<TImage>
 {
 public:
   /** Standard class type alias. */
-  using Self = ImageScanlineConstIterator;
+  using Self = ImageScanlineIterator;
   using Superclass = ImageConstIterator<TImage>;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
@@ -92,28 +92,28 @@ public:
   using typename Superclass::AccessorType;
 
   /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(ImageScanlineConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageScanlineIterator);
 
   /** Default constructor. */
-  ImageScanlineConstIterator()
+  ImageScanlineIterator()
     : ImageConstIterator<TImage>()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageScanlineConstIterator(const TImage * ptr, const RegionType & region)
+  ImageScanlineIterator(const TImage * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
     , m_SpanBeginOffset(this->m_BeginOffset)
     , m_SpanEndOffset(this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageScanlineConstIterator. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageScanlineConstIterator.  Rather than
+   * ImageScanlineIterator. Many routines return an ImageIterator, but for a
+   * particular task, you may want an ImageScanlineIterator.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageScanlineConstIterator. */
-  ImageScanlineConstIterator(const ImageIterator<TImage> & it)
+   * ImageIterator to a ImageScanlineIterator. */
+  ImageScanlineIterator(const ImageIterator<TImage> & it)
   {
     this->ImageConstIterator<TImage>::operator=(it);
 
@@ -124,12 +124,12 @@ public:
   }
 
   /** Constructor that can be used to cast from an ImageConstIterator to an
-   * ImageScanlineConstIterator. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageScanlineConstIterator.  Rather than
+   * ImageScanlineIterator. Many routines return an ImageIterator, but for a
+   * particular task, you may want an ImageScanlineIterator.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageScanlineConstIterator. */
-  ImageScanlineConstIterator(const ImageConstIterator<TImage> & it)
+   * ImageIterator to a ImageScanlineIterator. */
+  ImageScanlineIterator(const ImageConstIterator<TImage> & it)
   {
     this->ImageConstIterator<TImage>::operator=(it);
 
@@ -260,13 +260,13 @@ protected:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageScanlineConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageScanlineConstIterator<std::remove_const_t<TImage>>;
+ImageScanlineIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageScanlineIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageScanlineConstIterator.hxx"
+#  include "itkImageScanlineIterator.hxx"
 #endif
 
 #endif
