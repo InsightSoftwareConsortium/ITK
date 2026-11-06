@@ -22,9 +22,7 @@
 namespace itk
 {
 template <typename TImage>
-LineIterator<TImage>::LineIterator(const ImageType * imagePtr,
-                                             const IndexType & firstIndex,
-                                             const IndexType & lastIndex)
+LineIterator<TImage>::LineIterator(TImage * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
   : m_Image(imagePtr)
   , m_StartIndex(firstIndex)
   , m_LastIndex(lastIndex)
