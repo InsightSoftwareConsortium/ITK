@@ -21,6 +21,9 @@
 #include "itkImage.h"
 #include "itkPath.h"
 
+#include "itkImageIterator.h"
+#include <type_traits>
+
 namespace itk
 {
 /**
@@ -74,6 +77,9 @@ namespace itk
 template <typename TImage, typename TPath>
 class ITK_TEMPLATE_EXPORT PathIterator
 {
+  template <typename, typename>
+  friend class PathIterator;
+
 public:
   /** Standard class type aliases. */
   using Self = PathIterator;
@@ -103,7 +109,7 @@ public:
   using PointType = typename TImage::PointType;
 
   /** Image type alias support */
-  using ImageType = TImage;
+  using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typedef'ed in the superclass
@@ -192,13 +198,46 @@ public:
   void
   operator++();
 
-  /** operator= is provided to make sure the handles to the image and path are
-   * properly reference counted. */
+  /** Set the pixel value. Available only when TImage is not const. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
+  void
+  Set(const PixelType & value)
+  {
+    m_Image->SetPixel(m_CurrentImageIndex, value);
+  }
+
+  /** Return a reference to the pixel. Available only when TImage is not const.
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
+  PixelType &
+  Value()
+  {
+    return m_Image->GetPixel(m_CurrentImageIndex);
+  }
+
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  PathIterator(const PathIterator<TOtherImage, TPath> & it)
+    : m_ZeroOffset(it.m_ZeroOffset)
+    , m_Image(it.m_Image)
+    , m_Path(it.m_Path)
+    , m_Region(it.m_Region)
+    , m_ImageOrigin(it.m_ImageOrigin)
+    , m_ImageSpacing(it.m_ImageSpacing)
+    , m_ImageSize(it.m_ImageSize)
+    , m_VisitStartIndexAsLastIndexIfClosed(it.m_VisitStartIndexAsLastIndexIfClosed)
+    , m_IsAtEnd(it.m_IsAtEnd)
+    , m_CurrentPathPosition(it.m_CurrentPathPosition)
+    , m_CurrentImageIndex(it.m_CurrentImageIndex)
+  {}
+
+  /** Copy assignment. */
   Self &
   operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a path */
-  PathIterator(const ImageType * imagePtr, const PathType * pathPtr);
+  PathIterator(TImage * imagePtr, const PathType * pathPtr);
 
   /** Default Destructor. */
   virtual ~PathIterator() = default;
@@ -208,7 +247,7 @@ protected: // made protected so other iterators can access
   OffsetType m_ZeroOffset{}; // = 0 for all dimensions
 
   /** Smart pointer to the source image. */
-  typename ImageType::ConstWeakPointer m_Image{};
+  WeakPointer<TImage> m_Image{};
 
   /** Smart pointer to the path we're following */
   typename PathType::ConstPointer m_Path{};
@@ -240,6 +279,38 @@ protected: // made protected so other iterators can access
   /** Current ND index position in the image of the path */
   IndexType m_CurrentImageIndex{};
 };
+
+/** \class PathConstIterator
+ * \brief Read-only PathIterator: PathConstIterator<TImage> behaves as PathIterator<const TImage>.
+ *
+ * It is a derived class rather than an alias template so that it supports class template argument deduction.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKPath
+ */
+template <typename TImage, typename TPath>
+class ITK_TEMPLATE_EXPORT PathConstIterator : public PathIterator<std::add_const_t<TImage>, TPath>
+{
+public:
+  /** Standard class type alias. */
+  using Self = PathConstIterator;
+  using Superclass = PathIterator<std::add_const_t<TImage>, TPath>;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(PathConstIterator);
+
+  using Superclass::Superclass;
+
+  /** Conversion from PathIterator<const TImage>. */
+  PathConstIterator(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage, typename TPath>
+PathConstIterator(const TImage *, const TPath *) -> PathConstIterator<TImage, TPath>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

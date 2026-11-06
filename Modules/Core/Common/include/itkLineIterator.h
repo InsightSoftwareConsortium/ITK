@@ -21,6 +21,9 @@
 #include "itkIndex.h"
 #include "itkImage.h"
 
+#include "itkImageIterator.h"
+#include <type_traits>
+
 namespace itk
 {
 /**
@@ -50,11 +53,15 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Core/Common/IterateLineThroughImageWithoutWriteAccess,Iterate Line Through Image Without Write Access}
+ * \sphinxexample{Core/Common/IterateLineThroughImage,Iterate Line Through Image}
  * \endsphinx
  */
 template <typename TImage>
 class ITK_TEMPLATE_EXPORT LineIterator
 {
+  template <typename>
+  friend class LineIterator;
+
 public:
   /** Standard class type aliases. */
   using Self = LineIterator;
@@ -84,7 +91,7 @@ public:
   using PointType = typename TImage::PointType;
 
   /** Image type alias support */
-  using ImageType = TImage;
+  using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typedef'ed in the superclass,
@@ -141,20 +148,55 @@ public:
   void
   operator++();
 
-  /** operator= is provided to make sure the handle to the image is properly
-   * reference counted. */
+  /** Set the pixel value. Available only when TImage is not const. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
+  void
+  Set(const PixelType & value)
+  {
+    m_Image->SetPixel(m_CurrentImageIndex, value);
+  }
+
+  /** Return a reference to the pixel.
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
+  const PixelType &
+  Value()
+  {
+    return m_Image->GetPixel(m_CurrentImageIndex);
+  }
+
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  LineIterator(const LineIterator<TOtherImage> & it)
+    : m_Image(it.m_Image)
+    , m_Region(it.m_Region)
+    , m_IsAtEnd(it.m_IsAtEnd)
+    , m_CurrentImageIndex(it.m_CurrentImageIndex)
+    , m_StartIndex(it.m_StartIndex)
+    , m_LastIndex(it.m_LastIndex)
+    , m_EndIndex(it.m_EndIndex)
+    , m_MainDirection(it.m_MainDirection)
+    , m_AccumulateError(it.m_AccumulateError)
+    , m_IncrementError(it.m_IncrementError)
+    , m_MaximalError(it.m_MaximalError)
+    , m_OverflowIncrement(it.m_OverflowIncrement)
+    , m_ReduceErrorAfterIncrement(it.m_ReduceErrorAfterIncrement)
+  {}
+
+  /** Copy assignment. */
   Self &
   operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a line */
-  LineIterator(const ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
+  LineIterator(TImage * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
 
   /** Default Destructor. */
   virtual ~LineIterator() = default;
 
 protected: // made protected so other iterators can access
   /** Smart pointer to the source image. */
-  typename ImageType::ConstWeakPointer m_Image{};
+  WeakPointer<TImage> m_Image{};
 
   /** Region type to iterate over. */
   RegionType m_Region{};
@@ -190,6 +232,39 @@ protected: // made protected so other iterators can access
   // two times the number of pixels in the line
   IndexType m_ReduceErrorAfterIncrement{};
 };
+
+/** \class LineConstIterator
+ * \brief Read-only LineIterator: LineConstIterator<TImage> behaves as LineIterator<const TImage>.
+ *
+ * It is a derived class rather than an alias template so that it supports class template argument deduction.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKCommon
+ */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT LineConstIterator : public LineIterator<std::add_const_t<TImage>>
+{
+public:
+  /** Standard class type alias. */
+  using Self = LineConstIterator;
+  using Superclass = LineIterator<std::add_const_t<TImage>>;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(LineConstIterator);
+
+  using Superclass::Superclass;
+
+  /** Conversion from LineIterator<const TImage>. */
+  LineConstIterator(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+LineConstIterator(const TImage *, const typename TImage::IndexType &, const typename TImage::IndexType &)
+  -> LineConstIterator<TImage>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
