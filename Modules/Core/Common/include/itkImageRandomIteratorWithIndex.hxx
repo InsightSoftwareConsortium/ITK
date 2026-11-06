@@ -23,9 +23,8 @@ namespace itk
 {
 
 template <typename TImage>
-ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(const TImage *     ptr,
-                                                                             const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(TImage * ptr, const RegionType & region)
+  : ImageIteratorWithIndex<TImage>(ptr, region)
   , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
 {}
 
