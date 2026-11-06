@@ -1215,7 +1215,8 @@ itk_add_test(
     ITKCommon2TestDriver
     itkMemoryProbesCollecterBaseTest
 )
-if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4)
+# A 4.1 GiB buffer does not fit in a 32-bit address space.
+if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
   itk_add_test(
     NAME itkImageFillBufferTest4.1
     COMMAND
