@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageScanlineConstIterator_hxx
-#define itkImageScanlineConstIterator_hxx
+#ifndef itkImageScanlineIterator_hxx
+#define itkImageScanlineIterator_hxx
 
 
 namespace itk
@@ -24,7 +24,7 @@ namespace itk
 
 template <typename TImage>
 void
-ImageScanlineConstIterator<TImage>::NextLine()
+ImageScanlineIterator<TImage>::NextLine()
 {
   // increment to the next scanline
 
