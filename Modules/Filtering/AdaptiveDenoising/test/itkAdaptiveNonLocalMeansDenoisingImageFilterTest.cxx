@@ -116,9 +116,6 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(reader->GetOutput());
 
-  // Single-threaded: m_RicianBiasImage data race across work-unit boundaries; see #6419.
-  filter->SetNumberOfWorkUnits(1);
-
   filter->SetUseRicianNoiseModel(false);
   ITK_TEST_SET_GET_VALUE(false, filter->GetUseRicianNoiseModel());
 

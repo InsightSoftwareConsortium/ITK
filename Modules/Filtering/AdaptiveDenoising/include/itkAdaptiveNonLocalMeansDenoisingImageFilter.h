@@ -21,7 +21,9 @@
 #include "itkNonLocalPatchBasedImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
+#include "itkDiscreteGaussianImageFilter.h"
 #include "itkGaussianOperator.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -180,7 +182,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  ThreadedGenerateData(const RegionType &, ThreadIdType) override;
+  GenerateData() override;
 
   void
   BeforeThreadedGenerateData() override;
@@ -188,8 +190,23 @@ protected:
   void
   AfterThreadedGenerateData() override;
 
+  /** The mean, variance and intensity range are computed over the whole input. */
+  void
+  GenerateInputRequestedRegion() override;
+
 private:
   RealType CalculateCorrectionFactor(RealType);
+
+  using RicianBiasSmootherType = DiscreteGaussianImageFilter<RealImageType, RealImageType>;
+
+  /** The smoother of the Rician bias image, for the geometry of the input. */
+  typename RicianBiasSmootherType::Pointer
+  MakeRicianBiasSmoother() const;
+
+  void
+  AccumulatePatchEstimates(const RegionType &, OutputImageType *, TotalProgressReporter &);
+
+  static constexpr RealType NoMinimumDistance = -1;
 
   bool m_UseRicianNoiseModel;
 
@@ -204,10 +221,13 @@ private:
   RealType m_MaximumInputPixelIntensity;
   RealType m_MinimumInputPixelIntensity;
 
+  /** The patch centers whose estimates reach the output requested region, directly or through the bias smoothing. */
+  RegionType m_CenterRegion{};
+
   RealImagePointer m_MeanImage;
   RealImagePointer m_RicianBiasImage;
   RealImagePointer m_VarianceImage;
-  RealImagePointer m_ThreadContributionCountImage;
+  RealImagePointer m_CenterMinimumDistanceImage;
   RealImagePointer m_IntensitySquaredDistanceImage;
 
   NeighborhoodRadiusType m_NeighborhoodRadiusForLocalMeanAndVariance;

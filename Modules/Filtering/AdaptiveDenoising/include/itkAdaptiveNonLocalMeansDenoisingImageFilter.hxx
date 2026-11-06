@@ -20,19 +20,20 @@
 
 
 #include "itkArray.h"
-#include "itkDiscreteGaussianImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkMeanImageFilter.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkProgressReporter.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkTotalProgressReporter.h"
 #include "itkVarianceImageFilter.h"
 
+#include <algorithm>
+#include <atomic>
 #include <numeric>
+#include <vector>
 
 namespace itk
 {
@@ -54,12 +55,11 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
   this->m_MeanImage = nullptr;
   this->m_VarianceImage = nullptr;
   this->m_IntensitySquaredDistanceImage = nullptr;
-  this->m_ThreadContributionCountImage = nullptr;
+  this->m_CenterMinimumDistanceImage = nullptr;
 
   this->m_RicianBiasImage = nullptr;
 
   this->m_NeighborhoodRadiusForLocalMeanAndVariance.Fill(1);
-  this->DynamicMultiThreadingOff();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
@@ -69,6 +69,28 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
   Superclass::BeforeThreadedGenerateData();
 
   const InputImageType * inputImage = this->GetInput();
+
+  // Pad the requested region so that a partial region gets the same values as the same pixels of a full run.
+  const RegionType       largestRegion = inputImage->GetLargestPossibleRegion();
+  const RegionType       outputRegion = this->GetOutput()->GetRequestedRegion();
+  NeighborhoodRadiusType biasRadius{};
+  if (this->m_UseRicianNoiseModel)
+  {
+    const auto kernelRadius = this->MakeRicianBiasSmoother()->GetKernelRadius();
+    for (unsigned int d = 0; d < ImageDimension; ++d)
+    {
+      biasRadius[d] = kernelRadius[d];
+    }
+  }
+  const auto padAndCrop = [&largestRegion](RegionType region, const NeighborhoodRadiusType & radius) {
+    region.PadByRadius(radius);
+    region.Crop(largestRegion);
+    return region;
+  };
+  const RegionType biasRegion = padAndCrop(outputRegion, biasRadius);
+  this->m_CenterRegion = padAndCrop(biasRegion, this->GetNeighborhoodPatchRadius());
+  this->SetTargetImageRegion(
+    padAndCrop(this->m_CenterRegion, this->GetNeighborhoodSearchRadius() + this->GetNeighborhoodPatchRadius()));
 
   typedef MeanImageFilter<InputImageType, RealImageType> MeanImageFilterType;
   typename MeanImageFilterType::Pointer                  meanImageFilter = MeanImageFilterType::New();
@@ -81,7 +103,7 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
 
   // The patch mean squared residual does not depend on the patch center.
   const RegionType targetImageRegion = this->GetTargetImageRegion();
-  RegionType       searchRegion = targetImageRegion;
+  RegionType       searchRegion = this->m_CenterRegion;
   searchRegion.PadByRadius(this->GetNeighborhoodSearchRadius());
   searchRegion.Crop(this->m_MeanImage->GetBufferedRegion());
   const NeighborhoodOffsetListType neighborhoodPatchOffsetList = this->GetNeighborhoodPatchOffsetList();
@@ -140,17 +162,18 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
   this->m_MaximumInputPixelIntensity = static_cast<RealType>(statsFilter->GetMaximum());
   this->m_MinimumInputPixelIntensity = static_cast<RealType>(statsFilter->GetMinimum());
 
-  this->m_ThreadContributionCountImage = RealImageType::New();
-  this->m_ThreadContributionCountImage->CopyInformation(inputImage);
-  this->m_ThreadContributionCountImage->SetRegions(inputImage->GetRequestedRegion());
-  this->m_ThreadContributionCountImage->Allocate(true);
-
   if (this->m_UseRicianNoiseModel)
   {
     this->m_RicianBiasImage = RealImageType::New();
     this->m_RicianBiasImage->CopyInformation(inputImage);
-    this->m_RicianBiasImage->SetRegions(inputImage->GetRequestedRegion());
+    this->m_RicianBiasImage->SetRegions(biasRegion);
     this->m_RicianBiasImage->Allocate(true);
+
+    this->m_CenterMinimumDistanceImage = RealImageType::New();
+    this->m_CenterMinimumDistanceImage->CopyInformation(inputImage);
+    this->m_CenterMinimumDistanceImage->SetRegions(this->m_CenterRegion);
+    this->m_CenterMinimumDistanceImage->Allocate();
+    this->m_CenterMinimumDistanceImage->FillBuffer(Self::NoMinimumDistance);
   }
 
   this->AllocateOutputs();
@@ -160,17 +183,104 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedGenerateData(
-  const RegionType & region,
-  ThreadIdType       threadId)
+AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
-  ProgressReporter progress(this, threadId, region.GetNumberOfPixels(), 100, 0.05f, 0.95f);
+  this->BeforeThreadedGenerateData();
 
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+
+  const RegionType              centerRegion = this->m_CenterRegion;
+  const RegionType              targetImageRegion = this->GetTargetImageRegion();
+  static constexpr unsigned int slabAxis = ImageDimension - 1;
+
+  // Fixed slabs on the grid of the whole image make the summation order independent of the threads and the region.
+  static constexpr SizeValueType slabThickness = 4;
+  const IndexValueType           slabOrigin = this->GetInput()->GetLargestPossibleRegion().GetIndex(slabAxis);
+  const SizeValueType            firstSlab =
+    static_cast<SizeValueType>(centerRegion.GetIndex(slabAxis) - slabOrigin) / slabThickness;
+  const SizeValueType lastSlab =
+    static_cast<SizeValueType>(centerRegion.GetUpperIndex()[slabAxis] - slabOrigin) / slabThickness;
+  const SizeValueType numberOfSlabs = lastSlab - firstSlab + 1;
+
+  std::vector<typename OutputImageType::Pointer> slabEstimates(numberOfSlabs);
+
+  // Each work unit takes the next unprocessed slab, so slabs of different cost are balanced across work units.
+  std::atomic<SizeValueType> nextSlab{ 0 };
+  this->GetMultiThreader()->ParallelizeArray(
+    0,
+    std::min<SizeValueType>(this->GetNumberOfWorkUnits(), numberOfSlabs),
+    [this, &centerRegion, &targetImageRegion, &slabEstimates, &nextSlab, numberOfSlabs, slabOrigin, firstSlab](
+      SizeValueType) {
+      // One reporter across this work unit's slabs, which can each be smaller than its update interval.
+      TotalProgressReporter progress(this, centerRegion.GetNumberOfPixels(), 100, 0.95f);
+      for (SizeValueType slab = nextSlab++; slab < numberOfSlabs; slab = nextSlab++)
+      {
+        progress.CheckAbortGenerateData();
+        RegionType slabRegion = centerRegion;
+        slabRegion.SetIndex(slabAxis, slabOrigin + static_cast<IndexValueType>((firstSlab + slab) * slabThickness));
+        slabRegion.SetSize(slabAxis, slabThickness);
+        slabRegion.Crop(centerRegion);
+
+        RegionType estimateRegion = slabRegion;
+        estimateRegion.PadByRadius(this->GetNeighborhoodPatchRadius());
+        estimateRegion.Crop(targetImageRegion);
+
+        auto estimateImage = OutputImageType::New();
+        estimateImage->CopyInformation(this->GetOutput());
+        estimateImage->SetRegions(estimateRegion);
+        estimateImage->AllocateInitialized();
+
+        this->AccumulatePatchEstimates(slabRegion, estimateImage, progress);
+        slabEstimates[slab] = estimateImage;
+      }
+    },
+    nullptr);
+
+  OutputImageType * outputImage = this->GetOutput();
+  this->GetMultiThreader()->ParallelizeArray(
+    0,
+    targetImageRegion.GetSize(slabAxis),
+    [&targetImageRegion, &slabEstimates, outputImage](SizeValueType k) {
+      const IndexValueType sliceIndex = targetImageRegion.GetIndex(slabAxis) + static_cast<IndexValueType>(k);
+      for (const auto & estimateImage : slabEstimates)
+      {
+        RegionType sliceRegion = estimateImage->GetBufferedRegion();
+        if (sliceIndex < sliceRegion.GetIndex(slabAxis) ||
+            sliceIndex >= sliceRegion.GetIndex(slabAxis) + static_cast<IndexValueType>(sliceRegion.GetSize(slabAxis)))
+        {
+          continue;
+        }
+        sliceRegion.SetIndex(slabAxis, sliceIndex);
+        sliceRegion.SetSize(slabAxis, 1);
+        if (!sliceRegion.Crop(outputImage->GetBufferedRegion()))
+        {
+          continue;
+        }
+        ImageRegionConstIterator<OutputImageType> ItE(estimateImage, sliceRegion);
+        ImageRegionIterator<OutputImageType>      ItO(outputImage, sliceRegion);
+        for (; !ItE.IsAtEnd(); ++ItE, ++ItO)
+        {
+          ItO.Set(ItO.Get() + ItE.Get());
+        }
+      }
+    },
+    nullptr);
+  slabEstimates.clear();
+
+  this->AfterThreadedGenerateData();
+}
+
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+void
+AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>::AccumulatePatchEstimates(
+  const RegionType &      region,
+  OutputImageType *       outputImage,
+  TotalProgressReporter & progress)
+{
   const InputImageType * inputImage = this->GetInput();
   const MaskImageType *  maskImage = this->GetMaskImage();
 
-  OutputImageType * outputImage = this->GetOutput();
-  RegionType        targetImageRegion = this->GetTargetImageRegion();
+  const RegionType targetImageRegion = this->GetTargetImageRegion();
 
   NeighborhoodOffsetListType neighborhoodPatchOffsetList = this->GetNeighborhoodPatchOffsetList();
 
@@ -259,22 +369,13 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
 
       if (this->m_UseRicianNoiseModel)
       {
-        for (unsigned int n = 0; n < neighborhoodPatchSize; n++)
+        if (itk::Math::AlmostEquals(minimumDistance, NumericTraits<RealType>::max()))
         {
-          IndexType neighborhoodPatchIndex = centerIndex + neighborhoodPatchOffsetList[n];
-          if (!targetImageRegion.IsInside(neighborhoodPatchIndex))
-          {
-            continue;
-          }
-
-          if (itk::Math::AlmostEquals(minimumDistance, NumericTraits<RealType>::max()))
-          {
-            this->m_RicianBiasImage->SetPixel(neighborhoodPatchIndex, 0.0);
-          }
-          else
-          {
-            this->m_RicianBiasImage->SetPixel(neighborhoodPatchIndex, minimumDistance);
-          }
+          this->m_CenterMinimumDistanceImage->SetPixel(centerIndex, 0.0);
+        }
+        else
+        {
+          this->m_CenterMinimumDistanceImage->SetPixel(centerIndex, minimumDistance);
         }
       }
 
@@ -410,8 +511,6 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
         estimate += (weightedAverageIntensities[n] / sumOfWeights);
 
         outputImage->SetPixel(neighborhoodPatchIndex, estimate);
-        this->m_ThreadContributionCountImage->SetPixel(
-          neighborhoodPatchIndex, this->m_ThreadContributionCountImage->GetPixel(neighborhoodPatchIndex) + 1);
       }
     }
 
@@ -426,20 +525,44 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>::AfterThreadedGenerateData()
 {
-  const MaskImageType * maskImage = this->GetMaskImage();
+  const MaskImageType *            maskImage = this->GetMaskImage();
+  const RegionType                 centerRegion = this->m_CenterRegion;
+  const NeighborhoodOffsetListType neighborhoodPatchOffsetList = this->GetNeighborhoodPatchOffsetList();
 
   if (this->m_UseRicianNoiseModel)
   {
-    typedef DiscreteGaussianImageFilter<RealImageType, RealImageType> SmootherType;
-    typename SmootherType::Pointer                                    smoother = SmootherType::New();
+    // Raster-order patch offsets find first the last center, in raster order, whose patch covers the pixel.
+    this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+      this->m_RicianBiasImage->GetBufferedRegion(),
+      [this, &centerRegion, &neighborhoodPatchOffsetList](const RegionType & region) {
+        for (ImageRegionIteratorWithIndex<RealImageType> It(this->m_RicianBiasImage, region); !It.IsAtEnd(); ++It)
+        {
+          for (const auto & offset : neighborhoodPatchOffsetList)
+          {
+            const IndexType centerIndex = It.GetIndex() - offset;
+            if (centerRegion.IsInside(centerIndex))
+            {
+              const RealType minimumDistance = this->m_CenterMinimumDistanceImage->GetPixel(centerIndex);
+              if (itk::Math::NotExactlyEquals(minimumDistance, Self::NoMinimumDistance))
+              {
+                It.Set(minimumDistance);
+                break;
+              }
+            }
+          }
+        }
+      },
+      nullptr);
+    this->m_CenterMinimumDistanceImage = nullptr;
+
+    const auto smoother = this->MakeRicianBiasSmoother();
     smoother->SetInput(this->m_RicianBiasImage);
-    smoother->SetVariance(this->m_SmoothingVariance);
-    smoother->SetUseImageSpacing(true);
     smoother->Update();
 
-    ImageRegionConstIterator<RealImageType> ItS(smoother->GetOutput(), smoother->GetOutput()->GetRequestedRegion());
-    ImageRegionConstIteratorWithIndex<RealImageType> ItM(this->m_MeanImage, this->m_MeanImage->GetRequestedRegion());
-    ImageRegionIterator<RealImageType> ItB(this->m_RicianBiasImage, this->m_RicianBiasImage->GetRequestedRegion());
+    const RegionType                                 biasRegion = this->m_RicianBiasImage->GetBufferedRegion();
+    ImageRegionConstIterator<RealImageType>          ItS(smoother->GetOutput(), biasRegion);
+    ImageRegionConstIteratorWithIndex<RealImageType> ItM(this->m_MeanImage, biasRegion);
+    ImageRegionIterator<RealImageType>               ItB(this->m_RicianBiasImage, biasRegion);
     ItS.GoToBegin();
     ItM.GoToBegin();
     ItB.GoToBegin();
@@ -466,20 +589,33 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
     }
   }
 
-  ImageRegionIteratorWithIndex<OutputImageType> ItO(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
-  ImageRegionConstIterator<RealImageType>       ItL(this->m_ThreadContributionCountImage,
-                                              this->m_ThreadContributionCountImage->GetRequestedRegion());
+  // Every center adds its full patch, so a pixel's contribution count is the number of centers whose patch covers it.
+  const NeighborhoodRadiusType patchRadius = this->GetNeighborhoodPatchRadius();
 
-  for (ItO.GoToBegin(), ItL.GoToBegin(); !ItO.IsAtEnd(); ++ItO, ++ItL)
+  ImageRegionIteratorWithIndex<OutputImageType> ItO(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
+
+  for (ItO.GoToBegin(); !ItO.IsAtEnd(); ++ItO)
   {
     RealType estimate = ItO.Get();
 
-    if (itk::Math::FloatAlmostEqual(ItL.Get(), itk::NumericTraits<RealType>::ZeroValue()))
+    const IndexType index = ItO.GetIndex();
+    RealType        count = itk::NumericTraits<RealType>::OneValue();
+    for (unsigned int d = 0; d < ImageDimension; ++d)
+    {
+      const IndexValueType first =
+        std::max(index[d] - static_cast<IndexValueType>(patchRadius[d]), centerRegion.GetIndex(d));
+      const IndexValueType last =
+        std::min(index[d] + static_cast<IndexValueType>(patchRadius[d]),
+                 centerRegion.GetIndex(d) + static_cast<IndexValueType>(centerRegion.GetSize(d)) - 1);
+      count *= static_cast<RealType>(std::max<IndexValueType>(last - first + 1, 0));
+    }
+
+    if (itk::Math::FloatAlmostEqual(count, itk::NumericTraits<RealType>::ZeroValue()))
     {
       continue;
     }
 
-    estimate /= ItL.Get();
+    estimate /= count;
 
     if (this->m_UseRicianNoiseModel)
     {
@@ -498,6 +634,38 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
 
   // Only the threaded pass reads the patch residuals.
   this->m_IntensitySquaredDistanceImage = nullptr;
+}
+
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+void
+AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+
+  const_cast<InputImageType *>(this->GetInput())->SetRequestedRegionToLargestPossibleRegion();
+  {
+    auto * mask = const_cast<MaskImageType *>(this->GetMaskImage());
+    if (mask != nullptr)
+    {
+      mask->SetRequestedRegionToLargestPossibleRegion();
+    }
+  }
+}
+
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+auto
+AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>::MakeRicianBiasSmoother() const ->
+  typename RicianBiasSmootherType::Pointer
+{
+  // The kernel depends on the spacing, so a geometry-only image stands in for the bias image.
+  auto geometry = RealImageType::New();
+  geometry->CopyInformation(this->GetInput());
+
+  auto smoother = RicianBiasSmootherType::New();
+  smoother->SetInput(geometry);
+  smoother->SetVariance(this->m_SmoothingVariance);
+  smoother->SetUseImageSpacing(true);
+  return smoother;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
