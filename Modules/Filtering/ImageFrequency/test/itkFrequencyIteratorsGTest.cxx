@@ -365,6 +365,51 @@ TEST(FrequencyIteratorConversions, ConstructibleFromImageIteratorWithIndex)
     std::is_convertible_v<IndexedIt, itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
   static_assert(std::is_constructible_v<itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>, ConstIndexedIt>);
   static_assert(!std::is_constructible_v<itk::FrequencyImageRegionIteratorWithIndex<ImageType>, ConstIndexedIt>);
+
+  using RegionIndexedIt = itk::ImageRegionIteratorWithIndex<ImageType>;
+  using ReadOnlyIndexedIt = itk::ImageIteratorWithIndex<const ImageType>;
+  static_assert(std::is_convertible_v<RegionIndexedIt, itk::FrequencyImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_constructible_v<itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>, ReadOnlyIndexedIt>);
+  static_assert(!std::is_constructible_v<itk::FrequencyImageRegionIteratorWithIndex<ImageType>, ReadOnlyIndexedIt>);
+}
+
+namespace
+{
+// Checks the conversions of one writable and read-only frequency iterator pair over the image type TImage.
+template <template <typename> class TWritable, template <typename> class TReadOnly, typename TImage>
+constexpr bool
+CheckFrequencyConversions()
+{
+  using ReadOnlyIndexedIt = itk::ImageIteratorWithIndex<const TImage>;
+  static_assert(std::is_convertible_v<itk::ImageIteratorWithIndex<TImage>, TWritable<TImage>>);
+  static_assert(std::is_constructible_v<TReadOnly<TImage>, ReadOnlyIndexedIt>);
+  static_assert(!std::is_convertible_v<ReadOnlyIndexedIt, TReadOnly<TImage>>);
+  static_assert(std::is_convertible_v<TWritable<TImage>, TReadOnly<TImage>>);
+  static_assert(std::is_convertible_v<TReadOnly<TImage>, TWritable<const TImage>>);
+  static_assert(std::is_convertible_v<TWritable<const TImage>, TReadOnly<TImage>>);
+  static_assert(!std::is_constructible_v<TWritable<TImage>, TReadOnly<TImage>>);
+  static_assert(!std::is_constructible_v<TWritable<TImage>, TWritable<const TImage>>);
+  return true;
+}
+} // namespace
+
+// Checks that each read-only frequency iterator is built from an indexed iterator only explicitly, converts to and from
+// the writable iterator over a const image, and never converts to a writable one.
+TEST(FrequencyIteratorConversions, ReadOnlyIteratorsDoNotConvertToWritable)
+{
+  using ImageType = itk::Image<float, 2>;
+  static_assert(CheckFrequencyConversions<itk::FrequencyImageRegionIteratorWithIndex,
+                                          itk::FrequencyImageRegionConstIteratorWithIndex,
+                                          ImageType>());
+  static_assert(CheckFrequencyConversions<itk::FrequencyFFTLayoutImageRegionIteratorWithIndex,
+                                          itk::FrequencyFFTLayoutImageRegionConstIteratorWithIndex,
+                                          ImageType>());
+  static_assert(CheckFrequencyConversions<itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex,
+                                          itk::FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex,
+                                          ImageType>());
+  static_assert(CheckFrequencyConversions<itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex,
+                                          itk::FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex,
+                                          ImageType>());
 }
 
 
