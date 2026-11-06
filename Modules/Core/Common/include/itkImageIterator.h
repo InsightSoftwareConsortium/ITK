@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageConstIterator_h
-#define itkImageConstIterator_h
+#ifndef itkImageIterator_h
+#define itkImageIterator_h
 
 #include "itkImage.h"
 #include "itkIndex.h"
@@ -25,28 +25,28 @@
 
 namespace itk
 {
-/** \class ImageConstIterator
+/** \class ImageIterator
  * \brief A multi-dimensional image iterator templated over image type.
  *
- * ImageConstIterator is a templated class to represent a multi-dimensional
- * iterator. ImageConstIterator is templated over the type of
+ * ImageIterator is a templated class to represent a multi-dimensional
+ * iterator. ImageIterator is templated over the type of
  * the image to be iterated over.
  *
- * ImageConstIterator is a base class for all the image iterators. It provides
+ * ImageIterator is a base class for all the image iterators. It provides
  * the basic construction and comparison operations.  However, it does not
- * provide mechanisms for moving the iterator.  A subclass of ImageConstIterator
+ * provide mechanisms for moving the iterator.  A subclass of ImageIterator
  * must be used to move the iterator.
  *
- * ImageConstIterator is a multi-dimensional iterator, requiring more information
+ * ImageIterator is a multi-dimensional iterator, requiring more information
  * be specified before the iterator can be used than conventional iterators.
  * Whereas the std::vector::iterator from the STL only needs to be passed
  * a pointer to establish the iterator, the multi-dimensional image iterator
  * needs a pointer, the size of the buffer, the size of the region, the
  * start index of the buffer, and the start index of the region. To gain
- * access to this information, ImageConstIterator holds a reference to the image
+ * access to this information, ImageIterator holds a reference to the image
  * over which it is traversing.
  *
- * ImageConstIterator assumes a particular layout of the image data. In particular,
+ * ImageIterator assumes a particular layout of the image data. In particular,
  * the data is arranged in a 1D array as if it were [][][][slice][row][col]
  * with Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
@@ -81,11 +81,11 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageConstIterator
+class ITK_TEMPLATE_EXPORT ImageIterator
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageConstIterator;
+  using Self = ImageIterator;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -94,7 +94,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** \see LightObject::GetNameOfClass() */
-  itkVirtualGetNameOfClassMacro(ImageConstIterator);
+  itkVirtualGetNameOfClassMacro(ImageIterator);
 
   /** Index type alias support */
   using IndexType = typename TImage::IndexType;
@@ -130,7 +130,7 @@ public:
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageConstIterator()
+  ImageIterator()
     : m_Image(nullptr)
     , m_Region()
     , m_Buffer(nullptr)
@@ -141,11 +141,11 @@ public:
   }
 
   /** Default Destructor. */
-  virtual ~ImageConstIterator() = default;
+  virtual ~ImageIterator() = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ImageConstIterator(const Self & it)
+  ImageIterator(const Self & it)
     : m_Image(it.m_Image)
     , m_Region(it.m_Region)
     , m_Offset(it.m_Offset)
@@ -163,7 +163,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageConstIterator(const TImage * ptr, const RegionType & region)
+  ImageIterator(const TImage * ptr, const RegionType & region)
     : m_Image(ptr)
     , m_Buffer(m_Image->GetBufferPointer())
     , m_PixelAccessor(ptr->GetPixelAccessor())
@@ -403,8 +403,8 @@ protected: // made protected so other iterators can access
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageConstIterator<std::remove_const_t<TImage>>;
+ImageIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
