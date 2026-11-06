@@ -220,6 +220,7 @@ struct IteratorPair
   using ImageType = itk::Image<int>;
   using MutableIt = TIterator<ImageType>;
   using ConstIt = TConstIterator<ImageType>;
+  using ReadOnlyIt = TIterator<const ImageType>;
   using OtherDimensionIt = TIterator<itk::Image<int, 3>>;
 };
 
@@ -242,6 +243,48 @@ HaveConstNonConstComparisons(std::tuple<TPair...>)
   return ((!TComparable<typename TPair::MutableIt, typename TPair::OtherDimensionIt, void>::value &&
            TComparable<typename TPair::MutableIt, typename TPair::ConstIt, void>::value) &&
           ...);
+}
+
+// Checks that writable iterators convert to iterators over a const image, which convert to and from the
+// read-only name, and that no writable iterator derives from or is built from a read-only one.
+template <typename... TPair>
+constexpr bool
+HaveReadOnlyConversions(std::tuple<TPair...>)
+{
+  return ((std::is_convertible_v<typename TPair::MutableIt, typename TPair::ReadOnlyIt> &&
+           !std::is_convertible_v<typename TPair::ReadOnlyIt, typename TPair::MutableIt> &&
+           std::is_convertible_v<typename TPair::ConstIt, typename TPair::ReadOnlyIt> &&
+           std::is_convertible_v<typename TPair::ReadOnlyIt, typename TPair::ConstIt> &&
+           !std::is_constructible_v<typename TPair::MutableIt, typename TPair::ReadOnlyIt> &&
+           !std::is_base_of_v<typename TPair::ConstIt, typename TPair::MutableIt>) &&
+          ...);
+}
+
+// Checks that iterators over a const image compare with the writable and read-only names.
+template <template <typename, typename, typename> typename TComparable, typename... TPair>
+constexpr bool
+HaveReadOnlyComparisons(std::tuple<TPair...>)
+{
+  return ((TComparable<typename TPair::MutableIt, typename TPair::ReadOnlyIt, void>::value &&
+           TComparable<typename TPair::ReadOnlyIt, typename TPair::ConstIt, void>::value) &&
+          ...);
+}
+
+template <typename TMutableIt, typename... TPair>
+constexpr bool
+IsNotConstructibleFromReadOnlyIterators()
+{
+  return ((!std::is_constructible_v<TMutableIt, typename TPair::ReadOnlyIt> &&
+           !std::is_constructible_v<TMutableIt, typename TPair::ConstIt>) &&
+          ...);
+}
+
+// Checks that no writable iterator is constructible from a read-only iterator of any of the pairs.
+template <typename... TPair>
+constexpr bool
+NoWritableIteratorFromReadOnlyIterator(std::tuple<TPair...>)
+{
+  return (IsNotConstructibleFromReadOnlyIterators<typename TPair::MutableIt, TPair...>() && ...);
 }
 
 // HasSet tells whether `Set(pixel)` can be called on the specified iterator type.
@@ -577,6 +620,18 @@ TEST(ImageIterators, WritableToReadOnlyConversionAndComparison)
 }
 
 
+// Checks conversion and comparison between iterators over a const image and the other names.
+TEST(ImageIterators, ConstNonConstConversionAndComparison)
+{
+  using ImageIteratorPairs = decltype(std::tuple_cat(ForwardIteratorPairs{}, ReverseIteratorPairs{}));
+  static_assert(HaveReadOnlyConversions(ImageIteratorPairs{}));
+  static_assert(HaveReadOnlyConversions(std::tuple<LinePair>{}));
+  static_assert(HaveReadOnlyComparisons<is_comparable>(ForwardIteratorPairs{}));
+  static_assert(HaveReadOnlyComparisons<is_equality_comparable>(ImageIteratorPairs{}));
+  static_assert(NoWritableIteratorFromReadOnlyIterator(std::tuple_cat(ImageIteratorPairs{}, std::tuple<LinePair>{})));
+}
+
+
 // Checks that only the writable iterator names provide Set() and an assignable Value().
 TEST(ImageIterators, OnlyWritableIteratorsWrite)
 {
@@ -588,11 +643,14 @@ TEST(ImageIterators, OnlyWritableIteratorsWrite)
 }
 
 
-// Checks that ImageIteratorWithIndex has the ImageIteratorDimension constant.
-TEST(ImageIterators, ImageIteratorWithIndexHasImageIteratorDimension)
+// Checks that the indexed iterators have the ImageIteratorDimension constant.
+TEST(ImageIterators, IndexedIteratorsHaveImageIteratorDimension)
 {
   using ImageType = itk::Image<int, 3>;
   static_assert(itk::ImageIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
+  static_assert(itk::ImageConstIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
+  static_assert(itk::ImageRegionIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
+  static_assert(itk::ImageRegionExclusionIteratorWithIndex<ImageType>::ImageIteratorDimension == 3);
 }
 
 
@@ -607,6 +665,10 @@ TEST(ImageIterators, ExclusionIteratorConstructibleFromImageIteratorWithIndex)
   static_assert(std::is_constructible_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>, IndexedIt>);
   static_assert(std::is_constructible_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>, ConstIndexedIt>);
   static_assert(!std::is_constructible_v<itk::ImageRegionExclusionIteratorWithIndex<ImageType>, ConstIndexedIt>);
+
+  using ReadOnlyIndexedIt = itk::ImageIteratorWithIndex<const ImageType>;
+  static_assert(std::is_constructible_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>, ReadOnlyIndexedIt>);
+  static_assert(!std::is_constructible_v<itk::ImageRegionExclusionIteratorWithIndex<ImageType>, ReadOnlyIndexedIt>);
 }
 
 

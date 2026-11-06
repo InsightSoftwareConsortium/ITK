@@ -365,6 +365,12 @@ TEST(FrequencyIteratorConversions, ConstructibleFromImageIteratorWithIndex)
     std::is_convertible_v<IndexedIt, itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
   static_assert(std::is_constructible_v<itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>, ConstIndexedIt>);
   static_assert(!std::is_constructible_v<itk::FrequencyImageRegionIteratorWithIndex<ImageType>, ConstIndexedIt>);
+
+  using RegionIndexedIt = itk::ImageRegionIteratorWithIndex<ImageType>;
+  using ReadOnlyIndexedIt = itk::ImageIteratorWithIndex<const ImageType>;
+  static_assert(std::is_convertible_v<RegionIndexedIt, itk::FrequencyImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_constructible_v<itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>, ReadOnlyIndexedIt>);
+  static_assert(!std::is_constructible_v<itk::FrequencyImageRegionIteratorWithIndex<ImageType>, ReadOnlyIndexedIt>);
 }
 
 
