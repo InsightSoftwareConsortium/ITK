@@ -691,6 +691,14 @@ The CMake variable `ITK_SSE2_CFLAGS_IF_AVAILABLE` and the `check_sse2_flags()` f
 
 A 32-bit x86 project that compiles ITK headers without ITK's imported targets or `UseITK.cmake` adds `-msse2 -mfpmath=sse` (GCC, Clang) or `/arch:SSE2` (MSVC). Remove any use of `ITK_SSE2_CFLAGS_IF_AVAILABLE`.
 
+## Minimum Visual Studio raised to 2019 16.2
+
+ITK 6 requires MSVC 19.22 (Visual Studio 2019 16.2) or newer; the previous floor was 19.20 (16.0). Releases 16.0 and 16.1 reject `using typename Superclass::X;` declarations with errors C2653 and C2886, which 16.2 fixed. Configuring with an older compiler now fails early.
+
+### What you need to do
+
+Update Visual Studio 2019 to 16.11, its final servicing baseline, with the Visual Studio Installer, or use Visual Studio 2022. ITK's own Windows CI already builds with Visual Studio 2022.
+
 ## Minimum wrapped Python raised to 3.11
 
 ITK 6 requires Python 3.11 or newer for Python wrapping; the previous floor was 3.10. Configuring the wrapping against an older interpreter now fails early.
