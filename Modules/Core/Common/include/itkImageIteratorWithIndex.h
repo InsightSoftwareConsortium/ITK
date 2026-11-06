@@ -140,13 +140,12 @@ public:
   using OffsetType = typename TImage::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
 
-  /** Default Constructor. Need to provide a default constructor since we
-   * provide a copy constructor. */
+  /** Default constructor. */
   ImageIteratorWithIndex() = default;
 
-  /** Copy Constructor. The copy constructor is provided to make sure the
-   * handle to the image is properly reference counted. */
-  ImageIteratorWithIndex(const Self & it);
+  ImageIteratorWithIndex(const Self &) = default;
+  Self &
+  operator=(const Self &) = default;
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
@@ -173,11 +172,6 @@ public:
 
   /** Default Destructor. */
   virtual ~ImageIteratorWithIndex() = default;
-
-  /** operator= is provided to make sure the handle to the image is properly
-   * reference counted. */
-  Self &
-  operator=(const Self & it);
 
   /** Get the dimension (size) of the index. */
   static constexpr unsigned int
