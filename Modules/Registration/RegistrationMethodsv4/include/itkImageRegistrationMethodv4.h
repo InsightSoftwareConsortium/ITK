@@ -540,6 +540,26 @@ public:
   InitializeCenterOfLinearOutputTransform();
 
 protected:
+  /** A graft of an image, so that a mini-pipeline that releases its inputs leaves the image buffered. */
+  template <typename TImage>
+  static typename TImage::Pointer
+  MakeGraft(const TImage * image)
+  {
+    if (image == nullptr)
+    {
+      return nullptr;
+    }
+    auto graft = TImage::New();
+    graft->Graft(image);
+    return graft;
+  }
+  template <typename TImage>
+  static typename TImage::Pointer
+  MakeGraft(const SmartPointer<TImage> & image)
+  {
+    return MakeGraft(image.GetPointer());
+  }
+
   ImageRegistrationMethodv4();
   ~ImageRegistrationMethodv4() override = default;
   void
