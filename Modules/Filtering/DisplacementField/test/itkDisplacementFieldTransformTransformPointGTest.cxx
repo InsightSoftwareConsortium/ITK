@@ -81,7 +81,7 @@ public:
     field->SetRequestedRegion(field->GetBufferedRegion());
     field->SetSpacing(itk::MakeVector(1.0, 1.5, 2.0));
     field->SetOrigin(itk::MakePoint(-2.0, 3.0, 1.0));
-    auto rotation = itk::Euler3DTransform<double>::New();
+    auto rotation = itk::Euler3DTransform<itk::SpacePrecisionType>::New();
     rotation->SetRotation(0.1, -0.2, 0.3);
     field->SetDirection(rotation->GetMatrix());
     field->Allocate();
