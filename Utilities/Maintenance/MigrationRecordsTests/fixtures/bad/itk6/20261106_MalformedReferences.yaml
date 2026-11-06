@@ -1,0 +1,8 @@
+commits:
+  - not-a-sha
+links:
+  - www.example.com
+renames:
+  - old: ""
+    new: NewName
+impact: low

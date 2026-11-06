@@ -132,6 +132,21 @@ repos:
       language: system
       stages: [commit-msg]
       exclude: "\\/ThirdParty\\/"
+    - id: itk-migration-records-validate
+      name: 'Migration records (advisory)'
+      entry: python Utilities/Maintenance/MigrationRecords.py validate
+      language: python
+      additional_dependencies: ['pyyaml==6.0.2', 'jsonschema==4.23.0', 'yamllint==1.35.1']
+      files: '^Documentation/docs/migration_guides/records/'
+      pass_filenames: false
+      verbose: true
+    - id: itk-migration-records-generate
+      name: 'Generate migration guides (git-ignored)'
+      entry: python Utilities/Maintenance/MigrationRecords.py generate --quiet
+      language: python
+      additional_dependencies: ['pyyaml==6.0.2', 'jsonschema==4.23.0']
+      files: '^Documentation/docs/migration_guides/records/'
+      pass_filenames: false
     - id: kw-pre-commit
       name: 'kw-pre-commit'
       entry: 'Utilities/Hooks/kw-pre-commit'

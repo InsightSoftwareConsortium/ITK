@@ -7,7 +7,14 @@
 # https://www.sphinx-doc.org/en/main/usage/configuration.html#project-information
 
 import os
+import sys
 from datetime import date
+from pathlib import Path
+
+# Generates migration_guides/generated/ from the migration records.
+sys.path.insert(
+    0, str(Path(__file__).resolve().parents[2] / "Utilities" / "Maintenance")
+)
 
 project = "ITK"
 copyright = f"{date.today().year}, NumFOCUS"
@@ -28,6 +35,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.opengraph",
     "sphinx_design",
+    "MigrationRecords",
 ]
 
 myst_enable_extensions = [
