@@ -539,5 +539,6 @@ set(
   ITKRegistrationMethodsv4GTests
   itkSyNImageRegistrationMethodGTest.cxx
   itkImageRegistrationMethodv4VirtualDomainGTest.cxx
+  itkSyNImageRegistrationMethodReleaseDataGTest.cxx
 )
 creategoogletestdriver(ITKRegistrationMethodsv4 "${ITKRegistrationMethodsv4-Test_LIBRARIES}" "${ITKRegistrationMethodsv4GTests}")

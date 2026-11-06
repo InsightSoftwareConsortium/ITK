@@ -449,7 +449,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   {
     auto shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(this->m_ShrinkFactorsPerLevel[level]);
-    shrinkFilter->SetInput(this->m_VirtualDomainImage);
+    shrinkFilter->SetInput(this->MakeGraft(this->m_VirtualDomainImage));
 
     currentLevelVirtualDomainImage = shrinkFilter->GetOutput();
     currentLevelVirtualDomainImage->Update();
@@ -502,7 +502,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
           using CasterType = CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType>;
           auto caster = CasterType::New();
-          caster->SetInput(currentLevelVirtualDomainImage);
+          caster->SetInput(this->MakeGraft(currentLevelVirtualDomainImage));
           caster->Update();
 
           dynamic_cast<PointSetMetricType *>(multiMetric->GetMetricQueue()[n].GetPointer())
@@ -553,7 +553,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
       using CasterType = CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType>;
       auto caster = CasterType::New();
-      caster->SetInput(currentLevelVirtualDomainImage);
+      caster->SetInput(this->MakeGraft(currentLevelVirtualDomainImage));
       caster->Update();
 
       pointSetMetric->SetVirtualDomainFromImage(caster->GetOutput());
@@ -607,7 +607,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           }
         }
         fixedImageSmoothingFilter->SetSigmaArray(fixedImageSigmaArray);
-        fixedImageSmoothingFilter->SetInput(this->GetFixedImage(n));
+        fixedImageSmoothingFilter->SetInput(this->MakeGraft(this->GetFixedImage(n)));
 
         this->m_FixedSmoothImages[n] = fixedImageSmoothingFilter->GetOutput();
         fixedImageSmoothingFilter->Update();
@@ -627,7 +627,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           }
         }
         movingImageSmoothingFilter->SetSigmaArray(movingImageSigmaArray);
-        movingImageSmoothingFilter->SetInput(this->GetMovingImage(n));
+        movingImageSmoothingFilter->SetInput(this->MakeGraft(this->GetMovingImage(n)));
 
         this->m_MovingSmoothImages[n] = movingImageSmoothingFilter->GetOutput();
         movingImageSmoothingFilter->Update();
