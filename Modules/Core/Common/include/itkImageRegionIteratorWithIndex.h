@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRegionConstIteratorWithIndex_h
-#define itkImageRegionConstIteratorWithIndex_h
+#ifndef itkImageRegionIteratorWithIndex_h
+#define itkImageRegionIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 #include <type_traits> // For remove_const_t.
 
 namespace itk
 {
-/** \class ImageRegionConstIteratorWithIndex
+/** \class ImageRegionIteratorWithIndex
  * \brief A multi-dimensional
  * iterator templated over image type that walks an image region and is
  * specialized to keep track of its index location.
@@ -35,17 +35,17 @@ namespace itk
  * variable that is updated during increment and decrement operations.
  * Iteration speed is penalized, but index queries become more efficient.
  *
- * ImageRegionConstIteratorWithIndex is a multi-dimensional iterator,
+ * ImageRegionIteratorWithIndex is a multi-dimensional iterator,
  * requiring more information be specified before the iterator can be
  * used than conventional iterators. Whereas the std::vector::iterator
  * from the STL only needs to be passed a pointer to establish the
  * iterator, the multi-dimensional image iterator needs a pointer, the
  * size of the buffer, the size of the region, the start index of the
  * buffer, and the start index of the region. To gain access to this
- * information, ImageRegionConstIteratorWithIndex holds a reference to the
+ * information, ImageRegionIteratorWithIndex holds a reference to the
  * image over which it is traversing.
  *
- * ImageRegionConstIteratorWithIndex assumes a particular layout of
+ * ImageRegionIteratorWithIndex assumes a particular layout of
  * the image data. The is arranged in a 1D array as if it were
  * [][][][slice][row][col] with Index[0] = col, Index[1] = row,
  * Index[2] = slice, etc.
@@ -128,11 +128,11 @@ namespace itk
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageRegionConstIteratorWithIndex;
+  using Self = ImageRegionIteratorWithIndex;
   using Superclass = ImageConstIteratorWithIndex<TImage>;
 
   /**
@@ -153,23 +153,23 @@ public:
   using typename Superclass::AccessorType;
 
   /** Default constructor. */
-  ImageRegionConstIteratorWithIndex()
+  ImageRegionIteratorWithIndex()
     : ImageConstIteratorWithIndex<TImage>()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+  ImageRegionIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageConstIteratorWithIndex<TImage>(ptr, region)
   {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionConstIteratorWithIndex. Many routines return an ImageIterator but for a
-   * particular task, you may want an ImageRegionConstIteratorWithIndex.  Rather than
+   * ImageRegionIteratorWithIndex. Many routines return an ImageIterator but for a
+   * particular task, you may want an ImageRegionIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionConstIteratorWithIndex. */
-  ImageRegionConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
+   * ImageIterator to a ImageRegionIteratorWithIndex. */
+  ImageRegionIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
   }
@@ -197,13 +197,13 @@ public:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRegionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRegionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+ImageRegionIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRegionConstIteratorWithIndex.hxx"
+#  include "itkImageRegionIteratorWithIndex.hxx"
 #endif
 
 #endif
