@@ -15,40 +15,40 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRegionConstIterator_h
-#define itkImageRegionConstIterator_h
+#ifndef itkImageRegionIterator_h
+#define itkImageRegionIterator_h
 
 #include "itkImageIterator.h"
 #include <type_traits> // For remove_const_t.
 
 namespace itk
 {
-/** \class ImageRegionConstIterator
+/** \class ImageRegionIterator
  * \brief A multi-dimensional iterator templated over image type that walks a
  * region of pixels.
  *
- * The itk::ImageRegionConstIterator is optimized for iteration speed and is the
+ * The itk::ImageRegionIterator is optimized for iteration speed and is the
  * first choice for iterative, pixel-wise operations on an image.
  * ImageRegionIterator is the least specialized of the ITK image iterator
- * classes.  ImageRegionConstIterator is templated over the image type, and is
+ * classes.  ImageRegionIterator is templated over the image type, and is
  * constrained to walk only within the specified region and along a line
  * parallel to one of the coordinate axes, "wrapping" to the next line as it
  * reaches the boundary of the image.  To walk the entire image, specify the
  * region to be \c image->GetRequestedRegion().
  *
- * ImageRegionConstIterator provides read-only access to image data.  It is the
+ * ImageRegionIterator provides read-only access to image data.  It is the
  * base class for the read/write access ImageRegionIterator.
  *
- * ImageRegionConstIterator is a multi-dimensional iterator, requiring more
+ * ImageRegionIterator is a multi-dimensional iterator, requiring more
  * information be specified before the iterator can be used than conventional
  * iterators. Whereas the std::vector::iterator from the STL only needs to be
  * passed a pointer to establish the iterator, the multi-dimensional image
  * iterator needs a pointer, the size of the buffer, the size of the region,
  * the start index of the buffer, and the start index of the region. To gain
- * access to this information, ImageRegionConstIterator holds a reference to the
+ * access to this information, ImageRegionIterator holds a reference to the
  * image over which it is traversing.
  *
- * ImageRegionConstIterator assumes a particular layout of the image data. The
+ * ImageRegionIterator assumes a particular layout of the image data. The
  * is arranged in a 1D array as if it were [][][][slice][row][col] with
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
@@ -107,11 +107,11 @@ namespace itk
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionConstIterator : public ImageConstIterator<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionIterator : public ImageConstIterator<TImage>
 {
 public:
   /** Standard class type alias. */
-  using Self = ImageRegionConstIterator;
+  using Self = ImageRegionIterator;
   using Superclass = ImageConstIterator<TImage>;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
@@ -138,28 +138,28 @@ public:
   using typename Superclass::AccessorType;
 
   /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(ImageRegionConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageRegionIterator);
 
   /** Default constructor. */
-  ImageRegionConstIterator()
+  ImageRegionIterator()
     : ImageConstIterator<TImage>()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionConstIterator(const TImage * ptr, const RegionType & region)
+  ImageRegionIterator(const TImage * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
     , m_SpanBeginOffset(this->m_BeginOffset)
     , m_SpanEndOffset(this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionConstIterator. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRegionConstIterator.  Rather than
+   * ImageRegionIterator. Many routines return an ImageIterator, but for a
+   * particular task, you may want an ImageRegionIterator.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionConstIterator. */
-  ImageRegionConstIterator(const ImageIterator<TImage> & it)
+   * ImageIterator to a ImageRegionIterator. */
+  ImageRegionIterator(const ImageIterator<TImage> & it)
   {
     this->ImageConstIterator<TImage>::operator=(it);
 
@@ -170,12 +170,12 @@ public:
   }
 
   /** Constructor that can be used to cast from an ImageConstIterator to an
-   * ImageRegionConstIterator. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRegionConstIterator.  Rather than
+   * ImageRegionIterator. Many routines return an ImageIterator, but for a
+   * particular task, you may want an ImageRegionIterator.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionConstIterator. */
-  ImageRegionConstIterator(const ImageConstIterator<TImage> & it)
+   * ImageIterator to a ImageRegionIterator. */
+  ImageRegionIterator(const ImageConstIterator<TImage> & it)
   {
     this->ImageConstIterator<TImage>::operator=(it);
 
@@ -270,13 +270,13 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRegionConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRegionConstIterator<std::remove_const_t<TImage>>;
+ImageRegionIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRegionConstIterator.hxx"
+#  include "itkImageRegionIterator.hxx"
 #endif
 
 #endif
