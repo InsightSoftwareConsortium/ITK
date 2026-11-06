@@ -32,41 +32,64 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVe
   {
     using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
 
-    auto integrator = IntegratorType::New();
-    integrator->SetInput(this->GetVelocityField());
-    integrator->SetLowerTimeBound(this->GetLowerTimeBound());
-    integrator->SetUpperTimeBound(this->GetUpperTimeBound());
+    // Grafts, so that releasing the integrators' inputs leaves the velocity field buffered.
+    const auto makeVelocityFieldGraft = [this]() {
+      auto graft = VelocityFieldType::New();
+      graft->Graft(this->GetVelocityField());
+      return graft;
+    };
 
-    if (this->GetVelocityFieldInterpolator())
+    // The integrators point the shared velocity field interpolator at their input; point it back afterward.
+    const auto restoreInterpolatorInput = [this]() {
+      if (this->GetVelocityFieldInterpolator())
+      {
+        this->GetModifiableVelocityFieldInterpolator()->SetInputImage(this->GetVelocityField());
+      }
+    };
+    try
     {
-      integrator->SetVelocityFieldInterpolator(this->GetModifiableVelocityFieldInterpolator());
+      auto integrator = IntegratorType::New();
+      integrator->SetInput(makeVelocityFieldGraft());
+      integrator->SetLowerTimeBound(this->GetLowerTimeBound());
+      integrator->SetUpperTimeBound(this->GetUpperTimeBound());
+
+      if (this->GetVelocityFieldInterpolator())
+      {
+        integrator->SetVelocityFieldInterpolator(this->GetModifiableVelocityFieldInterpolator());
+      }
+
+      integrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
+      integrator->Update();
+
+      const typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
+      displacementField->DisconnectPipeline();
+
+      this->SetDisplacementField(displacementField);
+      this->GetModifiableInterpolator()->SetInputImage(displacementField);
+
+      auto inverseIntegrator = IntegratorType::New();
+      inverseIntegrator->SetInput(makeVelocityFieldGraft());
+      inverseIntegrator->SetLowerTimeBound(this->GetUpperTimeBound());
+      inverseIntegrator->SetUpperTimeBound(this->GetLowerTimeBound());
+      if (!this->GetVelocityFieldInterpolator())
+      {
+        inverseIntegrator->SetVelocityFieldInterpolator(this->GetModifiableVelocityFieldInterpolator());
+      }
+
+      inverseIntegrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
+      inverseIntegrator->Update();
+
+      const typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
+      inverseDisplacementField->DisconnectPipeline();
+
+      this->SetInverseDisplacementField(inverseDisplacementField);
     }
-
-    integrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
-    integrator->Update();
-
-    const typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
-    displacementField->DisconnectPipeline();
-
-    this->SetDisplacementField(displacementField);
-    this->GetModifiableInterpolator()->SetInputImage(displacementField);
-
-    auto inverseIntegrator = IntegratorType::New();
-    inverseIntegrator->SetInput(this->GetVelocityField());
-    inverseIntegrator->SetLowerTimeBound(this->GetUpperTimeBound());
-    inverseIntegrator->SetUpperTimeBound(this->GetLowerTimeBound());
-    if (!this->GetVelocityFieldInterpolator())
+    catch (...)
     {
-      inverseIntegrator->SetVelocityFieldInterpolator(this->GetModifiableVelocityFieldInterpolator());
+      restoreInterpolatorInput();
+      throw;
     }
-
-    inverseIntegrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
-    inverseIntegrator->Update();
-
-    const typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
-    inverseDisplacementField->DisconnectPipeline();
-
-    this->SetInverseDisplacementField(inverseDisplacementField);
+    restoreInterpolatorInput();
   }
   else
   {

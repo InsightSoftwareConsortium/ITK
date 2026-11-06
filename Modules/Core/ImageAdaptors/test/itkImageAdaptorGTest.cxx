@@ -25,6 +25,11 @@
 #include "itkImageBase.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndexRange.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkNthElementImageAdaptor.h"
+#include "itkVectorImage.h"
+#include "itkVectorImageToImageAdaptor.h"
 #include "itkVector.h"
 
 #include <gtest/gtest.h>
@@ -230,5 +235,59 @@ TEST(ImageAdaptor, SupportsRegionIterator)
   {
     ++expectedPixelValue;
     EXPECT_EQ(iterator.Get(), expectedPixelValue);
+  }
+}
+
+
+TEST(ImageAdaptor, GraftKeepsThePixelAccessor)
+{
+  constexpr unsigned int dimension = 2;
+  const auto             size = itk::Size<dimension>::Filled(3);
+  // Component c of pixel (x, y) is 100 c + 10 y + x, so every pixel and component differs.
+  const auto value = [](const itk::Index<dimension> & index, unsigned int c) {
+    return static_cast<float>(100 * c + 10 * index[1] + index[0]);
+  };
+
+  using VectorImageType = itk::Image<itk::Vector<float, 3>, dimension>;
+  auto image = VectorImageType::New();
+  image->SetRegions(size);
+  image->Allocate();
+  using VariableLengthImageType = itk::VectorImage<float, dimension>;
+  auto variableLengthImage = VariableLengthImageType::New();
+  variableLengthImage->SetRegions(size);
+  variableLengthImage->SetNumberOfComponentsPerPixel(3);
+  variableLengthImage->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<VectorImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    const auto & index = it.GetIndex();
+    it.Set(itk::MakeVector(value(index, 0), value(index, 1), value(index, 2)));
+    variableLengthImage->SetPixel(index, VariableLengthImageType::PixelType(it.Get().GetDataPointer(), 3));
+  }
+
+  auto adaptor = itk::NthElementImageAdaptor<VectorImageType, float>::New();
+  adaptor->SetImage(image);
+  adaptor->SelectNthElement(1);
+  auto graft = itk::NthElementImageAdaptor<VectorImageType, float>::New();
+  graft->Graft(adaptor);
+  EXPECT_EQ(graft->GetPixel({ { 2, 1 } }), value({ { 2, 1 } }, 1));
+
+  using ComponentAdaptorType = itk::VectorImageToImageAdaptor<float, dimension>;
+  auto componentAdaptor = ComponentAdaptorType::New();
+  componentAdaptor->SetImage(variableLengthImage);
+  componentAdaptor->SetExtractComponentIndex(2);
+  auto componentGraft = ComponentAdaptorType::New();
+  componentGraft->Graft(componentAdaptor);
+  EXPECT_EQ(componentGraft->GetPixel({ { 2, 1 } }), value({ { 2, 1 } }, 2));
+
+  // A pipeline update resets the accessor's vector length from the adapted image.
+  graft->UpdateOutputInformation();
+  componentGraft->UpdateOutputInformation();
+  for (itk::ImageRegionConstIteratorWithIndex<ComponentAdaptorType> it(componentGraft,
+                                                                       componentGraft->GetBufferedRegion());
+       !it.IsAtEnd();
+       ++it)
+  {
+    EXPECT_EQ(it.Get(), value(it.GetIndex(), 2)) << it.GetIndex();
+    EXPECT_EQ(graft->GetPixel(it.GetIndex()), value(it.GetIndex(), 1)) << it.GetIndex();
   }
 }

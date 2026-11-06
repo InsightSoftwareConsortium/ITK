@@ -71,8 +71,11 @@ ImageAdaptor<TImage, TAccessor>::Graft(const Self * imgData)
 
   if (imgData)
   {
-    // Now copy anything remaining that is needed
-    this->SetPixelContainer(const_cast<Self *>(imgData)->GetPixelContainer());
+    // The internal image carries the pixel container and, for a VectorImage, the number of components.
+    m_Image->Graft(imgData->m_Image);
+    // The accessor selects what the adaptor reads, for example the element of an NthElementImageAdaptor.
+    m_PixelAccessor = imgData->m_PixelAccessor;
+    this->Modified();
   }
 }
 

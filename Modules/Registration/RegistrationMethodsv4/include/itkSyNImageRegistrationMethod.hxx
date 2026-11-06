@@ -216,8 +216,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp;
     {
       auto fixedComposer = ComposerType::New();
-      fixedComposer->SetDisplacementField(fixedToMiddleSmoothUpdateField);
-      fixedComposer->SetWarpingField(this->m_FixedToMiddleTransform->GetDisplacementField());
+      fixedComposer->SetDisplacementField(this->MakeGraft(fixedToMiddleSmoothUpdateField));
+      fixedComposer->SetWarpingField(this->MakeGraft(this->m_FixedToMiddleTransform->GetDisplacementField()));
       fixedComposer->Update();
 
       fixedToMiddleSmoothTotalFieldTmp = fixedComposer->GetOutput();
@@ -233,8 +233,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp;
     {
       auto movingComposer = ComposerType::New();
-      movingComposer->SetDisplacementField(movingToMiddleSmoothUpdateField);
-      movingComposer->SetWarpingField(this->m_MovingToMiddleTransform->GetDisplacementField());
+      movingComposer->SetDisplacementField(this->MakeGraft(movingToMiddleSmoothUpdateField));
+      movingComposer->SetWarpingField(this->MakeGraft(this->m_MovingToMiddleTransform->GetDisplacementField()));
       movingComposer->Update();
 
       movingToMiddleSmoothTotalFieldTmp = movingComposer->GetOutput();
@@ -373,19 +373,17 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
         {
           using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
           auto fixedResampler = FixedResamplerType::New();
-          fixedResampler->SetInput(fixedImages[n]);
+          fixedResampler->SetInput(this->MakeGraft(fixedImages[n]));
           fixedResampler->SetTransform(fixedTransform);
-          fixedResampler->UseReferenceImageOn();
-          fixedResampler->SetReferenceImage(virtualDomainImage);
+          fixedResampler->SetOutputParametersFromImage(virtualDomainImage);
           fixedResampler->SetDefaultPixelValue(0);
           fixedResampler->Update();
 
           using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
           auto movingResampler = MovingResamplerType::New();
-          movingResampler->SetInput(movingImages[n]);
+          movingResampler->SetInput(this->MakeGraft(movingImages[n]));
           movingResampler->SetTransform(movingTransform);
-          movingResampler->UseReferenceImageOn();
-          movingResampler->SetReferenceImage(virtualDomainImage);
+          movingResampler->SetOutputParametersFromImage(virtualDomainImage);
           movingResampler->SetDefaultPixelValue(0);
           movingResampler->Update();
 
@@ -404,13 +402,13 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 
             using FixedMaskResamplerType = ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType>;
             auto fixedMaskResampler = FixedMaskResamplerType::New();
-            fixedMaskResampler->SetInput(dynamic_cast<ImageMaskSpatialObjectType *>(
-                                           const_cast<FixedImageMaskType *>(fixedImageMasks[n].GetPointer()))
-                                           ->GetImage());
+            fixedMaskResampler->SetInput(
+              this->MakeGraft(dynamic_cast<ImageMaskSpatialObjectType *>(
+                                const_cast<FixedImageMaskType *>(fixedImageMasks[n].GetPointer()))
+                                ->GetImage()));
             fixedMaskResampler->SetTransform(fixedTransform);
             fixedMaskResampler->SetInterpolator(nearestNeighborInterpolator);
-            fixedMaskResampler->UseReferenceImageOn();
-            fixedMaskResampler->SetReferenceImage(virtualDomainImage);
+            fixedMaskResampler->SetOutputParametersFromImage(virtualDomainImage);
             fixedMaskResampler->SetDefaultPixelValue(0);
             fixedMaskResampler->Update();
 
@@ -433,13 +431,13 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 
             using MovingMaskResamplerType = ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType>;
             auto movingMaskResampler = MovingMaskResamplerType::New();
-            movingMaskResampler->SetInput(dynamic_cast<ImageMaskSpatialObjectType *>(
-                                            const_cast<MovingImageMaskType *>(movingImageMasks[n].GetPointer()))
-                                            ->GetImage());
+            movingMaskResampler->SetInput(
+              this->MakeGraft(dynamic_cast<ImageMaskSpatialObjectType *>(
+                                const_cast<MovingImageMaskType *>(movingImageMasks[n].GetPointer()))
+                                ->GetImage()));
             movingMaskResampler->SetTransform(movingTransform);
             movingMaskResampler->SetInterpolator(nearestNeighborInterpolator);
-            movingMaskResampler->UseReferenceImageOn();
-            movingMaskResampler->SetReferenceImage(virtualDomainImage);
+            movingMaskResampler->SetOutputParametersFromImage(virtualDomainImage);
             movingMaskResampler->SetDefaultPixelValue(0);
             movingMaskResampler->Update();
 
@@ -505,19 +503,17 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
       {
         using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
         auto fixedResampler = FixedResamplerType::New();
-        fixedResampler->SetInput(fixedImages[0]);
+        fixedResampler->SetInput(this->MakeGraft(fixedImages[0]));
         fixedResampler->SetTransform(fixedTransform);
-        fixedResampler->UseReferenceImageOn();
-        fixedResampler->SetReferenceImage(virtualDomainImage);
+        fixedResampler->SetOutputParametersFromImage(virtualDomainImage);
         fixedResampler->SetDefaultPixelValue(0);
         fixedResampler->Update();
 
         using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
         auto movingResampler = MovingResamplerType::New();
-        movingResampler->SetInput(movingImages[0]);
+        movingResampler->SetInput(this->MakeGraft(movingImages[0]));
         movingResampler->SetTransform(movingTransform);
-        movingResampler->UseReferenceImageOn();
-        movingResampler->SetReferenceImage(virtualDomainImage);
+        movingResampler->SetOutputParametersFromImage(virtualDomainImage);
         movingResampler->SetDefaultPixelValue(0);
         movingResampler->Update();
 
@@ -535,13 +531,13 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 
           using FixedMaskResamplerType = ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType>;
           auto fixedMaskResampler = FixedMaskResamplerType::New();
-          fixedMaskResampler->SetInput(dynamic_cast<ImageMaskSpatialObjectType *>(
-                                         const_cast<FixedImageMaskType *>(fixedImageMasks[0].GetPointer()))
-                                         ->GetImage());
+          fixedMaskResampler->SetInput(
+            this->MakeGraft(dynamic_cast<ImageMaskSpatialObjectType *>(
+                              const_cast<FixedImageMaskType *>(fixedImageMasks[0].GetPointer()))
+                              ->GetImage()));
           fixedMaskResampler->SetTransform(fixedTransform);
           fixedMaskResampler->SetInterpolator(nearestNeighborInterpolator);
-          fixedMaskResampler->UseReferenceImageOn();
-          fixedMaskResampler->SetReferenceImage(virtualDomainImage);
+          fixedMaskResampler->SetOutputParametersFromImage(virtualDomainImage);
           fixedMaskResampler->SetDefaultPixelValue(0);
           fixedMaskResampler->Update();
 
@@ -563,13 +559,13 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 
           using MovingMaskResamplerType = ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType>;
           auto movingMaskResampler = MovingMaskResamplerType::New();
-          movingMaskResampler->SetInput(dynamic_cast<ImageMaskSpatialObjectType *>(
-                                          const_cast<MovingImageMaskType *>(movingImageMasks[0].GetPointer()))
-                                          ->GetImage());
+          movingMaskResampler->SetInput(
+            this->MakeGraft(dynamic_cast<ImageMaskSpatialObjectType *>(
+                              const_cast<MovingImageMaskType *>(movingImageMasks[0].GetPointer()))
+                              ->GetImage()));
           movingMaskResampler->SetTransform(movingTransform);
           movingMaskResampler->SetInterpolator(nearestNeighborInterpolator);
-          movingMaskResampler->UseReferenceImageOn();
-          movingMaskResampler->SetReferenceImage(virtualDomainImage);
+          movingMaskResampler->SetOutputParametersFromImage(virtualDomainImage);
           movingMaskResampler->SetDefaultPixelValue(0);
           movingMaskResampler->Update();
 
@@ -732,7 +728,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 
   using MultiplierType = MultiplyImageFilter<DisplacementFieldType, RealImageType, DisplacementFieldType>;
   auto multiplier = MultiplierType::New();
-  multiplier->SetInput(updateField);
+  multiplier->SetInput(this->MakeGraft(updateField));
   multiplier->SetConstant(scale);
 
   typename DisplacementFieldType::Pointer scaledUpdateField = multiplier->GetOutput();
@@ -755,8 +751,8 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   using InverterType = InvertDisplacementFieldImageFilter<DisplacementFieldType>;
 
   auto inverter = InverterType::New();
-  inverter->SetInput(field);
-  inverter->SetInverseFieldInitialEstimate(inverseFieldEstimate);
+  inverter->SetInput(this->MakeGraft(field));
+  inverter->SetInverseFieldInitialEstimate(this->MakeGraft(inverseFieldEstimate));
   inverter->SetMaximumNumberOfIterations(20);
   inverter->SetMeanErrorToleranceThreshold(0.001);
   inverter->SetMaxErrorToleranceThreshold(0.1);
@@ -934,13 +930,13 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
   using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
   auto composer = ComposerType::New();
-  composer->SetDisplacementField(this->m_MovingToMiddleTransform->GetInverseDisplacementField());
-  composer->SetWarpingField(this->m_FixedToMiddleTransform->GetDisplacementField());
+  composer->SetDisplacementField(this->MakeGraft(this->m_MovingToMiddleTransform->GetInverseDisplacementField()));
+  composer->SetWarpingField(this->MakeGraft(this->m_FixedToMiddleTransform->GetDisplacementField()));
   composer->Update();
 
   auto inverseComposer = ComposerType::New();
-  inverseComposer->SetDisplacementField(this->m_FixedToMiddleTransform->GetInverseDisplacementField());
-  inverseComposer->SetWarpingField(this->m_MovingToMiddleTransform->GetDisplacementField());
+  inverseComposer->SetDisplacementField(this->MakeGraft(this->m_FixedToMiddleTransform->GetInverseDisplacementField()));
+  inverseComposer->SetWarpingField(this->MakeGraft(this->m_MovingToMiddleTransform->GetDisplacementField()));
   inverseComposer->Update();
 
   this->m_OutputTransform->SetDisplacementField(composer->GetOutput());

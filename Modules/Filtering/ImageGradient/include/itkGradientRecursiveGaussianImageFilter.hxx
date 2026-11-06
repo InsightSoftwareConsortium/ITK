@@ -199,12 +199,24 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   m_ImageAdaptor->Allocate();
 
-  m_DerivativeFilter->SetInput(inputImage);
+  // When a pass would release its input, each pass gets a fresh graft, so that the input stays buffered.
+  const bool graftInput = inputImage->ShouldIReleaseData();
+  if (!graftInput)
+  {
+    m_DerivativeFilter->SetInput(inputImage);
+  }
 
   for (unsigned int nc = 0; nc < nComponents; ++nc)
   {
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
+      if (graftInput)
+      {
+        auto inputGraft = TInputImage::New();
+        inputGraft->Graft(inputImage);
+        m_DerivativeFilter->SetInput(inputGraft);
+      }
+
       unsigned int i = 0;
       int          j = 0;
       while (i != imageDimensionMinus1)
@@ -252,6 +264,12 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
         ++ot;
       }
     }
+  }
+
+  if (graftInput)
+  {
+    // The last graft would otherwise keep the input's buffer alive after the input is released.
+    m_DerivativeFilter->SetInput(nullptr);
   }
 
   // manually release memory in last filter in the mini-pipeline
