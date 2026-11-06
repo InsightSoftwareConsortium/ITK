@@ -218,7 +218,8 @@ public:
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
    * Therefore the caller of this method should check that the requested number
-   * of threads was accepted. */
+   * of threads was accepted. Without an environment variable setting, the default
+   * is the platform CPU count, limited on Linux by the cgroup CPU quota. */
   /** @ITKStartGrouping */
   static void
   SetGlobalDefaultNumberOfThreads(ThreadIdType val);

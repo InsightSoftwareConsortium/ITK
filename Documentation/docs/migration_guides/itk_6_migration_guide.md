@@ -1431,3 +1431,16 @@ defined in builds without `ITK_LEGACY_REMOVE`, and ITK itself never tested it.
 
 Delete any `#ifdef ITK_HAS_CPP11_TYPETRAITS` test and keep the branch that uses
 `<type_traits>`.
+
+## Default thread count follows the Linux cgroup CPU quota
+
+On Linux, the default number of threads (`MultiThreaderBase::GetGlobalDefaultNumberOfThreads()`) is now the smaller
+of the CPU count and the cgroup CPU quota of the process, rounded up (cgroup v2 `cpu.max`, or v1
+`cpu.cfs_quota_us` / `cpu.cfs_period_us`, including the quotas of parent cgroups). A container started with
+`--cpus=4` on a 64-core host now defaults to 4 threads instead of 64. Other platforms are unchanged.
+
+### What you need to do
+
+Nothing, in most cases. To choose the thread count explicitly, set `ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS` (or a
+variable listed in `ITK_NUMBER_OF_THREADS_ENV_LIST`, such as `NSLOTS`), or call
+`MultiThreaderBase::SetGlobalDefaultNumberOfThreads()`; both still take precedence over the quota.

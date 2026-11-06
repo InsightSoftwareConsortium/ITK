@@ -178,6 +178,23 @@ try_compile(
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasSchedGetAffinity.cxx
 )
 
+# The cgroup CPU quota, which the affinity mask does not reflect, is read from the cgroup file system on Linux.
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(
+    ITK_HAS_CGROUP_CPU_LIMIT
+    1
+    CACHE INTERNAL
+    "The cgroup CPU quota is read on this platform"
+  )
+else()
+  set(
+    ITK_HAS_CGROUP_CPU_LIMIT
+    0
+    CACHE INTERNAL
+    "The cgroup CPU quota is read on this platform"
+  )
+endif()
+
 # Check for thread-safe locale functions (locale-independent parsing in itkStringConvert)
 try_compile(
   ITK_HAS_NEWLOCALE

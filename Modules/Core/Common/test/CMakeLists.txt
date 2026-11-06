@@ -1652,6 +1652,9 @@ set(
   SparseLUSolverTraitsGTest.cxx
   VnlEigenSparseLUEquivalenceGTest.cxx
 )
+if(ITK_HAS_CGROUP_CPU_LIMIT)
+  list(APPEND ITKCommonGTests itkCgroupCpuLimitGTest.cxx)
+endif()
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
 # test this case.

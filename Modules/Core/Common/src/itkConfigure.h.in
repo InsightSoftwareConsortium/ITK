@@ -180,6 +180,7 @@
 #endif
 
 #cmakedefine ITK_HAS_SCHED_GETAFFINITY
+#cmakedefine ITK_HAS_CGROUP_CPU_LIMIT
 
 // Name of the C entry point ObjectFactoryBase looks up in each autoloaded library.
 #define ITK_LOAD_FUNCTION_NAME @ITK_LOAD_FUNCTION_NAME@
