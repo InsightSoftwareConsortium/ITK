@@ -43,6 +43,13 @@ itkPathIteratorTest(int, char *[])
   {
     using CheckImageType = itk::Image<double, 2>;
     using CheckPathType = itk::PolyLineParametricPath<2>;
+    const CheckImageType * const constImage = nullptr;
+    CheckImageType * const       image = nullptr;
+    const CheckPathType * const  path = nullptr;
+    static_assert(std::is_same_v<decltype(itk::PathConstIterator(constImage, path)),
+                                 itk::PathConstIterator<CheckImageType, CheckPathType>>);
+    static_assert(std::is_same_v<decltype(itk::PathConstIterator(image, path)),
+                                 itk::PathConstIterator<CheckImageType, CheckPathType>>);
     static_assert(HasSet<itk::PathIterator<CheckImageType, CheckPathType>>::value);
     static_assert(!HasSet<itk::PathConstIterator<CheckImageType, CheckPathType>>::value);
     static_assert(!HasSet<itk::PathIterator<const CheckImageType, CheckPathType>>::value);
