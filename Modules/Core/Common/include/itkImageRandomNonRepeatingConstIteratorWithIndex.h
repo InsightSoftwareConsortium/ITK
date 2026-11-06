@@ -265,6 +265,15 @@ public:
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
   }
 
+  /** The copy constructor is provided to deep copy m_Permutation. */
+  ImageRandomNonRepeatingConstIteratorWithIndex(const Self & it)
+    : Superclass(it)
+    , m_NumberOfSamplesRequested(it.m_NumberOfSamplesRequested)
+    , m_NumberOfSamplesDone(it.m_NumberOfSamplesDone)
+    , m_NumberOfPixelsInRegion(it.m_NumberOfPixelsInRegion)
+    , m_Permutation(it.m_Permutation ? new RandomPermutation(*it.m_Permutation) : nullptr)
+  {}
+
   /** operator= is provided to deep copy m_Permutation. */
   Self &
   operator=(const Self & it);
