@@ -269,7 +269,7 @@ public:
   void
   SetPixelContainer(PixelContainer * container);
 
-  /** Graft the data and information from one image to another. This
+  /** Graft the data, the pixel accessor and information from one image to another. This
    * is a convenience method to setup a second image with all the meta
    * information of another image and use the same pixel
    * container. Note that this method is different than just using two
@@ -277,8 +277,9 @@ public:
    * still maintained. This method is similar to
    * ImageSource::GraftOutput(). The implementation in ImageBase
    * simply calls CopyInformation() and copies the region ivars.
-   * The implementation here refers to the superclass' implementation
-   * and then copies over the pixel container. */
+   * The implementation here refers to the superclass' implementation,
+   * then grafts the adapted image, which shares its pixel container, and
+   * copies the pixel accessor, so the graft reads the same values. */
   virtual void
   Graft(const Self * imgData);
 
