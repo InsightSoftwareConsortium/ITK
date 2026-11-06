@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRegionConstIterator_hxx
-#define itkImageRegionConstIterator_hxx
+#ifndef itkImageRegionIterator_hxx
+#define itkImageRegionIterator_hxx
 
 
 namespace itk
@@ -27,7 +27,7 @@ namespace itk
 // This method should *ONLY* be invoked from the operator++() method.
 template <typename TImage>
 void
-ImageRegionConstIterator<TImage>::Increment()
+ImageRegionIterator<TImage>::Increment()
 {
   // We have reached the end of the span (row), need to wrap around.
 
@@ -74,7 +74,7 @@ ImageRegionConstIterator<TImage>::Increment()
 // This method should *ONLY* be invoked from the operator--() method.
 template <typename TImage>
 void
-ImageRegionConstIterator<TImage>::Decrement()
+ImageRegionIterator<TImage>::Decrement()
 {
   // We have pasted the beginning of the span (row), need to wrap around.
 
