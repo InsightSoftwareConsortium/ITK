@@ -42,6 +42,17 @@ namespace itk
 {
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
+template <typename TImage>
+auto
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::MakeInputView(const TImage * image) ->
+  typename TImage::Pointer
+{
+  auto view = TImage::New();
+  view->Graft(image);
+  return view;
+}
+
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::N4BiasFieldCorrectionImageFilter()
   : m_MaskLabel(NumericTraits<MaskPixelType>::OneValue())
   , m_CurrentConvergenceMeasurement(RealType{})
@@ -276,6 +287,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
         numberOfLevels[d] = 2;
       }
     }
+    // The refinement reads the input, which the update may have released.
+    reconstructer->SetInput(MakeInputView(this->m_LogBiasFieldControlPointLattice.GetPointer()));
     this->m_LogBiasFieldControlPointLattice = reconstructer->RefineControlPointLattice(numberOfLevels);
   }
 
@@ -631,7 +644,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::MakeBia
   const InputImageType * inputImage = this->GetInput();
 
   auto reconstructer = BiasFieldReconstructerType::New();
-  reconstructer->SetInput(controlPointLattice);
+  // A view, so that releasing the reconstructer's input leaves the lattice buffered.
+  reconstructer->SetInput(MakeInputView(controlPointLattice));
   reconstructer->SetOrigin(inputImage->GetOrigin());
   reconstructer->SetSpacing(inputImage->GetSpacing());
   reconstructer->SetDirection(inputImage->GetDirection());

@@ -173,3 +173,67 @@ TEST(N4BiasFieldCorrectionImageFilter, MaskLabelAndConfidenceMatchBaseline)
   EXPECT_NEAR(convergenceMeasurement, expectedConvergenceMeasurement, 1e-4 * expectedConvergenceMeasurement);
   EXPECT_EQ(RunN4({ labelMask, true, 1, confidence }), output);
 }
+
+namespace
+{
+using N4ReleaseImageType = itk::Image<float, 2>;
+using N4ReleaseFilterType = itk::N4BiasFieldCorrectionImageFilter<N4ReleaseImageType>;
+
+class GlobalReleaseDataFlagGuard
+{
+public:
+  GlobalReleaseDataFlagGuard()
+    : m_Previous(itk::DataObject::GetGlobalReleaseDataFlag())
+  {
+    itk::DataObject::SetGlobalReleaseDataFlag(true);
+  }
+  ~GlobalReleaseDataFlagGuard() { itk::DataObject::SetGlobalReleaseDataFlag(m_Previous); }
+  ITK_DISALLOW_COPY_AND_MOVE(GlobalReleaseDataFlagGuard);
+
+private:
+  bool m_Previous;
+};
+
+std::vector<float>
+RunN4WithMaskAndConfidence()
+{
+  constexpr itk::SizeValueType size = 40;
+  auto                         image = N4ReleaseImageType::New();
+  image->SetRegions(N4ReleaseImageType::SizeType::Filled(size));
+  image->Allocate();
+  auto mask = N4ReleaseFilterType::MaskImageType::New();
+  mask->SetRegions(image->GetLargestPossibleRegion());
+  mask->Allocate();
+  auto confidence = N4ReleaseFilterType::RealImageType::New();
+  confidence->SetRegions(image->GetLargestPossibleRegion());
+  confidence->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<N4ReleaseImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    const double x = it.GetIndex()[0];
+    const double y = it.GetIndex()[1];
+    const double tissue = (std::hypot(x - 20.0, y - 20.0) < 8.0 ? 140.0 : 100.0) + 20.0 * std::sin(0.3 * x);
+    it.Set(static_cast<float>(tissue * std::exp(0.3 * (x - 20.0) / 20.0 + 0.2 * std::pow((y - 20.0) / 20.0, 2))));
+    mask->SetPixel(it.GetIndex(), (x < 2 || y < 2 || x > 37 || y > 37) ? 0 : 1);
+    confidence->SetPixel(it.GetIndex(), x > 33 ? 0.0F : static_cast<float>(0.25 + 0.75 * y / (size - 1)));
+  }
+
+  auto filter = N4ReleaseFilterType::New();
+  filter->SetInput(image);
+  filter->SetMaskImage(mask);
+  filter->SetConfidenceImage(confidence);
+  filter->SetNumberOfFittingLevels(2);
+  filter->SetMaximumNumberOfIterations(N4ReleaseFilterType::VariableSizeArrayType(2, 4));
+  filter->SetConvergenceThreshold(0.0);
+  filter->Update();
+
+  const N4ReleaseImageType * output = filter->GetOutput();
+  return { output->GetBufferPointer(), output->GetBufferPointer() + output->GetBufferedRegion().GetNumberOfPixels() };
+}
+} // namespace
+
+TEST(N4BiasFieldCorrectionImageFilter, GlobalReleaseDataFlagDoesNotChangeOutput)
+{
+  const std::vector<float>         expected = RunN4WithMaskAndConfidence();
+  const GlobalReleaseDataFlagGuard releaseData;
+  EXPECT_EQ(RunN4WithMaskAndConfidence(), expected);
+}
