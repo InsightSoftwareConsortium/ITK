@@ -109,7 +109,7 @@ public:
    * \warning The selected multithreader may clamp the number of work units.
    * */
   /** @ITKStartGrouping */
-  void
+  virtual void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
   {
     const ThreadIdType value = std::max<ThreadIdType>(1, numberOfWorkUnits);

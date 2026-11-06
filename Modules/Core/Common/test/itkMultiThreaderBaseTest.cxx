@@ -16,8 +16,13 @@
  *
  *=========================================================================*/
 
+#include <atomic>
 #include <limits>
+#include <mutex>
 #include <set>
+#include <thread>
+#include <vector>
+#include "itkImageRegion.h"
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
 #include "itkPoolMultiThreader.h"
@@ -27,8 +32,28 @@
 #endif
 #include "itkTestingMacros.h"
 
+struct SingleMethodExecutionData
+{
+  std::thread::id       CallingThread;
+  std::atomic<unsigned> CallCount{ 0 };
+  std::atomic<bool>     CalledOnCallingThread{ false };
+};
+
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+SingleMethodExecution(void * data)
+{
+  const auto * workUnitInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(data);
+  auto *       executionData = static_cast<SingleMethodExecutionData *>(workUnitInfo->UserData);
+  ++executionData->CallCount;
+  if (std::this_thread::get_id() == executionData->CallingThread)
+  {
+    executionData->CalledOnCallingThread = true;
+  }
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
+}
+
 bool
-VerifyRange(int value, int min, int max, const char * msg)
+VerifyRange(itk::ThreadIdType value, itk::ThreadIdType min, itk::ThreadIdType max, const char * msg)
 {
   if (value < min)
   {
@@ -177,6 +202,46 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
     result = false;
   }
   itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(4);
+
+  const itk::ThreadIdType               moreWorkUnits = itk::ITK_MAX_THREADS + 1;
+  const itk::PoolMultiThreader::Pointer poolThreader = itk::PoolMultiThreader::New();
+  poolThreader->SetNumberOfWorkUnits(moreWorkUnits);
+  std::atomic<itk::SizeValueType> processedItems{ 0 };
+  poolThreader->ParallelizeArray(
+    0, moreWorkUnits, [&processedItems](itk::SizeValueType) { ++processedItems; }, nullptr);
+  result &= poolThreader->GetNumberOfWorkUnits() == moreWorkUnits;
+  result &= processedItems == moreWorkUnits;
+  SingleMethodExecutionData executionData{ std::this_thread::get_id() };
+  poolThreader->SetSingleMethod(SingleMethodExecution, &executionData);
+  poolThreader->SingleMethodExecute();
+  result &= executionData.CallCount == moreWorkUnits;
+  result &= executionData.CalledOnCallingThread;
+
+  constexpr itk::SizeValueType pixelsPerWorkUnit = 4;
+  const itk::SizeValueType     regionSize = pixelsPerWorkUnit * moreWorkUnits;
+  std::vector<unsigned>        pixelVisits(regionSize, 0);
+  std::atomic<unsigned>        chunkCount{ 0 };
+  std::mutex                   visitsMutex;
+  itk::ImageRegion<1>          imageRegion;
+  imageRegion.SetSize(0, regionSize);
+  // Call through the base class: PoolMultiThreader hides the templated overload.
+  static_cast<itk::MultiThreaderBase &>(*poolThreader)
+    .ParallelizeImageRegion<1>(
+      imageRegion,
+      [&](const itk::ImageRegion<1> & chunk) {
+        ++chunkCount;
+        const std::lock_guard<std::mutex> lock(visitsMutex);
+        for (itk::SizeValueType i = 0; i < chunk.GetSize(0); ++i)
+        {
+          ++pixelVisits[static_cast<itk::SizeValueType>(chunk.GetIndex(0)) + i];
+        }
+      },
+      nullptr);
+  result &= chunkCount > itk::ITK_MAX_THREADS;
+  for (const unsigned visits : pixelVisits)
+  {
+    result &= visits == 1;
+  }
 
   // Test streaming enumeration for MultiThreaderBaseEnums::Threader elements
   const std::set<itk::MultiThreaderBaseEnums::Threader> allThreader{
