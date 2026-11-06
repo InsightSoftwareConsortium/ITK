@@ -55,6 +55,18 @@ struct HasSet<TIterator,
               std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
   : std::true_type
 {};
+
+// HasAssignableValue tells whether a pixel can be assigned through the reference returned by `Value()`.
+template <typename TIterator, typename = void>
+struct HasAssignableValue : std::false_type
+{};
+
+template <typename TIterator>
+struct HasAssignableValue<
+  TIterator,
+  std::void_t<decltype(std::declval<TIterator &>().Value() = std::declval<typename TIterator::PixelType>())>>
+  : std::true_type
+{};
 } // namespace
 
 namespace
@@ -425,4 +437,22 @@ TEST(FrequencyIteratorConversions, OnlyWritableIteratorsSet)
                 !HasSet<itk::FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<ImageType>>::value);
   static_assert(HasSet<itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>::value &&
                 !HasSet<itk::FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<ImageType>>::value);
+}
+
+
+// Checks that the frequency iterators provide no Set() for a const image.
+TEST(FrequencyIteratorConversions, SetRequiresNonConstImage)
+{
+  using ImageType = itk::Image<float, 2>;
+  static_assert(!HasSet<itk::FrequencyImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(!HasSet<itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(!HasSet<itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(!HasSet<itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(HasAssignableValue<itk::FrequencyImageRegionIteratorWithIndex<ImageType>>::value);
+  static_assert(!HasAssignableValue<itk::FrequencyImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(!HasAssignableValue<itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(
+    !HasAssignableValue<itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(
+    !HasAssignableValue<itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
 }

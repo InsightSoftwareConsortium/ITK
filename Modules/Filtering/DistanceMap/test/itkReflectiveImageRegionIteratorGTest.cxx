@@ -35,6 +35,18 @@ struct HasSet<TIterator,
               std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
   : std::true_type
 {};
+
+// HasAssignableValue tells whether a pixel can be assigned through the reference returned by `Value()`.
+template <typename TIterator, typename = void>
+struct HasAssignableValue : std::false_type
+{};
+
+template <typename TIterator>
+struct HasAssignableValue<
+  TIterator,
+  std::void_t<decltype(std::declval<TIterator &>().Value() = std::declval<typename TIterator::PixelType>())>>
+  : std::true_type
+{};
 } // namespace
 
 
@@ -189,4 +201,8 @@ TEST(ReflectiveImageRegionIterator, OnlyWritableIteratorSets)
   using ImageType = itk::Image<int, 2>;
   static_assert(HasSet<itk::ReflectiveImageRegionIterator<ImageType>>::value);
   static_assert(!HasSet<itk::ReflectiveImageRegionConstIterator<ImageType>>::value);
+  static_assert(!HasSet<itk::ReflectiveImageRegionIterator<const ImageType>>::value);
+  static_assert(HasAssignableValue<itk::ReflectiveImageRegionIterator<ImageType>>::value);
+  static_assert(!HasAssignableValue<itk::ReflectiveImageRegionConstIterator<ImageType>>::value);
+  static_assert(!HasAssignableValue<itk::ReflectiveImageRegionIterator<const ImageType>>::value);
 }

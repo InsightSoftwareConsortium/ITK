@@ -26,6 +26,29 @@ namespace
 {
 using ImageType = itk::Image<double, 2>;
 using PathType = itk::PolyLineParametricPath<2>;
+
+// HasSet tells whether `Set(pixel)` can be called on the specified iterator type.
+template <typename TIterator, typename = void>
+struct HasSet : std::false_type
+{};
+
+template <typename TIterator>
+struct HasSet<TIterator,
+              std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
+  : std::true_type
+{};
+
+// HasAssignableValue tells whether a pixel can be assigned through the reference returned by `Value()`.
+template <typename TIterator, typename = void>
+struct HasAssignableValue : std::false_type
+{};
+
+template <typename TIterator>
+struct HasAssignableValue<
+  TIterator,
+  std::void_t<decltype(std::declval<TIterator &>().Value() = std::declval<typename TIterator::PixelType>())>>
+  : std::true_type
+{};
 } // namespace
 
 
@@ -55,4 +78,14 @@ TEST(PathIterator, AssignmentCopiesEndState)
   copy = atEnd;
   EXPECT_TRUE(copy.IsAtEnd());
   EXPECT_EQ(copy.GetIndex(), atEnd.GetIndex());
+}
+
+
+// Checks that only the path iterator over a non-const image provides Set() and an assignable Value().
+TEST(PathIterator, NoWriteAccessToConstImage)
+{
+  static_assert(!HasSet<itk::PathIterator<const ImageType, PathType>>::value);
+  static_assert(HasAssignableValue<itk::PathIterator<ImageType, PathType>>::value);
+  static_assert(!HasAssignableValue<itk::PathIterator<const ImageType, PathType>>::value);
+  static_assert(!HasAssignableValue<itk::PathConstIterator<ImageType, PathType>>::value);
 }
