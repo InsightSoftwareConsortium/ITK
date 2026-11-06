@@ -477,13 +477,16 @@ endif()
   itk_module_target_export(${itk-module}Module)
   itk_module_target_install(${itk-module}Module)
   # Source-less modules still export their interface library to ITKTargets.
-  set_property(
-    GLOBAL
-    APPEND
-    PROPERTY
-      ITKTargets_MODULES
-        ${itk-module}
-  )
+  get_property(_itk_targets_modules GLOBAL PROPERTY ITKTargets_MODULES)
+  if(NOT ${itk-module} IN_LIST _itk_targets_modules)
+    set_property(
+      GLOBAL
+      APPEND
+      PROPERTY
+        ITKTargets_MODULES
+          ${itk-module}
+    )
+  endif()
   ####
   # End ITK Modules interface library creation
   ####
