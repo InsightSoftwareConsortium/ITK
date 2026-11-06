@@ -1467,3 +1467,72 @@ call to the setter takes precedence over the environment variable.
 
 The value is clamped to at least 1 and does not affect instances that already
 exist. A single-threaded configuration still uses one work unit.
+
+## Image iterators take their access from the constness of the image type
+
+These image iterators now decide between read-only and writable access from
+their image type: `ImageIterator`, `ImageRegionIterator`,
+`ImageScanlineIterator`, the reverse iterators, `ImageIteratorWithIndex` and
+the iterators derived from it, the frequency iterators,
+`ReflectiveImageRegionIterator`, `LineIterator`, and `PathIterator`.
+`SliceIterator`, the neighborhood iterators, and the `RLEImage` iterators keep
+their read-only base classes, and the writable flood-filled iterators offer
+`Set()` only for a non-`const` image. `RLEImage` specializes only the `Const`
+names and the writable names over a non-`const` image, so read an `RLEImage`
+with `XxxConstIterator<RLEImage<...>>`, not `XxxIterator<const RLEImage<...>>`.
+`XxxIterator<const ImageType>` has no `Set()` and no writable
+`Value()`, so code that wrote to a `const` image through it no longer compiles.
+`XxxConstIterator<ImageType>` is a thin class derived from
+`XxxIterator<const ImageType>`, and each converts to the other.
+
+This inverts the class hierarchy. `XxxIterator<T>` no longer derives from
+`XxxConstIterator<T>`; the writable class is the implementation, and the
+read-only name derives from it. As a result:
+
+- `ImageIterator`, `ImageIteratorWithIndex`, `ImageReverseIterator`,
+  `LineIterator`, and `PathIterator` have no `Superclass`. For the other
+  writable iterators, `Superclass` is now the parent writable iterator, for
+  example `ImageRegionIterator<T>::Superclass` is `ImageIterator<T>`, and
+  `XxxConstIterator<T>::Superclass` is `XxxIterator<const T>`.
+- An `XxxIterator<T>` no longer binds to a non-const `XxxConstIterator<T> &`
+  parameter, does not convert to an `XxxConstIterator<T> *`, and does not
+  deduce `T` for a `const XxxConstIterator<T> &` template parameter.
+- A `const XxxConstIterator<T> &` parameter given an `XxxIterator<T>` now binds
+  to a converted copy, not to the original iterator.
+- The read-only names no longer derive from `ImageConstIterator<T>` or
+  `ImageConstIteratorWithIndex<T>`: `ImageRegionConstIterator<T>` derives
+  from `ImageRegionIterator<const T>`, a sibling of `ImageConstIterator<T>`.
+- A copy of a `ReflectiveImageRegionIterator` keeps the position and
+  reflection state of its source; call `GoToBegin()` to start over.
+- A read-only iterator no longer converts to a writable one. The protected
+  `XxxIterator(const XxxConstIterator &)` constructors and assignment
+  operators are removed.
+- `XxxIterator<const T>::ImageType` is `T`, as `XxxConstIterator<T>::ImageType`
+  was.
+- `ImageReverseConstIterator` now has `operator++` and `operator--`, like
+  `ImageReverseIterator`.
+- `LineIterator<T>::Value()` still returns a `const` reference; write with
+  `Set()`.
+- These `.hxx` files are removed; include the matching `.h` header, which
+  was the only file that included them: `itkImageIterator.hxx`,
+  `itkImageRegionConstIterator.hxx`, `itkImageScanlineConstIterator.hxx`,
+  `itkImageReverseIterator.hxx`, `itkImageRegionReverseIterator.hxx`,
+  `itkImageConstIteratorWithIndex.hxx`,
+  `itkImageLinearConstIteratorWithIndex.hxx`,
+  `itkImageRandomConstIteratorWithIndex.hxx`,
+  `itkImageRandomNonRepeatingConstIteratorWithIndex.hxx`,
+  `itkImageRegionConstIteratorWithIndex.hxx`,
+  `itkImageRegionExclusionConstIteratorWithIndex.hxx`,
+  `itkImageSliceConstIteratorWithIndex.hxx`, `itkLineConstIterator.hxx`,
+  `itkReflectiveImageRegionConstIterator.hxx`, and `itkPathConstIterator.hxx`.
+
+### What you need to do
+
+Code that only reads or writes pixels needs no change, except a call to
+`ImageReverseConstIterator<T>::Set()`, which was public: use
+`ImageReverseIterator<T>` to write. To pass a writable
+iterator where a read-only one is expected, a non-template function can take
+the parameter by value or by `const` reference; a function template must take
+the iterator type itself as its template parameter, because `T` is not deduced
+through the conversion. Code that used `Set()` on an iterator over a `const`
+image needs a non-`const` image.
