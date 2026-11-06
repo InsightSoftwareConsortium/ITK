@@ -88,10 +88,23 @@ namespace Math::Detail
 ITK_GCC_PRAGMA_PUSH
 ITK_GCC_SUPPRESS_Wfloat_equal
 
+// At or beyond 1/epsilon every value is an integer, and adding 0.5 to it rounds.
+template <typename TInput>
+constexpr bool
+IsBeyondFractionalPrecision(TInput x)
+{
+  constexpr TInput limit = TInput{ 1 } / std::numeric_limits<TInput>::epsilon();
+  return x >= limit || x <= -limit;
+}
+
 template <typename TReturn, typename TInput>
 constexpr TReturn
 RoundHalfIntegerToEven_base(TInput x)
 {
+  if (IsBeyondFractionalPrecision(x))
+  {
+    return static_cast<TReturn>(x);
+  }
   if (NumericTraits<TInput>::IsNonnegative(x))
   {
     x += static_cast<TInput>(0.5);
@@ -109,6 +122,10 @@ template <typename TReturn, typename TInput>
 constexpr TReturn
 RoundHalfIntegerUp_base(TInput x)
 {
+  if (IsBeyondFractionalPrecision(x))
+  {
+    return static_cast<TReturn>(x);
+  }
   x += static_cast<TInput>(0.5);
   const auto r = static_cast<TReturn>(x);
   return (NumericTraits<TInput>::IsNonnegative(x)) ? r

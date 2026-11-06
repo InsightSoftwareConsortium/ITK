@@ -187,3 +187,91 @@ TEST(MathRound, VxlInt64Type)
   std::cout << "Testing vxl_int_64 type" << std::endl;
   EXPECT_TRUE(TemplatedRoundTest<vxl_int_64>());
 }
+
+namespace
+{
+template <typename TReturn, typename TInput>
+struct RoundingCase
+{
+  TInput  input;
+  TReturn toEven;
+  TReturn halfUp;
+};
+
+template <typename TReturn, typename TInput, size_t VCount>
+void
+CheckRoundingCases(const RoundingCase<TReturn, TInput> (&cases)[VCount])
+{
+  for (const auto & c : cases)
+  {
+    SCOPED_TRACE(c.input);
+    EXPECT_EQ((itk::Math::RoundHalfIntegerToEven<TReturn, TInput>(c.input)), c.toEven);
+    EXPECT_EQ((itk::Math::RoundHalfIntegerUp<TReturn, TInput>(c.input)), c.halfUp);
+    EXPECT_EQ((itk::Math::Detail::RoundHalfIntegerToEven_base<TReturn, TInput>(c.input)), c.toEven);
+    EXPECT_EQ((itk::Math::Detail::RoundHalfIntegerUp_base<TReturn, TInput>(c.input)), c.halfUp);
+  }
+}
+} // namespace
+
+TEST(MathRound, HalfwayCases)
+{
+  constexpr RoundingCase<int32_t, double> cases[]{ { 2.5, 2, 3 },    { -2.5, -2, -2 }, { 3.5, 4, 4 },
+                                                   { -3.5, -4, -3 }, { 0.5, 0, 1 },    { -0.5, 0, 0 } };
+  CheckRoundingCases(cases);
+}
+
+// Every platform rounds x + 0.5 here, so half-up gives 1 for the largest value below 0.5.
+TEST(MathRound, NearHalfAgreesAcrossPlatforms)
+{
+  constexpr RoundingCase<int32_t, double> double32[]{ { 0.49999999999999994, 0, 1 },
+                                                      { -0.49999999999999994, 0, 0 },
+                                                      { 1.4999999999999998, 1, 1 },
+                                                      { -1.4999999999999998, -1, -1 } };
+  CheckRoundingCases(double32);
+  constexpr RoundingCase<int64_t, double> double64[]{ { 0.49999999999999994, 0, 1 },
+                                                      { -0.49999999999999994, 0, 0 },
+                                                      { 1.4999999999999998, 1, 1 },
+                                                      { -1.4999999999999998, -1, -1 } };
+  CheckRoundingCases(double64);
+  constexpr RoundingCase<int32_t, float> float32[]{
+    { 0.49999997f, 0, 1 }, { -0.49999997f, 0, 0 }, { 1.4999999f, 1, 1 }, { -1.4999999f, -1, -1 }
+  };
+  CheckRoundingCases(float32);
+  constexpr RoundingCase<int64_t, float> float64[]{
+    { 0.49999997f, 0, 1 }, { -0.49999997f, 0, 0 }, { 1.4999999f, 1, 1 }, { -1.4999999f, -1, -1 }
+  };
+  CheckRoundingCases(float64);
+}
+
+TEST(MathRound, DoubleAtPrecisionLimit)
+{
+  constexpr RoundingCase<int64_t, double> cases[]{
+    { 4503599627370497.0, 4503599627370497, 4503599627370497 },
+    { -4503599627370497.0, -4503599627370497, -4503599627370497 },
+    { 9007199254740991.0, 9007199254740991, 9007199254740991 },
+    { -9007199254740991.0, -9007199254740991, -9007199254740991 },
+    { 4503599627370495.5, 4503599627370496, 4503599627370496 },
+    { -4503599627370495.5, -4503599627370496, -4503599627370495 },
+    { 4503599627370494.5, 4503599627370494, 4503599627370495 },
+  };
+  CheckRoundingCases(cases);
+
+  constexpr RoundingCase<int32_t, double> int32Cases[]{ { 1073741823.0, 1073741823, 1073741823 },
+                                                        { 1073741822.5, 1073741822, 1073741823 },
+                                                        { -1073741823.5, -1073741824, -1073741823 } };
+  CheckRoundingCases(int32Cases);
+}
+
+TEST(MathRound, FloatAtPrecisionLimit)
+{
+  constexpr RoundingCase<int32_t, float> int32Cases[]{
+    { 8388609.0f, 8388609, 8388609 }, { -8388609.0f, -8388609, -8388609 }, { 16777215.0f, 16777215, 16777215 },
+    { 8388607.5f, 8388608, 8388608 }, { -8388607.5f, -8388608, -8388607 }, { 8388606.5f, 8388606, 8388607 },
+  };
+  CheckRoundingCases(int32Cases);
+
+  constexpr RoundingCase<int64_t, float> int64Cases[]{ { 8388609.0f, 8388609, 8388609 },
+                                                       { -8388609.0f, -8388609, -8388609 },
+                                                       { 8388607.5f, 8388608, 8388608 } };
+  CheckRoundingCases(int64Cases);
+}
