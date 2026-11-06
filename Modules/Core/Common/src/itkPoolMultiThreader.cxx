@@ -80,11 +80,6 @@ private:
 PoolMultiThreader::PoolMultiThreader()
   : m_ThreadPool(ThreadPool::GetInstance())
 {
-  for (ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i)
-  {
-    m_WorkUnitInfoArray[i].WorkUnitID = i;
-  }
-
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
   if (defaultThreads > 1) // one work unit for only one thread
   {
@@ -101,7 +96,7 @@ PoolMultiThreader::PoolMultiThreader()
     }
   }
 
-  m_NumberOfWorkUnits = std::min<ThreadIdType>(ITK_MAX_THREADS, defaultThreads);
+  m_NumberOfWorkUnits = defaultThreads;
   m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }
 
@@ -127,18 +122,36 @@ PoolMultiThreader::SetMaximumNumberOfThreads(ThreadIdType numberOfThreads)
 }
 
 void
+PoolMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
+{
+  m_NumberOfWorkUnits = std::max<ThreadIdType>(1, numberOfWorkUnits);
+}
+
+void
+PoolMultiThreader::EnsureWorkUnitInfoArraySize(std::size_t size)
+{
+  const std::size_t currentSize = m_WorkUnitInfoArray.size();
+  if (size > currentSize)
+  {
+    m_WorkUnitInfoArray.resize(size);
+    for (std::size_t i = currentSize; i < size; ++i)
+    {
+      m_WorkUnitInfoArray[i].WorkUnitID = static_cast<ThreadIdType>(i);
+    }
+  }
+}
+
+void
 PoolMultiThreader::SingleMethodExecute()
 {
-  ThreadIdType threadLoop = 0;
-
   if (!m_SingleMethod)
   {
     itkExceptionStringMacro("No single method set!");
   }
 
-  // obey the global maximum number of threads limit
-  m_NumberOfWorkUnits = std::min(this->GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits);
+  this->EnsureWorkUnitInfoArraySize(m_NumberOfWorkUnits);
 
+  ThreadIdType threadLoop = 0;
   for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
     m_WorkUnitInfoArray[threadLoop].UserData = m_SingleData;
@@ -176,11 +189,14 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    SizeValueType chunkSize = (lastIndexPlus1 - firstIndex) / m_NumberOfWorkUnits;
-    if ((lastIndexPlus1 - firstIndex) % m_NumberOfWorkUnits > 0)
+    const SizeValueType numberOfItems = lastIndexPlus1 - firstIndex;
+    SizeValueType       chunkSize = numberOfItems / m_NumberOfWorkUnits;
+    if (numberOfItems % m_NumberOfWorkUnits > 0)
     {
       ++chunkSize; // we want slightly bigger chunks to be processed first
     }
+    const SizeValueType roundingLeftover = numberOfItems % chunkSize > 0 ? 1 : 0;
+    this->EnsureWorkUnitInfoArraySize(numberOfItems / chunkSize + roundingLeftover);
 
     auto lambda = [aFunc](SizeValueType start, SizeValueType end) {
       for (SizeValueType ii = start; ii < end; ++ii)
@@ -266,7 +282,8 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
     {
       const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
       const ThreadIdType              splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
-      ProgressReporter                reporter(filter, 0, splitCount);
+      this->EnsureWorkUnitInfoArraySize(splitCount);
+      ProgressReporter reporter(filter, 0, splitCount);
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
       ImageIORegion iRegion;
       ThreadIdType  total = 0;

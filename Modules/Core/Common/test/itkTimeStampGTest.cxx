@@ -70,12 +70,11 @@ TEST(TimeStamp, ThreadSafeMonotonicity)
 
   // Set up the multithreader
   const itk::MultiThreaderBase::Pointer multithreader = itk::MultiThreaderBase::New();
-  multithreader->SetNumberOfWorkUnits(itk::ITK_MAX_THREADS + 10); // will be clamped
+  multithreader->SetNumberOfWorkUnits(itk::ITK_MAX_THREADS + 10);
   multithreader->SetSingleMethod(modified_function, &helper);
 
-  // Test that the number of threads has actually been clamped
   const itk::ThreadIdType numberOfThreads = multithreader->GetMaximumNumberOfThreads();
-  EXPECT_LE(numberOfThreads, itk::ITK_MAX_THREADS);
+  EXPECT_LE(numberOfThreads, itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
 
   const itk::ThreadIdType numberOfWorkUnits = multithreader->GetNumberOfWorkUnits();
 
