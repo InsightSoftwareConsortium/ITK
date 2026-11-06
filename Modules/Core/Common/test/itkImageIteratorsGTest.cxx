@@ -50,6 +50,7 @@
 #include "itkImage.h"
 #include "itkTestingGetBufferPointerCountingImage.h"
 #include <gtest/gtest.h>
+#include <memory>
 #include <set>
 #include <type_traits> // For false_type and true_type.
 #include <typeinfo>
@@ -415,4 +416,34 @@ TEST(ImageIterators, RandomPermutationCopyIsIndependent)
 
   EXPECT_THROW(original.SetPriority(size, 0), std::runtime_error);
   EXPECT_NO_THROW(original.SetPriority(size - 1, 0));
+}
+
+
+// Checks that a copy of a non-repeating random iterator still visits every pixel once after the source is destroyed.
+TEST(ImageIterators, RandomNonRepeatingCopyOutlivesSource)
+{
+  using ImageType = itk::Image<int>;
+  using IteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
+  const auto image = ImageType::New();
+  const auto region = ImageType::RegionType(ImageType::SizeType::Filled(4));
+  image->SetRegions(region);
+  image->AllocateInitialized();
+
+  auto source = std::make_unique<IteratorType>(image, region);
+  source->SetNumberOfSamples(region.GetNumberOfPixels());
+  source->GoToBegin();
+
+  IteratorType copy(*source);
+  source.reset();
+
+  std::set<itk::OffsetValueType> visitedOffsets;
+  itk::SizeValueType             numberOfVisits{};
+  for (copy.GoToBegin(); !copy.IsAtEnd(); ++copy)
+  {
+    EXPECT_TRUE(region.IsInside(copy.GetIndex()));
+    visitedOffsets.insert(image->ComputeOffset(copy.GetIndex()));
+    ++numberOfVisits;
+  }
+  EXPECT_EQ(numberOfVisits, region.GetNumberOfPixels());
+  EXPECT_EQ(visitedOffsets.size(), region.GetNumberOfPixels());
 }
