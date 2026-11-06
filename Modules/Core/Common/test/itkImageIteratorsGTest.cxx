@@ -399,17 +399,17 @@ TEST(ImageIterators, ConstructorCallsNonConstGetBufferPointer)
 }
 
 
-// Checks that ImageRegionReverseIterator(const ImageConstIterator &) calls the non-const GetBufferPointer() overload.
+// Checks that ImageRegionReverseIterator(const ImageIterator &) calls the non-const GetBufferPointer() overload.
 TEST(ImageIterators, ReverseIteratorConversionCallsNonConstGetBufferPointer)
 {
   using ImageType = itk::Testing::GetBufferPointerCountingImage<int>;
   const auto image = ImageType::New();
   image->SetRegions(ImageType::SizeType::Filled(4));
   image->Allocate();
-  const itk::ImageRegionConstIterator<ImageType> constIterator(image, image->GetBufferedRegion());
+  const itk::ImageRegionIterator<ImageType> iterator(image, image->GetBufferedRegion());
 
   const size_t numberOfCallsBefore = image->GetNumberOfNonConstGetBufferPointerCalls();
-  [[maybe_unused]] const itk::ImageRegionReverseIterator<ImageType> reverseIterator(constIterator);
+  [[maybe_unused]] const itk::ImageRegionReverseIterator<ImageType> reverseIterator(iterator);
   EXPECT_GT(image->GetNumberOfNonConstGetBufferPointerCalls(), numberOfCallsBefore);
 }
 

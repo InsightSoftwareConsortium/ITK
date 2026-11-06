@@ -19,7 +19,7 @@
 #define itkImageReverseIterator_h
 
 #include "itkSize.h"
-#include "itkImageConstIterator.h"
+#include "itkImageIterator.h"
 #include <memory>
 #include <type_traits> // For remove_const_t.
 
@@ -87,6 +87,9 @@ namespace itk
 template <typename TImage>
 class ITK_TEMPLATE_EXPORT ImageReverseIterator
 {
+  template <typename>
+  friend class ImageReverseIterator;
+
 public:
   /** Standard class type aliases. */
   using Self = ImageReverseIterator;
@@ -113,7 +116,7 @@ public:
   using RegionType = typename TImage::RegionType;
 
   /** Image type alias support */
-  using ImageType = TImage;
+  using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typedef'ed in the superclass
@@ -158,6 +161,8 @@ public:
     , m_Buffer(it.m_Buffer)
     , m_PixelAccessor(it.m_PixelAccessor)
     , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
+    , m_SpanBeginOffset(it.m_SpanBeginOffset)
+    , m_SpanEndOffset(it.m_SpanEndOffset)
   {
     // copy the smart pointer
 
@@ -165,9 +170,26 @@ public:
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
   }
 
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageReverseIterator(const ImageReverseIterator<TOtherImage> & it)
+    : m_Image(it.m_Image)
+    , m_Region(it.m_Region)
+    , m_Offset(it.m_Offset)
+    , m_BeginOffset(it.m_BeginOffset)
+    , m_EndOffset(it.m_EndOffset)
+    , m_Buffer(it.m_Buffer)
+    , m_PixelAccessor(it.m_PixelAccessor)
+    , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
+    , m_SpanBeginOffset(it.m_SpanBeginOffset)
+    , m_SpanEndOffset(it.m_SpanEndOffset)
+  {
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
+
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageReverseIterator(const TImage * ptr, const RegionType & region)
+  ImageReverseIterator(TImage * ptr, const RegionType & region)
     : m_Image(ptr)
     , m_Region(region)
     , m_Buffer(m_Image->GetBufferPointer())
@@ -187,6 +209,8 @@ public:
     }
     m_BeginOffset = m_Image->ComputeOffset(ind);
     m_Offset = m_BeginOffset;
+    m_SpanBeginOffset = m_BeginOffset;
+    m_SpanEndOffset = m_BeginOffset - static_cast<OffsetValueType>(m_Region.GetSize()[0]);
 
     m_PixelAccessor = ptr->GetPixelAccessor();
     m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
@@ -200,7 +224,8 @@ public:
    * that return different types of Iterators, itk returns
    * ImageConstIterators and uses constructors to cast from an
    * ImageConstIterator to a ImageRegionReverseIterator. */
-  ImageReverseIterator(const ImageConstIterator<TImage> & it)
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageReverseIterator(const ImageIterator<TOtherImage> & it)
     : m_Image(it.GetImage())
     , m_Region(it.GetRegion())
     , m_EndOffset(m_Image->ComputeOffset(m_Region.GetIndex()) - 1)
@@ -227,6 +252,7 @@ public:
     m_PixelAccessor = m_Image->GetPixelAccessor();
     m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
+    InitializeSpans();
   }
 
   /** operator= is provided to make sure the handle to the image is properly
@@ -243,6 +269,8 @@ public:
       m_Offset = it.m_Offset;
       m_BeginOffset = it.m_BeginOffset;
       m_EndOffset = it.m_EndOffset;
+      m_SpanBeginOffset = it.m_SpanBeginOffset;
+      m_SpanEndOffset = it.m_SpanEndOffset;
       m_PixelAccessor = it.m_PixelAccessor;
       m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
       m_PixelAccessorFunctor.SetBegin(m_Buffer);
@@ -252,8 +280,9 @@ public:
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
   Self &
-  operator=(const ImageConstIterator<TImage> & it)
+  operator=(const ImageIterator<TOtherImage> & it)
   {
     m_Image = it.GetImage();
     m_Region = it.GetRegion();
@@ -278,6 +307,7 @@ public:
     m_PixelAccessor = m_Image->GetPixelAccessor();
     m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
+    InitializeSpans();
     return *this;
   }
 
@@ -290,14 +320,24 @@ public:
 
   /** Comparison operator. Two iterators are the same if they "point to" the
    * same memory location */
+  template <typename TOtherImage,
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
   bool
-  operator==(const Self & it) const
+  operator==(const ImageReverseIterator<TOtherImage> & it) const
   {
     // two iterators are the same if they "point to" the same memory location
     return (m_Buffer + m_Offset) == (it.m_Buffer + it.m_Offset);
   }
 
-  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+#ifndef ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
+  template <typename TOtherImage,
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
+  bool
+  operator!=(const ImageReverseIterator<TOtherImage> & it) const
+  {
+    return !(this->operator==(it));
+  }
+#endif
 
 
   /** Get the index. This provides a read only reference to the index.
@@ -316,6 +356,7 @@ public:
   SetIndex(const IndexType & ind)
   {
     m_Offset = m_Image->ComputeOffset(ind);
+    InitializeSpans();
   }
 
   /** Get the region that this iterator walks. ImageReverseConstIterators know the
@@ -333,11 +374,12 @@ public:
     return m_PixelAccessorFunctor.Get(*(m_Buffer + m_Offset));
   }
 
-  /** Set the pixel value */
+  /** Set the pixel value. Available only when TImage is not const. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
   void
   Set(const PixelType & value) const
   {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset)), value);
+    this->m_PixelAccessorFunctor.Set(*(this->m_Buffer + this->m_Offset), value);
   }
 
   /** Return a const reference to the pixel
@@ -351,8 +393,9 @@ public:
 
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  const PixelType &
+   * data, but it will NOT support ImageAdaptors. Available only when TImage is not const. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
+  PixelType &
   Value()
   {
     return *(m_Buffer + m_Offset);
@@ -364,6 +407,8 @@ public:
   GoToBegin()
   {
     m_Offset = m_BeginOffset;
+    m_SpanBeginOffset = m_BeginOffset;
+    m_SpanEndOffset = m_BeginOffset - static_cast<OffsetValueType>(m_Region.GetSize()[0]);
   }
 
   /** Move an iterator to the end of the region. "End" for a reverse iterator
@@ -372,6 +417,8 @@ public:
   GoToEnd()
   {
     m_Offset = m_EndOffset;
+    m_SpanEndOffset = m_EndOffset;
+    m_SpanBeginOffset = m_SpanEndOffset + static_cast<OffsetValueType>(m_Region.GetSize()[0]);
   }
 
   /** Is the iterator at the beginning of the (reverse) region? "Begin" for
@@ -390,8 +437,114 @@ public:
     return m_Offset == m_EndOffset;
   }
 
+  /** iterator's index.  For a reverse iterator, this moves backwards
+   * through the region.  This operator will constrain the iterator
+   * within the region (i.e. the iterator will automatically wrap from
+   * the start of the row of the region to the end of the previous row
+   * of the region) up until the iterator tries to moves before the
+   * first pixel of the region.  Here, the iterator will be set to be
+   * one pixel before the start of the region.
+   * \sa operator++(int). */
+  Self &
+  operator++()
+  {
+    if (--this->m_Offset <= m_SpanEndOffset)
+    {
+      // We have past the beginning of the span (row), need to wrap around.
+
+      // First move forward one pixel, because we are going to use a different
+      // algorithm to compute the next pixel
+      this->m_Offset++;
+
+      // Get the index of the first pixel on the span (row)
+      IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
+
+      const IndexType & startIndex = this->m_Region.GetIndex();
+      const SizeType &  size = this->m_Region.GetSize();
+
+      // Decrement along a row, then wrap at the beginning of the region row.
+
+      // Check to see if we are past the first pixel in the region
+      // Note that --ind[0] moves to the previous pixel along the row.
+      bool done = (--ind[0] == startIndex[0] - 1);
+      for (unsigned int i = 1; done && i < this->ImageIteratorDimension; ++i)
+      {
+        done = (ind[i] == startIndex[i]);
+      }
+
+      // if the iterator is outside the region (but not past region begin) then
+      // we need to wrap around the region
+      unsigned int dim = 0;
+      if (!done)
+      {
+        while ((dim < this->ImageIteratorDimension - 1) && (ind[dim] < startIndex[dim]))
+        {
+          ind[dim] = startIndex[dim] + static_cast<OffsetValueType>(size[dim]) - 1;
+          ind[++dim]--;
+        }
+      }
+      this->m_Offset = this->m_Image->ComputeOffset(ind);
+      m_SpanBeginOffset = this->m_Offset;
+      m_SpanEndOffset = m_SpanBeginOffset - static_cast<OffsetValueType>(size[0]);
+    }
+    return *this;
+  }
+
+  /** Decrement (prefix) the fastest moving dimension of the iterator's index.
+   * For a reverse iterator, this moves forward through the region.
+   * This operator will constrain the iterator within the region (i.e. the
+   * iterator will automatically wrap from the end of the row of the region
+   * to the start of the next row of the region) up until the iterator
+   * tries to moves past the last pixel of the region.  Here, the iterator
+   * will be set to be one pixel past the end of the region.
+   * \sa operator--(int) */
+  Self &
+  operator--()
+  {
+    if (++this->m_Offset >= m_SpanBeginOffset)
+    {
+      // We have reached the end of the span (row), need to wrap around.
+
+      // First back up one pixel, because we are going to use a different
+      // algorithm to compute the next pixel
+      --this->m_Offset;
+
+      // Get the index of the last pixel on the span (row)
+      IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
+
+      const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
+      const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+
+      // Increment along a row, then wrap at the end of the region row.
+      // Check to see if we are past the last pixel in the region
+      // Note that ++ind[0] moves to the next pixel along the row.
+      bool done = (++ind[0] == startIndex[0] + static_cast<OffsetValueType>(size[0]));
+      for (unsigned int i = 1; done && i < this->ImageIteratorDimension; ++i)
+      {
+        done = (ind[i] == startIndex[i] + static_cast<OffsetValueType>(size[i]) - 1);
+      }
+
+      // if the iterator is outside the region (but not past region end) then
+      // we need to wrap around the region
+      unsigned int dim = 0;
+      if (!done)
+      {
+        while ((dim < this->ImageIteratorDimension - 1) &&
+               (ind[dim] > startIndex[dim] + static_cast<OffsetValueType>(size[dim]) - 1))
+        {
+          ind[dim] = startIndex[dim];
+          ind[++dim]++;
+        }
+      }
+      this->m_Offset = this->m_Image->ComputeOffset(ind);
+      m_SpanBeginOffset = this->m_Offset;
+      m_SpanEndOffset = this->m_Offset - static_cast<OffsetValueType>(size[0]);
+    }
+    return *this;
+  }
+
 protected: // made protected so other iterators can access
-  typename ImageType::ConstWeakPointer m_Image{};
+  WeakPointer<TImage> m_Image{};
 
   RegionType m_Region{}; // region to iterate over
 
@@ -399,16 +552,66 @@ protected: // made protected so other iterators can access
   SizeValueType m_BeginOffset{}; // offset to last pixel in region
   SizeValueType m_EndOffset{};   // offset to one pixel before first pixel
 
-  const InternalPixelType * m_Buffer{};
+  std::conditional_t<std::is_const_v<TImage>, const InternalPixelType, InternalPixelType> * m_Buffer{};
 
   AccessorType        m_PixelAccessor{};
   AccessorFunctorType m_PixelAccessorFunctor{};
+
+  SizeValueType m_SpanBeginOffset{}; // offset to last pixel in the row
+  SizeValueType m_SpanEndOffset{};   // offset to one pixel before the row
+
+private:
+  void
+  InitializeSpans()
+  {
+    const IndexType ind = this->GetIndex();
+    const auto      rowSize = static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_Offset + rowSize - 1 - (ind[0] - this->m_Region.GetIndex()[0]);
+    m_SpanEndOffset = m_SpanBeginOffset - rowSize;
+  }
 };
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageReverseIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageReverseIterator<std::remove_const_t<TImage>>;
+ImageReverseIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageReverseIterator<TImage>;
+
+/** \class ImageReverseConstIterator
+ * \brief Read-only ImageReverseIterator: ImageReverseConstIterator<TImage> behaves as
+ * ImageReverseIterator<const TImage>.
+ *
+ * It is a derived class rather than an alias template so that it supports class template argument deduction.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKCommon
+ */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageReverseConstIterator : public ImageReverseIterator<std::add_const_t<TImage>>
+{
+public:
+  /** Standard class type alias. */
+  using Self = ImageReverseConstIterator;
+  using Superclass = ImageReverseIterator<std::add_const_t<TImage>>;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(ImageReverseConstIterator);
+
+  using Superclass::Superclass;
+
+  ImageReverseConstIterator() = default;
+
+  /** Conversion from ImageReverseIterator<const TImage>. */
+  ImageReverseConstIterator(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage>
+ImageReverseConstIterator(const TImage *, const typename TImage::RegionType &) -> ImageReverseConstIterator<TImage>;
+
+template <typename TImage>
+ImageReverseConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageReverseConstIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
