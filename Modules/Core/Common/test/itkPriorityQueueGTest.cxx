@@ -19,6 +19,7 @@
 #include "itkGTest.h"
 
 #include "itkMath.h"
+#include <type_traits>
 
 TEST(PriorityQueue, ConvertedLegacyTest)
 {
@@ -26,6 +27,9 @@ TEST(PriorityQueue, ConvertedLegacyTest)
 
   using MinPQElementType = itk::MinPriorityQueueElementWrapper<size_t, double, ElementIdentifier>;
   using MaxPQElementType = itk::MaxPriorityQueueElementWrapper<size_t, double, ElementIdentifier>;
+  static_assert(
+    std::is_same_v<MinPQElementType::Superclass, itk::ElementWrapperInterface<MinPQElementType, ElementIdentifier>>);
+  static_assert(std::is_same_v<MaxPQElementType::Superclass, MinPQElementType>);
 
   using MinPQType = itk::PriorityQueueContainer<MinPQElementType, MinPQElementType, double, ElementIdentifier>;
   auto min_priority_queue = MinPQType::New();
