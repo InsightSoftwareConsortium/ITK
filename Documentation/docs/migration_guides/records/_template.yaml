@@ -1,0 +1,110 @@
+# yaml-language-server: $schema=../migration-record.schema.json
+# ITK migration record template. GENERATED from migration-record.schema.json
+# by `Utilities/Maintenance/MigrationRecords.py template`; do not edit by hand.
+#
+# Copy to records/itk<N>/YYYYMMDD_<Descriptor>.yaml, then:
+#   1. Replace the example values of the live (uncommented) fields.
+#   2. Uncomment each optional (commented) field that has a value, and
+#      fill it in. Keep a field commented while it is empty: an
+#      uncommented empty value is invalid.
+#   3. Before committing, removing unused fields and their comments is
+#      recommended. Leaving them in is allowed.
+# Every field is optional; {} is a valid record.
+# Guide: Documentation/AI/migration-records.md
+
+
+# Version of this schema the record follows.
+schema_version: 1
+
+# One line naming the change. Defaults to the file-name descriptor split into
+# words.
+title: Short name of the change
+
+# Shown above the dropdown, so it is always visible in the guide. GitHub-
+# compatible Markdown: CommonMark and pipe tables, explicit links, no MyST
+# directives or roles, no GitHub alerts.
+summary: What changed, and which downstream code it affects.
+
+# Longer explanation in the same Markdown subset as summary. The record must
+# stand on its own; reuse anything relevant from the PR body.
+# details: ''
+
+# Steps downstream code must take, one per item. Shown outside the dropdown
+# for high-impact records.
+# actions:
+#   - What downstream code must change, one step per item.
+
+# What kind of change this is. ApiRemoved, ApiDeprecated, ApiRenamed: public
+# API. ResultsChange: numeric or behavioral output differs. DefaultChanged: a
+# default value or option changed. FileFormat: what is read or written
+# changed. Performance: speed or memory changed noticeably.
+# CompilerEnvironment: compiler, language standard, or toolchain requirement.
+# Dependency: third-party minimum or option. Policy: support or policy
+# statement with no code change.
+categories:
+  - ApiDeprecated
+
+# Where downstream code must act: cxx (C++ code), python (Python code), cmake
+# (CMake build), wrapping (wrapping configuration), data (files, test
+# baselines).
+environment:
+  - cxx
+
+# Approximate downstream impact; guidance only. high: breaks most or many
+# downstream builds, needs non-trivial edits, or silently changes results in
+# common or widely used code (Remove support for ITKv5 interfaces; Modern
+# CMake interface libraries; NumPy image_from_array(arr.T) no longer
+# transpose-equivalent). medium: breaks some projects with a mechanical fix
+# such as a rename or a new minimum version (Minimum VTK 9.1; GetIndex()
+# replaced by ComputeIndex()). low: a niche API with a loud, easy fix, or a
+# notice with no action for nearly anyone (ITKVNLInstantiation removed;
+# itk::Math::sqrteps changed by 1 ULP). A ResultsChange or DefaultChanged
+# record is at least medium unless details explains why few users would
+# notice. Unrated records are listed after rated ones.
+impact: medium
+
+# Number of the pull request that introduced the change. Set it once the draft
+# PR is open; 0 is a drafting placeholder; -1 means no PR (a direct commit or
+# a pre-GitHub change).
+pr: 0
+
+# Commits related to the change: the one that introduced it first, then
+# follow-up fixes appended over time. Add hashes once they are final on main;
+# a follow-up PR also goes in links.
+# commits:
+#   - 0123456789a
+
+# Related issues, other PRs, and discussions, as full URLs.
+# links:
+#   - https://github.com/InsightSoftwareConsortium/ITK/issues/1234
+
+# Release that deprecated the old form. Quote versions: "6.0", not 6.0.
+# deprecated_in: '6.1'
+
+# Release that removed, or will remove, the old form. Quoted.
+# removed_in: '7.0'
+
+# Macro that hides the old form until it is removed.
+# legacy_guard: ITK_FUTURE_LEGACY_REMOVE
+
+# Old-to-new names, rendered as a table.
+# renames:
+#   - old: itk::OldName
+#     new: itk::NewName
+
+# Code before and after the change, in literal blocks (|). Either side may be
+# omitted; note explains the pair. language is one of cpp, python, cmake,
+# shell, text.
+# examples:
+#   - language: cpp
+#     before: |
+#       filter->OldMethod();
+#     after: |
+#       filter->NewMethod();
+
+# Freeform pointers that help people and agentic tools carry out the
+# migration: scripts in Utilities/Maintenance/, sed or grep commands, search
+# patterns, related documentation. Not shown in the generated guide.
+# hints:
+#   - Utilities/Maintenance/<script> <source-dir>
+#   - sed -i 's/OldName/NewName/g' $(grep -rl OldName <source-dir>)
