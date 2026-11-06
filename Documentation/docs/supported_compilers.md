@@ -13,7 +13,8 @@ The standard compilers for common operating systems are:
 Visual Studio includes the MSVC compiler. It can be installed for free with the [*Visual Studio Community Edition*](https://visualstudio.microsoft.com/vs/community/) application. The paid version is [*Visual Studio Professional Edition*](https://visualstudio.microsoft.com/vs/professional/). Note that [*Visual Studio Code (aka VS Code)*](https://code.visualstudio.com/) is a different project and **does not** include a C++ compiler by default.
 
 * VS2017 and earlier: **NOT supported**
-* MSVC toolset v142 (first shipped with VS2019): supported
+* VS2019 16.0 and 16.1 (MSVC 19.20 and 19.21): **NOT supported**
+* MSVC toolset v142 from VS2019 16.2 (MSVC 19.22) or later: supported
 * MSVC toolset v143 (first shipped with VS2022): supported
 
 ## GNU Compiler Collection

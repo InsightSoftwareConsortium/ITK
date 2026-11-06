@@ -45,11 +45,11 @@ if(
   AND
     CMAKE_CXX_COMPILER_VERSION
       VERSION_LESS
-      19.20
+      19.22
 )
   message(
     FATAL_ERROR
-    "Microsoft Visual Studio 2019 16.0 (MSVC 19.20) or later is required."
+    "Microsoft Visual Studio 2019 16.2 (MSVC 19.22) or later is required."
   )
 endif()
 

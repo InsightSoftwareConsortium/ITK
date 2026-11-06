@@ -190,11 +190,11 @@ namespace itk
 #endif
 
 /*
- * ITK only supports MSVC++ 14.2 and greater
- * MSVC++ 14.2 _MSC_VER == 1920 (Visual Studio 2019 Version 16.0)
+ * ITK only supports MSVC++ 14.22 and greater
+ * MSVC++ 14.22 _MSC_VER == 1922 (Visual Studio 2019 Version 16.2)
  */
-#if defined(_MSC_VER) && (_MSC_VER < 1920)
-#  error "MSVC versions before Visual Studio 2019 are not supported"
+#if defined(_MSC_VER) && (_MSC_VER < 1922)
+#  error "MSVC versions before Visual Studio 2019 16.2 are not supported"
 #endif
 #if defined(__CYGWIN__)
 #  error "The Cygwin compiler is not supported"
