@@ -17,9 +17,12 @@
  *=========================================================================*/
 
 #include "itkAdaptiveNonLocalMeansDenoisingImageFilter.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMultiThreaderBase.h"
 #include "itkGTest.h"
 
+#include <algorithm>
 #include <cmath>
 #include <optional>
 #include <random>
@@ -35,7 +38,7 @@ const ImageType::SizeType           imageSize{ { 20, 16, 30 } };
 constexpr std::mt19937::result_type noiseSeed = 42;
 
 ImageType::Pointer
-MakeNoisyImage()
+MakeNoisyImage(float signalScale = 1.0F)
 {
   auto image = ImageType::New();
   image->SetRegions(imageSize);
@@ -47,7 +50,7 @@ MakeNoisyImage()
   for (itk::ImageRegionIteratorWithIndex<ImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
   {
     const auto & index = it.GetIndex();
-    it.Set(std::abs(50.0F + 2.0F * index[0] + 3.0F * index[2] + noise()));
+    it.Set(std::abs((50.0F + 2.0F * index[0] + 3.0F * index[2]) * signalScale + noise()));
   }
   return image;
 }
@@ -71,7 +74,8 @@ Denoise(const ImageType *                            image,
         bool                                         useRicianNoiseModel,
         itk::ThreadIdType                            numberOfWorkUnits,
         const MaskType *                             mask,
-        const std::optional<ImageType::RegionType> & requestedRegion = std::nullopt)
+        const std::optional<ImageType::RegionType> & requestedRegion = std::nullopt,
+        itk::SizeValueType *                         numberOfLinearOffsetCenters = nullptr)
 {
   auto filter = FilterType::New();
   filter->SetInput(image);
@@ -88,6 +92,10 @@ Denoise(const ImageType *                            image,
     filter->GetOutput()->SetRequestedRegion(*requestedRegion);
   }
   filter->Update();
+  if (numberOfLinearOffsetCenters != nullptr)
+  {
+    *numberOfLinearOffsetCenters = filter->GetNumberOfLinearOffsetCenters();
+  }
 
   const ImageType * output = filter->GetOutput();
   return { output->GetBufferPointer(), output->GetBufferPointer() + output->GetBufferedRegion().GetNumberOfPixels() };
@@ -112,49 +120,174 @@ ValuesAt(const std::vector<float> &                output,
 
 TEST(AdaptiveNonLocalMeansDenoisingImageFilter, MatchesBaseline)
 {
-  const auto                              image = MakeNoisyImage();
-  const auto                              mask = MakeMask();
-  const ImageType::RegionType             fullRegion = image->GetLargestPossibleRegion();
-  const std::vector<ImageType::IndexType> fullIndices{
-    { { 0, 0, 0 } }, { { 7, 5, 3 } }, { { 10, 8, 15 } }, { { 14, 15, 24 } }, { { 19, 15, 29 } }
-  };
-  // Search positions two voxels outside this region have no patch voxel inside it.
-  const ImageType::RegionType             partialRegion{ { { 5, 4, 10 } }, { { 10, 8, 8 } } };
-  const std::vector<ImageType::IndexType> partialIndices{ { { 5, 4, 10 } }, { { 9, 7, 13 } }, { { 14, 11, 17 } } };
+  const auto image = MakeNoisyImage();
+  const auto mask = MakeMask();
+  // The last two voxels depend on which covering center the Rician bias gather takes.
+  const std::vector<ImageType::IndexType> indices{ { { 0, 0, 0 } },    { { 7, 5, 3 } },    { { 10, 8, 15 } },
+                                                   { { 14, 15, 24 } }, { { 19, 15, 29 } }, { { 5, 12, 5 } },
+                                                   { { 3, 12, 6 } } };
 
-  // Regression baseline: one work unit.
-  const std::vector<std::vector<double>> fullBaseline{ { 30.9319801, 73.2338638, 116.319756, 124.369247, 117.350815 },
-                                                       { 50.5600014, 74.2700119, 116.319756, 138.078995, 175.670013 },
-                                                       { 40.0166969, 73.3192902, 116.381752, 136.766998, 142.077423 },
-                                                       { 50.5600014, 74.269989, 116.381752, 143.695862, 175.670013 } };
-  // The partial-region output is out of range; these values pin it as it is, not as it should be.
-  const std::vector<std::vector<double>> partialBaseline{ { 214.356491, 2852.40698, 862.973755 },
-                                                          { 214.356491, 2852.40698, 862.973755 },
-                                                          { 19795.2949, 301765.156, 112713.0 },
-                                                          { 19795.2949, 301765.156, 112713.0 } };
-  // Contraction to FMA and the libm exp move outputs by a few float ulps between platforms.
-  constexpr double relativeTolerance = 1e-6;
+  // Regression baseline: one work unit of main, checked at every number of work units.
+  const std::vector<std::vector<double>> baseline{
+    { 30.9319801, 73.2338638, 116.319756, 124.369247, 117.350815, 73.175293, 73.8802185 },
+    { 50.5600014, 74.2700119, 116.319756, 138.078995, 175.670013, 72.4503555, 75.1968307 },
+    { 40.0166969, 73.3192902, 116.381752, 136.766998, 142.077423, 73.2446442, 73.9816513 },
+    { 50.5600014, 74.269989, 116.381752, 143.695862, 175.670013, 72.4758453, 75.2052612 }
+  };
+  // The slab summation order, contraction to FMA and the libm exp each move outputs by under 1e-6 relative.
+  constexpr double relativeTolerance = 2e-6;
 
   size_t c = 0;
   for (const bool useRicianNoiseModel : { false, true })
   {
     for (const MaskType * maskImage : std::vector<const MaskType *>{ nullptr, mask })
     {
-      for (const bool partial : { false, true })
+      for (const itk::ThreadIdType numberOfWorkUnits : { 1, 3, 8 })
       {
-        const ImageType::RegionType               region = partial ? partialRegion : fullRegion;
-        const std::vector<ImageType::IndexType> & indices = partial ? partialIndices : fullIndices;
-        const std::vector<double> &               baseline = partial ? partialBaseline[c] : fullBaseline[c];
-        const std::vector<double>                 values =
-          ValuesAt(Denoise(image, useRicianNoiseModel, 1, maskImage, region), region, indices);
+        const std::vector<double> values = ValuesAt(Denoise(image, useRicianNoiseModel, numberOfWorkUnits, maskImage),
+                                                    image->GetLargestPossibleRegion(),
+                                                    indices);
         for (size_t k = 0; k < indices.size(); ++k)
         {
-          EXPECT_NEAR(values[k], baseline[k], relativeTolerance * std::abs(baseline[k]))
+          EXPECT_NEAR(values[k], baseline[c][k], relativeTolerance * std::abs(baseline[c][k]))
             << "useRicianNoiseModel: " << useRicianNoiseModel << ", mask: " << (maskImage != nullptr)
-            << ", requested region: " << region << ", index: " << indices[k];
+            << ", numberOfWorkUnits: " << numberOfWorkUnits << ", index: " << indices[k];
         }
       }
       ++c;
     }
   }
+}
+
+TEST(AdaptiveNonLocalMeansDenoisingImageFilter, OutputDoesNotDependOnNumberOfWorkUnits)
+{
+  // Work units must run concurrently for a race between them to show.
+  if (itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() < 2)
+  {
+    GTEST_SKIP() << "Needs at least 2 threads to run work units concurrently.";
+  }
+  const auto image = MakeNoisyImage();
+  const auto mask = MakeMask();
+  for (const bool useRicianNoiseModel : { false, true })
+  {
+    for (const MaskType * maskImage : std::vector<const MaskType *>{ nullptr, mask })
+    {
+      const std::vector<float> reference = Denoise(image, useRicianNoiseModel, 1, maskImage);
+      for (const itk::ThreadIdType numberOfWorkUnits : { 3, 8 })
+      {
+        EXPECT_EQ(Denoise(image, useRicianNoiseModel, numberOfWorkUnits, maskImage), reference)
+          << "useRicianNoiseModel: " << useRicianNoiseModel << ", mask: " << (maskImage != nullptr)
+          << ", numberOfWorkUnits: " << numberOfWorkUnits;
+      }
+    }
+  }
+  // A requested region that does not start at the image origin.
+  const ImageType::RegionType requestedRegion({ { 3, 2, 5 } }, { { 12, 10, 17 } });
+  for (const bool useRicianNoiseModel : { false, true })
+  {
+    EXPECT_EQ(Denoise(image, useRicianNoiseModel, 8, mask, requestedRegion),
+              Denoise(image, useRicianNoiseModel, 1, mask, requestedRegion))
+      << "requested region, useRicianNoiseModel: " << useRicianNoiseModel;
+  }
+}
+
+TEST(AdaptiveNonLocalMeansDenoisingImageFilter, AbortStopsTheSlabPass)
+{
+  // Many thin slabs, each smaller than the progress update interval of the slab pass.
+  auto image = ImageType::New();
+  image->SetRegions(ImageType::SizeType{ { 16, 16, 512 } });
+  image->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<ImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    const auto & index = it.GetIndex();
+    it.Set(static_cast<float>(50 + (7 * index[0] + 3 * index[1] + 5 * index[2]) % 11));
+  }
+  auto filter = FilterType::New();
+  filter->SetInput(image);
+  filter->SetNeighborhoodPatchRadius(FilterType::NeighborhoodRadiusType::Filled(1));
+  filter->SetNeighborhoodSearchRadius(FilterType::NeighborhoodRadiusType::Filled(1));
+  // Two work units, so that each has many slabs left when the abort is requested.
+  filter->SetNumberOfWorkUnits(2);
+  // Progress events come from the updating thread, which also runs the first work unit; the preprocessing ends at 5 %.
+  filter->AddObserver(itk::ProgressEvent(), [&filter](const itk::EventObject &) {
+    if (filter->GetProgress() > 0.1F)
+    {
+      filter->AbortGenerateDataOn();
+    }
+  });
+  EXPECT_THROW(filter->Update(), itk::ProcessAborted);
+}
+
+namespace
+{
+void
+CheckRequestedRegionsMatchFullOutput(const ImageType *                          image,
+                                     const MaskType *                           mask,
+                                     const std::vector<ImageType::RegionType> & requestedRegions)
+{
+  for (const auto & requestedRegion : requestedRegions)
+  {
+    ASSERT_TRUE(image->GetLargestPossibleRegion().IsInside(requestedRegion)) << requestedRegion;
+  }
+  for (const bool useRicianNoiseModel : { false, true })
+  {
+    for (const MaskType * maskImage : std::vector<const MaskType *>{ nullptr, mask })
+    {
+      itk::SizeValueType       linearCenters = 0;
+      const std::vector<float> full = Denoise(image, useRicianNoiseModel, 4, maskImage, std::nullopt, &linearCenters);
+      // The full run takes the linear path for interior centers and the indexed path near the border.
+      EXPECT_GT(linearCenters, 0u);
+      EXPECT_LT(linearCenters, image->GetLargestPossibleRegion().GetNumberOfPixels());
+      for (const auto & requestedRegion : requestedRegions)
+      {
+        std::vector<float> expected;
+        for (itk::ImageRegionConstIteratorWithIndex<ImageType> it(image, requestedRegion); !it.IsAtEnd(); ++it)
+        {
+          expected.push_back(full[image->ComputeOffset(it.GetIndex())]);
+        }
+        EXPECT_EQ(Denoise(image, useRicianNoiseModel, 4, maskImage, requestedRegion, &linearCenters), expected)
+          << "useRicianNoiseModel: " << useRicianNoiseModel << ", mask: " << (maskImage != nullptr)
+          << ", requested region: " << requestedRegion;
+        EXPECT_EQ(linearCenters, 0u) << "requested region: " << requestedRegion;
+      }
+    }
+  }
+}
+
+// The same pixel values on a region with a non-zero index and anisotropic spacing.
+template <typename TImage>
+typename TImage::Pointer
+Relocate(const TImage * image)
+{
+  const typename TImage::IndexType index{ { 3, -2, 5 } };
+  auto                             relocated = TImage::New();
+  relocated->SetRegions(typename TImage::RegionType(index, image->GetLargestPossibleRegion().GetSize()));
+  relocated->SetSpacing(itk::MakeVector(1.0, 1.5, 0.7));
+  relocated->Allocate();
+  std::copy(image->GetBufferPointer(),
+            image->GetBufferPointer() + image->GetBufferedRegion().GetNumberOfPixels(),
+            relocated->GetBufferPointer());
+  return relocated;
+}
+} // namespace
+
+// Partial regions whose read region is smaller than the image take the indexed path; compare them with the full run.
+TEST(AdaptiveNonLocalMeansDenoisingImageFilter, RequestedRegionMatchesFullOutput)
+{
+  CheckRequestedRegionsMatchFullOutput(MakeNoisyImage(),
+                                       MakeMask(),
+                                       { { { { 5, 4, 10 } }, { { 10, 8, 8 } } },
+                                         { { { 0, 9, 21 } }, { { 7, 7, 9 } } },
+                                         { { { 13, 0, 2 } }, { { 1, 16, 3 } } } });
+}
+
+TEST(AdaptiveNonLocalMeansDenoisingImageFilter, RequestedRegionMatchesFullOutputWithIndexAndSpacing)
+{
+  // The slab grid starts at the region index, the bias kernel radius differs per axis, and at this low signal to
+  // noise ratio the Rician bias, and so its padding, changes the output.
+  CheckRequestedRegionsMatchFullOutput(Relocate(MakeNoisyImage(0.08F).GetPointer()),
+                                       Relocate(MakeMask().GetPointer()),
+                                       { { { { 8, 2, 15 } }, { { 10, 8, 8 } } },
+                                         { { { 3, 7, 26 } }, { { 7, 7, 9 } } },
+                                         { { { 16, -2, 7 } }, { { 1, 16, 3 } } } });
 }
