@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkFrequencyImageRegionConstIteratorWithIndex_h
-#define itkFrequencyImageRegionConstIteratorWithIndex_h
+#ifndef itkFrequencyImageRegionIteratorWithIndex_h
+#define itkFrequencyImageRegionIteratorWithIndex_h
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
 /**
- * \class FrequencyImageRegionConstIteratorWithIndex
+ * \class FrequencyImageRegionIteratorWithIndex
  * \brief A multi-dimensional iterator templated over image type that walks
  * pixels within a region and is specialized to keep track of its image index
  * location.
@@ -75,11 +75,11 @@ namespace itk
  *
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT FrequencyImageRegionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT FrequencyImageRegionIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type alias. */
-  using Self = FrequencyImageRegionConstIteratorWithIndex;
+  using Self = FrequencyImageRegionIteratorWithIndex;
   using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
@@ -97,7 +97,7 @@ public:
   using FrequencyType = typename ImageType::SpacingType;
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. */
-  FrequencyImageRegionConstIteratorWithIndex()
+  FrequencyImageRegionIteratorWithIndex()
     : ImageRegionConstIteratorWithIndex<TImage>()
   {
     this->Init();
@@ -105,7 +105,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  FrequencyImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+  FrequencyImageRegionIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {
     this->Init();
@@ -117,7 +117,7 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
+  explicit FrequencyImageRegionIteratorWithIndex(const Superclass & it)
     : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
     this->Init();
