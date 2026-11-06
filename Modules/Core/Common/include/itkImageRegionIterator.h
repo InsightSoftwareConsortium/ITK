@@ -36,8 +36,8 @@ namespace itk
  * reaches the boundary of the image.  To walk the entire image, specify the
  * region to be \c image->GetRequestedRegion().
  *
- * ImageRegionIterator provides read-only access to image data.  It is the
- * base class for the read/write access ImageRegionIterator.
+ * The constness of TImage selects the access: ImageRegionIterator<const TImage>
+ * (equivalently ImageRegionConstIterator<TImage>) is read-only.
  *
  * ImageRegionIterator is a multi-dimensional iterator, requiring more
  * information be specified before the iterator can be used than conventional
@@ -104,15 +104,19 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Core/Common/IterateRegionWithoutWriteAccess,Iterate Region In Image Without Write Access}
+ * \sphinxexample{Core/Common/IterateRegionWithWriteAccess,Iterate Region In Image With Write Access}
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionIterator : public ImageConstIterator<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionIterator : public ImageIterator<TImage>
 {
+  template <typename>
+  friend class ImageRegionIterator;
+
 public:
   /** Standard class type alias. */
   using Self = ImageRegionIterator;
-  using Superclass = ImageConstIterator<TImage>;
+  using Superclass = ImageIterator<TImage>;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -147,8 +151,8 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionIterator(const TImage * ptr, const RegionType & region)
-    : ImageConstIterator<TImage>(ptr, region)
+  ImageRegionIterator(TImage * ptr, const RegionType & region)
+    : Superclass(ptr, region)
     , m_SpanBeginOffset(this->m_BeginOffset)
     , m_SpanEndOffset(this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {}
@@ -159,31 +163,23 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIterator. */
-  ImageRegionIterator(const ImageIterator<TImage> & it)
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageRegionIterator(const ImageIterator<TOtherImage> & it)
+    : Superclass(it)
   {
-    this->ImageConstIterator<TImage>::operator=(it);
-
     IndexType ind = this->GetIndex();
     m_SpanEndOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
                       (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanBeginOffset = m_SpanEndOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
 
-  /** Constructor that can be used to cast from an ImageConstIterator to an
-   * ImageRegionIterator. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRegionIterator.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionIterator. */
-  ImageRegionIterator(const ImageConstIterator<TImage> & it)
-  {
-    this->ImageConstIterator<TImage>::operator=(it);
-
-    IndexType ind = this->GetIndex();
-    m_SpanEndOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
-                      (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanBeginOffset = m_SpanEndOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
-  }
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageRegionIterator(const ImageRegionIterator<TOtherImage> & it)
+    : Superclass(it)
+    , m_SpanBeginOffset(it.m_SpanBeginOffset)
+    , m_SpanEndOffset(it.m_SpanEndOffset)
+  {}
 
   /** Move an iterator to the beginning of the region. "Begin" is
    * defined as the first pixel in the region. */
@@ -270,8 +266,44 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRegionIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRegionIterator<std::remove_const_t<TImage>>;
+ImageRegionIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageRegionIterator<TImage>;
+
+/** \class ImageRegionConstIterator
+ * \brief Read-only ImageRegionIterator: ImageRegionConstIterator<TImage> behaves as ImageRegionIterator<const TImage>.
+ *
+ * It is a derived class rather than an alias template so that it supports class template argument deduction.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKCommon
+ */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionConstIterator : public ImageRegionIterator<std::add_const_t<TImage>>
+{
+public:
+  /** Standard class type alias. */
+  using Self = ImageRegionConstIterator;
+  using Superclass = ImageRegionIterator<std::add_const_t<TImage>>;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(ImageRegionConstIterator);
+
+  using Superclass::Superclass;
+
+  ImageRegionConstIterator() = default;
+
+  /** Conversion from ImageRegionIterator<const TImage>. */
+  ImageRegionConstIterator(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRegionConstIterator(const TImage *, const typename TImage::RegionType &) -> ImageRegionConstIterator<TImage>;
+
+template <typename TImage>
+ImageRegionConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionConstIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
