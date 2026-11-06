@@ -1,0 +1,12 @@
+title: Rename `operator|`
+summary: |
+  Python code in a tilde fence:
+
+  ~~~python
+  @dataclass
+  class Point: ...
+  ~~~
+renames:
+  - old: a|b
+    new: c
+impact: low

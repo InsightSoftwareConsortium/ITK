@@ -1,0 +1,11 @@
+title: A change with a multi-line action
+impact: high
+pr: 1234
+actions:
+  - |
+    Replace the old call.
+
+    ```cpp
+    filter->NewMethod();
+    ```
+  - Rebuild.

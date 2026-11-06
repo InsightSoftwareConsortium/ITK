@@ -176,6 +176,10 @@ fi
 (Utilities/GitSetup/setup-precommit  ||
  echo 'Failed to setup pre-commit.') && echo &&
 
+# Generate the git-ignored migration guides; the pre-commit hook keeps them current.
+("$(git rev-parse --git-dir)/hooks/pixi/bin/pixi" run migration-guides >/dev/null 2>&1 ||
+ echo 'Could not generate the migration guides; run: pixi run migration-guides') &&
+
 # Record the version of this setup so Hooks/pre-commit can check it.
-SetupForDevelopment_VERSION=12
+SetupForDevelopment_VERSION=13
 git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}

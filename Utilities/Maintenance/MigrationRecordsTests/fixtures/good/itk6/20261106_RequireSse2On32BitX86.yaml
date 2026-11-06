@@ -1,0 +1,16 @@
+title: 32-bit x86 requires SSE2 floating-point math
+summary: |
+  A 32-bit x86 build or client without SSE2 math stops at an `#error`.
+categories:
+  - CompilerEnvironment
+environment:
+  - cxx
+  - cmake
+impact: medium
+pr: 7125
+actions:
+  - Add `-msse2 -mfpmath=sse` (GCC, Clang) or `/arch:SSE2` (MSVC).
+examples:
+  - language: text
+    after: |
+      itkConfigure.h: error: "ITK requires SSE2 floating-point math on 32-bit x86"

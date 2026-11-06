@@ -177,6 +177,17 @@ could serve as the start of the new release branch.
 After creating the release branch, submit another merge request to update the
 main branch's minor version number.
 
+Assign migration records to the release
+---------------------------------------
+
+Before tagging, list the unreleased migration records under the new version:
+
+```bash
+python Utilities/Maintenance/MigrationRecords.py release 6.0b03
+git add -- Documentation/docs/migration_guides/records/itk6/releases.yaml
+git commit -m "DOC: Assign migration records to ITK 6.0b03"
+```
+
 Update Zenodo Citation Configuration
 ------------------------------------
 

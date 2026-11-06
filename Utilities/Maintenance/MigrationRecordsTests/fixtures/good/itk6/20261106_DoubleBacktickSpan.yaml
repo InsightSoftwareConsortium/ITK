@@ -1,0 +1,3 @@
+summary: |
+  A double-backtick span such as ``#42`` or ``@user`` is code, not a reference.
+impact: low
