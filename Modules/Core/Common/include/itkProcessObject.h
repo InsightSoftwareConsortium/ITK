@@ -504,6 +504,17 @@ public:
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
   /** @ITKEndGrouping */
 
+  /** Get/Set the number of work units per thread of the multithreader. A non-zero ratio sets the default
+   * NumberOfWorkUnits to ratio * GetMultiThreader()->GetMaximumNumberOfThreads(), clamped to
+   * [1, ITK_MAX_THREADS]. Zero (the default) keeps the default number of work units of the multithreader,
+   * which differs between multithreaders. Filters with a high cost per work unit can set a low ratio.
+   * A NumberOfWorkUnits set explicitly is kept. */
+  /** @ITKStartGrouping */
+  virtual void
+  SetWorkUnitToThreadRatio(unsigned int ratio);
+  itkGetConstMacro(WorkUnitToThreadRatio, unsigned int);
+  /** @ITKEndGrouping */
+
   /** Return the multithreader used by this class. */
   MultiThreaderBase *
   GetMultiThreader() const
@@ -1008,6 +1019,7 @@ private:
    * (e.g., ImageSource). */
   itk::SmartPointer<MultiThreaderBase> m_MultiThreader;
   ThreadIdType                         m_NumberOfWorkUnits{};
+  unsigned int                         m_WorkUnitToThreadRatio{ 0 };
 
   bool m_ThreaderUpdateProgress{ true };
 

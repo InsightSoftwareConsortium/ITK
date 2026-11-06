@@ -34,6 +34,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::LabelStatisticsImageFilter
   Self::AddRequiredInputName("LabelInput");
   m_NumBins.SetSize(1);
   m_NumBins[0] = 256;
+  // Each work unit builds and merges statistics, and optionally a histogram, for every label it sees.
+  this->SetWorkUnitToThreadRatio(2);
 }
 
 template <typename TInputImage, typename TLabelImage>

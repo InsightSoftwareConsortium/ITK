@@ -47,6 +47,9 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   this->SetPrimaryInputName("FeaturePoints");
   this->AddRequiredInputName("FixedImage");
   this->AddRequiredInputName("MovingImage");
+
+  // Work units get FeaturePoints / NumberOfWorkUnits points each, and the last one gets the remainder.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 template <typename TFixedImage,

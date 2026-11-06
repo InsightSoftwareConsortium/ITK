@@ -33,7 +33,10 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::BinaryImageToLabelMapFil
   : ScanlineFilterCommon<TInputImage, TOutputImage>(this)
   , m_OutputBackgroundValue(NumericTraits<OutputPixelType>::NonpositiveMin())
   , m_InputForegroundValue(NumericTraits<InputPixelType>::max())
-{}
+{
+  // Each work-unit boundary adds a line to the serial label-equivalence pass.
+  this->SetWorkUnitToThreadRatio(1);
+}
 
 template <typename TInputImage, typename TOutputImage>
 void

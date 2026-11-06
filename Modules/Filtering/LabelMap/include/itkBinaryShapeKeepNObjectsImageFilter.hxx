@@ -28,7 +28,10 @@ BinaryShapeKeepNObjectsImageFilter<TInputImage>::BinaryShapeKeepNObjectsImageFil
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
   , m_ForegroundValue(NumericTraits<OutputImagePixelType>::max())
   , m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
-{}
+{
+  // Forwarded to the internal BinaryImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(1);
+}
 
 template <typename TInputImage>
 void

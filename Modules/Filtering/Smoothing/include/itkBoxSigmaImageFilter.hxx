@@ -38,6 +38,8 @@ template <typename TInputImage, typename TOutputImage>
 BoxSigmaImageFilter<TInputImage, TOutputImage>::BoxSigmaImageFilter()
 {
   this->DynamicMultiThreadingOn();
+  // Each work unit pads its region by the radius and accumulates the padded region.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 template <typename TInputImage, typename TOutputImage>

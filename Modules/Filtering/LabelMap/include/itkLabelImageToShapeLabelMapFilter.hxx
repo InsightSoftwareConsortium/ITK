@@ -27,7 +27,10 @@ template <typename TInputImage, typename TOutputImage>
 LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::LabelImageToShapeLabelMapFilter()
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
   , m_ComputePerimeter(true)
-{}
+{
+  // Forwarded to the internal LabelImageToLabelMapFilter.
+  this->SetWorkUnitToThreadRatio(2);
+}
 
 template <typename TInputImage, typename TOutputImage>
 void

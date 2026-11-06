@@ -45,6 +45,16 @@ constexpr char   globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDE
                                                                                                  "_4", "_5", "_6", "_7",
                                                                                                  "_8", "_9" };
 
+ThreadIdType
+DefaultNumberOfWorkUnits(const MultiThreaderBase & threader, unsigned int workUnitToThreadRatio)
+{
+  if (workUnitToThreadRatio == 0)
+  {
+    return threader.GetNumberOfWorkUnits();
+  }
+  const uint64_t workUnits = uint64_t{ workUnitToThreadRatio } * threader.GetMaximumNumberOfThreads();
+  return static_cast<ThreadIdType>(std::clamp<uint64_t>(workUnits, 1, ITK_MAX_THREADS));
+}
 } // namespace
 
 
@@ -1260,6 +1270,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;
   os << indent << "NumberOfWorkUnits: " << m_NumberOfWorkUnits << std::endl;
+  os << indent << "WorkUnitToThreadRatio: " << m_WorkUnitToThreadRatio << std::endl;
   itkPrintSelfBooleanMacro(ReleaseDataBeforeUpdateFlag);
   itkPrintSelfBooleanMacro(AbortGenerateData);
   os << indent << "Progress: " << progressFixedToFloat(m_Progress) << std::endl;
@@ -1559,13 +1570,13 @@ ProcessObject::SetMultiThreader(MultiThreaderBase * threader)
     if (this->m_MultiThreader.IsNull())
     {
       this->m_MultiThreader = threader;
-      m_NumberOfWorkUnits = m_MultiThreader->GetNumberOfWorkUnits();
+      m_NumberOfWorkUnits = DefaultNumberOfWorkUnits(*m_MultiThreader, m_WorkUnitToThreadRatio);
     }
     else
     {
-      const ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
+      const ThreadIdType oldDefaultNumber = DefaultNumberOfWorkUnits(*m_MultiThreader, m_WorkUnitToThreadRatio);
       this->m_MultiThreader = threader;
-      const ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
+      const ThreadIdType newDefaultNumber = DefaultNumberOfWorkUnits(*m_MultiThreader, m_WorkUnitToThreadRatio);
       if (m_NumberOfWorkUnits == oldDefaultNumber)
       {
         m_NumberOfWorkUnits = newDefaultNumber;
@@ -1574,6 +1585,26 @@ ProcessObject::SetMultiThreader(MultiThreaderBase * threader)
       {
         m_NumberOfWorkUnits = std::min(m_NumberOfWorkUnits, newDefaultNumber);
       }
+    }
+    this->Modified();
+  }
+}
+
+
+void
+ProcessObject::SetWorkUnitToThreadRatio(unsigned int ratio)
+{
+  if (m_WorkUnitToThreadRatio != ratio)
+  {
+    const ThreadIdType oldDefaultNumber = DefaultNumberOfWorkUnits(*m_MultiThreader, m_WorkUnitToThreadRatio);
+    m_WorkUnitToThreadRatio = ratio;
+    if (m_NumberOfWorkUnits == oldDefaultNumber)
+    {
+      const ThreadIdType newDefaultNumber = DefaultNumberOfWorkUnits(*m_MultiThreader, m_WorkUnitToThreadRatio);
+      // Virtual, so composite filters forward the new count to their internal filters.
+      this->SetNumberOfWorkUnits(newDefaultNumber);
+      // The setter clamps to ITK_MAX_THREADS; keep the unclamped default, as SetMultiThreader does.
+      m_NumberOfWorkUnits = newDefaultNumber;
     }
     this->Modified();
   }

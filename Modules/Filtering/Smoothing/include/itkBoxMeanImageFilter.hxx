@@ -37,6 +37,8 @@ template <typename TInputImage, typename TOutputImage>
 BoxMeanImageFilter<TInputImage, TOutputImage>::BoxMeanImageFilter()
 {
   this->DynamicMultiThreadingOn();
+  // Each work unit pads its region by the radius and accumulates the padded region.
+  this->SetWorkUnitToThreadRatio(1);
 }
 
 template <typename TInputImage, typename TOutputImage>
