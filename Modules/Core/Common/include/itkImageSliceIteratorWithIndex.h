@@ -18,7 +18,7 @@
 #ifndef itkImageSliceIteratorWithIndex_h
 #define itkImageSliceIteratorWithIndex_h
 
-#include "itkImageConstIteratorWithIndex.h"
+#include "itkImageIteratorWithIndex.h"
 #include <type_traits> // For remove_const_t.
 
 namespace itk
@@ -111,12 +111,15 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageSliceIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ImageSliceIteratorWithIndex : public ImageIteratorWithIndex<TImage>
 {
+  template <typename>
+  friend class ImageSliceIteratorWithIndex;
+
 public:
   /** Standard class type aliases. */
   using Self = ImageSliceIteratorWithIndex;
-  using Superclass = ImageConstIteratorWithIndex<TImage>;
+  using Superclass = ImageIteratorWithIndex<TImage>;
 
   /** Inherit types from the superclass */
   using typename Superclass::IndexType;
@@ -137,8 +140,8 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageSliceIteratorWithIndex(const TImage * ptr, const RegionType & region)
-    : ImageConstIteratorWithIndex<TImage>(ptr, region)
+  ImageSliceIteratorWithIndex(TImage * ptr, const RegionType & region)
+    : Superclass(ptr, region)
     , m_PixelJump(0)
     , m_LineJump(0)
     , m_Direction_A(0)
@@ -151,10 +154,20 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageSliceIteratorWithIndex. */
-  ImageSliceIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
-  {
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-  }
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageSliceIteratorWithIndex(const ImageIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+  {}
+
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageSliceIteratorWithIndex(const ImageSliceIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+    , m_PixelJump(it.m_PixelJump)
+    , m_LineJump(it.m_LineJump)
+    , m_Direction_A(it.m_Direction_A)
+    , m_Direction_B(it.m_Direction_B)
+  {}
 
   /** Go to the next line
    * \sa operator++ \sa EndOfLine \sa End \sa NextSlice */
@@ -226,7 +239,44 @@ private:
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
 ImageSliceIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageSliceIteratorWithIndex<std::remove_const_t<TImage>>;
+  -> ImageSliceIteratorWithIndex<TImage>;
+
+/** \class ImageSliceConstIteratorWithIndex
+ * \brief Read-only ImageSliceIteratorWithIndex: ImageSliceConstIteratorWithIndex<TImage> behaves as
+ * ImageSliceIteratorWithIndex<const TImage>.
+ *
+ * It is a derived class rather than an alias template so that it supports class template argument deduction.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKCommon
+ */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageSliceConstIteratorWithIndex
+  : public ImageSliceIteratorWithIndex<std::add_const_t<TImage>>
+{
+public:
+  /** Standard class type alias. */
+  using Self = ImageSliceConstIteratorWithIndex;
+  using Superclass = ImageSliceIteratorWithIndex<std::add_const_t<TImage>>;
+
+  using Superclass::Superclass;
+
+  ImageSliceConstIteratorWithIndex() = default;
+
+  /** Conversion from ImageSliceIteratorWithIndex<const TImage>. */
+  ImageSliceConstIteratorWithIndex(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage>
+ImageSliceConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> ImageSliceConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+ImageSliceConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageSliceConstIteratorWithIndex<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 

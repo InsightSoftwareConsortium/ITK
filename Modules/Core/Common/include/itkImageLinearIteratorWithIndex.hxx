@@ -25,9 +25,8 @@ namespace itk
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const TImage *     ptr,
-                                                                             const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(TImage * ptr, const RegionType & region)
+  : ImageIteratorWithIndex<TImage>(ptr, region)
 {
   this->SetDirection(0);
 }
