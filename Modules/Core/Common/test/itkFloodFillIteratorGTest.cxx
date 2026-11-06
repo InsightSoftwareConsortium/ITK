@@ -22,6 +22,23 @@
 #include "itkGTest.h"
 
 #include <iostream>
+#include "itkFloodFilledImageFunctionConditionalIterator.h"
+#include "itkShapedFloodFilledImageFunctionConditionalIterator.h"
+#include <type_traits>
+
+namespace
+{
+// HasSet tells whether `Set(pixel)` can be called on the specified iterator type.
+template <typename TIterator, typename = void>
+struct HasSet : std::false_type
+{};
+
+template <typename TIterator>
+struct HasSet<TIterator,
+              std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
+  : std::true_type
+{};
+} // namespace
 
 
 TEST(FloodFillIterator, SphereFloodFill)
@@ -74,4 +91,18 @@ TEST(FloodFillIterator, SphereFloodFill)
   }
 
   std::cout << "Spatial function iterator created, sphere drawn" << std::endl;
+}
+
+
+// Checks that only the writable flood-filled iterators provide Set().
+TEST(FloodFillIterator, OnlyWritableIteratorsSet)
+{
+  using ImageType = itk::Image<int, 2>;
+  using FunctionType = itk::SphereSpatialFunction<2>;
+  static_assert(HasSet<itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, FunctionType>>::value &&
+                !HasSet<itk::FloodFilledSpatialFunctionConditionalConstIterator<ImageType, FunctionType>>::value);
+  static_assert(HasSet<itk::FloodFilledImageFunctionConditionalIterator<ImageType, FunctionType>>::value &&
+                !HasSet<itk::FloodFilledImageFunctionConditionalConstIterator<ImageType, FunctionType>>::value);
+  static_assert(HasSet<itk::ShapedFloodFilledImageFunctionConditionalIterator<ImageType, FunctionType>>::value &&
+                !HasSet<itk::ShapedFloodFilledImageFunctionConditionalConstIterator<ImageType, FunctionType>>::value);
 }
