@@ -28,19 +28,15 @@
 
 #include <iostream>
 
-// return true if it fails the validation
-inline bool
-Validate(double input, double desired, double tolerance)
-{
-  return std::fabs(input - desired) > tolerance * std::fabs(desired);
-}
-
 // Returns true if images are different
 template <typename ImageType>
 bool
 imagesDifferent(ImageType * baselineImage, ImageType * outputImage)
 {
-  constexpr double tol{ 1.e-3 }; // tolerance
+  constexpr auto areValuesDifferent = [](double input, double desired) {
+    constexpr double tolerance{ 1.e-3 };
+    return std::fabs(input - desired) > tolerance * std::fabs(desired);
+  };
 
   typename ImageType::PointType     origin = outputImage->GetOrigin();
   typename ImageType::DirectionType direction = outputImage->GetDirection();
@@ -54,11 +50,11 @@ imagesDifferent(ImageType * baselineImage, ImageType * outputImage)
   bool result = false; // no difference by default
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
   {
-    result = (result || Validate(origin[i], origin_d[i], tol));
-    result = (result || Validate(spacing[i], spacing_d[i], tol));
+    result = (result || areValuesDifferent(origin[i], origin_d[i]));
+    result = (result || areValuesDifferent(spacing[i], spacing_d[i]));
     for (unsigned int j = 0; j < ImageType::ImageDimension; ++j)
     {
-      result = (result || Validate(direction(i, j), direction_d(i, j), tol));
+      result = (result || areValuesDifferent(direction(i, j), direction_d(i, j)));
     }
   }
 
@@ -70,7 +66,7 @@ imagesDifferent(ImageType * baselineImage, ImageType * outputImage)
   it2.GoToBegin();
   while (!it1.IsAtEnd())
   {
-    result = (result || Validate(it1.Get(), it2.Get(), tol));
+    result = (result || areValuesDifferent(it1.Get(), it2.Get()));
     ++it1;
     ++it2;
   }
