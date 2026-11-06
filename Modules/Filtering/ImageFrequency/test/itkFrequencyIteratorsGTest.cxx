@@ -387,3 +387,14 @@ TEST(FrequencyIteratorConversions, OnlyWritableIteratorsSet)
   static_assert(HasSet<itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>::value &&
                 !HasSet<itk::FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<ImageType>>::value);
 }
+
+
+// Checks that the frequency iterators provide no Set() for a const image.
+TEST(FrequencyIteratorConversions, SetRequiresNonConstImage)
+{
+  using ImageType = itk::Image<float, 2>;
+  static_assert(!HasSet<itk::FrequencyImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(!HasSet<itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(!HasSet<itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+  static_assert(!HasSet<itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<const ImageType>>::value);
+}

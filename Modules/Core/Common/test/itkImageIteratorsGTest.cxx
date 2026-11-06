@@ -298,6 +298,15 @@ struct HasSet<TIterator,
   : std::true_type
 {};
 
+// Checks that the writable iterator template provides Set() for a non-const image, and not for a const image.
+template <template <typename> typename... TIteratorTemplate>
+constexpr bool
+AreWritableOnlyForNonConstImages()
+{
+  using ImageType = itk::Image<int>;
+  return ((HasSet<TIteratorTemplate<ImageType>>::value && !HasSet<TIteratorTemplate<const ImageType>>::value) && ...);
+}
+
 // HasAssignableValue tells whether a pixel can be assigned through the reference returned by `Value()`.
 template <typename TIterator, typename = void>
 struct HasAssignableValue : std::false_type
@@ -318,6 +327,17 @@ OnlyWritableNamesWrite(std::tuple<TPair...>)
   return ((HasSet<typename TPair::MutableIt>::value && !HasSet<typename TPair::ConstIt>::value &&
            HasAssignableValue<typename TPair::MutableIt>::value &&
            !HasAssignableValue<typename TPair::ConstIt>::value) &&
+          ...);
+}
+
+// Checks that `Value()` is assignable for a non-const image, and not for a const image.
+template <template <typename> typename... TIteratorTemplate>
+constexpr bool
+AreValueAssignableOnlyForNonConstImages()
+{
+  using ImageType = itk::Image<int>;
+  return ((HasAssignableValue<TIteratorTemplate<ImageType>>::value &&
+           !HasAssignableValue<TIteratorTemplate<const ImageType>>::value) &&
           ...);
 }
 
@@ -640,6 +660,40 @@ TEST(ImageIterators, OnlyWritableIteratorsWrite)
   static_assert(HasSet<itk::ImageReverseIterator<ImageType>>::value);
   static_assert(HasSet<itk::ImageRegionReverseIterator<ImageType>>::value);
   static_assert(HasSet<itk::LineIterator<ImageType>>::value && !HasSet<itk::LineConstIterator<ImageType>>::value);
+}
+
+
+// Checks that iterators over a const image provide no write access (issue #7003).
+TEST(ImageIterators, NoWriteAccessToConstImage)
+{
+  static_assert(AreWritableOnlyForNonConstImages<itk::ImageIterator,
+                                                 itk::ImageRegionIterator,
+                                                 itk::ImageScanlineIterator,
+                                                 itk::ImageReverseIterator,
+                                                 itk::ImageRegionReverseIterator,
+                                                 itk::ImageIteratorWithIndex,
+                                                 itk::ImageRegionIteratorWithIndex,
+                                                 itk::ImageLinearIteratorWithIndex,
+                                                 itk::ImageSliceIteratorWithIndex,
+                                                 itk::ImageRandomIteratorWithIndex,
+                                                 itk::ImageRandomNonRepeatingIteratorWithIndex,
+                                                 itk::ImageRegionExclusionIteratorWithIndex,
+                                                 itk::LineIterator>());
+  static_assert(AreValueAssignableOnlyForNonConstImages<itk::ImageIterator,
+                                                        itk::ImageRegionIterator,
+                                                        itk::ImageScanlineIterator,
+                                                        itk::ImageReverseIterator,
+                                                        itk::ImageRegionReverseIterator,
+                                                        itk::ImageIteratorWithIndex,
+                                                        itk::ImageRegionIteratorWithIndex,
+                                                        itk::ImageLinearIteratorWithIndex,
+                                                        itk::ImageSliceIteratorWithIndex,
+                                                        itk::ImageRandomIteratorWithIndex,
+                                                        itk::ImageRandomNonRepeatingIteratorWithIndex,
+                                                        itk::ImageRegionExclusionIteratorWithIndex>());
+  using ImageType = itk::Image<int>;
+  static_assert(!HasSet<itk::ImageReverseConstIterator<ImageType>>::value);
+  static_assert(!HasSet<itk::ImageRegionReverseConstIterator<ImageType>>::value);
 }
 
 
