@@ -20,7 +20,8 @@
 
 #include "itkCompensatedSummation.h"
 #include <algorithm>
-#include <mutex>
+#include <cstdint>
+#include <limits>
 
 namespace itk
 {
@@ -337,25 +338,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMovingImage,
                                             TVirtualImage,
                                             TInternalComputationValueType,
-                                            TMetricTraits>::FinalizeThread(const ThreadIdType threadId)
-{
-  if (this->GetComputeDerivative() && (!this->HasLocalSupport()))
-  {
-    this->m_ThreaderDerivativeManager[threadId].BlockAndReduce();
-  }
-}
-
-
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TVirtualImage,
-          typename TInternalComputationValueType,
-          typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
                                             TMetricTraits>::ComputeResults() const
 {
   if (this->GetNumberOfValidPoints() == 0)
@@ -572,6 +554,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMetricTraits>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "MaximumJointPDFDerivativesBytes: " << this->m_MaximumJointPDFDerivativesBytes << std::endl;
 }
 
 template <typename TFixedImage,
@@ -618,163 +601,37 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TInternalComputationValueType,
           typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager ::
-  Initialize(size_t                                    maxBufferLength,
-             const size_t                              cachedNumberOfLocalParameters,
-             std::mutex *                              parentDerivativeMutexPtr,
-             typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives)
+ThreadIdType
+MattesMutualInformationImageToImageMetricv4<
+  TFixedImage,
+  TMovingImage,
+  TVirtualImage,
+  TInternalComputationValueType,
+  TMetricTraits>::ComputeMaximumNumberOfDerivativeWorkUnits(const uint64_t     numberOfHistogramBins,
+                                                            const uint64_t     numberOfLocalParameters,
+                                                            const ThreadIdType numberOfThreads,
+                                                            const uint64_t     maximumJointPDFDerivativesBytes)
 {
-  const size_t bytesPerEntry = sizeof(PDFValueType) * std::max<size_t>(1, cachedNumberOfLocalParameters);
-  maxBufferLength =
-    std::clamp<size_t>(maxBufferLength, 1, std::max<size_t>(1, MaximumMemoryBlockBytes / bytesPerEntry));
-  m_CurrentFillSize = 0;
-  m_MemoryBlockSize = cachedNumberOfLocalParameters * maxBufferLength;
-  m_BufferPDFValuesContainer.resize(maxBufferLength, nullptr);
-  m_BufferOffsetContainer.resize(maxBufferLength, 0);
-  m_CachedNumberOfLocalParameters = cachedNumberOfLocalParameters;
-  m_MaxBufferSize = maxBufferLength;
-  m_ParentJointPDFDerivativesMutexPtr = parentDerivativeMutexPtr;
-  m_ParentJointPDFDerivatives = parentJointPDFDerivatives;
-  // Allocate and initialize to zero (note the () at the end of the new
-  // operator)
-  // the memory as a single block
-  m_MemoryBlock.resize(m_MemoryBlockSize, 0.0);
-  for (size_t index = 0; index < maxBufferLength; ++index)
+  // 64-bit products that saturate, because SizeValueType is 32-bit on some platforms.
+  constexpr uint64_t maximumBytes = std::numeric_limits<uint64_t>::max();
+  uint64_t           arrayBytes = sizeof(JointPDFDerivativesValueType);
+  for (const uint64_t factor : { numberOfHistogramBins, numberOfHistogramBins, numberOfLocalParameters })
   {
-    this->m_BufferPDFValuesContainer[index] = &(this->m_MemoryBlock[0]) + index * m_CachedNumberOfLocalParameters;
+    const uint64_t nonzeroFactor = std::max<uint64_t>(1, factor);
+    arrayBytes = arrayBytes > maximumBytes / nonzeroFactor ? maximumBytes : arrayBytes * nonzeroFactor;
   }
-}
-
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TVirtualImage,
-          typename TInternalComputationValueType,
-          typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager::DoubleBufferSize()
-{
-  m_MaxBufferSize = m_MaxBufferSize * 2;
-  m_MemoryBlockSize = m_MemoryBlockSize * 2;
-  m_BufferPDFValuesContainer.resize(m_MaxBufferSize, nullptr);
-  m_BufferOffsetContainer.resize(m_MaxBufferSize, 0);
-  m_MemoryBlock.resize(m_MemoryBlockSize, 0.0);
-  for (size_t index = 0; index < m_MaxBufferSize; ++index)
+  const uint64_t threads = std::max<uint64_t>(1, numberOfThreads);
+  uint64_t       budget = maximumJointPDFDerivativesBytes;
+  uint64_t       minimumWorkUnits = 1;
+  if (budget == 0)
   {
-    this->m_BufferPDFValuesContainer[index] = &(this->m_MemoryBlock[0]) + index * m_CachedNumberOfLocalParameters;
+    // The default never costs parallelism: each thread may keep one array, however large.
+    constexpr uint64_t defaultBytesPerThread = uint64_t{ 32 } << 20;
+    budget = threads > maximumBytes / defaultBytesPerThread ? maximumBytes : threads * defaultBytesPerThread;
+    minimumWorkUnits = threads;
   }
-}
-
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TVirtualImage,
-          typename TInternalComputationValueType,
-          typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager::CheckAndReduceIfNecessary()
-{
-  if (m_CurrentFillSize == m_MaxBufferSize)
-  {
-    // Attempt to acquire the lock once
-    const std::unique_lock<std::mutex> FirstTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr, std::try_to_lock);
-    if (FirstTryLockHolder.owns_lock())
-    {
-      ReduceBuffer();
-    }
-    else if (m_MaxBufferSize < MaximumBufferLength &&
-             2 * m_MemoryBlockSize * sizeof(PDFValueType) <= MaximumMemoryBlockBytes)
-    {
-      DoubleBufferSize();
-      // Attempt to acquire the lock a second time
-      const std::unique_lock<std::mutex> SecondTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr,
-                                                             std::try_to_lock);
-      if (SecondTryLockHolder.owns_lock())
-      {
-        ReduceBuffer();
-      }
-    }
-    else
-    {
-      // when CPU speed is higher than memory bandwidth
-      // the buffer could grow endlessly, so we limit it
-      BlockAndReduce();
-    }
-  }
-}
-
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TVirtualImage,
-          typename TInternalComputationValueType,
-          typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager::BlockAndReduce()
-{
-  if (m_CurrentFillSize > 0)
-  {
-    const std::lock_guard<std::mutex> lockGuard(*this->m_ParentJointPDFDerivativesMutexPtr);
-    ReduceBuffer();
-  }
-}
-
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TVirtualImage,
-          typename TInternalComputationValueType,
-          typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager::ReduceBuffer()
-{
-  auto BufferOffsetContainerIter(this->m_BufferOffsetContainer.begin());
-  auto BufferPDFValuesContainerIter(this->m_BufferPDFValuesContainer.begin());
-
-  // NOTE: Only need to write out portion of buffer filled.
-  size_t bufferIndex = 0;
-
-  while (bufferIndex < m_CurrentFillSize)
-  {
-    const OffsetValueType          ThisIndexOffset = *BufferOffsetContainerIter;
-    JointPDFDerivativesValueType * derivPtr = this->m_ParentJointPDFDerivatives->GetBufferPointer() + ThisIndexOffset;
-
-    PDFValueType *             derivativeContribution = *BufferPDFValuesContainerIter;
-    const PDFValueType * const endContribution = derivativeContribution + m_CachedNumberOfLocalParameters;
-    while (derivativeContribution < endContribution)
-    {
-      *(derivPtr) += *(derivativeContribution);
-      // NOTE: Preliminary inconclusive tests indicates that setting to zero
-      // while it's local in cache is faster than bulk memset after the loop
-      // for small data sets
-      *(derivativeContribution) = 0.0; // Reset to zero after getting
-                                       // value
-      ++derivativeContribution;
-      ++derivPtr;
-    }
-
-    ++BufferOffsetContainerIter;
-    ++BufferPDFValuesContainerIter;
-    ++bufferIndex;
-  }
-  m_CurrentFillSize = 0; // Reset fill size back to zero.
+  const uint64_t workUnits = std::max(minimumWorkUnits, budget / arrayBytes);
+  return static_cast<ThreadIdType>(std::min<uint64_t>(workUnits, ITK_MAX_THREADS));
 }
 
 } // end namespace itk

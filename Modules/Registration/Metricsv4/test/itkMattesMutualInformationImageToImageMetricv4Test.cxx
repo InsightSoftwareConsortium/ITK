@@ -218,6 +218,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   // connect the images to the metric
   metric->SetFixedImage(imgFixed);
   metric->SetMovingImage(imgMoving);
+  metric->SetMaximumNumberOfWorkUnits(4);
 
   // set the number of histogram bins
   constexpr itk::SizeValueType numberOfHistogramBins{ 50 };
@@ -296,6 +297,30 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
 
   bool testFailed = false;
+
+  typename MetricType::MeasureType    expectedMetricValue;
+  typename MetricType::DerivativeType expectedDerivative(numberOfParameters);
+  metric->GetValueAndDerivative(expectedMetricValue, expectedDerivative);
+  for (unsigned int iteration = 1; iteration < 5; ++iteration)
+  {
+    typename MetricType::MeasureType    repeatedMetricValue;
+    typename MetricType::DerivativeType repeatedDerivative(numberOfParameters);
+    metric->GetValueAndDerivative(repeatedMetricValue, repeatedDerivative);
+    if (repeatedMetricValue != expectedMetricValue)
+    {
+      std::cerr << "Repeated metric values differ." << std::endl;
+      testFailed = true;
+    }
+    for (unsigned int parameter = 0; parameter < numberOfParameters; ++parameter)
+    {
+      if (repeatedDerivative[parameter] != expectedDerivative[parameter])
+      {
+        std::cerr << "Repeated metric derivatives differ." << std::endl;
+        testFailed = true;
+        break;
+      }
+    }
+  }
 
   itk::TimeProbe timerGetValueAndDerivative;
   itk::TimeProbe timerGetValue;
