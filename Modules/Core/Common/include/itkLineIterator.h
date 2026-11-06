@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkLineConstIterator_h
-#define itkLineConstIterator_h
+#ifndef itkLineIterator_h
+#define itkLineIterator_h
 
 #include "itkIndex.h"
 #include "itkImage.h"
@@ -24,11 +24,11 @@
 namespace itk
 {
 /**
- * \class LineConstIterator
+ * \class LineIterator
  * \brief An iterator that walks a Bresenham line through an ND image
  *        with read-only access to pixels.
  *
- * LineConstIterator is an iterator that walks a Bresenham line
+ * LineIterator is an iterator that walks a Bresenham line
  * through an image.  The iterator is constructed similar to other
  * image iterators, except instead of specifying a region to
  * traverse, you specify two indices. The interval specified by
@@ -36,7 +36,7 @@ namespace itk
  * the same start and end index will visit exactly one pixel.
  *
    \code
-   LineConstIterator<ImageType> it(image, I1, I2);
+   LineIterator<ImageType> it(image, I1, I2);
    while (!it.IsAtEnd())
    {
       // visits at least 1 pixel
@@ -53,11 +53,11 @@ namespace itk
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT LineConstIterator
+class ITK_TEMPLATE_EXPORT LineIterator
 {
 public:
   /** Standard class type aliases. */
-  using Self = LineConstIterator;
+  using Self = LineIterator;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -103,7 +103,7 @@ public:
   using AccessorType = typename TImage::AccessorType;
 
   /** \see LightObject::GetNameOfClass() */
-  itkVirtualGetNameOfClassMacro(LineConstIterator);
+  itkVirtualGetNameOfClassMacro(LineIterator);
 
   /** Get the dimension (size) of the index. */
   static unsigned int
@@ -147,10 +147,10 @@ public:
   operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a line */
-  LineConstIterator(const ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
+  LineIterator(const ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
 
   /** Default Destructor. */
-  virtual ~LineConstIterator() = default;
+  virtual ~LineIterator() = default;
 
 protected: // made protected so other iterators can access
   /** Smart pointer to the source image. */
@@ -193,7 +193,7 @@ protected: // made protected so other iterators can access
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkLineConstIterator.hxx"
+#  include "itkLineIterator.hxx"
 #endif
 
 #endif
