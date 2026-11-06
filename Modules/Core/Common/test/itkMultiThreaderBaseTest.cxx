@@ -16,8 +16,10 @@
  *
  *=========================================================================*/
 
+#include <atomic>
 #include <limits>
 #include <set>
+#include <thread>
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
 #include "itkPoolMultiThreader.h"
@@ -27,8 +29,28 @@
 #endif
 #include "itkTestingMacros.h"
 
+struct SingleMethodExecutionData
+{
+  std::thread::id       CallingThread;
+  std::atomic<unsigned> CallCount{ 0 };
+  std::atomic<bool>     CalledOnCallingThread{ false };
+};
+
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+SingleMethodExecution(void * data)
+{
+  const auto * workUnitInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(data);
+  auto *       executionData = static_cast<SingleMethodExecutionData *>(workUnitInfo->UserData);
+  ++executionData->CallCount;
+  if (std::this_thread::get_id() == executionData->CallingThread)
+  {
+    executionData->CalledOnCallingThread = true;
+  }
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
+}
+
 bool
-VerifyRange(int value, int min, int max, const char * msg)
+VerifyRange(itk::ThreadIdType value, itk::ThreadIdType min, itk::ThreadIdType max, const char * msg)
 {
   if (value < min)
   {
@@ -177,6 +199,20 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
     result = false;
   }
   itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(4);
+
+  const itk::ThreadIdType               moreWorkUnits = itk::ITK_MAX_THREADS + 1;
+  const itk::PoolMultiThreader::Pointer poolThreader = itk::PoolMultiThreader::New();
+  poolThreader->SetNumberOfWorkUnits(moreWorkUnits);
+  std::atomic<itk::SizeValueType> processedItems{ 0 };
+  poolThreader->ParallelizeArray(
+    0, moreWorkUnits, [&processedItems](itk::SizeValueType) { ++processedItems; }, nullptr);
+  result &= poolThreader->GetNumberOfWorkUnits() == moreWorkUnits;
+  result &= processedItems == moreWorkUnits;
+  SingleMethodExecutionData executionData{ std::this_thread::get_id() };
+  poolThreader->SetSingleMethod(SingleMethodExecution, &executionData);
+  poolThreader->SingleMethodExecute();
+  result &= executionData.CallCount == moreWorkUnits;
+  result &= executionData.CalledOnCallingThread;
 
   // Test streaming enumeration for MultiThreaderBaseEnums::Threader elements
   const std::set<itk::MultiThreaderBaseEnums::Threader> allThreader{

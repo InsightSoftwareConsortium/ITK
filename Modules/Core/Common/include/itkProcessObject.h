@@ -500,7 +500,16 @@ public:
 
   /** Get/Set the number of work units to create when executing. */
   /** @ITKStartGrouping */
-  itkVirtualSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
+  virtual void
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
+  {
+    const ThreadIdType value = std::max<ThreadIdType>(1, numberOfWorkUnits);
+    if (this->m_NumberOfWorkUnits != value)
+    {
+      this->m_NumberOfWorkUnits = value;
+      this->Modified();
+    }
+  }
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
   /** @ITKEndGrouping */
 
