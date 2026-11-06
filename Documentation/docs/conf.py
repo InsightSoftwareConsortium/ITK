@@ -47,7 +47,15 @@ myst_enable_extensions = [
 ]
 
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    # Frozen hand-written guides, replaced by migration_guides/generated/.
+    "migration_guides/itk_*_migration_guide*.md",
+    "migration_guides/python_spatial_key_migration.md",
+    "migration_guides/joint_histogram_mutual_information_metric_correction.md",
+]
 
 
 intersphinx_mapping = {
