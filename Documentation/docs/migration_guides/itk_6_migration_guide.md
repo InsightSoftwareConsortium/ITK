@@ -1441,3 +1441,29 @@ defined in builds without `ITK_LEGACY_REMOVE`, and ITK itself never tested it.
 
 Delete any `#ifdef ITK_HAS_CPP11_TYPETRAITS` test and keep the branch that uses
 `<type_traits>`.
+
+## `MultiThreaderBase` global default work-unit-per-thread ratio
+
+`PoolMultiThreader` and `TBBMultiThreader` now initialize their number of work
+units as `GetGlobalDefaultNumberOfThreads()` times the new
+`MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio()`, instead of a
+hard-coded factor. The default ratio is 4, which matches the previous
+`PoolMultiThreader` behavior but reduces the `TBBMultiThreader` default from 16
+to 4 work units per thread. Fewer, larger work units lower scheduling overhead
+for most filters.
+
+### What you need to do
+
+To restore the previous `TBBMultiThreader` granularity, or to tune either
+threader, set the ratio before the multi-threaders are constructed:
+
+```cpp
+itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(16);
+```
+
+or set the `ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO` environment variable
+(for example `ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO=16`). An explicit
+call to the setter takes precedence over the environment variable.
+
+The value is clamped to at least 1 and does not affect instances that already
+exist. A single-threaded configuration still uses one work unit.

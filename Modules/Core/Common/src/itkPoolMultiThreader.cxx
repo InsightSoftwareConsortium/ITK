@@ -88,8 +88,19 @@ PoolMultiThreader::PoolMultiThreader()
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
   if (defaultThreads > 1) // one work unit for only one thread
   {
-    defaultThreads *= 4;
+    const ThreadIdType maximum = itk::NumericTraits<ThreadIdType>::max();
+    const auto         workUnitPerThreadRatio = GetGlobalDefaultWorkUnitPerThreadRatio();
+    // Prevent overflow when multiplying defaultThreads by workUnitPerThreadRatio
+    if (defaultThreads > maximum / workUnitPerThreadRatio)
+    {
+      defaultThreads = maximum;
+    }
+    else
+    {
+      defaultThreads = defaultThreads * workUnitPerThreadRatio;
+    }
   }
+
   m_NumberOfWorkUnits = std::min<ThreadIdType>(ITK_MAX_THREADS, defaultThreads);
   m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }

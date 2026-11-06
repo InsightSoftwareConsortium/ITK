@@ -22,9 +22,9 @@ int
 itkMultiThreadingEnvironmentTest(int argc, char * argv[])
 {
   // Choose a number of threads.
-  if (argc != 2)
+  if (argc < 2 || argc > 3)
   {
-    std::cout << "ERROR: KNOWN VALUE REQUIRED" << std::endl;
+    std::cout << "ERROR: KNOWN VALUE REQUIRED, OPTIONAL WORK UNIT PER THREAD RATIO" << std::endl;
     return EXIT_FAILURE;
   }
   const auto requiredValue = static_cast<unsigned int>(std::stoi(argv[1]));
@@ -40,6 +40,18 @@ itkMultiThreadingEnvironmentTest(int argc, char * argv[])
     std::cout << "ERROR: Wrong number of maximum number of threads set from environment. " << actualValue
               << " != " << requiredValue << " or " << itk::ITK_MAX_THREADS << std::endl;
     return EXIT_FAILURE;
+  }
+
+  if (argc == 3)
+  {
+    const auto requiredRatio = static_cast<unsigned int>(std::stoi(argv[2]));
+    const auto actualRatio = itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio();
+    if (actualRatio != requiredRatio)
+    {
+      std::cout << "ERROR: Wrong work unit per thread ratio set from environment. " << actualRatio
+                << " != " << requiredRatio << std::endl;
+      return EXIT_FAILURE;
+    }
   }
   return EXIT_SUCCESS;
 }

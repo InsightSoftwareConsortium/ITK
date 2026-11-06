@@ -695,6 +695,8 @@ itk_add_test(
   NAME itkMultiThreaderBaseTestPlatform
   COMMAND
     ITKCommon2TestDriver
+    --remove-env
+    "ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO"
     itkMultiThreaderBaseTest
 )
 set_tests_properties(
@@ -707,6 +709,8 @@ itk_add_test(
   NAME itkMultiThreaderBaseTestPool
   COMMAND
     ITKCommon2TestDriver
+    --remove-env
+    "ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO"
     itkMultiThreaderBaseTest
 )
 set_tests_properties(
@@ -719,6 +723,8 @@ itk_add_test(
   NAME itkMultiThreaderBaseTestSingle
   COMMAND
     ITKCommon2TestDriver
+    --remove-env
+    "ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO"
     itkMultiThreaderBaseTest
 )
 set_tests_properties(
@@ -731,6 +737,8 @@ itk_add_test(
   NAME itkMultiThreaderBaseTest3
   COMMAND
     ITKCommon2TestDriver
+    --remove-env
+    "ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO"
     itkMultiThreaderBaseTest
     3
 ) # test with 3 threads
@@ -782,6 +790,8 @@ if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
     NAME itkMultiThreaderBaseTestTBB
     COMMAND
       ITKCommon2TestDriver
+      --remove-env
+      "ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO"
       itkMultiThreaderBaseTest
   )
   set_tests_properties(
@@ -950,6 +960,21 @@ set_tests_properties(
   PROPERTIES
     ENVIRONMENT
       "NSLOTS=9;FIRST_IGNORED=13;LAST_RESPECTED=123;ITK_NUMBER_OF_THREADS_ENV_LIST=FIRST_IGNORED:LAST_RESPECTED"
+)
+
+itk_add_test(
+  NAME itkMultiThreadingEnvWorkUnitRatio7
+  COMMAND
+    ITKCommon2TestDriver
+    itkMultiThreadingEnvironmentTest
+    43
+    7
+)
+set_tests_properties(
+  itkMultiThreadingEnvWorkUnitRatio7
+  PROPERTIES
+    ENVIRONMENT
+      "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=43;ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO=7"
 )
 
 itk_add_test(

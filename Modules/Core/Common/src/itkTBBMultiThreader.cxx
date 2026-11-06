@@ -22,6 +22,7 @@
 #include "itkTotalProgressReporter.h"
 #include <iostream>
 #include <atomic>
+#include <limits>
 #include <thread>
 #include "tbb/parallel_for.h"
 
@@ -59,7 +60,11 @@ TBBMultiThreader::TBBMultiThreader()
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
   if (defaultThreads > 1) // one work unit for only one thread
   {
-    m_NumberOfWorkUnits = 16 * defaultThreads;
+    const auto workUnitPerThreadRatio = GetGlobalDefaultWorkUnitPerThreadRatio();
+    // Prevent overflow when multiplying defaultThreads by workUnitPerThreadRatio
+    m_NumberOfWorkUnits = defaultThreads > std::numeric_limits<ThreadIdType>::max() / workUnitPerThreadRatio
+                            ? std::numeric_limits<ThreadIdType>::max()
+                            : defaultThreads * workUnitPerThreadRatio;
   }
 }
 
