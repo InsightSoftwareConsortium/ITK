@@ -772,6 +772,10 @@ set(
 unset(EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB)
 unset(ITK_COMPUTER_MEMORY_AVAILABLE_MB)
 mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
+# A 32-bit process cannot allocate 4 GiB or more, whatever the host's RAM.
+if(CMAKE_SIZEOF_VOID_P EQUAL 4 AND ITK_COMPUTER_MEMORY_SIZE GREATER 3)
+  set(ITK_COMPUTER_MEMORY_SIZE 3)
+endif()
 
 #This flag sets the floating point type used in itk::ImageBase for
 # spacing/direction/origin to single precision
