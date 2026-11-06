@@ -45,6 +45,7 @@ itkPathIteratorTest(int, char *[])
     using CheckPathType = itk::PolyLineParametricPath<2>;
     static_assert(HasSet<itk::PathIterator<CheckImageType, CheckPathType>>::value);
     static_assert(!HasSet<itk::PathConstIterator<CheckImageType, CheckPathType>>::value);
+    static_assert(!HasSet<itk::PathIterator<const CheckImageType, CheckPathType>>::value);
   }
 
   constexpr unsigned int Dimension{ 2 };

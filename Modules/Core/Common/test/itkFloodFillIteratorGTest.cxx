@@ -110,3 +110,17 @@ TEST(FloodFillIterator, OnlyWritableIteratorsSet)
     HasSet<itk::ShapedFloodFilledImageFunctionConditionalIterator<ImageType, ImageFunctionType>>::value &&
     !HasSet<itk::ShapedFloodFilledImageFunctionConditionalConstIterator<ImageType, ImageFunctionType>>::value);
 }
+
+
+// Checks that the flood-filled iterators provide no Set() for a const image.
+TEST(FloodFillIterator, SetRequiresNonConstImage)
+{
+  using ImageType = itk::Image<int, 2>;
+  using SpatialFunctionType = itk::SphereSpatialFunction<2>;
+  using ImageFunctionType = itk::BinaryThresholdImageFunction<ImageType>;
+  static_assert(
+    !HasSet<itk::FloodFilledSpatialFunctionConditionalIterator<const ImageType, SpatialFunctionType>>::value);
+  static_assert(!HasSet<itk::FloodFilledImageFunctionConditionalIterator<const ImageType, ImageFunctionType>>::value);
+  static_assert(
+    !HasSet<itk::ShapedFloodFilledImageFunctionConditionalIterator<const ImageType, ImageFunctionType>>::value);
+}

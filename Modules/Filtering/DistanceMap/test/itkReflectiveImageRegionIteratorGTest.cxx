@@ -188,4 +188,5 @@ TEST(ReflectiveImageRegionIterator, OnlyWritableIteratorSets)
   using ImageType = itk::Image<int, 2>;
   static_assert(HasSet<itk::ReflectiveImageRegionIterator<ImageType>>::value);
   static_assert(!HasSet<itk::ReflectiveImageRegionConstIterator<ImageType>>::value);
+  static_assert(!HasSet<itk::ReflectiveImageRegionIterator<const ImageType>>::value);
 }
