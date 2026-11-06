@@ -23,10 +23,9 @@ namespace itk
 {
 
 template <typename TImage>
-ImageRandomNonRepeatingIteratorWithIndex<TImage>::ImageRandomNonRepeatingIteratorWithIndex(
-  const TImage *     ptr,
-  const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+ImageRandomNonRepeatingIteratorWithIndex<TImage>::ImageRandomNonRepeatingIteratorWithIndex(TImage *           ptr,
+                                                                                           const RegionType & region)
+  : ImageIteratorWithIndex<TImage>(ptr, region)
   , m_NumberOfSamplesRequested(0L)
   , m_NumberOfSamplesDone(0L)
   , m_NumberOfPixelsInRegion(region.GetNumberOfPixels())
@@ -40,7 +39,7 @@ ImageRandomNonRepeatingIteratorWithIndex<TImage>::operator=(const Self & it)
   if (this != &it)
   {
     RandomPermutation * const permutation = it.m_Permutation ? new RandomPermutation(*it.m_Permutation) : nullptr;
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
+    this->ImageIteratorWithIndex<TImage>::operator=(it);
     m_NumberOfSamplesRequested = it.m_NumberOfSamplesRequested;
     m_NumberOfSamplesDone = it.m_NumberOfSamplesDone;
     m_NumberOfPixelsInRegion = it.m_NumberOfPixelsInRegion;

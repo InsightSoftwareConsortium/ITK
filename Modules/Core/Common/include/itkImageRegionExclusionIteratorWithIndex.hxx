@@ -23,17 +23,11 @@ namespace itk
 {
 
 template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(
-  const TImage *     ptr,
-  const RegionType & region)
+ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(TImage *           ptr,
+                                                                                     const RegionType & region)
   : Superclass(ptr, region)
 {}
 
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(const Superclass & it)
-{
-  Superclass::operator=(it);
-}
 //----------------------------------------------------------------------
 //  Set the region to exclude from the walk
 //----------------------------------------------------------------------
