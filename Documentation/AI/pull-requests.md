@@ -16,6 +16,9 @@ Applies to every PR, however it was produced.
       for all code in the PR, regardless of how it was generated.
 - [ ] The diff has been reviewed for security issues: buffer overflows,
       deprecated APIs, injection vectors, license conflicts.
+- [ ] A change downstream code may need to act on is described in a
+      [migration record](./migration-records.md). Whether one is needed is a
+      judgment call; CI never requires it.
 
 ## Updating a PR
 
