@@ -1,3 +1,8 @@
+<!--
+  FROZEN. This file is no longer edited or published. Add a migration record
+  instead: Documentation/AI/migration-records.md. A cleanup PR converts any
+  sections added after the freeze and then deletes this file.
+-->
 ITK v6 Migration Guide
 ========This guide documents the changes required to migrate a code base
 which uses ITK v5 to use ITK v6. The migration guide for transition

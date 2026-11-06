@@ -2,6 +2,10 @@
 
 These migration guides explain how to update major versions of ITK, whic may contain breaking changes to the API.
 
+The guides are generated from
+[migration records](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/AI/migration-records.md),
+one YAML file per change.
+
 ## Fine-grained versioning between release tags
 
 ITK's fourth (tweak) version component is the `YYYYMMDD` date of the most
@@ -34,8 +38,6 @@ advances with every commit.
 :hidden:
 :maxdepth: 3
 
-itk_6_migration_guide
-itk_5_migration_guide
-python_spatial_key_migration
-joint_histogram_mutual_information_metric_correction
+generated/itk_6_migration_guide
+generated/itk_5_migration_guide
 ```
