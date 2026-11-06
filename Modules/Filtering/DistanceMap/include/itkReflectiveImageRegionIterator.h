@@ -18,7 +18,8 @@
 #ifndef itkReflectiveImageRegionIterator_h
 #define itkReflectiveImageRegionIterator_h
 
-#include "itkImageConstIteratorWithIndex.h"
+#include "itkImageIteratorWithIndex.h"
+#include <algorithm>
 
 namespace itk
 {
@@ -51,12 +52,15 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ReflectiveImageRegionIterator : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ReflectiveImageRegionIterator : public ImageIteratorWithIndex<TImage>
 {
+  template <typename>
+  friend class ReflectiveImageRegionIterator;
+
 public:
   /** Standard class type aliases. */
   using Self = ReflectiveImageRegionIterator;
-  using Superclass = ImageConstIteratorWithIndex<TImage>;
+  using Superclass = ImageIteratorWithIndex<TImage>;
 
   /** Index type alias support While this was already typedef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
@@ -68,7 +72,7 @@ public:
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Image back to itk::Image to that is it not
    * confused with ImageIterator::Image. */
-  using ImageType = TImage;
+  using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typedef'ed in the superclass
@@ -111,10 +115,25 @@ public:
    * overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from * an
    * ImageIterator to a ReflectiveImageRegionIterator.  */
-  ReflectiveImageRegionIterator(const ImageConstIteratorWithIndex<TImage> & it);
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ReflectiveImageRegionIterator(const ImageIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+  {
+    m_BeginOffset.Fill(0);
+    m_EndOffset.Fill(0);
+  }
 
-  /** operator= is provided to make sure the handle to the image is properly
-   * reference counted. */
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ReflectiveImageRegionIterator(const ReflectiveImageRegionIterator<TOtherImage> & it)
+    : Superclass(it)
+    , m_BeginOffset(it.m_BeginOffset)
+    , m_EndOffset(it.m_EndOffset)
+  {
+    std::copy_n(it.m_IsFirstPass, TImage::ImageDimension, m_IsFirstPass);
+  }
+
+  /** Copy assignment, including the position and the reflection state. */
   Self &
   operator=(const Self & it);
 
@@ -183,6 +202,40 @@ private:
   OffsetType m_BeginOffset{};
   OffsetType m_EndOffset{};
 };
+
+/** \class ReflectiveImageRegionConstIterator
+ * \brief Read-only ReflectiveImageRegionIterator: ReflectiveImageRegionConstIterator<TImage> behaves as
+ * ReflectiveImageRegionIterator<const TImage>.
+ *
+ * It is a derived class rather than an alias template so that it supports class template argument deduction.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKDistanceMap
+ */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ReflectiveImageRegionConstIterator
+  : public ReflectiveImageRegionIterator<std::add_const_t<TImage>>
+{
+public:
+  /** Standard class type alias. */
+  using Self = ReflectiveImageRegionConstIterator;
+  using Superclass = ReflectiveImageRegionIterator<std::add_const_t<TImage>>;
+
+  using Superclass::Superclass;
+
+  ReflectiveImageRegionConstIterator() = default;
+
+  /** Conversion from ReflectiveImageRegionIterator<const TImage>. */
+  ReflectiveImageRegionConstIterator(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ReflectiveImageRegionConstIterator(const TImage *, const typename TImage::RegionType &)
+  -> ReflectiveImageRegionConstIterator<TImage>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

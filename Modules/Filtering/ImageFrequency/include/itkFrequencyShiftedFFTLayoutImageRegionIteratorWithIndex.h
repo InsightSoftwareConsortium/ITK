@@ -18,7 +18,7 @@
 #ifndef itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex_h
 #define itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex_h
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -28,7 +28,7 @@ namespace itk
  * pixels within a region and is specialized to keep track of its image index
  * location.
  *
- * This class is a specialization of ImageRegionConstIteratorWithIndex,
+ * This class is a specialization of ImageRegionIteratorWithIndex,
  * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the
  * frequency of the bin. The frequency bins depends on the image size. The default assumes that the image to iterate
  * over is the output of a forward FFT filter, where the first index corresponds to 0 frequency, and Nyquist Frequencies
@@ -74,7 +74,7 @@ namespace itk
  * 1    |     4
  * 2    |     3 <-- Absolute Largest Frequency bins (+, -)
  *
- * Please see ImageRegionConstIteratorWithIndex for more information.
+ * Please see ImageRegionIteratorWithIndex for more information.
  * \sa ForwardFFTImageFilter
  *
  * \par MORE INFORMATION
@@ -113,12 +113,15 @@ namespace itk
  */
 template <typename TImage>
 class ITK_TEMPLATE_EXPORT FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex
-  : public ImageRegionConstIteratorWithIndex<TImage>
+  : public ImageRegionIteratorWithIndex<TImage>
 {
+  template <typename>
+  friend class FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex;
+
 public:
   /** Standard class type alias. */
   using Self = FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex;
-  using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
+  using Superclass = ImageRegionIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
@@ -136,15 +139,15 @@ public:
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. */
   FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex()
-    : ImageRegionConstIteratorWithIndex<TImage>()
+    : ImageRegionIteratorWithIndex<TImage>()
   {
     this->Init();
   }
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(const TImage * ptr, const RegionType & region)
-    : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
+  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
+    : Superclass(ptr, region)
   {
     this->Init();
   }
@@ -155,11 +158,23 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(const Superclass & it)
-    : ImageRegionConstIteratorWithIndex<TImage>(it)
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
   {
     this->Init();
   }
+
+  /** Conversion from a writable iterator to a read-only iterator. */
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(
+    const FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<TOtherImage> & it)
+    : Superclass(it)
+    , m_ZeroFrequencyIndex(it.m_ZeroFrequencyIndex)
+    , m_FrequencyOrigin(it.m_FrequencyOrigin)
+    , m_FrequencySpacing(it.m_FrequencySpacing)
+    , m_ActualXDimensionIsOdd(it.m_ActualXDimensionIsOdd)
+  {}
 
   /*
    * Image Index [0, N - 1] returns [-N/2 + 1, -1] (negative) union [0 to N/2] (positive). So index N/2 + 1 returns the
@@ -267,7 +282,51 @@ private:
   IndexType     m_ZeroFrequencyIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
-  bool          m_ActualXDimensionIsOdd;
+  bool          m_ActualXDimensionIsOdd{ false };
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<TImage>;
+
+/** \class FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex
+ * \brief Read-only FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex:
+ * FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage> behaves as
+ * FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<const TImage>.
+ *
+ * It is a derived class rather than an alias template so that it supports class template argument deduction.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKImageFrequency
+ */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex
+  : public FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<std::add_const_t<TImage>>
+{
+public:
+  /** Standard class type alias. */
+  using Self = FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex;
+  using Superclass = FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<std::add_const_t<TImage>>;
+
+  using Superclass::Superclass;
+
+  FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex() = default;
+
+  /** Conversion from FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<const TImage>. */
+  FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it)
+    : Superclass(it)
+  {}
+};
+
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage>
+FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 #endif
