@@ -72,7 +72,7 @@ inline constexpr bool IsImageIteratorConvertible_v =
  *
  * \ingroup ImageIterators
  *
- * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
  * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
  * \sa FloodFilledFunctionConditionalConstIterator
@@ -81,7 +81,7 @@ inline constexpr bool IsImageIteratorConvertible_v =
  * \sa FloodFilledSpatialFunctionConditionalConstIterator
  * \sa FloodFilledSpatialFunctionConditionalIterator
  * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
- * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageIteratorWithIndex
  * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
  * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
  * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
@@ -130,8 +130,7 @@ public:
   using ImageType = std::remove_const_t<TImage>;
 
   /** PixelContainer type alias support. Used to refer to the container for
-   * the pixel data. While this was already typedef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+   * the pixel data. */
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
 
@@ -161,7 +160,6 @@ public:
   /** Default Destructor. */
   virtual ~ImageIterator() = default;
 
-  /** Copy constructor and copy assignment. */
   ImageIterator(const Self &) = default;
   Self &
   operator=(const Self &) = default;
@@ -340,7 +338,7 @@ public:
     m_Offset = m_Image->ComputeOffset(ind);
   }
 
-  /** Get the region that this iterator walks. ImageConstIterators know the
+  /** Get the region that this iterator walks. ImageIterators know the
    * beginning and the end of the region of the image to iterate over. */
   [[nodiscard]] const RegionType &
   GetRegion() const

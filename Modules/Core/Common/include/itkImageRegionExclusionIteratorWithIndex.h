@@ -114,7 +114,6 @@ namespace itk
  * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
  * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
  * \sa ImageRegionExclusionConstIteratorWithIndex
- * \sa ImageRegionExclusionIteratorWithIndex
  * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
  * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
  * \sa ImageReverseConstIterator  \sa ImageReverseIterator
@@ -158,7 +157,7 @@ public:
    * the iterator at the begin of the region. */
   ImageRegionExclusionIteratorWithIndex(TImage * ptr, const RegionType & region);
 
-  /** Constructor that can be used to cast from an ImageRegionConstIteratorWithIndex
+  /** Constructor that can be used to cast from an ImageRegionIteratorWithIndex
    * to an ImageRegionExclusionIteratorWithIndex. Many routines return an
    * ImageIterator, but for a particular task, you may want an
    * ImageRegionExclusionIteratorWithIndex. Rather than provide overloaded
