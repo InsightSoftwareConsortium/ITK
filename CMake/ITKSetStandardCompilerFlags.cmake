@@ -108,51 +108,6 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   set(${cxx_warning_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
 endfunction()
 
-# Check for the presence of SSE2.
-# Adapted from the AVX check and https://github.com/InsightSoftwareConsortium/ITK/blob/4cbe24cb4a45d689cadd56d554b8ccf3584a5ca6/Modules/ThirdParty/VNL/src/vxl/config/cmake/config/vxl_platform_tests.cxx#L164-L178
-function(check_sse2_flags sse2_flags_var)
-  # set flags to be used in check_cxx_source_runs below
-  set(_safe_cmake_required_flags "${CMAKE_REQUIRED_FLAGS}")
-  set(CMAKE_REQUIRED_FLAGS)
-  if(MSVC)
-    set(CMAKE_REQUIRED_FLAGS "/arch:SSE2")
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_REQUIRED_FLAGS "-msse2")
-  endif()
-
-  # perform test
-  include(CheckCXXSourceRuns)
-  check_cxx_source_runs(
-    "
-      #include <emmintrin.h>
-      int main()
-      {
-        //try to do some sse2 calculations
-        double d_a[]  = { 6.75, 3.42 };
-        double d_b[]  = { 2.3, 9.2 };
-        double res[2] = {0.0};
-
-        __m128d z;
-        z = _mm_mul_pd(_mm_loadu_pd(d_a),_mm_loadu_pd(d_b));
-
-        _mm_storeu_pd(res,z);
-
-        return 0;
-      }"
-    have_sse2_extensions_var
-  )
-  set(CMAKE_REQUIRED_FLAGS "${_safe_cmake_required_flags}")
-
-  # Set SSE2 Flags
-  set(${sse2_flags_var})
-  if(have_sse2_extensions_var AND MSVC)
-    set(${sse2_flags_var} "/arch:SSE2")
-  elseif(have_sse2_extensions_var AND CMAKE_COMPILER_IS_GNUCXX)
-    set(${sse2_flags_var} "-msse2")
-  endif()
-  set(${sse2_flags_var} "${${sse2_flags_var}}" PARENT_SCOPE)
-endfunction()
-
 function(
   check_compiler_optimization_flags
   c_optimization_flags_var
@@ -294,16 +249,32 @@ macro(check_compiler_platform_flags)
         "${ITK_REQUIRED_CXX_FLAGS} -fno-sized-deallocation"
       )
     endif()
+  endif()
 
-    if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-      # Setting sse2 flags only make sense on 32 bit architectures
-      # on 64bit systems, sse2 support is required, and compiler support is defaulted
-      check_sse2_flags(ITK_SSE2_CFLAGS_IF_AVAILABLE)
-    endif()
+  # itkConfigure.h requires SSE2 floating-point math on 32-bit x86; GCC and Clang default to x87 there.
+  if(
+    NOT
+      MSVC
+    AND
+      CMAKE_CXX_COMPILER_ID
+        MATCHES
+        "^(GNU|Clang|IntelLLVM)$"
+    AND
+      CMAKE_SIZEOF_VOID_P
+        EQUAL
+        4
+    AND
+      CMAKE_SYSTEM_PROCESSOR
+        MATCHES
+        "^(i.86|x86|x86_64|AMD64|amd64)$"
+  )
     set(
-      ITK_REQUIRED_CXX_FLAGS
-      "${ITK_REQUIRED_CXX_FLAGS} ${ITK_SSE2_CFLAGS_IF_AVAILABLE}"
+      ITK_X86_32_SSE2_CXX_OPTIONS
+      -msse2
+      -mfpmath=sse
     )
+    list(JOIN ITK_X86_32_SSE2_CXX_OPTIONS " " _itk_x86_32_sse2_flags)
+    string(APPEND ITK_REQUIRED_CXX_FLAGS " ${_itk_x86_32_sse2_flags}")
   endif()
 
   # mingw thread support

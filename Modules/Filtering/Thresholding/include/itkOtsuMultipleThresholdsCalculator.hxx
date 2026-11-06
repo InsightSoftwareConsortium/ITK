@@ -207,22 +207,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
     classMean[numberOfClasses - 1] = MeanType{};
   }
 
-  //
-  // The "volatile" modifier is used here for preventing the variable from
-  // being kept in 80 bit FPU registers when using 32-bit x86 processors with
-  // SSE instructions disabled. A case that arose in the Debian 32-bits
-  // distribution.
-  //
-#ifndef ITK_COMPILER_SUPPORTS_SSE2_32
-  volatile VarianceType maxVarBetween{};
-#else
   VarianceType maxVarBetween{};
-#endif
-  //
-  // The introduction of the "volatile" modifier forces the compiler to keep
-  // the variable in memory and therefore store it in the IEEE float/double
-  // format. In this way making numerical results consistent across platforms.
-  //
 
   for (SizeValueType j = 0; j < numberOfClasses; ++j)
   {
@@ -248,22 +233,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   while (Self::IncrementThresholds(thresholdIndexes, globalMean, classMean, classFrequency))
   {
 
-    //
-    // The "volatile" modifier is used here for preventing the variable from
-    // being kept in 80 bit FPU registers when using 32-bit x86 processors with
-    // SSE instructions disabled. A case that arose in the Debian 32-bits
-    // distribution.
-    //
-#ifndef ITK_COMPILER_SUPPORTS_SSE2_32
-    volatile VarianceType varBetween{};
-#else
     VarianceType varBetween{};
-#endif
-    //
-    // The introduction of the "volatile" modifier forces the compiler to keep
-    // the variable in memory and therefore store it in the IEEE float/double
-    // format. In this way making numerical results consistent across platforms.
-    //
 
     for (SizeValueType j = 0; j < numberOfClasses; ++j)
     {

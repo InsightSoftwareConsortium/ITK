@@ -681,6 +681,16 @@ target_link_libraries(MyExample ITK::MyModuleModule)
 
 For backward compatibility, non-namespaced aliases are created with deprecation warnings. However, new code should use the namespaced `ITK::` targets exclusively.
 
+## 32-bit x86 requires SSE2 floating-point math
+
+ITK 6 compiles one floating-point rounding path on x86. On 32-bit x86, `itkConfigure.h` stops with `#error` unless the compiler uses SSE2 floating-point math, and the x87 inline assembly is removed. ITK's targets and `UseITK.cmake` pass `-msse2 -mfpmath=sse` to GCC and Clang, and MSVC has defaulted to SSE2 since Visual Studio 2012, so most builds need no change. 64-bit x86 and ARM are not affected.
+
+The CMake variable `ITK_SSE2_CFLAGS_IF_AVAILABLE` and the `check_sse2_flags()` function are removed. `ITK_COMPILER_SUPPORTS_SSE2_32` (any x86) and `ITK_COMPILER_SUPPORTS_SSE2_64` (x86_64) are still defined, but ITK no longer reads them.
+
+### What you need to do
+
+A 32-bit x86 project that compiles ITK headers without ITK's imported targets or `UseITK.cmake` adds `-msse2 -mfpmath=sse` (GCC, Clang) or `/arch:SSE2` (MSVC). Remove any use of `ITK_SSE2_CFLAGS_IF_AVAILABLE`.
+
 ## Minimum wrapped Python raised to 3.11
 
 ITK 6 requires Python 3.11 or newer for Python wrapping; the previous floor was 3.10. Configuring the wrapping against an older interpreter now fails early.
