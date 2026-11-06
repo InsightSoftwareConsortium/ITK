@@ -110,7 +110,7 @@ namespace itk
  * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
  * \sa ImageRegionExclusionConstIteratorWithIndex
  * \sa ImageRegionExclusionIteratorWithIndex
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionIterator
  * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
  * \sa ImageReverseConstIterator  \sa ImageReverseIterator
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex

@@ -91,7 +91,7 @@ namespace itk
  * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
  * \sa ImageRegionExclusionConstIteratorWithIndex
  * \sa ImageRegionExclusionIteratorWithIndex
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionIteratorWithIndex
  * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
  * \sa ImageReverseConstIterator  \sa ImageReverseIterator
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
@@ -123,11 +123,6 @@ public:
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
   static constexpr unsigned int ImageIteratorDimension = Superclass::ImageIteratorDimension;
-
-  /**
-   * Index type alias support While these were already typedef'ed in the superclass,
-   * they need to be redone here for this subclass to compile properly with gcc.
-   */
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
