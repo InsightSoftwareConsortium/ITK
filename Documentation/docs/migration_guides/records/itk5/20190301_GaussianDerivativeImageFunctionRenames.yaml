@@ -1,0 +1,18 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `GaussianDerivativeImageFunction::ImageDimension2` is renamed to `GaussianDerivativeImageFunction::ImageDimension`.
+  The nested `GaussianDerivativeImageFunction` types `GaussianDerivativeFunctionType` and
+  `GaussianDerivativeFunctionPointer` are renamed to `GaussianDerivativeSpatialFunctionType` and
+  `GaussianDerivativeSpatialFunctionPointer`, respectively.
+categories:
+  - ApiRenamed
+environment:
+  - cxx
+impact: low
+pr: 559
+commits:
+  - 207131557a8
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/commit/b6c668ea346

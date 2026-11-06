@@ -1,0 +1,13 @@
+schema_version: 1
+summary: |
+  **Python changes**
+
+  Arguments to functions in `extras` were cleaned up and now use snake case.
+categories:
+  - ApiRenamed
+environment:
+  - python
+impact: low
+pr: 403
+commits:
+  - 443955f9644

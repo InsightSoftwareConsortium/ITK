@@ -1,0 +1,18 @@
+schema_version: 1
+title: '`ITK_HAS_CPP11_TYPETRAITS` is removed'
+summary: |
+  `itkConfigure.h` no longer defines `ITK_HAS_CPP11_TYPETRAITS`. It was always
+  defined in builds without `ITK_LEGACY_REMOVE`, and ITK itself never tested it.
+details: |
+  **What you need to do**
+
+  Delete any `#ifdef ITK_HAS_CPP11_TYPETRAITS` test and keep the branch that uses
+  `<type_traits>`.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: low
+pr: 7121
+commits:
+  - 2c23ea2df35

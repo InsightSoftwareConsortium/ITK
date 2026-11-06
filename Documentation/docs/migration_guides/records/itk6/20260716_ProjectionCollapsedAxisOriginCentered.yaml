@@ -1,0 +1,34 @@
+schema_version: 1
+title: 'Projection and accumulate filters: collapsed-axis output origin centered'
+summary: |
+  `ProjectionImageFilter` (and its `Maximum`/`Mean`/`Minimum`/`Sum`/`Median`/
+  `StandardDeviation`/`Binary` subclasses), `AccumulateImageFilter`, and
+  `GetAverageSliceImageFilter` place the single output pixel of the collapsed
+  axis at the physical center of the collapsed input extent.
+details: |
+  The previous
+  `inOrigin[i] + (i - 1) * inSpacing[i] / 2` expression did not depend on the
+  collapsed axis and produced an incorrect origin. For a same-dimension
+  projection the output origin now shifts by `(size - 1) / 2 * spacing` along
+  the collapsed axis, transformed through the input direction cosines.
+  `AccumulateImageFilter` now also throws on an out-of-range
+  `AccumulateDimension`, matching `ProjectionImageFilter`'s long-standing
+  behavior.
+
+  **What you need to do**
+
+  Nothing in your code needs to change. If you read the physical origin of a
+  projected or accumulated output, or compare it against a stored `.mha`/`.nrrd`
+  baseline that encodes origin, re-verify that value -- it now reflects the
+  corrected collapsed-axis center. Formats that do not store an origin (`.tif`,
+  `.png`) and dimension-reducing projections (output dimension less than input)
+  are unaffected.
+categories:
+  - ResultsChange
+environment:
+  - cxx
+  - data
+impact: medium
+pr: 6594
+commits:
+  - 993f3108622

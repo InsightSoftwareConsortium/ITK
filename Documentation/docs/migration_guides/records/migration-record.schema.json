@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/docs/migration_guides/records/migration-record.schema.json",
+  "title": "ITK migration record",
+  "description": "One downstream-visible ITK change, stored as YAML in records/itk<N>/YYYYMMDD_<Descriptor>.yaml. Every field is optional; {} is a valid record. Each field is defined only here; the template's comments are generated from these descriptions.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "description": "Version of this schema the record follows.",
+      "const": 1,
+      "examples": [
+        1
+      ]
+    },
+    "title": {
+      "description": "One line naming the change. Defaults to the file-name descriptor split into words.",
+      "type": "string",
+      "examples": [
+        "Short name of the change"
+      ]
+    },
+    "summary": {
+      "description": "Shown above the dropdown, so it is always visible in the guide. GitHub-compatible Markdown: CommonMark and pipe tables, explicit links, no MyST directives or roles, no GitHub alerts.",
+      "type": "string",
+      "examples": [
+        "What changed, and which downstream code it affects."
+      ]
+    },
+    "details": {
+      "description": "Longer explanation in the same Markdown subset as summary. The record must stand on its own; reuse anything relevant from the PR body.",
+      "type": "string"
+    },
+    "actions": {
+      "description": "Steps downstream code must take, one per item. Shown outside the dropdown for high-impact records.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "What downstream code must change, one step per item."
+        ]
+      ]
+    },
+    "categories": {
+      "description": "What kind of change this is. ApiRemoved, ApiDeprecated, ApiRenamed: public API. ResultsChange: numeric or behavioral output differs. DefaultChanged: a default value or option changed. FileFormat: what is read or written changed. Performance: speed or memory changed noticeably. CompilerEnvironment: compiler, language standard, or toolchain requirement. Dependency: third-party minimum or option. Policy: support or policy statement with no code change.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "ApiRemoved",
+          "ApiDeprecated",
+          "ApiRenamed",
+          "ResultsChange",
+          "DefaultChanged",
+          "FileFormat",
+          "Performance",
+          "CompilerEnvironment",
+          "Dependency",
+          "Policy"
+        ]
+      },
+      "examples": [
+        [
+          "ApiDeprecated"
+        ]
+      ]
+    },
+    "environment": {
+      "description": "Where downstream code must act: cxx (C++ code), python (Python code), cmake (CMake build), wrapping (wrapping configuration), data (files, test baselines).",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "cxx",
+          "python",
+          "cmake",
+          "wrapping",
+          "data"
+        ]
+      },
+      "examples": [
+        [
+          "cxx"
+        ]
+      ]
+    },
+    "impact": {
+      "description": "Approximate downstream impact; guidance only. high: breaks most or many downstream builds, needs non-trivial edits, or silently changes results in common or widely used code (Remove support for ITKv5 interfaces; Modern CMake interface libraries; NumPy image_from_array(arr.T) no longer transpose-equivalent). medium: breaks some projects with a mechanical fix such as a rename or a new minimum version (Minimum VTK 9.1; GetIndex() replaced by ComputeIndex()). low: a niche API with a loud, easy fix, or a notice with no action for nearly anyone (ITKVNLInstantiation removed; itk::Math::sqrteps changed by 1 ULP). A ResultsChange or DefaultChanged record is at least medium unless details explains why few users would notice. Unrated records are listed after rated ones.",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "examples": [
+        "medium"
+      ]
+    },
+    "pr": {
+      "description": "Number of the pull request that introduced the change. Set it once the draft PR is open; 0 is a drafting placeholder; -1 means no PR (a direct commit or a pre-GitHub change).",
+      "type": "integer",
+      "minimum": -1,
+      "examples": [
+        0,
+        1234,
+        -1
+      ]
+    },
+    "commits": {
+      "description": "Commits related to the change: the one that introduced it first, then follow-up fixes appended over time. Add hashes once they are final on main; a follow-up PR also goes in links.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{7,40}$"
+      },
+      "examples": [
+        [
+          "0123456789a"
+        ]
+      ]
+    },
+    "links": {
+      "description": "Related issues, other PRs, and discussions, as full URLs.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^https?://"
+      },
+      "examples": [
+        [
+          "https://github.com/InsightSoftwareConsortium/ITK/issues/1234"
+        ]
+      ]
+    },
+    "deprecated_in": {
+      "description": "Release that deprecated the old form. Quote versions: \"6.0\", not 6.0.",
+      "type": "string",
+      "examples": [
+        "6.1"
+      ]
+    },
+    "removed_in": {
+      "description": "Release that removed, or will remove, the old form. Quoted.",
+      "type": "string",
+      "examples": [
+        "7.0"
+      ]
+    },
+    "legacy_guard": {
+      "description": "Macro that hides the old form until it is removed.",
+      "enum": [
+        "ITK_LEGACY_REMOVE",
+        "ITK_FUTURE_LEGACY_REMOVE"
+      ],
+      "examples": [
+        "ITK_FUTURE_LEGACY_REMOVE"
+      ]
+    },
+    "renames": {
+      "description": "Old-to-new names, rendered as a table.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "old",
+          "new"
+        ],
+        "properties": {
+          "old": {
+            "type": "string"
+          },
+          "new": {
+            "type": "string"
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "old": "itk::OldName",
+            "new": "itk::NewName"
+          }
+        ]
+      ]
+    },
+    "examples": {
+      "description": "Code before and after the change, in literal blocks (|). Either side may be omitted; note explains the pair. language is one of cpp, python, cmake, shell, text.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "language": {
+            "enum": [
+              "cpp",
+              "python",
+              "cmake",
+              "shell",
+              "text"
+            ]
+          },
+          "before": {
+            "type": "string"
+          },
+          "after": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "language": "cpp",
+            "before": "filter->OldMethod();\n",
+            "after": "filter->NewMethod();\n"
+          }
+        ]
+      ]
+    },
+    "hints": {
+      "description": "Freeform pointers that help people and agentic tools carry out the migration: scripts in Utilities/Maintenance/, sed or grep commands, search patterns, related documentation. Not shown in the generated guide.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "Utilities/Maintenance/<script> <source-dir>",
+          "sed -i 's/OldName/NewName/g' $(grep -rl OldName <source-dir>)"
+        ]
+      ]
+    }
+  }
+}

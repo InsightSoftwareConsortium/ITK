@@ -1,0 +1,55 @@
+schema_version: 1
+title: Prefer standard CXX language features rather than ITK macros
+summary: |
+  Replace ITK aliases (left column) with CXX standard feature (right column)
+categories:
+  - ApiDeprecated
+  - ApiRenamed
+environment:
+  - cxx
+impact: medium
+pr: 4737
+commits:
+  - f65606905b7
+renames:
+  - old: ITK_FALLTHROUGH
+    new: '[[fallthrough]]'
+  - old: ITK_DELETE_FUNCTION
+    new: = delete
+  - old: ITK_CONSTEXPR_FUNC
+    new: constexpr
+  - old: ITK_CONSTEXPR_VAR
+    new: constexpr
+  - old: ITK_ALIGNAS(X)
+    new: alignas(X)
+  - old: ITK_ALIGNOF(X)
+    new: alignof(X)
+  - old: ITK_DEPRECATED
+    new: '[[deprecated]]'
+  - old: ITK_DEPRECATED_MSG(MSG)
+    new: '[[deprecated(MSG)]]'
+  - old: ITK_CONSTEXPR
+    new: constexpr
+  - old: ITK_DELETED_FUNCTION
+    new: = delete
+  - old: ITK_EXTERN_TEMPLATE
+    new: extern
+  - old: ITK_FINAL
+    new: final
+  - old: ITK_NOEXCEPT
+    new: noexcept
+  - old: ITK_NOEXCEPT_EXPR(X)
+    new: noexcept(X)
+  - old: ITK_NULLPTR
+    new: nullptr
+  - old: ITK_OVERRIDE
+    new: override
+  - old: ITK_STATIC_ASSERT(X)
+    new: 'static_assert(X, #X)'
+  - old: ITK_STATIC_ASSERT_MSG(X, MSG)
+    new: static_assert(X, MSG)
+  - old: ITK_THREAD_LOCAL
+    new: thread_local
+hints:
+  - Utilities/Maintenance/migrate-itk6-code-recommendations.sh <source-dir> rewrites many of these macros, including itkTypeMacro.
+  - grep -rnE 'ITK_(FALLTHROUGH|DELETE_FUNCTION|CONSTEXPR_FUNC|CONSTEXPR_VAR|NOEXCEPT|FINAL|OVERRIDE|NULLPTR)\b' <source-dir>

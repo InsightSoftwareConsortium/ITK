@@ -1,0 +1,19 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  Otsu filters now return the correct threshold (bin's maximum value instead of mid-point) with ITKv5.
+details: |
+  The old behavior is kept when ITKV4_COMPATIBILITY is enabled by setting `ReturnBinMidpoint` to true by default.
+  It is recommended when migrating to ITKv5 to explicitly set the `ReturnBinMidpoint` value to false.
+  This change may effect computations which rely on the results of an Otsu threshold filter.
+categories:
+  - ResultsChange
+  - DefaultChanged
+environment:
+  - cxx
+  - data
+impact: medium
+pr: -1
+commits:
+  - 79148b662d4

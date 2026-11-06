@@ -1,0 +1,17 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itk::StatisticsImageFilter`, `itk::LabelStatisticsImageFilter` and
+  `itk::MinimumMaximumImageFilter` no longer produce an image as their
+  primary output, as it was a shallow copy of the primary
+  input. Additionally, minor API changes have occurred related to the
+  decorated output methods to conform to ITK conventions.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: medium
+pr: 855
+commits:
+  - 884fe6e013c

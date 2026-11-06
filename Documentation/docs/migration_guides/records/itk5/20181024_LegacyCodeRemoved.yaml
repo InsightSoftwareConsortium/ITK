@@ -1,0 +1,40 @@
+schema_version: 1
+title: Legacy code removed
+summary: |
+  All code which was marked as legacy in ITK 4.13 has been removed.
+  External code which previously required
+  `ITK_LEGACY_REMOVE` CMake option to be `OFF` in order to build will now fail
+  to compile.
+details: |
+  Before starting migration to v5 (as explained in this guide),
+  migration to v4 should be finished. Dependent code should build and pass tests
+  with `ITK_LEGACY_REMOVE` turned `ON` when compiling against
+  [ITK v4.13](https://github.com/InsightSoftwareConsortium/ITK/releases/tag/v4.13.1).
+
+  Code which was marked as `ITK_FUTURE_LEGACY_REMOVE` has been now
+  re-flagged as `ITK_LEGACY_REMOVE`. There have been some other
+  deprecations and API changes. The new behavior is activated by setting
+  `ITK_LEGACY_REMOVE` to `ON`. By default, compatibility with v4 is retained
+  (`ITK_LEGACY_REMOVE=OFF`).
+
+  The first step is to get the external code building against ITK compiled with
+  `ITKV4_COMPATIBILITY` set to `ON`. Once that is accomplished, turn this
+  option `OFF`. It is `OFF` by default.
+
+  Once external code builds successfully with the default configuration
+  (`ITKV4_COMPATIBILITY` and `ITK_LEGACY_REMOVE` both `OFF`),
+  `ITK_LEGACY_REMOVE` should be set to `ON`.  Possible additional build errors
+  and/or warnings should be addressed.  Once dependent code builds and passes
+  tests without legacy options, migration to v5 is complete.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+  - cmake
+impact: high
+pr: -1
+commits:
+  - 01580b37063
+links:
+  - https://itk.org/migrationv4/
+legacy_guard: ITK_LEGACY_REMOVE

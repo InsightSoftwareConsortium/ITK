@@ -1,0 +1,17 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itk::Barrier`, `itk::VectorResampleImageFilter` and  `itk::VectorCastImageFilter` have been moved to `ITKDeprecated` module.
+categories:
+  - ApiDeprecated
+environment:
+  - cxx
+  - cmake
+impact: medium
+pr: 718
+commits:
+  - 51fc9d9c100
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/856
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/870
