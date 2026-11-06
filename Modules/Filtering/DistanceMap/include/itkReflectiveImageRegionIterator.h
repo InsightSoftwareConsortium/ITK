@@ -15,23 +15,23 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkReflectiveImageRegionConstIterator_h
-#define itkReflectiveImageRegionConstIterator_h
+#ifndef itkReflectiveImageRegionIterator_h
+#define itkReflectiveImageRegionIterator_h
 
 #include "itkImageConstIteratorWithIndex.h"
 
 namespace itk
 {
 /**
- * \class ReflectiveImageRegionConstIterator
+ * \class ReflectiveImageRegionIterator
  * \brief Multi-dimensional image iterator which only walks a region.
  *
- * ReflectiveImageRegionConstIterator is a templated class to represent a
- * multi-dimensional iterator. ReflectiveImageRegionConstIterator is templated
- * over the image type. ReflectiveImageRegionConstIterator is constrained to
+ * ReflectiveImageRegionIterator is a templated class to represent a
+ * multi-dimensional iterator. ReflectiveImageRegionIterator is templated
+ * over the image type. ReflectiveImageRegionIterator is constrained to
  * walk only within the specified region.
  *
- * ReflectiveImageRegionConstIterator will perform two passes over the image
+ * ReflectiveImageRegionIterator will perform two passes over the image
  * along each dimension. It is useful for algorithms that require to
  * go back and forth (once) over the data.
  *
@@ -51,11 +51,11 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ReflectiveImageRegionConstIterator : public ImageConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT ReflectiveImageRegionIterator : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ReflectiveImageRegionConstIterator;
+  using Self = ReflectiveImageRegionIterator;
   using Superclass = ImageConstIteratorWithIndex<TImage>;
 
   /** Index type alias support While this was already typedef'ed in the superclass
@@ -92,26 +92,26 @@ public:
   using OffsetValueType = typename OffsetType::OffsetValueType;
 
   /** Default constructor. */
-  ReflectiveImageRegionConstIterator();
+  ReflectiveImageRegionIterator();
 
   /** Default destructor.  */
-  ~ReflectiveImageRegionConstIterator() override = default;
+  ~ReflectiveImageRegionIterator() override = default;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ReflectiveImageRegionConstIterator(TImage * ptr, const RegionType & region);
+  ReflectiveImageRegionIterator(TImage * ptr, const RegionType & region);
 
   /** The copy keeps the position and the reflection state of it. */
-  ReflectiveImageRegionConstIterator(const Self & it);
+  ReflectiveImageRegionIterator(const Self & it);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ReflectiveImageRegionConstIterator. Many routines return an
+   * ReflectiveImageRegionIterator. Many routines return an
    * ImageIterator but for a particular task, you may want an
-   * ReflectiveImageRegionConstIterator.  Rather than provide
+   * ReflectiveImageRegionIterator.  Rather than provide
    * overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from * an
-   * ImageIterator to a ReflectiveImageRegionConstIterator.  */
-  ReflectiveImageRegionConstIterator(const ImageConstIteratorWithIndex<TImage> & it);
+   * ImageIterator to a ReflectiveImageRegionIterator.  */
+  ReflectiveImageRegionIterator(const ImageConstIteratorWithIndex<TImage> & it);
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -186,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkReflectiveImageRegionConstIterator.hxx"
+#  include "itkReflectiveImageRegionIterator.hxx"
 #endif
 
 #endif
