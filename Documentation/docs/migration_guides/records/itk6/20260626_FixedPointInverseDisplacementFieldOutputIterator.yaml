@@ -1,0 +1,29 @@
+schema_version: 1
+title: '`FixedPointInverseDisplacementFieldImageFilter::OutputIterator` is now `ImageRegionIteratorWithIndex`'
+summary: |
+  The public nested type alias
+  `FixedPointInverseDisplacementFieldImageFilter<...>::OutputIterator` changed from
+  `ImageRegionIterator<OutputImageType>` to
+  `ImageRegionIteratorWithIndex<OutputImageType>`. The filter calls `GetIndex()` on
+  this iterator, which `ImageRegionIterator` only provides under the removed
+  `ITK_FUTURE_LEGACY_REMOVE` API; `ImageRegionIteratorWithIndex` supplies it
+  natively.
+details: |
+  **What you need to do**
+
+  Downstream code that names the concrete alias explicitly -- e.g. a template
+  specialization or overload keyed on `ImageRegionIterator<OutputImageType>`, or a
+  variable declared as `FilterType::OutputIterator` and then passed where an
+  `ImageRegionIterator` is required -- must accept
+  `ImageRegionIteratorWithIndex<OutputImageType>` instead. The two iterators are
+  siblings in the iterator hierarchy, not subclasses, so such uses do not convert
+  implicitly. Code that only iterates (`GoToBegin`/`IsAtEnd`/`Get`/`Set`) needs no
+  change.
+categories:
+  - ApiRenamed
+environment:
+  - cxx
+impact: low
+pr: 6504
+commits:
+  - 60640e009a3

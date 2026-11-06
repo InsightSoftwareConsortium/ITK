@@ -1,0 +1,14 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itk::FilterWatcher` was deleted.
+  It should be replaced by [itk::SimpleFilterWatcher](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Modules/Core/Common/include/itkSimpleFilterWatcher.h).
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: low
+pr: -1
+commits:
+  - e4355459bab

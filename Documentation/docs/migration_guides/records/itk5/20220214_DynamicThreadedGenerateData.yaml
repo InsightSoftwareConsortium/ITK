@@ -1,0 +1,138 @@
+schema_version: 1
+summary: |
+  **Multithreading refactored**
+
+  For filter multi-threading, a new signature has been introduced:
+  `void DynamicThreadedGenerateData( const OutputRegionType& threadRegion )`.
+  By default, this new signature is invoked instead of the classic
+  `void ThreadedGenerateData( const OutputRegionType& threadRegion, ThreadIdType threadId )`.
+details: |
+  To temporarily obtain the old behavior (classic signature invoked by default),
+  set `ITKV4_COMPATIBILITY` to `ON` in ITK's CMake configuration.
+  To permanently have your filter use the classic threading model,
+  invoke `this->DynamicMultiThreadingOff();` in the filter constructor.
+  That is required if any of the following is true:
+   * Your filter needs a constant number of threads (known in advance)
+   * Your filter uses `threadId` parameter in `ThreadedGenerateData()`
+   * Your filter uses a custom region splitting method
+
+  Additionally, replace `itk::MultiThreader` by `itk::PlatformMultiThreader`
+  if any of the following is true:
+   * Your filter uses cross-thread synchronization e.g. `itk::Barrier`
+   * Your filter uses `MultipleMethodExecute()`
+   * Your filter uses `SpawnThread`/`TerminateThread`
+
+  It is strongly advised to not explicitly use `itk::PlatformMultiThreader`.
+  `SpawnThread`/`TerminateThread` and `MultipleMethodExecute` can be
+  replaced by C++11 `std::thread`. Code in the example below shows
+  how to remove dependence on barrier by using ParallelizeImageRegion.
+
+  - Pattern for Multiple Parallel Operations:
+  ```cpp
+  ThreadedGenerateData()
+  {
+    // code1 (parallel)
+    myBarrier->Wait();
+    if (threadId == 0)
+    {
+      // code2 single-threaded
+    }
+    // code3 (parallel)
+  }
+  ```
+
+  after refactoring to not use barrier:
+  ```cpp
+  GenerateData() // Not Threaded
+  {
+    this->AllocateOutputs();
+    this->BeforeThreadedGenerateData();
+    ParallelizeImageRegion(code1 as lambda)
+    // code2 single-threaded
+    ParallelizeImageRegion(code3 as lambda)
+    this->AfterThreadedGenerateData();
+  }
+  ```
+
+  - Pattern for Parallel Counting:
+  Previously parallel counting was often storing per-thread counts in an `itk::Array`
+  and aggregating the result in a filter's `AfterThreadedGenerateData()`.
+  With C++11, you might want to instead use `std::atomic`.
+  An external module example that demonstrates this can be found in
+  [this commit](https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/pull/32/commits/a8014c186ac53837362a0cb9db46ae224b8e9584).
+
+  Before, using `itk::Array`:
+  ```cpp
+  // Members:
+  Array<SizeValueType> m_NumVoxelsInsideMask;
+  BeforeThreadedGenerateData()
+  {
+    // Resize the thread temporaries
+    m_NumVoxelsInsideMask.SetSize(this->GetNumberOfThreads());
+    m_NumVoxelsInsideMask.Fill(0);
+  }
+
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId)
+  {
+    // Do algorithm per threadId
+    // Store the results per thread at the end
+    m_NumVoxelsInsideMask[threadId] = numVoxelsForThisRegion;
+  }
+
+  AfterThreadedGenerateData()
+  {
+    // Retrieve and sum all the results per thread.
+    ThreadIdType  numberOfThreads = this->GetNumberOfThreads();
+    SizeValueType numVoxelsInsideMask = 0;
+    for (unsigned int i = 0; i < numberOfThreads; ++i)
+    {
+      numVoxelsInsideMask += m_NumVoxelsInsideMask[i];
+    }
+  }
+  ```
+  After, using `std::atomic`:
+  ```cpp
+  // Members:
+  std::atomic<SizeValueType> m_NumVoxelsInsideMask;
+  BeforeThreadedGenerateData()
+  {
+    // Initialize atomics
+    m_NumVoxelsInsideMask.store(0);
+  }
+
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
+  {
+    // Do algorithm without handling threadId
+    m_NumVoxelsInsideMask.fetch_add(numVoxelsForThisRegion, std::memory_order_relaxed);
+  }
+
+  AfterThreadedGenerateData()
+  {
+    // Get the value from the atomic
+    SizeValueType numVoxelsInsideMask = m_NumVoxelsInsideMask.load();
+  }
+  ```
+
+  To transition to the new threading model, it is usually enough to rename
+  `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
+  `threadId` parameter, and remove progress reporting which uses `threadId`.
+  Progress is being reported by multi-threaders on behalf of filters which
+  use `DynamicThreadedGenerateData` signature.
+
+  If your class needs to also work with legacy code where
+  `ITKV4_COMPATIBILITY` is enabled, invoke
+  `this->DynamicMultiThreadingOn();` in the filter constructor. An example of
+  an external module that transitioned to the new threading model can be found in
+  [this commit](https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/commit/f794baa7546f9bb8b7d89ae3a083c9a432d55df0).
+categories:
+  - DefaultChanged
+  - ApiDeprecated
+environment:
+  - cxx
+impact: high
+pr: -1
+commits:
+  - e0899a1ee00
+links:
+  - https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/commit/f794baa7546f9bb8b7d89ae3a083c9a432d55df0
+  - https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/pull/32/commits/a8014c186ac53837362a0cb9db46ae224b8e9584

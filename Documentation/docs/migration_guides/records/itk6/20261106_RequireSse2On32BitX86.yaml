@@ -1,0 +1,19 @@
+schema_version: 1
+title: 32-bit x86 requires SSE2 floating-point math
+summary: |
+  ITK 6 compiles one floating-point rounding path on x86. On 32-bit x86, `itkConfigure.h` stops with `#error` unless the compiler uses SSE2 floating-point math, and the x87 inline assembly is removed. ITK's targets and `UseITK.cmake` pass `-msse2 -mfpmath=sse` to GCC and Clang, and MSVC has defaulted to SSE2 since Visual Studio 2012, so most builds need no change. 64-bit x86 and ARM are not affected.
+details: |
+  The CMake variable `ITK_SSE2_CFLAGS_IF_AVAILABLE` and the `check_sse2_flags()` function are removed. `ITK_COMPILER_SUPPORTS_SSE2_32` (any x86) and `ITK_COMPILER_SUPPORTS_SSE2_64` (x86_64) are still defined, but ITK no longer reads them.
+
+  **What you need to do**
+
+  A 32-bit x86 project that compiles ITK headers without ITK's imported targets or `UseITK.cmake` adds `-msse2 -mfpmath=sse` (GCC, Clang) or `/arch:SSE2` (MSVC). Remove any use of `ITK_SSE2_CFLAGS_IF_AVAILABLE`.
+categories:
+  - CompilerEnvironment
+environment:
+  - cxx
+  - cmake
+impact: low
+pr: 7125
+commits:
+  - 970c3fa976e

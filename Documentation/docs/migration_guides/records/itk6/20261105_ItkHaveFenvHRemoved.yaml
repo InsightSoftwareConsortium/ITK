@@ -1,0 +1,18 @@
+schema_version: 1
+title: '`ITK_HAVE_FENV_H` is removed'
+summary: |
+  `itkConfigure.h` no longer defines `ITK_HAVE_FENV_H`. `<cfenv>` is part of
+  C++11, so the macro was defined on every toolchain that can build ITK, and ITK
+  itself never tested it.
+details: |
+  **What you need to do**
+
+  Delete any `#ifdef ITK_HAVE_FENV_H` test and include `<cfenv>` unconditionally.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: low
+pr: 7123
+commits:
+  - d3137d39c24
