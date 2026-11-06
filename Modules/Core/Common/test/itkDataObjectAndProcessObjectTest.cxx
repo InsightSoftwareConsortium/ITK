@@ -411,6 +411,8 @@ public:
     ITK_TEST_SET_GET_VALUE(1, process->GetNumberOfWorkUnits());
     process->SetNumberOfWorkUnits(itk::NumericTraits<itk::ThreadIdType>::max());
     ITK_TEST_EXPECT_TRUE(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() <= process->GetNumberOfWorkUnits());
+    process->SetNumberOfWorkUnits(itk::ITK_MAX_THREADS + 1);
+    ITK_TEST_SET_GET_VALUE(itk::ITK_MAX_THREADS + 1, process->GetNumberOfWorkUnits());
     process->SetNumberOfWorkUnits(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
     ITK_TEST_SET_GET_VALUE(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfWorkUnits());
 
