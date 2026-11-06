@@ -296,6 +296,18 @@ using LinePair = IteratorPair<itk::LineIterator, itk::LineConstIterator>;
 } // namespace
 
 
+// Checks that a default-constructed indexed iterator is copied without an image.
+TEST(ImageIterators, DefaultConstructedIndexedIteratorCopies)
+{
+  using IteratorType = itk::ImageIteratorWithIndex<itk::Image<int>>;
+  const IteratorType source{};
+  IteratorType       copy(source);
+  EXPECT_EQ(copy.GetIndex(), source.GetIndex());
+  copy = source;
+  EXPECT_EQ(copy.GetIndex(), source.GetIndex());
+}
+
+
 // Checks that an iterator that is just constructed by `IteratorType(image, region)` is at the begin.
 TEST(ImageIterators, ConstructedAtBegin)
 {

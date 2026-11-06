@@ -150,25 +150,10 @@ public:
   /** Default Destructor. */
   virtual ~ImageReverseIterator() = default;
 
-  /** Copy Constructor. The copy constructor is provided to make sure the
-   * handle to the image is properly reference counted. */
-  ImageReverseIterator(const Self & it)
-    : m_Image(it.m_Image)
-    , m_Region(it.m_Region)
-    , m_Offset(it.m_Offset)
-    , m_BeginOffset(it.m_BeginOffset)
-    , m_EndOffset(it.m_EndOffset)
-    , m_Buffer(it.m_Buffer)
-    , m_PixelAccessor(it.m_PixelAccessor)
-    , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
-    , m_SpanBeginOffset(it.m_SpanBeginOffset)
-    , m_SpanEndOffset(it.m_SpanEndOffset)
-  {
-    // copy the smart pointer
-
-
-    m_PixelAccessorFunctor.SetBegin(m_Buffer);
-  }
+  /** Copy constructor and copy assignment. */
+  ImageReverseIterator(const Self &) = default;
+  Self &
+  operator=(const Self &) = default;
 
   /** Conversion from a writable iterator to a read-only iterator. */
   template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
@@ -253,29 +238,6 @@ public:
     m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
     InitializeSpans();
-  }
-
-  /** operator= is provided to make sure the handle to the image is properly
-   * reference counted. */
-  Self &
-  operator=(const Self & it)
-  {
-    if (this != &it)
-    {
-      m_Image = it.m_Image; // copy the smart pointer
-      m_Region = it.m_Region;
-
-      m_Buffer = it.m_Buffer;
-      m_Offset = it.m_Offset;
-      m_BeginOffset = it.m_BeginOffset;
-      m_EndOffset = it.m_EndOffset;
-      m_SpanBeginOffset = it.m_SpanBeginOffset;
-      m_SpanEndOffset = it.m_SpanEndOffset;
-      m_PixelAccessor = it.m_PixelAccessor;
-      m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
-      m_PixelAccessorFunctor.SetBegin(m_Buffer);
-    }
-    return *this;
   }
 
   /** operator= is provided to make sure the handle to the image is properly

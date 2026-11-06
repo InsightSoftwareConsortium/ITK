@@ -145,9 +145,7 @@ public:
   itkOverrideGetNameOfClassMacro(ImageRegionIterator);
 
   /** Default constructor. */
-  ImageRegionIterator()
-    : ImageConstIterator<TImage>()
-  {}
+  ImageRegionIterator() = default;
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */

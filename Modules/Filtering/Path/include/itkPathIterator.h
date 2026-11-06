@@ -232,9 +232,9 @@ public:
     , m_CurrentImageIndex(it.m_CurrentImageIndex)
   {}
 
-  /** Copy assignment. */
+  PathIterator(const Self &) = default;
   Self &
-  operator=(const Self & it);
+  operator=(const Self &) = default;
 
   /** Constructor establishes an iterator to walk along a path */
   PathIterator(TImage * imagePtr, const PathType * pathPtr);

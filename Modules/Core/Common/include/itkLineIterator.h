@@ -183,9 +183,9 @@ public:
     , m_ReduceErrorAfterIncrement(it.m_ReduceErrorAfterIncrement)
   {}
 
-  /** Copy assignment. */
+  LineIterator(const Self &) = default;
   Self &
-  operator=(const Self & it);
+  operator=(const Self &) = default;
 
   /** Constructor establishes an iterator to walk along a line */
   LineIterator(TImage * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);

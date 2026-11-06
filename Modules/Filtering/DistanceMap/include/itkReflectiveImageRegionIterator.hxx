@@ -47,24 +47,6 @@ ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(TImage * pt
 }
 
 template <typename TImage>
-ReflectiveImageRegionIterator<TImage> &
-ReflectiveImageRegionIterator<TImage>::operator=(const Self & it)
-{
-  if (this != &it)
-  {
-    this->ImageIteratorWithIndex<TImage>::operator=(it);
-
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
-    {
-      m_BeginOffset[dim] = it.m_BeginOffset[dim];
-      m_EndOffset[dim] = it.m_EndOffset[dim];
-      m_IsFirstPass[dim] = it.m_IsFirstPass[dim];
-    }
-  }
-  return *this;
-}
-
-template <typename TImage>
 void
 ReflectiveImageRegionIterator<TImage>::GoToBegin()
 {
