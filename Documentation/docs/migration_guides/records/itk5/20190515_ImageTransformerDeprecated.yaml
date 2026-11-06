@@ -1,0 +1,13 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itk::ImageTransformer` has been moved to `ITKDeprecated` module. The new `itk::ImageSink` filter can be used in its place.
+categories:
+  - ApiDeprecated
+environment:
+  - cxx
+impact: low
+pr: 855
+commits:
+  - 08fcda0f882

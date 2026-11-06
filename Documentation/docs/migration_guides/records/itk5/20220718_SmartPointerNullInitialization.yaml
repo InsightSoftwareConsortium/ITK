@@ -1,0 +1,20 @@
+schema_version: 1
+summary: |
+  **C++11**
+
+  Errors similar to `error: conversion from 'int' to 'typename InterpolatorType::Pointer'` are a result of further
+  type safety for dealing with pointers.
+details: |
+  Enhancements in nullptr behavior in ITKv5 provide more clear
+  type checking and respect the nullptr identifier.  The 'long 0' value
+  known as NULL causes an ambiguity for overload compilations of the ITKv5 smartpointers. To be backwards compatible
+  with pre C++11 compilers use the `ITK_NULLPTR` designation, otherwise replace NULL and 0 initialization of
+  `itk::SmartPointer` with nullptr.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: medium
+pr: -1
+commits:
+  - ecb6dd083e4

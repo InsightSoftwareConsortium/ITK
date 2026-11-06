@@ -1,0 +1,14 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `BoundingBox` member function `GetCorners()` is replaced by `ComputeCorners()`, which return an
+  `std::array<PointType, NumberOfCorners>`, instead of a pointer to a `PointsContainer`.
+categories:
+  - ApiRenamed
+environment:
+  - cxx
+impact: low
+pr: 892
+commits:
+  - 814419ae9f9

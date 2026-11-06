@@ -1,0 +1,17 @@
+schema_version: 1
+title: Require modern C++ language feature use
+summary: |
+  Many backward compatible/ forward enabling compiler features are now required to be used.
+actions:
+  - Replace `ITKv5_CONST` with `const`
+categories:
+  - ApiRemoved
+  - CompilerEnvironment
+environment:
+  - cxx
+impact: low
+pr: 4704
+commits:
+  - 58e84617ff3
+hints:
+  - sed -i 's/\bITKv5_CONST\b/const/g' $(grep -rl ITKv5_CONST <source-dir>)

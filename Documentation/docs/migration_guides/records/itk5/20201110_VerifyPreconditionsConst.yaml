@@ -1,0 +1,21 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
+  `itk::ProcessObject::VerifyInputInformation` are now declared `const`,
+  so if you have overridden these virtual member function, make sure that you
+  also add `const`.
+details: |
+  If your application needs to compile with both ITKv4 and ITKv5,
+  you should use macro `ITKv5_CONST` instead of `const` keyword.
+  This macro is present in ITKv4 since commit
+  [commit b40f74e on 2018-11-14](https://github.com/InsightSoftwareConsortium/ITK/commit/b40f74e07d74614c75be4aceac63b87e80e589d1).
+environment:
+  - cxx
+impact: low
+pr: -1
+commits:
+  - 3e6b6f5bd67
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/commit/b40f74e07d74614c75be4aceac63b87e80e589d1

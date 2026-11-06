@@ -1,0 +1,16 @@
+schema_version: 1
+title: ITKVNLInstantiation library is removed
+summary: |
+  The usage of ITKVNLInstantiation library should be replaced directly with the
+  ITKVNL module. The ITKVNLInstantiation library was an empty library used for
+  compatibility and provided transitive linking to ITKVNL.
+categories:
+  - ApiRemoved
+environment:
+  - cmake
+impact: low
+pr: 5286
+commits:
+  - db104239cf8
+hints:
+  - sed -i 's/\bITKVNLInstantiation\b/ITKVNL/g' $(grep -rl ITKVNLInstantiation --include=CMakeLists.txt --include='*.cmake' <source-dir>)
