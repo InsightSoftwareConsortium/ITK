@@ -26,6 +26,16 @@
 
 namespace itk
 {
+namespace detail
+{
+/** True when an iterator over TFromImage converts to an iterator over TToImage: the same image type, without
+ * dropping const. */
+template <typename TFromImage, typename TToImage>
+inline constexpr bool IsImageIteratorConvertible_v =
+  std::is_same_v<std::remove_const_t<TFromImage>, std::remove_const_t<TToImage>> &&
+  (std::is_const_v<TToImage> || !std::is_const_v<TFromImage>);
+} // namespace detail
+
 /** \class ImageIterator
  * \brief A multi-dimensional image iterator templated over image type.
  *
@@ -170,8 +180,8 @@ public:
   }
 
   /** Conversion from a writable iterator to a read-only iterator. */
-  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && std::is_const_v<T>, int> = 0>
-  ImageIterator(const ImageIterator<std::remove_const_t<T>> & it)
+  template <typename TOtherImage, std::enable_if_t<detail::IsImageIteratorConvertible_v<TOtherImage, TImage>, int> = 0>
+  ImageIterator(const ImageIterator<TOtherImage> & it)
     : m_Image(it.m_Image)
     , m_Region(it.m_Region)
     , m_Offset(it.m_Offset)
@@ -484,6 +494,11 @@ public:
   using Superclass::Superclass;
 
   ImageConstIterator() = default;
+
+  /** Conversion from ImageIterator<const TImage>. */
+  ImageConstIterator(const Superclass & it)
+    : Superclass(it)
+  {}
 };
 
 // Deduction guide for class template argument deduction (CTAD).
