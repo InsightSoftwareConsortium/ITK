@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkImageRegionReverseConstIterator_h
-#define itkImageRegionReverseConstIterator_h
+#ifndef itkImageRegionReverseIterator_h
+#define itkImageRegionReverseIterator_h
 
 #include "itkImageReverseConstIterator.h"
 #include "itkImageRegionIterator.h"
@@ -25,27 +25,27 @@
 namespace itk
 {
 /**
- * \class ImageRegionReverseConstIterator
+ * \class ImageRegionReverseIterator
  * \brief A multi-dimensional image iterator designed to walk a specified image
  * region in reverse.
  *
- * ImageRegionReverseConstIterator is a templated class to represent a
- * multi-dimensional iterator. ImageRegionReverseConstIterator is templated
+ * ImageRegionReverseIterator is a templated class to represent a
+ * multi-dimensional iterator. ImageRegionReverseIterator is templated
  * over the dimension of the image and the data type of the
- * image. ImageRegionReverseConstIterator is constrained to walk only
+ * image. ImageRegionReverseIterator is constrained to walk only
  * within the specified region.
  *
- * ImageRegionReverseConstIterator is a multi-dimensional iterator,
+ * ImageRegionReverseIterator is a multi-dimensional iterator,
  * requiring more information be specified before the iterator can be
  * used than conventional iterators. Whereas the std::vector::iterator
  * from the STL only needs to be passed a pointer to establish the
  * iterator, the multi-dimensional image iterator needs a pointer, the
  * size of the buffer, the size of the region, the start index of the
  * buffer, and the start index of the region. To gain access to this
- * information, ImageRegionReverseConstIterator holds a reference to the
+ * information, ImageRegionReverseIterator holds a reference to the
  * image over which it is traversing.
  *
- * ImageRegionReverseConstIterator assumes a particular layout of the image
+ * ImageRegionReverseIterator assumes a particular layout of the image
  * data. The is arranged in a 1D array as if it were
  * [][][][slice][row][col] with Index[0] = col, Index[1] = row,
  * Index[2] = slice, etc.
@@ -101,11 +101,11 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionReverseConstIterator : public ImageReverseConstIterator<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionReverseIterator : public ImageReverseConstIterator<TImage>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageRegionReverseConstIterator;
+  using Self = ImageRegionReverseIterator;
   using Superclass = ImageReverseConstIterator<TImage>;
 
   /** Index type alias support While this was already typedef'ed in the superclass
@@ -144,29 +144,29 @@ public:
   using typename Superclass::AccessorType;
 
   /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(ImageRegionReverseConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageRegionReverseIterator);
 
   /** Default constructor. */
-  ImageRegionReverseConstIterator()
+  ImageRegionReverseIterator()
     : Superclass()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionReverseConstIterator(const TImage * ptr, const RegionType & region)
+  ImageRegionReverseIterator(const TImage * ptr, const RegionType & region)
     : Superclass(ptr, region)
     , m_SpanBeginOffset(this->m_BeginOffset)
     , m_SpanEndOffset(this->m_BeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionReverseConstIterator. Many routines return an ImageIterator
+   * ImageRegionReverseIterator. Many routines return an ImageIterator
    * but for a particular task, you may want an
-   * ImageRegionReverseConstIterator.  Rather than provide overloaded APIs
+   * ImageRegionReverseIterator.  Rather than provide overloaded APIs
    * that return different types of Iterators, itk returns
    * ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionReverseConstIterator. */
-  ImageRegionReverseConstIterator(const ImageConstIterator<TImage> & it)
+   * ImageIterator to a ImageRegionReverseIterator. */
+  ImageRegionReverseIterator(const ImageConstIterator<TImage> & it)
     : Superclass(it)
   {
     this->InitializeSpans();
@@ -174,7 +174,7 @@ public:
 
   /** Constructor that takes in a reverse image iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
-  ImageRegionReverseConstIterator(const ImageReverseConstIterator<TImage> & it)
+  ImageRegionReverseIterator(const ImageReverseConstIterator<TImage> & it)
     : Superclass(it)
   {
     this->InitializeSpans();
@@ -182,7 +182,7 @@ public:
 
   /** Constructor that takes in an image region iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
-  ImageRegionReverseConstIterator(const ImageRegionIterator<TImage> & it)
+  ImageRegionReverseIterator(const ImageRegionIterator<TImage> & it)
     : Superclass(it)
   {
     this->InitializeSpans();
@@ -347,8 +347,8 @@ private:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRegionReverseConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
-  -> ImageRegionReverseConstIterator<std::remove_const_t<TImage>>;
+ImageRegionReverseIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionReverseIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
