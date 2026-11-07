@@ -28,9 +28,6 @@ namespace
 
 using namespace itk;
 
-[[nodiscard]] int
-Execute(int argc, char * argv[]);
-
 template <int VDimension>
 [[nodiscard]] int
 Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentEnum, int nComponents);
@@ -44,13 +41,9 @@ template <int VDimension, typename ScalarType, typename PixelType, typename Expo
 Execute(int argc, char * argv[]);
 
 
-inline int
+[[nodiscard]] int
 Execute(int argc, char * argv[])
 {
-  using std::cerr;
-  using std::endl;
-  using namespace itk;
-
   if (argc < 3)
   {
     itkGenericExceptionMacro(
