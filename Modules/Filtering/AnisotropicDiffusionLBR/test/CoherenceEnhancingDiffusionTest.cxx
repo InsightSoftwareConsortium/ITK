@@ -47,8 +47,6 @@ Execute(int argc, char * argv[]);
 inline int
 Execute(int argc, char * argv[])
 {
-  using std::cerr;
-  using std::endl;
   using namespace itk;
 
   if (argc < 3)
