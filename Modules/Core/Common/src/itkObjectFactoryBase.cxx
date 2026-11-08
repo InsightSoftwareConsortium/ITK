@@ -38,6 +38,7 @@
 #include <cstring>
 #include <algorithm>
 #include <atomic>
+#include <string_view>
 
 namespace
 {
@@ -355,9 +356,9 @@ inline bool
 NameIsSharedLibrary([[maybe_unused]] const char * name)
 {
 #ifdef ITK_DYNAMIC_LOADING
-  std::string extension = itksys::DynamicLoader::LibExtension();
+  std::string_view extension = itksys::DynamicLoader::LibExtension();
 
-  const std::string sname = name;
+  const std::string_view sname = name;
   if (sname.rfind(extension) == sname.size() - extension.size())
   {
     return true;
@@ -367,7 +368,7 @@ NameIsSharedLibrary([[maybe_unused]] const char * name)
   extension = ".dylib";
 #  endif
   const size_t extensionpos = sname.rfind(extension);
-  if ((extensionpos != std::string::npos) && (extensionpos == (sname.size() - extension.size())))
+  if ((extensionpos != std::string_view::npos) && (extensionpos == (sname.size() - extension.size())))
   {
     return true;
   }
