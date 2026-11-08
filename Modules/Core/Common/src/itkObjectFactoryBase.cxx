@@ -356,21 +356,22 @@ inline bool
 NameIsSharedLibrary([[maybe_unused]] const std::string_view fileName)
 {
 #ifdef ITK_DYNAMIC_LOADING
-  std::string_view extension = itksys::DynamicLoader::LibExtension();
+  const auto fileNameEndsWith = [fileName](const std::string_view extension) {
+    // With C++20, we can use `std::string_view::ends_with` instead.
+    return fileName.size() >= extension.size() && fileName.substr(fileName.size() - extension.size()) == extension;
+  };
 
-  if (fileName.rfind(extension) == fileName.size() - extension.size())
+  if (fileNameEndsWith(itksys::DynamicLoader::LibExtension()))
   {
     return true;
   }
 #  ifdef __APPLE__
   // Need to also check libraries with a .dylib extension.
-  extension = ".dylib";
-#  endif
-  const size_t extensionpos = fileName.rfind(extension);
-  if ((extensionpos != std::string_view::npos) && (extensionpos == (fileName.size() - extension.size())))
+  if (fileNameEndsWith(".dylib"))
   {
     return true;
   }
+#  endif
 #else // ITK_DYNAMIC_LOADING
   itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");
 #endif
