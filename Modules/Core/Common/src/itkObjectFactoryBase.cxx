@@ -349,10 +349,7 @@ CreateFullPath(const char * path, const char * file)
 using AutoloadFunctionType = ObjectFactoryBase * (*)();
 
 /**
- * A file scoped function to determine if a file has
- * the shared library extension in its name, this converts name to lower
- * case before the compare, DynamicLoader always uses
- * lower case for LibExtension values.
+ * A file scoped function to determine if a file has the shared library extension in its name.
  */
 inline bool
 NameIsSharedLibrary([[maybe_unused]] const char * name)
