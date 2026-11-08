@@ -382,6 +382,11 @@ string(
 list(REMOVE_DUPLICATES CMAKE_C_FLAGS)
 string(REPLACE ";" " " CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 
+# MSVC reports __cplusplus as 199711L unless asked to match /std:.
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus")
+endif()
+
 string(
   REPLACE
   " "
