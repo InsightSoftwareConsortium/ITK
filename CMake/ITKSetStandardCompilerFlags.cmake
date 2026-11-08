@@ -242,13 +242,6 @@ macro(check_compiler_platform_flags)
         endif()
       endforeach()
     endif()
-
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "12")
-      set(
-        ITK_REQUIRED_CXX_FLAGS
-        "${ITK_REQUIRED_CXX_FLAGS} -fno-sized-deallocation"
-      )
-    endif()
   endif()
 
   # itkConfigure.h requires SSE2 math on 32-bit x86, where GCC and Clang default to x87.
