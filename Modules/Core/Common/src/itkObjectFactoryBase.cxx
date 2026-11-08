@@ -353,13 +353,12 @@ using AutoloadFunctionType = ObjectFactoryBase * (*)();
  * A file scoped function to determine if a file has the shared library extension in its name.
  */
 inline bool
-NameIsSharedLibrary([[maybe_unused]] const char * name)
+NameIsSharedLibrary([[maybe_unused]] const std::string_view fileName)
 {
 #ifdef ITK_DYNAMIC_LOADING
   std::string_view extension = itksys::DynamicLoader::LibExtension();
 
-  const std::string_view sname = name;
-  if (sname.rfind(extension) == sname.size() - extension.size())
+  if (fileName.rfind(extension) == fileName.size() - extension.size())
   {
     return true;
   }
@@ -367,8 +366,8 @@ NameIsSharedLibrary([[maybe_unused]] const char * name)
   // Need to also check libraries with a .dylib extension.
   extension = ".dylib";
 #  endif
-  const size_t extensionpos = sname.rfind(extension);
-  if ((extensionpos != std::string_view::npos) && (extensionpos == (sname.size() - extension.size())))
+  const size_t extensionpos = fileName.rfind(extension);
+  if ((extensionpos != std::string_view::npos) && (extensionpos == (fileName.size() - extension.size())))
   {
     return true;
   }
