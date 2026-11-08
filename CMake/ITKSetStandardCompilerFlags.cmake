@@ -251,30 +251,28 @@ macro(check_compiler_platform_flags)
     endif()
   endif()
 
-  # itkConfigure.h requires SSE2 floating-point math on 32-bit x86; GCC and Clang default to x87 there.
-  if(
-    NOT
-      MSVC
-    AND
-      CMAKE_CXX_COMPILER_ID
-        MATCHES
-        "^(GNU|Clang|IntelLLVM)$"
-    AND
-      CMAKE_SIZEOF_VOID_P
-        EQUAL
-        4
-    AND
-      CMAKE_SYSTEM_PROCESSOR
-        MATCHES
-        "^(i.86|x86|x86_64|AMD64|amd64)$"
-  )
-    set(
-      ITK_X86_32_SSE2_CXX_OPTIONS
-      -msse2
-      -mfpmath=sse
+  # itkConfigure.h requires SSE2 math on 32-bit x86, where GCC and Clang default to x87.
+  # Ask the compiler: CMAKE_SYSTEM_PROCESSOR names the host (x86_64) in a -m32 build.
+  # Nothing is added when the packager's own flags already select SSE2 math.
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4 AND NOT MSVC)
+    include(CheckCXXSourceCompiles)
+    check_cxx_source_compiles(
+      [=[
+#if defined(__i386__) && !defined(__SSE2_MATH__)
+#  error "x87 floating-point math"
+#endif
+int main() { return 0; }
+]=]
+      ITK_COMPILER_AVOIDS_X87_MATH
     )
-    list(JOIN ITK_X86_32_SSE2_CXX_OPTIONS " " _itk_x86_32_sse2_flags)
-    string(APPEND ITK_REQUIRED_CXX_FLAGS " ${_itk_x86_32_sse2_flags}")
+    if(NOT ITK_COMPILER_AVOIDS_X87_MATH)
+      list(
+        APPEND
+        ITK_PUBLIC_CXX_COMPILE_OPTIONS
+        -msse2
+        -mfpmath=sse
+      )
+    endif()
   endif()
 
   # mingw thread support
@@ -366,7 +364,13 @@ unset(CXX_OPTIMIZATION_FLAGS)
 
 #-----------------------------------------------------------------------------
 #Check the set of platform flags the compiler supports
+set(ITK_PUBLIC_CXX_COMPILE_OPTIONS "")
 check_compiler_platform_flags()
+
+# itk_module_add_library() gives these to clients; ITK's own build gets them here.
+list(JOIN ITK_PUBLIC_CXX_COMPILE_OPTIONS " " _itk_public_cxx_flags)
+string(APPEND CMAKE_CXX_FLAGS " ${_itk_public_cxx_flags}")
+unset(_itk_public_cxx_flags)
 
 # Append ITK warnings to the CMake flags.
 # We do not set them in ITK_REQUIRED FLAGS because all project which
