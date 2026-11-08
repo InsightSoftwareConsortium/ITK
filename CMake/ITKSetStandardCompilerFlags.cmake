@@ -270,9 +270,9 @@ int main() { return 0; }
 
   # mingw thread support
   if(MINGW)
-    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mthreads")
-    set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mthreads")
-    set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -mthreads")
+    list(APPEND ITK_PUBLIC_CXX_COMPILE_OPTIONS -mthreads)
+    list(APPEND ITK_PUBLIC_LINK_OPTIONS -mthreads)
+    string(APPEND CMAKE_C_FLAGS " -mthreads")
   endif()
 
   #-----------------------------------------------------------------------------
@@ -358,12 +358,22 @@ unset(CXX_OPTIMIZATION_FLAGS)
 #-----------------------------------------------------------------------------
 #Check the set of platform flags the compiler supports
 set(ITK_PUBLIC_CXX_COMPILE_OPTIONS "")
+set(ITK_PUBLIC_LINK_OPTIONS "")
 check_compiler_platform_flags()
 
 # itk_module_add_library() gives these to clients; ITK's own build gets them here.
 list(JOIN ITK_PUBLIC_CXX_COMPILE_OPTIONS " " _itk_public_cxx_flags)
 string(APPEND CMAKE_CXX_FLAGS " ${_itk_public_cxx_flags}")
+list(JOIN ITK_PUBLIC_LINK_OPTIONS " " _itk_public_link_flags)
+foreach(_itk_linker_flags_var EXE SHARED MODULE)
+  string(
+    APPEND
+    CMAKE_${_itk_linker_flags_var}_LINKER_FLAGS
+    " ${_itk_public_link_flags}"
+  )
+endforeach()
 unset(_itk_public_cxx_flags)
+unset(_itk_public_link_flags)
 
 # Append ITK warnings to the CMake flags.
 # We do not set them in ITK_REQUIRED FLAGS because all project which

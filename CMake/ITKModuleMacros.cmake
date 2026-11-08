@@ -920,9 +920,10 @@ macro(itk_module_add_library _name)
     target_compile_options(
       ${_name}
       PUBLIC
-        $<$<COMPILE_LANGUAGE:CXX>:${ITK_PUBLIC_CXX_COMPILE_OPTIONS}>
+        "$<$<COMPILE_LANGUAGE:C,CXX>:${ITK_PUBLIC_CXX_COMPILE_OPTIONS}>"
     )
   endif()
+  target_link_options(${_name} PUBLIC ${ITK_PUBLIC_LINK_OPTIONS})
 
   # Add module include directories to target
   target_include_directories(
