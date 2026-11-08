@@ -90,6 +90,9 @@ set(GDCM_DEBUG_POSTFIX "" CACHE INTERNAL "")
 
 add_subdirectory(gdcm)
 
+# gdcmDeflateStream.cxx in gdcmCommon includes zlib, but GDCM links zlib only to gdcmDSED.
+target_link_libraries(gdcmCommon LINK_PRIVATE ${ZLIB_LIBRARIES})
+
 foreach(
   lib
   gdcmCommon
