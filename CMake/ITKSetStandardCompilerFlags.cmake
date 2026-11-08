@@ -157,7 +157,7 @@ macro(check_compiler_platform_flags)
       # format.
       # see https://msdn.microsoft.com/en-us/library/ms173499.aspx
       if(MSVC)
-        set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
+        string(APPEND CMAKE_CXX_FLAGS " /bigobj")
       endif()
     endif()
   endif()
