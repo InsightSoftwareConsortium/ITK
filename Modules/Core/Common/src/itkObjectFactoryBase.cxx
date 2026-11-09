@@ -38,6 +38,7 @@
 #include <cstring>
 #include <algorithm>
 #include <atomic>
+#include <string_view>
 
 namespace
 {
@@ -349,31 +350,28 @@ CreateFullPath(const char * path, const char * file)
 using AutoloadFunctionType = ObjectFactoryBase * (*)();
 
 /**
- * A file scoped function to determine if a file has
- * the shared library extension in its name, this converts name to lower
- * case before the compare, DynamicLoader always uses
- * lower case for LibExtension values.
+ * A file scoped function to determine if a file has the shared library extension in its name.
  */
 inline bool
-NameIsSharedLibrary([[maybe_unused]] const char * name)
+NameIsSharedLibrary([[maybe_unused]] const std::string_view fileName)
 {
 #ifdef ITK_DYNAMIC_LOADING
-  std::string extension = itksys::DynamicLoader::LibExtension();
+  const auto fileNameEndsWith = [fileName](const std::string_view extension) {
+    // With C++20, we can use `std::string_view::ends_with` instead.
+    return fileName.size() >= extension.size() && fileName.substr(fileName.size() - extension.size()) == extension;
+  };
 
-  const std::string sname = name;
-  if (sname.rfind(extension) == sname.size() - extension.size())
+  if (fileNameEndsWith(itksys::DynamicLoader::LibExtension()))
   {
     return true;
   }
 #  ifdef __APPLE__
   // Need to also check libraries with a .dylib extension.
-  extension = ".dylib";
-#  endif
-  const size_t extensionpos = sname.rfind(extension);
-  if ((extensionpos != std::string::npos) && (extensionpos == (sname.size() - extension.size())))
+  if (fileNameEndsWith(".dylib"))
   {
     return true;
   }
+#  endif
 #else // ITK_DYNAMIC_LOADING
   itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");
 #endif
