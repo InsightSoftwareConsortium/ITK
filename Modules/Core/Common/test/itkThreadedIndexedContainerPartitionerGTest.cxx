@@ -239,7 +239,7 @@ TEST(ThreadedIndexedContainerPartitioner, PlatformThreaderReportsAcceptedWorkUni
   const itk::ThreadIdType globalMaximum = itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
   const itk::ThreadIdType requested = globalMaximum + 1;
   enclosingClass.GetDomainThreader()->SetNumberOfWorkUnits(requested);
-  EXPECT_EQ(domainThreader->GetNumberOfWorkUnits(), requested);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnits(), globalMaximum);
 
   DomainType fullRange;
   fullRange[0] = 0;

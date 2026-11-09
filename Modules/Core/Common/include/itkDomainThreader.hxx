@@ -28,7 +28,17 @@ DomainThreader<TDomainPartitioner, TAssociate>::DomainThreader()
   , m_DomainPartitioner(DomainPartitionerType::New())
 {
   this->m_MultiThreader = MultiThreaderBase::New();
-  this->m_NumberOfWorkUnits = this->m_MultiThreader->GetNumberOfWorkUnits();
+}
+
+template <typename TDomainPartitioner, typename TAssociate>
+void
+DomainThreader<TDomainPartitioner, TAssociate>::SetNumberOfWorkUnits(const ThreadIdType numberOfWorkUnits)
+{
+  if (numberOfWorkUnits != this->GetNumberOfWorkUnits())
+  {
+    this->m_MultiThreader->SetNumberOfWorkUnits(numberOfWorkUnits);
+    this->Modified();
+  }
 }
 
 template <typename TDomainPartitioner, typename TAssociate>
@@ -70,16 +80,12 @@ template <typename TDomainPartitioner, typename TAssociate>
 void
 DomainThreader<TDomainPartitioner, TAssociate>::DetermineNumberOfWorkUnitsUsed()
 {
-  // The backend may clamp the request, so partition using the count it accepts.
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-  const ThreadIdType numberOfWorkUnits = this->GetMultiThreader()->GetNumberOfWorkUnits();
+  const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // Attempt a single dummy partition, just to get the number of subdomains actually created
   DomainType subdomain;
   this->m_NumberOfWorkUnitsUsed =
     this->m_DomainPartitioner->PartitionDomain(0, numberOfWorkUnits, this->m_CompleteDomain, subdomain);
-
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->m_NumberOfWorkUnitsUsed);
 
   if (this->m_NumberOfWorkUnitsUsed > numberOfWorkUnits)
   {
