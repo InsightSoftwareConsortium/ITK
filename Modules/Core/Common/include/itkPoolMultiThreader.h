@@ -28,6 +28,8 @@
 #ifndef itkPoolMultiThreader_h
 #define itkPoolMultiThreader_h
 
+#include <vector>
+
 #include "itkMultiThreaderBase.h"
 #include "itkThreadPool.h"
 
@@ -61,9 +63,7 @@ public:
 
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
-   * m_NumberOfWorkUnits work units. As a side effect the m_NumberOfWorkUnits will be
-   * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
-   * necessary. */
+   * m_NumberOfWorkUnits work units. Work units may outnumber the pool threads. */
   void
   SingleMethodExecute() override;
 
@@ -95,6 +95,10 @@ public:
   void
   SetMaximumNumberOfThreads(ThreadIdType numberOfThreads) override;
 
+  /** Set the number of work units, independent of the number of pool threads. */
+  void
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
+
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   struct ITK_FUTURE_DEPRECATED(
     "PoolMultiThreader now uses a slightly different private `InternalWorkUnitInfo` struct instead!")
@@ -116,13 +120,14 @@ private:
     std::future<void> Future;
   };
 
+  void
+  EnsureWorkUnitInfoArraySize(std::size_t size);
+
   // Thread pool instance and factory
   ThreadPool::Pointer m_ThreadPool{};
 
-  /** An array of work unit information containing a work unit id
-   *  (0, 1, 2, .. ITK_MAX_THREADS-1), work unit count, and a pointer
-   *  to void so that user data can be passed to each thread. */
-  InternalWorkUnitInfo m_ThreadInfoArray[ITK_MAX_THREADS]{};
+  /** Work-unit information and task futures, grown as execution needs them. */
+  std::vector<InternalWorkUnitInfo> m_WorkUnitInfoArray;
 
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its

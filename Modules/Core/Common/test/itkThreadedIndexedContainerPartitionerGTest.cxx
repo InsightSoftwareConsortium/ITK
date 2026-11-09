@@ -225,3 +225,35 @@ TEST(ThreadedIndexedContainerPartitioner, ConvertedLegacyTest)
     std::cout << "No multi-threading available. " << std::endl;
   }
 }
+
+TEST(ThreadedIndexedContainerPartitioner, PlatformThreaderReportsAcceptedWorkUnits)
+{
+  const auto previousThreader = itk::MultiThreaderBase::GetGlobalDefaultThreader();
+  itk::MultiThreaderBase::SetGlobalDefaultThreader(itk::MultiThreaderBaseEnums::Threader::Platform);
+
+  DomainThreaderAssociate                                         enclosingClass;
+  const DomainThreaderAssociate::TestDomainThreader::ConstPointer domainThreader = enclosingClass.GetDomainThreader();
+  itk::MultiThreaderBase::SetGlobalDefaultThreader(previousThreader);
+
+  using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
+  const itk::ThreadIdType globalMaximum = itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
+  const itk::ThreadIdType requested = globalMaximum + 1;
+  enclosingClass.GetDomainThreader()->SetNumberOfWorkUnits(requested);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnits(), requested);
+
+  DomainType fullRange;
+  fullRange[0] = 0;
+  fullRange[1] = static_cast<DomainType::IndexValueType>(requested - 1);
+  enclosingClass.Execute(fullRange);
+
+  EXPECT_GE(domainThreader->GetNumberOfWorkUnitsUsed(), 1u);
+  EXPECT_LE(domainThreader->GetNumberOfWorkUnitsUsed(), globalMaximum);
+  const std::vector<DomainType> & domains = domainThreader->GetDomainInThreadedExecution();
+  ASSERT_EQ(domains.size(), domainThreader->GetNumberOfWorkUnitsUsed());
+  for (const auto & subRange : domains)
+  {
+    EXPECT_NE(subRange[0], -1);
+    EXPECT_NE(subRange[1], -1);
+  }
+  EXPECT_EQ(domains.back()[1], fullRange[1]);
+}

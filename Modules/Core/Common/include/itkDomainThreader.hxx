@@ -70,7 +70,9 @@ template <typename TDomainPartitioner, typename TAssociate>
 void
 DomainThreader<TDomainPartitioner, TAssociate>::DetermineNumberOfWorkUnitsUsed()
 {
-  const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
+  // The backend may clamp the request, so partition using the count it accepts.
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  const ThreadIdType numberOfWorkUnits = this->GetMultiThreader()->GetNumberOfWorkUnits();
 
   // Attempt a single dummy partition, just to get the number of subdomains actually created
   DomainType subdomain;

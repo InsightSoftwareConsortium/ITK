@@ -18,6 +18,8 @@
 #ifndef itkDomainThreader_h
 #define itkDomainThreader_h
 
+#include <algorithm>
+
 #include "itkObject.h"
 #include "itkMultiThreaderBase.h"
 
@@ -104,11 +106,19 @@ public:
   GetMultiThreader() const;
 
   /** Convenience methods to set/get the desired number of work units to use.
-   * \warning When setting the desired number of work units, it might be clamped by
-   * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads().
+   * \warning The selected multithreader may clamp the number of work units.
    * */
   /** @ITKStartGrouping */
-  itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
+  virtual void
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
+  {
+    const ThreadIdType value = std::max<ThreadIdType>(1, numberOfWorkUnits);
+    if (this->m_NumberOfWorkUnits != value)
+    {
+      this->m_NumberOfWorkUnits = value;
+      this->Modified();
+    }
+  }
   itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
   /** @ITKEndGrouping */
   /** Convenience methods to set/get the maximum number of threads to use.
