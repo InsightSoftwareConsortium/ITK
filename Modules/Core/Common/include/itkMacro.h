@@ -54,6 +54,10 @@
 #include <sstream>
 #include <type_traits> // For is_same, remove_const, and remove_reference.
 
+// Two levels: # does not expand its operand, so the inner macro receives the expanded token.
+#define ITK_STRINGIFY_HELPER(x) #x
+#define ITK_STRINGIFY(x) ITK_STRINGIFY_HELPER(x)
+
 /** \namespace itk
  * \brief The "itk" namespace contains all Insight Segmentation and
  * Registration Toolkit (ITK) classes. There are several nested namespaces

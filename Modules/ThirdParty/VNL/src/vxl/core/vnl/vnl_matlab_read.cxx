@@ -138,6 +138,7 @@ vnl_matlab_readhdr::read_hdr()
     case 100:
     case 110:
     case 1000:
+    case 1010:
     case 1100:
     case 1110:
       need_swap = false;

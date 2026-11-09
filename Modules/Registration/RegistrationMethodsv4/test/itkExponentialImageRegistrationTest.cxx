@@ -461,17 +461,18 @@ itkExponentialImageRegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  int testStatus = EXIT_SUCCESS;
   switch (std::stoi(argv[1]))
   {
     case 2:
-      PerformExpImageRegistration<2>(argc, argv);
+      testStatus = PerformExpImageRegistration<2>(argc, argv);
       break;
     case 3:
-      PerformExpImageRegistration<3>(argc, argv);
+      testStatus = PerformExpImageRegistration<3>(argc, argv);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;
+  return testStatus;
 }
