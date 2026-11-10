@@ -27,10 +27,13 @@
 #include "tbb/parallel_for.h"
 
 #include "tbb/global_control.h"
+
+namespace
+{
 // From tbb/examples/common/utility/get_default_num_threads.h
 namespace tbb_utility
 {
-inline int
+int
 get_default_num_threads()
 {
 #if __TBB_MIC_OFFLOAD
@@ -42,8 +45,6 @@ get_default_num_threads()
 }
 } // namespace tbb_utility
 
-namespace
-{
 // Target chunk size: about one chunk per work unit.
 itk::SizeValueType
 ChunkGrain(itk::SizeValueType count, itk::ThreadIdType numberOfWorkUnits)
