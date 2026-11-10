@@ -27,6 +27,7 @@
 #include "itkObjectToObjectMultiMetricv4.h"
 #include "itkResampleImageFilter.h"
 #include "itkShrinkImageFilter.h"
+#include "itkTranslationTransform.h"
 #include "itkGTest.h"
 
 #include <cmath>
@@ -286,10 +287,12 @@ const std::vector<Options> &
 Configurations()
 {
   // Default, smoothed total field with an update variance below 0.5, mask without derivative downsampling,
-  // and two image pairs.
-  static const std::vector<Options> configurations{
-    {}, { 0.25, 1.0, true, false, false }, { 3.0, 0.0, false, true, false }, { 3.0, 0.5, true, false, true }
-  };
+  // two image pairs, and mask with derivative downsampling.
+  static const std::vector<Options> configurations{ {},
+                                                    { 0.25, 1.0, true, false, false },
+                                                    { 3.0, 0.0, false, true, false },
+                                                    { 3.0, 0.5, true, false, true },
+                                                    { 3.0, 0.0, true, true, false } };
   return configurations;
 }
 } // namespace
@@ -305,7 +308,8 @@ TEST(SyNImageRegistrationMethod, MatchesBaseline)
     { -0.28336780395289196, 1.274287937792419, 0.21522601031570865, 0.11025017536445247 },
     { -0.27311490551753081, 1.3763187723850656, 0.20881543269035774, 0.19702995233577525 },
     { -0.27268737095291229, 1.3008609297425906, 0.21090716804163279, 0.17900305205919409 },
-    { -0.34488616123441318, 0.23092394821163253, 0.11462549081682383, -0.63336005356165614 }
+    { -0.34488616123441318, 0.23092394821163253, 0.11462549081682383, -0.63336005356165614 },
+    { -0.28395371732891306, 1.2694115559413852, 0.22097440143027924, 0.10737856101015097 }
   };
   for (size_t c = 0; c < Configurations().size(); ++c)
   {
@@ -475,4 +479,75 @@ TEST(SyNImageRegistrationMethod, GaussianSmoothingMatchesSerialReference)
         << "variance " << variance << ", work units " << numberOfWorkUnits;
     }
   }
+}
+
+namespace
+{
+// Exposes the protected resampling cache.
+class ResamplingSyN : public RegistrationType
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(ResamplingSyN);
+  using Self = ResamplingSyN;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+  using RegistrationType::ClearResampleCache;
+  using RegistrationType::ResampleImageToVirtualDomain;
+  using RegistrationType::ResampleMaskToVirtualDomain;
+
+protected:
+  ResamplingSyN() = default;
+};
+
+std::vector<double>
+Pixels(const ImageType * image)
+{
+  std::vector<double> pixels;
+  for (itk::ImageRegionConstIterator<ImageType> it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  {
+    pixels.push_back(it.Get());
+  }
+  return pixels;
+}
+} // namespace
+
+TEST(SyNImageRegistrationMethod, ResampleCacheReusesResultsUntilCleared)
+{
+  const auto image = MakeFixedImage();
+  auto       shift = itk::TranslationTransform<double, Dimension>::New();
+  auto       offset = shift->GetParameters();
+  offset[0] = 1.25;
+  offset[1] = -0.5;
+  shift->SetParameters(offset);
+  const auto other = itk::TranslationTransform<double, Dimension>::New();
+
+  auto resampler = itk::ResampleImageFilter<ImageType, ImageType, double>::New();
+  resampler->SetInput(image);
+  resampler->SetTransform(shift);
+  resampler->UseReferenceImageOn();
+  resampler->SetReferenceImage(image);
+  resampler->SetDefaultPixelValue(0);
+  resampler->Update();
+  const auto expected = Pixels(resampler->GetOutput());
+
+  auto       syn = ResamplingSyN::New();
+  const auto first = syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, image);
+  EXPECT_EQ(Pixels(first), expected);
+  EXPECT_EQ(syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, image), first);
+
+  const auto mask = syn->ResampleMaskToVirtualDomain(image.GetPointer(), shift, image);
+  EXPECT_NE(mask, first);
+  EXPECT_NE(Pixels(mask), expected);
+  EXPECT_EQ(syn->ResampleMaskToVirtualDomain(image.GetPointer(), shift, image), mask);
+  EXPECT_NE(syn->ResampleImageToVirtualDomain(image.GetPointer(), other, image), first);
+  auto shrinker = itk::ShrinkImageFilter<ImageType, ImageType>::New();
+  shrinker->SetInput(image);
+  shrinker->SetShrinkFactors(2);
+  shrinker->Update();
+  EXPECT_NE(syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, shrinker->GetOutput()), first);
+
+  syn->ClearResampleCache();
+  const auto again = syn->ResampleImageToVirtualDomain(image.GetPointer(), shift, image);
+  EXPECT_NE(again, first);
+  EXPECT_EQ(Pixels(again), expected);
 }
