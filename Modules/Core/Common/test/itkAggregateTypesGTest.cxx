@@ -64,13 +64,13 @@ ISO template <unsigned int VDimension> std::ostream & operator<<(std::ostream & 
 
 // ======================= Mirror the access pattern behavior of the std::array class
 // Array comparisons.
-ISO inline bool operator==(const Index<VDimension> & one, const Index<VDimension> & two)
-ISO inline bool operator!=(const Index<VDimension> & one, const Index<VDimension> & two)
-ISO inline bool operator<(const Index<VDimension> & one, const Index<VDimension> & two)
-ISO inline bool operator>(const Index<VDimension> & one, const Index<VDimension> & two)
-ISO inline bool operator<=(const Index<VDimension> & one, const Index<VDimension> & two)
-ISO inline bool operator>=(const Index<VDimension> & one, const Index<VDimension> & two)
-ISO inline void swap(Index<VDimension> & one, Index<VDimension> & two)
+ISO bool operator==(const Index<VDimension> & one, const Index<VDimension> & two)
+ISO bool operator!=(const Index<VDimension> & one, const Index<VDimension> & two)
+ISO bool operator<(const Index<VDimension> & one, const Index<VDimension> & two)
+ISO bool operator>(const Index<VDimension> & one, const Index<VDimension> & two)
+ISO bool operator<=(const Index<VDimension> & one, const Index<VDimension> & two)
+ISO bool operator>=(const Index<VDimension> & one, const Index<VDimension> & two)
+ISO void swap(Index<VDimension> & one, Index<VDimension> & two)
 
 Index & Offset types
 IO  const Self operator+(const SizeType & size) const
@@ -85,8 +85,8 @@ IO  const Self & operator-=(const OffsetType & offset)
 IO  const Self operator-(const OffsetType & off) const
 
 IO  const OffsetType operator-(const Self & vec) const
-IO  inline void CopyWithRound(const FixedArray<TCoordinate, VDimension> & point)
-IO  inline void CopyWithCast(const FixedArray<TCoordinate, VDimension> & point)
+IO  void CopyWithRound(const FixedArray<TCoordinate, VDimension> & point)
+IO  void CopyWithCast(const FixedArray<TCoordinate, VDimension> & point)
 
 Index
 I  void SetIndex(const IndexValueType val[VDimension])

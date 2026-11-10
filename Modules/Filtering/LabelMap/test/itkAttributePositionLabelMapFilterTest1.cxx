@@ -34,7 +34,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::RegionType::IndexType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetBoundingBox().GetIndex();

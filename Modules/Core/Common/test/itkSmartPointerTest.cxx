@@ -44,7 +44,7 @@ public:
       delete this;
     }
   }
-  friend inline std::ostream &
+  friend std::ostream &
   operator<<(std::ostream & os, const itkTestObject & o)
   {
     os << "itkTestObject " << (const void *)&o << ' ' << o.m_ReferenceCount;

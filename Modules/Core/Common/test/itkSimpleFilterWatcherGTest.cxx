@@ -37,7 +37,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TanHelper);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return (TOutput)std::tan(static_cast<double>(A));
