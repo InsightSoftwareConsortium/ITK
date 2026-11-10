@@ -22,6 +22,7 @@
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkGaussianOperator.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -180,7 +181,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  ThreadedGenerateData(const RegionType &, ThreadIdType) override;
+  GenerateData() override;
 
   void
   BeforeThreadedGenerateData() override;
@@ -190,6 +191,11 @@ protected:
 
 private:
   RealType CalculateCorrectionFactor(RealType);
+
+  void
+  AccumulatePatchEstimates(const RegionType &, OutputImageType *, TotalProgressReporter &);
+
+  static constexpr RealType NoMinimumDistance = -1;
 
   bool m_UseRicianNoiseModel;
 
@@ -207,7 +213,7 @@ private:
   RealImagePointer m_MeanImage;
   RealImagePointer m_RicianBiasImage;
   RealImagePointer m_VarianceImage;
-  RealImagePointer m_ThreadContributionCountImage;
+  RealImagePointer m_CenterMinimumDistanceImage;
   RealImagePointer m_IntensitySquaredDistanceImage;
 
   NeighborhoodRadiusType m_NeighborhoodRadiusForLocalMeanAndVariance;
