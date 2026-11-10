@@ -62,6 +62,12 @@ public:
     }
   }
 
+  bool
+  HasCaughtException() const
+  {
+    return m_FirstCaughtException != nullptr;
+  }
+
   void
   RethrowFirstCaughtException() const
   {
@@ -73,6 +79,81 @@ public:
 
 private:
   std::exception_ptr m_FirstCaughtException;
+};
+
+// Tasks refer to the caller's stack, so every submitted future must be
+// waited for, even after a failure, before the caller returns or unwinds.
+template <typename TWorkUnits>
+void
+WaitForWorkUnits(TWorkUnits &       workUnits,
+                 const std::size_t  count,
+                 ExceptionHandler & exceptionHandler,
+                 ProcessObject *    filter,
+                 ProgressReporter * reporter,
+                 const bool         getResults = true)
+{
+  for (std::size_t i = 1; i < count; ++i)
+  {
+    auto &             future = workUnits[i].Future;
+    std::future_status status;
+    do
+    {
+      status = future.wait_for(threadCompletionPollingInterval);
+      if (filter && status == std::future_status::timeout)
+      {
+        exceptionHandler.TryAndCatch([filter] { filter->IncrementProgress(0); });
+      }
+    } while (status != std::future_status::ready);
+    exceptionHandler.TryAndCatch([&future, reporter, getResults] {
+      if (getResults)
+      {
+        future.get();
+      }
+      if (reporter != nullptr)
+      {
+        reporter->CompletedPixel();
+      }
+    });
+  }
+}
+
+// Read-only state shared by all tasks of one call. It is aligned and padded so
+// that the submitting thread's stack writes (such as call return addresses)
+// never invalidate the cache line the workers read the functor from.
+struct alignas(128) SharedArrayState
+{
+  MultiThreaderBase::ArrayThreadingFunctorType Func;
+
+  void
+  Run(SizeValueType start, SizeValueType end) const
+  {
+    for (SizeValueType ii = start; ii < end; ++ii)
+    {
+      Func(ii);
+    }
+  }
+};
+
+struct alignas(128) SharedRegionState
+{
+  MultiThreaderBase::ThreadingFunctorType Func;
+  ImageIORegion                           Region;
+  const ImageRegionSplitterBase *         Splitter;
+  ThreadIdType                            SplitCount;
+
+  // Each task derives its own sub-region so the submitting thread need not build one per task.
+  void
+  Run(ThreadIdType i) const
+  {
+    ImageIORegion      iRegion = Region;
+    const ThreadIdType total = Splitter->GetSplit(i, SplitCount, iRegion);
+    if (i >= total)
+    {
+      itkGenericExceptionMacro("Could not get work unit "
+                               << i << " even though we checked possible number of splits beforehand!");
+    }
+    Func(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
+  }
 };
 } // namespace
 
@@ -149,29 +230,33 @@ PoolMultiThreader::SingleMethodExecute()
     itkExceptionStringMacro("No single method set!");
   }
 
-  this->EnsureWorkUnitInfoArraySize(m_NumberOfWorkUnits);
+  const ThreadIdType numberOfWorkUnits = m_NumberOfWorkUnits;
+  this->EnsureWorkUnitInfoArraySize(numberOfWorkUnits);
 
-  ThreadIdType threadLoop = 0;
-  for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
-  {
-    m_WorkUnitInfoArray[threadLoop].UserData = m_SingleData;
-    m_WorkUnitInfoArray[threadLoop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-    m_WorkUnitInfoArray[threadLoop].Future = m_ThreadPool->AddWork(
-      [method = m_SingleMethod, threadInfo = &m_WorkUnitInfoArray[threadLoop]] { method(threadInfo); });
-  }
+  ExceptionHandler exceptionHandler;
+  ThreadIdType     submitted = 1;
+  exceptionHandler.TryAndCatch([this, numberOfWorkUnits, &submitted] {
+    for (; submitted < numberOfWorkUnits; ++submitted)
+    {
+      InternalWorkUnitInfo & workUnit = m_WorkUnitInfoArray[submitted];
+      workUnit.UserData = m_SingleData;
+      workUnit.NumberOfWorkUnits = numberOfWorkUnits;
+      workUnit.Future =
+        m_ThreadPool->AddWork([method = &m_SingleMethod, threadInfo = &workUnit] { (*method)(threadInfo); });
+    }
+  });
 
   // Now, the parent thread calls this->SingleMethod() itself
-  m_WorkUnitInfoArray[0].UserData = m_SingleData;
-  m_WorkUnitInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
-  ExceptionHandler exceptionHandler;
-  exceptionHandler.TryAndCatch([this] { m_SingleMethod(&m_WorkUnitInfoArray[0]); });
+  if (!exceptionHandler.HasCaughtException())
+  {
+    m_WorkUnitInfoArray[0].UserData = m_SingleData;
+    m_WorkUnitInfoArray[0].NumberOfWorkUnits = numberOfWorkUnits;
+    exceptionHandler.TryAndCatch([this] { m_SingleMethod(&m_WorkUnitInfoArray[0]); });
+  }
 
   // The parent thread has finished SingleMethod()
   // so now it waits for each of the other work units to finish
-  for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
-  {
-    exceptionHandler.TryAndCatch([this, threadLoop] { m_WorkUnitInfoArray[threadLoop].Future.get(); });
-  }
+  WaitForWorkUnits(m_WorkUnitInfoArray, submitted, exceptionHandler, nullptr, nullptr);
 
   exceptionHandler.RethrowFirstCaughtException();
 }
@@ -196,48 +281,38 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
       ++chunkSize; // we want slightly bigger chunks to be processed first
     }
     const SizeValueType roundingLeftover = numberOfItems % chunkSize > 0 ? 1 : 0;
-    this->EnsureWorkUnitInfoArraySize(numberOfItems / chunkSize + roundingLeftover);
+    const SizeValueType workUnitCount = numberOfItems / chunkSize + roundingLeftover;
+    itkAssertOrThrowMacro(workUnitCount <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
+    this->EnsureWorkUnitInfoArraySize(workUnitCount);
 
-    auto lambda = [aFunc](SizeValueType start, SizeValueType end) {
-      for (SizeValueType ii = start; ii < end; ++ii)
-      {
-        aFunc(ii);
-      }
-    };
+    // Tasks refer to this; it outlives them because all futures are waited for below.
+    const SharedArrayState state{ std::move(aFunc) };
 
-    SizeValueType workUnit = 1;
-    for (SizeValueType i = firstIndex + chunkSize; i < lastIndexPlus1; i += chunkSize)
-    {
-      m_WorkUnitInfoArray[workUnit++].Future =
-        m_ThreadPool->AddWork(lambda, i, std::min(i + chunkSize, lastIndexPlus1));
-    }
-    itkAssertOrThrowMacro(workUnit <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
+    ProgressReporter reporter(filter, 0, workUnitCount);
 
-    ProgressReporter reporter(filter, 0, workUnit);
-
-    // execute this thread's share
     ExceptionHandler exceptionHandler;
-    exceptionHandler.TryAndCatch([lambda, firstIndex, chunkSize, &reporter] {
-      lambda(firstIndex, firstIndex + chunkSize);
-      reporter.CompletedPixel();
+    SizeValueType    workUnit = 1;
+    exceptionHandler.TryAndCatch([&] {
+      for (SizeValueType i = firstIndex + chunkSize; i < lastIndexPlus1; i += chunkSize)
+      {
+        const SizeValueType end = std::min(i + chunkSize, lastIndexPlus1);
+        m_WorkUnitInfoArray[workUnit].Future =
+          m_ThreadPool->AddWork([statePtr = &state, i, end] { statePtr->Run(i, end); });
+        ++workUnit;
+      }
     });
 
-    // now wait for the other computations to finish
-    for (SizeValueType i = 1; i < workUnit; ++i)
+    // execute this thread's share
+    if (!exceptionHandler.HasCaughtException())
     {
-      exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
-        std::future_status status;
-        do
-        {
-          status = m_WorkUnitInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
-          if (filter && status == std::future_status::timeout)
-          {
-            filter->IncrementProgress(0);
-          }
-        } while (status != std::future_status::ready);
+      exceptionHandler.TryAndCatch([&state, firstIndex, chunkSize, &reporter] {
+        state.Run(firstIndex, firstIndex + chunkSize);
         reporter.CompletedPixel();
       });
     }
+
+    // now wait for the other computations to finish
+    WaitForWorkUnits(m_WorkUnitInfoArray, workUnit, exceptionHandler, filter, &reporter, false);
 
     exceptionHandler.RethrowFirstCaughtException();
   }
@@ -285,50 +360,31 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
       this->EnsureWorkUnitInfoArraySize(splitCount);
       ProgressReporter reporter(filter, 0, splitCount);
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
-      ImageIORegion iRegion;
-      ThreadIdType  total = 0;
-      for (ThreadIdType i = 1; i < splitCount; ++i)
-      {
-        iRegion = region;
-        total = splitter->GetSplit(i, splitCount, iRegion);
-        if (i < total)
-        {
-          m_WorkUnitInfoArray[i].Future =
-            m_ThreadPool->AddWork([funcP, iRegion]() { funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]); });
-        }
-        else
-        {
-          itkExceptionMacro("Could not get work unit "
-                            << i << " even though we checked possible number of splits beforehand!");
-        }
-      }
-      iRegion = region;
-      splitter->GetSplit(0, splitCount, iRegion);
 
-      // execute this thread's share
+      // Tasks refer to this; it outlives them because all futures are waited for below.
+      const SharedRegionState state{ std::move(funcP), std::move(region), splitter, splitCount };
+
       ExceptionHandler exceptionHandler;
-      exceptionHandler.TryAndCatch([funcP, iRegion, &reporter] {
-        funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
-        reporter.CompletedPixel();
+      ThreadIdType     submitted = 1;
+      exceptionHandler.TryAndCatch([&] {
+        for (; submitted < splitCount; ++submitted)
+        {
+          m_WorkUnitInfoArray[submitted].Future =
+            m_ThreadPool->AddWork([statePtr = &state, submitted] { statePtr->Run(submitted); });
+        }
       });
 
-      // now wait for the other computations to finish
-      for (ThreadIdType i = 1; i < splitCount; ++i)
+      // execute this thread's share
+      if (!exceptionHandler.HasCaughtException())
       {
-        exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
-          std::future_status status;
-          do
-          {
-            status = m_WorkUnitInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
-            if (filter && status == std::future_status::timeout)
-            {
-              filter->IncrementProgress(0);
-            }
-          } while (status != std::future_status::ready);
-          m_WorkUnitInfoArray[i].Future.get();
+        exceptionHandler.TryAndCatch([&state, &reporter] {
+          state.Run(0);
           reporter.CompletedPixel();
         });
       }
+
+      // now wait for the other computations to finish
+      WaitForWorkUnits(m_WorkUnitInfoArray, submitted, exceptionHandler, filter, &reporter);
 
       exceptionHandler.RethrowFirstCaughtException();
     }
