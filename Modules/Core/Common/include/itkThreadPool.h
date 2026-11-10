@@ -26,6 +26,9 @@
 #include <future>
 #include <condition_variable>
 #include <thread>
+#include <tuple>
+#include <type_traits>
+#include <utility>
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -88,15 +91,20 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   {
     using return_type = std::invoke_result_t<Function, Arguments...>;
 
-    auto task = std::make_shared<std::packaged_task<return_type()>>(
-      [function, arguments...]() -> return_type { return function(arguments...); });
-
-    std::future<return_type> res = task->get_future();
+    std::packaged_task<return_type()> task([f = std::forward<Function>(function),
+                                            args = std::make_tuple(std::forward<Arguments>(
+                                              arguments)...)]() mutable -> return_type { return std::apply(f, args); });
+    std::future<return_type>          res = task.get_future();
+    if constexpr (std::is_void_v<return_type>)
     {
-      const std::lock_guard<std::mutex> lockGuard(this->GetMutex());
-      m_WorkQueue.emplace_back([task]() { (*task)(); });
+      this->Enqueue(std::move(task)); // stored directly: one allocation for the shared state
     }
-    m_Condition.notify_one();
+    else
+    {
+      // The queue holds void() tasks; the shared_ptr keeps the typed task alive until it runs.
+      this->Enqueue(std::packaged_task<void()>(
+        [typedTask = std::make_shared<std::packaged_task<return_type()>>(std::move(task))] { (*typedTask)(); }));
+    }
     return res;
   }
 
@@ -126,6 +134,17 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   SetDoNotWaitForThreads(bool doNotWaitForThreads);
   /** @ITKEndGrouping */
 protected:
+  /** Add an already-wrapped task to the queue and wake a worker. */
+  void
+  Enqueue(std::packaged_task<void()> && task)
+  {
+    {
+      const std::lock_guard<std::mutex> lockGuard(this->GetMutex());
+      m_WorkQueue.push_back(std::move(task));
+    }
+    m_Condition.notify_one();
+  }
+
   /** We need access to the mutex in AddWork, and the variable is only
    * visible in the .cxx file, so this method returns it. */
   std::mutex &
@@ -151,7 +170,7 @@ private:
   /** This is a list of jobs submitted to the thread pool.
    * This is the only place where the jobs are submitted.
    * Filled by AddWork, emptied by ThreadExecute. */
-  std::deque<std::function<void()>> m_WorkQueue; // guarded by m_PimplGlobals->m_Mutex
+  std::deque<std::packaged_task<void()>> m_WorkQueue; // guarded by m_PimplGlobals->m_Mutex
 
   /** When a thread is idle, it is waiting on m_Condition.
    * AddWork signals it to resume a (random) thread. */

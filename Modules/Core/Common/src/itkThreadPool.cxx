@@ -194,7 +194,7 @@ ThreadPool::ThreadExecute()
 
   while (true)
   {
-    std::function<void()> task;
+    std::packaged_task<void()> task;
 
     {
       std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
