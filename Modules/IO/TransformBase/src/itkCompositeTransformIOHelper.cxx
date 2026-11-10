@@ -26,80 +26,12 @@ namespace itk
 namespace
 {
 template <unsigned int VDimension>
-inline std::string
+std::string
 GetTransformDimensionAsString()
 {
-  std::string rval("unknown");
-  return rval;
+  const std::string dimensionAsString = std::to_string(VDimension);
+  return dimensionAsString + '_' + dimensionAsString;
 }
-
-ITK_GCC_PRAGMA_DIAG_PUSH()
-ITK_GCC_PRAGMA_DIAG(ignored "-Wunused-function")
-template <>
-std::string
-GetTransformDimensionAsString<2>()
-{
-  std::string rval("2_2");
-  return rval;
-}
-
-template <>
-std::string
-GetTransformDimensionAsString<3>()
-{
-  std::string rval("3_3");
-  return rval;
-}
-
-template <>
-std::string
-GetTransformDimensionAsString<4>()
-{
-  std::string rval("4_4");
-  return rval;
-}
-
-template <>
-std::string
-GetTransformDimensionAsString<5>()
-{
-  std::string rval("5_5");
-  return rval;
-}
-
-template <>
-std::string
-GetTransformDimensionAsString<6>()
-{
-  std::string rval("6_6");
-  return rval;
-}
-
-template <>
-std::string
-GetTransformDimensionAsString<7>()
-{
-  std::string rval("7_7");
-  return rval;
-}
-
-template <>
-std::string
-GetTransformDimensionAsString<8>()
-{
-  std::string rval("8_8");
-  return rval;
-}
-
-template <>
-std::string
-GetTransformDimensionAsString<9>()
-{
-  std::string rval("9_9");
-  return rval;
-}
-ITK_GCC_PRAGMA_DIAG_POP()
-
 } // namespace
 
 template <typename TParametersValueType>
