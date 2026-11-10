@@ -350,35 +350,6 @@ CreateFullPath(const char * path, const char * file)
 using AutoloadFunctionType = ObjectFactoryBase * (*)();
 
 /**
- * A file scoped function to determine if a file has the shared library extension in its name.
- */
-inline bool
-NameIsSharedLibrary([[maybe_unused]] const std::string_view fileName)
-{
-#ifdef ITK_DYNAMIC_LOADING
-  const auto fileNameEndsWith = [fileName](const std::string_view extension) {
-    // With C++20, we can use `std::string_view::ends_with` instead.
-    return fileName.size() >= extension.size() && fileName.substr(fileName.size() - extension.size()) == extension;
-  };
-
-  if (fileNameEndsWith(itksys::DynamicLoader::LibExtension()))
-  {
-    return true;
-  }
-#  ifdef __APPLE__
-  // Need to also check libraries with a .dylib extension.
-  if (fileNameEndsWith(".dylib"))
-  {
-    return true;
-  }
-#  endif
-#else // ITK_DYNAMIC_LOADING
-  itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");
-#endif
-  return false;
-}
-
-/**
  *
  */
 void
@@ -392,6 +363,27 @@ ObjectFactoryBase::LoadLibrariesInPath(const char * path)
   }
 #ifdef ITK_DYNAMIC_LOADING
 
+  // Equivalent to C++20 `std::string_view::ends_with` (while remaining compatible with C++17).
+  static constexpr auto endsWith = [](const std::string_view fileName, const std::string_view extension) {
+    return fileName.size() >= extension.size() && fileName.substr(fileName.size() - extension.size()) == extension;
+  };
+
+  // Determines if a file has the shared library extension in its name.
+  constexpr auto hasSharedLibraryFileNameExtension = [](const std::string_view fileName) {
+    if (endsWith(fileName, itksys::DynamicLoader::LibExtension()))
+    {
+      return true;
+    }
+#  ifdef __APPLE__
+    // Need to also check libraries with a .dylib extension.
+    if (endsWith(fileName, ".dylib"))
+    {
+      return true;
+    }
+#  endif
+    return false;
+  };
+
   /**
    * Attempt to load each file in the directory as a shared library
    */
@@ -402,7 +394,7 @@ ObjectFactoryBase::LoadLibrariesInPath(const char * path)
      * try to make sure the file has at least the extension
      * for a shared library in it.
      */
-    if (NameIsSharedLibrary(file))
+    if (hasSharedLibraryFileNameExtension(file))
     {
       const std::string fullpath = CreateFullPath(path, file);
       LibHandle         lib = DynamicLoader::OpenLibrary(fullpath.c_str());
