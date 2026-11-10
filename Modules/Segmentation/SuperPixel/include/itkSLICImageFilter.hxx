@@ -568,8 +568,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::GenerateData()
   this->AllocateOutputs();
   this->BeforeThreadedGenerateData();
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-
   const InputImageType * inputImage = this->GetInput();
   OutputImageType *      outputImage = this->GetOutput();
 

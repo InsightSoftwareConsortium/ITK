@@ -1259,7 +1259,6 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
   }
 
   os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;
-  os << indent << "NumberOfWorkUnits: " << m_NumberOfWorkUnits << std::endl;
   itkPrintSelfBooleanMacro(ReleaseDataBeforeUpdateFlag);
   itkPrintSelfBooleanMacro(AbortGenerateData);
   os << indent << "Progress: " << progressFixedToFloat(m_Progress) << std::endl;
@@ -1552,29 +1551,30 @@ ProcessObject::GenerateOutputRequestedRegion(DataObject * output)
 
 
 void
+ProcessObject::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
+{
+  const ThreadIdType oldValue = m_MultiThreader->GetNumberOfWorkUnits();
+  m_MultiThreader->SetNumberOfWorkUnits(numberOfWorkUnits);
+  if (m_MultiThreader->GetNumberOfWorkUnits() != oldValue)
+  {
+    this->Modified();
+  }
+}
+
+
+ThreadIdType
+ProcessObject::GetNumberOfWorkUnits() const
+{
+  return m_MultiThreader->GetNumberOfWorkUnits();
+}
+
+
+void
 ProcessObject::SetMultiThreader(MultiThreaderBase * threader)
 {
   if (this->m_MultiThreader != threader)
   {
-    if (this->m_MultiThreader.IsNull())
-    {
-      this->m_MultiThreader = threader;
-      m_NumberOfWorkUnits = m_MultiThreader->GetNumberOfWorkUnits();
-    }
-    else
-    {
-      const ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
-      this->m_MultiThreader = threader;
-      const ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
-      if (m_NumberOfWorkUnits == oldDefaultNumber)
-      {
-        m_NumberOfWorkUnits = newDefaultNumber;
-      }
-      else // clamp to new default
-      {
-        m_NumberOfWorkUnits = std::min(m_NumberOfWorkUnits, newDefaultNumber);
-      }
-    }
+    this->m_MultiThreader = threader;
     this->Modified();
   }
 }

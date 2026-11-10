@@ -623,7 +623,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::DispatchedRiemannianM
   ThreadFilterStruct str;
   str.Filter = this;
   str.Img = const_cast<InputImageType *>(img);
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethodAndExecute(this->RiemannianMinMaxThreaderCallback, &str);
   this->ResolveRiemannianMinMax();
 }
@@ -1333,7 +1332,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ApplyUpdate()
   // Set up for multithreaded processing.
   ThreadFilterStruct str;
   str.Filter = this;
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethodAndExecute(this->ApplyUpdateThreaderCallback, &str);
 
   // Explicitly call Modified on GetOutput here since ThreadedApplyUpdate
@@ -1386,7 +1384,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeKernelBandwidt
   str.Filter = this;
 
   // Calculate sigma update
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(this->ComputeSigmaUpdateThreaderCallback, &str);
 
   m_SigmaConverged.SetSize(m_NumIndependentComponents);
@@ -1881,7 +1878,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeImageUpdate()
 
   // Compute smoothing updated for intensities at each pixel
   // based on gradient of the joint entropy
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethodAndExecute(this->ComputeImageUpdateThreaderCallback, &str);
 }
 

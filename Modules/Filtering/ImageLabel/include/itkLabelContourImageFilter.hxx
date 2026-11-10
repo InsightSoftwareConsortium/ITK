@@ -72,7 +72,6 @@ LabelContourImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   const OutputRegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<ImageDimension>(
     0, // do not split along X axis
     reqRegion,

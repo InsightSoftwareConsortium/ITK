@@ -231,3 +231,29 @@ TEST(IsoContourDistanceImageFilter, NarrowBandWithFewerNodesThanWorkUnits)
     EXPECT_FLOAT_EQ(banded->GetOutput()->GetPixel(index), index[0] - contourColumn) << "at " << index;
   }
 }
+
+
+TEST(IsoContourDistanceImageFilter, ClassicMultiThreadKeepsRequestedWorkUnits)
+{
+  using ImageType = itk::Image<float, 2>;
+  using IsoContourType = itk::IsoContourDistanceImageFilter<ImageType, ImageType>;
+
+  constexpr itk::ThreadIdType numberOfWorkUnits{ 8 };
+
+  // Fewer rows than work units, so the region splits into fewer pieces.
+  auto image = ImageType::New();
+  image->SetRegions(ImageType::RegionType{ ImageType::SizeType{ { 16, 2 } } });
+  image->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<ImageType> it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
+  {
+    it.Set(static_cast<float>(it.GetIndex()[0]) - 3.5f);
+  }
+
+  auto filter = IsoContourType::New();
+  filter->SetInput(image);
+  filter->SetNumberOfWorkUnits(numberOfWorkUnits);
+  const itk::ThreadIdType acceptedWorkUnits = filter->GetNumberOfWorkUnits();
+
+  ASSERT_NO_THROW(filter->Update());
+  EXPECT_EQ(filter->GetNumberOfWorkUnits(), acceptedWorkUnits);
+}

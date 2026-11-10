@@ -498,19 +498,13 @@ public:
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
   /** @ITKEndGrouping */
 
-  /** Get/Set the number of work units to create when executing. */
+  /** Get/Set the number of work units to create when executing.
+   * The value is stored in the multithreader, which may clamp it. */
   /** @ITKStartGrouping */
   virtual void
-  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
-  {
-    const ThreadIdType value = std::max<ThreadIdType>(1, numberOfWorkUnits);
-    if (this->m_NumberOfWorkUnits != value)
-    {
-      this->m_NumberOfWorkUnits = value;
-      this->Modified();
-    }
-  }
-  itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
+  virtual ThreadIdType
+  GetNumberOfWorkUnits() const;
   /** @ITKEndGrouping */
 
   /** Return the multithreader used by this class. */
@@ -520,7 +514,8 @@ public:
     return m_MultiThreader;
   }
 
-  /** Set the multithreader used by this class. */
+  /** Set the multithreader used by this class. The number of work units
+   * is that of \c threader; set it again if a different count is wanted. */
   void
   SetMultiThreader(MultiThreaderBase * threader);
 
@@ -1016,7 +1011,6 @@ private:
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   itk::SmartPointer<MultiThreaderBase> m_MultiThreader;
-  ThreadIdType                         m_NumberOfWorkUnits{};
 
   bool m_ThreaderUpdateProgress{ true };
 

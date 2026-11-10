@@ -218,7 +218,6 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::GenerateData()
   const typename TOutputImage::Pointer outputImage(this->GetOutput());
   const RegionType                     region = outputImage->GetRequestedRegion();
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<TOutputImage::ImageDimension>(
     this->m_Direction,
     region,

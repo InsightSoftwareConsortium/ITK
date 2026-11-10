@@ -436,7 +436,6 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLES()
   elasticLESStr.totalComplexSize = this->m_TotalComplexSize;
 
   // Setup MultiThreader
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(this->SolveElasticLESThreaderCallback, &elasticLESStr);
 
   // Execute MultiThreader

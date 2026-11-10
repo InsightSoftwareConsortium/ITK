@@ -451,7 +451,6 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureL
   curvatureThreadParameters.currentDimension = currentDimension;
 
   // Setup MultiThreader
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(this->SolveCurvatureLESThreaderCallback, &curvatureThreadParameters);
 
   // Execute MultiThreader

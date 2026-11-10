@@ -669,7 +669,6 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 
   RealType   maxNorm = NumericTraits<RealType>::NonpositiveMin();
   std::mutex maxNormMutex;
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
     updateField->GetLargestPossibleRegion(),
     [updateField, &spacing, &maxNorm, &maxNormMutex](const typename DisplacementFieldType::RegionType & region) {
@@ -848,7 +847,6 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   }
   else
   {
-    this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
       region,
       [field, &smoothField, &startIndex, &size, &zeroVector, weight1, weight2](

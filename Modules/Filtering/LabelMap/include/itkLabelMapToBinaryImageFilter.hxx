@@ -67,7 +67,6 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->UpdateProgress(0.05f);
 
   ProgressTransformer pt(0.05f, 0.5f, this);
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
     this->GetOutput()->GetRequestedRegion(),
     [this](const OutputImageRegionType & outputRegionForThread) {
