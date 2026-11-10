@@ -42,5 +42,5 @@ itk_fetch_module(
   "Framework for processing images with Cuda."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/RTKConsortium/ITKCudaCommon.git
-  GIT_TAG f36c8aafd6c569639d367dc2a3f973f8e1bdd70c
+  GIT_TAG a68dd36342ee907859087d052cb4841ba3cf5fce
   )
