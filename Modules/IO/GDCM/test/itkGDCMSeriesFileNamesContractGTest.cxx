@@ -32,6 +32,9 @@
 #include "itkMath.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/Directory.hxx"
+#include "gdcmImageChangeTransferSyntax.h"
+#include "gdcmImageReader.h"
+#include "gdcmImageWriter.h"
 #include "gdcmReader.h"
 #include "gdcmWriter.h"
 #include "gdcmDataElement.h"
@@ -54,26 +57,32 @@ SeriesDir()
   return dir;
 }
 
+// Calls write(name) for every .dcm file in srcDir and counts the successes.
+template <typename TWrite>
+unsigned int
+ForEachDicomSlice(const std::string & srcDir, TWrite write)
+{
+  itksys::Directory directory;
+  directory.Load(srcDir.c_str());
+  unsigned int written = 0;
+  for (unsigned int i = 0; i < directory.GetNumberOfFiles(); ++i)
+  {
+    const std::string name = directory.GetFile(i);
+    if (itksys::SystemTools::GetFilenameLastExtension(name) == ".dcm" && write(name))
+    {
+      ++written;
+    }
+  }
+  return written;
+}
+
 unsigned int
 CopyDicomSlices(const std::string & srcDir, const std::string & dstDir)
 {
   itksys::SystemTools::MakeDirectory(dstDir);
-  itksys::Directory directory;
-  directory.Load(srcDir.c_str());
-  unsigned int copied = 0;
-  for (unsigned int i = 0; i < directory.GetNumberOfFiles(); ++i)
-  {
-    const std::string name = directory.GetFile(i);
-    if (itksys::SystemTools::GetFilenameLastExtension(name) != ".dcm")
-    {
-      continue;
-    }
-    if (itksys::SystemTools::CopyFileAlways(srcDir + '/' + name, dstDir + '/' + name))
-    {
-      ++copied;
-    }
-  }
-  return copied;
+  return ForEachDicomSlice(srcDir, [&](const std::string & name) {
+    return itksys::SystemTools::CopyFileAlways(srcDir + '/' + name, dstDir + '/' + name);
+  });
 }
 
 std::string
@@ -132,6 +141,35 @@ WriteWithInstanceNumber(const std::string & src, const std::string & dst, const 
   return writer.Write();
 }
 
+// Copy one slice with the fixture's GE private b-value (0043,1039) set, optionally as implicit VR.
+bool
+WriteWithGEBValue(const std::string & src, const std::string & dst, const char * bValue, bool implicitVR)
+{
+  gdcm::ImageReader reader;
+  reader.SetFileName(src.c_str());
+  if (!reader.Read() || !reader.GetFile().GetDataSet().FindDataElement(gdcm::Tag(0x0043, 0x0010)))
+  {
+    return false;
+  }
+  gdcm::DataElement bValueElement(gdcm::Tag(0x0043, 0x1039));
+  bValueElement.SetVR(gdcm::VR::IS);
+  bValueElement.SetByteValue(bValue, static_cast<uint32_t>(std::strlen(bValue)));
+  reader.GetFile().GetDataSet().Replace(bValueElement);
+  gdcm::ImageChangeTransferSyntax change;
+  change.SetTransferSyntax(implicitVR ? gdcm::TransferSyntax::ImplicitVRLittleEndian
+                                      : gdcm::TransferSyntax::ExplicitVRLittleEndian);
+  change.SetInput(reader.GetImage());
+  if (!change.Change())
+  {
+    return false;
+  }
+  gdcm::ImageWriter writer;
+  writer.SetFileName(dst.c_str());
+  writer.SetFile(reader.GetFile());
+  writer.SetImage(change.GetOutput());
+  return writer.Write();
+}
+
 // Copy one slice, stripping Rows/Columns/PixelData so it mimics a non-image
 // DICOM object (SR, RTSTRUCT, ...) sharing the series' SeriesInstanceUID;
 // stripSeriesUID additionally drops SeriesInstanceUID (DICOMDIR-like).
@@ -157,6 +195,61 @@ WriteNonImageObject(const std::string & src, const std::string & dst, bool strip
   writer.SetFileName(dst.c_str());
   writer.SetFile(reader.GetFile());
   return writer.Write();
+}
+
+// Each slice alternates between two b-values so a working restriction yields two series.
+unsigned int
+WriteAlternatingBValueSeries(const std::string & root, bool implicitVR)
+{
+  itksys::SystemTools::RemoveADirectory(root);
+  itksys::SystemTools::MakeDirectory(root);
+  unsigned int slice = 0;
+  bool         allWritten = true;
+  const auto   written = ForEachDicomSlice(SeriesDir(), [&](const std::string & name) {
+    // Even-length IS values, so no padding byte is added.
+    const char * bValue = (slice++ % 2 == 0) ? "0\\0\\0\\0 " : "1000\\0\\0\\0";
+    const bool   ok = WriteWithGEBValue(SeriesDir() + '/' + name, root + '/' + name, bValue, implicitVR);
+    allWritten = allWritten && ok;
+    return ok;
+  });
+  return allWritten ? written : 0;
+}
+
+void
+ExpectPrivateRestrictionSplitsSeries(bool implicitVR)
+{
+  const std::string root =
+    TOSTRING(ITK_TEST_OUTPUT_DIR) + (implicitVR ? "/gdcmcontract_private_implicit" : "/gdcmcontract_private_explicit");
+  const unsigned int written = WriteAlternatingBValueSeries(root, implicitVR);
+  ASSERT_GT(written, 1u);
+
+  auto unrestricted = itk::GDCMSeriesFileNames::New();
+  unrestricted->SetUseSeriesDetails(true);
+  unrestricted->SetInputDirectory(root);
+  ASSERT_EQ(unrestricted->GetSeriesUIDs().size(), 1u);
+
+  auto restricted = itk::GDCMSeriesFileNames::New();
+  restricted->SetUseSeriesDetails(true);
+  restricted->AddSeriesRestriction("0043|1039");
+  restricted->SetInputDirectory(root);
+  std::vector<std::string> uids;
+  ASSERT_NO_THROW(uids = restricted->GetSeriesUIDs());
+  ASSERT_EQ(uids.size(), 2u) << "The private b-value splits the series in two";
+  unsigned int files = 0;
+  for (const std::string & uid : uids)
+  {
+    files += static_cast<unsigned int>(restricted->GetFileNames(uid).size());
+  }
+  EXPECT_EQ(files, written);
+
+  // A private tag that no file carries leaves the grouping unchanged.
+  auto absent = itk::GDCMSeriesFileNames::New();
+  absent->SetUseSeriesDetails(true);
+  absent->AddSeriesRestriction("2001|1003");
+  absent->SetInputDirectory(root);
+  std::vector<std::string> absentUids;
+  ASSERT_NO_THROW(absentUids = absent->GetSeriesUIDs());
+  EXPECT_EQ(absentUids, unrestricted->GetSeriesUIDs());
 }
 } // namespace
 
@@ -368,4 +461,14 @@ TEST(GDCMSeriesFileNamesContract, MixedContentDirectoryEnumeratesOnlyImageSeries
   reader->SetFileNames(ordered);
   ASSERT_NO_THROW(reader->Update());
   EXPECT_EQ(reader->GetOutput()->GetLargestPossibleRegion().GetSize()[2], ordered.size());
+}
+
+TEST(GDCMSeriesFileNamesContract, SeriesRestrictionOnPrivateTagsRefinesSeries)
+{
+  ExpectPrivateRestrictionSplitsSeries(false);
+}
+
+TEST(GDCMSeriesFileNamesContract, SeriesRestrictionOnPrivateTagsInImplicitVRFiles)
+{
+  ExpectPrivateRestrictionSplitsSeries(true);
 }

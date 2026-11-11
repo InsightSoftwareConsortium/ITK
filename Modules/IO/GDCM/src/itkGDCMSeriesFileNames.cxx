@@ -19,13 +19,35 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
 #include "itkPrintHelper.h"
+// gdcm::PrivateTag has a user-provided copy assignment but an implicit copy constructor.
+#if defined(__clang__) && defined(__has_warning)
+#  if __has_warning("-Wdeprecated-copy-with-user-provided-copy")
+#    define ITK_GDCM_SUPPRESS ITK_PRAGMA(clang diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy")
+#  endif
+#elif defined(__GNUC__) && __GNUC__ >= 9
+#  define ITK_GDCM_SUPPRESS ITK_PRAGMA(GCC diagnostic ignored "-Wdeprecated-copy")
+#endif
+#ifndef ITK_GDCM_SUPPRESS
+#  define ITK_GDCM_SUPPRESS
+#endif
+ITK_CLANG_PRAGMA_PUSH
+ITK_GCC_PRAGMA_PUSH
+ITK_GDCM_SUPPRESS
+#include "gdcmDicts.h"
 #include "gdcmDirectory.h"
+#include "gdcmGlobal.h"
+#include "gdcmReader.h"
 #include "gdcmScanner.h"
+#include "gdcmStringFilter.h"
 #include "gdcmIPPSorter.h"
 #include "gdcmTag.h"
+ITK_GCC_PRAGMA_POP
+ITK_CLANG_PRAGMA_POP
+#undef ITK_GDCM_SUPPRESS
 #include <algorithm>
 #include <cctype>
 #include <map>
+#include <set>
 #include <stdexcept>
 #include <vector>
 
@@ -147,9 +169,31 @@ GDCMSeriesFileNames::BuildSeriesMap()
   scanner.AddTag(seriesUID);
   scanner.AddTag(instanceNumber);
   scanner.AddTag(rows);
+  // gdcm::Scanner discards tags without a dictionary VR (all private tags); read those per file.
+  struct RefineTag
+  {
+    gdcm::Tag tag;
+    bool      fromFile;
+  };
+  const gdcm::Dicts &    dicts = gdcm::Global::GetInstance().GetDicts();
+  std::vector<RefineTag> refine;
+  std::set<gdcm::Tag>    fileTags;
   for (const auto & [group, element] : refineTags)
   {
-    scanner.AddTag(gdcm::Tag(group, element));
+    const gdcm::Tag tag(group, element);
+    const bool      fromFile = dicts.GetDictEntry(tag).GetVR() == gdcm::VR::INVALID;
+    refine.push_back({ tag, fromFile });
+    if (!fromFile)
+    {
+      scanner.AddTag(tag);
+      continue;
+    }
+    fileTags.insert(tag);
+    if (tag.IsPrivate())
+    {
+      // StringFilter needs the private creator to find the element's VR.
+      fileTags.insert(tag.GetPrivateCreator());
+    }
   }
   if (!scanner.Scan(filenames))
   {
@@ -157,16 +201,52 @@ GDCMSeriesFileNames::BuildSeriesMap()
     return;
   }
 
+  auto readFileValues = [&fileTags](const char * fn) {
+    std::map<gdcm::Tag, std::string> values;
+    if (fileTags.empty())
+    {
+      return values;
+    }
+    gdcm::Reader reader;
+    reader.SetFileName(fn);
+    if (!reader.ReadSelectedTags(fileTags))
+    {
+      return values;
+    }
+    gdcm::StringFilter filter;
+    filter.SetFile(reader.GetFile());
+    const gdcm::DataSet & dataSet = reader.GetFile().GetDataSet();
+    for (const gdcm::Tag & tag : fileTags)
+    {
+      if (dataSet.FindDataElement(tag))
+      {
+        values[tag] = filter.ToString(tag);
+      }
+    }
+    return values;
+  };
+
   // Build the unique series identifier per file, replicating
   // gdcm::SerieHelper::CreateUniqueSeriesIdentifier.
   auto makeIdentifier = [&](const char * fn) -> std::string {
     const char *      uidValue = scanner.GetValue(fn, seriesUID);
     std::string       id = (uidValue != nullptr) ? uidValue : "";
     const std::string uid = id;
-    for (const auto & [group, element] : refineTags)
+    const auto        fileValues = readFileValues(fn);
+    for (const auto & [tag, fromFile] : refine)
     {
-      const char *      value = scanner.GetValue(fn, gdcm::Tag(group, element));
-      const std::string s = (value != nullptr) ? value : "";
+      std::string s;
+      if (fromFile)
+      {
+        if (const auto found = fileValues.find(tag); found != fileValues.end())
+        {
+          s = found->second;
+        }
+      }
+      else if (const char * value = scanner.GetValue(fn, tag))
+      {
+        s = value;
+      }
       if (id == uid && !s.empty())
       {
         id += '.';
