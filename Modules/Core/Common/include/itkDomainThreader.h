@@ -18,8 +18,6 @@
 #ifndef itkDomainThreader_h
 #define itkDomainThreader_h
 
-#include <algorithm>
-
 #include "itkObject.h"
 #include "itkMultiThreaderBase.h"
 
@@ -109,17 +107,13 @@ public:
    * \warning The selected multithreader may clamp the number of work units.
    * */
   /** @ITKStartGrouping */
-  virtual void
-  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
+  virtual ThreadIdType
+  GetNumberOfWorkUnits() const
   {
-    const ThreadIdType value = std::max<ThreadIdType>(1, numberOfWorkUnits);
-    if (this->m_NumberOfWorkUnits != value)
-    {
-      this->m_NumberOfWorkUnits = value;
-      this->Modified();
-    }
+    return this->m_MultiThreader->GetNumberOfWorkUnits();
   }
-  itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
+  virtual void
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
   /** @ITKEndGrouping */
   /** Convenience methods to set/get the maximum number of threads to use.
    * \warning When setting the maximum number of threads, it will be clamped by
@@ -193,7 +187,6 @@ private:
    * well into that number.
    * This value is determined at the beginning of \c Execute(). */
   ThreadIdType                            m_NumberOfWorkUnitsUsed{ 0 };
-  ThreadIdType                            m_NumberOfWorkUnits{};
   typename DomainPartitionerType::Pointer m_DomainPartitioner{};
   DomainType                              m_CompleteDomain{};
   MultiThreaderBase::Pointer              m_MultiThreader{};
