@@ -73,7 +73,15 @@ if(_fftw_double OR _fftw_float)
   endif()
 
   if(ITK_USE_CUFFTW)
-    find_path(CUFFTW_INCLUDE_PATH cufftw.h ${FFTW_INC_SEARCHPATH})
+    find_package(CUDAToolkit QUIET)
+    find_path(
+      CUFFTW_INCLUDE_PATH
+      cufftw.h
+      HINTS
+        ${CUDAToolkit_INCLUDE_DIRS}
+      PATHS
+        ${FFTW_INC_SEARCHPATH}
+    )
   elseif(NOT ITK_USE_MKL)
     find_path(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
   endif()
@@ -111,8 +119,22 @@ if(_fftw_double OR _fftw_float)
   endif()
 
   if(ITK_USE_CUFFTW)
-    find_library(CUFFTW_LIB cufftw ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
-    find_library(CUFFT_LIB cufft ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
+    find_library(
+      CUFFTW_LIB
+      cufftw
+      HINTS
+        ${CUDAToolkit_LIBRARY_DIR}
+      PATHS
+        ${FFTW_LIB_SEARCHPATH}
+    ) #FFTW compatibility interface for single precision library
+    find_library(
+      CUFFT_LIB
+      cufft
+      HINTS
+        ${CUDAToolkit_LIBRARY_DIR}
+      PATHS
+        ${FFTW_LIB_SEARCHPATH}
+    ) #Single Precision Lib
     unset(FFTWD_LIBRARIES CACHE)
     unset(FFTWF_LIBRARIES CACHE)
     unset(FFTWD_THREADS_LIB CACHE)
