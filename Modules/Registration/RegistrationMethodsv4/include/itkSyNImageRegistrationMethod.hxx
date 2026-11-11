@@ -219,8 +219,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp;
     {
       auto fixedComposer = ComposerType::New();
-      fixedComposer->SetDisplacementField(fixedToMiddleSmoothUpdateField);
-      fixedComposer->SetWarpingField(this->m_FixedToMiddleTransform->GetDisplacementField());
+      fixedComposer->SetDisplacementField(this->MakeGraft(fixedToMiddleSmoothUpdateField));
+      fixedComposer->SetWarpingField(this->MakeGraft(this->m_FixedToMiddleTransform->GetDisplacementField()));
       fixedComposer->Update();
 
       fixedToMiddleSmoothTotalFieldTmp = fixedComposer->GetOutput();
@@ -236,8 +236,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp;
     {
       auto movingComposer = ComposerType::New();
-      movingComposer->SetDisplacementField(movingToMiddleSmoothUpdateField);
-      movingComposer->SetWarpingField(this->m_MovingToMiddleTransform->GetDisplacementField());
+      movingComposer->SetDisplacementField(this->MakeGraft(movingToMiddleSmoothUpdateField));
+      movingComposer->SetWarpingField(this->MakeGraft(this->m_MovingToMiddleTransform->GetDisplacementField()));
       movingComposer->Update();
 
       movingToMiddleSmoothTotalFieldTmp = movingComposer->GetOutput();
@@ -635,7 +635,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
   using ResamplerType = ResampleImageFilter<TImage, TImage, RealType>;
   auto resampler = ResamplerType::New();
-  resampler->SetInput(image);
+  resampler->SetInput(this->MakeGraft(image));
   resampler->SetTransform(transform);
   if (interpolation == ResampleInterpolation::NearestNeighbor)
   {
@@ -644,8 +644,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     nearestNeighborInterpolator->SetInputImage(image);
     resampler->SetInterpolator(nearestNeighborInterpolator);
   }
-  resampler->UseReferenceImageOn();
-  resampler->SetReferenceImage(reference);
+  resampler->SetOutputParametersFromImage(reference);
   resampler->SetDefaultPixelValue(0);
   resampler->Update();
 
@@ -709,7 +708,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 
   using MultiplierType = MultiplyImageFilter<DisplacementFieldType, RealImageType, DisplacementFieldType>;
   auto multiplier = MultiplierType::New();
-  multiplier->SetInput(updateField);
+  multiplier->SetInput(this->MakeGraft(updateField));
   multiplier->SetConstant(scale);
 
   typename DisplacementFieldType::Pointer scaledUpdateField = multiplier->GetOutput();
@@ -732,8 +731,8 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   using InverterType = InvertDisplacementFieldImageFilter<DisplacementFieldType>;
 
   auto inverter = InverterType::New();
-  inverter->SetInput(field);
-  inverter->SetInverseFieldInitialEstimate(inverseFieldEstimate);
+  inverter->SetInput(this->MakeGraft(field));
+  inverter->SetInverseFieldInitialEstimate(this->MakeGraft(inverseFieldEstimate));
   inverter->SetMaximumNumberOfIterations(20);
   inverter->SetMeanErrorToleranceThreshold(0.001);
   inverter->SetMaxErrorToleranceThreshold(0.1);
@@ -911,13 +910,13 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
   using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
   auto composer = ComposerType::New();
-  composer->SetDisplacementField(this->m_MovingToMiddleTransform->GetInverseDisplacementField());
-  composer->SetWarpingField(this->m_FixedToMiddleTransform->GetDisplacementField());
+  composer->SetDisplacementField(this->MakeGraft(this->m_MovingToMiddleTransform->GetInverseDisplacementField()));
+  composer->SetWarpingField(this->MakeGraft(this->m_FixedToMiddleTransform->GetDisplacementField()));
   composer->Update();
 
   auto inverseComposer = ComposerType::New();
-  inverseComposer->SetDisplacementField(this->m_FixedToMiddleTransform->GetInverseDisplacementField());
-  inverseComposer->SetWarpingField(this->m_MovingToMiddleTransform->GetDisplacementField());
+  inverseComposer->SetDisplacementField(this->MakeGraft(this->m_FixedToMiddleTransform->GetInverseDisplacementField()));
+  inverseComposer->SetWarpingField(this->MakeGraft(this->m_MovingToMiddleTransform->GetDisplacementField()));
   inverseComposer->Update();
 
   this->m_OutputTransform->SetDisplacementField(composer->GetOutput());

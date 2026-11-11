@@ -433,7 +433,17 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   ComputeFixedImageGradientFilterImage()
 {
-  this->m_FixedImageGradientFilter->SetInput(this->m_FixedImage);
+  // A graft when the filter would release its input, so that the image stays buffered for the metric.
+  if (this->m_FixedImage->ShouldIReleaseData())
+  {
+    auto graft = FixedImageType::New();
+    graft->Graft(this->m_FixedImage);
+    this->m_FixedImageGradientFilter->SetInput(graft);
+  }
+  else
+  {
+    this->m_FixedImageGradientFilter->SetInput(this->m_FixedImage);
+  }
   this->m_FixedImageGradientFilter->Update();
   this->m_FixedImageGradientImage = this->m_FixedImageGradientFilter->GetOutput();
   this->m_FixedImageGradientInterpolator->SetInputImage(this->m_FixedImageGradientImage);
@@ -448,7 +458,17 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   ComputeMovingImageGradientFilterImage() const
 {
-  this->m_MovingImageGradientFilter->SetInput(this->m_MovingImage);
+  // A graft when the filter would release its input, so that the image stays buffered for the metric.
+  if (this->m_MovingImage->ShouldIReleaseData())
+  {
+    auto graft = MovingImageType::New();
+    graft->Graft(this->m_MovingImage);
+    this->m_MovingImageGradientFilter->SetInput(graft);
+  }
+  else
+  {
+    this->m_MovingImageGradientFilter->SetInput(this->m_MovingImage);
+  }
   this->m_MovingImageGradientFilter->Update();
   this->m_MovingImageGradientImage = this->m_MovingImageGradientFilter->GetOutput();
   this->m_MovingImageGradientInterpolator->SetInputImage(this->m_MovingImageGradientImage);
