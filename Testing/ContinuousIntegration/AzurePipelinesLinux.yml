@@ -71,6 +71,7 @@ jobs:
         architecture: 'x64'
 
     - bash: |
+        set -e
         set -x
         sudo pip3 install ninja
         sudo apt-get update
