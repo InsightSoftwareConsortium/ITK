@@ -236,6 +236,14 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
       COMMAND
         ${CMAKE_CURRENT_SOURCE_DIR}/test_imread_single_file_list.py
     )
+    # test_imread_unknown_component_type.py builds itk.Image[itk.F, 2]
+    if(ITK_WRAP_float)
+      itk_python_add_test(
+        NAME PythonImreadUnknownComponentTypeTest
+        COMMAND
+          ${CMAKE_CURRENT_SOURCE_DIR}/test_imread_unknown_component_type.py
+      )
+    endif()
   endif()
 endif()
 
