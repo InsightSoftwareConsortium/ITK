@@ -23,7 +23,11 @@
 #include "itkFFTWCommonExtended.h"
 // Include fftw3.h directly: the proxy header skips it when first included before ITK_USE_FFTW* is defined.
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
-#  include "fftw3.h"
+#  if defined(ITK_USE_CUFFTW)
+#    include "cufftw.h"
+#  else
+#    include "fftw3.h"
+#  endif
 #endif
 #include "itkIndent.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
