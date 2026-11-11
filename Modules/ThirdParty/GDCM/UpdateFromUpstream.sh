@@ -7,8 +7,8 @@ shopt -s dotglob
 readonly name="GDCM"
 readonly ownership="GDCM Upstream <gdcm-developers@lists.sourceforge.net>"
 readonly subtree="Modules/ThirdParty/GDCM/src/gdcm"
-readonly repo="https://github.com/malaterre/GDCM.git"
-readonly tag="v3.2.8"
+readonly repo="https://github.com/InsightSoftwareConsortium/GDCM.git"
+readonly tag="for/itk-gdcm-master-8ba2cce" # 2026-11-12 (master 2cd05d132 + malaterre/GDCM#228 #235 #238 #243 #244 #245 #246 + ITK overlay)
 readonly shortlog=false
 readonly exact_tree_match=false
 readonly paths="
