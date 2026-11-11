@@ -125,7 +125,7 @@ GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE);
 
 #undef GetH5TypeSpecialize
 
-inline IOComponentEnum
+IOComponentEnum
 PredTypeToComponentType(H5::DataType & type)
 {
   if (type == H5::PredType::NATIVE_UCHAR)

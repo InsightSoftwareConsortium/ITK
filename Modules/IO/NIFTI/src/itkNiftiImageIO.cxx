@@ -1154,7 +1154,7 @@ NiftiImageIO::ReadImageInformation()
 
 namespace
 {
-inline mat44
+mat44
 mat44_transpose(const mat44 & in)
 {
   mat44 out;
