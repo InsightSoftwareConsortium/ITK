@@ -23,7 +23,7 @@ import sys
 import types
 import collections
 import warnings
-from typing import Any
+from typing import Any, Union
 from collections.abc import Callable
 
 import itkConfig
@@ -421,6 +421,13 @@ class itkTemplate(Mapping):
         Used by frozenset construction in typing._GenericAlias
         """
         return hash(self.__name__)
+
+    def __or__(self, other):
+        """Support `X | Y` unions, which `typing.get_type_hints` builds."""
+        return Union[self, other]
+
+    def __ror__(self, other):
+        return Union[other, self]
 
     def __find_param__(self, paramSetString) -> list[Any]:
         """Find the parameters of the template.
