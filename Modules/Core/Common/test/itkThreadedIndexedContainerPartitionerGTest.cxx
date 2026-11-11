@@ -257,3 +257,33 @@ TEST(ThreadedIndexedContainerPartitioner, PlatformThreaderReportsAcceptedWorkUni
   }
   EXPECT_EQ(domains.back()[1], fullRange[1]);
 }
+
+TEST(ThreadedIndexedContainerPartitioner, RepeatedExecutionPreservesWorkUnits)
+{
+  DomainThreaderAssociate                                    enclosingClass;
+  const DomainThreaderAssociate::TestDomainThreader::Pointer domainThreader = enclosingClass.GetDomainThreader();
+
+  using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
+
+  domainThreader->SetNumberOfWorkUnits(4);
+  const itk::ThreadIdType configured = domainThreader->GetNumberOfWorkUnits();
+
+  // A one-element domain yields a single partition; it must not lower the configured count.
+  DomainType singleElement;
+  singleElement[0] = 0;
+  singleElement[1] = 0;
+  enclosingClass.Execute(singleElement);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnitsUsed(), 1u);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnits(), configured);
+
+  // Without resetting the count, a larger domain should again use the configured work units.
+  DomainType largeRange;
+  largeRange[0] = 0;
+  largeRange[1] = 99;
+  enclosingClass.Execute(largeRange);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnits(), configured);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnitsUsed(), configured);
+  const std::vector<DomainType> & domains = domainThreader->GetDomainInThreadedExecution();
+  ASSERT_EQ(domains.size(), configured);
+  EXPECT_EQ(domains.back()[1], largeRange[1]);
+}
