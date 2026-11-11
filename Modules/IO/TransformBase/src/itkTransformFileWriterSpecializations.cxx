@@ -251,7 +251,7 @@ namespace
 {
 /* Changes the precision type of input transform to the requested precision type */
 template <typename TInputTransformType, typename TOutputTransformType>
-inline void
+void
 AddToTransformList(typename TInputTransformType::ConstPointer &             transform,
                    std::list<typename TOutputTransformType::ConstPointer> & transformList)
 {

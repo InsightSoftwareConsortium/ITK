@@ -44,11 +44,14 @@ MatlabTransformIOTemplate<ParametersValueType>::CanWriteFile(const char * fileNa
   return itksys::SystemTools::GetFilenameLastExtension(fileName) == ".mat";
 }
 
+
+namespace
+{
 //
 // ReadMat -- we always want double precision,
 // but handle single precision as well.
 template <typename ParametersValueType>
-inline void
+void
 ReadMat(vnl_matlab_readhdr &                                                                     mathdr,
         typename MatlabTransformIOTemplate<ParametersValueType>::TransformType::ParametersType & array)
 {
@@ -71,6 +74,8 @@ ReadMat(vnl_matlab_readhdr &                                                    
     }
   }
 }
+} // namespace
+
 
 template <typename ParametersValueType>
 void

@@ -233,10 +233,10 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
   }
 }
 
-namespace itk_impl_details
+namespace
 {
 template <typename TParametersValueType>
-inline void
+void
 print_vector(std::ofstream & s, const vnl_vector<TParametersValueType> & v)
 {
   for (unsigned int i = 0; i + 1 < v.size(); ++i)
@@ -248,7 +248,7 @@ print_vector(std::ofstream & s, const vnl_vector<TParametersValueType> & v)
     s << ConvertNumberToString(v.back());
   }
 }
-} // namespace itk_impl_details
+} // namespace
 
 template <typename TParametersValueType>
 void
@@ -295,13 +295,13 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
       {
         const vnl_vector<ParametersValueType> TempArray = (*it)->GetParameters();
         out << "Parameters: "; // << TempArray << std::endl;
-        itk_impl_details::print_vector(out, TempArray);
+        print_vector(out, TempArray);
         out << std::endl;
       }
       {
         const vnl_vector<FixedParametersValueType> FixedTempArray = (*it)->GetFixedParameters();
         out << "FixedParameters: "; // << FixedTempArray << std::endl;
-        itk_impl_details::print_vector(out, FixedTempArray);
+        print_vector(out, FixedTempArray);
         out << std::endl;
       }
     }
