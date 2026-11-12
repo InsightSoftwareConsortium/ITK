@@ -1467,3 +1467,38 @@ call to the setter takes precedence over the environment variable.
 
 The value is clamped to at least 1 and does not affect instances that already
 exist. A single-threaded configuration still uses one work unit.
+
+## Mattes mutual information derivatives are reproducible across runs
+
+`MattesMutualInformationImageToImageMetricv4` now accumulates the joint PDF
+derivatives of transforms without local support (for example affine and
+`BSplineTransform`) in one array per work unit, and adds the arrays in
+work-unit order. With the same number of work units, repeated runs give the
+same derivative. The protected nested class `DerivativeBufferManager`, the
+`m_ThreaderDerivativeManager` member, `m_JointPDFDerivativesLock` and the
+`FinalizeThread()` override are removed. During the threaded pass,
+`m_JointPDFDerivatives` is the array of work unit 0, to which the other work
+units' arrays are then added.
+
+### What you need to do
+
+Nothing, unless a subclass used `DerivativeBufferManager`, `FinalizeThread()`
+or the members above. Such a subclass should accumulate into
+`m_ThreaderJointPDFDerivatives[threadId]` instead.
+
+Each work unit's array takes bins^2 x parameters doubles, so the derivative
+pass uses no more work units than `SetMaximumJointPDFDerivativesBytes()`
+allows. The default (0) allows max(threads, threads x 32 MiB / array bytes)
+work units, where threads is the requested number of work units, at most the
+global default number of threads. The arrays then take at most
+max(threads x 32 MiB, threads x array bytes), whatever the image size. For example, a 3-D `BSplineTransform` on a
+10 x 10 x 10 mesh (6591 parameters) with 32 bins needs about 54 MB per work
+unit, so at 16 threads it uses 16 work units and about 860 MB. A nonzero value
+is a hard limit on the total, down to one work unit. Transforms with local
+support, such as `DisplacementFieldTransform`, keep no such arrays and are not
+limited.
+
+With the default, the number of work units used, and so the summation order,
+can follow the global thread count. To get the same derivative on every
+machine, set both `SetMaximumNumberOfWorkUnits()` and a nonzero
+`SetMaximumJointPDFDerivativesBytes()`.
