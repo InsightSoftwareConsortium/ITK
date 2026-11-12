@@ -20,6 +20,7 @@
 #include "gdcmSwapper.h"
 #include "gdcmException.h"
 #include "gdcmTagToType.h"
+#include "gdcmValueLengthCheck.h"
 //#include "gdcmUIDGenerator.h"
 
 #include "gdcmTag.h"
@@ -429,6 +430,11 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
     {
     bv = new ByteValue;
     }
+  if( ValueLengthExceedsStream( is, *bv, vl ) )
+    {
+    delete bv;
+    return false;
+    }
   // We have the length we should be able to read the value
   bv->SetLength(vl); // perform realloc
   if( !bv->template Read<TSwap>(is) )
@@ -490,6 +496,11 @@ bool ReadImplicitDataElement(std::istream &is, ImplicitDataElement &de)
   else
     {
     bv = new ByteValue;
+    }
+  if( ValueLengthExceedsStream( is, *bv, vl ) )
+    {
+    delete bv;
+    return false;
     }
   // We have the length we should be able to read the value
   bv->SetLength(vl); // perform realloc

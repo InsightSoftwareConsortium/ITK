@@ -21,6 +21,7 @@
 #include "gdcmImplicitDataElement.h"
 
 #include "gdcmValueIO.h"
+#include "gdcmValueLengthCheck.h"
 #include "gdcmSwapper.h"
 
 namespace gdcm_ns
@@ -242,23 +243,18 @@ std::istream &ExplicitDataElement::ReadValue(std::istream &is, bool readvalues)
     {
     //gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new ByteValue;
-    if( readvalues )
-      {
-      const std::streampos cur = is.tellg();
-      if( cur != std::streampos(-1) )
-        {
-        is.seekg(0, std::ios::end);
-        const std::streampos end = is.tellg();
-        is.seekg(cur);
-        if( end != std::streampos(-1) && is.good()
-          && static_cast<uint64_t>(end - cur) < static_cast<uint32_t>(ValueLengthField) )
-          {
-          gdcmWarningMacro( "Value Length " << ValueLengthField
-            << " exceeds remaining stream size for tag " << TagField );
-          throw Exception( "Value Length exceeds remaining stream size" );
-          }
-        }
-      }
+    }
+#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
+  if( readvalues && TagField == Tag(0x7fe0,0x0010) )
+    {
+    ValueLengthField = TruncatePixelDataLength( is, *ValueField, ValueLengthField );
+    }
+#endif
+  if( readvalues && ValueLengthExceedsStream( is, *ValueField, ValueLengthField ) )
+    {
+    ParseException pe;
+    pe.SetLastElement( *this );
+    throw pe;
     }
   // We have the length we should be able to read the value
   this->SetValueFieldLength( ValueLengthField, readvalues );

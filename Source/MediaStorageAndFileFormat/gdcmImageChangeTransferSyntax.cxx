@@ -489,12 +489,13 @@ bool ImageChangeTransferSyntax::Change()
   if( !success ) success = TryJPEG2000Codec(Input->GetDataElement(), *Input, *Output);
   if( !success ) success = TryJPEGLSCodec(Input->GetDataElement(), *Input, *Output);
   if( !success ) success = TryRLECodec(Input->GetDataElement(), *Input, *Output);
-  Output->SetTransferSyntax( TS );
   if( !success )
     {
     //gdcm_assert(0);
     return false;
     }
+  // update TS if success
+  Output->SetTransferSyntax( TS );
 
   Bitmap &bitmap = *Input;
   if( Pixmap *pixmap = dynamic_cast<Pixmap*>( &bitmap ) )

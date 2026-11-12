@@ -22,6 +22,7 @@
 #include "gdcmExplicitDataElement.h"
 #include "gdcmImplicitDataElement.h"
 #include "gdcmValueIO.h"
+#include "gdcmValueLengthCheck.h"
 #include "gdcmSwapper.h"
 
 namespace gdcm
@@ -274,6 +275,16 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     ValueLengthField = 202; // 0xca
     }
 #endif
+#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
+  if( TagField == Tag(0x7fe0,0x0010) )
+    {
+    ValueLengthField = TruncatePixelDataLength( is, *ValueField, ValueLengthField );
+    }
+#endif
+  if( ValueLengthExceedsStream( is, *ValueField, ValueLengthField ) )
+    {
+    throw Exception("Should not happen (imp)");
+    }
   // We have the length we should be able to read the value
   ValueField->SetLength(ValueLengthField); // perform realloc
   if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,true) )
@@ -398,6 +409,18 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
     {
     //gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new ByteValue;
+    }
+#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
+  if( readvalues && TagField == Tag(0x7fe0,0x0010) )
+    {
+    ValueLengthField = TruncatePixelDataLength( is, *ValueField, ValueLengthField );
+    }
+#endif
+  if( readvalues && ValueLengthExceedsStream( is, *ValueField, ValueLengthField ) )
+    {
+    ParseException pe;
+    pe.SetLastElement( *this );
+    throw pe;
     }
   // We have the length we should be able to read the value
   this->SetValueFieldLength( ValueLengthField, readvalues );

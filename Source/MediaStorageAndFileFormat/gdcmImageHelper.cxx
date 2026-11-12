@@ -1291,7 +1291,10 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
     }
 
   // \post condition slope can never be 0:
-  gdcm_assert( interceptslope[1] != 0. );
+  if( interceptslope[1] == 0. ) {
+    gdcmErrorMacro("Something went really wrong");
+    interceptslope[1] = 1;
+  }
   return interceptslope;
 }
 

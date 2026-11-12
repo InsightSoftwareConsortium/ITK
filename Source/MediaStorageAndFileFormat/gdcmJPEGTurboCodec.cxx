@@ -34,8 +34,7 @@ bool JPEGTurboCodec::IsStateSuspension() const { return false; }
 #include <climits>
 
 extern "C" {
-#include <jpeglib.h>
-#include <jerror.h>  /* for JERR_* and JWRN_* error codes */
+#include "itk_jpeg.h"
 }
 
 

@@ -620,13 +620,210 @@ static inline bool check_comp_valid(opj_image_t *image)
         if (comp->prec != comp2->prec) invalid = true;
         if (comp->sgnd != comp1->sgnd) invalid = true;
         if (comp->sgnd != comp2->sgnd) invalid = true;
-        if (comp->h != comp1->h) invalid = true;
-        if (comp->h != comp2->h) invalid = true;
-        if (comp->w != comp1->w) invalid = true;
-        if (comp->w != comp2->w) invalid = true;
+        if (comp->w * comp->dx != comp1->w * comp1->dx) invalid = true;
+        if (comp->w * comp->dx != comp2->w * comp2->dx) invalid = true;
+        if (comp->h * comp->dy != comp1->h * comp1->dy) invalid = true;
+        if (comp->h * comp->dy != comp2->h * comp1->dy) invalid = true;
     }
     return !invalid;
 }
+static inline bool check_is_ybr_full_422(opj_image_t *image)
+{
+  if (image->numcomps == 3)
+  {
+    opj_image_comp_t *comp0 = &image->comps[0];
+    opj_image_comp_t *comp1 = &image->comps[1];
+    opj_image_comp_t *comp2 = &image->comps[2];
+    if (comp0->prec != 8) return false;
+    if (comp1->prec != 8) return false;
+    if (comp2->prec != 8) return false;
+    if (comp0->dx != 1) return false;
+    if (comp1->dx != 2) return false;
+    if (comp2->dx != 2) return false;
+    if (comp0->dy != 1) return false;
+    if (comp1->dy != 1) return false;
+    if (comp2->dy != 1) return false;
+    return true;
+  }
+  return false;
+}
+/*--------------------------------------------------------
+Matrix for sYCC, Amendment 1 to IEC 61966-2-1
+
+Y :   0.299   0.587    0.114   :R
+Cb:  -0.1687 -0.3312   0.5     :G
+Cr:   0.5    -0.4187  -0.0812  :B
+
+Inverse:
+
+R: 1        -3.68213e-05    1.40199      :Y
+G: 1.00003  -0.344125      -0.714128     :Cb - 2^(prec - 1)
+B: 0.999823  1.77204       -8.04142e-06  :Cr - 2^(prec - 1)
+
+-----------------------------------------------------------*/
+static void sycc_to_rgb(int offset, int upb, int y, int cb, int cr,
+                        int *out_r, int *out_g, int *out_b)
+{
+  int r, g, b;
+
+  cb -= offset;
+  cr -= offset;
+  r = y + (int)(1.402 * (float)cr);
+  if (r < 0) {
+    r = 0;
+  } else if (r > upb) {
+    r = upb;
+  }
+  *out_r = r;
+
+  g = y - (int)(0.344 * (float)cb + 0.714 * (float)cr);
+  if (g < 0) {
+    g = 0;
+  } else if (g > upb) {
+    g = upb;
+  }
+  *out_g = g;
+
+  b = y + (int)(1.772 * (float)cb);
+  if (b < 0) {
+    b = 0;
+  } else if (b > upb) {
+    b = upb;
+  }
+  *out_b = b;
+}
+
+
+static void sycc422_to_rgb(opj_image_t *img)
+{
+    int *d0, *d1, *d2, *r, *g, *b;
+    const int *y, *cb, *cr;
+    size_t maxw, maxh, max, offx, loopmaxw, comp12w;
+    int offset, upb;
+    size_t i;
+
+    upb = (int)img->comps[0].prec;
+    offset = 1 << (upb - 1);
+    upb = (1 << upb) - 1;
+
+    maxw = (size_t)img->comps[0].w;
+    comp12w = (size_t)img->comps[1].w;
+    maxh = (size_t)img->comps[0].h;
+    max = maxw * maxh;
+
+    y = img->comps[0].data;
+    cb = img->comps[1].data;
+    cr = img->comps[2].data;
+
+    d0 = r = (int*)opj_image_data_alloc(sizeof(int) * max);
+    d1 = g = (int*)opj_image_data_alloc(sizeof(int) * max);
+    d2 = b = (int*)opj_image_data_alloc(sizeof(int) * max);
+
+    if (r == NULL || g == NULL || b == NULL) {
+        goto fails;
+    }
+
+    /* if img->x0 is odd, then first column shall use Cb/Cr = 0 */
+    offx = img->x0 & 1U;
+    loopmaxw = maxw - offx;
+
+    for (i = 0U; i < maxh; ++i) {
+        size_t j;
+
+        if (offx > 0U) {
+            sycc_to_rgb(offset, upb, *y, 0, 0, r, g, b);
+            ++y;
+            ++r;
+            ++g;
+            ++b;
+        }
+
+        for (j = 0U; j < (loopmaxw & ~(size_t)1U); j += 2U) {
+            sycc_to_rgb(offset, upb, *y, *cb, *cr, r, g, b);
+            ++y;
+            ++r;
+            ++g;
+            ++b;
+            sycc_to_rgb(offset, upb, *y, *cb, *cr, r, g, b);
+            ++y;
+            ++r;
+            ++g;
+            ++b;
+            ++cb;
+            ++cr;
+        }
+        if (j < loopmaxw) {
+            if (j / 2 == comp12w) {
+                sycc_to_rgb(offset, upb, *y, 0, 0, r, g, b);
+            } else {
+                sycc_to_rgb(offset, upb, *y, *cb, *cr, r, g, b);
+            }
+            ++y;
+            ++r;
+            ++g;
+            ++b;
+            if (j / 2 < comp12w) {
+                ++cb;
+                ++cr;
+            }
+        }
+    }
+
+    opj_image_data_free(img->comps[0].data);
+    img->comps[0].data = d0;
+    opj_image_data_free(img->comps[1].data);
+    img->comps[1].data = d1;
+    opj_image_data_free(img->comps[2].data);
+    img->comps[2].data = d2;
+
+    img->comps[1].w = img->comps[2].w = img->comps[0].w;
+    img->comps[1].h = img->comps[2].h = img->comps[0].h;
+    img->comps[1].dx = img->comps[2].dx = img->comps[0].dx;
+    img->comps[1].dy = img->comps[2].dy = img->comps[0].dy;
+    img->color_space = OPJ_CLRSPC_SRGB;
+    return;
+
+fails:
+    opj_image_data_free(r);
+    opj_image_data_free(g);
+    opj_image_data_free(b);
+}/* sycc422_to_rgb() */
+
+bool color_sycc_to_rgb(opj_image_t *img)
+{
+    if (img->numcomps < 3) {
+        img->color_space = OPJ_CLRSPC_GRAY;
+        return true;
+    }
+
+    if ((img->comps[0].dx == 1)
+            && (img->comps[1].dx == 2)
+            && (img->comps[2].dx == 2)
+            && (img->comps[0].dy == 1)
+            && (img->comps[1].dy == 2)
+            && (img->comps[2].dy == 2)) { /* horizontal and vertical sub-sample */
+        //sycc420_to_rgb(img);
+        return false;
+    } else if ((img->comps[0].dx == 1)
+               && (img->comps[1].dx == 2)
+               && (img->comps[2].dx == 2)
+               && (img->comps[0].dy == 1)
+               && (img->comps[1].dy == 1)
+               && (img->comps[2].dy == 1)) { /* horizontal sub-sample only */
+        sycc422_to_rgb(img);
+        return true;
+    } else if ((img->comps[0].dx == 1)
+               && (img->comps[1].dx == 1)
+               && (img->comps[2].dx == 1)
+               && (img->comps[0].dy == 1)
+               && (img->comps[1].dy == 1)
+               && (img->comps[2].dy == 1)) { /* no sub-sample */
+        //sycc444_to_rgb(img);
+        return true;
+    } else {
+        return false;
+    }
+}/* color_sycc_to_rgb() */
 
 std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffer, size_t buf_size)
 {
@@ -791,7 +988,7 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
   if( b ) {
     reversible = lossless;
   }
-  LossyFlag = !reversible;
+  LossyFlag = !reversible || check_is_ybr_full_422(image);
 
   gdcm_assert( image->numcomps == this->GetPixelFormat().GetSamplesPerPixel() );
   gdcm_assert( image->numcomps == this->GetPhotometricInterpretation().GetSamplesPerPixel() );
@@ -805,6 +1002,9 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
   {
     if( !mct ) { gdcmWarningMacro("Invalid PhotometricInterpretation, should be RGB"); }
   }
+  else if( this->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422 ) {
+    if( mct ) { gdcmWarningMacro("MCT flag was set in YUV 4:2:2 image. corrupt j2k ?"); }
+  }
   else
   {
     if( mct ) { gdcmWarningMacro("MCT flag was set in SamplesPerPixel = 1 image. corrupt j2k ?"); }
@@ -812,6 +1012,27 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
 
   /* close the byte stream */
   opj_stream_destroy(cio);
+  
+  if (image->color_space != OPJ_CLRSPC_SYCC
+          && image->numcomps == 3 && image->comps[0].dx == image->comps[0].dy
+          && image->comps[1].dx != 1) {
+    image->color_space = OPJ_CLRSPC_SYCC;
+          } else if (image->numcomps <= 2) {
+            image->color_space = OPJ_CLRSPC_GRAY;
+          }
+
+  if (image->color_space == OPJ_CLRSPC_SYCC) {
+    color_sycc_to_rgb(image);
+  } else if ((image->color_space == OPJ_CLRSPC_CMYK) &&
+             (parameters.cod_format != TIF_DFMT)) {
+    //color_cmyk_to_rgb(image);
+    gdcmErrorMacro("Not handled: CMYK color space");
+    return std::pair<char*,size_t>(nullptr,0);
+             } else if (image->color_space == OPJ_CLRSPC_EYCC) {
+     //          color_esycc_to_rgb(image);
+               gdcmErrorMacro("Not handled: EYCC color space");
+    return std::pair<char*,size_t>(nullptr,0);
+             }
 
   // Copy buffer
   unsigned long len = Dimensions[0]*Dimensions[1] * (PF.GetBitsAllocated() / 8) * image->numcomps;
@@ -827,7 +1048,7 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
     //int h = image.comps[compno].h;
     int hr = int_ceildivpow2(image->comps[compno].h, image->comps[compno].factor);
     //gdcm_assert(  wr * hr * 1 * image->numcomps * (comp->prec/8) == len );
-
+#if 1
     // ELSCINT1_JP2vsJ2K.dcm
     // -> prec = 12, bpp = 0, sgnd = 0
     if( wr != Dimensions[0] || hr != Dimensions[1] ) {
@@ -837,6 +1058,7 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
   opj_image_destroy(image);
     return std::pair<char*,size_t>(nullptr,0);
     }
+#endif
     if( comp->sgnd != PF.GetPixelRepresentation() )
       {
       PF.SetPixelRepresentation( (uint16_t)comp->sgnd );
@@ -1111,7 +1333,9 @@ opj_image_t* rawtoimage(const char *inputbuffer8, opj_cparameters_t *parameters,
   memset(&cmptparm[0], 0, 3 * sizeof(opj_image_cmptparm_t));
   //gdcm_assert( bitsallocated == 8 );
   for(int i = 0; i < numcomps; i++) {
-    cmptparm[i].prec = bitsstored;  // Use actual bits stored for precision
+    cmptparm[i].prec = bitsstored;
+    if( bitsstored <= 8 )
+      cmptparm[i].prec = bitsallocated;
     cmptparm[i].bpp = (bitsallocated == 12) ? 16 : bitsallocated;  // 12-bit uses 16-bit container
     cmptparm[i].sgnd = sign;
     cmptparm[i].dx = subsampling_dx;
@@ -1565,7 +1789,7 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     mct = mctb;
   }
 #endif
-  LossyFlag = !reversible;
+  LossyFlag = !reversible || check_is_ybr_full_422(image);
 
   int compno = 0;
   opj_image_comp_t *comp = &image->comps[compno];
@@ -1643,8 +1867,12 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
      */
     if( mct )
       PI = PhotometricInterpretation::YBR_RCT;
-    else
+    else {
       PI = PhotometricInterpretation::RGB;
+      if ( check_is_ybr_full_422(image) ) {
+        PI = PhotometricInterpretation::YBR_FULL_422;
+      }
+    }
     this->PF.SetSamplesPerPixel( 3 );
     }
   else if( image->numcomps == 4 )

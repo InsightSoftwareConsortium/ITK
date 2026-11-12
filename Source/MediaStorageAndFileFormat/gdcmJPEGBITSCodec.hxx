@@ -1171,7 +1171,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
   // Check if provided buffer correspond to image parameters for current frame
   size_t expected_frame_size = (size_t)image_width * image_height *
                                this->GetPixelFormat().GetPixelSize();
-  if (len != expected_frame_size) {
+  if (len != expected_frame_size && len != expected_frame_size + 1) {
     gdcmErrorMacro("Frame size don't match");
     return false;
   }

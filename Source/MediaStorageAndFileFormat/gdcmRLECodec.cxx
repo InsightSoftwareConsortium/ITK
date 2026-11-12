@@ -552,7 +552,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
         }
       ptr_img = buffer;
       }
-    gdcm_assert( image_len % MaxNumSegments == 0 );
+    gdcm_assert( image_len % MaxNumSegments == 0 || (image_len - 1) % MaxNumSegments == 0 );
     const size_t input_seg_length = image_len / MaxNumSegments;
     std::string datastr;
     for(unsigned int seg = 0; seg < MaxNumSegments; ++seg )
@@ -565,10 +565,10 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
         partition += image_len % MaxNumSegments;
         gdcm_assert( (MaxNumSegments-1) * input_seg_length + partition == (size_t)image_len );
         }
-      gdcm_assert( partition == input_seg_length );
+      gdcm_assert( partition == input_seg_length || partition == input_seg_length + 1);
 
       std::stringstream data;
-      gdcm_assert( partition % dims[1] == 0 );
+      gdcm_assert( partition % dims[1] == 0 || (partition - 1) % dims[1] == 0 );
       size_t length = 0;
       // Do not cross row boundary:
       for(unsigned int y = 0; y < dims[1]; ++y)
@@ -663,7 +663,12 @@ size_t RLECodec::DecodeFragment(Fragment const & frag, char *buffer, size_t llen
     gdcmWarningMacro( "Bad RLE stream" );
     }
   std::string::size_type check = os.str().size();
-  // If the following assert fail expect big troubles:
+  if( check > llen )
+    {
+    gdcmErrorMacro( "RLE frame decoded to " << check << " bytes but only "
+      << llen << " bytes are available for it" );
+    return 0;
+    }
   memcpy(buffer, os.str().c_str(), check);
 //  pos += check;
   return check;
@@ -837,6 +842,11 @@ bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
   if( !frame.Read(is) )
      return false;
   unsigned long numSegments = frame.Header.GetNumSegments();
+  if( numSegments == 0 )
+    {
+    gdcmErrorMacro( "RLE header declares zero segments" );
+    return false;
+    }
 
   unsigned long length = Length;
   gdcm_assert( length );
@@ -868,12 +878,6 @@ bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
     {
     unsigned long numberOfReadBytes = 0;
     std::streampos pos = is.tellg() - start;
-    if (frame.Header.GetOffset(i) > BufferLength) 
-      {
-        gdcmErrorMacro("Offset is bigger then buffer Length");
-        return false;
-      }
-
     if ( frame.Header.GetOffset(i) - pos != 0 )
       {
       // ACUSON-24-YBR_FULL-RLE.dcm

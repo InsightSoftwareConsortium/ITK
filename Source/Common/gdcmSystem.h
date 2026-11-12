@@ -73,9 +73,11 @@ public:
   // Chdir
   // copy a file
 
+#ifdef GDCM_BUILD_NETWORK
   /// Retrieve the hostname, only the first 255 byte are copied.
   /// This may come handy to specify the Station Name
   static bool GetHostName(char hostname[255]);
+#endif // GDCM_BUILD_NETWORK
 
   // In the following the size '22' is explicitly listed. You need to pass in
   // at least 22bytes of array. If the string is an output it will be

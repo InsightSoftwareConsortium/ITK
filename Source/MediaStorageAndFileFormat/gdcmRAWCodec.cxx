@@ -98,14 +98,29 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
       {
       gdcmWarningMacro( "Requesting too much data. Truncating result" );
       memcpy(outBytes, inBytes, inBufferLength);
+      memset(outBytes + inBufferLength, 0, inOutBufferLength - inBufferLength);
       }
     return true;
     }
   // else
   gdcm_assert( inBytes );
   gdcm_assert( outBytes );
+  // Input length the transforms below need to fill inOutBufferLength.
+  size_t fullLength = inOutBufferLength;
+  if( this->GetPixelFormat() == PixelFormat::UINT12 ||
+      this->GetPixelFormat() == PixelFormat::INT12 )
+    fullLength = fullLength / 4 * 3;
+  if( PI == PhotometricInterpretation::YBR_FULL_422 ||
+      PI == PhotometricInterpretation::YBR_PARTIAL_422 )
+    fullLength = fullLength / 3 * 2;
   std::stringstream is;
   is.write(inBytes, inBufferLength);
+  if( inBufferLength < fullLength )
+    {
+    // A truncated value decodes as if its missing bytes were zero.
+    const std::string zeros(fullLength - inBufferLength, '\0');
+    is.write(zeros.data(), zeros.size());
+    }
   std::stringstream os;
   bool r = DecodeByStreams(is, os);
   gdcm_assert( r );
@@ -144,6 +159,7 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
   {
     gdcmWarningMacro( "Requesting too much data. Truncating result" );
     memcpy(outBytes, str.c_str(), len);
+    memset(outBytes + len, 0, inOutBufferLength - len);
   }
 
   return r;

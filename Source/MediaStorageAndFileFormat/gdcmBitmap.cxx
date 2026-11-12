@@ -887,7 +887,10 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
     codec.SetDimensions( GetDimensions() );
     DataElement out;
     bool r = codec.Decode(PixelData, out);
-    if(!r) return false;
+    if(!r) {
+      gdcmErrorMacro("Failure to decode j2k buffer");
+      return false;
+    }
     const ByteValue *outbv = out.GetByteValue();
     // A missing or short decoded buffer is a runtime condition (e.g. an
     // allocation failed while decoding), not a logic invariant: fail gracefully
@@ -914,6 +917,10 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
       // OsirixFake16BitsStoredFakeSpacing.dcm
       const PixelFormat & cpf = codec.GetPixelFormat();
       const PixelFormat & pf = GetPixelFormat();
+        if( codec.GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422 ) {
+          Bitmap *i = const_cast<Bitmap*>(this);
+          i->SetPhotometricInterpretation( PhotometricInterpretation::RGB );
+      }
       if( cpf.GetBitsAllocated() == pf.GetBitsAllocated() )
         {
         if( cpf.GetPixelRepresentation() == pf.GetPixelRepresentation() )

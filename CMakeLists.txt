@@ -10,7 +10,7 @@ endif()
 #----------------------------------------------------------------------------
 
 project(GDCM
-  VERSION 3.2.8
+  VERSION 3.3.0
   LANGUAGES CXX C
 )
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
@@ -121,18 +121,6 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 #-----------------------------------------------------------------------------
-# Compatibility with older usage of EXECUTABLE_OUTPUT_PATH and LIBRARY_OUTPUT_PATH.
-# This should be removed in the future.
-if(EXECUTABLE_OUTPUT_PATH)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH})
-  message(WARNING "EXECUTABLE_OUTPUT_PATH is deprecated. Use CMAKE_RUNTIME_OUTPUT_DIRECTORY instead.")
-endif()
-if(LIBRARY_OUTPUT_PATH)
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
-  message(WARNING "LIBRARY_OUTPUT_PATH is deprecated. Use CMAKE_LIBRARY_OUTPUT_DIRECTORY and CMAKE_ARCHIVE_OUTPUT_DIRECTORY instead.")
-endif()
-
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 endif()
@@ -143,16 +131,11 @@ if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 endif()
 
-# Set for legacy internal usage of EXECUTABLE_OUTPUT_PATH and LIBRARY_OUTPUT_PATH
-if (NOT EXECUTABLE_OUTPUT_PATH)
-  set(EXECUTABLE_OUTPUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-endif()
-if (NOT LIBRARY_OUTPUT_PATH)
-  if (BUILD_SHARED_LIBS)
-    set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-  else()
-    set(LIBRARY_OUTPUT_PATH ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
-  endif()
+# Shared libraries land in the library directory, static ones in the archive directory.
+if(BUILD_SHARED_LIBS)
+  set(GDCM_LIBRARY_OUTPUT_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+else()
+  set(GDCM_LIBRARY_OUTPUT_DIR ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 endif()
 
 #-----------------------------------------------------------------------------
@@ -333,9 +316,12 @@ if(UNIX)
   option(GDCM_USE_SYSTEM_UUID "Use system uuid" OFF)
 endif()
 option(GDCM_USE_SYSTEM_EXPAT "Use system expat" OFF)
+option(GDCM_BUILD_NETWORK "Build DICOM network (DIMSE/SCU) functionality" ON)
 option(GDCM_USE_SYSTEM_JSON "Use system json" OFF)
 option(GDCM_USE_SYSTEM_PAPYRUS3 "Use system papyrus3" OFF)
-option(GDCM_USE_SYSTEM_SOCKETXX "Use system socket++" OFF)
+if(GDCM_BUILD_NETWORK)
+  option(GDCM_USE_SYSTEM_SOCKETXX "Use system socket++" OFF)
+endif()
 option(GDCM_USE_SYSTEM_LJPEG "Use system ljpeg (ijg lib)" OFF)
 option(GDCM_USE_JPEGTURBO "Use libjpeg-turbo instead of IJG for JPEG codec" OFF)
 mark_as_advanced(
@@ -364,37 +350,39 @@ endif()
 mark_as_advanced(GDCM_USE_SYSTEM_LIBXML2)
 
 if(GDCM_USE_JPEGTURBO)
-  # libjpeg-turbo >= 3.0 is required for lossless JPEG and 12/16-bit support
-  set(_gdcm_jpegturbo_min_version "3.0")
-  find_package(libjpeg-turbo ${_gdcm_jpegturbo_min_version} QUIET)
-  if(libjpeg-turbo_FOUND)
-    set(GDCM_JPEGTURBO_INCLUDE_DIRS ${libjpeg-turbo_INCLUDE_DIRS})
-    set(GDCM_JPEGTURBO_LIBRARIES ${libjpeg-turbo_LIBRARIES})
-    # Modern config uses imported targets for libraries
-    if(NOT GDCM_JPEGTURBO_LIBRARIES AND TARGET libjpeg-turbo::jpeg)
-      set(GDCM_JPEGTURBO_LIBRARIES libjpeg-turbo::jpeg)
+  if(NOT GDCM_JPEGTURBO_LIBRARIES)
+    # libjpeg-turbo >= 3.0 is required for lossless JPEG and 12/16-bit support
+    set(_gdcm_jpegturbo_min_version "3.0")
+    find_package(libjpeg-turbo ${_gdcm_jpegturbo_min_version} QUIET)
+    if(libjpeg-turbo_FOUND)
+      set(GDCM_JPEGTURBO_INCLUDE_DIRS ${libjpeg-turbo_INCLUDE_DIRS})
+      set(GDCM_JPEGTURBO_LIBRARIES ${libjpeg-turbo_LIBRARIES})
+      # Modern config uses imported targets for libraries
+      if(NOT GDCM_JPEGTURBO_LIBRARIES AND TARGET libjpeg-turbo::jpeg)
+        set(GDCM_JPEGTURBO_LIBRARIES libjpeg-turbo::jpeg)
+      endif()
+    else()
+      # Fall back to CMake's FindJPEG which works with system libjpeg-turbo
+      find_package(JPEG REQUIRED)
+      include(CheckSymbolExists)
+      set(CMAKE_REQUIRED_INCLUDES ${JPEG_INCLUDE_DIRS})
+      check_symbol_exists(LIBJPEG_TURBO_VERSION "jconfig.h" JPEG_IS_TURBO)
+      if(NOT JPEG_IS_TURBO)
+        message(FATAL_ERROR "GDCM_USE_JPEGTURBO requires libjpeg-turbo, but found plain libjpeg")
+      endif()
+      # Verify version >= 3.0 by checking for jpeg_enable_lossless (added in 3.0)
+      include(CheckSymbolExists)
+      set(CMAKE_REQUIRED_INCLUDES ${JPEG_INCLUDE_DIRS})
+      set(CMAKE_REQUIRED_LIBRARIES ${JPEG_LIBRARIES})
+      check_symbol_exists(jpeg12_read_scanlines "jpeglib.h" JPEG_HAS_12BIT_API)
+      if(NOT JPEG_HAS_12BIT_API)
+        message(FATAL_ERROR
+          "GDCM_USE_JPEGTURBO requires libjpeg-turbo >= ${_gdcm_jpegturbo_min_version} "
+          "(for lossless JPEG and 12/16-bit support), but the installed version is too old.")
+      endif()
+      set(GDCM_JPEGTURBO_INCLUDE_DIRS ${JPEG_INCLUDE_DIRS})
+      set(GDCM_JPEGTURBO_LIBRARIES JPEG::JPEG)
     endif()
-  else()
-    # Fall back to CMake's FindJPEG which works with system libjpeg-turbo
-    find_package(JPEG REQUIRED)
-    include(CheckSymbolExists)
-    set(CMAKE_REQUIRED_INCLUDES ${JPEG_INCLUDE_DIRS})
-    check_symbol_exists(LIBJPEG_TURBO_VERSION "jconfig.h" JPEG_IS_TURBO)
-    if(NOT JPEG_IS_TURBO)
-      message(FATAL_ERROR "GDCM_USE_JPEGTURBO requires libjpeg-turbo, but found plain libjpeg")
-    endif()
-    # Verify version >= 3.0 by checking for jpeg_enable_lossless (added in 3.0)
-    include(CheckSymbolExists)
-    set(CMAKE_REQUIRED_INCLUDES ${JPEG_INCLUDE_DIRS})
-    set(CMAKE_REQUIRED_LIBRARIES ${JPEG_LIBRARIES})
-    check_symbol_exists(jpeg12_read_scanlines "jpeglib.h" JPEG_HAS_12BIT_API)
-    if(NOT JPEG_HAS_12BIT_API)
-      message(FATAL_ERROR
-        "GDCM_USE_JPEGTURBO requires libjpeg-turbo >= ${_gdcm_jpegturbo_min_version} "
-        "(for lossless JPEG and 12/16-bit support), but the installed version is too old.")
-    endif()
-    set(GDCM_JPEGTURBO_INCLUDE_DIRS ${JPEG_INCLUDE_DIRS})
-    set(GDCM_JPEGTURBO_LIBRARIES JPEG::JPEG)
   endif()
   set(GDCM_LJPEG_LIBRARIES "")
 elseif(GDCM_USE_SYSTEM_LJPEG)
@@ -416,7 +404,9 @@ option(GDCM_USE_SYSTEM_OPENJPEG "Use system openjpeg" OFF)
 option(GDCM_USE_SYSTEM_CHARLS "Use system charls" OFF)
 
 if(GDCM_USE_SYSTEM_OPENJPEG)
-  find_package(OpenJPEG 2.0.0 REQUIRED)
+  if(NOT OPENJPEG_LIBRARIES OR OPENJPEG_FOUND)
+    find_package(OpenJPEG 2.0.0 REQUIRED)
+  endif()
   set(GDCM_OPENJPEG_LIBRARIES ${OPENJPEG_LIBRARIES})
 else()
   set(GDCM_OPENJPEG_LIBRARIES gdcmopenjp2)
@@ -454,9 +444,12 @@ if(GDCM_USE_KAKADU)
 endif()
 
 if(GDCM_USE_SYSTEM_ZLIB)
-  # If user say so, then this is a requirement !
-  find_package(ZLIB REQUIRED)
-  include_directories(${ZLIB_INCLUDE_DIR})
+  if(NOT ZLIB_LIBRARIES)
+    find_package(ZLIB REQUIRED)
+  elseif(NOT ZLIB_INCLUDE_DIRS)
+    find_path(ZLIB_INCLUDE_DIRS zlib.h)
+  endif()
+  include_directories(${ZLIB_INCLUDE_DIRS})
   set(GDCM_ZLIB_LIBRARIES ${ZLIB_LIBRARIES})
 else()
   set(GDCM_ZLIB_LIBRARIES "gdcmzlib")
@@ -475,8 +468,9 @@ else()
 endif()
 
 if(GDCM_USE_SYSTEM_EXPAT)
-  # If user say so, then this is a requirement !
-  find_package(EXPAT REQUIRED)
+  if(NOT EXPAT_LIBRARIES)
+    find_package(EXPAT REQUIRED)
+  endif()
   set(GDCM_EXPAT_LIBRARIES ${EXPAT_LIBRARIES})
 else()
   set(GDCM_EXPAT_LIBRARIES "gdcmexpat")
@@ -591,27 +585,15 @@ if(GDCM_STANDALONE)
     find_package(CSharp REQUIRED)
     include(${CSharp_USE_FILE})
   endif()
-  # Expose a way to pass -fPIC to static libs of gdcm core, while still build wrapped language as shared lib:
-  if(NOT DEFINED GDCM_USE_PIC_FOR_STATIC_LIBS)
-    if(GDCM_WRAP_JAVA)
-      if(NOT BUILD_SHARED_LIBS)
-        if(CMAKE_COMPILER_IS_GNUCXX)
-          set(GDCM_USE_PIC_FOR_STATIC_LIBS ON)
-        endif()
-      endif()
-    endif()
-  endif()
-  if(GDCM_USE_PIC_FOR_STATIC_LIBS)
-    if(BUILD_SHARED_LIBS)
-      message(FATAL_ERROR "Invalid configuration for static/shared lib")
-    else()
-      set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-    endif()
+  # Any language wrapper builds a shared module that links against gdcm static
+  # convenience libs, so all targets need -fPIC regardless of BUILD_SHARED_LIBS.
+  if(GDCM_WRAP_PYTHON OR GDCM_WRAP_JAVA OR GDCM_WRAP_CSHARP OR GDCM_WRAP_PHP)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
   endif()
 endif()
 
-set(GDCM_LIBRARY_DIR ${LIBRARY_OUTPUT_PATH}/${CMAKE_CFG_INTDIR})
-set(GDCM_EXECUTABLE_DIR ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR})
+set(GDCM_LIBRARY_DIR ${GDCM_LIBRARY_OUTPUT_DIR}/${CMAKE_CFG_INTDIR})
+set(GDCM_EXECUTABLE_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_CFG_INTDIR})
 
 #-----------------------------------------------------------------------------
 # we need to link against CoreFoundation so that we can use CFBundle to get the executable path.
@@ -1174,7 +1156,7 @@ endmacro()
 #message("${theoutput}")
 
 # For DICOM Q/R testing
-if(GDCM_BUILD_TESTING)
+if(GDCM_BUILD_TESTING AND GDCM_BUILD_NETWORK)
   set(GDCM_DICOM_CLIENT_AETITLE "" CACHE STRING "DICOM CLIENT AETITLE")
   set(GDCM_DICOM_SERVER_AETITLE "" CACHE STRING "DICOM SERVER AETITLE")
   set(GDCM_DICOM_SERVER_PEER    "" CACHE STRING "DICOM SERVER PEER")
@@ -1196,17 +1178,19 @@ set(GDCM_INCLUDE_PATH
   "${GDCM_BINARY_DIR}/Source/Common"
   "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition"
   "${GDCM_SOURCE_DIR}/Source/MediaStorageAndFileFormat"
-  "${GDCM_SOURCE_DIR}/Source/MessageExchangeDefinition"
   "${GDCM_SOURCE_DIR}/Source/DataDictionary"
   "${GDCM_SOURCE_DIR}/Source/InformationObjectDefinition"
   )
+if(GDCM_BUILD_NETWORK)
+  list(APPEND GDCM_INCLUDE_PATH "${GDCM_SOURCE_DIR}/Source/MessageExchangeDefinition")
+endif()
 if(GDCM_USE_VTK)
     set(GDCM_INCLUDE_PATH
       ${GDCM_INCLUDE_PATH}
       "${GDCM_SOURCE_DIR}/Utilities/VTK"
       )
 endif()
-set(GDCM_LIBRARY_DIRS ${LIBRARY_OUTPUT_PATH})
+set(GDCM_LIBRARY_DIRS ${GDCM_LIBRARY_OUTPUT_DIR})
 if(GDCM_STANDALONE)
 add_subdirectory(CMake/ExportConfiguration)
 endif()

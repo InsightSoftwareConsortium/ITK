@@ -954,6 +954,7 @@ int System::StrCaseCmp(const char *s1, const char *s2)
 #endif
 }
 
+#ifdef GDCM_BUILD_NETWORK
 bool System::GetHostName(char name[255])
 {
 // http://msdn.microsoft.com/en-us/library/ms738527.aspx
@@ -988,6 +989,7 @@ bool System::GetHostName(char name[255])
   *name = 0;
   return false;
 }
+#endif // GDCM_BUILD_NETWORK
 
 char *System::StrTokR(char *str, const char *delim, char **nextp)
 {

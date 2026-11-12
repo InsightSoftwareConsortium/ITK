@@ -58,7 +58,7 @@ endmacro()
 
 macro (install_pdb library)
   if(BUILD_SHARED_LIBS)
-    if (MSVC)
+    if (MSVC AND FALSE) # Disabled for ITK
       install (
         FILES          "$<TARGET_PDB_FILE:${library}>"
         DESTINATION    "${GDCM_INSTALL_BIN_DIR}"
