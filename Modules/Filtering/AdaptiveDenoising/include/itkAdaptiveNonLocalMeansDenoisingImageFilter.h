@@ -21,8 +21,11 @@
 #include "itkNonLocalPatchBasedImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
+#include "itkDiscreteGaussianImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkTotalProgressReporter.h"
+
+#include <atomic>
 
 namespace itk
 {
@@ -174,6 +177,18 @@ public:
   itkNonVirtualGetConstMacro(NeighborhoodRadiusForLocalMeanAndVariance, NeighborhoodRadiusType);
 
 protected:
+  /** The number of patch centers that the last Update() processed with linear offsets into the image buffers. The
+   * other centers, near the border of the target region or when the buffers differ from it, are read through indices.
+   */
+  [[nodiscard]] SizeValueType
+  GetNumberOfLinearOffsetCenters() const
+  {
+    return this->m_NumberOfLinearOffsetCenters;
+  }
+
+  // Reads GetNumberOfLinearOffsetCenters() and the target region in the GoogleTest; the class is final.
+  friend class AdaptiveNonLocalMeansDenoisingImageFilterGTestAccess;
+
   AdaptiveNonLocalMeansDenoisingImageFilter();
   ~AdaptiveNonLocalMeansDenoisingImageFilter() override = default;
 
@@ -189,13 +204,29 @@ protected:
   void
   AfterThreadedGenerateData() override;
 
+  /** The mean, variance and intensity range are computed over the whole input. */
+  void
+  GenerateInputRequestedRegion() override;
+
 private:
   RealType CalculateCorrectionFactor(RealType);
+
+  using RicianBiasSmootherType = DiscreteGaussianImageFilter<RealImageType, RealImageType>;
+
+  /** The smoother of the Rician bias image, for the geometry of the input. */
+  typename RicianBiasSmootherType::Pointer
+  MakeRicianBiasSmoother() const;
 
   void
   AccumulatePatchEstimates(const RegionType &, OutputImageType *, TotalProgressReporter &);
 
   static constexpr RealType NoMinimumDistance = -1;
+
+  bool
+  IsSimilarSearchPosition(RealType meanCenterPixel,
+                          RealType varianceCenterPixel,
+                          RealType meanNeighborhoodPixel,
+                          RealType varianceNeighborhoodPixel) const;
 
   bool m_UseRicianNoiseModel;
 
@@ -210,13 +241,20 @@ private:
   RealType m_MaximumInputPixelIntensity;
   RealType m_MinimumInputPixelIntensity;
 
-  RealImagePointer m_MeanImage;
-  RealImagePointer m_RicianBiasImage;
-  RealImagePointer m_VarianceImage;
-  RealImagePointer m_CenterMinimumDistanceImage;
-  RealImagePointer m_IntensitySquaredDistanceImage;
+  /** The patch centers whose estimates reach the output requested region, directly or through the bias smoothing. */
+  RegionType m_CenterRegion{};
+
+  RealImagePointer                 m_MeanImage;
+  RealImagePointer                 m_RicianBiasImage;
+  RealImagePointer                 m_VarianceImage;
+  RealImagePointer                 m_CenterMinimumDistanceImage;
+  RealImagePointer                 m_ResidualImage;
+  typename InputImageType::Pointer m_SquaredInputImage;
+  RealImagePointer                 m_IntensitySquaredDistanceImage;
 
   NeighborhoodRadiusType m_NeighborhoodRadiusForLocalMeanAndVariance;
+
+  std::atomic<SizeValueType> m_NumberOfLinearOffsetCenters{ 0 };
 };
 
 } // end namespace itk
