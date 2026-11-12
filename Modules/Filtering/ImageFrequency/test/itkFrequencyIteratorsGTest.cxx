@@ -41,6 +41,21 @@
 #include "itkTestingMacros.h"
 
 #include "itkTestDriverIncludeRequiredFactories.h"
+#include <type_traits>
+
+namespace
+{
+// HasSet tells whether `Set(pixel)` can be called on the specified iterator type.
+template <typename TIterator, typename = void>
+struct HasSet : std::false_type
+{};
+
+template <typename TIterator>
+struct HasSet<TIterator,
+              std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
+  : std::true_type
+{};
+} // namespace
 
 namespace
 {
@@ -333,4 +348,36 @@ TEST_F(FrequencyIterators, Odd2D)
   auto             image = CreateImage<ImageType>(27);
   constexpr double differenceHermitianThreshold{ 0.0001 };
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
+}
+
+// Checks that the frequency iterators can be built from an indexed image iterator.
+TEST(FrequencyIteratorConversions, ConstructibleFromImageIteratorWithIndex)
+{
+  using ImageType = itk::Image<float, 2>;
+  using IndexedIt = itk::ImageIteratorWithIndex<ImageType>;
+  using ConstIndexedIt = itk::ImageConstIteratorWithIndex<ImageType>;
+
+  static_assert(std::is_convertible_v<IndexedIt, itk::FrequencyImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_convertible_v<IndexedIt, itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(
+    std::is_convertible_v<IndexedIt, itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(
+    std::is_convertible_v<IndexedIt, itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
+  static_assert(std::is_constructible_v<itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>, ConstIndexedIt>);
+  static_assert(!std::is_constructible_v<itk::FrequencyImageRegionIteratorWithIndex<ImageType>, ConstIndexedIt>);
+}
+
+
+// Checks that only the writable frequency iterators provide Set().
+TEST(FrequencyIteratorConversions, OnlyWritableIteratorsSet)
+{
+  using ImageType = itk::Image<float, 2>;
+  static_assert(HasSet<itk::FrequencyImageRegionIteratorWithIndex<ImageType>>::value &&
+                !HasSet<itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>>::value);
+  static_assert(HasSet<itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType>>::value &&
+                !HasSet<itk::FrequencyFFTLayoutImageRegionConstIteratorWithIndex<ImageType>>::value);
+  static_assert(HasSet<itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<ImageType>>::value &&
+                !HasSet<itk::FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<ImageType>>::value);
+  static_assert(HasSet<itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>::value &&
+                !HasSet<itk::FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<ImageType>>::value);
 }
