@@ -251,8 +251,6 @@ void
 ImageSink<TInputImage>::StreamedGenerateData(unsigned int inputRequestedRegionNumber)
 {
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-
   // calculate the progress range for this streamed chunk
   const ThreadIdType  total = this->GetNumberOfInputRequestedRegions();
   const float         oldProgress = static_cast<float>(inputRequestedRegionNumber) / (total);

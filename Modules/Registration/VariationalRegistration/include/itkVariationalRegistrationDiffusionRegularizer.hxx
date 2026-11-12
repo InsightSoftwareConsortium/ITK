@@ -180,7 +180,6 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::RegularizeCompo
   calcBufferStr.component = component;
   calcBufferStr.bPtr = m_BufferImage;
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(this->CalcBufferCallback, &calcBufferStr);
 
   // Multithread the execution

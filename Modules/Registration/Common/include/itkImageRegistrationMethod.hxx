@@ -41,8 +41,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::ImageRegistrationMethod()
     itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());
-
-  this->SetNumberOfWorkUnits(this->GetMultiThreader()->GetNumberOfWorkUnits());
 }
 
 template <typename TFixedImage, typename TMovingImage>
@@ -153,7 +151,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
   }
 
   // Setup the metric
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->m_Metric->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   m_Metric->SetMovingImage(m_MovingImage);
   m_Metric->SetFixedImage(m_FixedImage);

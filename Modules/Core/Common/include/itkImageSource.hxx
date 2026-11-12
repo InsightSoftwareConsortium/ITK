@@ -188,12 +188,6 @@ ImageSource<TOutputImage>::ClassicMultiThread(ThreadFunctionType callbackFunctio
   ThreadStruct str;
   str.Filter = this;
 
-  const OutputImageType *         outputPtr = this->GetOutput();
-  const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
-  const unsigned int              validThreads =
-    splitter->GetNumberOfSplits(outputPtr->GetRequestedRegion(), this->GetNumberOfWorkUnits());
-
-  this->GetMultiThreader()->SetNumberOfWorkUnits(validThreads);
   this->GetMultiThreader()->SetUpdateProgress(false);
   this->GetMultiThreader()->SetSingleMethodAndExecute(callbackFunction, &str);
 }
@@ -217,7 +211,6 @@ ImageSource<TOutputImage>::GenerateData()
   }
   else
   {
-    this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     this->GetMultiThreader()->SetUpdateProgress(this->GetThreaderUpdateProgress());
     this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),

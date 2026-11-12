@@ -1467,3 +1467,21 @@ call to the setter takes precedence over the environment variable.
 
 The value is clamped to at least 1 and does not affect instances that already
 exist. A single-threaded configuration still uses one work unit.
+
+## `ProcessObject` number of work units is held by the multi-threader
+
+`ProcessObject::SetNumberOfWorkUnits()` and `GetNumberOfWorkUnits()` now forward
+to the filter's `MultiThreaderBase` instead of keeping a separate copy.
+`GetNumberOfWorkUnits()` returns the value by copy and reports the count the
+multi-threader accepted, so it reflects the multi-threader's limits (for
+example, `SingleMultiThreader` always reports 1).
+
+`ProcessObject::SetMultiThreader()` no longer carries a work unit count over to
+the new multi-threader; the filter uses the count of the multi-threader it is
+given.
+
+### What you need to do
+
+Call `SetNumberOfWorkUnits()` after `SetMultiThreader()` when a specific count is
+wanted. Filters that share one multi-threader instance also share its number of
+work units.

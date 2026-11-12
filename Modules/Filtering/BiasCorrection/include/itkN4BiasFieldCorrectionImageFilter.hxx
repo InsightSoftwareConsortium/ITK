@@ -526,7 +526,6 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   auto &       values = fitPoints.values->CastToSTLContainer();
   const auto & bufferIndices = fitPoints.bufferIndices;
   const auto   fieldRange = MakeImageBufferRange(fieldEstimate);
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->ParallelizeArray(
     0,
     bufferIndices.size(),

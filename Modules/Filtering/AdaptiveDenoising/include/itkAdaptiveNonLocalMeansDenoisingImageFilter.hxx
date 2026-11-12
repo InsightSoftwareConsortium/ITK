@@ -92,7 +92,6 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
   this->m_IntensitySquaredDistanceImage->SetRegions(searchRegion);
   this->m_IntensitySquaredDistanceImage->Allocate();
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
     searchRegion,
     [this, inputImage, &targetImageRegion, &searchRegion, &neighborhoodPatchOffsetList](const RegionType & region) {
@@ -165,8 +164,6 @@ void
 AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
   this->BeforeThreadedGenerateData();
-
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   const RegionType              centerRegion = this->GetOutput()->GetRequestedRegion();
   const RegionType              targetImageRegion = this->GetTargetImageRegion();

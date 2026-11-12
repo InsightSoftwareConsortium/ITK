@@ -218,7 +218,6 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Calculate the 2nd order directional derivative of the smoothed image.
   // The output of this filter will be used to store the directional
   // derivative.
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
     this->GetOutput()->GetRequestedRegion(),
     [this](const OutputImageRegionType & outputRegionForThread) {

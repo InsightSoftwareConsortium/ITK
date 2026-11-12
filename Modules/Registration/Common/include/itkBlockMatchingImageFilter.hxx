@@ -127,7 +127,6 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethodAndExecute(this->ThreaderCallback, &str);
 
   // Call a method that can be overridden by a subclass to perform
