@@ -184,7 +184,14 @@ class itkTemplate(Mapping):
             "long": itk.SL,
             "long_long": itk.SLL,
         }
-        component: itkCType = _io_component_type_dict[componentAsString]
+        try:
+            component: itkCType = _io_component_type_dict[componentAsString]
+        except KeyError:
+            raise KeyError(
+                f"The ImageIO reports component type '{componentAsString}', which has "
+                "no wrapped ITK type. Pass pixel_type= to itk.imread, or build "
+                "a typed reader such as itk.ImageFileReader[ImageType]."
+            ) from None
         pixel = imageIO.GetPixelTypeAsString(imageIO.GetPixelType())
         numberOfComponents: int = imageIO.GetNumberOfComponents()
         PixelType: itkCType = itkTemplate._pixelTypeFromIO(
@@ -291,7 +298,10 @@ class itkTemplate(Mapping):
                 int(math.sqrt(numberOfComponents)),
             ]
         else:
-            raise RuntimeError(f"Unknown pixel type: {pixel}.")
+            raise RuntimeError(
+                f"The IO reports pixel type '{pixel}', which has no wrapped ITK type. "
+                "Pass pixel_type= to itk.imread or itk.meshread, or build a typed reader."
+            )
         return PixelType
 
     def __local__init__(self, new_object_name: str) -> None:
