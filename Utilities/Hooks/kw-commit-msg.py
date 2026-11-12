@@ -19,13 +19,12 @@
 
 import os
 import re
-import subprocess
 import sys
 
 from pathlib import Path
 
 
-DEFAULT_LINE_LENGTH: int = 78
+MAX_SUBJECT_LENGTH: int = 78
 SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
 
 
@@ -44,18 +43,6 @@ To continue editing, run the command
     sys.exit(1)
 
 
-def get_max_length():
-    try:
-        result = subprocess.run(
-            ["git", "config", "--get", "hooks.commit-msg.ITKCommitSubjectMaxLength"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-    except subprocess.CalledProcessError as _:
-        return DEFAULT_LINE_LENGTH
-
-
 def main():
     git_dir_path: Path = Path(os.environ.get("GIT_DIR", ".git")).resolve()
     commit_msg_path: Path = git_dir_path / "COMMIT_MSG"
@@ -69,8 +56,6 @@ def main():
             f"Missing input_file {sys.argv[1]} for {sys.argv[0]} processing",
             commit_msg_path,
         )
-    max_subjectline_length: int = get_max_length()
-
     original_input_file_lines: list[str] = []
     with open(input_file) as f_in:
         original_input_file_lines = f_in.readlines()
@@ -101,15 +86,15 @@ def main():
             commit_msg_path,
         )
     if (
-        len(subject_line) > max_subjectline_length
+        len(subject_line) > MAX_SUBJECT_LENGTH
         and not subject_line.startswith("Merge ")
         and not subject_line.startswith("Revert ")
     ):
         die(
-            f"The first line may be at most {max_subjectline_length} characters:\n"
-            + "-" * max_subjectline_length
+            f"The first line may be at most {MAX_SUBJECT_LENGTH} characters:\n"
+            + "-" * MAX_SUBJECT_LENGTH
             + f"\n{subject_line}\n"
-            + "-" * max_subjectline_length,
+            + "-" * MAX_SUBJECT_LENGTH,
             commit_msg_path,
         )
     if re.match(r"^[ \t]|[ \t]$", subject_line):
