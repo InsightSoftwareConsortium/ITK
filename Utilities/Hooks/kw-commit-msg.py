@@ -25,6 +25,7 @@ from pathlib import Path
 
 
 MAX_SUBJECT_LENGTH: int = 78
+GIT_GENERATED_PREFIXES = ("Merge ", "Revert ", "fixup! ", "squash! ", "amend! ")
 SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
 
 
@@ -85,10 +86,8 @@ def main():
             f"The first line must be at least 8 characters:\n--------\n{subject_line}\n--------",
             commit_msg_path,
         )
-    if (
-        len(subject_line) > MAX_SUBJECT_LENGTH
-        and not subject_line.startswith("Merge ")
-        and not subject_line.startswith("Revert ")
+    if len(subject_line) > MAX_SUBJECT_LENGTH and not subject_line.startswith(
+        GIT_GENERATED_PREFIXES
     ):
         die(
             f"The first line may be at most {MAX_SUBJECT_LENGTH} characters:\n"
@@ -102,8 +101,8 @@ def main():
             f"The first line may not have leading or trailing space:\n[{subject_line}]",
             commit_msg_path,
         )
-    if not re.match(
-        r"^(Merge|Revert|BUG:|COMP:|DOC:|ENH:|PERF:|STYLE:|WIP:)\s", subject_line
+    if not subject_line.startswith(GIT_GENERATED_PREFIXES) and not re.match(
+        r"^(BUG:|COMP:|DOC:|ENH:|PERF:|STYLE:|WIP:)\s", subject_line
     ):
         die(
             f"""Start ITK commit messages with a standard prefix (and a space):

@@ -13,11 +13,12 @@ not just that a tool made the change.
 ```
 
 **The 78-character subject-line limit is a hard constraint, not a guideline.**
-The `kw-commit-msg.py` hook rejects commits that exceed it, and CI will
-reject PRs containing such commits. Count characters before committing.
-The prefix (e.g., `DOC: `) counts toward the 78. When a descriptive
-subject would exceed the limit, move detail to the commit body — the
-subject should be scannable in `git log --oneline`.
+The `kw-commit-msg.py` hook rejects commits that exceed it, and CI will reject
+PRs containing such commits (except if the commit subject starts with `fixup!`,
+`squash!` or `amend!` as this is interpreted by `git rebase --autosquash`).
+Count characters before committing. The prefix (e.g., `DOC: `) counts toward
+the 78. When a descriptive subject would exceed the limit, move detail to the
+commit body — the subject should be scannable in `git log --oneline`.
 
 ## Body budget
 
@@ -36,6 +37,7 @@ authoring any commit body.
 | `STYLE:` | Formatting, naming, no logic change |
 | `PERF:` | Performance improvement |
 | `WIP:` | Transient commits for development testing only |
+| `fixup!`<br>`squash!`<br>`amend!` | Transient commits to be squashed before a PR is pushed |
 
 > **`WIP:` on commit subjects is a two-layer opt-in — use it deliberately.**
 > The local `kw-commit-msg.py` hook **intentionally** accepts `WIP:` so
@@ -50,6 +52,12 @@ authoring any commit body.
 > To mark an entire PR (rather than individual commits) as
 > work-in-progress, add `[WIP]` to the **PR title** — the GitHub "WIP" app
 > gates merging on that string; remove it when the PR is ready.
+
+> **`fixup!`, `squash!` and `amend!` on commit subjects are interpreted by `git
+> rebase --autosquash`**, which is why the local `kw-commit-msg.py` hook
+> **intentionally** accepts `fixup!`, `squash!` and `amend!`, and exempts them
+> from the length limit. These transient commits must be squashed before a PR
+> is pushed with `git rebase --autosquash`.
 
 ## Commit Message Length
 

@@ -89,7 +89,7 @@ PRIOR_BEHAVIOR_PATTERN = (
     re.compile(r"\bused to (?:do|be|use)\b|\bpreviously (?:was|did)\b", re.IGNORECASE),
     "reference to deleted/prior behavior",
 )
-FIX_SUBJECT_PATTERN = re.compile(r"^(?:BUG|COMP):")
+FIX_SUBJECT_PATTERN = re.compile(r"^(?:(?:fixup|squash|amend)! )*(?:BUG|COMP):")
 SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
 
 
