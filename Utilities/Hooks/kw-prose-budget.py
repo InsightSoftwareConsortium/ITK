@@ -90,6 +90,7 @@ PRIOR_BEHAVIOR_PATTERN = (
     "reference to deleted/prior behavior",
 )
 FIX_SUBJECT_PATTERN = re.compile(r"^(?:BUG|COMP):")
+SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
 
 
 def warn(label: str, detail: str) -> None:
@@ -99,11 +100,14 @@ def warn(label: str, detail: str) -> None:
 def read_message(commit_msg_path: Path) -> tuple[str, list[str]]:
     """Return the subject and the body lines of the commit message, with
     the leading blank line removed and any trailing trailers stripped."""
-    raw = commit_msg_path.read_text(errors="replace")
-    # Strip comment lines (git's '# ...' guidance lines and scissors).
-    cleaned = "\n".join(
-        line for line in raw.splitlines() if not line.lstrip().startswith("#")
-    )
+    lines = commit_msg_path.read_text(errors="replace").splitlines()
+    # Drop everything from the scissors line, e.g. the diff of `git commit -v`.
+    for i, line in enumerate(lines):
+        if SCISSORS_PATTERN.match(line):
+            del lines[i:]
+            break
+    # Strip comment lines (git's '# ...' guidance lines).
+    cleaned = "\n".join(line for line in lines if not line.lstrip().startswith("#"))
     parts = cleaned.split("\n", 2)
     if len(parts) < 3:
         return parts[0], []

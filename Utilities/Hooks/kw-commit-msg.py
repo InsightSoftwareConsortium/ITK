@@ -26,6 +26,7 @@ from pathlib import Path
 
 
 DEFAULT_LINE_LENGTH: int = 78
+SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
 
 
 def die(message, commit_msg_path):
@@ -76,6 +77,9 @@ def main():
 
     input_file_lines: list[str] = []
     for test_line in original_input_file_lines:
+        # Drop everything from the scissors line, e.g. the diff of `git commit -v`.
+        if SCISSORS_PATTERN.match(test_line.rstrip("\n")):
+            break
         test_line = test_line.strip()
         is_empty_line_before_subject: bool = (
             len(input_file_lines) == 0 and len(test_line) == 0
@@ -87,6 +91,8 @@ def main():
     with open(commit_msg_path, "w") as f_out:
         f_out.writelines(input_file_lines)
 
+    if not input_file_lines:
+        sys.exit(0)  # Let git abort the commit for an empty message.
     subject_line: str = input_file_lines[0]
 
     if len(subject_line) < 8:
