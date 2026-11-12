@@ -205,8 +205,13 @@ bool ImageCodec::DoYBRFull422(std::istream &is, std::ostream &os)
 
   gdcm_assert( !(rgb_buf_size % 3) );
   gdcm_assert( !(buf_size % 2) );
-  unsigned char *copy = new unsigned char[ rgb_buf_size ];
+  unsigned char *copy = new unsigned char[ rgb_buf_size ]();
   const size_t size = buf_size/4;
+  if( buf_size % 4 )
+    {
+    // A trailing Y pair without its Cb Cr: keep the first Y, chroma zero.
+    copy[6 * size] = dummy_buffer[4 * size];
+    }
 
   for (size_t j = 0; j < size; ++j)
     {
@@ -645,6 +650,7 @@ bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
   gdcm_assert( PI != PhotometricInterpretation::UNKNOWN );
   std::stringstream bs_os; // ByteSwap
   std::stringstream pcpc_os; // Padded Composite Pixel Code
+  std::stringstream ybr_os; // YBR_FULL_422 expansion
   //std::stringstream pi_os; // PhotometricInterpretation
   std::stringstream pl_os; // PlanarConf
   std::istream *cur_is = &is;
@@ -706,8 +712,8 @@ bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         {
         //gdcmErrorMacro( "YBR_FULL_422 is not implemented in GDCM. Image will be displayed incorrectly" );
         //this->SetPhotometricInterpretation( PhotometricInterpretation::RGB );
-        DoYBRFull422(*cur_is,pl_os);
-        cur_is = &pl_os;
+        DoYBRFull422(*cur_is,ybr_os);
+        cur_is = &ybr_os;
         }
       }
     break;

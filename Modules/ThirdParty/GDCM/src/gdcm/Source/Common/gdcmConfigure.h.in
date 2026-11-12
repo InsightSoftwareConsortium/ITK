@@ -35,15 +35,16 @@
 /* Hard code the path to the public dictionary */
 #define PUB_DICT_PATH "@GDCM_PUB_DICT_PATH@"
 
-#if 0 // BEGIN ITK Omitted:
+#cmakedefine GDCM_BUILD_TESTING
+#cmakedefine GDCM_STANDALONE
+
+#ifdef GDCM_BUILD_TESTING
 /* Useful in particular for loadshared where the full path
  * to the lib is needed */
-#define GDCM_SOURCE_DIR ".GDCM_SOURCE_DIR@"
-#define GDCM_EXECUTABLE_OUTPUT_PATH ".CMAKE_RUNTIME_OUTPUT_DIRECTORY@"
-#define GDCM_LIBRARY_OUTPUT_PATH    ".GDCM_LIBRARY_OUTPUT_DIR@"
-#endif // END ITK
-
-#cmakedefine GDCM_BUILD_TESTING
+#define GDCM_SOURCE_DIR "@GDCM_CONFIGURE_SOURCE_DIR@"
+#define GDCM_EXECUTABLE_OUTPUT_PATH "@GDCM_CONFIGURE_EXECUTABLE_OUTPUT_PATH@"
+#define GDCM_LIBRARY_OUTPUT_PATH    "@GDCM_CONFIGURE_LIBRARY_OUTPUT_PATH@"
+#endif
 
 #cmakedefine GDCM_USE_SYSTEM_ZLIB
 #cmakedefine GDCM_USE_SYSTEM_UUID
@@ -60,6 +61,7 @@
 #cmakedefine GDCM_USE_SYSTEM_PVRG
 #cmakedefine GDCMV2_0_COMPATIBILITY
 #cmakedefine GDCM_USE_SYSTEM_PAPYRUS3
+#cmakedefine GDCM_BUILD_NETWORK
 
 #ifndef GDCM_USE_SYSTEM_OPENJPEG
 #define OPENJPEG_VERSION_MAJOR 2

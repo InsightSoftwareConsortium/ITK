@@ -17,7 +17,6 @@
 #include "gdcmDataElement.h"
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmSwapper.h"
-#include "gdcmUnpacker12Bits.h"
 #ifdef GDCM_USE_JPEGTURBO
 #include "gdcmJPEGTurboCodec.h"
 #else
@@ -25,6 +24,7 @@
 #include "gdcmJPEG12Codec.h"
 #include "gdcmJPEG16Codec.h"
 #endif
+#include "gdcmUnpacker12Bits.h"
 
 #include <cstring>
 #include <numeric>

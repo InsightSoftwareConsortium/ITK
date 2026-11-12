@@ -10,7 +10,7 @@ endif()
 #----------------------------------------------------------------------------
 
 project(GDCM
-  VERSION 3.2.8
+  VERSION 3.3.0
   LANGUAGES CXX C
 )
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
@@ -316,9 +316,12 @@ if(UNIX)
   option(GDCM_USE_SYSTEM_UUID "Use system uuid" OFF)
 endif()
 option(GDCM_USE_SYSTEM_EXPAT "Use system expat" OFF)
+option(GDCM_BUILD_NETWORK "Build DICOM network (DIMSE/SCU) functionality" ON)
 option(GDCM_USE_SYSTEM_JSON "Use system json" OFF)
 option(GDCM_USE_SYSTEM_PAPYRUS3 "Use system papyrus3" OFF)
-option(GDCM_USE_SYSTEM_SOCKETXX "Use system socket++" OFF)
+if(GDCM_BUILD_NETWORK)
+  option(GDCM_USE_SYSTEM_SOCKETXX "Use system socket++" OFF)
+endif()
 option(GDCM_USE_SYSTEM_LJPEG "Use system ljpeg (ijg lib)" OFF)
 option(GDCM_USE_JPEGTURBO "Use libjpeg-turbo instead of IJG for JPEG codec" OFF)
 mark_as_advanced(
@@ -401,8 +404,8 @@ option(GDCM_USE_SYSTEM_OPENJPEG "Use system openjpeg" OFF)
 option(GDCM_USE_SYSTEM_CHARLS "Use system charls" OFF)
 
 if(GDCM_USE_SYSTEM_OPENJPEG)
-  if (NOT OPENJPEG_LIBRARIES)
-    find_package(OpenJPEG REQUIRED)
+  if(NOT OPENJPEG_LIBRARIES OR OPENJPEG_FOUND)
+    find_package(OpenJPEG 2.0.0 REQUIRED)
   endif()
   set(GDCM_OPENJPEG_LIBRARIES ${OPENJPEG_LIBRARIES})
 else()
@@ -441,8 +444,10 @@ if(GDCM_USE_KAKADU)
 endif()
 
 if(GDCM_USE_SYSTEM_ZLIB)
-  if (NOT ZLIB_LIBRARIES)
+  if(NOT ZLIB_LIBRARIES)
     find_package(ZLIB REQUIRED)
+  elseif(NOT ZLIB_INCLUDE_DIRS)
+    find_path(ZLIB_INCLUDE_DIRS zlib.h)
   endif()
   include_directories(${ZLIB_INCLUDE_DIRS})
   set(GDCM_ZLIB_LIBRARIES ${ZLIB_LIBRARIES})
@@ -463,7 +468,7 @@ else()
 endif()
 
 if(GDCM_USE_SYSTEM_EXPAT)
-  if (NOT EXPAT_LIBRARIES)
+  if(NOT EXPAT_LIBRARIES)
     find_package(EXPAT REQUIRED)
   endif()
   set(GDCM_EXPAT_LIBRARIES ${EXPAT_LIBRARIES})
@@ -508,10 +513,10 @@ endif()
 
 #-----------------------------------------------------------------------------
 # Python install
-#find_package(Python3 COMPONENTS Interpreter REQUIRED)
+#find_package(PythonInterp REQUIRED)
 #macro(GET_PYTHON_SITE_PACKAGE dir)
 #  execute_process(
-#  COMMAND ${Python3_EXECUTABLE} "-c" "from distutils import sysconfig; print sysconfig.get_python_lib()"
+#  COMMAND ${PYTHON_EXECUTABLE} "-c" "from distutils import sysconfig; print sysconfig.get_python_lib()"
 #  #WORKING_DIRECTORY @LIBRARY_OUTPUT_PATH@
 #  RESULT_VARIABLE import_res
 #  OUTPUT_VARIABLE import_output
@@ -580,22 +585,10 @@ if(GDCM_STANDALONE)
     find_package(CSharp REQUIRED)
     include(${CSharp_USE_FILE})
   endif()
-  # Expose a way to pass -fPIC to static libs of gdcm core, while still build wrapped language as shared lib:
-  if(NOT DEFINED GDCM_USE_PIC_FOR_STATIC_LIBS)
-    if(GDCM_WRAP_JAVA)
-      if(NOT BUILD_SHARED_LIBS)
-        if(CMAKE_COMPILER_IS_GNUCXX)
-          set(GDCM_USE_PIC_FOR_STATIC_LIBS ON)
-        endif()
-      endif()
-    endif()
-  endif()
-  if(GDCM_USE_PIC_FOR_STATIC_LIBS)
-    if(BUILD_SHARED_LIBS)
-      message(FATAL_ERROR "Invalid configuration for static/shared lib")
-    else()
-      set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-    endif()
+  # Any language wrapper builds a shared module that links against gdcm static
+  # convenience libs, so all targets need -fPIC regardless of BUILD_SHARED_LIBS.
+  if(GDCM_WRAP_PYTHON OR GDCM_WRAP_JAVA OR GDCM_WRAP_CSHARP OR GDCM_WRAP_PHP)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
   endif()
 endif()
 
@@ -1163,7 +1156,7 @@ endmacro()
 #message("${theoutput}")
 
 # For DICOM Q/R testing
-if(GDCM_BUILD_TESTING)
+if(GDCM_BUILD_TESTING AND GDCM_BUILD_NETWORK)
   set(GDCM_DICOM_CLIENT_AETITLE "" CACHE STRING "DICOM CLIENT AETITLE")
   set(GDCM_DICOM_SERVER_AETITLE "" CACHE STRING "DICOM SERVER AETITLE")
   set(GDCM_DICOM_SERVER_PEER    "" CACHE STRING "DICOM SERVER PEER")
@@ -1185,10 +1178,12 @@ set(GDCM_INCLUDE_PATH
   "${GDCM_BINARY_DIR}/Source/Common"
   "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition"
   "${GDCM_SOURCE_DIR}/Source/MediaStorageAndFileFormat"
-  "${GDCM_SOURCE_DIR}/Source/MessageExchangeDefinition"
   "${GDCM_SOURCE_DIR}/Source/DataDictionary"
   "${GDCM_SOURCE_DIR}/Source/InformationObjectDefinition"
   )
+if(GDCM_BUILD_NETWORK)
+  list(APPEND GDCM_INCLUDE_PATH "${GDCM_SOURCE_DIR}/Source/MessageExchangeDefinition")
+endif()
 if(GDCM_USE_VTK)
     set(GDCM_INCLUDE_PATH
       ${GDCM_INCLUDE_PATH}

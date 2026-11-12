@@ -11,6 +11,11 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
+// Must precede every #include so that off_t is 64-bit on 32-bit glibc.
+#ifndef _FILE_OFFSET_BITS
+#define _FILE_OFFSET_BITS 64
+#endif
+
 #include "gdcmFileStreamer.h"
 
 #include "gdcmTag.h"
@@ -22,27 +27,29 @@
 #include "gdcmEvent.h"
 #include "gdcmProgressEvent.h"
 
-// The GNU C library (glibc) requires this be defined to have fseeko() and ftello().
-#ifdef __GNU_LIBRARY__
-#define _FILE_OFFSET_BITS 64
-#endif
-
+#include <cstdint> // int64_t
 #include <cstdio>
 #include <limits>
 #include <sys/stat.h> // fstat
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__MINGW32__))
 #include <io.h>
-typedef int64_t off64_t;
 #else
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__EMSCRIPTEN__)
-#  define off64_t off_t
-#endif
 #include <unistd.h> // ftruncate
 #endif
 
 namespace gdcm
 {
+
+// The Microsoft CRT keeps off_t 32-bit even on 64-bit Windows.
+#if defined(_WIN32) && (defined(_MSC_VER) || defined(__MINGW32__))
+using offset_t = int64_t;
+#else
+using offset_t = off_t;
+#endif
+
+static_assert(sizeof(offset_t) >= 8,
+  "GDCM requires 64-bit file offsets, but off_t is 32-bit on this platform");
 
 // Implementation detail:
 // FILE* have been chosen over std::fstream since it has been reported to lead
@@ -50,9 +57,7 @@ namespace gdcm
 // handling of 64bits offset. Create thin wrapper:
 // See here for discussion:
 // http://stackoverflow.com/questions/17863594/size-of-off-t-at-compilation-time
-// Basically enforce use of off64_t over off_t since on windows off_t is pretty
-// much guarantee to be 32bits only.
-static inline int FSeeko(FILE *stream, off64_t offset, int whence)
+static inline int FSeeko(FILE *stream, offset_t offset, int whence)
 {
 #ifdef _WIN32
 #if defined(__MINGW32__)
@@ -65,7 +70,7 @@ static inline int FSeeko(FILE *stream, off64_t offset, int whence)
 #endif
 }
 
-static inline off64_t FTello(FILE *stream)
+static inline offset_t FTello(FILE *stream)
 {
 #ifdef _WIN32
 #if defined(__MINGW32__)
@@ -78,7 +83,7 @@ static inline off64_t FTello(FILE *stream)
 #endif
 }
 
-static inline bool FTruncate( const int fd, const off64_t len )
+static inline bool FTruncate( const int fd, const offset_t len )
 {
 #ifdef _WIN32
 #if defined(__MINGW32__)
@@ -96,7 +101,7 @@ static inline bool FTruncate( const int fd, const off64_t len )
 #endif
 }
 
-static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t inslen )
+static bool prepare_file( FILE * pFile, const offset_t offset, const offset_t inslen )
 {
   // fast path
   if( inslen == 0 ) return true;
@@ -111,13 +116,13 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
     {
     if( inslen < 0 )
       {
-      off64_t bytes_to_move = sb.st_size - offset;
-      off64_t read_start_offset = offset;
+      offset_t bytes_to_move = sb.st_size - offset;
+      offset_t read_start_offset = offset;
       while (bytes_to_move != 0)
         {
-        const size_t bytes_this_time = static_cast<size_t>(std::min((off64_t)BUFFERSIZE, bytes_to_move));
-        const off64_t rd_off = read_start_offset;
-        const off64_t wr_off = rd_off + inslen;
+        const size_t bytes_this_time = static_cast<size_t>(std::min((offset_t)BUFFERSIZE, bytes_to_move));
+        const offset_t rd_off = read_start_offset;
+        const offset_t wr_off = rd_off + inslen;
         if( FSeeko(pFile, rd_off, SEEK_SET) )
           {
           return false;
@@ -151,14 +156,14 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
 #endif
       if (sb.st_size > offset)
         {
-        off64_t bytes_to_move = sb.st_size - offset;
-        off64_t read_end_offset = sb.st_size;
+        offset_t bytes_to_move = sb.st_size - offset;
+        offset_t read_end_offset = sb.st_size;
         while (bytes_to_move != 0)
           {
-          const size_t bytes_this_time = static_cast<size_t>(std::min((off64_t)BUFFERSIZE, bytes_to_move));
-          const off64_t rd_off = read_end_offset - bytes_this_time;
-          gdcm_assert( (off64_t)rd_off >= offset );
-          const off64_t wr_off = rd_off + inslen;
+          const size_t bytes_this_time = static_cast<size_t>(std::min((offset_t)BUFFERSIZE, bytes_to_move));
+          const offset_t rd_off = read_end_offset - bytes_this_time;
+          gdcm_assert( (offset_t)rd_off >= offset );
+          const offset_t wr_off = rd_off + inslen;
           if( FSeeko(pFile, rd_off, SEEK_SET) )
             {
             return false;
@@ -329,15 +334,15 @@ public:
       size_t dicomlen = 4 + 4; // Tag + VL for Implicit
       if( TS.GetNegociatedType() == TransferSyntax::Explicit )
         dicomlen += 4;
-      off64_t newlen = len;
+      offset_t newlen = len;
       gdcm_assert( (size_t)newlen == len );
       newlen += dicomlen;
       newlen -= actualde;
-      off64_t plength = newlen;
+      offset_t plength = newlen;
       gdcm_assert( ReservedDataLength >= 0 );
       if( ReservedDataLength )
         {
-        if( (newlen + ReservedDataLength) >= (off64_t)len )
+        if( (newlen + ReservedDataLength) >= (offset_t)len )
           {
           plength = newlen + ReservedDataLength - len;
           }
@@ -348,8 +353,8 @@ public:
         ReservedDataLength -= len;
         gdcm_assert( ReservedDataLength >= 0 );
         }
-      //if( !prepare_file( pFile, (off64_t)thepos + actualde, newlen ) )
-      if( !prepare_file( pFile, (off64_t)thepos + actualde, plength ) )
+      //if( !prepare_file( pFile, (offset_t)thepos + actualde, newlen ) )
+      if( !prepare_file( pFile, (offset_t)thepos + actualde, plength ) )
         {
         return false;
         }
@@ -363,18 +368,18 @@ public:
     else
       {
       gdcm_assert( pFile );
-      const off64_t curpos = FTello(pFile);
+      const offset_t curpos = FTello(pFile);
       gdcm_assert( curpos == thepos );
-      if( ReservedDataLength >= (off64_t)len )
+      if( ReservedDataLength >= (offset_t)len )
         {
         // simply update remaining reserved buffer:
         ReservedDataLength -= len;
         }
       else
         {
-        const off64_t plength = len - ReservedDataLength;
+        const offset_t plength = len - ReservedDataLength;
         gdcm_assert( plength >= 0 );
-        if( !prepare_file( pFile, (off64_t)curpos, plength) )
+        if( !prepare_file( pFile, (offset_t)curpos, plength) )
           {
           return false;
           }
@@ -395,14 +400,14 @@ public:
     // Update DataElement:
     const size_t currentdatalenth = CurrentDataLenth;
     gdcm_assert( ReservedDataLength >= 0);
-    //const off64_t refpos = FTello(pFile);
+    //const offset_t refpos = FTello(pFile);
     if( !UpdateDataElement( t ) )
       {
       return false;
       }
     if( ReservedDataLength > 0)
       {
-      const off64_t curpos = thepos;
+      const offset_t curpos = thepos;
       if( !prepare_file( pFile, curpos + ReservedDataLength, - ReservedDataLength) )
         {
         return false;
@@ -587,7 +592,7 @@ public:
     pFile = fopen(outfilename, "r+b");
     gdcm_assert( pFile );
 
-    if( !prepare_file( pFile, (off64_t)thepcpos, pclen ) )
+    if( !prepare_file( pFile, (offset_t)thepcpos, pclen ) )
       {
       return false;
       }
@@ -673,7 +678,7 @@ private:
   size_t actualde;
   size_t CurrentDataLenth;
   Tag CurrentGroupTag;
-  off64_t ReservedDataLength{0};
+  offset_t ReservedDataLength{0};
   unsigned short ReservedGroupDataElement{0};
 public:
   FileStreamer *Self{nullptr};
@@ -685,7 +690,7 @@ private:
       {
       if( CurrentDataLenth % 2 == 1 )
         {
-        const off64_t curpos = FTello(pFile);
+        const offset_t curpos = FTello(pFile);
         if( ReservedDataLength >= 1 )
           {
           // simply update remaining reserved buffer:
@@ -693,7 +698,7 @@ private:
           }
         else
           {
-          if( !prepare_file( pFile, (off64_t)curpos, 1) )
+          if( !prepare_file( pFile, (offset_t)curpos, 1) )
             {
             return false;
             }
@@ -705,7 +710,7 @@ private:
         CurrentDataLenth += 1;
         }
       gdcm_assert( CurrentDataLenth % 2 == 0 );
-      off64_t vlpos = thepos;
+      offset_t vlpos = thepos;
       vlpos -= CurrentDataLenth;
       vlpos -= 4; // VL
       if( TS.GetNegociatedType() == TransferSyntax::Explicit )
@@ -723,7 +728,7 @@ private:
       }
     return true;
     }
-  size_t WriteHelper( off64_t offset, const Tag & tag, const VL & vl )
+  size_t WriteHelper( offset_t offset, const Tag & tag, const VL & vl )
     {
     FSeeko(pFile, offset, SEEK_SET);
     std::stringstream ss;
@@ -768,7 +773,7 @@ bool FileStreamer::InitializeCopy()
   static int checksize = 0;
   if( !checksize )
     {
-    const int soff = sizeof( off64_t );
+    const int soff = sizeof( offset_t );
     const int si64 = sizeof( int64_t );
     if( soff != si64 ) return false;
     if( !(sizeof(sb.st_size) > 4) ) // LFS ?

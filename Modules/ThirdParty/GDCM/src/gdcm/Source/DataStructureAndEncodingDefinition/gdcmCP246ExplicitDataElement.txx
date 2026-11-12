@@ -22,6 +22,7 @@
 #include "gdcmImplicitDataElement.h"
 
 #include "gdcmValueIO.h"
+#include "gdcmValueLengthCheck.h"
 #include "gdcmSwapper.h"
 
 namespace gdcm
@@ -178,7 +179,13 @@ std::istream &CP246ExplicitDataElement::ReadValue(std::istream &is, bool readval
     ValueField = new ByteValue;
     }
   // We have the length we should be able to read the value
-  ValueField->SetLength(ValueLengthField); // perform realloc
+  if( readvalues && ValueLengthExceedsStream( is, *ValueField, ValueLengthField ) )
+    {
+    ParseException pe;
+    pe.SetLastElement( *this );
+    throw pe;
+    }
+  this->SetValueFieldLength( ValueLengthField, readvalues );
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
   if( TagField == Tag(0x2001,0xe05f)
     || TagField == Tag(0x2001,0xe100)

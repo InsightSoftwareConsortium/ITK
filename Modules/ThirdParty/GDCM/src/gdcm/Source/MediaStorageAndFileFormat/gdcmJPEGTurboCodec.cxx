@@ -33,10 +33,10 @@ bool JPEGTurboCodec::IsStateSuspension() const { return false; }
 #include <csetjmp>
 #include <climits>
 
-// libjpeg-turbo headers (via ITK wrapper, symbols are mangled with itk_ prefix)
 extern "C" {
 #include "itk_jpeg.h"
 }
+
 
 /*
  * --------------------------------------------------------------------------

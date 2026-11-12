@@ -16,6 +16,7 @@
 #define GDCMBASICOFFSETTABLE_H
 
 #include "gdcmFragment.h"
+#include "gdcmValueLengthCheck.h"
 
 namespace gdcm_ns
 {
@@ -66,6 +67,11 @@ public:
       }
     // Self
     SmartPointer<ByteValue> bv = new ByteValue;
+    if( ValueLengthExceedsStream( is, *bv, ValueLengthField ) )
+      {
+      gdcmAssertAlwaysMacro(0 && "Should not happen");
+      return is;
+      }
     bv->SetLength(ValueLengthField);
     if( !bv->Read<TSwap>(is) )
       {

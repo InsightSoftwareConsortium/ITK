@@ -1291,7 +1291,10 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
     }
 
   // \post condition slope can never be 0:
-  gdcm_assert( interceptslope[1] != 0. );
+  if( interceptslope[1] == 0. ) {
+    gdcmErrorMacro("Something went really wrong");
+    interceptslope[1] = 1;
+  }
   return interceptslope;
 }
 
@@ -1347,6 +1350,7 @@ Tag ImageHelper::GetSpacingTagFromMediaStorage(MediaStorage const &ms)
       // Make SecondaryCaptureImagePlaneModule act as ForcePixelSpacing
       // This is different from Basic Pixel Spacing Calibration Macro Attributes
       //
+      // Per the note: https://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_A.8.html#sect_A.8.1.3
       gdcmDebugMacro( "FIXME: Multiple tags can identify Secondary Capture spacing. This function should not be used for Secondary Capture data." );
       t = Tag(0x0028,0x0030);
     } else {

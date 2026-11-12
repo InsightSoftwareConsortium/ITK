@@ -129,7 +129,6 @@ endif()
 # Do the proper thing when building static...if only there was configured
 # headers or def files instead
 if(NOT BUILD_SHARED_LIBS)
-
   if(NOT GDCM_USE_SYSTEM_OPENJPEG)
     set_source_files_properties(gdcmJPEG2000Codec.cxx
                                 PROPERTIES
