@@ -17,7 +17,6 @@
 #
 # ==========================================================================
 
-import os
 import re
 import sys
 
@@ -45,13 +44,13 @@ To continue editing, run the command
 
 
 def main():
-    git_dir_path: Path = Path(os.environ.get("GIT_DIR", ".git")).resolve()
-    commit_msg_path: Path = git_dir_path / "COMMIT_MSG"
-
     if len(sys.argv) < 2:
-        die(f"Usage: {sys.argv[0]} <git_commit_message_file>", commit_msg_path)
+        print(f"Usage: {sys.argv[0]} <git_commit_message_file>", file=sys.stderr)
+        sys.exit(1)
 
     input_file: Path = Path(sys.argv[1])
+    # Git passes a file in its git directory, which may be a worktree's.
+    commit_msg_path: Path = input_file.resolve().parent / "COMMIT_MSG"
     if not input_file.exists():
         die(
             f"Missing input_file {sys.argv[1]} for {sys.argv[0]} processing",
