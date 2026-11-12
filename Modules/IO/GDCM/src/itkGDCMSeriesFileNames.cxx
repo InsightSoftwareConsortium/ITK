@@ -119,6 +119,7 @@ GDCMSeriesFileNames::BuildSeriesMap()
   m_SeriesUIDs.clear();
   m_SeriesFiles.clear();
   m_InstanceNumbers.clear();
+  m_DidUseAmbiguousOrdering = false;
 
   if (m_InputDirectory.empty())
   {
@@ -220,8 +221,8 @@ GDCMSeriesFileNames::OrderSeries(SeriesEntry & entry)
   sorter.SetComputeZSpacing(false);
   bool wasSortingAchieved = sorter.Sort(entry.Files);
 
-  // Set a public flag so that callers know this fallback occurred, and can show a warning.
-  m_DidUseAmbiguousOrdering = !wasSortingAchieved;
+  // Stays set until the directory is parsed again, so an ambiguous series is not hidden by a later one.
+  m_DidUseAmbiguousOrdering = m_DidUseAmbiguousOrdering || !wasSortingAchieved;
 
   if (wasSortingAchieved)
   {
