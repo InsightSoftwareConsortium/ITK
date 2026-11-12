@@ -16,6 +16,12 @@ if(ITK_WRAP_PYTHON)
           ${CMAKE_CURRENT_SOURCE_DIR}/itkSyNImageRegistrationMethodTest.py
           ${d}
       )
+      itk_python_add_test(
+        NAME itkGaussianSmoothingDisplacementFieldRegistration${d}DPythonTest
+        COMMAND
+          ${CMAKE_CURRENT_SOURCE_DIR}/itkGaussianSmoothingDisplacementFieldRegistrationTest.py
+          ${d}
+      )
     endif()
   endforeach()
 
