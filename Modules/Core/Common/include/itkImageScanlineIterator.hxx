@@ -21,30 +21,44 @@
 
 namespace itk
 {
+
 template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(TImage * ptr, const RegionType & region)
-  : ImageScanlineConstIterator<TImage>(ptr, region)
+void
+ImageScanlineIterator<TImage>::NextLine()
 {
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
+  // increment to the next scanline
 
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageIterator<TImage> & it)
-  : ImageScanlineConstIterator<TImage>(it)
-{}
+  // Get the index of the last pixel on the span (row)
+  IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(m_SpanEndOffset - 1));
 
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageScanlineConstIterator<TImage> & it)
-  : ImageScanlineConstIterator<TImage>(it)
-{}
+  const IndexType & startIndex = this->m_Region.GetIndex();
+  const SizeType &  size = this->m_Region.GetSize();
 
-template <typename TImage>
-ImageScanlineIterator<TImage> &
-ImageScanlineIterator<TImage>::operator=(const ImageScanlineConstIterator<TImage> & it)
-{
-  this->ImageScanlineConstIterator<TImage>::operator=(it);
-  return *this;
+  // Check to see if we are past the last pixel in the region
+  // Note that ++ind[0] moves to the next pixel along the row.
+  ++ind[0];
+  bool done = (ind[0] == startIndex[0] + static_cast<IndexValueType>(size[0]));
+  for (unsigned int i = 1; done && i < ImageIteratorDimension; ++i)
+  {
+    done = (ind[i] == startIndex[i] + static_cast<IndexValueType>(size[i]) - 1);
+  }
+
+  // if the iterator is outside the region (but not past region begin) then
+  // we need to wrap around the region
+  unsigned int dim = 0;
+  if (!done)
+  {
+    while (((dim + 1) < ImageIteratorDimension) &&
+           (ind[dim] > startIndex[dim] + static_cast<IndexValueType>(size[dim]) - 1))
+    {
+      ind[dim] = startIndex[dim];
+      ind[++dim]++;
+    }
+  }
+
+  this->m_Offset = this->m_Image->ComputeOffset(ind);
+  m_SpanEndOffset = this->m_Offset + static_cast<OffsetValueType>(size[0]);
+  m_SpanBeginOffset = this->m_Offset;
 }
 
 } // end namespace itk

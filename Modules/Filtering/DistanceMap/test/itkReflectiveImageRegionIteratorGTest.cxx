@@ -21,6 +21,21 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkGTest.h"
 #include "itkTestingGetBufferPointerCountingImage.h"
+#include <type_traits>
+
+namespace
+{
+// HasSet tells whether `Set(pixel)` can be called on the specified iterator type.
+template <typename TIterator, typename = void>
+struct HasSet : std::false_type
+{};
+
+template <typename TIterator>
+struct HasSet<TIterator,
+              std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
+  : std::true_type
+{};
+} // namespace
 
 
 TEST(ReflectiveImageRegionIterator, Test)
@@ -134,4 +149,68 @@ TEST(ReflectiveImageRegionIterator, ConstructorCallsNonConstGetBufferPointer)
   using ImageType = itk::Testing::GetBufferPointerCountingImage<int>;
   EXPECT_TRUE(
     itk::Testing::IteratorConstructorCallsNonConstGetBufferPointer<itk::ReflectiveImageRegionIterator<ImageType>>());
+}
+
+// Checks that the read-only iterator deduces its image type from a raw image pointer.
+TEST(ReflectiveImageRegionIterator, DeduceImageTypeFromRawPointer)
+{
+  using ImageType = itk::Image<int, 3>;
+  ImageType * const       image = nullptr;
+  const ImageType * const constImage = nullptr;
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(image, ImageType::RegionType{})),
+                               itk::ReflectiveImageRegionConstIterator<ImageType>>);
+  static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(constImage, ImageType::RegionType{})),
+                               itk::ReflectiveImageRegionConstIterator<ImageType>>);
+}
+
+
+// Checks that converting a writable iterator to the read-only one keeps its position and reflection state.
+TEST(ReflectiveImageRegionIterator, ConversionToConstIteratorKeepsPosition)
+{
+  using ImageType = itk::Image<int, 2>;
+  const auto image = ImageType::New();
+  const auto region = ImageType::RegionType(ImageType::SizeType::Filled(3));
+  image->SetRegions(region);
+  image->AllocateInitialized();
+
+  itk::ReflectiveImageRegionIterator<ImageType> it(image, region);
+  it.GoToBegin();
+  for (int step = 0; step < 4; ++step)
+  {
+    ++it;
+  }
+
+  const auto expectSameState = [&it](const itk::ReflectiveImageRegionConstIterator<ImageType> & converted) {
+    EXPECT_EQ(converted.GetIndex(), it.GetIndex());
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
+    {
+      EXPECT_EQ(converted.IsReflected(dim), it.IsReflected(dim));
+    }
+  };
+  expectSameState(it);
+
+  itk::ReflectiveImageRegionConstIterator<ImageType> assigned(image, region);
+  assigned = it;
+  expectSameState(assigned);
+
+  const itk::ReflectiveImageRegionIterator<const ImageType> readOnly(it);
+  expectSameState(readOnly);
+  itk::ReflectiveImageRegionIterator<const ImageType> readOnlyAssigned(image, region);
+  readOnlyAssigned = readOnly;
+  expectSameState(readOnlyAssigned);
+
+  const auto writableCopy = it;
+  expectSameState(writableCopy);
+  const auto readOnlyCopy = readOnly;
+  expectSameState(readOnlyCopy);
+}
+
+
+// Checks that only the writable iterator provides Set().
+TEST(ReflectiveImageRegionIterator, OnlyWritableIteratorSets)
+{
+  using ImageType = itk::Image<int, 2>;
+  static_assert(HasSet<itk::ReflectiveImageRegionIterator<ImageType>>::value);
+  static_assert(!HasSet<itk::ReflectiveImageRegionConstIterator<ImageType>>::value);
+  static_assert(!HasSet<itk::ReflectiveImageRegionIterator<const ImageType>>::value);
 }

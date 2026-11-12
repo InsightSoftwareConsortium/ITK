@@ -21,10 +21,40 @@
 #include "itkPolyLineParametricPath.h"
 #include "itkPathIterator.h"
 #include "itkTestingMacros.h"
+#include <type_traits>
+
+namespace
+{
+// HasSet tells whether `Set(pixel)` can be called on the specified iterator type.
+template <typename TIterator, typename = void>
+struct HasSet : std::false_type
+{};
+
+template <typename TIterator>
+struct HasSet<TIterator,
+              std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<typename TIterator::PixelType>()))>>
+  : std::true_type
+{};
+} // namespace
 
 int
 itkPathIteratorTest(int, char *[])
 {
+  {
+    using CheckImageType = itk::Image<double, 2>;
+    using CheckPathType = itk::PolyLineParametricPath<2>;
+    const CheckImageType * const constImage = nullptr;
+    CheckImageType * const       image = nullptr;
+    const CheckPathType * const  path = nullptr;
+    static_assert(std::is_same_v<decltype(itk::PathConstIterator(constImage, path)),
+                                 itk::PathConstIterator<CheckImageType, CheckPathType>>);
+    static_assert(std::is_same_v<decltype(itk::PathConstIterator(image, path)),
+                                 itk::PathConstIterator<CheckImageType, CheckPathType>>);
+    static_assert(HasSet<itk::PathIterator<CheckImageType, CheckPathType>>::value);
+    static_assert(!HasSet<itk::PathConstIterator<CheckImageType, CheckPathType>>::value);
+    static_assert(!HasSet<itk::PathIterator<const CheckImageType, CheckPathType>>::value);
+  }
+
   constexpr unsigned int Dimension{ 2 };
   using PixelType = double;
 
@@ -109,6 +139,11 @@ itkPathIteratorTest(int, char *[])
   if (static_cast<int>(0.5 + 1000 * iter.Get()) != 1000)
   {
     std::cout << "PathIteratorTest: Set() Failed" << std::endl;
+    passed = false;
+  }
+  if (iter.Value() != iter.Get())
+  {
+    std::cout << "PathIteratorTest: Value() Failed" << std::endl;
     passed = false;
   }
 

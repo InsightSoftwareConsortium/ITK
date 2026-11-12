@@ -21,30 +21,55 @@
 
 namespace itk
 {
+//----------------------------------------------------------------------
+//  Constructor
+//----------------------------------------------------------------------
 template <typename TImage>
 ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageLinearConstIteratorWithIndex<TImage>(ptr, region)
+  : ImageIteratorWithIndex<TImage>(ptr, region)
 {
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
+  this->SetDirection(0);
 }
 
+//----------------------------------------------------------------------
+//  Go to the last pixel of the current line
+//----------------------------------------------------------------------
 template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-  : ImageLinearConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const ImageLinearConstIteratorWithIndex<TImage> & it)
-  : ImageLinearConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage> &
-ImageLinearIteratorWithIndex<TImage>::operator=(const ImageLinearConstIteratorWithIndex<TImage> & it)
+void
+ImageLinearIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
 {
-  this->ImageLinearConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
+  const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction] - 1;
+
+  this->m_Position += m_Jump * distanceToEnd;
+  this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction] - 1;
+}
+
+//----------------------------------------------------------------------
+//  Go to the first pixel of the current line
+//----------------------------------------------------------------------
+template <typename TImage>
+void
+ImageLinearIteratorWithIndex<TImage>::GoToBeginOfLine()
+{
+  const OffsetValueType distanceToBegin = this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction];
+
+  this->m_Position -= m_Jump * distanceToBegin;
+
+  this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];
+}
+
+//----------------------------------------------------------------------
+//  Pass to the past last pixel of the current line
+//----------------------------------------------------------------------
+template <typename TImage>
+void
+ImageLinearIteratorWithIndex<TImage>::GoToEndOfLine()
+{
+  const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction];
+
+  this->m_Position += m_Jump * distanceToEnd;
+
+  this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction];
 }
 } // end namespace itk
 
