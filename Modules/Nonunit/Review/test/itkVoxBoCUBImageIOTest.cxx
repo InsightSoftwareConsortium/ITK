@@ -94,7 +94,7 @@ itkVoxBoCUBImageIOTest(int argc, char * argv[])
 
     const double readSpacing = precReader->GetOutput()->GetSpacing()[0];
     itksys::SystemTools::RemoveFile(precFname);
-    if (readSpacing != hpSpacing)
+    if (readSpacing != spacing[0])
     {
       std::cerr << "VoxBoCUB spacing precision loss: wrote " << itk::ConvertNumberToString(hpSpacing)
                 << " but read back " << itk::ConvertNumberToString(readSpacing) << '\n';
