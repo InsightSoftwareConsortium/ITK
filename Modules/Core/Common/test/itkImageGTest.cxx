@@ -19,6 +19,8 @@
 // First include the header file to be tested:
 #include "itkImage.h"
 #include <gtest/gtest.h>
+#include <algorithm>
+#include <limits>
 
 namespace
 {
@@ -212,7 +214,8 @@ TEST(Image, IsXImageGeometry)
 
   const auto image1 = generate_image<ImageType>({ 2, 2 });
 
-  constexpr double tol{ 1e-8 };
+  // 1.0 + tol and 1.0 + tol / 2 must be distinguishable in SpacePrecisionType.
+  constexpr double tol{ std::max(1e-8, 4.0 * std::numeric_limits<itk::SpacePrecisionType>::epsilon()) };
 
 
   auto image2 = generate_image<ImageType>({ 2, 2 });
