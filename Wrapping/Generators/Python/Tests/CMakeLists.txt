@@ -249,6 +249,11 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
           ${CMAKE_CURRENT_SOURCE_DIR}/test_imread_unknown_component_type.py
       )
     endif()
+    itk_python_add_test(
+      NAME PythonTemplateTypeErrorTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_template_type_error.py
+    )
   endif()
 endif()
 

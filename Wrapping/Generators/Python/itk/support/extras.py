@@ -2542,11 +2542,18 @@ def python_type(object_ref) -> str:
 
 class TemplateTypeError(TypeError):
     def __init__(self, template_type, input_type):
+        def parameter_to_string(p):
+            # Template parameters can be values (e.g. a dimension), which
+            # python_type() would otherwise report as their type (`int`).
+            if isinstance(p, (bool, int, float, str)):
+                return str(p)
+            return python_type(p)
+
         def tuple_to_string_type(t):
-            if type(t) == tuple:
-                return ", ".join(python_type(x) for x in t)
+            if isinstance(t, tuple):
+                return ", ".join(parameter_to_string(x) for x in t)
             else:
-                python_type(t)
+                return parameter_to_string(t)
 
         import itk
 
@@ -2566,8 +2573,15 @@ or
 
         python_template_type = python_type(template_type)
         python_input_type = tuple_to_string_type(input_type)
-        type_list = "\n".join([python_type(x[0]) for x in template_type.keys()])
-        eg_type = ", ".join([python_type(x) for x in list(template_type.keys())[0]])
+        # List every wrapped combination of template parameters
+        supported_types = list(
+            dict.fromkeys(
+                f"{python_template_type}[{tuple_to_string_type(k)}]"
+                for k in template_type.keys()
+            )
+        )
+        type_list = "\n".join(supported_types)
+        eg_type = tuple_to_string_type(next(iter(template_type.keys())))
         msg: str = (
             """{template_type} is not wrapped for input type `{input_type}`.
 
