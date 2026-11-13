@@ -1657,6 +1657,7 @@ set(
   itkSymmetricEllipsoidInteriorExteriorSpatialFunctionGTest.cxx
   itkSymmetricSecondRankTensorGTest.cxx
   itkTBBMultiThreaderGTest.cxx
+  itkThreadPoolGTest.cxx
   itkThreadedImageRegionPartitionerGTest.cxx
   itkThreadedIndexedContainerPartitionerGTest.cxx
   itkThreadedIteratorRangePartitionerGTest.cxx
