@@ -32,9 +32,9 @@ namespace itk
  * maxima or not.  The desired behavior can be selected with the
  * SetFlatIsMaxima() method.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
- * This class was contributed to the Insight Journal by author Gaetan Lehmann.
+ * This class was contributed to the Insight Journal by author Gaëtan Lehmann.
  * Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas,
  * France. The paper can be found at
  * https://doi.org/10.54294/hva3gz

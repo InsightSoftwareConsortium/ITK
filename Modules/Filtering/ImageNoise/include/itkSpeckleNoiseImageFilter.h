@@ -44,7 +44,7 @@ namespace itk
  * \par
  * \f$ G \sim \Gamma(\frac{1}{\sigma^2}, \sigma^2) \f$
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
  * This code was contributed in the Insight Journal paper "Noise
  * Simulation". https://doi.org/10.54294/vh6vbw

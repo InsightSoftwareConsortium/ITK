@@ -41,7 +41,7 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
 
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
  * https://doi.org/10.54294/efycla

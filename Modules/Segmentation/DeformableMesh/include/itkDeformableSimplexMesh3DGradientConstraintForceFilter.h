@@ -141,7 +141,7 @@ operator<<(std::ostream & out, const DeformableSimplexMesh3DGradientConstraintFo
  * the direction of the normal to each vertex within a specified range.
  *
  * \author Leila Baghdadi. Mouse Imaging Centre, Hospital for Sick Children, Toronto, Ontario,Canada.
- *  I acknowledge the helpful insights of Herve Delingette of INRIA, France.
+ *  I acknowledge the helpful insights of Hervé Delingette of INRIA, France.
  * \ingroup ITKDeformableMesh
  */
 

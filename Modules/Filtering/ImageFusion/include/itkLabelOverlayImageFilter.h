@@ -36,7 +36,7 @@ namespace itk
  * A background label produce a gray pixel with the same intensity
  * than the input one.
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *
  * This class was contributed to the Insight Journal

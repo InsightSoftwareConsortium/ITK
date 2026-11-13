@@ -40,7 +40,7 @@ namespace itk
  * https://doi.org/10.54294/igq8fn
  *
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  * \author Richard Beare
  * \ingroup ITKReview
  */

@@ -26,10 +26,10 @@ namespace itk
 /** \class BinaryProjectionImageFilter
  * \brief Binary projection
  *
- * This class was contributed to the Insight Journal by Gaetan Lehmann
+ * This class was contributed to the Insight Journal by Gaëtan Lehmann
  * \cite Lehmann_2006_a.
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction,
  *  INRA de Jouy-en-Josas, France.
  *
  * \sa ProjectionImageFilter

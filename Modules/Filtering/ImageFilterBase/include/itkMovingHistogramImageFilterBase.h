@@ -82,7 +82,7 @@ namespace itk
  * \sa MovingHistogramMorphologicalGradientImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  * \author Richard Beare
  * \ingroup ITKImageFilterBase
  */

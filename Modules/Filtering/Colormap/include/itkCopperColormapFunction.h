@@ -27,7 +27,7 @@ namespace itk::Function
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  * \image html CopperColormapFunction.png "Copper colormap."
- * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
+ * \author Nicholas Tustison, Hui Zhang, Gaëtan Lehmann, Paul Yushkevich
  * and James C. Gee
  *
  * This code was contributed in the Insight Journal paper:

@@ -42,10 +42,10 @@ namespace itk
  * the type of the output image.
  *
  * This class was contributed to the Insight Journal by Emiliano Beronich and
- * Gaetan Lehmann \cite Lehmann_2006_a.
+ * Gaëtan Lehmann \cite Lehmann_2006_a.
  *
  * \author Emiliano Beronich
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *
  * \sa AccumulateImageFilter

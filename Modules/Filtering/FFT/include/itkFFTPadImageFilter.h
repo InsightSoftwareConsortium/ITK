@@ -39,7 +39,7 @@ namespace itk
  * This code was adapted from the Insight Journal contribution
  * \cite Lehmann_2010_b.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
  * \ingroup ITKFFT
  *

@@ -37,7 +37,7 @@ namespace itk
  * by Beare R., Lehmann G.
  * https://doi.org/10.54294/lf8u75
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  * \sa  LabelOverlayImageFilter

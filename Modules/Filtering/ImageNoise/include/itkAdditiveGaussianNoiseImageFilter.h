@@ -43,7 +43,7 @@ namespace itk
  *
  * The noise is independent of the pixel intensities.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
  * This code was contributed in the Insight Journal paper "Noise
  * Simulation". https://doi.org/10.54294/vh6vbw

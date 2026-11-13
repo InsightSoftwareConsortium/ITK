@@ -32,7 +32,7 @@ class FlatStructuringElement;
  * This filter provides the code to store the radius information about the
  * neighborhood used in the subclasses.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  * \ingroup ITKImageFilterBase
  */
 

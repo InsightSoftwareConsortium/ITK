@@ -33,7 +33,7 @@ namespace itk
  * that multiple image copies aren't necessary.
  *
  * This filter is threaded. Threading mechanism derived from
- * SignedMaurerDistanceMap extensions by Gaetan Lehman
+ * SignedMaurerDistanceMap extensions by Gaëtan Lehmann
  *
  * Core methods described in the InsightJournal article:
  * "Morphology with parabolic structuring elements"

@@ -83,7 +83,7 @@ namespace itk
  * \par
  * where \f$ N() \f$ is a normally distributed random variable of mean 0 and variance 1.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
  * This code was contributed in the Insight Journal paper "Noise
  * Simulation". https://doi.org/10.54294/vh6vbw

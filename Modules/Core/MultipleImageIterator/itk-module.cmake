@@ -1,4 +1,4 @@
-# Maintainer: Joel Schaerer
+# Maintainer: Joël Schaerer
 itk_module(
   MultipleImageIterator
   DEPENDS

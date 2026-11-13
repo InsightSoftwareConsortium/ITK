@@ -34,7 +34,7 @@ namespace itk::Functor
  * by Beare R., Lehmann G.
  * https://doi.org/10.54294/lf8u75
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *
  * \author Richard Beare. Department of
