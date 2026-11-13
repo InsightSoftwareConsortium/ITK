@@ -28,6 +28,9 @@
 #include "itkMeshFileWriter.h"
 #include "itksys/SystemTools.hxx"
 
+#include <iomanip>
+#include <limits>
+
 template <typename TMesh>
 int
 TestPointsContainer(typename TMesh::PointsContainerPointer points0, typename TMesh::PointsContainerPointer points1)
@@ -173,6 +176,8 @@ TestPointDataContainer(typename TMesh::PointDataContainerPointer pointData0,
       if (itk::Math::NotExactlyEquals(pdIt0.Value(), pdIt1.Value()))
       {
         std::cerr << "Input mesh and output mesh are different in point data!" << std::endl;
+        std::cerr << std::setprecision(std::numeric_limits<double>::max_digits10);
+        std::cerr << "Point ID = " << pdIt0.Index() << std::endl;
         std::cerr << "Input = " << pdIt0.Value() << std::endl;
         std::cerr << "Output = " << pdIt1.Value() << std::endl;
         return EXIT_FAILURE;
@@ -224,6 +229,8 @@ TestCellDataContainer(typename TMesh::CellDataContainerPointer cellData0,
       if (itk::Math::NotExactlyEquals(cdIt0.Value(), cdIt1.Value()))
       {
         std::cerr << "Input mesh and output mesh are different in cell data!" << std::endl;
+        std::cerr << std::setprecision(std::numeric_limits<double>::max_digits10);
+        std::cerr << "Cell ID = " << cdIt0.Index() << std::endl;
         std::cerr << "Input = " << cdIt0.Value() << std::endl;
         std::cerr << "Output = " << cdIt1.Value() << std::endl;
         return EXIT_FAILURE;
