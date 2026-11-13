@@ -95,7 +95,7 @@ class itkDoxy2SWIG(Doxy2SWIG):
 
 
 def d2s_dir(in_dir_name, out_swig_i):
-    with open(in_dir_name) as conffile:
+    with open(in_dir_name, encoding="utf-8") as conffile:
         output = StringIO()
         for l in conffile:
             l = l.strip()
@@ -115,7 +115,7 @@ def d2s_dir(in_dir_name, out_swig_i):
                         output.write(tpl.replace("@[{(]})@", swig_name))
                 else:
                     print(f"Warning: {xfn} does not exist. Ignore it.", file=sys.stderr)
-    with open(out_swig_i, "w") as f:
+    with open(out_swig_i, "w", encoding="utf-8") as f:
         f.write(output.getvalue())
         f.close()
 
