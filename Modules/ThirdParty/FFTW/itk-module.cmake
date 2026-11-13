@@ -4,4 +4,11 @@ set(
 with optional single and double precision support."
 )
 
-itk_module(ITKFFTW EXCLUDE_FROM_DEFAULT DESCRIPTION "${DOCUMENTATION}")
+itk_module(
+  ITKFFTW
+  EXCLUDE_FROM_DEFAULT
+  TEST_DEPENDS
+    ITKGoogleTest
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
+)

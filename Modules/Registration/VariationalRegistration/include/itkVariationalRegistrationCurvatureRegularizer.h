@@ -21,7 +21,7 @@
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreaderBase.h"
 
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#if (defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)) && !defined(ITK_USE_CUFFTW)
 #  include "itkFFTWCommon.h"
 #else
 #  include "itk_pocketfft.h"
@@ -89,7 +89,7 @@ public:
   using ValueType = typename Superclass::ValueType;
   typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#if (defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)) && !defined(ITK_USE_CUFFTW)
 #  if defined(ITK_USE_FFTWD)
   using RealTypeFFT = double;
 #  else
@@ -180,7 +180,7 @@ private:
   RealTypeFFT * m_DiagonalMatrix[ImageDimension];
 
   /** FFT plans and buffers */
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#if (defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)) && !defined(ITK_USE_CUFFTW)
   typename FFTWProxyType::PlanType m_PlanForward{ nullptr };
   typename FFTWProxyType::PlanType m_PlanBackward{ nullptr };
 #else
