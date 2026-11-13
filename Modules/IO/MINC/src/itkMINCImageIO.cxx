@@ -25,6 +25,9 @@
 #include "itkBridgeMathSVD.h"
 #include "itkPrintHelper.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itksys/SystemTools.hxx"
+
+#include "itkMINCImageIOConfigurePrivate.h"
 
 #include "itk_minc2.h"
 
@@ -316,6 +319,18 @@ MINCImageIO::CloseVolume()
     miclose_volume(m_MINCPImpl->m_Volume);
   }
   m_MINCPImpl->m_Volume = nullptr;
+}
+
+bool
+MINCImageIO::GetDefaultRAStoLPS()
+{
+  std::string envVar;
+  if (itksys::SystemTools::GetEnv("ITK_MINC_IO_RAS_TO_LPS", envVar))
+  {
+    envVar = itksys::SystemTools::UpperCase(envVar);
+    return envVar != "NO" && envVar != "OFF" && envVar != "FALSE" && envVar != "0";
+  }
+  return ITK_MINC_IO_RAS_TO_LPS;
 }
 
 MINCImageIO::MINCImageIO()

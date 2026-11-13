@@ -1270,6 +1270,90 @@ approximation) are unchanged and intentionally do not return their own type.
   the new concrete type. Such a dependency is uncommon and was not found in a
   survey of downstream ITK consumers.
 
+## MINC coordinates are converted from RAS to LPS by default
+
+MINC stores world coordinates in RAS: +x is right, +y is anterior, +z is
+superior. ITK physical space is LPS. `MINCImageIO` and `MINCTransformIO` now
+convert between the two by default (`RAStoLPS` is `true`). ITKv5 and ITK
+6.0a02 had no conversion. ITK 6.0a03 added it, switched off by default to keep
+compatibility, as the first of two planned steps; this is the second. Until
+now, MINC images did not line up with images from other ITK readers.
+
+For a MINC image read with default settings:
+
+- The x and y components of the origin change sign.
+- The x and y components of each direction cosine change sign.
+- Size, spacing, voxel order and voxel values do not change.
+
+`MINCTransformIO` converts `.xfm` matrices, offsets and displacement grids in
+the same way. The writers convert back to RAS, so a MINC → ITK → MINC round
+trip writes the same world coordinates as before. MINC files written from
+other formats (NIfTI, NRRD, DICOM) now have correct world coordinates; before,
+x and y were mirrored.
+
+### What you need to do
+
+Check code that stores or compares physical coordinates of MINC data made with
+an earlier ITK, such as seed points, landmarks, bounding boxes, or `.tfm` and
+`.h5` transforms computed on MINC images. Their x and y values are now
+mirrored. Pipelines that store no physical coordinates need no change, whether
+they use only MINC or mix MINC with other image formats: MINC data now lines up
+with them. Also check MINC files that an earlier ITK wrote from other formats
+(see below).
+
+### Turning the conversion off
+
+- For one IO object, call `RAStoLPSOff()`:
+
+  ```cpp
+  auto imageIO = itk::MINCImageIO::New();
+  imageIO->RAStoLPSOff();
+  reader->SetImageIO(imageIO);
+
+  auto transformIO = itk::MINCTransformIO::New();
+  transformIO->RAStoLPSOff();
+  transformReader->SetTransformIO(transformIO);
+  ```
+
+- For a whole process, set the environment variable
+  `ITK_MINC_IO_RAS_TO_LPS=OFF` (`NO`, `FALSE` and `0` also work). It sets the
+  default of every `MINCImageIO` and `MINCTransformIO` created afterwards,
+  including those that `ImageFileReader`, `TransformFileReader`, Python,
+  SimpleITK and command-line tools create through the IO factories.
+- For a whole ITK build, configure with `-DITK_MINC_IO_RAS_TO_LPS=OFF`.
+
+`SetRAStoLPS()` overrides the environment variable, which overrides the CMake
+option. `itk::MINCImageIO::GetDefaultRAStoLPS()` returns the current default.
+
+### MINC files that an earlier ITK wrote from other formats
+
+Earlier ITK wrote MINC files without conversion by default. Such a file is
+correct if the pipeline read MINC input: RAS values went in and came out
+unchanged. If the input came from an LPS format such as NIfTI, NRRD or DICOM,
+the file stores LPS values as RAS, so its x and y are mirrored, and the new
+default reads it mirrored against its source.
+
+Since ITK 6.0a03, `MINCImageIO` records the writer's setting in the
+`itk:RAStoLPS` attribute of MINC images, including the displacement-grid
+volumes of `.xfm` transforms. `itk:RAStoLPS = 0` means that the writer did not convert. It does
+not say whether the input was MINC, so the reader does not act on it. Files
+written by ITK 6.0a02 or earlier carry no attribute. The reader copies the
+attribute into the metadata dictionary:
+
+```cpp
+int rasToLps = 1;
+if (itk::ExposeMetaData<int>(image->GetMetaDataDictionary(), "itk:RAStoLPS", rasToLps) && rasToLps == 0)
+{
+  // Written without conversion: x and y are mirrored if the input was not MINC.
+}
+```
+
+To repair a mirrored file, read it with the conversion off and write it with
+the default IO. The new file has correct RAS coordinates and
+`itk:RAStoLPS = 1`. Affine `.xfm` files carry no marker: if an earlier ITK
+wrote one from a transform computed on images in another format, read it with
+`MINCTransformIO::RAStoLPSOff()`.
+
 ## `GradientImageFilter::OverrideBoundaryCondition` deprecated in favor of `SetBoundaryCondition`
 
 `GradientImageFilter` is the only ITK class whose `OverrideBoundaryCondition` *takes
