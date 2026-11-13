@@ -26,6 +26,8 @@
 #include "itkNthElementImageAdaptor.h"
 #include "itkResampleImageFilter.h"
 #include "itkSyNImageRegistrationMethod.h"
+#include "itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod.h"
+#include "itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor.h"
 #include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.h"
 #include "itkTimeVaryingVelocityFieldTransform.h"
 #include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.h"
@@ -44,6 +46,9 @@ constexpr unsigned int Dimension = 2;
 using ImageType = itk::Image<double, Dimension>;
 using FieldType = itk::Image<itk::Vector<double, Dimension>, Dimension>;
 using MetricType = itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType>;
+
+using TimeVaryingBSplineRegistrationType =
+  itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod<ImageType, ImageType>;
 
 constexpr itk::SizeValueType imageSize = 32;
 constexpr unsigned int       numberOfLevels = 2;
@@ -190,6 +195,28 @@ Register(bool globalReleaseDataFlag, bool masked)
       adaptor->SetRequiredDirection(direction);
       adaptors.push_back(adaptor);
     }
+    else if constexpr (std::is_same_v<TRegistration, TimeVaryingBSplineRegistrationType>)
+    {
+      using AdaptorType = itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType>;
+      auto adaptor = AdaptorType::New();
+      auto size = AdaptorType::SizeType::Filled(levelSize);
+      size[Dimension] = 5;
+      auto spacing = itk::MakeFilled<typename AdaptorType::SpacingType>(levelSpacing);
+      spacing[Dimension] = 0.25;
+      auto origin = itk::MakeFilled<typename AdaptorType::OriginType>(levelOrigin);
+      origin[Dimension] = 0.0;
+      auto meshSize = itk::MakeFilled<typename AdaptorType::MeshSizeType>(2u << level);
+      meshSize[Dimension] = 2;
+      typename AdaptorType::DirectionType direction;
+      direction.SetIdentity();
+      adaptor->SetSplineOrder(transform->GetSplineOrder());
+      adaptor->SetRequiredTransformDomainSize(size);
+      adaptor->SetRequiredTransformDomainSpacing(spacing);
+      adaptor->SetRequiredTransformDomainOrigin(origin);
+      adaptor->SetRequiredTransformDomainMeshSize(meshSize);
+      adaptor->SetRequiredTransformDomainDirection(direction);
+      adaptors.push_back(adaptor);
+    }
     else
     {
       using AdaptorType =
@@ -229,6 +256,26 @@ Register(bool globalReleaseDataFlag, bool masked)
     transform->SetGaussianTemporalSmoothingVarianceForTheUpdateField(0.5);
     transform->SetGaussianSpatialSmoothingVarianceForTheTotalField(0.0);
     transform->SetGaussianTemporalSmoothingVarianceForTheTotalField(0.0);
+  }
+  else if constexpr (std::is_same_v<TRegistration, TimeVaryingBSplineRegistrationType>)
+  {
+    // A zero control point lattice with the geometry that the first level's adaptor requires.
+    using AdaptorType = itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType>;
+    const auto * adaptor = static_cast<const AdaptorType *>(adaptors[0].GetPointer());
+    auto         lattice = TransformType::TimeVaryingVelocityFieldControlPointLatticeType::New();
+    lattice->SetRegions(adaptor->GetRequiredControlPointLatticeSize());
+    lattice->SetOrigin(adaptor->GetRequiredControlPointLatticeOrigin());
+    lattice->SetSpacing(adaptor->GetRequiredControlPointLatticeSpacing());
+    lattice->SetDirection(adaptor->GetRequiredControlPointLatticeDirection());
+    lattice->AllocateInitialized();
+    transform->SetTimeVaryingVelocityFieldControlPointLattice(lattice);
+    transform->SetVelocityFieldOrigin(adaptor->GetRequiredTransformDomainOrigin());
+    transform->SetVelocityFieldSpacing(adaptor->GetRequiredTransformDomainSpacing());
+    transform->SetVelocityFieldSize(adaptor->GetRequiredTransformDomainSize());
+    transform->SetVelocityFieldDirection(adaptor->GetRequiredTransformDomainDirection());
+    transform->SetLowerTimeBound(0.0);
+    transform->SetUpperTimeBound(1.0);
+    transform->IntegrateVelocityField();
   }
   else
   {
@@ -394,4 +441,14 @@ TEST(GlobalReleaseDataFlag, VelocityFieldIntegrationLeavesTheInterpolatorOnTheFi
   EXPECT_EQ(transform->GetVelocityFieldInterpolator()->GetInputImage(), velocityField.GetPointer());
   const TransformType::VelocityFieldInterpolatorType::PointType point{ { 3.0, 4.0, 1.0 } };
   EXPECT_EQ(transform->GetVelocityFieldInterpolator()->Evaluate(point), velocityField->GetPixel({ { 3, 4, 1 } }));
+}
+
+TEST(GlobalReleaseDataFlag, TimeVaryingBSplineVelocityFieldResultIsUnchanged)
+{
+  CheckGlobalReleaseDataFlag<TimeVaryingBSplineRegistrationType>();
+}
+
+TEST(GlobalReleaseDataFlag, MaskedTimeVaryingBSplineVelocityFieldResultIsUnchanged)
+{
+  CheckGlobalReleaseDataFlag<TimeVaryingBSplineRegistrationType>(true);
 }
