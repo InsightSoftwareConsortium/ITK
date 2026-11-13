@@ -43,7 +43,7 @@ namespace itk
  * This code was adapted from the Insight Journal contribution:
  *
  * "Deconvolution: infrastructure and reference algorithms"
- * by Gaetan Lehmann
+ * by Gaëtan Lehmann
  * https://doi.org/10.54294/tvgfv1
  *
  * \ingroup ITKDeconvolution

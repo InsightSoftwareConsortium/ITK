@@ -56,7 +56,7 @@ namespace itk
  * Pixel alteration occurs at a user defined probability.
  * Salt and pepper pixels are equally distributed.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
  * This code was contributed in the Insight Journal paper "Noise
  * Simulation". https://doi.org/10.54294/vh6vbw

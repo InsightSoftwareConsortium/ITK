@@ -35,7 +35,7 @@ namespace itk
  * https://doi.org/10.54294/igq8fn
  *
  * \author Richard Beare
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  * \ingroup ITKMathematicalMorphology
  */
 

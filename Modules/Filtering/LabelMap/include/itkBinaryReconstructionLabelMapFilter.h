@@ -33,7 +33,7 @@ namespace itk
  * In the marker image, the pixels with a value equal to ForegroundValue are considered to be in the
  * objects.
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
  * https://doi.org/10.54294/q6auw4

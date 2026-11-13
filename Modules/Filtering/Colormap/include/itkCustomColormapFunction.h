@@ -28,7 +28,7 @@ namespace itk::Function
  * \class CustomColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
- * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
+ * \author Nicholas Tustison, Hui Zhang, Gaëtan Lehmann, Paul Yushkevich
  * and James C. Gee
  *
  * This code was contributed in the Insight Journal paper:

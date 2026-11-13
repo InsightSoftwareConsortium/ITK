@@ -72,18 +72,18 @@ namespace itk
  *  \note This class was developed with funding from the German Research
  *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
  *  \author Alexander Schmidt-Richberg
- *  \author Rene Werner
+ *  \author René Werner
  *  \author Jan Ehrhardt
  *
  *  For details see:
- *    - Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
+ *    - Alexander Schmidt-Richberg, René Werner, Heinz Handels and Jan Ehrhardt:
  *      <i>A Flexible Variational Registration Framework</i>, Insight Journal, 2014
  *      https://hdl.handle.net/10380/3460
- *    - Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
+ *    - René Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
  *      <i>Estimation of lung motion fields in 4D CT data by variational non-linear
  *      intensity-based registration: A comparison and evaluation study</i>,
  *      Phys. Med. Biol., 2014
- *    - Jan Ehrhardt, Rene Werner, Alexander Schmidt-Richberg and Heinz Handels:
+ *    - Jan Ehrhardt, René Werner, Alexander Schmidt-Richberg and Heinz Handels:
  *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */

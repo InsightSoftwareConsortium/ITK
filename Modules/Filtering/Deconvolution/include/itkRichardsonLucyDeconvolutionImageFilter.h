@@ -43,10 +43,10 @@ namespace itk
  * This code was adapted from the Insight Journal contribution:
  *
  * "Deconvolution: infrastructure and reference algorithms"
- * by Gaetan Lehmann
+ * by Gaëtan Lehmann
  * https://doi.org/10.54294/tvgfv1
  *
- * \author Gaetan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
+ * \author Gaëtan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
  * \author Cory Quammen, The University of North Carolina at Chapel Hill
  *
  * \ingroup ITKDeconvolution

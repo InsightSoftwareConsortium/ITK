@@ -43,7 +43,7 @@ namespace itk
  * https://doi.org/10.54294/bcwtvq
  *
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters

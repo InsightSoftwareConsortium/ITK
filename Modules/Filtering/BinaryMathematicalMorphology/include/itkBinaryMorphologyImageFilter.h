@@ -83,7 +83,7 @@ namespace itk
  * to its center.
  *
  * This code was contributed by Jerome Schmid from the University of
- * Strasbourg who provided a fast dilation implementation. Gaetan
+ * Strasbourg who provided a fast dilation implementation. Gaëtan
  * Lehmann from INRA de Jouy-en-Josas then provided a fast erosion
  * implementation based on Jerome's implementation.  The common
  * portions of these two implementations were then placed in this

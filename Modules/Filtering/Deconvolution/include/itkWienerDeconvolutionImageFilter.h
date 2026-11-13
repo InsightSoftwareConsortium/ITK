@@ -66,7 +66,7 @@ namespace itk
  * For further information on the Wiener deconvolution filter, please see
  * \cite castleman1995.
  *
- * \author Gaetan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
+ * \author Gaëtan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
  * \author Chris Mullins, The University of North Carolina at Chapel Hill
  * \author Cory Quammen, The University of North Carolina at Chapel Hill
  *

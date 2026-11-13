@@ -24,7 +24,7 @@ namespace itk
 {
 /** \class InputDataObjectConstIterator
  * \brief A forward iterator over inputs of a ProcessObject
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \ingroup ITKCommon
  */
 class InputDataObjectConstIterator : public DataObjectConstIterator

@@ -33,7 +33,7 @@ namespace itk
  * KappaSigmaThresholdImageCalculator and applies that threshold to the input
  * image using the BinaryThresholdImageFilter.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
  * \note This class was taken from the Insight Journal paper:
  * https://doi.org/10.54294/39qekn

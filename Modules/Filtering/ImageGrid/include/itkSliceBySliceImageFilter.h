@@ -62,7 +62,7 @@ namespace itk
  * input images. All the input images must be of the same pixel type. All the
  * output images must be of the same pixel type.
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  *
  * This class was taken from the Insight Journal paper:
  * https://doi.org/10.54294/47329s

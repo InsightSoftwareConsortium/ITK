@@ -32,7 +32,7 @@ namespace itk
  * It also conveniently reimplement the GenerateInputRequestedRegion() so
  * that region is well defined for the provided radius.
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \ingroup ITKImageFilterBase
  */
 

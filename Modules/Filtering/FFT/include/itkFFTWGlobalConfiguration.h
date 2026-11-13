@@ -193,7 +193,7 @@ private:
  * This implementation was taken from the Insight Journal paper
  * \cite Lehmann_2010_b.
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Hans Johnson, The University of Iowa
  *
  * \ingroup ITKFFT

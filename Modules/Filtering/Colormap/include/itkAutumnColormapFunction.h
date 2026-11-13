@@ -26,7 +26,7 @@ namespace itk::Function
  * \class AutumnColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
- * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
+ * \author Nicholas Tustison, Hui Zhang, Gaëtan Lehmann, Paul Yushkevich
  * and James C. Gee
  *
  * \image html AutumnColormapFunction.png "Autumn colormap."

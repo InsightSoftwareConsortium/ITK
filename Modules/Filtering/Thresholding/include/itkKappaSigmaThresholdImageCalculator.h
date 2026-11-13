@@ -41,7 +41,7 @@ namespace itk
  *
  * t_(i+1) = Mean_(i+1)  +  Kappa * Sigma_(i+1)
  *
- * \author Gaetan Lehmann
+ * \author Gaëtan Lehmann
  * \note This class was taken from the Insight Journal paper:
  * https://doi.org/10.54294/39qekn
  *
