@@ -24,11 +24,13 @@
 #include "itkImageBufferRange.h"
 #include "itkImageRegionConstIterator.h"
 
-#include <algorithm> // For generate.
+#include <algorithm> // For generate and max.
+#include <limits>
 
 namespace
 {
 
+constexpr double geometryTolerance{ std::max(1e-15, 8.0 * std::numeric_limits<itk::SpacePrecisionType>::epsilon()) };
 
 // Method which checks that two BSpline are exactly equal
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
@@ -36,7 +38,7 @@ void
 bspline_eq(const itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder> * bspline1,
            const itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder> * bspline2,
            const std::string &                                                           description = "",
-           double                                                                        tolerance = 1e-15)
+           double                                                                        tolerance = geometryTolerance)
 {
   using BSplineType = itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder>;
   // Compare Transform Domain interface
@@ -150,10 +152,11 @@ TEST(ITKBSplineTransform, CopyingClone)
 
   bspline_eq(bspline1.GetPointer(), bspline1.GetPointer(), "Check after initialization by coefficient images.");
 
-  ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainOrigin(), itk::MakePoint(-0.3, 1.9), 1e-15);
+  ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainOrigin(), itk::MakePoint(-0.3, 1.9), geometryTolerance);
   EXPECT_EQ(bspline1->GetTransformDomainDirection(), imageDirection);
   EXPECT_EQ(bspline1->GetTransformDomainMeshSize(), itk::MakeSize(7, 7));
-  ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainPhysicalDimensions(), itk::MakeVector(7.7, 8.4), 1e-15);
+  ITK_EXPECT_VECTOR_NEAR(
+    bspline1->GetTransformDomainPhysicalDimensions(), itk::MakeVector(7.7, 8.4), geometryTolerance);
 
   auto bspline2 = BSplineType::New();
   bspline2->SetFixedParameters(bspline1->GetFixedParameters());
