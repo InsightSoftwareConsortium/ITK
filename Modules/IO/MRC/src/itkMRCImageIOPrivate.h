@@ -28,13 +28,7 @@
 
 namespace itk
 {
-
-namespace
-{
-
 const char * const magicMAP = "MAP ";
-} // end anonymous namespace
-
 } // namespace itk
 
 #endif // itkMRCImageIOPrivate_h
