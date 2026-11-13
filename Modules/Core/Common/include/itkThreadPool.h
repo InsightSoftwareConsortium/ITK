@@ -24,8 +24,12 @@
 #include <deque>
 #include <functional>
 #include <future>
+#include <memory>
 #include <condition_variable>
 #include <thread>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -92,12 +96,34 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
       [function, arguments...]() -> return_type { return function(arguments...); });
 
     std::future<return_type> res = task->get_future();
-    {
-      const std::lock_guard<std::mutex> lockGuard(this->GetMutex());
-      m_WorkQueue.emplace_back([task]() { (*task)(); });
-    }
-    m_Condition.notify_one();
+    this->Enqueue([task]() { (*task)(); });
     return res;
+  }
+
+  /** Add `count` jobs to the thread pool queue under a single lock acquisition.
+   *
+   * Job `i` calls `function(i)`, for `i` in `[0, count)`. All jobs share one copy of `function`,
+   * which must therefore be safe to call concurrently. The returned futures are in index order.
+   * Compared to calling AddWork() `count` times, this locks the queue once and wakes the sleeping
+   * threads with at most one broadcast, which matters when the jobs are small. */
+  template <typename TFunction>
+  std::vector<std::future<void>>
+  AddWorkBatch(const SizeValueType count, TFunction && function)
+  {
+    const auto sharedFunction = std::make_shared<std::decay_t<TFunction>>(std::forward<TFunction>(function));
+
+    std::vector<std::function<void()>> tasks;
+    std::vector<std::future<void>>     futures;
+    tasks.reserve(count);
+    futures.reserve(count);
+    for (SizeValueType i = 0; i < count; ++i)
+    {
+      auto task = std::make_shared<std::packaged_task<void()>>([sharedFunction, i] { (*sharedFunction)(i); });
+      futures.push_back(task->get_future());
+      tasks.emplace_back([task] { (*task)(); });
+    }
+    this->EnqueueBatch(tasks);
+    return futures;
   }
 
   /** Can call this method if we want to add extra threads to the pool. */
@@ -126,7 +152,7 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   SetDoNotWaitForThreads(bool doNotWaitForThreads);
   /** @ITKEndGrouping */
 protected:
-  /** We need access to the mutex in AddWork, and the variable is only
+  /** We need access to the mutex in GetMaximumNumberOfThreads, and the variable is only
    * visible in the .cxx file, so this method returns it. */
   std::mutex &
   GetMutex() const;
@@ -145,6 +171,14 @@ protected:
   ResumeFromFork();
 
 private:
+  /** Add a task to the queue and wake a worker if one is asleep. */
+  void
+  Enqueue(std::function<void()> && task);
+
+  /** Move all tasks into the queue under one lock acquisition and wake as many sleeping threads as needed. */
+  void
+  EnqueueBatch(std::vector<std::function<void()>> & tasks);
+
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(ThreadPoolGlobals, PimplGlobals);
 
@@ -156,6 +190,10 @@ private:
   /** When a thread is idle, it is waiting on m_Condition.
    * AddWork signals it to resume a (random) thread. */
   std::condition_variable m_Condition;
+
+  /** Number of threads blocked on m_Condition. A thread that is not counted here is running, or is about to
+   * look at the queue before it sleeps, so it will find any task queued under the lock. */
+  ThreadIdType m_NumberOfSleepingThreads{ 0 }; // guarded by m_PimplGlobals->m_Mutex
 
   /** Vector to hold all thread handles.
    * Thread handles are used to delete (join) the threads. */
