@@ -108,16 +108,24 @@ def accept_array_like_xarray_torch(image_filter):
     import numpy as np
     import itk
 
+    # Installed-but-unimportable optional packages must not take down `import itk`.
+    xr = None
     if _HAVE_XARRAY:
-        import xarray as xr
+        try:
+            import xarray as xr
+        except Exception:
+            pass
+    torch = None
     if _HAVE_TORCH:
-        import torch
+        try:
+            import torch
+        except Exception:
+            pass
     sitk = None
     if _HAVE_SIMPLEITK:
         try:
-            # A half-installed SimpleITK must not take down `import itk`.
             import SimpleITK as sitk
-        except ImportError:
+        except Exception:
             pass
 
     @functools.wraps(image_filter)
@@ -128,11 +136,11 @@ def accept_array_like_xarray_torch(image_filter):
 
         args_list = list(args)
         for index, arg in enumerate(args):
-            if _HAVE_XARRAY and isinstance(arg, xr.DataArray):
+            if xr is not None and isinstance(arg, xr.DataArray):
                 have_xarray_input = True
                 image = itk.image_from_xarray(arg)
                 args_list[index] = image
-            elif _HAVE_TORCH and isinstance(arg, torch.Tensor):
+            elif torch is not None and isinstance(arg, torch.Tensor):
                 have_torch_input = True
                 channels = arg.shape[0]  # assume first dimension is channels
                 arr = np.asarray(arg)
@@ -152,11 +160,11 @@ def accept_array_like_xarray_torch(image_filter):
         potential_image_input_kwargs = ("input", "input1", "input2", "input3")
         for key, value in kwargs.items():
             if key.lower() in potential_image_input_kwargs or "image" in key.lower():
-                if _HAVE_XARRAY and isinstance(value, xr.DataArray):
+                if xr is not None and isinstance(value, xr.DataArray):
                     have_xarray_input = True
                     image = itk.image_from_xarray(value)
                     kwargs[key] = image
-                elif _HAVE_TORCH and isinstance(value, torch.Tensor):
+                elif torch is not None and isinstance(value, torch.Tensor):
                     have_torch_input = True
                     channels = value.shape[0]  # assume first dimension is channels
                     arr = np.asarray(value)
