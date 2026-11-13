@@ -161,8 +161,8 @@ private:
 
   using Offset2Type = itk::Offset<2>;
   using Offset3Type = itk::Offset<3>;
-  using Spacing2Type = itk::Vector<double, 2>;
-  using Spacing3Type = itk::Vector<double, 3>;
+  using Spacing2Type = itk::Vector<SpacePrecisionType, 2>;
+  using Spacing3Type = itk::Vector<SpacePrecisionType, 3>;
   using MapIntercept2Type = std::map<Offset2Type, SizeValueType, Functor::LexicographicCompare>;
   using MapIntercept3Type = std::map<Offset3Type, SizeValueType, Functor::LexicographicCompare>;
 
