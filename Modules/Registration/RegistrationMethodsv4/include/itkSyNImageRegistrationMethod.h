@@ -306,6 +306,102 @@ private:
   };
   std::vector<ResampleCacheEntry> m_ResampleCache{};
 
+  /** \class IdentityDisplacementFieldTransform
+   * \brief The identity transform SyN gives the metric.
+   *
+   * TransformPoint() returns its input without interpolating the zero field while that field is set and unmodified;
+   * after any change, for example by a user who takes the transform from the metric, it behaves as a
+   * DisplacementFieldTransform.
+   * \ingroup ITKRegistrationMethodsv4 */
+  class IdentityDisplacementFieldTransform : public DisplacementFieldTransformType
+  {
+  public:
+    ITK_DISALLOW_COPY_AND_MOVE(IdentityDisplacementFieldTransform);
+
+    using Self = IdentityDisplacementFieldTransform;
+    using Superclass = DisplacementFieldTransformType;
+    using Pointer = SmartPointer<Self>;
+    using typename Superclass::InputPointType;
+    using typename Superclass::OutputPointType;
+    using typename Superclass::ParametersType;
+    using FieldType = typename Superclass::DisplacementFieldType;
+
+    // The name of the superclass is kept, so that the transform, if written to a file, reads back as one.
+    itkNewMacro(Self);
+
+    /** Uses a new zero field with the geometry of the virtual domain as the forward and inverse field. */
+    void
+    SetZeroDisplacementField(const VirtualImageBaseType * virtualDomainImage)
+    {
+      auto field = FieldType::New();
+      field->CopyInformation(virtualDomainImage);
+      field->SetRegions(virtualDomainImage->GetLargestPossibleRegion());
+      field->AllocateInitialized();
+      this->SetDisplacementField(field);
+      this->SetInverseDisplacementField(field);
+      this->m_FieldIsZero = true;
+      this->m_ZeroFieldTime = field->GetMTime();
+    }
+
+    /** True while the zero field is in place, unmodified, and what the interpolator reads. */
+    bool
+    IsZero() const
+    {
+      return this->m_FieldIsZero && this->GetDisplacementField()->GetMTime() == this->m_ZeroFieldTime &&
+             this->GetInterpolator()->GetInputImage() == this->GetDisplacementField();
+    }
+
+    using Superclass::TransformPoint;
+    OutputPointType
+    TransformPoint(const InputPointType & inputPoint) const override
+    {
+      if (this->IsZero())
+      {
+        OutputPointType outputPoint;
+        outputPoint.CastFrom(inputPoint);
+        return outputPoint;
+      }
+      return Superclass::TransformPoint(inputPoint);
+    }
+
+    // Every field replacement goes through here, also setting the same field again after writing into it.
+    using Superclass::SetDisplacementField;
+    void
+    SetDisplacementField(FieldType * field) override
+    {
+      this->m_FieldIsZero = false;
+      Superclass::SetDisplacementField(field);
+    }
+
+    // The superclass skips Modified() when given its own parameters, and a transform sharing the field writes into it.
+    void
+    SetParameters(const ParametersType & parameters) override
+    {
+      Superclass::SetParameters(parameters);
+      if (this->GetModifiableDisplacementField())
+      {
+        this->GetModifiableDisplacementField()->Modified();
+      }
+    }
+
+    // The inverse shares the field, so it is of this class, whose SetParameters() marks the field modified.
+    typename Superclass::InverseTransformBasePointer
+    GetInverseTransform() const override
+    {
+      return Superclass::InvertTransform(*this);
+    }
+
+  protected:
+    IdentityDisplacementFieldTransform() = default;
+    ~IdentityDisplacementFieldTransform() override = default;
+
+  private:
+    bool             m_FieldIsZero{ false };
+    ModifiedTimeType m_ZeroFieldTime{ 0 };
+  };
+
+  typename IdentityDisplacementFieldTransform::Pointer m_IdentityDisplacementFieldTransform{};
+
   RealType m_GaussianSmoothingVarianceForTheUpdateField{ 3.0 };
   RealType m_GaussianSmoothingVarianceForTheTotalField{ 0.5 };
 };
