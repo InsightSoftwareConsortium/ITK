@@ -24,6 +24,7 @@ rows labeled **Agent default** bind AI agents only. Agents set
 | Code style, formatting, naming | [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
 | Writing or reviewing C++ code | [code-review-lessons.md](./Documentation/AI/code-review-lessons.md) |
 | Writing ITK C++ classes, CMake, Python wrapping | [conventions.md](./Documentation/AI/conventions.md) |
+| Citing a publication in documentation | [conventions.md](./Documentation/AI/conventions.md) (Citing Publications) |
 | Avoiding compiler pitfalls and refactoring hazards | [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
 | Creating a **DOC:** commit | [git-commits.md](./Documentation/AI/git-commits.md) |
 | Creating a **STYLE:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |

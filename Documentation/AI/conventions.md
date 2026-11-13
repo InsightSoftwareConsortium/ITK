@@ -102,6 +102,43 @@ required to keep CI green:
 **References:** PR #6032 (VTI factory wrapping fix), PR #6034 (SSIM
 filter add).
 
+## Citing Publications
+
+Cite a publication in Doxygen documentation with `\cite <key>` and a
+matching entry in `Documentation/Doxygen/doxygen.bib`, not with an
+inline author, title, or URL (issue #3662). Do not copy the direct DOI
+links that older headers still carry.
+
+- Keys for most papers are lowercase `lastnameYYYY`, with a letter
+  appended on a collision (`soille2004b`). Insight Journal papers
+  (`10.54294/...` DOIs) use `Author_Year`, with `_a`, `_b` on a
+  collision.
+- Put the DOI in both `DOI` and `url` (`https://doi.org/<doi>`); Doxygen
+  links only the `url` field.
+- The `bibtex-tidy` pre-commit hook keeps `doxygen.bib` in key order and
+  formats it; stage what it changes and commit again.
+- Write accented letters as UTF-8 (`Zukić`), not LaTeX accents
+  (`Zuki\'{c}`): Doxygen drops LaTeX accents that have no HTML entity.
+  Spell an author the same way in source comments as in `doxygen.bib`.
+- Keep `\cite` and its key on one line, and out of a `\par` heading
+  line; both produce Doxygen warnings (#5203, #5219).
+- Every key must resolve: the `ITK.Doxygen.Warnings` check fails on any
+  Doxygen warning, including an unknown key. The comment spell check
+  reads keys from `doxygen.bib`, so keys need no `itk_dict.txt` entry.
+- Where a URL is needed, use `https://doi.org/<doi>`. Handle links were
+  replaced in #2129, and `insight-journal.org/browse` links in #4796.
+
+**Agent default.** Search `doxygen.bib` for the DOI before adding an
+entry, and reuse an existing key. Take a new entry from the DOI
+(`curl -LH "Accept: application/x-bibtex" https://doi.org/<doi>`), set
+its key and `url` as above, and let the hook format the rest.
+
+Example citation in a C++ comment:
+
+```cpp
+ * This implementation was taken from the Insight Journal paper \cite Lehmann_2007.
+```
+
 ## Module File Layout
 
 ```
