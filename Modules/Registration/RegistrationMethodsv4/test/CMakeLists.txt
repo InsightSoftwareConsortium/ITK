@@ -36,6 +36,12 @@ itk_add_test(
     itkImageRegistrationSamplingTest
 )
 
+set(simple_registration_pixels_tolerance 8)
+if(ITK_USE_FLOAT_SPACE_PRECISION)
+  # Single-precision geometry changes the optimizer trajectory.
+  set(simple_registration_pixels_tolerance 4000)
+endif()
+
 itk_add_test(
   NAME itkSimpleImageRegistrationTestDouble
   COMMAND
@@ -45,7 +51,7 @@ itk_add_test(
     --compareIntensityTolerance
     3.0
     --compareNumberOfPixelsTolerance
-    8
+    ${simple_registration_pixels_tolerance}
     --compare
     DATA{Baseline/itkSimpleImageRegistrationTest.nii,:}
     ${TEMP}/itkSimpleImageRegistrationTestDouble.nii
@@ -84,7 +90,7 @@ itk_add_test(
     --compareIntensityTolerance
     3.0
     --compareNumberOfPixelsTolerance
-    8
+    ${simple_registration_pixels_tolerance}
     --compare
     DATA{Baseline/itkSimpleImageRegistrationTest.nii,:}
     ${TEMP}/itkSimpleImageRegistrationTestFloat.nii
