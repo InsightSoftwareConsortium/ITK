@@ -18,8 +18,6 @@
 #ifndef itkMRCImageIOPrivate_h
 #define itkMRCImageIOPrivate_h
 
-#include <utility>
-
 /*
  *  This code was contributed in the Insight Journal paper:
  *  "A Streaming IO Base Class and Support for Streaming the MRC and VTK File Format"
@@ -35,70 +33,6 @@ namespace
 {
 
 const char * const magicMAP = "MAP ";
-
-///////////////////////////////////////////////////
-
-///////////////////////////////////////////////////
-// Generic Programming Algorithms
-///////////////////////////////////////////////////
-
-/// \brief returns the min and max of a sequence defined by two iterators
-///
-/// Uses the < operator to determine ordering.
-/// If first == last then return is pair(first,first).
-/// Otherwise it is pair(min, max).
-template <typename TInputIter>
-inline std::pair<TInputIter, TInputIter>
-min_max_element(TInputIter first, TInputIter last)
-{
-  std::pair<TInputIter, TInputIter> result(first, first);
-
-  if (first == last)
-  {
-    return result;
-  }
-
-  while (++first != last)
-  {
-    TInputIter prev = first;
-    if (++first == last)
-    {
-      if (*prev < *(result.first))
-      {
-        result.first = prev;
-      }
-      if (*(result.second) < *prev)
-      {
-        result.second = prev;
-      }
-      break;
-    }
-    if (*first < *prev)
-    {
-      if (*first < *(result.first))
-      {
-        result.first = first;
-      }
-      if (*(result.second) < *prev)
-      {
-        result.second = prev;
-      }
-    }
-    else
-    {
-      if (*prev < *(result.first))
-      {
-        result.first = prev;
-      }
-      if (*(result.second) < *first)
-      {
-        result.second = first;
-      }
-    }
-  }
-  return result;
-}
-
 } // end anonymous namespace
 
 } // namespace itk
