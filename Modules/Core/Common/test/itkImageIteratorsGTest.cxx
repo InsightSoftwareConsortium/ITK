@@ -50,6 +50,8 @@
 #include "itkImage.h"
 #include "itkTestingGetBufferPointerCountingImage.h"
 #include <gtest/gtest.h>
+#include <memory>
+#include <set>
 #include <type_traits> // For false_type and true_type.
 #include <typeinfo>
 #include <vector>
@@ -331,4 +333,117 @@ TEST(ImageIterators, ReverseRegionIteratorPlacedMidRegionStaysInRegion)
     forwardIt.SetIndex(start);
     EXPECT_EQ(remainingIndices(ReverseIteratorType(forwardIt)), expected) << "start " << start;
   }
+}
+
+
+// Checks that copy-assigning a non-repeating random iterator copies the order in which it visits pixels.
+TEST(ImageIterators, RandomNonRepeatingCopyAssignmentKeepsVisitOrder)
+{
+  using ImageType = itk::Image<int>;
+  using IteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
+  const auto image = ImageType::New();
+  image->SetRegions(itk::MakeSize(4, 4));
+  image->AllocateInitialized();
+  const auto region = image->GetBufferedRegion();
+
+  const auto visitedIndices = [](IteratorType & iterator) {
+    std::vector<ImageType::IndexType> indices;
+    for (iterator.GoToBegin(); !iterator.IsAtEnd(); ++iterator)
+    {
+      indices.push_back(iterator.GetIndex());
+    }
+    return indices;
+  };
+
+  IteratorType original(image, region);
+  original.SetNumberOfSamples(region.GetNumberOfPixels());
+  original.ReinitializeSeed(7);
+
+  IteratorType assigned(image, region);
+  assigned.SetNumberOfSamples(region.GetNumberOfPixels());
+  assigned = original;
+
+  const auto expected = visitedIndices(original);
+  EXPECT_EQ(visitedIndices(assigned), expected);
+  EXPECT_EQ(std::set<ImageType::IndexType>(expected.cbegin(), expected.cend()).size(), expected.size());
+
+  // The number of samples comes from the source, whatever the target held before.
+  IteratorType defaultConstructed;
+  defaultConstructed = original;
+  EXPECT_EQ(visitedIndices(defaultConstructed), expected);
+
+  IteratorType overSmallerRegion(image, ImageType::RegionType(itk::MakeSize(2, 2)));
+  overSmallerRegion.SetNumberOfSamples(1);
+  overSmallerRegion = original;
+  EXPECT_EQ(visitedIndices(overSmallerRegion), expected);
+}
+
+
+// Checks that a copied permutation keeps the order and owns its random number generator.
+TEST(ImageIterators, RandomPermutationCopyIsIndependent)
+{
+  static constexpr itk::SizeValueType size = 16;
+
+  const auto order = [](const itk::RandomPermutation & permutation) {
+    std::vector<itk::SizeValueType> indices;
+    for (itk::SizeValueType i = 0; i < size; ++i)
+    {
+      indices.push_back(permutation[i]);
+    }
+    return indices;
+  };
+
+  itk::RandomPermutation original(size);
+  original.ReinitializeSeed(1);
+  original.Shuffle();
+
+  const itk::RandomPermutation copied(original);
+  EXPECT_EQ(order(copied), order(original));
+
+  itk::RandomPermutation assigned(size / 2);
+  assigned = original;
+  EXPECT_EQ(order(assigned), order(original));
+
+  copied.ReinitializeSeed(2);
+  assigned.ReinitializeSeed(3);
+  original.Shuffle();
+
+  itk::RandomPermutation reference(size);
+  reference.ReinitializeSeed(1);
+  reference.Shuffle();
+  reference.Shuffle();
+  EXPECT_EQ(order(original), order(reference));
+
+  EXPECT_THROW(original.SetPriority(size, 0), std::runtime_error);
+  EXPECT_NO_THROW(original.SetPriority(size - 1, 0));
+}
+
+
+// Checks that a copy of a non-repeating random iterator still visits every pixel once after the source is destroyed.
+TEST(ImageIterators, RandomNonRepeatingCopyOutlivesSource)
+{
+  using ImageType = itk::Image<int>;
+  using IteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
+  const auto image = ImageType::New();
+  const auto region = ImageType::RegionType(ImageType::SizeType::Filled(4));
+  image->SetRegions(region);
+  image->AllocateInitialized();
+
+  auto source = std::make_unique<IteratorType>(image, region);
+  source->SetNumberOfSamples(region.GetNumberOfPixels());
+  source->GoToBegin();
+
+  IteratorType copy(*source);
+  source.reset();
+
+  std::set<itk::OffsetValueType> visitedOffsets;
+  itk::SizeValueType             numberOfVisits{};
+  for (copy.GoToBegin(); !copy.IsAtEnd(); ++copy)
+  {
+    EXPECT_TRUE(region.IsInside(copy.GetIndex()));
+    visitedOffsets.insert(image->ComputeOffset(copy.GetIndex()));
+    ++numberOfVisits;
+  }
+  EXPECT_EQ(numberOfVisits, region.GetNumberOfPixels());
+  EXPECT_EQ(visitedOffsets.size(), region.GetNumberOfPixels());
 }
