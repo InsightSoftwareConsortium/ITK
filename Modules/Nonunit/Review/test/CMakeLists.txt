@@ -668,6 +668,7 @@ set(
   ITKReviewGTests
   itkAreaOpeningImageFilterGTest.cxx
   itkFastApproximateRankImageFilterGTest.cxx
+  itkLabelGeometryImageFilterGTest.cxx
   itkMultiphaseSparseFiniteDifferenceImageFilterGTest.cxx
   itkRegionBasedLevelSetFunctionGTest.cxx
 )

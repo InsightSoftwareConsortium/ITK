@@ -27,6 +27,8 @@
 #include "itkResampleImageFilter.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include <algorithm> // For min and max.
+#include <cmath>
+#include <limits>
 
 namespace itk
 {
@@ -129,8 +131,10 @@ CalculateOrientedImage(const itk::bridge::SymmetricEigenDecomposition<double> & 
   typename ResampleFilterType::SizeType boundingBoxSize;
   for (unsigned int i = 0; i < Dimension; ++i)
   {
-    boundingBoxSize[i] =
-      (typename ResampleFilterType::SizeType::SizeValueType)std::ceil(labelGeometry.m_OrientedBoundingBoxSize[i]);
+    // Discard rounding noise, so that a box of integer size is not enlarged by one pixel.
+    const double size = labelGeometry.m_OrientedBoundingBoxSize[i];
+    const double roundingNoise = std::min(0.5, 16 * std::numeric_limits<float>::epsilon() * size);
+    boundingBoxSize[i] = static_cast<SizeValueType>(std::ceil(size - roundingNoise));
   }
 
   resampler->SetTransform(transform);
