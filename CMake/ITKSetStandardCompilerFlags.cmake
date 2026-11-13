@@ -157,7 +157,7 @@ macro(check_compiler_platform_flags)
       # format.
       # see https://msdn.microsoft.com/en-us/library/ms173499.aspx
       if(MSVC)
-        set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
+        string(APPEND CMAKE_CXX_FLAGS " /bigobj")
       endif()
     endif()
   endif()
@@ -242,46 +242,37 @@ macro(check_compiler_platform_flags)
         endif()
       endforeach()
     endif()
+  endif()
 
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "12")
-      set(
-        ITK_REQUIRED_CXX_FLAGS
-        "${ITK_REQUIRED_CXX_FLAGS} -fno-sized-deallocation"
+  # itkConfigure.h requires SSE2 math on 32-bit x86, where GCC and Clang default to x87.
+  # Ask the compiler: CMAKE_SYSTEM_PROCESSOR names the host (x86_64) in a -m32 build.
+  # Nothing is added when the packager's own flags already select SSE2 math.
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4 AND NOT MSVC)
+    include(CheckCXXSourceCompiles)
+    check_cxx_source_compiles(
+      [=[
+#if defined(__i386__) && !defined(__SSE2_MATH__)
+#  error "x87 floating-point math"
+#endif
+int main() { return 0; }
+]=]
+      ITK_COMPILER_AVOIDS_X87_MATH
+    )
+    if(NOT ITK_COMPILER_AVOIDS_X87_MATH)
+      list(
+        APPEND
+        ITK_PUBLIC_CXX_COMPILE_OPTIONS
+        -msse2
+        -mfpmath=sse
       )
     endif()
   endif()
 
-  # itkConfigure.h requires SSE2 floating-point math on 32-bit x86; GCC and Clang default to x87 there.
-  if(
-    NOT
-      MSVC
-    AND
-      CMAKE_CXX_COMPILER_ID
-        MATCHES
-        "^(GNU|Clang|IntelLLVM)$"
-    AND
-      CMAKE_SIZEOF_VOID_P
-        EQUAL
-        4
-    AND
-      CMAKE_SYSTEM_PROCESSOR
-        MATCHES
-        "^(i.86|x86|x86_64|AMD64|amd64)$"
-  )
-    set(
-      ITK_X86_32_SSE2_CXX_OPTIONS
-      -msse2
-      -mfpmath=sse
-    )
-    list(JOIN ITK_X86_32_SSE2_CXX_OPTIONS " " _itk_x86_32_sse2_flags)
-    string(APPEND ITK_REQUIRED_CXX_FLAGS " ${_itk_x86_32_sse2_flags}")
-  endif()
-
   # mingw thread support
   if(MINGW)
-    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mthreads")
-    set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mthreads")
-    set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -mthreads")
+    list(APPEND ITK_PUBLIC_CXX_COMPILE_OPTIONS -mthreads)
+    list(APPEND ITK_PUBLIC_LINK_OPTIONS -mthreads)
+    string(APPEND CMAKE_C_FLAGS " -mthreads")
   endif()
 
   #-----------------------------------------------------------------------------
@@ -366,7 +357,23 @@ unset(CXX_OPTIMIZATION_FLAGS)
 
 #-----------------------------------------------------------------------------
 #Check the set of platform flags the compiler supports
+set(ITK_PUBLIC_CXX_COMPILE_OPTIONS "")
+set(ITK_PUBLIC_LINK_OPTIONS "")
 check_compiler_platform_flags()
+
+# itk_module_add_library() gives these to clients; ITK's own build gets them here.
+list(JOIN ITK_PUBLIC_CXX_COMPILE_OPTIONS " " _itk_public_cxx_flags)
+string(APPEND CMAKE_CXX_FLAGS " ${_itk_public_cxx_flags}")
+list(JOIN ITK_PUBLIC_LINK_OPTIONS " " _itk_public_link_flags)
+foreach(_itk_linker_flags_var EXE SHARED MODULE)
+  string(
+    APPEND
+    CMAKE_${_itk_linker_flags_var}_LINKER_FLAGS
+    " ${_itk_public_link_flags}"
+  )
+endforeach()
+unset(_itk_public_cxx_flags)
+unset(_itk_public_link_flags)
 
 # Append ITK warnings to the CMake flags.
 # We do not set them in ITK_REQUIRED FLAGS because all project which
