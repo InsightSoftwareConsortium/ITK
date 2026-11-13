@@ -33,6 +33,8 @@
 #include "itkBoxSpatialObject.h"
 #include "itkImageMaskSpatialObject.h"
 
+#include <limits>
+
 namespace
 {
 [[nodiscard]] int
@@ -119,6 +121,7 @@ Test3dImageMask()
   maskSpatialObject->Update();
 
   using MaskBoundsArrayType = ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType;
+  constexpr double          boundsTolerance{ 1e3 * std::numeric_limits<itk::SpacePrecisionType>::epsilon() };
   const MaskBoundsArrayType maskBounds = maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds();
 
   // Test a few points...
@@ -154,7 +157,7 @@ Test3dImageMask()
 
   for (unsigned int i = 0; i < MaskBoundsArrayType::Length; ++i)
   {
-    if (itk::Math::NotAlmostEquals(maskBounds[i], expectedBounds[i]))
+    if (itk::Math::Absolute(maskBounds[i] - expectedBounds[i]) > boundsTolerance)
     {
       std::cout << "[FAILED] " << std::endl;
       std::cout << "Test returned : " << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
@@ -242,6 +245,7 @@ Test2dImageMask()
   maskSpatialObject->Update();
 
   using MaskBoundsArrayType = ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType;
+  constexpr double          boundsTolerance{ 1e3 * std::numeric_limits<itk::SpacePrecisionType>::epsilon() };
   const MaskBoundsArrayType maskBounds = maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds();
 
   // Test a few points...
@@ -271,7 +275,7 @@ Test2dImageMask()
 
   for (unsigned int i = 0; i < MaskBoundsArrayType::Length; ++i)
   {
-    if (itk::Math::NotAlmostEquals(maskBounds[i], expectedBounds[i]))
+    if (itk::Math::Absolute(maskBounds[i] - expectedBounds[i]) > boundsTolerance)
     {
       std::cout << "[FAILED] " << std::endl;
       std::cout << "Test returned : " << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
