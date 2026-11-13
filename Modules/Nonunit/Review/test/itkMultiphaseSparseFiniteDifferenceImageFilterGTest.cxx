@@ -78,6 +78,8 @@ public:
 
 } // namespace itk
 
+// The direction matrix of an image with 1e-40 spacing is singular in single precision.
+#ifndef ITK_USE_FLOAT_SPACE_PRECISION
 TEST(MultiphaseSparseFiniteDifferenceImageFilter, BackgroundConstantUsesNonpositiveMinSeed)
 {
   constexpr unsigned int Dimension = 3;
@@ -118,3 +120,4 @@ TEST(MultiphaseSparseFiniteDifferenceImageFilter, BackgroundConstantUsesNonposit
 
   EXPECT_LT(filter->GetBackgroundValueForTest(), 1e-38);
 }
+#endif
