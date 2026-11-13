@@ -24,8 +24,10 @@
 
 #include "itk_minc2.h"
 
+#include <algorithm>
 #include <array>
 #include <cstring>
+#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
@@ -36,6 +38,9 @@
 namespace
 {
 using ImageType = itk::Image<float, 4>;
+
+constexpr double directionTolerance{ std::max(1e-12,
+                                              double{ std::numeric_limits<itk::SpacePrecisionType>::epsilon() }) };
 
 constexpr unsigned int nx = 6;
 constexpr unsigned int ny = 5;
@@ -134,10 +139,10 @@ ExpectTimeSeriesWithSingleSlice(const ImageType * image)
 
   // The missing z axis is the cross product of x and y.
   const ImageType::DirectionType direction = image->GetDirection();
-  EXPECT_NEAR(direction[0][2], 0.0, 1e-12);
-  EXPECT_NEAR(direction[1][2], 0.0, 1e-12);
-  EXPECT_NEAR(direction[2][2], 1.0, 1e-12);
-  EXPECT_NEAR(direction[3][3], 1.0, 1e-12);
+  EXPECT_NEAR(direction[0][2], 0.0, directionTolerance);
+  EXPECT_NEAR(direction[1][2], 0.0, directionTolerance);
+  EXPECT_NEAR(direction[2][2], 1.0, directionTolerance);
+  EXPECT_NEAR(direction[3][3], 1.0, directionTolerance);
 
   for (itk::ImageRegionConstIteratorWithIndex<ImageType> it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd();
        ++it)
@@ -184,11 +189,11 @@ TEST(MINCImageIO, SingleFrameTimeSeriesReadsAs3D)
   const Image3DType::SizeType expectedSize{ { nx, ny, nz } };
   EXPECT_EQ(image->GetLargestPossibleRegion().GetSize(), expectedSize);
   const Image3DType::DirectionType direction = image->GetDirection();
-  EXPECT_NEAR(direction[0][0], -0.6, 1e-12);
-  EXPECT_NEAR(direction[1][0], -0.8, 1e-12);
-  EXPECT_NEAR(direction[0][1], 0.8, 1e-12);
-  EXPECT_NEAR(direction[1][1], -0.6, 1e-12);
-  EXPECT_NEAR(direction[2][2], 1.0, 1e-12);
+  EXPECT_NEAR(direction[0][0], -0.6, directionTolerance);
+  EXPECT_NEAR(direction[1][0], -0.8, directionTolerance);
+  EXPECT_NEAR(direction[0][1], 0.8, directionTolerance);
+  EXPECT_NEAR(direction[1][1], -0.6, directionTolerance);
+  EXPECT_NEAR(direction[2][2], 1.0, directionTolerance);
 
   for (itk::ImageRegionConstIteratorWithIndex<Image3DType> it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd();
        ++it)
@@ -219,9 +224,9 @@ TEST(MINCImageIO, MissingYSpaceBecomesSingletonAxis)
 
     // The missing y axis is the cross product of x and z, here in LPS.
     const Image3DType::DirectionType direction = image->GetDirection();
-    EXPECT_NEAR(direction[0][1], -0.8, 1e-12) << name;
-    EXPECT_NEAR(direction[1][1], 0.6, 1e-12) << name;
-    EXPECT_NEAR(direction[2][1], 0.0, 1e-12) << name;
+    EXPECT_NEAR(direction[0][1], -0.8, directionTolerance) << name;
+    EXPECT_NEAR(direction[1][1], 0.6, directionTolerance) << name;
+    EXPECT_NEAR(direction[2][1], 0.0, directionTolerance) << name;
 
     for (itk::ImageRegionConstIteratorWithIndex<Image3DType> it(image, image->GetLargestPossibleRegion());
          !it.IsAtEnd();
