@@ -24,6 +24,8 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
+#include <limits>
+
 enum : int8_t
 {
   NUMBANDS1 = 1,
@@ -775,7 +777,8 @@ test_regiongrowKLM1D()
     {
       pixelOut5out = outIt5.Get();
       std::cout << "idx: " << idx << " pixelOut5out: " << pixelOut5out << std::endl;
-      if (pixelOut5in != pixelOut5out)
+      const double tolerance = 10 * std::numeric_limits<ImageType::SpacingValueType>::epsilon() * pixelOut5in.GetNorm();
+      if ((pixelOut5in - pixelOut5out).GetNorm() > tolerance)
       {
         std::cout << "Test FAILED" << std::endl;
         std::cout << "pixelOut5in: " << pixelOut5in << " != "

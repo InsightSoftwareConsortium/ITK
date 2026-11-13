@@ -19,6 +19,8 @@
 #include "itkAddImageFilter.h"
 #include "itkTestingMacros.h"
 
+#include <limits>
+
 int
 itkImageToImageToleranceTest(int, char *[])
 {
@@ -88,7 +90,9 @@ itkImageToImageToleranceTest(int, char *[])
   ImageType::DirectionType dir;
   dir.SetIdentity();
   image1->SetDirection(dir);
-  dir[0][0] += 10.0E-5;
+  // Just below the 1.0E-4 direction tolerance set further down, after rounding to SpacePrecisionType.
+  constexpr double directionPerturbation{ 1.0E-4 - 4 * std::numeric_limits<itk::SpacePrecisionType>::epsilon() };
+  dir[0][0] += directionPerturbation;
   image2->SetDirection(dir);
 
   addImageFilter = AddImageFilterType::New();

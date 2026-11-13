@@ -16,7 +16,9 @@
  *
  *=========================================================================*/
 
+#include <algorithm>
 #include <iostream>
+#include <limits>
 
 #include "itkMath.h"
 #include "itkImage.h"
@@ -26,6 +28,7 @@
 using SizeType = itk::Size<3>;
 using ImageType = itk::Image<unsigned short, 3>;
 using CoordinateType = itk::SpacePrecisionType;
+constexpr double valueTolerance{ std::max(1e-9, 1e3 * std::numeric_limits<CoordinateType>::epsilon()) };
 using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
@@ -67,7 +70,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
     const double value = interp->Evaluate(point);
     std::cout << " Value: " << value;
 
-    if (itk::Math::Absolute(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > valueTolerance)
     {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -103,7 +106,7 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
     const double value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: " << value;
 
-    if (itk::Math::Absolute(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > valueTolerance)
     {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;

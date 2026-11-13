@@ -162,7 +162,8 @@ ReadWriteTest(const std::string & fileName, const bool isRealDisplacementField, 
       return EXIT_FAILURE;
     }
     if ((readDisplacement->GetOrigin() != knownField->GetOrigin()) ||
-        (itk::Math::NotExactlyEquals(readDisplacement->GetOrigin()[0], requiredOrigin)))
+        (itk::Math::NotExactlyEquals(readDisplacement->GetOrigin()[0],
+                                     static_cast<typename FieldType::PointValueType>(requiredOrigin))))
     {
       std::cerr << "Error invalid origin restored from disk" << std::endl;
       std::cerr << std::setprecision(17) << '\n'

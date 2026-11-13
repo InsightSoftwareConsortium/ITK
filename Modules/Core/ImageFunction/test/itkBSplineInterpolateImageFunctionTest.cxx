@@ -26,7 +26,9 @@
  *
  *=========================================================================*/
 
+#include <algorithm>
 #include <iostream>
+#include <limits>
 
 #include "itkBSplineInterpolateImageFunction.h"
 
@@ -36,6 +38,8 @@
 
 using InputPixelType = double;
 using CoordinateType = itk::SpacePrecisionType;
+constexpr double valueTolerance{ std::max(1e-9, 1e3 * std::numeric_limits<CoordinateType>::epsilon()) };
+constexpr double splineValueTolerance{ std::max(1e-4, 1e4 * std::numeric_limits<CoordinateType>::epsilon()) };
 
 // Set up for 1D Images
 enum
@@ -149,7 +153,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
     const double value = interp->Evaluate(point);
     std::cout << " Value: " << value;
 
-    if (itk::Math::Absolute(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > valueTolerance)
     {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -185,7 +189,7 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
     const double value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: " << value;
 
-    if (itk::Math::Absolute(value - trueValue) > 1e-4)
+    if (itk::Math::Absolute(value - trueValue) > splineValueTolerance)
     {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -231,7 +235,7 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
         std::cout << ", ";
       }
       std::cout << value[i];
-      if (itk::Math::Absolute(value[i] - trueValue[i]) > 1e-4)
+      if (itk::Math::Absolute(value[i] - trueValue[i]) > splineValueTolerance)
       {
         std::cout << "*** Error: value should be " << trueValue[i] << std::endl;
         return false;

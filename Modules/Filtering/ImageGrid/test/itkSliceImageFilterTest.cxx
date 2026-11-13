@@ -23,6 +23,9 @@
 #include "itkGaussianImageSource.h"
 #include "itkImageRegionConstIterator.h"
 
+#include <cmath>
+#include <limits>
+
 // This test verifies the principle that the SliceImageFilter should
 // not change the physical location of the signal. This is done by
 // constructing an image of points, each corresponding to the physical
@@ -51,7 +54,9 @@ CheckValueIsPhysicalPoint(const TImageType * img)
     img->TransformIndexToPhysicalPoint(it.ComputeIndex(), pt);
     for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
     {
-      EXPECT_DOUBLE_EQ(pt[i], it.Get()[i])
+      using CoordinateType = typename TImageType::PointValueType;
+      const double tolerance = 4.0 * std::numeric_limits<CoordinateType>::epsilon() * std::abs(pt[i]);
+      EXPECT_NEAR(pt[i], it.Get()[i], tolerance)
         << "Index: " << it.ComputeIndex() << " Point: " << pt << " Value: " << it.Get() << std::endl,
         match = false;
     }

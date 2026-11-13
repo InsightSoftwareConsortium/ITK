@@ -697,7 +697,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapInterce
   double perimeter = 0.0;
   perimeter += dy * intercepts[nx] / 2.0;
   perimeter += dx * intercepts[ny] / 2.0;
-  perimeter += dx * dy / spacing.GetNorm() * intercepts[nxy] / 2.0;
+  perimeter += dx * dy / std::sqrt(dx * dx + dy * dy) * intercepts[nxy] / 2.0;
   perimeter *= itk::Math::pi / 4.0;
   return perimeter;
 }
@@ -711,11 +711,11 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapInterce
   const double dx = spacing[0];
   const double dy = spacing[1];
   const double dz = spacing[2];
-  const double dxy = std::sqrt(spacing[0] * spacing[0] + spacing[1] * spacing[1]);
-  const double dxz = std::sqrt(spacing[0] * spacing[0] + spacing[2] * spacing[2]);
-  const double dyz = std::sqrt(spacing[1] * spacing[1] + spacing[2] * spacing[2]);
-  const double dxyz = std::sqrt(spacing[0] * spacing[0] + spacing[1] * spacing[1] + spacing[2] * spacing[2]);
-  const double vol = spacing[0] * spacing[1] * spacing[2];
+  const double dxy = std::sqrt(dx * dx + dy * dy);
+  const double dxz = std::sqrt(dx * dx + dz * dz);
+  const double dyz = std::sqrt(dy * dy + dz * dz);
+  const double dxyz = std::sqrt(dx * dx + dy * dy + dz * dz);
+  const double vol = dx * dy * dz;
 
   // 'magical numbers', corresponding to area of voronoi partition on the
   // unit sphere, when germs are the 26 directions on the unit cube

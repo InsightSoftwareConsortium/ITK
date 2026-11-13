@@ -16,7 +16,9 @@
  *
  *=========================================================================*/
 
+#include <algorithm>
 #include <iostream>
+#include <limits>
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
@@ -31,6 +33,7 @@ enum
 using PixelType = itk::Vector<unsigned short, VectorDimension>;
 using ImageType = itk::Image<PixelType, ImageDimension>;
 using CoordinateType = itk::SpacePrecisionType;
+constexpr double valueTolerance{ std::max(1e-9, 1e3 * std::numeric_limits<CoordinateType>::epsilon()) };
 using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType, CoordinateType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
@@ -72,7 +75,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
       int k = 0;
       for (; k < VectorDimension; ++k)
       {
-        if (itk::Math::Absolute(value[k] - trueValue[k]) > 1e-9)
+        if (itk::Math::Absolute(value[k] - trueValue[k]) > valueTolerance)
         {
           break;
         }
@@ -135,7 +138,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
       unsigned int k = 0;
       for (; k < VectorDimension; ++k)
       {
-        if (itk::Math::Absolute(value[k] - trueValue[k]) > 1e-9)
+        if (itk::Math::Absolute(value[k] - trueValue[k]) > valueTolerance)
         {
           break;
         }

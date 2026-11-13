@@ -38,6 +38,9 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkTestingHashImageFilter.h"
 
+#include <algorithm>
+#include <type_traits>
+
 namespace
 {
 RegressionTestParameters  regressionTestParameters;
@@ -511,6 +514,18 @@ RegressionTestHelper(const char *       testImageFilename,
     std::cerr << "Baseline image: " << baselineImageFilename << " has size " << baselineSize << std::endl;
     std::cerr << "Test image:     " << testImageFilename << " has size " << testSize << std::endl;
     return itk::NumericTraits<int>::max() - 1;
+  }
+
+  if constexpr (std::is_same_v<itk::SpacePrecisionType, float>)
+  {
+    // Single-precision geometry shifts resampled edges and perturbs optimizer trajectories.
+    constexpr double geometryTolerance{ 1.0e-4 };
+    coordinateTolerance = std::max(coordinateTolerance, geometryTolerance);
+    directionTolerance = std::max(directionTolerance, geometryTolerance);
+    radiusTolerance = std::max(radiusTolerance, 1u);
+    const itk::SizeValueType numberOfPixels =
+      baselineReader->GetOutput()->GetLargestPossibleRegion().GetNumberOfPixels();
+    numberOfPixelsTolerance = std::max(numberOfPixelsTolerance, numberOfPixels / 200);
   }
 
   // Now compare the two images

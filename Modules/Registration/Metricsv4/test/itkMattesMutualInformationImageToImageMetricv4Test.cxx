@@ -26,7 +26,9 @@
 #include "itkTimeProbe.h"
 #include "itkTestingMacros.h"
 
+#include <algorithm>
 #include <iostream>
+#include <limits>
 
 /**
  * This test was copied for v4 metric from itkMattesMutualInformationImageToMetricTest
@@ -346,7 +348,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   ParametersType parameters1Minus(numberOfParameters);
   ParametersType parameters2Minus(numberOfParameters);
 
-  constexpr double delta{ 0.00001 };
+  // The perturbation must exceed the resolution of physical coordinates.
+  constexpr double delta{ std::max(0.00001, 1e4 * std::numeric_limits<itk::SpacePrecisionType>::epsilon()) };
 
   const double tolerance = (useSampling) ? 0.075 : 0.014;
   for (unsigned int perturbParamIndex = 0; perturbParamIndex < numberOfParameters; ++perturbParamIndex)
