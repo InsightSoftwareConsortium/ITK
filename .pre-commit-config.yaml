@@ -132,6 +132,11 @@ repos:
       language: system
       stages: [commit-msg]
       exclude: "\\/ThirdParty\\/"
+    - id: bibtex-tidy
+      name: 'bibtex-tidy'
+      entry: 'Utilities/Hooks/bibtex-tidy.sh'
+      language: system
+      files: '^Documentation/Doxygen/doxygen\.bib$'
     - id: kw-pre-commit
       name: 'kw-pre-commit'
       entry: 'Utilities/Hooks/kw-pre-commit'

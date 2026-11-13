@@ -71,8 +71,7 @@ namespace itk
  * https://people.csail.mit.edu/bkph/papers/Absolute_Orientation.pdf
  *
  * The Affine Transform initializer is based on an algorithm by H Spaeth,
- * and is described in \cite kim2011, available at
- * https://doi.org/10.54294/fge470
+ * and is described in \cite kim2011.
  *
  * \ingroup ITKRegistrationCommon
  *

@@ -19,6 +19,7 @@ requests = ">=2.32"
 
 [tool.pixi.feature.pre-commit.dependencies]
 pre-commit = ">=4.1.0,<5"
+bibtex-tidy = "==1.15.1"
 
 [tool.pixi.feature.pre-commit.tasks]
 pre-commit-install = { cmd = "pre-commit install -f -t pre-commit -t prepare-commit-msg -t commit-msg", description = "Install pre-commit hooks" }
