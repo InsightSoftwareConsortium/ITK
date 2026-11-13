@@ -23,6 +23,7 @@
 #include "itkByteSwapper.h"
 #include "itkMakeUniqueForOverwrite.h"
 
+#include <algorithm> // For minmax_element.
 #include <fstream>
 #include <memory> // For unique_ptr.
 
@@ -332,7 +333,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const TPixelType * bufferBegin)
 
   // this could be replaced with std::min_element and
   // std::max_element, but that is slightly less efficient
-  const std::pair<ConstPixelPointer, ConstPixelPointer> mm = itk::min_max_element(bufferBegin, bufferEnd);
+  const std::pair<ConstPixelPointer, ConstPixelPointer> mm = std::minmax_element(bufferBegin, bufferEnd);
 
   const double mean = std::accumulate(bufferBegin, bufferEnd, 0.0) / std::distance(bufferBegin, bufferEnd);
 
