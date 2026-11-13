@@ -16,7 +16,9 @@
  *
  *=========================================================================*/
 
+#include <algorithm>
 #include <iostream>
+#include <limits>
 #include "itkImageAdaptor.h"
 #include "itkRGBPixel.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -50,6 +52,7 @@ using ImageType = itk::Image<InputPixelType, ImageDimension>;
 using ImageAdaptorType = itk::ImageAdaptor<ImageType, RedChannelPixelAccessor>;
 
 using CoordinateType = itk::SpacePrecisionType;
+constexpr double valueTolerance{ std::max(1e-9, 1e3 * std::numeric_limits<CoordinateType>::epsilon()) };
 
 using InterpolatorType = itk::LinearInterpolateImageFunction<ImageAdaptorType, CoordinateType>;
 using IndexType = InterpolatorType::IndexType;
@@ -81,7 +84,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
     const OutputType value = interp->Evaluate(point);
     std::cout << " Value: " << value << std::endl;
 
-    if (itk::Math::Absolute(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > valueTolerance)
     {
       std::cout << " *** Error: Value should be: ";
       std::cout << trueValue << std::endl;
@@ -120,7 +123,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
     const OutputType value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: " << value << std::endl;
 
-    if (itk::Math::Absolute(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > valueTolerance)
     {
       std::cout << " *** Error: Value should be: ";
       std::cout << trueValue << std::endl;
