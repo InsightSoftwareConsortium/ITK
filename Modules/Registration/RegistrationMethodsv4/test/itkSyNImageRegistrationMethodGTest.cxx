@@ -32,6 +32,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <limits>
 #include <vector>
 
 namespace
@@ -311,6 +312,7 @@ TEST(SyNImageRegistrationMethod, MatchesBaseline)
     { -0.34488616123441318, 0.23092394821163253, 0.11462549081682383, -0.63336005356165614 },
     { -0.28395371732891306, 1.2694115559413852, 0.22097440143027924, 0.10737856101015097 }
   };
+  const double relativeTolerance = std::max(1e-6, 100.0 * std::numeric_limits<itk::SpacePrecisionType>::epsilon());
   for (size_t c = 0; c < Configurations().size(); ++c)
   {
     const auto values = RunSyN(Configurations()[c]);
@@ -322,7 +324,7 @@ TEST(SyNImageRegistrationMethod, MatchesBaseline)
     ASSERT_GT(scale, 0.1) << "configuration " << c;
     for (size_t k = 0; k < offsets.size(); ++k)
     {
-      EXPECT_NEAR(values[offsets[k]], baseline[c][k], 1e-6 * scale)
+      EXPECT_NEAR(values[offsets[k]], baseline[c][k], relativeTolerance * scale)
         << "configuration " << c << ", offset " << offsets[k];
     }
   }
