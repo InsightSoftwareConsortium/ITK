@@ -1,0 +1,13 @@
+# Written by `MigrationRecords.py release`; maps each release to its record descriptors.
+"6.0a01":
+  - PointSetCloneDeepCopy
+  - PreferStandardCxxOverItkMacros
+  - RemoveDeprecatedModule
+  - RemoveItkV4Compatibility
+  - RemoveItkV5ConstMacro
+  - RemoveItkV5MigrationScripts
+"6.0a02":
+  - CoordRepTypeToCoordinateType
+"6.0b01":
+  - ItkVnlInstantiationRemoved
+  - PreferAnatomicalOrientation

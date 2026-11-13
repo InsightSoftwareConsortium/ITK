@@ -17,4 +17,8 @@ jobs:
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
+    - name: Test the migration-record tools
+      run: |
+        python -m pip install pyyaml==6.0.2 jsonschema==4.23.0 yamllint==1.35.1 pytest
+        python -m pytest -q Utilities/Maintenance/MigrationRecordsTests
     - uses: pre-commit/action@v3.0.1

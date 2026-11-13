@@ -1,0 +1,15 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  Since ITK 5.3, `OrientationAdapterBase` is deprecated. In ITKv6 it will be available in `ITKDeprecated` module.
+  SpatialOrientationAdapter no longer inherits from it.
+categories:
+  - ApiDeprecated
+environment:
+  - cxx
+impact: low
+pr: 3378
+commits:
+  - c294138d23a
+deprecated_in: "5.3"

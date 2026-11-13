@@ -1,0 +1,15 @@
+schema_version: 1
+title: '`itk::Math::sqrteps` changed by 1 ULP for accuracy'
+summary: |
+  `itk::Math::sqrteps` is now `0x1p-26`, the exact `sqrt(eps)`;
+  `vnl_math::sqrteps` (`1.490116119384766e-08`) was 1 ULP higher.
+details: |
+  A 1 ULP change affects only comparisons at the limit of double precision.
+categories:
+  - ResultsChange
+environment:
+  - cxx
+impact: low
+pr: 6427
+commits:
+  - 589d68004ab

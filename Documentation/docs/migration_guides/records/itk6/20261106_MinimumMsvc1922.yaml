@@ -1,0 +1,16 @@
+schema_version: 1
+title: Minimum Visual Studio raised to 2019 16.2
+summary: |
+  ITK 6 requires MSVC 19.22 (Visual Studio 2019 16.2) or newer; the previous floor was 19.20 (16.0). Releases 16.0 and 16.1 reject `using typename Superclass::X;` declarations with errors C2653 and C2886, which 16.2 fixed. Configuring with an older compiler now fails early.
+details: |
+  **What you need to do**
+
+  Update Visual Studio 2019 to 16.11, its final servicing baseline, with the Visual Studio Installer, or use Visual Studio 2022. ITK's own Windows CI already builds with Visual Studio 2022.
+categories:
+  - CompilerEnvironment
+environment:
+  - cxx
+impact: low
+pr: 7129
+commits:
+  - bf26eb29d61

@@ -1,0 +1,15 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  With ITK 5.3, the `GetNumberOfWeights()` member functions of `itk::BSplineBaseTransform` and `itk::BSplineInterpolationWeightFunction`
+  are replaced by static constexpr data members named `NumberOfWeights`, and the `GetSupportSize()` member function of
+  `itk::BSplineInterpolationWeightFunction` is replaced by a static constexpr data member named `SupportSize`.
+categories:
+  - ApiRenamed
+environment:
+  - cxx
+impact: low
+pr: 2709
+commits:
+  - 34f3db8d8ad

@@ -1,0 +1,7 @@
+summary: |
+  See {ref}`the overview <overview>`.
+
+  ```{note}
+  A directive fence.
+  ```
+impact: low

@@ -1,0 +1,56 @@
+# Written by `MigrationRecords.py release`; maps each release to its record descriptors.
+"5.0a01":
+  - CodingStyleCxx11
+  - ItkV5PreparationScripts
+  - LegacyCodeRemoved
+  - RequireCxx11Compiler
+  - SmartPointerNullInitialization
+"5.0a02":
+  - DynamicThreadedGenerateData
+  - FilterWatcherRemoved
+  - MinimumCMake3102
+  - MultiThreaderClassHierarchy
+"5.0b01":
+  - HoughCirclesRadiusTemplateArgument
+  - NumberOfThreadsToWorkUnits
+  - ProgressReporterToProgressTransformer
+  - TransformJacobianPositionType
+"5.0b02":
+  - MinimumSystemVxl202
+  - OtsuReturnsBinMaximum
+  - StdMutexAndAtomicReplaceItkClasses
+  - ThreadingSymbolsInItkNamespace
+  - VerifyPreconditionsConst
+"5.0rc01":
+  - PythonExtrasSnakeCase
+  - PythonMeshWrappingSimplified
+"5.0rc02":
+  - BarrierAndVectorFiltersDeprecated
+  - GaussianDerivativeImageFunctionRenames
+  - ItksysHashMapRemoved
+  - SpatialObjectRefactoring
+  - WatershedResultsChange
+"5.0.0":
+  - BoundingBoxComputeCorners
+  - FixedArrayReverseIterators
+  - ImageTransformerDeprecated
+  - InterpolatorGetRadiusRequired
+  - StatisticsFiltersNoImageOutput
+"5.1rc01":
+  - ConsolidatedVectorFilters
+"5.1rc02":
+  - NiftiAnalyzeFlavors
+  - StronglyTypedEnumerations
+  - TreeContainerDeprecated
+"5.3rc01":
+  - BSplineNumberOfWeightsConstexpr
+"5.3rc02":
+  - MplTypeTraitsReplacedByStd
+"5.3rc04":
+  - ExplicitScalarFillConstructors
+  - OrientationAdapterBaseDeprecated
+  - SpatialOrientationEnums
+"5.4rc01":
+  - NumericTraitsComplexFloatOnly
+"5.4.5":
+  - AnatomicalOrientationBackport

@@ -1,0 +1,19 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itk::Transform` class had method signature change.
+details: |
+  `void ComputeJacobianWithRespectToPosition(const PointType &, JacobianType &) const`
+  now has signature
+  `void ComputeJacobianWithRespectToPosition(const PointType &, JacobianPositionType &) const`.
+  `JacobianPositionType` is publicly exposed in `itk::Transform`.
+  See commit [commit 212cae5](https://github.com/InsightSoftwareConsortium/ITK/commit/212cae522d8451ea089c41f8a151279e1dd17042) for details.
+environment:
+  - cxx
+impact: low
+pr: -1
+commits:
+  - 212cae522d8
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/2101

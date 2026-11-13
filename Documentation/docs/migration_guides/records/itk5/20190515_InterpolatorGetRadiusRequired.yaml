@@ -1,0 +1,13 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  All descendents of `itk::InterpolateImageFunction` must implement
+  `SizeType GetRadius() const` to indicate support radius of the interpolator.
+  This is used in `itk::ResampleImageFilter` to support streaming.
+environment:
+  - cxx
+impact: low
+pr: 668
+commits:
+  - e4003fc3dc6

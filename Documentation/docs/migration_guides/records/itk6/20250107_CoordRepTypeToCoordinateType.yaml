@@ -1,0 +1,21 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  For the sake of code readability, a new `CoordinateType` alias is added for
+  each nested `CoordRepType` alias. The old `CoordRepType` aliases will still be
+  available with ITK 6.0, but it is recommended to use `CoordinateType` instead.
+  The `CoordRepType` aliases will be removed when `ITK_FUTURE_LEGACY_REMOVE` is
+  enabled. Similarly, `InputCoordinateType`, `OutputCoordinateType`, and
+  `ImagePointCoordinateType` replace `InputCoordRepType`, `OutputCoordRepType`,
+  and `ImagePointCoordRepType`, respectively.
+categories:
+  - ApiDeprecated
+  - ApiRenamed
+environment:
+  - cxx
+impact: medium
+pr: 5006
+commits:
+  - a68b8f67dae
+legacy_guard: ITK_FUTURE_LEGACY_REMOVE

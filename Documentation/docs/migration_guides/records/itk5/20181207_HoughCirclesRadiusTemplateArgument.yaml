@@ -1,0 +1,22 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>` no longer
+  has a default argument for its last template parameter. Instead, users of the filter should now
+  explicitly specify all three template arguments.
+details: |
+  Earlier versions of ITK assumed that the radius
+  pixel type should be the same as `TOutputPixelType`. However, it appears that for the radius pixel
+  type (`TRadiusPixelType`), a floating point type is often preferred, whereas for the accumulator
+  output pixel type (`TOutputPixelType`), an unsigned integer type is often more appropriate.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: low
+pr: -1
+commits:
+  - 06afe0fbd03
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/278
