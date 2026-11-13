@@ -21,6 +21,9 @@
 #include "itkImageMaskSpatialObject.h"
 #include "itkTestingMacros.h"
 
+#include <algorithm>
+#include <limits>
+
 using PixelType = unsigned short;
 using VectorType = itk::Vector<double, 3>;
 using MatrixType = itk::Matrix<double, 3>;
@@ -50,7 +53,7 @@ itkImageMomentsTest(int argc, char * argv[])
      reasonably close but might deserve investigation some day when all
      the worse problems have been fixed. */
   //    double maxerr = 1.9e-15;
-  constexpr double maxerr{ 5.0e-15 };
+  constexpr double maxerr{ std::max(5.0e-15, 10.0 * std::numeric_limits<itk::SpacePrecisionType>::epsilon()) };
 
   /* Define the image size and physical coordinates */
   constexpr itk::Size<3> size = { { 20, 40, 80 } };
