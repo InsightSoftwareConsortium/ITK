@@ -28,7 +28,7 @@ env:
 
 jobs:
     macOS:
-        runs-on: macos-14
+        runs-on: macos-15
         timeout-minutes: 0
         steps:
             - name: Checkout
@@ -108,7 +108,7 @@ jobs:
               run: ccache --show-stats
 
     macOS-Python:
-        runs-on: macos-14
+        runs-on: macos-15
         timeout-minutes: 0
         steps:
             - name: Checkout
