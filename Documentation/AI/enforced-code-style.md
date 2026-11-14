@@ -31,6 +31,9 @@ The `kw-commit-msg.py` hook enforces:
 - Approved commit-subject prefix — see
   [git-commits.md § Prefixes](./git-commits.md#prefixes) for the list
 
+Git-generated `Merge`, `Revert`, `fixup!`, `squash!`, and `amend!` subjects
+are exempt from both checks.
+
 KWStyle also checks that every header has the doxygen `\class` tag. See
 [compiler-cautions.md](./compiler-cautions.md) section 12a for the
 `enum class` pitfall where KWStyle requires `\class` on enum declarations.
