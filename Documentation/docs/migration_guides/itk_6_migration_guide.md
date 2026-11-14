@@ -967,6 +967,24 @@ siblings in the iterator hierarchy, not subclasses, so such uses do not convert
 implicitly. Code that only iterates (`GoToBegin`/`IsAtEnd`/`Get`/`Set`) needs no
 change.
 
+## `ImageRegionIterator` write accessors are member templates
+
+`ImageRegionIterator<const TImage>` supports `Get()` and read-only `Value()`.
+Writing through it fails at compile time. Prefer
+`ImageRegionConstIterator<TImage>` for const images.
+
+For mutable images, `Set()` and mutable `Value()` are now member templates.
+Ordinary calls such as `iterator.Set(value)` and `iterator.Value() = value`
+continue to work. Generic code taking member addresses needs an explicit
+member-pointer type or specialization such as `&Iterator::Set<>` or
+`&Iterator::Value<>`.
+
+```cpp
+using Iterator = itk::ImageRegionIterator<itk::Image<int, 2>>;
+void (Iterator::*setter)(const Iterator::PixelType &) const = &Iterator::Set;
+Iterator::PixelType & (Iterator::*accessor)() = &Iterator::Value;
+```
+
 ## `itkDCMTKFileReader.h` is now a private header of `ITKIODCMTK`
 
 `itkDCMTKFileReader.h` and `itkDCMTKFileReader.cxx` moved from the module's

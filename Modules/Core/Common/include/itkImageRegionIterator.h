@@ -20,6 +20,8 @@
 
 #include "itkImageRegionConstIterator.h"
 
+#include <type_traits>
+
 namespace itk
 {
 /** \class ImageRegionIterator
@@ -83,6 +85,7 @@ public:
   /** Standard class type aliases. */
   using Self = ImageRegionIterator;
   using Superclass = ImageRegionConstIterator<TImage>;
+  using Superclass::Value;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
@@ -112,6 +115,7 @@ public:
   ImageRegionIterator(const ImageIterator<TImage> & it);
 
   /** Set the pixel value */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
   void
   Set(const PixelType & value) const
   {
@@ -121,6 +125,7 @@ public:
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
+  template <typename T = TImage, std::enable_if_t<std::is_same_v<T, TImage> && !std::is_const_v<T>, int> = 0>
   PixelType &
   Value()
   {

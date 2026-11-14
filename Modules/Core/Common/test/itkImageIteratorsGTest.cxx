@@ -52,6 +52,7 @@
 #include <gtest/gtest.h>
 #include <type_traits> // For false_type and true_type.
 #include <typeinfo>
+#include <utility>
 #include <vector>
 
 namespace
@@ -67,6 +68,39 @@ template <typename TIterator>
 struct Has_IsAtBegin<TIterator, decltype(std::declval<TIterator>().IsAtBegin())> : std::true_type
 {};
 
+
+template <typename TIterator, typename = void>
+struct Has_Set : std::false_type
+{};
+
+template <typename TIterator>
+struct Has_Set<
+  TIterator,
+  std::void_t<decltype(std::declval<TIterator &>().Set(std::declval<const typename TIterator::PixelType &>()))>>
+  : std::true_type
+{};
+
+template <typename TIterator, typename = void>
+struct Has_MutableValue : std::false_type
+{};
+
+template <typename TIterator>
+struct Has_MutableValue<TIterator, std::void_t<decltype(std::declval<TIterator &>().Value())>>
+  : std::is_same<decltype(std::declval<TIterator &>().Value()), typename TIterator::PixelType &>
+{};
+
+using TestImageType = itk::Image<int, 2>;
+using ConstQualifiedRegionIterator = itk::ImageRegionIterator<const TestImageType>;
+using MutableRegionIterator = itk::ImageRegionIterator<TestImageType>;
+
+static_assert(
+  std::is_constructible_v<ConstQualifiedRegionIterator, const TestImageType *, const TestImageType::RegionType &>);
+static_assert(std::is_same_v<decltype(std::declval<const ConstQualifiedRegionIterator &>().Get()), int>);
+static_assert(std::is_same_v<decltype(std::declval<ConstQualifiedRegionIterator &>().Value()), const int &>);
+static_assert(!Has_Set<ConstQualifiedRegionIterator>::value);
+static_assert(!Has_MutableValue<ConstQualifiedRegionIterator>::value);
+static_assert(Has_Set<MutableRegionIterator>::value);
+static_assert(Has_MutableValue<MutableRegionIterator>::value);
 
 template <typename TIterator>
 void
@@ -251,6 +285,27 @@ TEST(ImageIterators, SupportClassTemplateArgumentDeduction)
                                                            itk::ImageReverseConstIterator,
                                                            itk::ImageScanlineConstIterator,
                                                            itk::ImageSliceConstIteratorWithIndex>();
+}
+
+
+// Checks that a const-qualified image region iterator only provides read access.
+TEST(ImageIterators, ConstQualifiedRegionIteratorIsReadOnly)
+{
+  const auto image = TestImageType::New();
+  image->SetRegions(TestImageType::SizeType::Filled(1));
+  image->Allocate();
+  image->FillBuffer(1);
+
+  const TestImageType::ConstPointer  constImage = image;
+  const ConstQualifiedRegionIterator iterator(constImage, constImage->GetBufferedRegion());
+  EXPECT_EQ(iterator.Get(), 1);
+  EXPECT_EQ(iterator.Value(), 1);
+
+  MutableRegionIterator mutableIterator(image, image->GetBufferedRegion());
+  mutableIterator.Set(2);
+  EXPECT_EQ(iterator.Get(), 2);
+  mutableIterator.Value() = 3;
+  EXPECT_EQ(iterator.Value(), 3);
 }
 
 
