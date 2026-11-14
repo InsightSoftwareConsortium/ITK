@@ -187,7 +187,7 @@ ThreadPool::ResumeFromFork()
 }
 
 void
-ThreadPool::Enqueue(std::function<void()> && task)
+ThreadPool::Enqueue(std::packaged_task<void()> && task)
 {
   bool wake = false;
   {
@@ -202,7 +202,7 @@ ThreadPool::Enqueue(std::function<void()> && task)
 }
 
 void
-ThreadPool::EnqueueBatch(std::vector<std::function<void()>> & tasks)
+ThreadPool::EnqueueBatch(std::vector<std::packaged_task<void()>> & tasks)
 {
   if (tasks.empty())
   {
@@ -241,7 +241,7 @@ ThreadPool::ThreadExecute()
 
   while (true)
   {
-    std::function<void()> task;
+    std::packaged_task<void()> task;
 
     {
       std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);

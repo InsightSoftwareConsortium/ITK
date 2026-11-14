@@ -92,11 +92,19 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   {
     using return_type = std::invoke_result_t<Function, Arguments...>;
 
-    auto task = std::make_shared<std::packaged_task<return_type()>>(
-      [function, arguments...]() -> return_type { return function(arguments...); });
-
-    std::future<return_type> res = task->get_future();
-    this->Enqueue([task]() { (*task)(); });
+    std::packaged_task<return_type()> task(
+      [f = std::forward<Function>(function), arguments...]() mutable -> return_type { return f(arguments...); });
+    std::future<return_type> res = task.get_future();
+    if constexpr (std::is_void_v<return_type>)
+    {
+      this->Enqueue(std::move(task));
+    }
+    else
+    {
+      // The queue holds void() tasks; the shared_ptr keeps the typed task alive until it runs.
+      this->Enqueue(std::packaged_task<void()>(
+        [typedTask = std::make_shared<std::packaged_task<return_type()>>(std::move(task))] { (*typedTask)(); }));
+    }
     return res;
   }
 
@@ -112,15 +120,14 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   {
     const auto sharedFunction = std::make_shared<std::decay_t<TFunction>>(std::forward<TFunction>(function));
 
-    std::vector<std::function<void()>> tasks;
-    std::vector<std::future<void>>     futures;
+    std::vector<std::packaged_task<void()>> tasks;
+    std::vector<std::future<void>>          futures;
     tasks.reserve(count);
     futures.reserve(count);
     for (SizeValueType i = 0; i < count; ++i)
     {
-      auto task = std::make_shared<std::packaged_task<void()>>([sharedFunction, i] { (*sharedFunction)(i); });
-      futures.push_back(task->get_future());
-      tasks.emplace_back([task] { (*task)(); });
+      tasks.emplace_back([sharedFunction, i] { (*sharedFunction)(i); });
+      futures.push_back(tasks.back().get_future());
     }
     this->EnqueueBatch(tasks);
     return futures;
@@ -171,13 +178,13 @@ protected:
   ResumeFromFork();
 
 private:
-  /** Add a task to the queue and wake a worker if one is asleep. */
+  /** Add an already-wrapped task to the queue and wake a worker if one is asleep. */
   void
-  Enqueue(std::function<void()> && task);
+  Enqueue(std::packaged_task<void()> && task);
 
   /** Move all tasks into the queue under one lock acquisition and wake as many sleeping threads as needed. */
   void
-  EnqueueBatch(std::vector<std::function<void()>> & tasks);
+  EnqueueBatch(std::vector<std::packaged_task<void()>> & tasks);
 
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(ThreadPoolGlobals, PimplGlobals);
@@ -185,7 +192,7 @@ private:
   /** This is a list of jobs submitted to the thread pool.
    * This is the only place where the jobs are submitted.
    * Filled by AddWork, emptied by ThreadExecute. */
-  std::deque<std::function<void()>> m_WorkQueue; // guarded by m_PimplGlobals->m_Mutex
+  std::deque<std::packaged_task<void()>> m_WorkQueue; // guarded by m_PimplGlobals->m_Mutex
 
   /** When a thread is idle, it is waiting on m_Condition.
    * AddWork signals it to resume a (random) thread. */
