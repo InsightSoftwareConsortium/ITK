@@ -151,13 +151,17 @@ PoolMultiThreader::SingleMethodExecute()
 
   this->EnsureWorkUnitInfoArraySize(m_NumberOfWorkUnits);
 
-  ThreadIdType threadLoop = 0;
-  for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
+  for (ThreadIdType threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
     m_WorkUnitInfoArray[threadLoop].UserData = m_SingleData;
     m_WorkUnitInfoArray[threadLoop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-    m_WorkUnitInfoArray[threadLoop].Future = m_ThreadPool->AddWork(
-      [method = m_SingleMethod, threadInfo = &m_WorkUnitInfoArray[threadLoop]] { method(threadInfo); });
+  }
+  auto futures = m_ThreadPool->AddWorkBatch(
+    m_NumberOfWorkUnits - 1,
+    [method = m_SingleMethod, workUnits = m_WorkUnitInfoArray.data()](SizeValueType i) { method(&workUnits[i + 1]); });
+  for (ThreadIdType threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
+  {
+    m_WorkUnitInfoArray[threadLoop].Future = std::move(futures[threadLoop - 1]);
   }
 
   // Now, the parent thread calls this->SingleMethod() itself
@@ -168,7 +172,7 @@ PoolMultiThreader::SingleMethodExecute()
 
   // The parent thread has finished SingleMethod()
   // so now it waits for each of the other work units to finish
-  for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
+  for (ThreadIdType threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
     exceptionHandler.TryAndCatch([this, threadLoop] { m_WorkUnitInfoArray[threadLoop].Future.get(); });
   }
@@ -196,7 +200,9 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
       ++chunkSize; // we want slightly bigger chunks to be processed first
     }
     const SizeValueType roundingLeftover = numberOfItems % chunkSize > 0 ? 1 : 0;
-    this->EnsureWorkUnitInfoArraySize(numberOfItems / chunkSize + roundingLeftover);
+    const SizeValueType workUnit = numberOfItems / chunkSize + roundingLeftover;
+    itkAssertOrThrowMacro(workUnit <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
+    this->EnsureWorkUnitInfoArraySize(workUnit);
 
     auto lambda = [aFunc](SizeValueType start, SizeValueType end) {
       for (SizeValueType ii = start; ii < end; ++ii)
@@ -205,14 +211,15 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
       }
     };
 
-    SizeValueType workUnit = 1;
-    for (SizeValueType i = firstIndex + chunkSize; i < lastIndexPlus1; i += chunkSize)
+    auto futures =
+      m_ThreadPool->AddWorkBatch(workUnit - 1, [lambda, firstIndex, chunkSize, lastIndexPlus1](SizeValueType i) {
+        const SizeValueType start = firstIndex + (i + 1) * chunkSize;
+        lambda(start, std::min(start + chunkSize, lastIndexPlus1));
+      });
+    for (SizeValueType i = 1; i < workUnit; ++i)
     {
-      m_WorkUnitInfoArray[workUnit++].Future =
-        m_ThreadPool->AddWork(lambda, i, std::min(i + chunkSize, lastIndexPlus1));
+      m_WorkUnitInfoArray[i].Future = std::move(futures[i - 1]);
     }
-    itkAssertOrThrowMacro(workUnit <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
-
     ProgressReporter reporter(filter, 0, workUnit);
 
     // execute this thread's share
@@ -285,24 +292,25 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
       this->EnsureWorkUnitInfoArraySize(splitCount);
       ProgressReporter reporter(filter, 0, splitCount);
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
-      ImageIORegion iRegion;
-      ThreadIdType  total = 0;
+
+      // Each work unit computes its own sub-region, so no per-unit region is built or copied here.
+      auto futures =
+        m_ThreadPool->AddWorkBatch(splitCount - 1, [funcP, region, splitter, splitCount](SizeValueType unit) {
+          ImageIORegion      iRegion = region;
+          const ThreadIdType i = static_cast<ThreadIdType>(unit) + 1;
+          const ThreadIdType total = splitter->GetSplit(i, splitCount, iRegion);
+          if (i >= total)
+          {
+            itkGenericExceptionMacro("Could not get work unit "
+                                     << i << " even though we checked possible number of splits beforehand!");
+          }
+          funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
+        });
       for (ThreadIdType i = 1; i < splitCount; ++i)
       {
-        iRegion = region;
-        total = splitter->GetSplit(i, splitCount, iRegion);
-        if (i < total)
-        {
-          m_WorkUnitInfoArray[i].Future =
-            m_ThreadPool->AddWork([funcP, iRegion]() { funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]); });
-        }
-        else
-        {
-          itkExceptionMacro("Could not get work unit "
-                            << i << " even though we checked possible number of splits beforehand!");
-        }
+        m_WorkUnitInfoArray[i].Future = std::move(futures[i - 1]);
       }
-      iRegion = region;
+      ImageIORegion iRegion = region;
       splitter->GetSplit(0, splitCount, iRegion);
 
       // execute this thread's share
