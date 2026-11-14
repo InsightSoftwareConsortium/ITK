@@ -24,8 +24,14 @@ from pathlib import Path
 
 
 MAX_SUBJECT_LENGTH: int = 78
-GIT_GENERATED_PREFIXES = ("Merge ", "Revert ", "fixup! ", "squash! ", "amend! ")
-SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
+GIT_GENERATED_PREFIXES: tuple[str, ...] = (
+    "Merge ",
+    "Revert ",
+    "fixup! ",
+    "squash! ",
+    "amend! ",
+)
+SCISSORS_PATTERN: re.Pattern[str] = re.compile(r"^\S+ -+ >8 -+$")
 
 
 def die(message, commit_msg_path):
