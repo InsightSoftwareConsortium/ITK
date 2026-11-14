@@ -1631,6 +1631,7 @@ set(
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
   itkPriorityQueueGTest.cxx
+  itkProcessObjectMaximumWorkUnitPerThreadRatioGTest.cxx
   itkBridgeGeneralizedEigenDecompositionGTest.cxx
   itkBridgeQRDecompositionGTest.cxx
   itkBridgeRealEigenDecompositionGTest.cxx

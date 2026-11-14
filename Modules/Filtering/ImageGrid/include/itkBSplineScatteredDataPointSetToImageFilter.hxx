@@ -38,6 +38,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::BSpline
 {
   this->m_SplineOrder.Fill(3);
   this->DynamicMultiThreadingOff();
+  // Each work unit allocates, zeroes, and reduces whole control-point lattices.
+  this->SetMaximumWorkUnitPerThreadRatio(1);
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

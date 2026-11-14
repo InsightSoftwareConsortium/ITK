@@ -30,6 +30,8 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::VanHerkGilW
 {
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
+  // Each work unit copies and filters its region padded by the kernel radius.
+  this->SetMaximumWorkUnitPerThreadRatio(1);
 }
 
 template <typename TImage, typename TKernel, typename TFunction1>
