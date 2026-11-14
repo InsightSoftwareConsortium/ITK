@@ -17,15 +17,15 @@
 #
 # ==========================================================================
 
-import os
 import re
-import subprocess
 import sys
 
 from pathlib import Path
 
 
-DEFAULT_LINE_LENGTH: int = 78
+MAX_SUBJECT_LENGTH: int = 78
+GIT_GENERATED_PREFIXES = ("Merge ", "Revert ", "fixup! ", "squash! ", "amend! ")
+SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
 
 
 def die(message, commit_msg_path):
@@ -43,39 +43,28 @@ To continue editing, run the command
     sys.exit(1)
 
 
-def get_max_length():
-    try:
-        result = subprocess.run(
-            ["git", "config", "--get", "hooks.commit-msg.ITKCommitSubjectMaxLength"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-    except subprocess.CalledProcessError as _:
-        return DEFAULT_LINE_LENGTH
-
-
 def main():
-    git_dir_path: Path = Path(os.environ.get("GIT_DIR", ".git")).resolve()
-    commit_msg_path: Path = git_dir_path / "COMMIT_MSG"
-
     if len(sys.argv) < 2:
-        die(f"Usage: {sys.argv[0]} <git_commit_message_file>", commit_msg_path)
+        print(f"Usage: {sys.argv[0]} <git_commit_message_file>", file=sys.stderr)
+        sys.exit(1)
 
     input_file: Path = Path(sys.argv[1])
+    # Git passes a file in its git directory, which may be a worktree's.
+    commit_msg_path: Path = input_file.resolve().parent / "COMMIT_MSG"
     if not input_file.exists():
         die(
             f"Missing input_file {sys.argv[1]} for {sys.argv[0]} processing",
             commit_msg_path,
         )
-    max_subjectline_length: int = get_max_length()
-
     original_input_file_lines: list[str] = []
     with open(input_file) as f_in:
         original_input_file_lines = f_in.readlines()
 
     input_file_lines: list[str] = []
     for test_line in original_input_file_lines:
+        # Drop everything from the scissors line, e.g. the diff of `git commit -v`.
+        if SCISSORS_PATTERN.match(test_line.rstrip("\n")):
+            break
         test_line = test_line.strip()
         is_empty_line_before_subject: bool = (
             len(input_file_lines) == 0 and len(test_line) == 0
@@ -87,6 +76,8 @@ def main():
     with open(commit_msg_path, "w") as f_out:
         f_out.writelines(input_file_lines)
 
+    if not input_file_lines:
+        sys.exit(0)  # Let git abort the commit for an empty message.
     subject_line: str = input_file_lines[0]
 
     if len(subject_line) < 8:
@@ -94,16 +85,14 @@ def main():
             f"The first line must be at least 8 characters:\n--------\n{subject_line}\n--------",
             commit_msg_path,
         )
-    if (
-        len(subject_line) > max_subjectline_length
-        and not subject_line.startswith("Merge ")
-        and not subject_line.startswith("Revert ")
+    if len(subject_line) > MAX_SUBJECT_LENGTH and not subject_line.startswith(
+        GIT_GENERATED_PREFIXES
     ):
         die(
-            f"The first line may be at most {max_subjectline_length} characters:\n"
-            + "-" * max_subjectline_length
+            f"The first line may be at most {MAX_SUBJECT_LENGTH} characters:\n"
+            + "-" * MAX_SUBJECT_LENGTH
             + f"\n{subject_line}\n"
-            + "-" * max_subjectline_length,
+            + "-" * MAX_SUBJECT_LENGTH,
             commit_msg_path,
         )
     if re.match(r"^[ \t]|[ \t]$", subject_line):
@@ -111,8 +100,8 @@ def main():
             f"The first line may not have leading or trailing space:\n[{subject_line}]",
             commit_msg_path,
         )
-    if not re.match(
-        r"^(Merge|Revert|BUG:|COMP:|DOC:|ENH:|PERF:|STYLE:|WIP:)\s", subject_line
+    if not subject_line.startswith(GIT_GENERATED_PREFIXES) and not re.match(
+        r"^(BUG:|COMP:|DOC:|ENH:|PERF:|STYLE:|WIP:)\s", subject_line
     ):
         die(
             f"""Start ITK commit messages with a standard prefix (and a space):
