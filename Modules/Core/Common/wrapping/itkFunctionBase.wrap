@@ -1,6 +1,5 @@
 itk_wrap_class("itk::FunctionBase" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-
   if(ITK_WRAP_float)
     itk_wrap_template("${ITKM_IF${d}}${ITKM_D}" "${ITKT_IF${d}},${ITKT_D}")
   endif()
@@ -27,13 +26,14 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   itk_wrap_template("${ITKM_PD${d}}RGBAD" "${ITKT_PD${d}},itk::RGBAPixel< double >")
 
   # Required by BSplineInterpolationWeightFunction
-  # Wrapping for spline order 3, components = (SplineOrder + 1)^SpaceDimension
-  set(comp 1)
-  foreach(i RANGE 1 ${d})
-    math(EXPR comp "${comp}*4")
+  # components = (SplineOrder + 1)^SpaceDimension
+  foreach(order RANGE 1 3)
+    set(comp 1)
+    foreach(i RANGE 1 ${d})
+      math(EXPR comp "${comp}*(${order}+1)")
+    endforeach()
+    itk_wrap_template("${ITKM_CID${d}}${ITKM_FAD${comp}}" "${ITKT_CID${d}}, ${ITKT_FAD${comp}}")
   endforeach()
-  itk_wrap_template("${ITKM_CID${d}}${ITKM_FAD${comp}}" "${ITKT_CID${d}}, ${ITKT_FAD${comp}}")
-
 endforeach()
 
 foreach(r ${WRAP_ITK_REAL})
