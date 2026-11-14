@@ -14,8 +14,8 @@ not just that a tool made the change.
 
 **The 78-character subject-line limit is a hard constraint, not a guideline.**
 The `kw-commit-msg.py` hook rejects commits that exceed it, and CI will reject
-PRs containing such commits (except if the commit subject starts with `fixup!`,
-`squash!` or `amend!` as this is interpreted by `git rebase --autosquash`).
+PRs containing such commits. The hook exempts `fixup!`, `squash!` and `amend!`
+subjects, which must be squashed before a PR is pushed (see below).
 Count characters before committing. The prefix (e.g., `DOC: `) counts toward
 the 78. When a descriptive subject would exceed the limit, move detail to the
 commit body — the subject should be scannable in `git log --oneline`.
@@ -56,8 +56,8 @@ authoring any commit body.
 > **`fixup!`, `squash!` and `amend!` on commit subjects are interpreted by `git
 > rebase --autosquash`**, which is why the local `kw-commit-msg.py` hook
 > **intentionally** accepts `fixup!`, `squash!` and `amend!`, and exempts them
-> from the length limit. These transient commits must be squashed before a PR
-> is pushed with `git rebase --autosquash`.
+> from the length limit. Squash these transient commits with
+> `git rebase -i --autosquash <base>` before pushing a PR.
 
 ## Commit Message Length
 

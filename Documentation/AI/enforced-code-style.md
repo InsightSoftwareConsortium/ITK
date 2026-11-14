@@ -27,7 +27,8 @@ Do not use `--no-verify` to bypass — the format check exists to keep CI green.
 ## KWStyle (commit messages and doxygen)
 
 The `kw-commit-msg.py` hook enforces:
-- Subject line ≤78 characters
+- Subject line ≤78 characters (`fixup!`, `squash!` and `amend!` subjects are
+  exempt until squashed)
 - Approved commit-subject prefix — see
   [git-commits.md § Prefixes](./git-commits.md#prefixes) for the list
 
