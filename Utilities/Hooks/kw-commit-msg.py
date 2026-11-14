@@ -77,8 +77,8 @@ def main():
         f_out.writelines(input_file_lines)
 
     if not input_file_lines:
-        sys.exit(0)  # Let git abort the commit for an empty message.
-    subject_line: str = input_file_lines[0]
+        die("The commit message is empty.", commit_msg_path)
+    subject_line: str = input_file_lines[0].rstrip("\n")
 
     if len(subject_line) < 8:
         die(
