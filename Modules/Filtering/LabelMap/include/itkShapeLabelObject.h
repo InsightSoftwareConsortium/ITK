@@ -32,6 +32,8 @@ namespace itk
  *
  * ShapeLabelObject stores  the common attributes related to the shape of the object
  *
+ * The perimeter is estimated as described in \cite Lehmann_2012.
+ *
  * \author Gaëtan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
