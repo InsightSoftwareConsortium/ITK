@@ -168,7 +168,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
   return this->CreateFFTPlans();
 }
 
-#if (defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)) && !defined(ITK_USE_CUFFTW)
+#if (defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)) && !defined(ITK_USE_CUFFTW) && !defined(ITK_USE_MKL)
 
 template <typename TDisplacementField>
 bool

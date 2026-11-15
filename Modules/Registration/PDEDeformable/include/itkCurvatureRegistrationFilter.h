@@ -22,8 +22,9 @@
 #include "itkMeanSquareRegistrationFunction.h"
 
 // Uses FFTW real-to-real (DCT) transforms, implemented only for double
-// precision here, so this filter requires ITK_USE_FFTWD.
-#if !defined(ITK_USE_CUFFTW) && defined(ITK_USE_FFTWD)
+// precision here, so this filter requires ITK_USE_FFTWD and an FFTW with
+// working r2r plans (not cuFFTW or oneMKL).
+#if !defined(ITK_USE_CUFFTW) && !defined(ITK_USE_MKL) && defined(ITK_USE_FFTWD)
 #  include "fftw3.h"
 
 namespace itk
@@ -203,6 +204,6 @@ private:
 #    include "itkCurvatureRegistrationFilter.hxx"
 #  endif
 
-#endif // !defined(ITK_USE_CUFFTW) && defined(ITK_USE_FFTWD)
+#endif // !defined(ITK_USE_CUFFTW) && !defined(ITK_USE_MKL) && defined(ITK_USE_FFTWD)
 
 #endif

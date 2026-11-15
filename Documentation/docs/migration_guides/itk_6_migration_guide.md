@@ -635,6 +635,9 @@ select it. `MKLROOT` is no longer read. `MKL_LINK`, `MKL_INTERFACE`, and `MKL_TH
 `sequential`; the FFTW3 interface is the same under `lp64` and `ilp64`. The `MKL_INTEL_ILP64_LIB`, `MKL_CORE_LIB`, and
 `MKL_SEQUENTIAL_LIB` cache entries and `FFTW_INCLUDE_PATH` are no longer used with oneMKL.
 
+The FFTW3 interfaces of oneMKL and cuFFTW do not create real-to-real plans. With `ITK_USE_MKL` or `ITK_USE_CUFFTW`,
+`VariationalRegistrationCurvatureRegularizer` uses PocketFFT, and `CurvatureRegistrationFilter` is not available.
+
 
 ### Migration for ITK Modules
 

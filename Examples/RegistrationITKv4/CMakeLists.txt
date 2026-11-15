@@ -315,7 +315,7 @@ target_link_libraries(
     ITK::ITKTransformModule
 )
 
-if(ITK_USE_FFTWD AND NOT ITK_USE_CUFFTW)
+if(ITK_USE_FFTWD AND NOT ITK_USE_CUFFTW AND NOT ITK_USE_MKL)
   add_executable(DeformableRegistration9 DeformableRegistration9.cxx)
   target_link_libraries(
     DeformableRegistration9
