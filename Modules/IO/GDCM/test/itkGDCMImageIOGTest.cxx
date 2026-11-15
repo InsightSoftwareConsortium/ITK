@@ -30,6 +30,7 @@
 #include "gdcmAttribute.h"
 #include "gdcmDataSet.h"
 #include "gdcmDataElement.h"
+#include <array>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -685,6 +686,33 @@ TEST_F(ITKGDCMImageIO, TrailingGarbageSingleValuePixelSpacingThrows)
   reader->SetImageIO(itk::GDCMImageIO::New());
   reader->SetFileName(path);
   EXPECT_THROW(reader->Update(), itk::ExceptionObject);
+}
+
+TEST_F(ITKGDCMImageIO, BinarySegmentationStoragePreservesUnitForeground)
+{
+  constexpr size_t width = 16;
+  constexpr size_t height = 16;
+  using ImageType = itk::Image<unsigned char, 2>;
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::GDCMImageIO::New());
+  reader->SetFileName(TOSTRING(BINARY_SEG_INPUT));
+  ASSERT_NO_THROW(reader->Update());
+
+  const auto * image = reader->GetOutput();
+  const auto & size = image->GetLargestPossibleRegion().GetSize();
+  ASSERT_EQ(size[0], width);
+  ASSERT_EQ(size[1], height);
+
+  std::array<unsigned char, width * height> expected{};
+  for (const size_t i : { 0, 7, 8, 31, 135, 255 })
+  {
+    expected[i] = 1;
+  }
+  const auto * pixels = image->GetBufferPointer();
+  for (size_t i = 0; i < expected.size(); ++i)
+  {
+    EXPECT_EQ(pixels[i], expected[i]) << "pixel " << i;
+  }
 }
 
 // Reproduces the multi-frame scenario a reviewer cited (12 x 13 x 8, a

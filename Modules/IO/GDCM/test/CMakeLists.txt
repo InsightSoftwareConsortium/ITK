@@ -528,10 +528,16 @@ ExternalData_Expand_Arguments(
   _DICOM_SERIES_INPUT
   "DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}"
 )
+ExternalData_Expand_Arguments(
+  ITKData
+  _BINARY_SEG_INPUT
+  "DATA{Input/SyntheticBinarySegmentation.dcm}"
+)
 target_compile_definitions(
   ITKGDCMImageIOGTestDriver
   PRIVATE
     "DICOM_SERIES_INPUT=${_DICOM_SERIES_INPUT}"
+    "BINARY_SEG_INPUT=${_BINARY_SEG_INPUT}"
   PRIVATE
     "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
 )
