@@ -122,6 +122,7 @@ protected:
   MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
 
 private:
+  class VisitCellsClass;
 };
 } // namespace itk
 

@@ -30,28 +30,26 @@
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
 
-namespace
+namespace itk
 {
 
-template <typename TMesh, typename TPolyData>
-class VisitCellsClass
+template <typename TInputMesh>
+class MeshToPolyDataFilter<TInputMesh>::VisitCellsClass
 {
 public:
-  using MeshType = TMesh;
-  using PolyDataType = TPolyData;
   // typedef the itk cells we are interested in
-  using CellInterfaceType = itk::CellInterface<typename MeshType::PixelType, typename MeshType::CellTraits>;
+  using CellInterfaceType = CellInterface<typename TInputMesh::PixelType, typename TInputMesh::CellTraits>;
 
-  using CellsContainerType = typename TPolyData::CellsContainer;
+  using CellsContainerType = typename PolyDataType::CellsContainer;
 
-  using VertexCellType = itk::VertexCell<CellInterfaceType>;
-  using LineCellType = itk::LineCell<CellInterfaceType>;
-  using PolyLineCellType = itk::PolyLineCell<CellInterfaceType>;
-  using TriangleCellType = itk::TriangleCell<CellInterfaceType>;
-  using QuadrilateralCellType = itk::QuadrilateralCell<CellInterfaceType>;
-  using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
-  using TetrahedronCellType = itk::TetrahedronCell<CellInterfaceType>;
-  using HexahedronCellType = itk::HexahedronCell<CellInterfaceType>;
+  using VertexCellType = VertexCell<CellInterfaceType>;
+  using LineCellType = LineCell<CellInterfaceType>;
+  using PolyLineCellType = PolyLineCell<CellInterfaceType>;
+  using TriangleCellType = TriangleCell<CellInterfaceType>;
+  using QuadrilateralCellType = QuadrilateralCell<CellInterfaceType>;
+  using PolygonCellType = PolygonCell<CellInterfaceType>;
+  using TetrahedronCellType = TetrahedronCell<CellInterfaceType>;
+  using HexahedronCellType = HexahedronCell<CellInterfaceType>;
 
   // Set the output polydata vertices container
   void
@@ -271,10 +269,6 @@ private:
   CellsContainerType * m_TriangleStripsCellIds{ nullptr };
 };
 
-} // end anonymous namespace
-
-namespace itk
-{
 
 template <typename TInputMesh>
 MeshToPolyDataFilter<TInputMesh>::MeshToPolyDataFilter()
@@ -479,7 +473,7 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   typedef CellInterfaceVisitorImplementation<PixelType,
                                              CellTraits,
                                              VertexCell<CellInterface<PixelType, CellTraits>>,
-                                             VisitCellsClass<InputMeshType, PolyDataType>>
+                                             VisitCellsClass>
                                   VertexVisitor;
   typename VertexVisitor::Pointer vertexVisitor = VertexVisitor::New();
   vertexVisitor->SetVertices(vertices);
@@ -495,7 +489,7 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   typedef CellInterfaceVisitorImplementation<PixelType,
                                              CellTraits,
                                              PolyLineCell<CellInterface<PixelType, CellTraits>>,
-                                             VisitCellsClass<InputMeshType, PolyDataType>>
+                                             VisitCellsClass>
                                     PolyLineVisitor;
   typename PolyLineVisitor::Pointer polyLineVisitor = PolyLineVisitor::New();
   polyLineVisitor->SetVertices(vertices);
@@ -511,7 +505,7 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   typedef CellInterfaceVisitorImplementation<PixelType,
                                              CellTraits,
                                              LineCell<CellInterface<PixelType, CellTraits>>,
-                                             VisitCellsClass<InputMeshType, PolyDataType>>
+                                             VisitCellsClass>
                                 LineVisitor;
   typename LineVisitor::Pointer lineVisitor = LineVisitor::New();
   lineVisitor->SetVertices(vertices);
@@ -527,7 +521,7 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   typedef CellInterfaceVisitorImplementation<PixelType,
                                              CellTraits,
                                              TriangleCell<CellInterface<PixelType, CellTraits>>,
-                                             VisitCellsClass<InputMeshType, PolyDataType>>
+                                             VisitCellsClass>
                                     TriangleVisitor;
   typename TriangleVisitor::Pointer triangleVisitor = TriangleVisitor::New();
   triangleVisitor->SetVertices(vertices);
@@ -543,7 +537,7 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   typedef CellInterfaceVisitorImplementation<PixelType,
                                              CellTraits,
                                              QuadrilateralCell<CellInterface<PixelType, CellTraits>>,
-                                             VisitCellsClass<InputMeshType, PolyDataType>>
+                                             VisitCellsClass>
                                          QuadrilateralVisitor;
   typename QuadrilateralVisitor::Pointer quadrilateralVisitor = QuadrilateralVisitor::New();
   quadrilateralVisitor->SetVertices(vertices);
@@ -559,7 +553,7 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   typedef CellInterfaceVisitorImplementation<PixelType,
                                              CellTraits,
                                              PolygonCell<CellInterface<PixelType, CellTraits>>,
-                                             VisitCellsClass<InputMeshType, PolyDataType>>
+                                             VisitCellsClass>
                                    PolygonVisitor;
   typename PolygonVisitor::Pointer polygonVisitor = PolygonVisitor::New();
   polygonVisitor->SetVertices(vertices);
