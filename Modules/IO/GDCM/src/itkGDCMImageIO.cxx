@@ -362,11 +362,6 @@ GDCMImageIO::Read(void * pointer)
     // bit i of the pixel stream is bit (i % 8) of byte (i / 8). `len` pixels
     // require ceil(len / 8) source bytes; the final byte may be only partially
     // used when `len` is not a multiple of 8.
-    gdcm::MediaStorage mediaStorage;
-    mediaStorage.SetFromFile(reader.GetFile());
-    // Binary segmentation foreground represents label 1 (DICOM PS3.3 C.8.20.2).
-    const unsigned char foreground = mediaStorage == gdcm::MediaStorage::SegmentationStorage ? 1 : 255;
-
     const auto   copy = make_unique_for_overwrite<unsigned char[]>(len);
     const auto * t = reinterpret_cast<const unsigned char *>(pointer);
     const size_t fullBytes = len / 8;
@@ -374,14 +369,14 @@ GDCMImageIO::Read(void * pointer)
     for (size_t i = 0; i < fullBytes; ++i)
     {
       const unsigned char c = t[i];
-      copy[j + 0] = (c & 0x01) ? foreground : 0;
-      copy[j + 1] = (c & 0x02) ? foreground : 0;
-      copy[j + 2] = (c & 0x04) ? foreground : 0;
-      copy[j + 3] = (c & 0x08) ? foreground : 0;
-      copy[j + 4] = (c & 0x10) ? foreground : 0;
-      copy[j + 5] = (c & 0x20) ? foreground : 0;
-      copy[j + 6] = (c & 0x40) ? foreground : 0;
-      copy[j + 7] = (c & 0x80) ? foreground : 0;
+      copy[j + 0] = (c & 0x01) ? m_SingleBitForegroundValue : 0;
+      copy[j + 1] = (c & 0x02) ? m_SingleBitForegroundValue : 0;
+      copy[j + 2] = (c & 0x04) ? m_SingleBitForegroundValue : 0;
+      copy[j + 3] = (c & 0x08) ? m_SingleBitForegroundValue : 0;
+      copy[j + 4] = (c & 0x10) ? m_SingleBitForegroundValue : 0;
+      copy[j + 5] = (c & 0x20) ? m_SingleBitForegroundValue : 0;
+      copy[j + 6] = (c & 0x40) ? m_SingleBitForegroundValue : 0;
+      copy[j + 7] = (c & 0x80) ? m_SingleBitForegroundValue : 0;
       j += 8;
     }
     const size_t remainder = len % 8;
@@ -390,7 +385,7 @@ GDCMImageIO::Read(void * pointer)
       const unsigned char c = t[fullBytes];
       for (size_t bit = 0; bit < remainder; ++bit)
       {
-        copy[j + bit] = (c & (1 << bit)) ? foreground : 0;
+        copy[j + bit] = (c & (1 << bit)) ? m_SingleBitForegroundValue : 0;
       }
     }
     memcpy(static_cast<char *>(pointer), copy.get(), len);
@@ -1506,6 +1501,7 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "GlobalNumberOfDimensions: " << m_GlobalNumberOfDimensions << std::endl;
   os << indent << "CompressionType: " << m_CompressionType << std::endl;
   itkPrintSelfBooleanMacro(SingleBit);
+  os << indent << "SingleBitForegroundValue: " << static_cast<unsigned int>(m_SingleBitForegroundValue) << std::endl;
   os << indent << "InternalComponentType: " << m_InternalComponentType << std::endl;
 }
 

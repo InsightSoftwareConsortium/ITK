@@ -30,7 +30,7 @@
 #include "gdcmAttribute.h"
 #include "gdcmDataSet.h"
 #include "gdcmDataElement.h"
-#include <array>
+#include "gdcmMediaStorage.h"
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -183,7 +183,12 @@ PackContiguousBits(const std::vector<uint8_t> & pixels)
 }
 
 std::string
-WriteSingleBitDicom(const std::string & dir, size_t width, size_t height, const std::vector<uint8_t> & pixels)
+WriteSingleBitDicom(const std::string &          dir,
+                    size_t                       width,
+                    size_t                       height,
+                    const std::vector<uint8_t> & pixels,
+                    size_t                       frames = 1,
+                    gdcm::MediaStorage::MSType   sopClass = gdcm::MediaStorage::MS_END)
 {
   using ImageType = itk::Image<unsigned char, 2>;
   auto                image = ImageType::New();
@@ -233,6 +238,20 @@ WriteSingleBitDicom(const std::string & dir, size_t width, size_t height, const 
   pixelRepresentation.SetValue(0);
   ds.Replace(pixelRepresentation.GetAsDataElement());
 
+  if (frames > 1 || sopClass != gdcm::MediaStorage::MS_END)
+  {
+    gdcm::Attribute<0x0028, 0x0008> numberOfFrames;
+    numberOfFrames.SetValue(static_cast<int>(frames));
+    ds.Replace(numberOfFrames.GetAsDataElement());
+  }
+
+  if (sopClass != gdcm::MediaStorage::MS_END)
+  {
+    gdcm::Attribute<0x0008, 0x0016> sopClassUid;
+    sopClassUid.SetValue(gdcm::MediaStorage::GetMSString(sopClass));
+    ds.Replace(sopClassUid.GetAsDataElement());
+  }
+
   const std::vector<uint8_t> packed = PackContiguousBits(pixels);
   gdcm::DataElement          pixelData{ gdcm::Tag(0x7fe0, 0x0010) };
   pixelData.SetVR(gdcm::VR::OB);
@@ -240,88 +259,6 @@ WriteSingleBitDicom(const std::string & dir, size_t width, size_t height, const 
   ds.Replace(pixelData);
 
   const std::string outPath = dir + "/singlebit.dcm";
-  gdcm::Writer      gdcmWriter;
-  gdcmWriter.SetFileName(outPath.c_str());
-  gdcmWriter.SetFile(reader.GetFile());
-  if (!gdcmWriter.Write())
-  {
-    return {};
-  }
-  return outPath;
-}
-
-// Builds a multi-frame single-bit DICOM whose entire pixel stream (all
-// frames concatenated) is packed as one contiguous bitstream -- matching
-// pydicom.pixels.utils.pack_bits(), which highdicom calls directly: it
-// ravels the full (frames, rows, columns) array in C order before packing,
-// padding only at the very end of the whole stream, never per-row or
-// per-frame (issue #6575, reviewer-cited highdicom scenario).
-std::string
-WriteMultiFrameSingleBitDicom(const std::string &          dir,
-                              size_t                       width,
-                              size_t                       height,
-                              size_t                       frames,
-                              const std::vector<uint8_t> & pixels)
-{
-  using ImageType = itk::Image<unsigned char, 2>;
-  auto                image = ImageType::New();
-  ImageType::SizeType size{ { static_cast<itk::SizeValueType>(width), static_cast<itk::SizeValueType>(height) } };
-  image->SetRegions(ImageType::RegionType(size));
-  image->Allocate();
-  image->FillBuffer(0);
-
-  auto & dict = image->GetMetaDataDictionary();
-  itk::EncapsulateMetaData<std::string>(dict, "0008|0060", "OT");
-  itk::EncapsulateMetaData<std::string>(dict, "0010|0010", "Test^Patient");
-  itk::EncapsulateMetaData<std::string>(dict, "0010|0020", "12345");
-
-  auto gdcmIO = itk::GDCMImageIO::New();
-  auto writer = itk::ImageFileWriter<ImageType>::New();
-  writer->SetImageIO(gdcmIO);
-  writer->SetInput(image);
-  const std::string basePath = dir + "/singlebit_mf_base.dcm";
-  writer->SetFileName(basePath);
-  writer->Update();
-
-  gdcm::Reader reader;
-  reader.SetFileName(basePath.c_str());
-  if (!reader.Read())
-  {
-    return {};
-  }
-  gdcm::DataSet & ds = reader.GetFile().GetDataSet();
-
-  gdcm::Attribute<0x0028, 0x0002> samplesPerPixel;
-  samplesPerPixel.SetValue(1);
-  ds.Replace(samplesPerPixel.GetAsDataElement());
-
-  gdcm::Attribute<0x0028, 0x0100> bitsAllocated;
-  bitsAllocated.SetValue(1);
-  ds.Replace(bitsAllocated.GetAsDataElement());
-
-  gdcm::Attribute<0x0028, 0x0101> bitsStored;
-  bitsStored.SetValue(1);
-  ds.Replace(bitsStored.GetAsDataElement());
-
-  gdcm::Attribute<0x0028, 0x0102> highBit;
-  highBit.SetValue(0);
-  ds.Replace(highBit.GetAsDataElement());
-
-  gdcm::Attribute<0x0028, 0x0103> pixelRepresentation;
-  pixelRepresentation.SetValue(0);
-  ds.Replace(pixelRepresentation.GetAsDataElement());
-
-  gdcm::Attribute<0x0028, 0x0008> numberOfFrames;
-  numberOfFrames.SetValue(static_cast<int>(frames));
-  ds.Replace(numberOfFrames.GetAsDataElement());
-
-  const std::vector<uint8_t> packed = PackContiguousBits(pixels);
-  gdcm::DataElement          pixelData{ gdcm::Tag(0x7fe0, 0x0010) };
-  pixelData.SetVR(gdcm::VR::OB);
-  pixelData.SetByteValue(reinterpret_cast<const char *>(packed.data()), static_cast<uint32_t>(packed.size()));
-  ds.Replace(pixelData);
-
-  const std::string outPath = dir + "/singlebit_mf.dcm";
   gdcm::Writer      gdcmWriter;
   gdcmWriter.SetFileName(outPath.c_str());
   gdcmWriter.SetFile(reader.GetFile());
@@ -688,30 +625,46 @@ TEST_F(ITKGDCMImageIO, TrailingGarbageSingleValuePixelSpacingThrows)
   EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 }
 
-TEST_F(ITKGDCMImageIO, BinarySegmentationStoragePreservesUnitForeground)
+TEST_F(ITKGDCMImageIO, BinarySegmentationStorageForegroundValueIsOptIn)
 {
-  constexpr size_t width = 16;
-  constexpr size_t height = 16;
-  using ImageType = itk::Image<unsigned char, 2>;
-  auto reader = itk::ImageFileReader<ImageType>::New();
-  reader->SetImageIO(itk::GDCMImageIO::New());
-  reader->SetFileName(TOSTRING(BINARY_SEG_INPUT));
-  ASSERT_NO_THROW(reader->Update());
-
-  const auto * image = reader->GetOutput();
-  const auto & size = image->GetLargestPossibleRegion().GetSize();
-  ASSERT_EQ(size[0], width);
-  ASSERT_EQ(size[1], height);
-
-  std::array<unsigned char, width * height> expected{};
-  for (const size_t i : { 0, 7, 8, 31, 135, 255 })
+  constexpr size_t width = 9;
+  constexpr size_t height = 3;
+  for (const size_t frames : { size_t{ 1 }, size_t{ 3 } })
   {
-    expected[i] = 1;
-  }
-  const auto * pixels = image->GetBufferPointer();
-  for (size_t i = 0; i < expected.size(); ++i)
-  {
-    EXPECT_EQ(pixels[i], expected[i]) << "pixel " << i;
+    SCOPED_TRACE(frames);
+    std::vector<uint8_t> pixels(width * height * frames, 0);
+    for (size_t i = 0; i < pixels.size(); i += 2)
+    {
+      pixels[i] = 1;
+    }
+    const auto path =
+      WriteSingleBitDicom(m_TempDir, width, height, pixels, frames, gdcm::MediaStorage::SegmentationStorage);
+    ASSERT_FALSE(path.empty());
+
+    using ImageType = itk::Image<unsigned char, 3>;
+    for (const bool optIn : { false, true })
+    {
+      SCOPED_TRACE(optIn);
+      auto imageIO = itk::GDCMImageIO::New();
+      if (optIn)
+      {
+        imageIO->SetSingleBitForegroundValue(1);
+      }
+      auto reader = itk::ImageFileReader<ImageType>::New();
+      reader->SetImageIO(imageIO);
+      reader->SetFileName(path);
+      ASSERT_NO_THROW(reader->Update());
+      const auto * image = reader->GetOutput();
+      const auto & size = image->GetLargestPossibleRegion().GetSize();
+      ASSERT_EQ(size[0], width);
+      ASSERT_EQ(size[1], height);
+      ASSERT_EQ(size[2], frames);
+      for (size_t i = 0; i < pixels.size(); ++i)
+      {
+        const auto expected = pixels[i] * (optIn ? 1 : 255);
+        EXPECT_EQ(image->GetBufferPointer()[i], expected) << "pixel " << i;
+      }
+    }
   }
 }
 
@@ -738,7 +691,7 @@ TEST_F(ITKGDCMImageIO, ReadDecodesMultiFrameSingleBitAsOneContiguousBitstream)
     pixels[i] = static_cast<uint8_t>((i * 7 + 3) % 5 < 2 ? 1 : 0);
   }
 
-  const std::string path = WriteMultiFrameSingleBitDicom(m_TempDir, width, height, frames, pixels);
+  const std::string path = WriteSingleBitDicom(m_TempDir, width, height, pixels, frames);
   ASSERT_FALSE(path.empty());
 
   using ImageType = itk::Image<unsigned char, 3>;
