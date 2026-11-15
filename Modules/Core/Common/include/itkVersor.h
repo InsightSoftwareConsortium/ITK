@@ -300,6 +300,10 @@ public:
   Exponential(ValueType exponent) const;
 
 private:
+  template <typename OutputVectorType, typename InputVectorType>
+  const OutputVectorType
+  PrivateTransformVectorMath(const InputVectorType & VectorObject) const;
+
   /** use different epsilon for float and double */
   /** @ITKStartGrouping */
   static inline ValueType

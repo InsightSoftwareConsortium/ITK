@@ -480,25 +480,20 @@ Versor<T>::SetRotationAroundZ(ValueType angle)
   m_W = cosangle2;
 }
 
-namespace
+template <typename T>
+template <typename OutputVectorType, typename InputVectorType>
+const OutputVectorType
+Versor<T>::PrivateTransformVectorMath(const InputVectorType & VectorObject) const
 {
-template <typename InputVectorType, typename ValueType, typename OutputVectorType>
-inline const OutputVectorType
-localTransformVectorMath(const InputVectorType & VectorObject,
-                         const ValueType &       inputX,
-                         const ValueType &       inputY,
-                         const ValueType &       inputZ,
-                         const ValueType &       inputW)
-{
-  const ValueType xx = inputX * inputX;
-  const ValueType yy = inputY * inputY;
-  const ValueType zz = inputZ * inputZ;
-  const ValueType xy = inputX * inputY;
-  const ValueType xz = inputX * inputZ;
-  const ValueType xw = inputX * inputW;
-  const ValueType yz = inputY * inputZ;
-  const ValueType yw = inputY * inputW;
-  const ValueType zw = inputZ * inputW;
+  const ValueType xx = m_X * m_X;
+  const ValueType yy = m_Y * m_Y;
+  const ValueType zz = m_Z * m_Z;
+  const ValueType xy = m_X * m_Y;
+  const ValueType xz = m_X * m_Z;
+  const ValueType xw = m_X * m_W;
+  const ValueType yz = m_Y * m_Z;
+  const ValueType yw = m_Y * m_W;
+  const ValueType zw = m_Z * m_W;
 
   const ValueType mxx = 1.0 - 2.0 * (yy + zz);
   const ValueType myy = 1.0 - 2.0 * (xx + zz);
@@ -516,38 +511,33 @@ localTransformVectorMath(const InputVectorType & VectorObject,
   result[2] = mzx * VectorObject[0] + mzy * VectorObject[1] + mzz * VectorObject[2];
   return result;
 }
-} // namespace
 
 template <typename T>
 auto
 Versor<T>::Transform(const VectorType & v) const -> VectorType
 {
-  return localTransformVectorMath<VectorType, T, typename Versor<T>::VectorType>(
-    v, this->m_X, this->m_Y, this->m_Z, this->m_W);
+  return PrivateTransformVectorMath<VectorType>(v);
 }
 
 template <typename T>
 auto
 Versor<T>::Transform(const CovariantVectorType & v) const -> CovariantVectorType
 {
-  return localTransformVectorMath<CovariantVectorType, T, typename Versor<T>::CovariantVectorType>(
-    v, this->m_X, this->m_Y, this->m_Z, this->m_W);
+  return PrivateTransformVectorMath<CovariantVectorType>(v);
 }
 
 template <typename T>
 auto
 Versor<T>::Transform(const PointType & v) const -> PointType
 {
-  return localTransformVectorMath<PointType, T, typename Versor<T>::PointType>(
-    v, this->m_X, this->m_Y, this->m_Z, this->m_W);
+  return PrivateTransformVectorMath<PointType>(v);
 }
 
 template <typename T>
 auto
 Versor<T>::Transform(const VnlVectorType & v) const -> VnlVectorType
 {
-  return localTransformVectorMath<VnlVectorType, T, typename Versor<T>::VnlVectorType>(
-    v, this->m_X, this->m_Y, this->m_Z, this->m_W);
+  return PrivateTransformVectorMath<VnlVectorType>(v);
 }
 
 template <typename T>
