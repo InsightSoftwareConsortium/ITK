@@ -1017,6 +1017,11 @@ unchanged; consumers compile without modification.
   determinism and backward compatibility; do not trust its output.
   First-class support is tracked in
   [#6468](https://github.com/InsightSoftwareConsortium/ITK/issues/6468).
+- Slices whose ImageOrientationPatient strings differ only by rounding (unit
+  row and column cosines within `1 - cos <= 1e-6`, about 0.08 degrees) are
+  still ordered geometrically, as `SerieHelper` did; `gdcm::IPPSorter` alone
+  requires identical strings. Orientations that differ by more are rejected,
+  which `SerieHelper` did not check.
 - Tags passed to `AddSeriesRestriction` now refine the series identifier
   (sub-dividing a `SeriesInstanceUID`, the documented intent, e.g.
   `"0008|0021"`) instead of `SerieHelper`'s largely-inert file-restriction

@@ -30,6 +30,7 @@
 #include "itkImageSeriesReader.h"
 #include "itkImage.h"
 #include "itkMath.h"
+#include "vnl/algo/vnl_determinant.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/Directory.hxx"
 #include "gdcmReader.h"
@@ -37,8 +38,10 @@
 #include "gdcmDataElement.h"
 #include "gdcmStringFilter.h"
 #include "gdcmTag.h"
+#include <algorithm>
 #include <cstring>
 #include <fstream>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -132,6 +135,31 @@ WriteWithInstanceNumber(const std::string & src, const std::string & dst, const 
   return writer.Write();
 }
 
+// Copy one slice, overwriting Image Orientation (Patient) (0020,0037).
+bool
+WriteWithOrientation(const std::string & src, const std::string & dst, const std::string & orientation)
+{
+  gdcm::Reader reader;
+  reader.SetFileName(src.c_str());
+  if (!reader.Read())
+  {
+    return false;
+  }
+  std::string value = orientation;
+  if (value.size() % 2 != 0)
+  {
+    value += ' ';
+  }
+  gdcm::DataElement de(gdcm::Tag(0x0020, 0x0037));
+  de.SetVR(gdcm::VR::DS);
+  de.SetByteValue(value.c_str(), static_cast<uint32_t>(value.size()));
+  reader.GetFile().GetDataSet().Replace(de);
+  gdcm::Writer writer;
+  writer.SetFileName(dst.c_str());
+  writer.SetFile(reader.GetFile());
+  return writer.Write();
+}
+
 // Copy one slice, stripping Rows/Columns/PixelData so it mimics a non-image
 // DICOM object (SR, RTSTRUCT, ...) sharing the series' SeriesInstanceUID;
 // stripSeriesUID additionally drops SeriesInstanceUID (DICOMDIR-like).
@@ -157,6 +185,83 @@ WriteNonImageObject(const std::string & src, const std::string & dst, bool strip
   writer.SetFileName(dst.c_str());
   writer.SetFile(reader.GetFile());
   return writer.Write();
+}
+// The test series' own ImageOrientationPatient and variants of it.
+constexpr const char * SeriesOrientation = "1\\0\\0\\0\\0.466651\\-0.884442";
+// Differs from SeriesOrientation by 1e-8 in two components.
+constexpr const char * RoundedSeriesOrientation = "1\\0\\0\\0\\0.46665101\\-0.88444199";
+// The series plane rotated 45 degrees in-plane, at six and seven decimals; the
+// six-decimal normal has a squared length 1.5e-6 off one.
+constexpr const char * RotatedSixDecimals = "0.707107\\0.329972\\-0.625395\\-0.707107\\0.329972\\-0.625395";
+constexpr const char * RotatedSevenDecimals = "0.7071068\\0.3299720\\-0.6253947\\-0.7071068\\0.3299720\\-0.6253947";
+
+// Copy the test series into root, setting slice k's orientation to orientation(k);
+// slices are numbered in sorted file name order. Returns the number of slices.
+unsigned int
+CopySeriesWithOrientations(const std::string & root, const std::function<std::string(unsigned int)> & orientation)
+{
+  itksys::SystemTools::RemoveADirectory(root);
+  CopyDicomSlices(SeriesDir(), root);
+  itksys::Directory directory;
+  directory.Load(root.c_str());
+  std::vector<std::string> names;
+  for (unsigned int i = 0; i < directory.GetNumberOfFiles(); ++i)
+  {
+    const std::string name = directory.GetFile(i);
+    if (itksys::SystemTools::GetFilenameLastExtension(name) == ".dcm")
+    {
+      names.push_back(name);
+    }
+  }
+  std::sort(names.begin(), names.end());
+  for (unsigned int k = 0; k < names.size(); ++k)
+  {
+    const std::string path = root + '/' + names[k];
+    if (!WriteWithOrientation(path, path, orientation(k)))
+    {
+      return 0;
+    }
+  }
+  return static_cast<unsigned int>(names.size());
+}
+
+std::string
+TestDir(const char * name)
+{
+  return TOSTRING(ITK_TEST_OUTPUT_DIR) + "/gdcmcontract_" + name;
+}
+
+void
+ExpectGeometricOrdering(const std::string & root, unsigned int expected)
+{
+  auto sf = itk::GDCMSeriesFileNames::New();
+  sf->SetInputDirectory(root);
+  std::vector<std::string> ordered;
+  ASSERT_NO_THROW(ordered = sf->GetInputFileNames());
+  EXPECT_FALSE(sf->GetDidUseAmbiguousOrdering());
+  ASSERT_EQ(ordered.size(), expected);
+
+  using ImageType = itk::Image<short, 3>;
+  auto reader = itk::ImageSeriesReader<ImageType>::New();
+  reader->SetImageIO(itk::GDCMImageIO::New());
+  reader->SetFileNames(ordered);
+  ASSERT_NO_THROW(reader->Update());
+  EXPECT_GT(vnl_determinant(reader->GetOutput()->GetDirection().GetVnlMatrix().as_matrix()), 0.0)
+    << "Geometric ordering yields a right-handed volume";
+}
+
+void
+ExpectAmbiguousOrdering(const std::string & root)
+{
+  auto sf = itk::GDCMSeriesFileNames::New();
+  sf->SetInputDirectory(root);
+  EXPECT_THROW(sf->GetInputFileNames(), itk::ExceptionObject);
+
+  auto fallback = itk::GDCMSeriesFileNames::New();
+  fallback->FailOnAmbiguousOrderingOff();
+  fallback->SetInputDirectory(root);
+  EXPECT_NO_THROW(fallback->GetInputFileNames());
+  EXPECT_TRUE(fallback->GetDidUseAmbiguousOrdering());
 }
 } // namespace
 
@@ -233,6 +338,63 @@ TEST(GDCMSeriesFileNamesContract, AmbiguousOrderingThrowsByDefault)
   sf->SetInputDirectory(root);
   EXPECT_NO_THROW(sf->GetSeriesUIDs()) << "Enumeration does not order and must not throw";
   EXPECT_THROW(sf->GetInputFileNames(), itk::ExceptionObject);
+}
+
+TEST(GDCMSeriesFileNamesContract, OrientationRoundingStillOrdersGeometrically)
+{
+  // GE MR series store each slice's direction cosines rounded independently.
+  const std::string  root = TestDir("iop_rounding");
+  const unsigned int copied = CopySeriesWithOrientations(
+    root, [](unsigned int k) { return std::string(k % 2 == 0 ? SeriesOrientation : RoundedSeriesOrientation); });
+  ASSERT_GT(copied, 2u);
+  ExpectGeometricOrdering(root, copied);
+}
+
+TEST(GDCMSeriesFileNamesContract, IdenticalUnnormalizedOrientationOrders)
+{
+  const std::string  root = TestDir("iop_identical_unnormalized");
+  const unsigned int copied =
+    CopySeriesWithOrientations(root, [](unsigned int) { return std::string(RotatedSixDecimals); });
+  ASSERT_GT(copied, 2u);
+  ExpectGeometricOrdering(root, copied);
+}
+
+TEST(GDCMSeriesFileNamesContract, RoundedUnnormalizedOrientationOrders)
+{
+  const std::string  root = TestDir("iop_rounded_unnormalized");
+  const unsigned int copied = CopySeriesWithOrientations(
+    root, [](unsigned int k) { return std::string(k % 2 == 0 ? RotatedSixDecimals : RotatedSevenDecimals); });
+  ASSERT_GT(copied, 2u);
+  ExpectGeometricOrdering(root, copied);
+}
+
+TEST(GDCMSeriesFileNamesContract, SlightlyTiltedSliceIsAmbiguous)
+{
+  // A 0.5 degree tilt (1 - cos = 3.8e-5) passes IPPSorter's loose retry but not the 1e-6 bound.
+  const std::string  root = TestDir("iop_tilted");
+  const unsigned int copied = CopySeriesWithOrientations(
+    root, [](unsigned int k) { return std::string(k == 0 ? "1\\0\\0\\0\\0.474351\\-0.880336" : SeriesOrientation); });
+  ASSERT_GT(copied, 2u);
+  ExpectAmbiguousOrdering(root);
+}
+
+TEST(GDCMSeriesFileNamesContract, InPlaneRotatedSliceIsAmbiguous)
+{
+  // Same slice normal, rows and columns rotated 90 degrees.
+  const std::string  root = TestDir("iop_inplane_rotated");
+  const unsigned int copied = CopySeriesWithOrientations(
+    root, [](unsigned int k) { return std::string(k == 0 ? "0\\0.466651\\-0.884442\\-1\\0\\0" : SeriesOrientation); });
+  ASSERT_GT(copied, 2u);
+  ExpectAmbiguousOrdering(root);
+}
+
+TEST(GDCMSeriesFileNamesContract, DifferentPlaneSliceIsAmbiguous)
+{
+  const std::string  root = TestDir("iop_different_plane");
+  const unsigned int copied = CopySeriesWithOrientations(
+    root, [](unsigned int k) { return std::string(k == 0 ? "0\\1\\0\\0\\0\\-1" : SeriesOrientation); });
+  ASSERT_GT(copied, 2u);
+  ExpectAmbiguousOrdering(root);
 }
 
 TEST(GDCMSeriesFileNamesContract, LegacyFallbackUsesInstanceNumberThenFilename)

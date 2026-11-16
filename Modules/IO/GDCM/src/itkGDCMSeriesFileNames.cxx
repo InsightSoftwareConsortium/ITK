@@ -23,9 +23,11 @@
 #include "gdcmScanner.h"
 #include "gdcmIPPSorter.h"
 #include "gdcmTag.h"
+#include "gdcmDirectionCosines.h"
 #include <algorithm>
 #include <cctype>
 #include <map>
+#include <optional>
 #include <stdexcept>
 #include <vector>
 
@@ -43,6 +45,63 @@ constexpr std::pair<unsigned short, unsigned short> DefaultDetailTags[] = {
   { 0x0028, 0x0010 }, // Rows
   { 0x0028, 0x0011 }, // Columns
 };
+
+// Largest accepted 1 - cos(angle) between a slice's unit row or column cosine
+// and the first slice's: about 0.08 degrees.
+constexpr double OrientationTolerance = 1e-6;
+// IPPSorter compares unnormalized normals; after OrientationsAgree, this only
+// absorbs their length error.
+constexpr double UnnormalizedNormalTolerance = 1e-3;
+
+bool
+OrientationsAgree(const std::vector<std::string> & files)
+{
+  const gdcm::Tag iop(0x0020, 0x0037);
+  gdcm::Scanner   scanner;
+  scanner.AddTag(iop);
+  if (!scanner.Scan(files))
+  {
+    return false;
+  }
+  std::optional<gdcm::DirectionCosines> reference;
+  for (const std::string & fileName : files)
+  {
+    gdcm::DirectionCosines cosines;
+    const char *           value = scanner.GetValue(fileName.c_str(), iop);
+    if (value == nullptr || !cosines.SetFromString(value) || !cosines.IsValid())
+    {
+      return false;
+    }
+    cosines.Normalize();
+    if (!reference)
+    {
+      reference = cosines;
+      continue;
+    }
+    const double * current = cosines;
+    const double * first = *reference;
+    if (1.0 - gdcm::DirectionCosines::Dot(current, first) > OrientationTolerance ||
+        1.0 - gdcm::DirectionCosines::Dot(current + 3, first + 3) > OrientationTolerance)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool
+SortByPosition(std::vector<std::string> & files, double directionCosinesTolerance)
+{
+  gdcm::IPPSorter sorter;
+  sorter.SetComputeZSpacing(false);
+  sorter.SetDirectionCosinesTolerance(directionCosinesTolerance);
+  if (!sorter.Sort(files))
+  {
+    return false;
+  }
+  files = sorter.GetFilenames();
+  return true;
+}
 } // namespace
 
 GDCMSeriesFileNames::GDCMSeriesFileNames() = default;
@@ -216,16 +275,16 @@ GDCMSeriesFileNames::OrderSeries(SeriesEntry & entry)
   // Geometric ordering: ImagePositionPatient projected on the slice normal.
   // gdcm::IPPSorter is strict: it FAILS on duplicate IPP and gantry-tilt
   // acquisitions (see issue #6468).
-  gdcm::IPPSorter sorter;
-  sorter.SetComputeZSpacing(false);
-  bool wasSortingAchieved = sorter.Sort(entry.Files);
+  // Exact IOP match first; if the strings differ only by rounding, sort again.
+  const bool wasSortingAchieved =
+    SortByPosition(entry.Files, 0.0) ||
+    (OrientationsAgree(entry.Files) && SortByPosition(entry.Files, UnnormalizedNormalTolerance));
 
   // Set a public flag so that callers know this fallback occurred, and can show a warning.
   m_DidUseAmbiguousOrdering = !wasSortingAchieved;
 
   if (wasSortingAchieved)
   {
-    entry.Files = sorter.GetFilenames();
     entry.Ordered = true;
     return;
   }
