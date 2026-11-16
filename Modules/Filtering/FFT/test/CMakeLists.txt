@@ -665,8 +665,12 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
   )
 endif()
 
-# GTests for FFTW factory registration verification
+# FFTW GTests
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  set(ITKFFTGTests itkFFTWFactoryRegistrationGTest.cxx)
+  set(
+    ITKFFTGTests
+    itkFFTWCommonGTest.cxx
+    itkFFTWFactoryRegistrationGTest.cxx
+  )
   creategoogletestdriver(ITKFFT "${ITKFFT-Test_LIBRARIES}" "${ITKFFTGTests}")
 endif()
