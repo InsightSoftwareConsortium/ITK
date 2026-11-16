@@ -90,18 +90,22 @@ public:
                          ThreadingFunctorType funcP,
                          ProcessObject *      filter) override;
 
-  /** Set the number of threads to use. PoolMultiThreader
-   * can only INCREASE its number of threads. */
+  /** Increase the shared pool to at least the requested count, clamped to
+   * [1, GetGlobalMaximumNumberOfThreads()]. The accepted count is the pool's
+   * size, which cannot decrease. The work-unit count is unchanged. */
   void
   SetMaximumNumberOfThreads(ThreadIdType numberOfThreads) override;
 
-  /** Set the number of work units, independent of the number of pool threads. */
+  /** Set the number of work units, clamped to at least one, independent of
+   * the number of pool threads. */
   void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
-  /** Set work units to the pool thread count times the ratio. */
+  /** Set work units to GetMaximumNumberOfThreads() times the ratio, without
+   * changing the thread count. Clamp the ratio to
+   * [1, NumericTraits<ThreadIdType>::max() / ITK_MAX_THREADS]. */
   void
-  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) override;
+  SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio) override;
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   struct ITK_FUTURE_DEPRECATED(

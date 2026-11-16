@@ -17,12 +17,10 @@
  *=========================================================================*/
 
 #include "itkTBBMultiThreader.h"
-#include "itkNumericTraits.h"
 #include "itkProcessObject.h"
 #include "itkTotalProgressReporter.h"
 #include <iostream>
 #include <atomic>
-#include <limits>
 #include <thread>
 #include "tbb/parallel_for.h"
 
@@ -61,11 +59,7 @@ TBBMultiThreader::TBBMultiThreader()
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
   if (defaultThreads > 1) // one work unit for only one thread
   {
-    const auto workUnitPerThreadRatio = GetGlobalDefaultWorkUnitPerThreadRatio();
-    // Prevent overflow when multiplying defaultThreads by workUnitPerThreadRatio
-    m_NumberOfWorkUnits = defaultThreads > std::numeric_limits<ThreadIdType>::max() / workUnitPerThreadRatio
-                            ? std::numeric_limits<ThreadIdType>::max()
-                            : defaultThreads * workUnitPerThreadRatio;
+    m_NumberOfWorkUnits = defaultThreads * ClampWorkUnitPerThreadRatio(GetGlobalDefaultWorkUnitPerThreadRatio());
   }
 }
 
@@ -124,12 +118,9 @@ TBBMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 }
 
 void
-TBBMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio)
+TBBMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio)
 {
-  const ThreadIdType threadCount = this->GetMaximumNumberOfThreads();
-  const ThreadIdType maximum = NumericTraits<ThreadIdType>::max();
-  ratio = std::max(1u, ratio);
-  this->SetNumberOfWorkUnits(threadCount > maximum / ratio ? maximum : threadCount * ratio);
+  this->SetNumberOfWorkUnits(this->GetMaximumNumberOfThreads() * ClampWorkUnitPerThreadRatio(ratio));
 }
 
 void

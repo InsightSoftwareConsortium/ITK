@@ -256,16 +256,12 @@ MultiThreaderBase::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
     std::clamp<ThreadIdType>(val, 1, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
 }
 
-namespace
-{
-// Bounded so that the ratio times any valid number of threads cannot overflow.
 ThreadIdType
-ClampWorkUnitPerThreadRatio(long long val)
+MultiThreaderBase::ClampWorkUnitPerThreadRatio(long long val)
 {
   return static_cast<ThreadIdType>(
     std::clamp<long long>(val, 1, std::numeric_limits<ThreadIdType>::max() / ITK_MAX_THREADS));
 }
-} // namespace
 
 void
 MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(ThreadIdType val)

@@ -122,17 +122,17 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MultiThreaderBase);
 
-  /** Get/Set the number of threads to use. It will be clamped to the range
-   * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
-   * check that the requested number of threads was accepted. */
+  /** Get/Set the number of threads to use. See the derived class documentation
+   * for limits and interaction with the number of work units. Check the getter
+   * for the accepted value. */
   /** @ITKStartGrouping */
   virtual void
   SetMaximumNumberOfThreads(ThreadIdType numberOfThreads);
   itkGetConstMacro(MaximumNumberOfThreads, ThreadIdType);
   /** @ITKEndGrouping */
-  /** Get/Set the number of work units to create. It might be clamped to the range
-   * [ 1, SomeMaximumNumber ], so the caller of this method should
-   * check that the requested number of work units was accepted. */
+  /** Get/Set the number of work units to create. See the derived class
+   * documentation for limits and interaction with the number of threads.
+   * Check the getter for the accepted value. */
   /** @ITKStartGrouping */
   virtual void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
@@ -140,12 +140,11 @@ public:
   /** @ITKEndGrouping */
 
   /** Immediately set the number of work units from the current maximum number
-   * of threads and a work-unit-per-thread ratio. Pool and TBB multiply the
-   * thread count by the ratio, treating zero as one and saturating on overflow.
-   * Platform keeps one work unit per thread, and Single keeps one work unit.
+   * of threads and a work-unit-per-thread ratio. See the derived class
+   * documentation for the calculation and limits.
    * The ratio is not stored or reapplied when the thread count changes. */
   virtual void
-  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) = 0;
+  SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio) = 0;
 
   virtual void
   SetUpdateProgress(bool updates);
@@ -481,6 +480,10 @@ protected:
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   ParallelizeImageRegionHelper(void * arg);
+
+  /** Clamp a ratio so multiplication by any valid thread count cannot overflow. */
+  static ThreadIdType
+  ClampWorkUnitPerThreadRatio(long long ratio);
 
   /** The number of work units to create. */
   ThreadIdType m_NumberOfWorkUnits{};

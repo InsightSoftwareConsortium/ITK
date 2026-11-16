@@ -90,7 +90,7 @@ public:
 
   /** Keep exactly one work unit, regardless of the ratio. */
   void
-  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) override;
+  SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio) override;
 
 protected:
   SingleMultiThreader();

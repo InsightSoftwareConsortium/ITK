@@ -513,7 +513,7 @@ public:
    * or changing its thread count does not reapply it.
    * \sa MultiThreaderBase::SetNumberOfWorkUnitsFromThreadRatio */
   virtual void
-  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio);
+  SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio);
 
   /** Return the multithreader used by this class. */
   MultiThreaderBase *

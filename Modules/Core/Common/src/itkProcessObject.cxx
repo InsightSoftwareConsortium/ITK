@@ -1569,7 +1569,7 @@ ProcessObject::GetNumberOfWorkUnits() const
 }
 
 void
-ProcessObject::SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio)
+ProcessObject::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio)
 {
   const ThreadIdType oldValue = m_MultiThreader->GetNumberOfWorkUnits();
   m_MultiThreader->SetNumberOfWorkUnitsFromThreadRatio(ratio);

@@ -140,14 +140,19 @@ public:
    * Deprecated. Use C++11 thread support instead. */
   itkLegacyMacro(void TerminateThread(ThreadIdType thread_id);)
 
+  /** Set both thread and work-unit counts, clamped to
+   * [1, GetGlobalMaximumNumberOfThreads()]. */
   void
   SetMaximumNumberOfThreads(ThreadIdType numberOfThreads) override;
+  /** Set both work-unit and thread counts with the same limits as
+   * SetMaximumNumberOfThreads(). */
   void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
-  /** Keep one work unit per thread, regardless of the ratio. */
+  /** Ignore the ratio and set one work unit per current thread.
+   * The thread count is not increased. */
   void
-  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) override;
+  SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio) override;
 
   struct WorkUnitInfo : MultiThreaderBase::WorkUnitInfo
   {

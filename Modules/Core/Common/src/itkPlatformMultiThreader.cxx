@@ -77,7 +77,7 @@ PlatformMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 }
 
 void
-PlatformMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(unsigned int)
+PlatformMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType)
 {
   this->SetNumberOfWorkUnits(this->GetMaximumNumberOfThreads());
 }
