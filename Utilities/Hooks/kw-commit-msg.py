@@ -24,8 +24,14 @@ from pathlib import Path
 
 
 MAX_SUBJECT_LENGTH: int = 78
-GIT_GENERATED_PREFIXES = ("Merge ", "Revert ", "fixup! ", "squash! ", "amend! ")
-SCISSORS_PATTERN = re.compile(r"^\S+ -+ >8 -+$")
+GIT_GENERATED_PREFIXES: tuple[str, ...] = (
+    "Merge ",
+    "Revert ",
+    "fixup! ",
+    "squash! ",
+    "amend! ",
+)
+SCISSORS_PATTERN: re.Pattern[str] = re.compile(r"^\S+ -+ >8 -+$")
 
 
 def die(message, commit_msg_path):
@@ -77,8 +83,8 @@ def main():
         f_out.writelines(input_file_lines)
 
     if not input_file_lines:
-        sys.exit(0)  # Let git abort the commit for an empty message.
-    subject_line: str = input_file_lines[0]
+        die("The commit message is empty.", commit_msg_path)
+    subject_line: str = input_file_lines[0].rstrip("\n")
 
     if len(subject_line) < 8:
         die(
