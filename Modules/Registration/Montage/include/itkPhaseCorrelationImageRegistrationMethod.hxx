@@ -399,16 +399,16 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
   {
     if (this->GetDebug())
     {
-      WriteDebug(m_FixedImage.GetPointer(), "m_FixedImage.nrrd");
-      WriteDebug(m_MovingImage.GetPointer(), "m_MovingImage.nrrd");
-      WriteDebug(m_FixedPadder->GetOutput(), "m_FixedPadder.nrrd");
-      WriteDebug(m_MovingPadder->GetOutput(), "m_MovingPadder.nrrd");
-      WriteDebug(m_FixedFFT->GetOutput(), "m_FixedFFT.nrrd");
-      WriteDebug(m_MovingFFT->GetOutput(), "m_MovingFFT.nrrd");
+      WriteImage(m_FixedImage.GetPointer(), "m_FixedImage.nrrd");
+      WriteImage(m_MovingImage.GetPointer(), "m_MovingImage.nrrd");
+      WriteImage(m_FixedPadder->GetOutput(), "m_FixedPadder.nrrd");
+      WriteImage(m_MovingPadder->GetOutput(), "m_MovingPadder.nrrd");
+      WriteImage(m_FixedFFT->GetOutput(), "m_FixedFFT.nrrd");
+      WriteImage(m_MovingFFT->GetOutput(), "m_MovingFFT.nrrd");
       if (m_CropToOverlap)
       {
-        WriteDebug(m_FixedRoI->GetOutput(), "m_FixedRoI.nrrd");
-        WriteDebug(m_MovingRoI->GetOutput(), "m_MovingRoI.nrrd");
+        WriteImage(m_FixedRoI->GetOutput(), "m_FixedRoI.nrrd");
+        WriteImage(m_MovingRoI->GetOutput(), "m_MovingRoI.nrrd");
       }
     }
 
@@ -439,9 +439,9 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 
     if (this->GetDebug())
     {
-      WriteDebug(m_IFFT->GetOutput(), "m_IFFT.nrrd");
-      WriteDebug(m_BandPassFilter->GetOutput(), "m_BandPassFilter.nrrd");
-      WriteDebug(m_Operator->GetOutput(), "m_Operator.nrrd");
+      WriteImage(m_IFFT->GetOutput(), "m_IFFT.nrrd");
+      WriteImage(m_BandPassFilter->GetOutput(), "m_BandPassFilter.nrrd");
+      WriteImage(m_Operator->GetOutput(), "m_Operator.nrrd");
 
       // now do banpass of input images and inverse FFT
       m_IFFT->SetInput(m_BandPassFilter->GetOutput());
@@ -450,13 +450,13 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
       invImage->Update();
       invImage->DisconnectPipeline();
       invImage->CopyInformation(m_FixedPadder->GetOutput());
-      WriteDebug(invImage.GetPointer(), "iFixed.nrrd");
+      WriteImage(invImage.GetPointer(), "iFixed.nrrd");
       m_BandPassFilter->SetInput(m_MovingFFT->GetOutput());
       invImage = m_IFFT->GetOutput();
       invImage->Update();
       invImage->DisconnectPipeline();
       invImage->CopyInformation(m_MovingPadder->GetOutput());
-      WriteDebug(invImage.GetPointer(), "iMoving.nrrd");
+      WriteImage(invImage.GetPointer(), "iMoving.nrrd");
     }
   }
   catch (ExceptionObject & err)

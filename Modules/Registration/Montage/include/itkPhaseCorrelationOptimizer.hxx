@@ -29,36 +29,6 @@
 // #ifndef NDEBUG
 #include "itkImageFileWriter.h"
 
-namespace
-{
-template <typename TImage>
-void
-WriteDebug(const TImage * out, const char * filename)
-{
-  using WriterType = itk::ImageFileWriter<TImage>;
-  typename WriterType::Pointer w = WriterType::New();
-  w->SetInput(out);
-  w->SetFileName(filename);
-  try
-  {
-    w->Update();
-  }
-  catch (itk::ExceptionObject & error)
-  {
-    std::cerr << error << std::endl;
-  }
-}
-} // namespace
-// #else
-//  namespace
-//{
-//  template <typename TImage>
-//  void
-//  WriteDebug(TImage *, const char *)
-//{}
-// } // namespace
-// #endif
-
 namespace itk
 {
 
@@ -312,7 +282,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
     },
     nullptr);
 
-  // WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInput.nrrd");
+  // WriteImage(m_AdjustedInput.GetPointer(), "m_AdjustedInput.nrrd");
 
   if (m_ZeroSuppression > 0.0) // suppress trivial zero solution
   {
@@ -363,7 +333,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
       },
       nullptr);
 
-    // WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInputZS.nrrd");
+    // WriteImage(m_AdjustedInput.GetPointer(), "m_AdjustedInputZS.nrrd");
   }
 
   m_MaxCalculator->SetImage(m_AdjustedInput);
