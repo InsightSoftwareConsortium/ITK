@@ -68,36 +68,25 @@
 namespace itk
 {
 
-
-namespace
-{
-
 // Class to register generic transform for dimension D and lower
 template <typename TParameterType, unsigned int D>
-struct RegisterTransformsD
+struct TransformFactoryBase::RegisterTransformsD
 {
   static void
   Register()
   {
-    TransformFactory<AffineTransform<TParameterType, D>>::RegisterTransform();
-    TransformFactory<CompositeTransform<TParameterType, D>>::RegisterTransform();
-    TransformFactory<IdentityTransform<TParameterType, D>>::RegisterTransform();
-    TransformFactory<TranslationTransform<TParameterType, D>>::RegisterTransform();
+    if constexpr (D != 1)
+    {
+      TransformFactory<AffineTransform<TParameterType, D>>::RegisterTransform();
+      TransformFactory<CompositeTransform<TParameterType, D>>::RegisterTransform();
+      TransformFactory<IdentityTransform<TParameterType, D>>::RegisterTransform();
+      TransformFactory<TranslationTransform<TParameterType, D>>::RegisterTransform();
 
-    // register transforms of one less dimension
-    RegisterTransformsD<TParameterType, D - 1>::Register();
+      // register transforms of one less dimension
+      RegisterTransformsD<TParameterType, D - 1>::Register();
+    }
   }
 };
-
-// Template specialized class to stop registering transform.
-template <typename TParameterType>
-struct RegisterTransformsD<TParameterType, 1>
-{
-  static void
-  Register()
-  {}
-};
-} // namespace
 
 template <typename TParameterType>
 void

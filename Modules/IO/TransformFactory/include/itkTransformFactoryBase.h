@@ -111,6 +111,9 @@ protected:
   ~TransformFactoryBase() override;
 
 private:
+  template <typename TParameterType, unsigned int D>
+  struct RegisterTransformsD;
+
   // Sub private functions of RegisterDefaultTransforms
   static void
   RegisterTransformFactoryDoubleParameters();
