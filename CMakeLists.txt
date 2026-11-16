@@ -376,6 +376,22 @@ endif()
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
 
+foreach(_itk_required_flags_var C CXX LINK)
+  string(
+    STRIP
+    "${ITK_REQUIRED_${_itk_required_flags_var}_FLAGS}"
+    _itk_required_flags
+  )
+  if(NOT _itk_required_flags STREQUAL "")
+    message(
+      AUTHOR_WARNING
+      "ITK_REQUIRED_${_itk_required_flags_var}_FLAGS is not empty (\"${_itk_required_flags}\"); "
+      "it is exported to every client through UseITK.cmake."
+    )
+  endif()
+endforeach()
+unset(_itk_required_flags)
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
 set(

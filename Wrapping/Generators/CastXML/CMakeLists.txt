@@ -22,6 +22,33 @@ if(ITK_USE_SYSTEM_CASTXML)
       "Could NOT find castxml. Turn ITK_USE_SYSTEM_CASTXML to OFF to build it with ITK."
     )
   endif()
+  # Version of the castxml revision ITK builds (_castxml_git_tag below).
+  set(_castxml_minimum_version 0.6.20260105)
+  execute_process(
+    COMMAND
+      "${CASTXML_EXECUTABLE}" --version
+    OUTPUT_VARIABLE _castxml_version_output
+    ERROR_QUIET
+  )
+  if(
+    NOT
+      _castxml_version_output
+        MATCHES
+        "castxml version ([0-9]+\\.[0-9]+\\.[0-9]+)"
+  )
+    message(
+      FATAL_ERROR
+      "Could not read the version of ${CASTXML_EXECUTABLE}. ITK requires castxml ${_castxml_minimum_version} or newer; turn ITK_USE_SYSTEM_CASTXML to OFF to use the castxml ITK provides."
+    )
+  endif()
+  if(CMAKE_MATCH_1 VERSION_LESS _castxml_minimum_version)
+    message(
+      FATAL_ERROR
+      "${CASTXML_EXECUTABLE} is version ${CMAKE_MATCH_1}. ITK requires castxml ${_castxml_minimum_version} or newer; turn ITK_USE_SYSTEM_CASTXML to OFF to use the castxml ITK provides."
+    )
+  endif()
+  unset(_castxml_version_output)
+  unset(_castxml_minimum_version)
 else()
   include(ExternalProject)
 
