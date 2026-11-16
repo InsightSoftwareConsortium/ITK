@@ -59,7 +59,8 @@ TBBMultiThreader::TBBMultiThreader()
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
   if (defaultThreads > 1) // one work unit for only one thread
   {
-    m_NumberOfWorkUnits = defaultThreads * ClampWorkUnitPerThreadRatio(GetGlobalDefaultWorkUnitPerThreadRatio());
+    m_NumberOfWorkUnits =
+      defaultThreads * ScaleByWorkUnitPerThreadRatio(GetGlobalDefaultWorkUnitPerThreadRatio(), defaultThreads);
   }
 }
 
@@ -120,7 +121,8 @@ TBBMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 void
 TBBMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio)
 {
-  this->SetNumberOfWorkUnits(this->GetMaximumNumberOfThreads() * ClampWorkUnitPerThreadRatio(ratio));
+  const ThreadIdType threadCount = this->GetMaximumNumberOfThreads();
+  this->SetNumberOfWorkUnits(threadCount * ScaleByWorkUnitPerThreadRatio(ratio, threadCount));
 }
 
 void

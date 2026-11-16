@@ -102,8 +102,9 @@ public:
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
   /** Set work units to GetMaximumNumberOfThreads() times the ratio, without
-   * changing the thread count. Clamp the ratio to
-   * [1, NumericTraits<ThreadIdType>::max() / ITK_MAX_THREADS]. */
+   * changing the thread count. The ratio is clamped to
+   * [1, NumericTraits<ThreadIdType>::max() / GetMaximumNumberOfThreads()]
+   * so the product cannot overflow. */
   void
   SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio) override;
 

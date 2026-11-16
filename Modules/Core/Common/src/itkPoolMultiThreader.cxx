@@ -82,7 +82,7 @@ PoolMultiThreader::PoolMultiThreader()
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
   if (defaultThreads > 1) // one work unit for only one thread
   {
-    defaultThreads *= ClampWorkUnitPerThreadRatio(GetGlobalDefaultWorkUnitPerThreadRatio());
+    defaultThreads *= ScaleByWorkUnitPerThreadRatio(GetGlobalDefaultWorkUnitPerThreadRatio(), defaultThreads);
   }
 
   m_NumberOfWorkUnits = defaultThreads;
@@ -119,7 +119,8 @@ PoolMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 void
 PoolMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio)
 {
-  this->SetNumberOfWorkUnits(this->GetMaximumNumberOfThreads() * ClampWorkUnitPerThreadRatio(ratio));
+  const ThreadIdType threadCount = this->GetMaximumNumberOfThreads();
+  this->SetNumberOfWorkUnits(threadCount * ScaleByWorkUnitPerThreadRatio(ratio, threadCount));
 }
 
 void

@@ -28,6 +28,7 @@
 #include "itkPlatformMultiThreader.h"
 #include "itkPoolMultiThreader.h"
 #include "itkSingleMultiThreader.h"
+#include "itkThreadPool.h"
 #ifdef ITK_USE_TBB
 #  include "itkTBBMultiThreader.h"
 #endif
@@ -128,9 +129,9 @@ TestWorkUnitThreadRatio(itk::MultiThreaderBase * threader, bool usesRatio)
     ITK_TEST_EXPECT_EQUAL(threader->GetMaximumNumberOfThreads(), threadCount);
   }
 
-  const itk::ThreadIdType maximumRatio = std::numeric_limits<itk::ThreadIdType>::max() / itk::ITK_MAX_THREADS;
-  for (const itk::ThreadIdType ratio :
-       { maximumRatio, maximumRatio + 1, std::numeric_limits<itk::ThreadIdType>::max() })
+  const auto              maximumValue = std::numeric_limits<itk::ThreadIdType>::max();
+  const itk::ThreadIdType maximumRatio = maximumValue / threadCount;
+  for (const itk::ThreadIdType ratio : { maximumRatio, std::min(maximumRatio, maximumValue - 1) + 1, maximumValue })
   {
     threader->SetNumberOfWorkUnitsFromThreadRatio(ratio);
     ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), usesRatio ? threadCount * maximumRatio : threadCount);
@@ -326,6 +327,15 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
 #ifdef ITK_USE_TBB
   ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::TBBMultiThreader::New(), true), EXIT_SUCCESS);
 #endif
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::PoolMultiThreader::New(), true), EXIT_SUCCESS);
+
+  // The shared pool can exceed ITK_MAX_THREADS; the ratio product must not wrap.
+  // Last, because the added threads persist in the process-wide pool.
+  const itk::ThreadPool::Pointer pool = itk::ThreadPool::GetInstance();
+  if (pool->GetMaximumNumberOfThreads() <= itk::ITK_MAX_THREADS)
+  {
+    pool->AddThreads(static_cast<itk::ThreadIdType>(itk::ITK_MAX_THREADS) + 1 - pool->GetMaximumNumberOfThreads());
+  }
   ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::PoolMultiThreader::New(), true), EXIT_SUCCESS);
 
   if (!result)

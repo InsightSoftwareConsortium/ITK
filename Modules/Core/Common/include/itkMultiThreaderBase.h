@@ -481,9 +481,12 @@ protected:
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   ParallelizeImageRegionHelper(void * arg);
 
-  /** Clamp a ratio so multiplication by any valid thread count cannot overflow. */
+  /** Return \c ratio clamped to [1, max(ThreadIdType) / threadCount], so that
+   * ratio * threadCount cannot overflow ThreadIdType. The default \c threadCount
+   * bounds the ratio for any thread count up to ITK_MAX_THREADS; a shared pool
+   * can be larger, so multi-threaders pass their actual thread count. */
   static ThreadIdType
-  ClampWorkUnitPerThreadRatio(long long ratio);
+  ScaleByWorkUnitPerThreadRatio(long long ratio, ThreadIdType threadCount = static_cast<ThreadIdType>(ITK_MAX_THREADS));
 
   /** The number of work units to create. */
   ThreadIdType m_NumberOfWorkUnits{};
