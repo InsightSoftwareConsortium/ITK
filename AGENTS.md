@@ -23,9 +23,10 @@ rows labeled **Agent default** bind AI agents only. Agents set
 | Writing or running tests | [testing.md](./Documentation/AI/testing.md) |
 | Code style, formatting, naming | [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
 | Writing or reviewing C++ code | [code-review-lessons.md](./Documentation/AI/code-review-lessons.md) |
-| Writing ITK C++ classes, CMake, Python wrapping | [conventions.md](./Documentation/AI/conventions.md) |
+| Writing ITK C++ classes, CMake, Python wrapping | [conventions.md](./Documentation/AI/conventions.md), [compiler-flags.md](./Documentation/AI/compiler-flags.md) |
 | Citing a publication in documentation | [conventions.md](./Documentation/AI/conventions.md) (Citing Publications) |
 | Avoiding compiler pitfalls and refactoring hazards | [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
+| Adding, moving, or removing a compiler or linker flag | [compiler-flags.md](./Documentation/AI/compiler-flags.md) |
 | Creating a **DOC:** commit | [git-commits.md](./Documentation/AI/git-commits.md) |
 | Creating a **STYLE:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
 | Creating a **BUG:** or **ENH:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [compiler-cautions.md](./Documentation/AI/compiler-cautions.md), [testing.md](./Documentation/AI/testing.md) |
