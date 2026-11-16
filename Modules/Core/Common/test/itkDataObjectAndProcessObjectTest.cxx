@@ -56,6 +56,15 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  void
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override
+  {
+    m_ForwardedWorkUnits = numberOfWorkUnits;
+    Superclass::SetNumberOfWorkUnits(numberOfWorkUnits);
+  }
+
+  ThreadIdType m_ForwardedWorkUnits{};
+
   // expose the protected method so we can test them
   using Superclass::GetInput;
   using Superclass::SetInput;
@@ -437,6 +446,24 @@ public:
     // A replaced multithreader brings its own number of work units.
     const MultiThreaderBase::Pointer originalThreader = process->GetMultiThreader();
     process->SetMultiThreader(SingleMultiThreader::New());
+    ITK_TEST_SET_GET_VALUE(1, process->GetNumberOfWorkUnits());
+    process->SetMultiThreader(originalThreader);
+    ITK_TEST_SET_GET_VALUE(5, process->GetNumberOfWorkUnits());
+
+    process->SetNumberOfWorkUnits(1);
+    mtime = process->GetMTime();
+    process->SetNumberOfWorkUnitsFromThreadRatio(2);
+    const auto ratioWorkUnits = process->GetNumberOfWorkUnits();
+    ITK_TEST_EXPECT_TRUE((ratioWorkUnits != 1) == (mtime < process->GetMTime()));
+    ITK_TEST_SET_GET_VALUE(ratioWorkUnits, process->GetMultiThreader()->GetNumberOfWorkUnits());
+    ITK_TEST_SET_GET_VALUE(ratioWorkUnits, process->m_ForwardedWorkUnits);
+    mtime = process->GetMTime();
+    process->SetNumberOfWorkUnitsFromThreadRatio(2);
+    ITK_TEST_SET_GET_VALUE(mtime, process->GetMTime());
+    process->SetNumberOfWorkUnits(5);
+    ITK_TEST_SET_GET_VALUE(5, process->GetNumberOfWorkUnits());
+    process->SetMultiThreader(SingleMultiThreader::New());
+    process->SetNumberOfWorkUnitsFromThreadRatio(2);
     ITK_TEST_SET_GET_VALUE(1, process->GetNumberOfWorkUnits());
     process->SetMultiThreader(originalThreader);
     ITK_TEST_SET_GET_VALUE(5, process->GetNumberOfWorkUnits());

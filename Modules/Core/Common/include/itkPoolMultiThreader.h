@@ -99,6 +99,10 @@ public:
   void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
+  /** Set work units to the pool thread count times the ratio. */
+  void
+  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) override;
+
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   struct ITK_FUTURE_DEPRECATED(
     "PoolMultiThreader now uses a slightly different private `InternalWorkUnitInfo` struct instead!")

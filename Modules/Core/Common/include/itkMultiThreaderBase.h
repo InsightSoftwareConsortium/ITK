@@ -138,6 +138,15 @@ public:
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
   itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
   /** @ITKEndGrouping */
+
+  /** Immediately set the number of work units from the current maximum number
+   * of threads and a work-unit-per-thread ratio. Pool and TBB multiply the
+   * thread count by the ratio, treating zero as one and saturating on overflow.
+   * Platform keeps one work unit per thread, and Single keeps one work unit.
+   * The ratio is not stored or reapplied when the thread count changes. */
+  virtual void
+  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) = 0;
+
   virtual void
   SetUpdateProgress(bool updates);
   itkGetConstMacro(UpdateProgress, bool);

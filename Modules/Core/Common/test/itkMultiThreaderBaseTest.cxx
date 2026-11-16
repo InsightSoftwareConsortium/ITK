@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <algorithm>
 #include <atomic>
 #include <limits>
 #include <mutex>
@@ -115,6 +116,39 @@ SetAndVerify(int number)
   return result;
 }
 
+int
+TestWorkUnitThreadRatio(itk::MultiThreaderBase * threader, bool usesRatio)
+{
+  const auto threadCount = threader->GetMaximumNumberOfThreads();
+  for (const unsigned int ratio : { 0u, 1u, 2u })
+  {
+    threader->SetNumberOfWorkUnitsFromThreadRatio(ratio);
+    const auto expected = usesRatio ? threadCount * std::max(1u, ratio) : threadCount;
+    ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), expected);
+    ITK_TEST_EXPECT_EQUAL(threader->GetMaximumNumberOfThreads(), threadCount);
+  }
+
+  const auto maximum = std::numeric_limits<itk::ThreadIdType>::max();
+  const auto largestExactRatio = maximum / threadCount;
+  threader->SetNumberOfWorkUnitsFromThreadRatio(largestExactRatio);
+  ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), usesRatio ? threadCount * largestExactRatio : threadCount);
+  threader->SetNumberOfWorkUnitsFromThreadRatio(std::numeric_limits<unsigned int>::max());
+  ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), usesRatio ? maximum : threadCount);
+  ITK_TEST_EXPECT_EQUAL(threader->GetMaximumNumberOfThreads(), threadCount);
+
+  threader->SetNumberOfWorkUnits(1);
+  ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), 1);
+  if (usesRatio)
+  {
+    threader->SetNumberOfWorkUnitsFromThreadRatio(2);
+    threader->SetMaximumNumberOfThreads(threadCount + 1);
+    ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), 2 * threadCount);
+    threader->SetNumberOfWorkUnitsFromThreadRatio(2);
+    ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), 2 * threader->GetMaximumNumberOfThreads());
+  }
+  return EXIT_SUCCESS;
+}
+
 #define TEST_SINGLE_CLASS(ClassName)                                           \
   {                                                                            \
     itk::ClassName::Pointer threader = itk::ClassName::New();                  \
@@ -202,6 +236,13 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
     result = false;
   }
   itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(4);
+
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::PlatformMultiThreader::New(), false), EXIT_SUCCESS);
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::SingleMultiThreader::New(), false), EXIT_SUCCESS);
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::PoolMultiThreader::New(), true), EXIT_SUCCESS);
+#ifdef ITK_USE_TBB
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::TBBMultiThreader::New(), true), EXIT_SUCCESS);
+#endif
 
   const itk::ThreadIdType               moreWorkUnits = itk::ITK_MAX_THREADS + 1;
   const itk::PoolMultiThreader::Pointer poolThreader = itk::PoolMultiThreader::New();

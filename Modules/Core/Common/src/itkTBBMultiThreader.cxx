@@ -124,6 +124,15 @@ TBBMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 }
 
 void
+TBBMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio)
+{
+  const ThreadIdType threadCount = this->GetMaximumNumberOfThreads();
+  const ThreadIdType maximum = NumericTraits<ThreadIdType>::max();
+  ratio = std::max(1u, ratio);
+  this->SetNumberOfWorkUnits(threadCount > maximum / ratio ? maximum : threadCount * ratio);
+}
+
+void
 TBBMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

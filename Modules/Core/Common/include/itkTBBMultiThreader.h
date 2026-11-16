@@ -58,6 +58,10 @@ public:
   void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
+  /** Set work units to the maximum thread count times the ratio. */
+  void
+  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) override;
+
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfWorkUnits work units. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if

@@ -128,6 +128,15 @@ PoolMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 }
 
 void
+PoolMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio)
+{
+  const ThreadIdType threadCount = this->GetMaximumNumberOfThreads();
+  const ThreadIdType maximum = NumericTraits<ThreadIdType>::max();
+  ratio = std::max(1u, ratio);
+  this->SetNumberOfWorkUnits(threadCount > maximum / ratio ? maximum : threadCount * ratio);
+}
+
+void
 PoolMultiThreader::EnsureWorkUnitInfoArraySize(std::size_t size)
 {
   const std::size_t currentSize = m_WorkUnitInfoArray.size();

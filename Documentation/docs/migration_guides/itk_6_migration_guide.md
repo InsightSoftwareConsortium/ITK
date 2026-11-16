@@ -1485,3 +1485,23 @@ given.
 Call `SetNumberOfWorkUnits()` after `SetMultiThreader()` when a specific count is
 wanted. Filters that share one multi-threader instance also share its number of
 work units.
+
+## Set work units from the current thread count
+
+`MultiThreaderBase::SetNumberOfWorkUnitsFromThreadRatio(unsigned int)` is a new
+pure virtual method. Custom multi-threaders must implement it.
+
+`ProcessObject` exposes the same setter. It immediately sets the multi-threader's
+work-unit count and forwards the accepted count through the virtual
+`SetNumberOfWorkUnits()`, including for composite filters:
+
+```cpp
+filter->SetNumberOfWorkUnitsFromThreadRatio(2);
+```
+
+Pool and TBB set the count to their current maximum number of threads times the
+ratio, treating zero as one and saturating at the maximum `ThreadIdType` value
+on overflow. Platform keeps one work unit per thread without increasing its
+thread count; Single always uses one work unit. The ratio is not retained:
+later thread-count changes, explicit work-unit settings, and multi-threader
+replacement do not reapply it.

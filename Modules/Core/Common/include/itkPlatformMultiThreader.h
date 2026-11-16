@@ -145,6 +145,10 @@ public:
   void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
+  /** Keep one work unit per thread, regardless of the ratio. */
+  void
+  SetNumberOfWorkUnitsFromThreadRatio(unsigned int ratio) override;
+
   struct WorkUnitInfo : MultiThreaderBase::WorkUnitInfo
   {
     int *                       ActiveFlag = nullptr;
