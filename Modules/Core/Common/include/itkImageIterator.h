@@ -34,6 +34,15 @@ template <typename TFromImage, typename TToImage>
 inline constexpr bool IsImageIteratorConvertible_v =
   std::is_same_v<std::remove_const_t<TFromImage>, std::remove_const_t<TToImage>> &&
   (std::is_const_v<TToImage> || !std::is_const_v<TFromImage>);
+
+/** ImageType of an iterator over TImage: with ITK_FUTURE_LEGACY_REMOVE it keeps const, otherwise const is removed. */
+#if defined(ITK_FUTURE_LEGACY_REMOVE)
+template <typename TImage>
+using IteratorImageType_t = TImage;
+#else
+template <typename TImage>
+using IteratorImageType_t = std::remove_const_t<TImage>;
+#endif
 } // namespace detail
 
 /** \class ImageIterator
@@ -127,7 +136,7 @@ public:
   using RegionType = typename TImage::RegionType;
 
   /** Image type alias support */
-  using ImageType = std::remove_const_t<TImage>;
+  using ImageType = detail::IteratorImageType_t<TImage>;
 
   /** PixelContainer type alias support. Used to refer to the container for
    * the pixel data. */
@@ -242,7 +251,7 @@ public:
   /** Comparison operator. Two iterators are the same if they "point to" the
    * same memory location */
   template <typename TOtherImage,
-            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, std::remove_const_t<TImage>>, int> = 0>
   bool
   operator==(const ImageIterator<TOtherImage> & it) const
   {
@@ -252,7 +261,7 @@ public:
 
 #ifndef ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
   template <typename TOtherImage,
-            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, std::remove_const_t<TImage>>, int> = 0>
   bool
   operator!=(const ImageIterator<TOtherImage> & it) const
   {
@@ -263,7 +272,7 @@ public:
   /** Comparison operator. An iterator is "less than" another if it "points to"
    * a lower memory location. */
   template <typename TOtherImage,
-            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, std::remove_const_t<TImage>>, int> = 0>
   bool
   operator<=(const ImageIterator<TOtherImage> & it) const
   {
@@ -275,7 +284,7 @@ public:
   /** Comparison operator. An iterator is "less than" another if it "points to"
    * a lower memory location. */
   template <typename TOtherImage,
-            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, std::remove_const_t<TImage>>, int> = 0>
   bool
   operator<(const ImageIterator<TOtherImage> & it) const
   {
@@ -287,7 +296,7 @@ public:
   /** Comparison operator. An iterator is "greater than" another if it
    * "points to" a higher location. */
   template <typename TOtherImage,
-            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, std::remove_const_t<TImage>>, int> = 0>
   bool
   operator>=(const ImageIterator<TOtherImage> & it) const
   {
@@ -299,7 +308,7 @@ public:
   /** Comparison operator. An iterator is "greater than" another if it
    * "points to" a higher location. */
   template <typename TOtherImage,
-            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, ImageType>, int> = 0>
+            std::enable_if_t<std::is_same_v<std::remove_const_t<TOtherImage>, std::remove_const_t<TImage>>, int> = 0>
   bool
   operator>(const ImageIterator<TOtherImage> & it) const
   {

@@ -970,17 +970,29 @@ TEST(ImageIterators, DeduceImageTypeFromBaseIterator)
 }
 
 
-// Checks that ImageType names the image without const, for the writable and read-only names alike.
-TEST(ImageIterators, ImageTypeIsNonConstImage)
+// Checks the ImageType of iterators over a const image: the image without const, or with
+// ITK_FUTURE_LEGACY_REMOVE the const image the iterator walks. Writable names always report the image.
+TEST(ImageIterators, ImageTypeOfReadOnlyIterators)
 {
   using ImageType = itk::Image<int>;
-  static_assert(std::is_same_v<itk::ImageRegionConstIterator<ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::ImageReverseConstIterator<ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::ImageRegionConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::ImageLinearConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::ImageLinearIteratorWithIndex<const ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::ImageSliceConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::ImageRandomConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>::ImageType, ImageType>);
-  static_assert(std::is_same_v<itk::LineConstIterator<ImageType>::ImageType, ImageType>);
+#if defined(ITK_FUTURE_LEGACY_REMOVE)
+  using ReadOnlyImageType = const ImageType;
+#else
+  using ReadOnlyImageType = ImageType;
+#endif
+  static_assert(std::is_same_v<itk::ImageRegionIterator<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageLinearIteratorWithIndex<ImageType>::ImageType, ImageType>);
+  static_assert(std::is_same_v<itk::ImageRegionConstIterator<ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(std::is_same_v<itk::ImageReverseConstIterator<ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(std::is_same_v<itk::ImageRegionConstIteratorWithIndex<ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(std::is_same_v<itk::ImageLinearConstIteratorWithIndex<ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(std::is_same_v<itk::ImageLinearIteratorWithIndex<const ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(std::is_same_v<itk::ImageSliceConstIteratorWithIndex<ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(std::is_same_v<itk::ImageRandomConstIteratorWithIndex<ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(
+    std::is_same_v<itk::ImageRegionExclusionConstIteratorWithIndex<ImageType>::ImageType, ReadOnlyImageType>);
+  static_assert(std::is_same_v<itk::LineConstIterator<ImageType>::ImageType, ReadOnlyImageType>);
+
+  // Names the image without const either way, for code that needs a writable image type.
+  static_assert(std::is_same_v<std::remove_const_t<itk::ImageRegionConstIterator<ImageType>::ImageType>, ImageType>);
 }

@@ -109,7 +109,7 @@ public:
   using PointType = typename TImage::PointType;
 
   /** Image type alias support */
-  using ImageType = std::remove_const_t<TImage>;
+  using ImageType = detail::IteratorImageType_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. */

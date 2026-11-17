@@ -125,7 +125,7 @@ public:
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index so that it is not
    * confused with ImageIterator::Index. */
-  using ImageType = std::remove_const_t<TImage>;
+  using ImageType = detail::IteratorImageType_t<TImage>;
 
   /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typedef'ed in the superclass,

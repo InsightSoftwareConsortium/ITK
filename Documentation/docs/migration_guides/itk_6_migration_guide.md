@@ -1651,7 +1651,13 @@ read-only name derives from it. As a result:
   operators are removed, as is the public
   `ImageRegionReverseIterator(const ImageConstIterator &)`.
 - `XxxIterator<const T>::ImageType` is `T`, as `XxxConstIterator<T>::ImageType`
-  was.
+  was. With `ITK_FUTURE_LEGACY_REMOVE` it is `const T`, the image the iterator
+  walks, so that `XxxIterator<typename It::ImageType>` keeps the access of
+  `It`. Unlike other uses of that option, this changes what the alias means
+  rather than removing it: code that compares or dispatches on
+  `It::ImageType` compiles either way but sees a different type. To name the
+  image without `const` in both cases, write
+  `std::remove_const_t<typename It::ImageType>`.
 - `ImageReverseConstIterator` now has `operator++` and `operator--`, like
   `ImageReverseIterator`.
 - `LineIterator<T>::Value()` still returns a `const` reference, now also for a
