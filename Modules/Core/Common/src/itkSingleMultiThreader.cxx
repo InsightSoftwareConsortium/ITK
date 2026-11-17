@@ -51,6 +51,12 @@ SingleMultiThreader::SetNumberOfWorkUnits(ThreadIdType)
 }
 
 void
+SingleMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType)
+{
+  this->SetNumberOfWorkUnits(1);
+}
+
+void
 SingleMultiThreader::SingleMethodExecute()
 {
   if (!m_SingleMethod)

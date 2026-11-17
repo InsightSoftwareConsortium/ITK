@@ -77,6 +77,12 @@ PlatformMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 }
 
 void
+PlatformMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType)
+{
+  this->SetNumberOfWorkUnits(this->GetMaximumNumberOfThreads());
+}
+
+void
 PlatformMultiThreader::SetSingleMethod(ThreadFunctionType f, void * data)
 {
   m_SingleMethod = std::move(f);

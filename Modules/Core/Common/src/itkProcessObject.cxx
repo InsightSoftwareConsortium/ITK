@@ -1568,6 +1568,18 @@ ProcessObject::GetNumberOfWorkUnits() const
   return m_MultiThreader->GetNumberOfWorkUnits();
 }
 
+void
+ProcessObject::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio)
+{
+  const ThreadIdType oldValue = m_MultiThreader->GetNumberOfWorkUnits();
+  m_MultiThreader->SetNumberOfWorkUnitsFromThreadRatio(ratio);
+  this->SetNumberOfWorkUnits(m_MultiThreader->GetNumberOfWorkUnits());
+  if (m_MultiThreader->GetNumberOfWorkUnits() != oldValue)
+  {
+    this->Modified();
+  }
+}
+
 
 void
 ProcessObject::SetMultiThreader(MultiThreaderBase * threader)

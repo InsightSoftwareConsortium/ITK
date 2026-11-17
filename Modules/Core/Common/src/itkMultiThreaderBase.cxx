@@ -256,16 +256,12 @@ MultiThreaderBase::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
     std::clamp<ThreadIdType>(val, 1, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
 }
 
-namespace
-{
-// Bounded so that the ratio times any valid number of threads cannot overflow.
 ThreadIdType
-ClampWorkUnitPerThreadRatio(long long val)
+MultiThreaderBase::ScaleByWorkUnitPerThreadRatio(long long ratio, ThreadIdType threadCount)
 {
   return static_cast<ThreadIdType>(
-    std::clamp<long long>(val, 1, std::numeric_limits<ThreadIdType>::max() / ITK_MAX_THREADS));
+    std::clamp<long long>(ratio, 1, std::numeric_limits<ThreadIdType>::max() / std::max<ThreadIdType>(1, threadCount)));
 }
-} // namespace
 
 void
 MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(ThreadIdType val)
@@ -274,7 +270,7 @@ MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(ThreadIdType val)
 
   const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->globalDefaultInitializerMutex);
 
-  m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio = ClampWorkUnitPerThreadRatio(val);
+  m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio = ScaleByWorkUnitPerThreadRatio(val);
 }
 
 ThreadIdType
@@ -292,7 +288,7 @@ MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio()
     {
       ratio = std::atoll(envVar.c_str());
     }
-    m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio = ClampWorkUnitPerThreadRatio(ratio);
+    m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio = ScaleByWorkUnitPerThreadRatio(ratio);
   }
   return m_PimplGlobals->m_GlobalDefaultWorkUnitPerThreadRatio;
 }

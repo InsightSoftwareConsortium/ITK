@@ -56,6 +56,15 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  void
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override
+  {
+    m_ForwardedWorkUnits = numberOfWorkUnits;
+    Superclass::SetNumberOfWorkUnits(numberOfWorkUnits);
+  }
+
+  ThreadIdType m_ForwardedWorkUnits{};
+
   // expose the protected method so we can test them
   using Superclass::GetInput;
   using Superclass::SetInput;
@@ -440,6 +449,35 @@ public:
     ITK_TEST_SET_GET_VALUE(1, process->GetNumberOfWorkUnits());
     process->SetMultiThreader(originalThreader);
     ITK_TEST_SET_GET_VALUE(5, process->GetNumberOfWorkUnits());
+
+#ifdef ITK_USE_POOL_MULTI_THREADER
+    process->SetMultiThreader(PoolMultiThreader::New());
+    const auto ratioThreadCount = process->GetMultiThreader()->GetMaximumNumberOfThreads();
+    process->SetNumberOfWorkUnits(1);
+    mtime = process->GetMTime();
+    process->SetNumberOfWorkUnitsFromThreadRatio(2);
+    const auto ratioWorkUnits = process->GetNumberOfWorkUnits();
+    ITK_TEST_SET_GET_VALUE(2 * ratioThreadCount, ratioWorkUnits);
+    ITK_TEST_EXPECT_TRUE(mtime < process->GetMTime());
+    ITK_TEST_SET_GET_VALUE(ratioWorkUnits, process->GetMultiThreader()->GetNumberOfWorkUnits());
+    ITK_TEST_SET_GET_VALUE(ratioWorkUnits, process->m_ForwardedWorkUnits);
+    mtime = process->GetMTime();
+    process->SetNumberOfWorkUnitsFromThreadRatio(2);
+    ITK_TEST_SET_GET_VALUE(mtime, process->GetMTime());
+    process->SetNumberOfWorkUnits(ratioWorkUnits + 1);
+    ITK_TEST_SET_GET_VALUE(ratioWorkUnits + 1, process->GetMultiThreader()->GetNumberOfWorkUnits());
+    process->SetNumberOfWorkUnitsFromThreadRatio(2);
+    ITK_TEST_SET_GET_VALUE(ratioWorkUnits, process->GetNumberOfWorkUnits());
+    const auto replacementThreader = PoolMultiThreader::New();
+    const auto replacementWorkUnits = replacementThreader->GetNumberOfWorkUnits();
+    process->SetMultiThreader(replacementThreader);
+    ITK_TEST_SET_GET_VALUE(replacementWorkUnits, process->GetNumberOfWorkUnits());
+    process->SetMultiThreader(SingleMultiThreader::New());
+    process->SetNumberOfWorkUnitsFromThreadRatio(2);
+    ITK_TEST_SET_GET_VALUE(1, process->GetNumberOfWorkUnits());
+    process->SetMultiThreader(originalThreader);
+    ITK_TEST_SET_GET_VALUE(5, process->GetNumberOfWorkUnits());
+#endif
 
     // not sure what to test with that method - at least test that it exist
     const itk::MultiThreaderBase::Pointer multiThreader = process->GetMultiThreader();

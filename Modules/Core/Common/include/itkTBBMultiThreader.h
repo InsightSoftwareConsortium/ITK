@@ -30,6 +30,9 @@ namespace itk
  * This multi-threader implementation generates dynamically-sized
  * thread-regions, and is expected to provide best performance.
  *
+ * SetMaximumNumberOfThreads() clamps to [1, GetGlobalMaximumNumberOfThreads()]
+ * without changing the work-unit count.
+ *
  * \ingroup OSSystemObjects
  *
  * \ingroup ITKCommon
@@ -52,16 +55,22 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TBBMultiThreader);
 
-  /** Get/Set the number of work units to create. TBBMultiThreader
-   * does not limit the number of work units. This number is
-   * only respected by SetSingleMethod/SingleMethodExecute. */
+  /** Set the number of work units, clamped to at least one, without changing
+   * the thread count. This sets the callback count for SingleMethodExecute()
+   * and the target partition granularity for ParallelizeArray() and
+   * ParallelizeImageRegion(). */
   void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
-  /** Execute the SingleMethod (as define by SetSingleMethod) using
-   * m_NumberOfWorkUnits work units. As a side effect the m_NumberOfWorkUnits will be
-   * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
-   * necessary. */
+  /** Set work units to GetMaximumNumberOfThreads() times the ratio, without
+   * changing the thread count. The ratio is clamped to
+   * [1, NumericTraits<ThreadIdType>::max() / GetMaximumNumberOfThreads()]
+   * so the product cannot overflow.
+   * \sa SetNumberOfWorkUnits */
+  void
+  SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio) override;
+
+  /** Execute the SingleMethod (as defined by SetSingleMethod) once per work unit. */
   void
   SingleMethodExecute() override;
 

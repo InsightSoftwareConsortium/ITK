@@ -26,7 +26,6 @@
  *
  *=========================================================================*/
 #include "itkPoolMultiThreader.h"
-#include "itkNumericTraits.h"
 #include "itkProcessObject.h"
 #include "itkImageSourceCommon.h"
 #include <algorithm>
@@ -83,17 +82,7 @@ PoolMultiThreader::PoolMultiThreader()
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
   if (defaultThreads > 1) // one work unit for only one thread
   {
-    const ThreadIdType maximum = itk::NumericTraits<ThreadIdType>::max();
-    const auto         workUnitPerThreadRatio = GetGlobalDefaultWorkUnitPerThreadRatio();
-    // Prevent overflow when multiplying defaultThreads by workUnitPerThreadRatio
-    if (defaultThreads > maximum / workUnitPerThreadRatio)
-    {
-      defaultThreads = maximum;
-    }
-    else
-    {
-      defaultThreads = defaultThreads * workUnitPerThreadRatio;
-    }
+    defaultThreads *= ScaleByWorkUnitPerThreadRatio(GetGlobalDefaultWorkUnitPerThreadRatio(), defaultThreads);
   }
 
   m_NumberOfWorkUnits = defaultThreads;
@@ -125,6 +114,13 @@ void
 PoolMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 {
   m_NumberOfWorkUnits = std::max<ThreadIdType>(1, numberOfWorkUnits);
+}
+
+void
+PoolMultiThreader::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio)
+{
+  const ThreadIdType threadCount = this->GetMaximumNumberOfThreads();
+  this->SetNumberOfWorkUnits(threadCount * ScaleByWorkUnitPerThreadRatio(ratio, threadCount));
 }
 
 void
