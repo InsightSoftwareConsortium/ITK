@@ -23,6 +23,7 @@ itk_module(
     ITKRegistrationCommon
     ITKConvolution
     ITKImageFrequency
+    ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
     ${VTKGlueModule}
