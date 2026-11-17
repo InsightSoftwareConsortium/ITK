@@ -1,5 +1,7 @@
 itk_wrap_class("itk::VariableSizeMatrix")
-foreach(t ${WRAP_ITK_COMPLEX_REAL})
+# CD is the superclass of RieszRotationMatrix.
+unique(variable_size_matrix_types "${WRAP_ITK_COMPLEX_REAL};CD")
+foreach(t ${variable_size_matrix_types})
   itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
 endforeach()
 itk_end_wrap_class()
