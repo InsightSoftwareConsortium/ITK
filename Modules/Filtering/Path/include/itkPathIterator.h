@@ -114,7 +114,7 @@ public:
   PixelType &
   Value()
   {
-    return this->GetImage()->GetPixel(this->m_ImageIndex);
+    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_CurrentImageIndex);
   }
 
   /** operator= is provided to make sure the handles to the image and path are
