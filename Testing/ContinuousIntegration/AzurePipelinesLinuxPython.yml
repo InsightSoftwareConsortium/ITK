@@ -31,6 +31,7 @@ variables:
   CCACHE_COMPILERCHECK: content
   CCACHE_NOHASHDIR: 'true'
   CCACHE_SLOPPINESS: pch_defines,time_macros
+  CCACHE_MAXSIZE: 8G
 jobs:
 - job: Linux
   timeoutInMinutes: 0
@@ -38,6 +39,18 @@ jobs:
   pool:
     vmImage: ubuntu-22.04
   steps:
+    - bash: |
+        set -e
+        set -x
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc /usr/local/.ghcup
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/share/swift /opt/hostedtoolcache/CodeQL
+        sudo rm -rf /usr/local/include/boost /usr/local/lib/libboost_* /usr/local/share/boost
+        docker image prune -af || true
+        df -h /
+      displayName: 'Free preinstalled software'
+
     - checkout: self
       clean: true
       fetchDepth: 5
@@ -50,10 +63,11 @@ jobs:
 
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.9'
+        versionSpec: '3.11'
         architecture: 'x64'
 
     - bash: |
+        set -e
         set -x
         sudo apt-get update
         sudo apt-get install -y ccache
@@ -63,15 +77,16 @@ jobs:
 
     - task: Cache@2
       inputs:
-        key: 'ccache | rel54 | "$(Agent.OS)" | "LinuxPython" | "$(Build.SourceVersion)"'
+        key: '"ccache-rel54-v2" | "$(Agent.OS)" | "LinuxPython" | "$(Build.SourceVersion)"'
         restoreKeys: |
-          ccache | rel54 | "$(Agent.OS)" | "LinuxPython"
+          "ccache-rel54-v2" | "$(Agent.OS)" | "LinuxPython"
         path: $(CCACHE_DIR)
       displayName: 'ccache'
 
     - bash: |
         set -x
         ccache --zero-stats
+        ccache --evict-older-than 7d
         ccache --show-config
       displayName: 'ccache config'
 
@@ -116,6 +131,13 @@ jobs:
         cmake --version
 
         ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
+        ctest_rc=$?
+        if [ $ctest_rc -eq 0 ]; then
+          ccache --evict-older-than 3d || true
+        else
+          ccache --evict-older-than 14d || true
+        fi
+        exit $ctest_rc
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
@@ -131,3 +153,13 @@ jobs:
         testRunTitle: 'CTest $(Agent.OS)'
       condition: succeededOrFailed()
       displayName: 'Publish test results'
+
+    - bash: |
+        set -e
+        set -x
+        ccache -c || true
+        rm -rf $(Build.SourcesDirectory)-build
+        rm -rf $(Agent.BuildDirectory)/ITK-dashboard
+        df -h /
+      condition: always()
+      displayName: 'Free build tree before post-job cache save'

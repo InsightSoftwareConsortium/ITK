@@ -50,10 +50,11 @@ jobs:
 
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.9'
+        versionSpec: '3.11'
         architecture: 'x64'
 
     - bash: |
+        set -e
         set -x
         sudo pip3 install ninja
         sudo apt-get update
@@ -143,6 +144,7 @@ jobs:
       displayName: 'Checkout pull request HEAD'
 
     - bash: |
+        set -e
         set -x
         sudo pip3 install ninja
         sudo apt-get update
