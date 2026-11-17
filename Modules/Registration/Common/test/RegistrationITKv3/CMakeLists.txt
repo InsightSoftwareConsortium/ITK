@@ -94,7 +94,7 @@ target_link_libraries(
   "${ITKRegistrationCommon-Test_LIBRARIES}"
 )
 
-if(ITK_USE_FFTWD AND NOT ITK_USE_CUFFTW)
+if(ITK_USE_FFTWD AND NOT ITK_USE_CUFFTW AND NOT ITK_USE_MKL)
   add_executable(ITKv3DeformableRegistration10 DeformableRegistration10.cxx)
   target_link_libraries(
     ITKv3DeformableRegistration10

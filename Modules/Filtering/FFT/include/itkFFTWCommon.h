@@ -373,6 +373,7 @@ public:
   }
 
 
+#  ifndef ITK_USE_CUFFTW
   static PlanType
   Plan_r2r(int                   rank,
            const int *           n,
@@ -383,10 +384,8 @@ public:
            [[maybe_unused]] int  threads = 1,
            bool                  canDestroyInput = false)
   {
-#  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
-#  endif
     unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
@@ -411,13 +410,12 @@ public:
         delete[] din;
         plan = fftwf_plan_r2r(rank, n, in, out, kind, roflags);
       }
-#  ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
-#  endif
     }
     itkAssertOrThrowMacro(plan != nullptr, "PLAN_CREATION_FAILED ");
     return plan;
   }
+#  endif
 
   static void
   Execute(PlanType p)
@@ -748,6 +746,7 @@ public:
   }
 
 
+#  ifndef ITK_USE_CUFFTW
   static PlanType
   Plan_r2r(int                   rank,
            const int *           n,
@@ -758,10 +757,8 @@ public:
            [[maybe_unused]] int  threads = 1,
            bool                  canDestroyInput = false)
   {
-#  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
-#  endif
     unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
@@ -786,13 +783,12 @@ public:
         delete[] din;
         plan = fftw_plan_r2r(rank, n, in, out, kind, roflags);
       }
-#  ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
-#  endif
     }
     itkAssertOrThrowMacro(plan != nullptr, "PLAN_CREATION_FAILED ");
     return plan;
   }
+#  endif
 
   static void
   Execute(PlanType p)
