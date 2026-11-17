@@ -18,6 +18,8 @@
 #ifndef itkFFTWCommon_h
 #define itkFFTWCommon_h
 
+#include "itkIntTypes.h"
+
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #  if defined(ITK_USE_CUFFTW)
 #    include "cufftw.h"
@@ -33,12 +35,27 @@
 
 #endif
 
+#include <algorithm>
 #include <mutex>
 
 namespace itk
 {
 namespace fftw
 {
+// FFTW threads only speed up large transforms, so use at most one thread per 2^18 elements.
+inline int
+LimitThreadsByProblemSize(int rank, const int * n, int threads)
+{
+  constexpr SizeValueType minimumElementsPerThread = 262144;
+  SizeValueType           numberOfElements = 1;
+  for (int i = 0; i < rank; ++i)
+  {
+    numberOfElements *= static_cast<SizeValueType>(n[i]);
+  }
+  return static_cast<int>(std::clamp<SizeValueType>(
+    numberOfElements / minimumElementsPerThread, 1, static_cast<SizeValueType>(std::max(threads, 1))));
+}
+
 /**
  * \class Interface
  * \brief Wrapper for FFTW API
@@ -134,7 +151,7 @@ public:
   {
 #  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftwf_plan_with_nthreads(threads);
+    fftwf_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -232,7 +249,7 @@ public:
     //
 #  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftwf_plan_with_nthreads(threads);
+    fftwf_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -332,7 +349,7 @@ public:
   {
 #  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftwf_plan_with_nthreads(threads);
+    fftwf_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -385,7 +402,7 @@ public:
            bool                  canDestroyInput = false)
   {
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftwf_plan_with_nthreads(threads);
+    fftwf_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
     unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
@@ -508,7 +525,7 @@ public:
   {
 #  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftw_plan_with_nthreads(threads);
+    fftw_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -605,7 +622,7 @@ public:
   {
 #  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftw_plan_with_nthreads(threads);
+    fftw_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -705,7 +722,7 @@ public:
   {
 #  ifndef ITK_USE_CUFFTW
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftw_plan_with_nthreads(threads);
+    fftw_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -758,7 +775,7 @@ public:
            bool                  canDestroyInput = false)
   {
     const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
-    fftw_plan_with_nthreads(threads);
+    fftw_plan_with_nthreads(LimitThreadsByProblemSize(rank, n, threads));
     unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
