@@ -286,3 +286,29 @@ TEST(ReflectiveImageRegionIterator, DefaultConstructsWithoutImage)
     EXPECT_FALSE(readOnly.IsReflected(dim));
   }
 }
+
+
+// Checks that an iterator built from an indexed iterator at the begin walks the region like one built from the image.
+TEST(ReflectiveImageRegionIterator, ConstructedFromIndexedIteratorWalksBothPasses)
+{
+  using ImageType = itk::Image<int, 2>;
+  const auto image = ImageType::New();
+  const auto region = ImageType::RegionType(ImageType::SizeType::Filled(4));
+  image->SetRegions(region);
+  image->AllocateInitialized();
+
+  const auto expectSameWalk = [&image, &region](auto converted) {
+    itk::ReflectiveImageRegionConstIterator<ImageType> expected(image, region);
+    for (; !expected.IsAtEnd(); ++expected)
+    {
+      ASSERT_FALSE(converted.IsAtEnd());
+      EXPECT_EQ(converted.GetIndex(), expected.GetIndex());
+      ++converted;
+    }
+    EXPECT_TRUE(converted.IsAtEnd());
+  };
+  expectSameWalk(
+    itk::ReflectiveImageRegionIterator<ImageType>(itk::ImageRegionIteratorWithIndex<ImageType>(image, region)));
+  expectSameWalk(itk::ReflectiveImageRegionConstIterator<ImageType>(
+    itk::ImageRegionConstIteratorWithIndex<ImageType>(image, region)));
+}

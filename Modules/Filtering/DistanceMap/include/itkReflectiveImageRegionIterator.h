@@ -118,6 +118,7 @@ public:
   ReflectiveImageRegionIterator(const ImageIteratorWithIndex<TOtherImage> & it)
     : Superclass(it)
   {
+    std::fill_n(m_IsFirstPass, TImage::ImageDimension, true);
     m_BeginOffset.Fill(0);
     m_EndOffset.Fill(0);
   }
