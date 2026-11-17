@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+// Exercise the deprecated LabelGeometryImageFilter without warnings.
+#define ITK_LEGACY_SILENT
 #include "itkLabelGeometryImageFilter.h"
 #include "itkGTest.h"
 
