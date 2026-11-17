@@ -30,7 +30,7 @@ ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator()
     m_BeginOffset[dim] = 0;
     m_EndOffset[dim] = 0;
   }
-  this->GoToBegin();
+  std::fill_n(m_IsFirstPass, TImage::ImageDimension, true);
 }
 
 template <typename TImage>

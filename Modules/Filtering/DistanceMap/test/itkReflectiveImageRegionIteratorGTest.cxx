@@ -272,3 +272,17 @@ TEST(ReflectiveImageRegionIterator, DeduceImageTypeFromBaseIterator)
   static_assert(std::is_same_v<decltype(itk::ReflectiveImageRegionConstIterator(constBase)),
                                itk::ReflectiveImageRegionConstIterator<ImageType>>);
 }
+
+
+// Checks that default construction, which has no image, starts the first pass in every dimension.
+TEST(ReflectiveImageRegionIterator, DefaultConstructsWithoutImage)
+{
+  using ImageType = itk::Image<int, 2>;
+  const itk::ReflectiveImageRegionIterator<ImageType>      writable{};
+  const itk::ReflectiveImageRegionConstIterator<ImageType> readOnly{};
+  for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
+  {
+    EXPECT_FALSE(writable.IsReflected(dim));
+    EXPECT_FALSE(readOnly.IsReflected(dim));
+  }
+}
