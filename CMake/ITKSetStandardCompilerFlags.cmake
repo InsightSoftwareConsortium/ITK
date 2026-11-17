@@ -1,3 +1,5 @@
+# Where each flag belongs (ITK only, every client, or one target): Documentation/AI/compiler-flags.md
+
 # trict-null-sentinel Check the set of common warning flags supported by C and C++ compilers
 # check_compiler_warning_flags(<c_flags_var> <cxx_flags_var>)
 #  <c_flags_var> - variable to store valid C warning flags
