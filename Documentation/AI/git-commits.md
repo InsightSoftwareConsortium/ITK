@@ -59,6 +59,23 @@ authoring any commit body.
 > from the length limit. Squash these transient commits with
 > `git rebase -i --autosquash <base>` before pushing a PR.
 
+## Commit Scope
+
+One logical change per commit, per the
+[contributing guide](../docs/contributing/index.md#logical-commits).
+Cleanup of untouched code stays out of behavior commits
+([compiler-cautions.md §14a](./compiler-cautions.md#14a-do-not-introduce-new-clang-tidy-diagnostics)),
+and a pre-existing bug found along the way gets its own `BUG:` commit before
+the work that exposed it. Work that completes an earlier commit of the topic
+goes into that commit (`git commit --fixup=<sha>`, then autosquash as above);
+afterwards re-read that commit's message, per
+[code-review-lessons.md](./code-review-lessons.md#keep-commit-messages-and-pr-descriptions-in-sync-with-scope).
+
+Example: on top of `PERF: Limit FFTW plan threads by transform size`, do not
+add `ENH: Test FFTW thread limit and include ITK config first`. The include
+fix completes the PERF commit, so amend it there. The test builds and passes
+on its own, so it may stay a separate `ENH: Test FFTW thread limit` commit.
+
 ## Commit Message Length
 
 Keep commit messages concise. A 1-line subject plus a short body

@@ -162,6 +162,18 @@ Report](https://github.com/InsightSoftwareConsortium/ITK/issues/new?labels=type%
 can also be opened to keep track of the requested change. Design changes need
 explicit approval from the toolkit's maintainers.
 
+(logical-commits)=
+Logical Commits
+---------------
+
+Make each commit one logical change that builds and passes tests on its own
+(check with `git rebase -x '<build and test command>' <base>`, where `<base>`
+is the commit the topic branched from).
+Split unrelated changes into separate commits. Keep together changes that are
+not correct apart. When a later change completes or corrects an earlier
+commit of the topic, amend that commit (see [Revise a Topic](#revise-a-topic))
+instead of adding a new one.
+
 (commit-messages)=
 Commit Messages
 ---------------
@@ -330,6 +342,14 @@ git rebase -i HEAD~3
 
 Follow Git's interactive instructions.
 
+To fold a new change into an earlier commit, commit it as a fixup and let Git
+squash it into place:
+
+```bash
+git commit --fixup=<sha>
+git rebase -i --autosquash <sha>~
+```
+
 Return to the [Share a Topic](#share-a-topic) step to share the revised topic.
 
 (*You may visit the* Pro Git: Changing Multiple Commits *resource in [Git Help]
@@ -351,9 +371,9 @@ interface.
 If the merge conflicts follow the printed instructions to resolve them.
 
 If a new contributor has not learned how to amend and force-push updates to
-their branch into logical commits (preferred), maintainers should use the
-*Squash and merge* button on the pull request to consolidate patches into
-logical commits.
+their branch into [logical commits](#logical-commits) (preferred), and the
+pull request is a single logical change, maintainers should use the *Squash
+and merge* button to consolidate its patches into one commit.
 
 ### Merge a bug fix for a patch release
 
