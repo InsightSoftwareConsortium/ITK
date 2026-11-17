@@ -94,6 +94,15 @@ set(
   "additional include directories for each module"
 )
 
+# Header search path of a module and its dependencies.
+function(_itk_wrap_doc_include_dirs module output_var)
+  if(NOT ${module}_LOADED AND NOT EXISTS "${ITK_MODULES_DIR}/${module}.cmake")
+    return()
+  endif()
+  itk_module_config(_itk_wrap_doc ${module})
+  set(${output_var} ${_itk_wrap_doc_INCLUDE_DIRS} PARENT_SCOPE)
+endfunction()
+
 ###############################################################################
 # Define fundamental wrapping macro which sets up the global variables used
 # across all of the wrapping macros included at the end of this file.
@@ -193,6 +202,7 @@ macro(itk_wrap_module library_name)
     unset(ITK_WRAP_DOC_DOXYGEN_HEADERS) # doxygen headers to process in this lib
     unset(ITK_WRAP_DOC_DOXYGEN_XML_FILES) # xml files produced by doxygen in this lib
     unset(ITK_WRAP_DOC_DOCSTRING_FILES) # swig docstring files produced by doxygen in this lib
+    _itk_wrap_doc_include_dirs(${library_name} ITK_WRAP_DOC_INCLUDE_DIRS)
   endif()
 
   unset(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES)
@@ -331,6 +341,8 @@ macro(itk_wrap_named_class class swig_name)
     else()
       set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT OFF)
       get_directory_property(dirs INCLUDE_DIRECTORIES)
+      list(PREPEND dirs ${ITK_WRAP_DOC_INCLUDE_DIRS})
+      list(REMOVE_DUPLICATES dirs)
       set(paths)
       foreach(dir ${dirs})
         list(APPEND paths "${dir}/${swig_name}.h")
