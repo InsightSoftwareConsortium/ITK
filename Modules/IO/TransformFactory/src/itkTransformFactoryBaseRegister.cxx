@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkTransformFactoryBaseRegister_hxx
-#define itkTransformFactoryBaseRegister_hxx
 #include "itkTransformFactory.h"
 #include "itkVersion.h"
 
@@ -187,6 +185,23 @@ TransformFactoryBase::RegisterTransformFactory()
   TransformFactory<VelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
 }
 
-} // end namespace itk
 
-#endif
+void
+TransformFactoryBase::RegisterTransformFactoryFloatParameters()
+{
+  //
+  // float Parameters
+  //
+  Self::RegisterTransformFactory<float>();
+}
+
+void
+TransformFactoryBase::RegisterTransformFactoryDoubleParameters()
+{
+  //
+  // double Parameters
+  //
+  Self::RegisterTransformFactory<double>();
+}
+
+} // end namespace itk

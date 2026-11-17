@@ -1,8 +1,7 @@
 set(
   ITKTransformFactory_SRCS
   itkTransformFactoryBase.cxx
-  itkTransformFactoryBaseRegisterDoubleParameters.cxx
-  itkTransformFactoryBaseRegisterFloatParameters.cxx
+  itkTransformFactoryBaseRegister.cxx
 )
 
 itk_module_add_library(ITKTransformFactory ${ITKTransformFactory_SRCS})
