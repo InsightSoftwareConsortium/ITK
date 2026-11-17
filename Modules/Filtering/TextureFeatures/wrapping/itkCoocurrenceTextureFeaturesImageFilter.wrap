@@ -1,8 +1,11 @@
 set(OutputVectorDim 8)
 
-itk_wrap_class("itk::FixedArray")
-itk_wrap_template("${ITKM_F}${OutputVectorDim}" "${ITKT_F},${OutputVectorDim}")
-itk_end_wrap_class()
+# ITKCommon already wraps this size when ITK_WRAP_IMAGE_DIMS contains 4.
+if(NOT DEFINED ITKT_FA${ITKM_F}${OutputVectorDim})
+  itk_wrap_class("itk::FixedArray")
+  itk_wrap_template("${ITKM_F}${OutputVectorDim}" "${ITKT_F},${OutputVectorDim}")
+  itk_end_wrap_class()
+endif()
 
 itk_wrap_class("itk::Vector")
 itk_wrap_template("${ITKM_F}${OutputVectorDim}" "${ITKT_F},${OutputVectorDim}")
