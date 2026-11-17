@@ -187,6 +187,53 @@ ThreadPool::ResumeFromFork()
 }
 
 void
+ThreadPool::Enqueue(std::packaged_task<void()> && task)
+{
+  bool wake = false;
+  {
+    const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_Mutex);
+    m_WorkQueue.push_back(std::move(task));
+    wake = m_NumberOfSleepingThreads > 0;
+  }
+  if (wake)
+  {
+    m_Condition.notify_one();
+  }
+}
+
+void
+ThreadPool::EnqueueBatch(std::vector<std::packaged_task<void()>> & tasks)
+{
+  if (tasks.empty())
+  {
+    return;
+  }
+
+  ThreadIdType sleeping = 0;
+  {
+    const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_Mutex);
+    for (auto & task : tasks)
+    {
+      m_WorkQueue.push_back(std::move(task));
+    }
+    sleeping = m_NumberOfSleepingThreads;
+  }
+
+  // Threads that are awake drain the queue before sleeping, so only sleeping ones need a wake-up call.
+  if (sleeping > tasks.size())
+  {
+    for (std::size_t i = 0; i < tasks.size(); ++i)
+    {
+      m_Condition.notify_one();
+    }
+  }
+  else if (sleeping > 0)
+  {
+    m_Condition.notify_all(); // one call instead of one per sleeping thread
+  }
+}
+
+void
 ThreadPool::ThreadExecute()
 {
   // plain pointer does not increase reference count
@@ -194,12 +241,16 @@ ThreadPool::ThreadExecute()
 
   while (true)
   {
-    std::function<void()> task;
+    std::packaged_task<void()> task;
 
     {
       std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
-      threadPool->m_Condition.wait(mutexHolder,
-                                   [threadPool] { return threadPool->m_Stopping || !threadPool->m_WorkQueue.empty(); });
+      while (!threadPool->m_Stopping && threadPool->m_WorkQueue.empty())
+      {
+        ++threadPool->m_NumberOfSleepingThreads;
+        threadPool->m_Condition.wait(mutexHolder);
+        --threadPool->m_NumberOfSleepingThreads;
+      }
       if (threadPool->m_Stopping && threadPool->m_WorkQueue.empty())
       {
         return;
