@@ -40,7 +40,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(AND);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(A & B);
@@ -64,7 +64,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(OR);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(A | B);
@@ -88,7 +88,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(XOR);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(A ^ B);
@@ -115,7 +115,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(BitwiseNot);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return static_cast<TOutput>(~A);

@@ -27,7 +27,7 @@ template <typename TPixel>
 class MaxFunctor
 {
 public:
-  inline TPixel
+  TPixel
   operator()(const TPixel & A, const TPixel & B) const
   {
     return std::max(A, B);

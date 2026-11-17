@@ -108,7 +108,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(BinaryThreshold);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     if (m_LowerThreshold <= A && A <= m_UpperThreshold)

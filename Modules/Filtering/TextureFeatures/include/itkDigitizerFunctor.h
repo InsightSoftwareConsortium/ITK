@@ -66,7 +66,7 @@ public:
     return !(*this != other);
   }
 
-  inline TOutput
+  TOutput
   operator()(const MaskPixelType & maskPixel, const PixelType & inputPixel) const
   {
 

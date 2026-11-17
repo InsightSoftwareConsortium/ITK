@@ -111,12 +111,12 @@ protected:
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
   /** @ITKStartGrouping */
-  inline NumberOfParametersType
+  NumberOfParametersType
   GetCachedNumberOfParameters() const
   {
     return this->m_CachedNumberOfParameters;
   }
-  inline NumberOfParametersType
+  NumberOfParametersType
   GetCachedNumberOfLocalParameters() const
   {
     return this->m_CachedNumberOfLocalParameters;
@@ -188,12 +188,12 @@ protected:
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
   /** @ITKStartGrouping */
-  inline NumberOfParametersType
+  NumberOfParametersType
   GetCachedNumberOfParameters() const
   {
     return this->m_CachedNumberOfParameters;
   }
-  inline NumberOfParametersType
+  NumberOfParametersType
   GetCachedNumberOfLocalParameters() const
   {
     return this->m_CachedNumberOfLocalParameters;

@@ -38,7 +38,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::LabelType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetLabel();
@@ -52,7 +52,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = int;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetNumberOfLines();

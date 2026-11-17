@@ -112,7 +112,7 @@ public:
 
   /** Insert a new step into the chaincode at a specified position */
   /** @ITKStartGrouping */
-  inline void
+  void
   InsertStep(InputType position, int encodedStep)
   {
     m_Chain2D.insert(m_Chain2D.begin() + position, encodedStep);
@@ -129,7 +129,7 @@ public:
 
   /** Change the direction of a step in the chaincode */
   /** @ITKStartGrouping */
-  inline void
+  void
   ChangeStep(InputType position, int encodedStep)
   {
     m_Chain2D[position] = encodedStep;
@@ -162,13 +162,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Encode and Decode between an offset and a Freeman code */
-  inline int
+  int
   EncodeOffset(OffsetType step) const
   {
     return m_FreemanCode[step[0] + 1][step[1] + 1];
   }
 
-  inline OffsetType
+  OffsetType
   DecodeOffset(int encodedStep) const
   {
     return m_ReverseFreemanCode[encodedStep];

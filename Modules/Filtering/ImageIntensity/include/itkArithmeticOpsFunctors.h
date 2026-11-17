@@ -39,7 +39,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Add2);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(A + B);
@@ -64,7 +64,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Add3);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const
   {
     return static_cast<TOutput>(A + B + C);
@@ -89,7 +89,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Sub2);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(A - B);
@@ -114,7 +114,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Mult);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(A * B);
@@ -139,7 +139,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Div);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (itk::Math::NotAlmostEquals(B, TInput2{}))
@@ -178,7 +178,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(DivideOrZeroOut);
 
-  inline TOutput
+  TOutput
   operator()(const TNumerator & n, const TDenominator & d) const
   {
     if (d < m_Threshold)
@@ -209,7 +209,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Modulus);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (B != TInput2{})
@@ -251,7 +251,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ModulusTransform);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & x) const
   {
     auto result = static_cast<TOutput>(x % m_Dividend);
@@ -286,7 +286,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(DivFloor);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     const double temp = std::floor(static_cast<double>(A) / static_cast<double>(B));
@@ -327,7 +327,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(DivReal);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(static_cast<typename NumericTraits<TInput1>::RealType>(A) /
@@ -353,7 +353,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(UnaryMinus);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A) const
   {
     return (TOutput)(-A);

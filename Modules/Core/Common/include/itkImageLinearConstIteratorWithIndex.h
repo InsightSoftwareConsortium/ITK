@@ -177,21 +177,21 @@ public:
   GoToEndOfLine();
 
   /** Test if the index is at the end of line */
-  [[nodiscard]] inline bool
+  [[nodiscard]] bool
   IsAtEndOfLine() const
   {
     return this->m_PositionIndex[m_Direction] >= this->m_EndIndex[m_Direction];
   }
 
   /** Test if the index is at the begin of line */
-  [[nodiscard]] inline bool
+  [[nodiscard]] bool
   IsAtReverseEndOfLine() const
   {
     return this->m_PositionIndex[m_Direction] < this->m_BeginIndex[m_Direction];
   }
 
   /** Set the direction of movement */
-  inline void
+  void
   SetDirection(unsigned int direction)
   {
     if (direction >= TImage::ImageDimension)
@@ -212,7 +212,7 @@ public:
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  inline Self &
+  Self &
   operator++()
   {
     this->m_PositionIndex[m_Direction]++;
@@ -222,7 +222,7 @@ public:
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed.  \sa GetIndex \sa operator++ */
-  inline Self &
+  Self &
   operator--()
   {
     this->m_PositionIndex[m_Direction]--;

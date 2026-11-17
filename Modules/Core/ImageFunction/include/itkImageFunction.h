@@ -199,7 +199,7 @@ public:
   }
 
   /** Convert continuous index to nearest index. */
-  inline void
+  void
   ConvertContinuousIndexToNearestIndex(const ContinuousIndexType & cindex, IndexType & index) const
   {
     index.CopyWithRound(cindex);

@@ -33,35 +33,35 @@ public:
 
   ~MorphologicalGradientHistogram() = default;
 
-  inline void
+  void
   AddBoundary()
   {}
 
-  inline void
+  void
   RemoveBoundary()
   {}
 
   using MapType = std::map<TInputPixel, SizeValueType>;
 
-  inline void
+  void
   AddPixel(const TInputPixel & p)
   {
     m_Map[p]++;
   }
 
-  inline void
+  void
   RemovePixel(const TInputPixel & p)
   {
     m_Map[p]--;
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue(const TInputPixel &)
   {
     return GetValue();
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue()
   {
     // clean the map
@@ -117,16 +117,16 @@ public:
 
   ~VectorMorphologicalGradientHistogram() = default;
 
-  inline void
+  void
   AddBoundary()
   {}
 
-  inline void
+  void
   RemoveBoundary()
   {}
 
 
-  inline void
+  void
   AddPixel(const TInputPixel & p)
   {
     m_Vector[p - NumericTraits<TInputPixel>::NonpositiveMin()]++;
@@ -141,7 +141,7 @@ public:
     ++m_Count;
   }
 
-  inline void
+  void
   RemovePixel(const TInputPixel & p)
   {
     m_Vector[p - NumericTraits<TInputPixel>::NonpositiveMin()]--;
@@ -164,13 +164,13 @@ public:
     }
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue(const TInputPixel &)
   {
     return GetValue();
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue()
   {
     if (m_Count > 0)

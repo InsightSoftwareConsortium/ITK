@@ -77,7 +77,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ThresholdLabeler);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     // When there are N thresholds, they divide values into N+1 buckets, which we number

@@ -59,7 +59,7 @@ public:
     return !(*this != other);
   }
 
-  inline TOutputPixel
+  TOutputPixel
   operator()(const TInputPixel1 A, const TInputPixel2 B)
   {
     return static_cast<TOutputPixel>(itk::Math::Absolute(A) > itk::Math::Absolute(B) ? A : B);

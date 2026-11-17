@@ -264,7 +264,7 @@ private:
 
   RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
 
-  inline typename RealImageType::IndexType
+  typename RealImageType::IndexType
   NumberToIndex(unsigned int number, typename RealImageType::SizeType size)
   {
     typename RealImageType::IndexType k;

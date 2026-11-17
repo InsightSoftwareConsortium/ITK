@@ -96,7 +96,7 @@ public:
    * Adding a vertex has the additional effect of extending the domain of the
    * PolyLineParametricPath by 1.0 (each pair of consecutive vertices is
    * separated by one unit of input). */
-  inline void
+  void
   AddVertex(const ContinuousIndexType & vertex)
   {
     m_VertexList->InsertElement(m_VertexList->Size(), vertex);

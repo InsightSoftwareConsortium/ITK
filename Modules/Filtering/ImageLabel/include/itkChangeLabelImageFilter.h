@@ -89,7 +89,7 @@ public:
     m_ChangeMap.clear();
   }
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     const auto it = m_ChangeMap.find(A);

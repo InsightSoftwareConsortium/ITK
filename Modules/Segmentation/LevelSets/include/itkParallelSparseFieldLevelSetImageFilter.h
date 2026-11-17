@@ -536,7 +536,7 @@ protected:
    * output values are applied during each iteration.  The default simply
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration. */
-  inline virtual ValueType
+  virtual ValueType
   ThreadedCalculateUpdateValue(const ThreadIdType   itkNotUsed(ThreadId),
                                const IndexType      itkNotUsed(index),
                                const TimeStepType & dt,

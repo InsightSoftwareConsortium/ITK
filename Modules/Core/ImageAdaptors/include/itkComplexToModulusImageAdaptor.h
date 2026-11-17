@@ -50,13 +50,13 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void
+  static void
   Set(TInternalType & output, const TExternalType & input)
   {
     output = (TInternalType)(input);
   }
 
-  static inline TExternalType
+  static TExternalType
   Get(const TInternalType & input)
   {
     return (TExternalType)(std::sqrt(input.real() * input.real() + input.imag() * input.imag()));

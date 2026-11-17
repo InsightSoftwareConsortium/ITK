@@ -41,7 +41,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Maximum);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (A > B)

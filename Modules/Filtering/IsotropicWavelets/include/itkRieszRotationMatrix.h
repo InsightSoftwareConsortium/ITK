@@ -141,12 +141,12 @@ public:
    * \sa GetComponents
    * \sa RieszFrequencyFunction
    */
-  inline const unsigned int &
+  const unsigned int &
   GetOrder() const
   {
     return this->m_Order;
   }
-  inline void
+  void
   SetOrder(const unsigned int & order)
   {
     this->m_Order = order;
@@ -162,20 +162,20 @@ public:
    *
    * \sa RieszFrequencyFunction
    */
-  inline const unsigned int &
+  const unsigned int &
   GetComponents() const
   {
     return this->m_Components;
   }
 
   /// Get/Set the spatial rotation matrix from which the steerable matrix is composed.
-  inline const SpatialRotationMatrixType &
+  const SpatialRotationMatrixType &
   GetSpatialRotationMatrix() const
   {
     return this->m_SpatialRotationMatrix;
   }
 
-  inline void
+  void
   SetSpatialRotationMatrix(const SpatialRotationMatrixType & spatialRotationMatrix)
   {
     this->m_SpatialRotationMatrix = spatialRotationMatrix;
@@ -193,34 +193,34 @@ public:
    *
    * \sa itk::Math::FloatAlmostEqual
    */
-  inline const ValueType &
+  const ValueType &
   GetMaxAbsoluteDifferenceCloseToZero() const
   {
     return this->m_MaxAbsoluteDifferenceCloseToZero;
   }
-  inline void
+  void
   SetMaxAbsoluteDifferenceCloseToZero(const RealType & maxAbsoluteDifference)
   {
     this->m_MaxAbsoluteDifferenceCloseToZero = maxAbsoluteDifference;
   }
   // ------- Debug Macro ------
   /// Get/Set Debug flag to print extra information.
-  inline const bool &
+  const bool &
   GetDebug() const
   {
     return this->m_Debug;
   }
-  inline void
+  void
   SetDebug(const bool & boolean)
   {
     this->m_Debug = boolean;
   }
-  inline void
+  void
   SetDebugOn()
   {
     this->m_Debug = true;
   }
-  inline void
+  void
   SetDebugOff()
   {
     this->m_Debug = false;

@@ -45,7 +45,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ExpNegative);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return static_cast<TOutput>(std::exp(-m_Factor * static_cast<double>(A)));

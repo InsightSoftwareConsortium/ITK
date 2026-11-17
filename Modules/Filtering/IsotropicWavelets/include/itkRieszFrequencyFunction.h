@@ -160,7 +160,7 @@ public:
   ComputeNormalizingFactor(const IndicesArrayType & indices) const;
 
   /** Calculate magnitude (euclidean norm) of input point. **/
-  inline double
+  double
   Magnitude(const TInput & point) const
   {
     return sqrt(std::inner_product(point.Begin(), point.End(), point.Begin(), 0.0));

@@ -180,7 +180,7 @@ public:
     return m_Loop;
   }
 
-  inline IndexType
+  IndexType
   GetFastIndexPlusOffset(const OffsetType & o) const
   {
     return m_Loop + o;

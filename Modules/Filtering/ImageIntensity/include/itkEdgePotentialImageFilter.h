@@ -51,7 +51,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(EdgePotential);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return static_cast<TOutput>(std::exp(-1.0 * A.GetNorm()));

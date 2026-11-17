@@ -117,7 +117,7 @@ public:
    * NOTE: Since the index calculation needs conversion from double
    * to int, truncation happens. As a result, the return values from
    * Evaluate(x) and GetCachedValue(x) may not be same for the same x. */
-  inline MeasureType
+  MeasureType
   GetCachedValue(MeasureType x)
   {
     if (x > m_CacheUpperBound || x < m_CacheLowerBound)

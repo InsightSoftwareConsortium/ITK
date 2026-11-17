@@ -71,7 +71,7 @@ public:
        }
      \endcode
    */
-  inline void
+  void
   SetBegin(const InternalPixelType * begin)
   {
     this->m_Begin = const_cast<InternalPixelType *>(begin);
@@ -84,14 +84,14 @@ public:
    * VectorImage pixel involves a different operation that simply
    * dereferencing the pointer. Here a PixelType (array of InternalPixelType s)
    * is created on the stack and returned.  */
-  inline PixelType
+  PixelType
   Get(const InternalPixelType * pixelPointer) const
   {
     return PixelType(pixelPointer + (pixelPointer - m_Begin) * m_OffsetMultiplier, m_VectorLength);
   }
 
   /** Method to set the pixel value at a certain pixel pointer */
-  inline void
+  void
   Set(InternalPixelType * const pixelPointer, const PixelType & p) const
   {
     InternalPixelType * const truePixelPointer = pixelPointer + (pixelPointer - m_Begin) * m_OffsetMultiplier;
@@ -104,7 +104,7 @@ public:
 
 
   template <typename TOutput>
-  inline typename ImageBoundaryConditionType<TOutput>::OutputPixelType
+  typename ImageBoundaryConditionType<TOutput>::OutputPixelType
   BoundaryCondition(const OffsetType &                          point_index,
                     const OffsetType &                          boundary_offset,
                     const NeighborhoodType *                    data,

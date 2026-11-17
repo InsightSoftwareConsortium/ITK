@@ -73,14 +73,14 @@ private:
              unsigned int &                     outLeftP,
              unsigned int &                     outRightP);
 
-  inline bool
+  bool
   Compare1(const InputImagePixelType & a, const InputImagePixelType & b)
   {
     TCompare compare;
     return !compare(a, b);
   }
 
-  inline bool
+  bool
   Compare2(const InputImagePixelType & a, const InputImagePixelType & b)
   {
     TCompare compare;

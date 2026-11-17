@@ -48,7 +48,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(MaskInput);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A, const TMask & B) const
   {
     if (B != m_MaskingValue)

@@ -87,7 +87,7 @@ public:
     m_BackgroundColor.Fill(ValueType{});
   }
 
-  inline TRGBPixel
+  TRGBPixel
   operator()(const TLabel & p) const
   {
     // value is background

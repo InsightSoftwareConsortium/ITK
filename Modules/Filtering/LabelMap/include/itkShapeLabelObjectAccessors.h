@@ -39,7 +39,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = SizeValueType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetNumberOfPixels();
@@ -53,7 +53,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::RegionType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetBoundingBox();
@@ -67,7 +67,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPhysicalSize();
@@ -81,7 +81,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = SizeValueType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetNumberOfPixelsOnBorder();
@@ -95,7 +95,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPerimeterOnBorder();
@@ -109,7 +109,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::CentroidType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetCentroid();
@@ -123,7 +123,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetFeretDiameter();
@@ -137,7 +137,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::VectorType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPrincipalMoments();
@@ -151,7 +151,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::MatrixType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPrincipalAxes();
@@ -165,7 +165,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetElongation();
@@ -179,7 +179,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPerimeter();
@@ -193,7 +193,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetRoundness();
@@ -207,7 +207,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetEquivalentSphericalRadius();
@@ -221,7 +221,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetEquivalentSphericalPerimeter();
@@ -235,7 +235,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::VectorType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetEquivalentEllipsoidDiameter();
@@ -249,7 +249,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetFlatness();
@@ -263,7 +263,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPerimeterOnBorderRatio();

@@ -112,14 +112,14 @@ public:
   }
 
   /** Test if the index is at the end of line. */
-  inline bool
+  bool
   IsAtEndOfLine()
   {
     return this->m_Index0 == this->m_EndIndex0;
   }
 
   /** Go to the next line. */
-  inline void
+  void
   NextLine()
   {
     ++(this->m_BI);

@@ -73,7 +73,7 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(JoinFunctor);
 
   /** operator().  This is the "call" method of the functor. */
-  inline JoinType
+  JoinType
   operator()(const TPixel1 & A, const TPixel2 & B) const
   {
     JoinType out;

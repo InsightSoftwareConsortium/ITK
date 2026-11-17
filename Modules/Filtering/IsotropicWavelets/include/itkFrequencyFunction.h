@@ -57,7 +57,7 @@ public:
    * The evaluate function require frequency in Hertz (1/s)
    * \f$ w[Hz] = \frac{ w[rad/s]}{2\pi}\f$
    */
-  inline FunctionValueType
+  FunctionValueType
   RadPerSecToHertz(const TFunctionValue & w_rad_per_sec) const
   {
     return w_rad_per_sec / (2 * itk::Math::pi);

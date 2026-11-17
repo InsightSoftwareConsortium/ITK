@@ -55,19 +55,19 @@ public:
 
   ~MedianAccumulator() = default;
 
-  inline void
+  void
   Initialize()
   {
     m_Values.clear();
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
     m_Values.push_back(input);
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue()
   {
     auto medianIterator = m_Values.begin() + m_Values.size() / 2;

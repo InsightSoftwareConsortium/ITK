@@ -91,14 +91,14 @@ private:
            typeid(InputImagePixelType) == typeid(bool);
   }
 
-  inline bool
+  bool
   StrictCompare(const InputImagePixelType & a, const InputImagePixelType & b)
   {
     TCompare compare;
     return compare(a, b);
   }
 
-  inline bool
+  bool
   Compare(const InputImagePixelType & a, const InputImagePixelType & b)
   {
     TCompare compare;

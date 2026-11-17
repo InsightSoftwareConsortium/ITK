@@ -42,7 +42,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Atan2);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast<TOutput>(std::atan2(static_cast<double>(A), static_cast<double>(B)));

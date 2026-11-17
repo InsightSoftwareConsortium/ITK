@@ -63,21 +63,21 @@ public:
   using InternalType = TType;
 
   /** Set the pixel. */
-  inline void
+  void
   Set(TType & output, const TType & input) const
   {
     output = input;
   }
 
   /** Get the pixel. */
-  inline TType &
+  TType &
   Get(TType & input) const
   {
     return input;
   }
 
   /** Get a const reference to the pixel. */
-  [[nodiscard]] inline const TType &
+  [[nodiscard]] const TType &
   Get(const TType & input) const
   {
     return input;

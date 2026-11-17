@@ -66,7 +66,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(MagnitudeAndPhaseToComplex);
 
-  inline std::complex<TOutput>
+  std::complex<TOutput>
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     return std::complex<TOutput>(std::polar(static_cast<TOutput>(A), static_cast<TOutput>(B)));

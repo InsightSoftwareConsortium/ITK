@@ -53,7 +53,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(SymmetricEigenAnalysisFunction);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & x) const
   {
     TOutput eigenValues{};
@@ -141,7 +141,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(SymmetricEigenAnalysisFixedDimensionFunction);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & x) const
   {
     TOutput eigenValues;

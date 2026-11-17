@@ -40,7 +40,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TensorRelativeAnisotropyFunction);
 
-  inline RealValueType
+  RealValueType
   operator()(const TInput & x) const
   {
     return x.GetRelativeAnisotropy();

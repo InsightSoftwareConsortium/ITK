@@ -51,7 +51,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(VectorMagnitudeLinearTransform);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & x) const
   {
     TOutput result;

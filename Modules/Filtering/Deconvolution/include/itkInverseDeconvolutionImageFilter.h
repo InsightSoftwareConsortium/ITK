@@ -139,7 +139,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(InverseDeconvolutionFunctor);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & I, const TInput2 & H) const
   {
     const double absH = itk::Math::Absolute(H);

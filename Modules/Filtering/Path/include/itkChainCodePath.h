@@ -114,7 +114,7 @@ public:
   /** @ITKEndGrouping */
 
   /** Insert a new step into the chaincode at a specified position */
-  virtual inline void
+  virtual void
   InsertStep(InputType position, OffsetType step)
   {
     m_Chain.insert(m_Chain.begin() + position, step);
@@ -122,7 +122,7 @@ public:
   }
 
   /** Change the direction of a step in the chaincode */
-  virtual inline void
+  virtual void
   ChangeStep(InputType position, OffsetType step)
   {
     m_Chain[position] = step;
@@ -130,7 +130,7 @@ public:
   }
 
   /** Remove all steps from the chain code */
-  virtual inline void
+  virtual void
   Clear()
   {
     m_Chain.clear();
@@ -138,7 +138,7 @@ public:
   }
 
   /** How many steps in the chaincode? */
-  virtual inline ChainCodeSizeType
+  virtual ChainCodeSizeType
   NumberOfSteps() const
   {
     return m_Chain.size();

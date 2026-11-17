@@ -70,7 +70,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Sigmoid);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     const double x = (static_cast<double>(A) - m_Beta) / m_Alpha;

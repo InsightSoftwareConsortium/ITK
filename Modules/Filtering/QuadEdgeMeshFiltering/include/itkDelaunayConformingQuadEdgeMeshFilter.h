@@ -155,7 +155,7 @@ protected:
   void
   ReassignCellData(const OutputCellIdentifier & in, const OutputCellIdentifier & out);
 
-  inline CriterionValueType
+  CriterionValueType
   Dyer07Criterion(OutputMeshType * iMesh, OutputQEType * iEdge) const
   {
     const OutputPointIdentifier id1 = iEdge->GetOrigin();

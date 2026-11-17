@@ -41,7 +41,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Modulus3);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const
   {
     return static_cast<TOutput>(std::sqrt(static_cast<double>(A * A + B * B + C * C)));

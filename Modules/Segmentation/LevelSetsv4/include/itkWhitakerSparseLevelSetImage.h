@@ -89,37 +89,37 @@ public:
 
   itkConceptMacro(DoubleConvertible, (Concept::Convertible<OutputRealType, OutputType>));
 
-  static inline LayerIdType
+  static LayerIdType
   MinusThreeLayer()
   {
     return -3;
   }
-  static inline LayerIdType
+  static LayerIdType
   MinusTwoLayer()
   {
     return -2;
   }
-  static inline LayerIdType
+  static LayerIdType
   MinusOneLayer()
   {
     return -1;
   }
-  static inline LayerIdType
+  static LayerIdType
   ZeroLayer()
   {
     return 0;
   }
-  static inline LayerIdType
+  static LayerIdType
   PlusOneLayer()
   {
     return 1;
   }
-  static inline LayerIdType
+  static LayerIdType
   PlusTwoLayer()
   {
     return 2;
   }
-  static inline LayerIdType
+  static LayerIdType
   PlusThreeLayer()
   {
     return 3;

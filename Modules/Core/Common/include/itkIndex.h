@@ -290,7 +290,7 @@ public:
 
   /** Copy values from a FixedArray by rounding each one of the components */
   template <typename TCoordinate>
-  inline void
+  void
   CopyWithRound(const FixedArray<TCoordinate, VDimension> & point)
   {
     for (unsigned int i = 0; i < VDimension; ++i)
@@ -301,7 +301,7 @@ public:
 
   /** Copy values from a FixedArray by casting each one of the components */
   template <typename TCoordinate>
-  inline void
+  void
   CopyWithCast(const FixedArray<TCoordinate, VDimension> & point)
   {
     for (unsigned int i = 0; i < VDimension; ++i)

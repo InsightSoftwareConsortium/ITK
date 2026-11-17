@@ -51,7 +51,7 @@ public:
   MaximumAccumulator(SizeValueType) {}
   ~MaximumAccumulator() = default;
 
-  inline void
+  void
   Initialize()
   {
 
@@ -67,7 +67,7 @@ public:
     }
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
     if constexpr (std::is_same_v<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>)
@@ -90,7 +90,7 @@ public:
     }
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue()
   {
     return m_Maximum;

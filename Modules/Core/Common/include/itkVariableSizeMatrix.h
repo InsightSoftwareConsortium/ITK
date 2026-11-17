@@ -135,63 +135,63 @@ public:
   }
 
   /** Return an element of the matrix. */
-  inline T &
+  T &
   operator()(unsigned int row, unsigned int col)
   {
     return m_Matrix(row, col);
   }
 
   /** Return an element of the matrix. */
-  inline const T &
+  const T &
   operator()(unsigned int row, unsigned int col) const
   {
     return m_Matrix(row, col);
   }
 
   /** Return a row of the matrix. */
-  inline T *
+  T *
   operator[](unsigned int i)
   {
     return m_Matrix[i];
   }
 
   /** Return a row of the matrix. */
-  inline const T *
+  const T *
   operator[](unsigned int i) const
   {
     return m_Matrix[i];
   }
 
   /** Return the matrix. */
-  inline InternalMatrixType &
+  InternalMatrixType &
   GetVnlMatrix()
   {
     return m_Matrix;
   }
 
   /** Return the matrix. */
-  [[nodiscard]] inline const InternalMatrixType &
+  [[nodiscard]] const InternalMatrixType &
   GetVnlMatrix() const
   {
     return m_Matrix;
   }
 
   /** Set the matrix to identity. */
-  inline void
+  void
   SetIdentity()
   {
     m_Matrix.set_identity();
   }
 
   /** Fill the matrix with a value. */
-  inline void
+  void
   Fill(const T & value)
   {
     m_Matrix.fill(value);
   }
 
   /** Assignment operator. */
-  inline Self &
+  Self &
   operator=(const vnl_matrix<T> & matrix)
   {
     m_Matrix = matrix;
@@ -209,14 +209,14 @@ public:
   operator=(const Self & matrix) = default;
 
   /** Return the inverse matrix. */
-  [[nodiscard]] inline vnl_matrix<T>
+  [[nodiscard]] vnl_matrix<T>
   GetInverse() const
   {
     return itk::bridge::Math::PseudoInverse(m_Matrix);
   }
 
   /** Return the transposed matrix. */
-  [[nodiscard]] inline vnl_matrix<T>
+  [[nodiscard]] vnl_matrix<T>
   GetTranspose() const
   {
     return m_Matrix.transpose();
@@ -235,21 +235,21 @@ public:
   {}
 
   /** Return number of rows in the matrix */
-  [[nodiscard]] inline unsigned int
+  [[nodiscard]] unsigned int
   Rows() const
   {
     return m_Matrix.rows();
   }
 
   /** Return number of columns in the matrix */
-  [[nodiscard]] inline unsigned int
+  [[nodiscard]] unsigned int
   Cols() const
   {
     return m_Matrix.cols();
   }
 
   /** Set the matrix size. Old data lost. Returns true if size changed. */
-  inline bool
+  bool
   SetSize(unsigned int r, unsigned int c)
   {
     return m_Matrix.set_size(r, c);

@@ -33,31 +33,31 @@ public:
 
   MorphologyHistogram() = default;
 
-  inline void
+  void
   AddBoundary()
   {
     m_Map[m_Boundary]++;
   }
 
-  inline void
+  void
   RemoveBoundary()
   {
     m_Map[m_Boundary]--;
   }
 
-  inline void
+  void
   AddPixel(const TInputPixel & p)
   {
     m_Map[p]++;
   }
 
-  inline void
+  void
   RemovePixel(const TInputPixel & p)
   {
     m_Map[p]--;
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue()
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(!m_Map.empty());
@@ -91,7 +91,7 @@ public:
     return m_Map.begin()->first;
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue(const TInputPixel &)
   {
     return GetValue();
@@ -136,19 +136,19 @@ public:
     m_Boundary = 0;
   }
 
-  inline void
+  void
   AddBoundary()
   {
     AddPixel(m_Boundary);
   }
 
-  inline void
+  void
   RemoveBoundary()
   {
     RemovePixel(m_Boundary);
   }
 
-  inline void
+  void
   AddPixel(const TInputPixel & p)
   {
     m_Vector[p - NumericTraits<TInputPixel>::NonpositiveMin()]++;
@@ -158,7 +158,7 @@ public:
     }
   }
 
-  inline void
+  void
   RemovePixel(const TInputPixel & p)
   {
     m_Vector[p - NumericTraits<TInputPixel>::NonpositiveMin()]--;
@@ -169,13 +169,13 @@ public:
     }
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue()
   {
     return m_CurrentValue;
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue(const TInputPixel &)
   {
     return GetValue();

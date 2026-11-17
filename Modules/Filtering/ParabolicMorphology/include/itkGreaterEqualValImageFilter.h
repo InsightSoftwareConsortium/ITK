@@ -54,7 +54,7 @@ public:
     return !(*this != other);
   }
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A)
   {
     return static_cast<TOutput>(A >= m_Val);

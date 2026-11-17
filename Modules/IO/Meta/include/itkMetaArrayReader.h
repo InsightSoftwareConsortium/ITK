@@ -105,7 +105,7 @@ public:
 
   /** GetElement is used by itkArray, itkFixedArray, and VariableLengthVector. */
   template <typename TValue>
-  inline void
+  void
   GetElement(TValue & value, unsigned int i, unsigned int channel = 0) const
   {
     value = static_cast<TValue>(m_MetaArray.ElementData(i * m_MetaArray.ElementNumberOfChannels() + channel));

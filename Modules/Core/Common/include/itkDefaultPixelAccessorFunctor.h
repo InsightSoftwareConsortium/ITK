@@ -79,7 +79,7 @@ public:
    * The type PixelAccessorType is obtained from the ImageType over which the iterators
    * are templated.
    * */
-  inline void
+  void
   SetPixelAccessor(const PixelAccessorType & accessor)
   {
     m_PixelAccessor = accessor;
@@ -88,26 +88,26 @@ public:
   /** Set the pointer index to the start of the buffer.
    * The method exists to maintain consistency in the API of the
    * DefaultPixelAccessorFunctor and the DefaultVectorPixelAccessorFunctor. */
-  inline void
+  void
   SetBegin(const InternalPixelType * itkNotUsed(begin))
   {}
 
   /** Set output using the value in input */
-  inline void
+  void
   Set(InternalPixelType & output, const ExternalPixelType & input) const
   {
     m_PixelAccessor.Set(output, input);
   }
 
   /** Get the value from input */
-  inline ExternalPixelType
+  ExternalPixelType
   Get(InternalPixelType & input) const
   {
     return m_PixelAccessor.Get(input);
   }
 
   /** Get a const reference to the pixel. */
-  [[nodiscard]] inline const ExternalPixelType
+  [[nodiscard]] const ExternalPixelType
   Get(const InternalPixelType & input) const
   {
     return m_PixelAccessor.Get(input);

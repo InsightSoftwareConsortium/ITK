@@ -57,7 +57,7 @@ public:
   using FunctionValueType = typename Superclass::FunctionValueType;
   using OutputType = typename Superclass::OutputType;
   /** Calculate magnitude (euclidean norm ) of input point. **/
-  inline double
+  double
   Magnitude(const TInput & point) const
   {
     double accum(0);

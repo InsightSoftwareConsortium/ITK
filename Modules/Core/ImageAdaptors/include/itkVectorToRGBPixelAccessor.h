@@ -53,7 +53,7 @@ public:
   using InternalType = Vector<T, 3>;
 
   /** Write access to the VectorToRGB component */
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input) const
   {
     output[0] = input[0];
@@ -62,7 +62,7 @@ public:
   }
 
   /** Read access to the VectorToRGB component */
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input) const
   {
     ExternalType rgb(input.GetDataPointer());

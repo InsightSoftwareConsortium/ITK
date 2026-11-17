@@ -41,7 +41,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Abs);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return static_cast<TOutput>(itk::Math::Absolute(A));

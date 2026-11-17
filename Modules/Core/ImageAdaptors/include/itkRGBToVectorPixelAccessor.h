@@ -53,7 +53,7 @@ public:
   using InternalType = RGBPixel<T>;
 
   /** Write access to the RGBToVector component */
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input) const
   {
     output[0] = input[0];
@@ -62,7 +62,7 @@ public:
   }
 
   /** Read access to the RGBToVector component */
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input) const
   {
     ExternalType v(input.GetDataPointer());

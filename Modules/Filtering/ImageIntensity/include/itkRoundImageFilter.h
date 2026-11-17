@@ -42,7 +42,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Round);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return itk::Math::Round<TOutput, TInput>(A);

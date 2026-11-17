@@ -55,14 +55,14 @@ public:
   using InternalType = TPixel;
 
   /** Write access to the pixel */
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input) const
   {
     output = static_cast<InternalType>(input - m_Value);
   }
 
   /** Read access to the pixel */
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input) const
   {
     return static_cast<ExternalType>(input + m_Value);

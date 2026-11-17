@@ -655,10 +655,10 @@ protected:
 
   /** Get the match Measure. */
   /** @ITKStartGrouping */
-  virtual inline void
+  virtual void
   GetValueThreadPreProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
-  virtual inline bool
+  virtual bool
   GetValueThreadProcessSample(ThreadIdType                 itkNotUsed(threadId),
                               SizeValueType                itkNotUsed(fixedImageSample),
                               const MovingImagePointType & itkNotUsed(mappedPoint),
@@ -666,7 +666,7 @@ protected:
   {
     return false;
   }
-  virtual inline void
+  virtual void
   GetValueThreadPostProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
   /** @ITKEndGrouping */
@@ -685,10 +685,10 @@ protected:
   virtual inline void
   GetValueAndDerivativeThread(ThreadIdType threadId) const;
 
-  virtual inline void
+  virtual void
   GetValueAndDerivativeThreadPreProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
-  virtual inline bool
+  virtual bool
   GetValueAndDerivativeThreadProcessSample(ThreadIdType                 itkNotUsed(threadId),
                                            SizeValueType                itkNotUsed(fixedImageSample),
                                            const MovingImagePointType & itkNotUsed(mappedPoint),
@@ -697,7 +697,7 @@ protected:
   {
     return false;
   }
-  virtual inline void
+  virtual void
   GetValueAndDerivativeThreadPostProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
 

@@ -120,7 +120,7 @@ public:
   SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
   /** @ITKEndGrouping */
 
-  inline void
+  void
   SetGivenCoordinateDirection(const typename TInputImage::DirectionType & GivenDirection)
   {
     SetGivenCoordinateOrientation(AnatomicalOrientation(GivenDirection));
@@ -130,7 +130,7 @@ public:
   void
   SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode);
 
-  inline void
+  void
   SetDesiredCoordinateDirection(const typename TOutputImage::DirectionType & DesiredDirection)
   {
     SetDesiredCoordinateOrientation(AnatomicalOrientation(DesiredDirection));

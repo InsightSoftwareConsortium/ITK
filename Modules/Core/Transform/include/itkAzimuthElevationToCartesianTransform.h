@@ -147,7 +147,7 @@ public:
   TransformPoint(const InputPointType & point) const override;
 
   /** Back transform from cartesian to azimuth-elevation.  */
-  inline InputPointType
+  InputPointType
   BackTransform(const OutputPointType & point) const
   {
     InputPointType result;
@@ -163,7 +163,7 @@ public:
     return result;
   }
 
-  inline InputPointType
+  InputPointType
   BackTransformPoint(const OutputPointType & point) const
   {
     return BackTransform(point);

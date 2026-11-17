@@ -52,14 +52,14 @@ public:
   using InternalType = RGBPixel<T>;
 
   /** Write access to the Blue component */
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input) const
   {
     output.SetBlue(input);
   }
 
   /** Read access to the Blue component */
-  [[nodiscard]] inline const ExternalType &
+  [[nodiscard]] const ExternalType &
   Get(const InternalType & input) const
   {
     return input.GetBlue();

@@ -84,7 +84,7 @@ public:
   {
     m_WindowMaximum = max;
   }
-  inline TOutput
+  TOutput
   operator()(const TInput & x) const
   {
     if (x < m_WindowMinimum)

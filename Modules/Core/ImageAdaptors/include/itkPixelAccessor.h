@@ -63,13 +63,13 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  inline void
+  void
   Set(TInternalType & output, const TExternalType & input) const
   {
     output = (TInternalType)input;
   }
 
-  inline TExternalType
+  TExternalType
   Get(const TInternalType & input) const
   {
     return (TExternalType)input;
