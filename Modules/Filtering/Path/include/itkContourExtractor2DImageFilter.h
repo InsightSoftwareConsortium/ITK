@@ -272,7 +272,7 @@ private:
   struct VertexHash
   {
     using CoordinateType = VertexType::CoordinateType;
-    inline size_t
+    size_t
     operator()(const VertexType & v) const noexcept
     {
       return std::hash<CoordinateType>{}(v[0]) ^ (std::hash<CoordinateType>{}(v[1]) << 1);
