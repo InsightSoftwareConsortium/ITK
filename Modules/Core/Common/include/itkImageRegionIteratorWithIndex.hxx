@@ -21,29 +21,63 @@
 
 namespace itk
 {
-template <typename TImage>
-ImageRegionIteratorWithIndex<TImage>::ImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
-{
-  // Base class calls the const GetBufferPointer(); call the non-const one for its side effects (e.g. CudaImage).
-  static_cast<void>(ptr->GetBufferPointer());
-}
-
-template <typename TImage>
-ImageRegionIteratorWithIndex<TImage>::ImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-  : ImageRegionConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionIteratorWithIndex<TImage>::ImageRegionIteratorWithIndex(const ImageRegionConstIteratorWithIndex<TImage> & it)
-  : ImageRegionConstIteratorWithIndex<TImage>(it)
-{}
-
+//----------------------------------------------------------------------
+//  Advance along the line
+//----------------------------------------------------------------------
 template <typename TImage>
 ImageRegionIteratorWithIndex<TImage> &
-ImageRegionIteratorWithIndex<TImage>::operator=(const ImageRegionConstIteratorWithIndex<TImage> & it)
+ImageRegionIteratorWithIndex<TImage>::operator++()
 {
-  this->ImageRegionConstIteratorWithIndex<TImage>::operator=(it);
+  this->m_Remaining = false;
+  for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
+  {
+    const IndexValueType positionIndex = ++this->m_PositionIndex[in];
+    if (positionIndex < this->m_EndIndex[in])
+    {
+      this->m_Position += this->m_OffsetTable[in];
+      this->m_Remaining = true;
+      break;
+    }
+
+    this->m_Position -= this->m_OffsetTable[in] * (static_cast<OffsetValueType>(this->m_Region.GetSize()[in]) - 1);
+    this->m_PositionIndex[in] = this->m_BeginIndex[in];
+  }
+
+  if (!this->m_Remaining) // It will not advance here otherwise
+  {
+    this->m_Position = this->m_End;
+  }
+
+  return *this;
+}
+
+//----------------------------------------------------------------------
+//  Advance along the line in reverse direction
+//----------------------------------------------------------------------
+template <typename TImage>
+ImageRegionIteratorWithIndex<TImage> &
+ImageRegionIteratorWithIndex<TImage>::operator--()
+{
+  this->m_Remaining = false;
+  for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
+  {
+    if (this->m_PositionIndex[in] > this->m_BeginIndex[in])
+    {
+      this->m_PositionIndex[in]--;
+      this->m_Position -= this->m_OffsetTable[in];
+      this->m_Remaining = true;
+      break;
+    }
+
+    this->m_Position += this->m_OffsetTable[in] * (static_cast<OffsetValueType>(this->m_Region.GetSize()[in]) - 1);
+    this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
+  }
+
+  if (!this->m_Remaining) // It will not advance here otherwise
+  {
+    this->m_Position = this->m_End;
+  }
+
   return *this;
 }
 } // end namespace itk
