@@ -698,6 +698,95 @@ check_composite2(const char * transform_file, const char * transform_grid_file, 
 }
 
 
+// Reads a hand-written RAS .xfm through the factory and default IO; with RAS to LPS on by default, expects its LPS
+// form F*M*F with F = diag(-1,-1,1), otherwise the RAS values unchanged.
+static int
+check_default_xfm(const char * xfm_file)
+{
+  const bool expectLPS = itk::MINCImageIO::GetDefaultRAStoLPS();
+  std::cout << "check_default_xfm, expectLPS=" << expectLPS << std::endl << std::endl;
+  {
+    std::ofstream xfm(xfm_file);
+    xfm << "MNI Transform File\n\nTransform_Type = Linear;\nLinear_Transform =\n"
+        << " 1 0 0.5 10\n"
+        << " 0 1 0.25 20\n"
+        << " 0.125 0 1 30;\n";
+  }
+  itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New());
+  auto reader = itk::TransformFileReader::New();
+  reader->SetFileName(xfm_file);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+  using AffineTransformType = itk::AffineTransform<double, 3>;
+  const auto * affine = dynamic_cast<const AffineTransformType *>(reader->GetTransformList()->front().GetPointer());
+  ITK_TEST_EXPECT_TRUE(affine != nullptr);
+  if (affine == nullptr)
+  {
+    return EXIT_FAILURE;
+  }
+
+  const double lpsMatrix[3][3] = { { 1, 0, -0.5 }, { 0, 1, -0.25 }, { -0.125, 0, 1 } };
+  const double rasMatrix[3][3] = { { 1, 0, 0.5 }, { 0, 1, 0.25 }, { 0.125, 0, 1 } };
+  const double lpsOffset[3] = { -10, -20, 30 };
+  const double rasOffset[3] = { 10, 20, 30 };
+  const auto & expectedMatrix = expectLPS ? lpsMatrix : rasMatrix;
+  const auto & expectedOffset = expectLPS ? lpsOffset : rasOffset;
+  int          testStatus = EXIT_SUCCESS;
+  for (unsigned int i = 0; i < 3; ++i)
+  {
+    for (unsigned int j = 0; j < 3; ++j)
+    {
+      if (affine->GetMatrix()[i][j] != expectedMatrix[i][j])
+      {
+        std::cerr << "Matrix[" << i << "][" << j << "] = " << affine->GetMatrix()[i][j] << ", expected "
+                  << expectedMatrix[i][j] << std::endl;
+        testStatus = EXIT_FAILURE;
+      }
+    }
+    if (affine->GetOffset()[i] != expectedOffset[i])
+    {
+      std::cerr << "Offset[" << i << "] = " << affine->GetOffset()[i] << ", expected " << expectedOffset[i]
+                << std::endl;
+      testStatus = EXIT_FAILURE;
+    }
+  }
+  return testStatus;
+}
+
+// Checks that the ITK_MINC_IO_RAS_TO_LPS environment variable sets the MINCTransformIO default.
+static int
+check_default_environment()
+{
+  int testStatus = EXIT_SUCCESS;
+  ITK_TEST_EXPECT_EQUAL(itk::MINCTransformIO::New()->GetRAStoLPS(), itk::MINCImageIO::GetDefaultRAStoLPS());
+
+  std::string savedValue;
+  const bool  wasSet = itksys::SystemTools::GetEnv("ITK_MINC_IO_RAS_TO_LPS", savedValue);
+
+  itksys::SystemTools::PutEnv("ITK_MINC_IO_RAS_TO_LPS=OFF");
+  if (itk::MINCTransformIO::New()->GetRAStoLPS())
+  {
+    std::cerr << "ITK_MINC_IO_RAS_TO_LPS=OFF did not turn the MINCTransformIO default off" << std::endl;
+    testStatus = EXIT_FAILURE;
+  }
+  itksys::SystemTools::PutEnv("ITK_MINC_IO_RAS_TO_LPS=ON");
+  if (!itk::MINCTransformIO::New()->GetRAStoLPS())
+  {
+    std::cerr << "ITK_MINC_IO_RAS_TO_LPS=ON did not turn the MINCTransformIO default on" << std::endl;
+    testStatus = EXIT_FAILURE;
+  }
+
+  if (wasSet)
+  {
+    itksys::SystemTools::PutEnv("ITK_MINC_IO_RAS_TO_LPS=" + savedValue);
+  }
+  else
+  {
+    itksys::SystemTools::UnPutEnv("ITK_MINC_IO_RAS_TO_LPS");
+  }
+  return testStatus;
+}
+
 int
 itkIOTransformMINCTest(int argc, char * argv[])
 {
@@ -710,7 +799,8 @@ itkIOTransformMINCTest(int argc, char * argv[])
   itk::TransformFactory<itk::DisplacementFieldTransform<double, 3>>::RegisterTransform();
   itk::TransformFactory<itk::DisplacementFieldTransform<float, 3>>::RegisterTransform();
 
-  bool result = true;
+  bool result = check_default_environment() == EXIT_SUCCESS;
+  result = check_default_xfm("itkIOTransformMINCTestDefault.xfm") == EXIT_SUCCESS && result;
   for (bool ras_to_lps : { false, true })
   {
     std::cout << "RAS to LPS=" << ras_to_lps << std::endl << std::endl << std::endl;

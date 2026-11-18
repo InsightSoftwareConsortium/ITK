@@ -16,6 +16,7 @@ itk_module(
     ITKTestKernel
     ITKImageStatistics
     ITKMINC
+    ITKIONRRD
   FACTORY_NAMES
     ImageIO::MINC
   DESCRIPTION "${DOCUMENTATION}"

@@ -39,7 +39,9 @@ namespace itk
 {
 
 template <typename TParametersValueType>
-MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate() = default;
+MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate()
+  : m_RAStoLPS(MINCImageIO::GetDefaultRAStoLPS())
+{}
 
 template <typename TParametersValueType>
 MINCTransformIOTemplate<TParametersValueType>::~MINCTransformIOTemplate()

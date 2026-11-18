@@ -125,12 +125,20 @@ public:
   void
   Write(const void * buffer) override;
 
-  /** Set to automatically convert from PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS*/
+  /** Set to automatically convert from PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS.
+   * New objects start from GetDefaultRAStoLPS(). */
   /** @ITKStartGrouping */
   itkSetMacro(RAStoLPS, bool);
   itkGetConstMacro(RAStoLPS, bool);
   itkBooleanMacro(RAStoLPS);
   /** @ITKEndGrouping */
+
+  /** Initial RAStoLPS value of new MINCImageIO and MINCTransformIO objects. The ITK_MINC_IO_RAS_TO_LPS
+   * environment variable sets it when defined (NO, OFF, FALSE or 0 turn the conversion off, any other value turns
+   * it on); otherwise the ITK_MINC_IO_RAS_TO_LPS CMake option sets it (ON by default). */
+  static bool
+  GetDefaultRAStoLPS();
+
 protected:
   MINCImageIO();
   ~MINCImageIO() override;
@@ -161,7 +169,7 @@ private:
 
   // complex type images, composed of complex numbers
   // int m_Complex;
-  bool m_RAStoLPS{ false };
+  bool m_RAStoLPS{ GetDefaultRAStoLPS() };
 };
 } // end namespace itk
 

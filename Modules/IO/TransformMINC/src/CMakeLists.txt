@@ -1,10 +1,3 @@
-configure_file(
-  itkMINCImageIOConfigurePrivate.h.in
-  itkMINCImageIOConfigurePrivate.h
-  @ONLY
-)
-include_directories("${CMAKE_CURRENT_BINARY_DIR}")
-
 set(
   ITKIOTransformMINC_SRC
   itkMINCTransformIO.cxx
