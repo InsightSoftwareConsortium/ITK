@@ -1,4 +1,4 @@
-if(ITK_USE_GPU OR NOT ITK_SOURCE_DIR)
+if(ITK_USE_GPU)
   itk_wrap_module(ITKGPUCommon)
   set(
     WRAPPER_SUBMODULE_ORDER
