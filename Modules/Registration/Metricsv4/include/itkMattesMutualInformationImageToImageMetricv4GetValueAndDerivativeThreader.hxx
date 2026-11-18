@@ -23,50 +23,26 @@ namespace itk
 {
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
-void
+ThreadIdType
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
-  TMattesMutualInformationMetric>::DetermineNumberOfWorkUnitsUsed()
+  TMattesMutualInformationMetric>::GetMaximumNumberOfWorkUnitsForExecution() const
 {
-  const auto * mattes = dynamic_cast<const TMattesMutualInformationMetric *>(this->m_Associate);
+  const ThreadIdType requested = this->GetNumberOfWorkUnits();
+  const auto *       mattes = dynamic_cast<const TMattesMutualInformationMetric *>(this->m_Associate);
   if (mattes == nullptr || !mattes->GetComputeDerivative() || mattes->HasLocalSupport())
   {
-    Superclass::DetermineNumberOfWorkUnitsUsed();
-    return;
+    return requested;
   }
-  const ThreadIdType requested = this->GetNumberOfWorkUnits();
   // Not the multithreader's maximum, which PlatformMultiThreader sets to the work units of the last evaluation.
   const ThreadIdType threads = std::min(requested, MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
-  const ThreadIdType bound = TMattesMutualInformationMetric::ComputeMaximumNumberOfDerivativeWorkUnits(
-    mattes->GetNumberOfHistogramBins(),
-    mattes->GetNumberOfLocalParameters(),
-    threads,
-    mattes->GetMaximumJointPDFDerivativesBytes());
-  if (bound >= requested)
-  {
-    Superclass::DetermineNumberOfWorkUnitsUsed();
-    return;
-  }
-  // The multithreader runs the bounded count, so the requested count is restored after the threaded execution.
-  this->m_RequestedNumberOfWorkUnits = requested;
-  this->SetNumberOfWorkUnits(bound);
-  Superclass::DetermineNumberOfWorkUnitsUsed();
-}
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
-void
-MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
-  TMattesMutualInformationMetric>::RestoreRequestedNumberOfWorkUnits()
-{
-  if (this->m_RequestedNumberOfWorkUnits > 0)
-  {
-    const ThreadIdType requested = this->m_RequestedNumberOfWorkUnits;
-    this->m_RequestedNumberOfWorkUnits = 0;
-    this->SetNumberOfWorkUnits(requested);
-  }
+  return std::min(requested,
+                  TMattesMutualInformationMetric::ComputeMaximumNumberOfDerivativeWorkUnits(
+                    mattes->GetNumberOfHistogramBins(),
+                    mattes->GetNumberOfLocalParameters(),
+                    threads,
+                    mattes->GetMaximumJointPDFDerivativesBytes()));
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
@@ -433,8 +409,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   TImageToImageMetric,
   TMattesMutualInformationMetric>::AfterThreadedExecution()
 {
-  this->RestoreRequestedNumberOfWorkUnits();
-
   const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   /* Store the number of valid points in the enclosing class
    * m_NumberOfValidPoints by collecting the valid points per thread.

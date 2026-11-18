@@ -91,8 +91,8 @@ protected:
 
   /** For transforms without local support, uses no more work units than the metric's
    * MaximumJointPDFDerivativesBytes allows, since each keeps a joint PDF derivative array. */
-  void
-  DetermineNumberOfWorkUnitsUsed() override;
+  ThreadIdType
+  GetMaximumNumberOfWorkUnitsForExecution() const override;
 
   void
   BeforeThreadedExecution() override;
@@ -144,19 +144,9 @@ protected:
   }
 
 private:
-  // Restores the requested work units when an evaluation throws.
-  friend TMattesMutualInformationMetric;
-
   /** Internal pointer to the Mattes metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
   TMattesMutualInformationMetric * m_MattesAssociate{};
-
-  /** Restores the work units requested before DetermineNumberOfWorkUnitsUsed() bounded them. */
-  void
-  RestoreRequestedNumberOfWorkUnits();
-
-  /** The requested work units while bounded for the current evaluation, otherwise 0. */
-  ThreadIdType m_RequestedNumberOfWorkUnits{ 0 };
 };
 
 } // end namespace itk

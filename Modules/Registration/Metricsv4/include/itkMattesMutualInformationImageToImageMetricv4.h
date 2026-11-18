@@ -156,10 +156,6 @@ public:
   itkGetConstMacro(MaximumJointPDFDerivativesBytes, uint64_t);
   /** @ITKEndGrouping */
 
-  /** Restores the requested number of work units if the evaluation throws while the derivative pass bounds it. */
-  void
-  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override;
-
   /** The most work units the derivative pass uses for transforms without local support, given the number of histogram
    * bins, the number of local parameters, the number of threads and MaximumJointPDFDerivativesBytes, at most
    * ITK_MAX_THREADS. */

@@ -601,39 +601,6 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TInternalComputationValueType,
           typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
-                                            TMetricTraits>::GetValueAndDerivative(MeasureType &    value,
-                                                                                  DerivativeType & derivative) const
-{
-  try
-  {
-    Superclass::GetValueAndDerivative(value, derivative);
-  }
-  catch (...)
-  {
-    if (auto * dense = dynamic_cast<MattesMutualInformationDenseGetValueAndDerivativeThreaderType *>(
-          this->m_DenseGetValueAndDerivativeThreader.GetPointer()))
-    {
-      dense->RestoreRequestedNumberOfWorkUnits();
-    }
-    if (auto * sparse = dynamic_cast<MattesMutualInformationSparseGetValueAndDerivativeThreaderType *>(
-          this->m_SparseGetValueAndDerivativeThreader.GetPointer()))
-    {
-      sparse->RestoreRequestedNumberOfWorkUnits();
-    }
-    throw;
-  }
-}
-
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TVirtualImage,
-          typename TInternalComputationValueType,
-          typename TMetricTraits>
 ThreadIdType
 MattesMutualInformationImageToImageMetricv4<
   TFixedImage,
