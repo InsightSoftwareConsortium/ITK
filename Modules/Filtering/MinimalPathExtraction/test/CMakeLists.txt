@@ -9,13 +9,13 @@ set(BASELINE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/baseline)
 
 set(
   _test
-  Test_SpeedToPath_GradientDescent_2D.cxx
-  Test_SpeedToPath_GradientDescent_3D.cxx
-  Test_SpeedToPath_IterateNeighborhood_2D.cxx
-  Test_SpeedToPath_IterateNeighborhood_ExtendedSeed_2D.cxx
-  Test_SpeedToPath_IterateNeighborhood_3D.cxx
-  Test_SpeedToPath_RegularStepGradientDescent_2D.cxx
-  Test_SpeedToPath_RegularStepGradientDescent_3D.cxx
+  itkSpeedToPathGradientDescent2DTest.cxx
+  itkSpeedToPathGradientDescent3DTest.cxx
+  itkSpeedToPathIterateNeighborhood2DTest.cxx
+  itkSpeedToPathIterateNeighborhoodExtendedSeed2DTest.cxx
+  itkSpeedToPathIterateNeighborhood3DTest.cxx
+  itkSpeedToPathRegularStepGradientDescent2DTest.cxx
+  itkSpeedToPathRegularStepGradientDescent3DTest.cxx
 )
 
 createtestdriver( MinimalPathExtraction "${MinimalPathExtraction-Test_LIBRARIES}" "${_test}")
@@ -29,7 +29,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Noise-01-IterateNeighborhood.png
     DATA{${BASELINE_DIR}/Noise-01-IterateNeighborhood.png}
-    Test_SpeedToPath_IterateNeighborhood_2D
+    itkSpeedToPathIterateNeighborhood2DTest
     ${TESTING_OUTPUT_PATH}/Noise-01-IterateNeighborhood.png
     DATA{${DATA_DIR}/Noise-01-Speed.mhd,Noise-01-Speed.zraw}
     ${DATA_DIR}/Noise-01.path
@@ -43,7 +43,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Noise-01-GradientDescent.png
     DATA{${BASELINE_DIR}/Noise-01-GradientDescent.png}
-    Test_SpeedToPath_GradientDescent_2D
+    itkSpeedToPathGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Noise-01-GradientDescent.png
     DATA{${DATA_DIR}/Noise-01-Speed.mhd,Noise-01-Speed.zraw}
     ${DATA_DIR}/Noise-01.path
@@ -57,7 +57,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Noise-01-RegularStepGradientDescent.png
     DATA{${BASELINE_DIR}/Noise-01-RegularStepGradientDescent.png}
-    Test_SpeedToPath_RegularStepGradientDescent_2D
+    itkSpeedToPathRegularStepGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Noise-01-RegularStepGradientDescent.png
     DATA{${DATA_DIR}/Noise-01-Speed.mhd,Noise-01-Speed.zraw}
     ${DATA_DIR}/Noise-01.path
@@ -74,7 +74,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-01-IterateNeighborhood.png
     DATA{${BASELINE_DIR}/Synthetic-01-IterateNeighborhood.png}
-    Test_SpeedToPath_IterateNeighborhood_2D
+    itkSpeedToPathIterateNeighborhood2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-01-IterateNeighborhood.png
     DATA{${DATA_DIR}/Synthetic-01-Speed.mhd,Synthetic-01-Speed.zraw}
     ${DATA_DIR}/Synthetic-01.path
@@ -88,7 +88,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-01-IterateNeighborhood_extended.png
     DATA{${BASELINE_DIR}/Synthetic-01-IterateNeighborhood_extended.png}
-    Test_SpeedToPath_IterateNeighborhood_ExtendedSeed_2D
+    itkSpeedToPathIterateNeighborhoodExtendedSeed2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-01-IterateNeighborhood_extended.png
     DATA{${DATA_DIR}/Synthetic-01-Speed.mhd,Synthetic-01-Speed.zraw}
     DATA{${DATA_DIR}/Synthetic-01_seed.png}
@@ -102,7 +102,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-01-GradientDescent.png
     DATA{${BASELINE_DIR}/Synthetic-01-GradientDescent.png}
-    Test_SpeedToPath_GradientDescent_2D
+    itkSpeedToPathGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-01-GradientDescent.png
     DATA{${DATA_DIR}/Synthetic-01-Speed.mhd,Synthetic-01-Speed.zraw}
     ${DATA_DIR}/Synthetic-01.path
@@ -116,7 +116,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-01-RegularStepGradientDescent.png
     DATA{${BASELINE_DIR}/Synthetic-01-RegularStepGradientDescent.png}
-    Test_SpeedToPath_RegularStepGradientDescent_2D
+    itkSpeedToPathRegularStepGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-01-RegularStepGradientDescent.png
     DATA{${DATA_DIR}/Synthetic-01-Speed.mhd,Synthetic-01-Speed.zraw}
     ${DATA_DIR}/Synthetic-01.path
@@ -133,7 +133,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-02-IterateNeighborhood.png
     DATA{${BASELINE_DIR}/Synthetic-02-IterateNeighborhood.png}
-    Test_SpeedToPath_IterateNeighborhood_2D
+    itkSpeedToPathIterateNeighborhood2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-02-IterateNeighborhood.png
     DATA{${DATA_DIR}/Synthetic-02-Speed.mhd,Synthetic-02-Speed.zraw}
     ${DATA_DIR}/Synthetic-02.path
@@ -147,7 +147,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-02-GradientDescent.png
     DATA{${BASELINE_DIR}/Synthetic-02-GradientDescent.png}
-    Test_SpeedToPath_GradientDescent_2D
+    itkSpeedToPathGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-02-GradientDescent.png
     DATA{${DATA_DIR}/Synthetic-02-Speed.mhd,Synthetic-02-Speed.zraw}
     ${DATA_DIR}/Synthetic-02.path
@@ -161,7 +161,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-02-RegularStepGradientDescent.png
     DATA{${BASELINE_DIR}/Synthetic-02-RegularStepGradientDescent.png}
-    Test_SpeedToPath_RegularStepGradientDescent_2D
+    itkSpeedToPathRegularStepGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-02-RegularStepGradientDescent.png
     DATA{${DATA_DIR}/Synthetic-02-Speed.mhd,Synthetic-02-Speed.zraw}
     ${DATA_DIR}/Synthetic-02.path
@@ -178,7 +178,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-03-IterateNeighborhood.png
     DATA{${BASELINE_DIR}/Synthetic-03-IterateNeighborhood.png}
-    Test_SpeedToPath_IterateNeighborhood_2D
+    itkSpeedToPathIterateNeighborhood2DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-03-IterateNeighborhood.png
     DATA{${DATA_DIR}/Synthetic-03-Speed.mhd,Synthetic-03-Speed.zraw}
     ${DATA_DIR}/Synthetic-03.path
@@ -201,7 +201,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-04-IterateNeighborhood.mhd
     DATA{${BASELINE_DIR}/Synthetic-04-IterateNeighborhood.mhd,Synthetic-04-IterateNeighborhood.raw}
-    Test_SpeedToPath_IterateNeighborhood_3D
+    itkSpeedToPathIterateNeighborhood3DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-04-IterateNeighborhood.mhd
     DATA{${DATA_DIR}/Synthetic-04-Speed.mhd,Synthetic-04-Speed.zraw}
     ${DATA_DIR}/Synthetic-04.path
@@ -215,7 +215,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-04-GradientDescent.mhd
     DATA{${BASELINE_DIR}/Synthetic-04-GradientDescent.mhd,Synthetic-04-GradientDescent.raw}
-    Test_SpeedToPath_GradientDescent_3D
+    itkSpeedToPathGradientDescent3DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-04-GradientDescent.mhd
     DATA{${DATA_DIR}/Synthetic-04-Speed.mhd,Synthetic-04-Speed.zraw}
     ${DATA_DIR}/Synthetic-04.path
@@ -229,7 +229,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Synthetic-04-RegularStepGradientDescent.mhd
     DATA{${BASELINE_DIR}/Synthetic-04-RegularStepGradientDescent.mhd,Synthetic-04-RegularStepGradientDescent.raw}
-    Test_SpeedToPath_RegularStepGradientDescent_3D
+    itkSpeedToPathRegularStepGradientDescent3DTest
     ${TESTING_OUTPUT_PATH}/Synthetic-04-RegularStepGradientDescent.mhd
     DATA{${DATA_DIR}/Synthetic-04-Speed.mhd,Synthetic-04-Speed.zraw}
     ${DATA_DIR}/Synthetic-04.path
@@ -246,7 +246,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-01-IterateNeighborhood.png
     DATA{${BASELINE_DIR}/Real-DSA-01-01-IterateNeighborhood.png}
-    Test_SpeedToPath_IterateNeighborhood_2D
+    itkSpeedToPathIterateNeighborhood2DTest
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-01-IterateNeighborhood.png
     DATA{${DATA_DIR}/Real-DSA-01-Speed-01.mhd,Real-DSA-01-Speed-01.zraw}
     ${DATA_DIR}/Real-DSA-01.path
@@ -260,7 +260,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-01-RegularStepGradientDescent.png
     DATA{${BASELINE_DIR}/Real-DSA-01-01-RegularStepGradientDescent.png}
-    Test_SpeedToPath_RegularStepGradientDescent_2D
+    itkSpeedToPathRegularStepGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-01-RegularStepGradientDescent.png
     DATA{${DATA_DIR}/Real-DSA-01-Speed-01.mhd,Real-DSA-01-Speed-01.zraw}
     ${DATA_DIR}/Real-DSA-01.path
@@ -277,7 +277,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-02-IterateNeighborhood.png
     DATA{${BASELINE_DIR}/Real-DSA-01-02-IterateNeighborhood.png}
-    Test_SpeedToPath_IterateNeighborhood_2D
+    itkSpeedToPathIterateNeighborhood2DTest
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-02-IterateNeighborhood.png
     DATA{${DATA_DIR}/Real-DSA-01-Speed-02.mhd,Real-DSA-01-Speed-02.zraw}
     ${DATA_DIR}/Real-DSA-01.path
@@ -291,7 +291,7 @@ itk_add_test(
     --compare
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-02-RegularStepGradientDescent.png
     DATA{${BASELINE_DIR}/Real-DSA-01-02-RegularStepGradientDescent.png}
-    Test_SpeedToPath_RegularStepGradientDescent_2D
+    itkSpeedToPathRegularStepGradientDescent2DTest
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-02-RegularStepGradientDescent.png
     DATA{${DATA_DIR}/Real-DSA-01-Speed-02.mhd,Real-DSA-01-Speed-02.zraw}
     ${DATA_DIR}/Real-DSA-01.path
