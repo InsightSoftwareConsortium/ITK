@@ -25,42 +25,17 @@
 #include "itkContinuousBorderWarpImageFilter.h"
 
 #include "itkNearestNeighborInterpolateImageFunction.h"
-#include "itkCommand.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkCastImageFilter.h"
-#include "itkImageFileWriter.h"
-
+#include "itkTestingMacros.h"
 
 namespace
 {
-// The following class is used to support callbacks
-// on the filter in the pipeline that follows later
-template <typename TRegistration>
-class ShowProgressObject
-{
-public:
-  ShowProgressObject(TRegistration * o) { m_Process = o; }
-  void
-  ShowProgress()
-  {
-    std::cout << "Progress: " << m_Process->GetProgress() << "  ";
-    std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
-    std::cout << "Metric: " << m_Process->GetMetric() << "  ";
-    std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
-    std::cout << std::endl;
-    if (m_Process->GetElapsedIterations() == 150)
-    {
-      m_Process->StopRegistration();
-    }
-  }
-  typename TRegistration::Pointer m_Process;
-};
-} // namespace
-
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
 FillWithCircle(TImage *                   image,
-               double *                   center,
+               const double *             center,
                double                     radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
@@ -70,51 +45,40 @@ FillWithCircle(TImage *                   image,
   Iterator it(image, image->GetBufferedRegion());
   it.GoToBegin();
 
-  typename TImage::IndexType index;
-  double                     r2 = itk::Math::sqr(radius);
+  const double radiusSquared = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
-    index = it.GetIndex();
-    double distance = 0;
-    for (unsigned int j = 0; j < TImage::ImageDimension; j++)
+    const auto index = it.GetIndex();
+    double     distance = 0;
+    for (unsigned int j = 0; j < TImage::ImageDimension; ++j)
     {
-      distance += itk::Math::sqr((double)index[j] - center[j]);
+      distance += itk::Math::sqr(static_cast<double>(index[j]) - center[j]);
     }
-    if (distance <= r2)
+    if (distance <= radiusSquared)
+    {
       it.Set(foregnd);
+    }
     else
+    {
       it.Set(backgnd);
+    }
     ++it;
   }
 }
 
-// Template function to copy image regions
-template <typename TImage>
-void
-CopyImageBuffer(TImage * input, TImage * output)
-{
-  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
-  Iterator outIt(output, output->GetBufferedRegion());
-  for (Iterator inIt(input, output->GetBufferedRegion()); !inIt.IsAtEnd(); ++inIt, ++outIt)
-  {
-    outIt.Set(inIt.Get());
-  }
-}
+} // namespace
 
 int
-VariationalRegistrationFilterTest(int, char *[])
+itkVariationalRegistrationFilterTest(int, char *[])
 {
+  int testStatus = EXIT_SUCCESS;
 
   using PixelType = unsigned char;
-  enum
-  {
-    ImageDimension = 2
-  };
+  constexpr unsigned int ImageDimension = 2;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using VectorType = itk::Vector<float, ImageDimension>;
   using FieldType = itk::Image<VectorType, ImageDimension>;
-  // using FloatImageType = itk::Image<VectorType::ValueType,ImageDimension>;
   using IndexType = ImageType::IndexType;
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
@@ -123,20 +87,17 @@ VariationalRegistrationFilterTest(int, char *[])
   std::cout << "Generate input images and initial deformation field";
   std::cout << std::endl;
 
-  ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
-  SizeType                 size;
-  size.SetSize(sizeArray);
+  constexpr auto size = SizeType::Filled(128);
 
-  IndexType index;
-  index.Fill(0);
+  constexpr IndexType index{};
 
   RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
 
-  ImageType::Pointer moving = ImageType::New();
-  ImageType::Pointer fixed = ImageType::New();
-  FieldType::Pointer initField = FieldType::New();
+  auto moving = ImageType::New();
+  auto fixed = ImageType::New();
+  auto initField = FieldType::New();
 
   moving->SetLargestPossibleRegion(region);
   moving->SetBufferedRegion(region);
@@ -150,10 +111,10 @@ VariationalRegistrationFilterTest(int, char *[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double    center[ImageDimension];
-  double    radius;
-  PixelType fgnd = 250;
-  PixelType bgnd = 15;
+  double              center[ImageDimension];
+  double              radius;
+  constexpr PixelType fgnd = 250;
+  constexpr PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 64;
@@ -173,7 +134,7 @@ VariationalRegistrationFilterTest(int, char *[])
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
   caster->SetInput(initField);
   caster->InPlaceOff();
 
@@ -182,19 +143,19 @@ VariationalRegistrationFilterTest(int, char *[])
 
   // Setup registration function
   using DemonsFunctionType = itk::VariationalRegistrationDemonsFunction<ImageType, ImageType, FieldType>;
-  DemonsFunctionType::Pointer demonsFunction = DemonsFunctionType::New();
+  auto demonsFunction = DemonsFunctionType::New();
   demonsFunction->SetGradientTypeToFixedImage();
   demonsFunction->SetIntensityDifferenceThreshold(0.001);
   demonsFunction->SetTimeStep(1.0);
 
   // Setup regularizer
   using DiffusionRegularizerType = itk::VariationalRegistrationDiffusionRegularizer<FieldType>;
-  DiffusionRegularizerType::Pointer diffRegularizer = DiffusionRegularizerType::New();
+  auto diffRegularizer = DiffusionRegularizerType::New();
   diffRegularizer->SetAlpha(0.1);
 
   // Setup registration filter
   using RegistrationFilterType = itk::VariationalRegistrationFilter<ImageType, ImageType, FieldType>;
-  RegistrationFilterType::Pointer regFilter = RegistrationFilterType::New();
+  auto regFilter = RegistrationFilterType::New();
   regFilter->SetRegularizer(diffRegularizer);
   regFilter->SetDifferenceFunction(demonsFunction);
   regFilter->SetMovingImage(moving);
@@ -207,7 +168,7 @@ VariationalRegistrationFilterTest(int, char *[])
 
   // Setup stop criterion
   using StopCriterionType = itk::VariationalRegistrationStopCriterion<RegistrationFilterType, MRRegistrationFilterType>;
-  StopCriterionType::Pointer stopCriterion = StopCriterionType::New();
+  auto stopCriterion = StopCriterionType::New();
   stopCriterion->SetRegressionLineSlopeThreshold(0.0001);
   stopCriterion->PerformLineFittingMaxDistanceCheckOn();
   stopCriterion->SetMultiResolutionPolicyToDefault();
@@ -216,17 +177,17 @@ VariationalRegistrationFilterTest(int, char *[])
 
   // Setup logger
   using LoggerType = itk::VariationalRegistrationLogger<RegistrationFilterType, MRRegistrationFilterType>;
-  LoggerType::Pointer logger = LoggerType::New();
+  auto logger = LoggerType::New();
 
   regFilter->AddObserver(itk::IterationEvent(), logger);
 
   // warp moving image
   using WarperType = itk::ContinuousBorderWarpImageFilter<ImageType, ImageType, FieldType>;
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
   using CoordinateType = WarperType::CoordinateType;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordinateType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   warper->SetInput(moving);
   warper->SetDisplacementField(regFilter->GetOutput());
@@ -236,96 +197,80 @@ VariationalRegistrationFilterTest(int, char *[])
   warper->SetOutputDirection(fixed->GetDirection());
   warper->SetEdgePaddingValue(bgnd);
 
+  testStatus |= [&]() -> int {
+    ITK_TRY_EXPECT_NO_EXCEPTION(warper->Update());
 
-  warper->Update();
+    std::cout << "Compare warped moving and fixed." << std::endl;
 
-  // ---------------------------------------------------------
-  std::cout << "Compare warped moving and fixed." << std::endl;
+    // compare the warp and fixed images
+    itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
+    itk::ImageRegionIterator<ImageType> warpedIter(warper->GetOutput(), fixed->GetBufferedRegion());
 
-  // compare the warp and fixed images
-  itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
-  itk::ImageRegionIterator<ImageType> warpedIter(warper->GetOutput(), fixed->GetBufferedRegion());
-
-  unsigned int numPixelsDifferent = 0;
-  while (!fixedIter.IsAtEnd())
-  {
-    if (fixedIter.Get() != warpedIter.Get())
+    unsigned int numPixelsDifferent = 0;
+    while (!fixedIter.IsAtEnd())
     {
-      numPixelsDifferent++;
+      if (fixedIter.Get() != warpedIter.Get())
+      {
+        ++numPixelsDifferent;
+      }
+      ++fixedIter;
+      ++warpedIter;
     }
-    ++fixedIter;
-    ++warpedIter;
-  }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent;
+    std::cout << "Number of pixels different: " << numPixelsDifferent;
+    std::cout << std::endl;
+
+    ITK_TEST_EXPECT_TRUE(numPixelsDifferent <= 10);
+    return EXIT_SUCCESS;
+  }();
+
+  std::cout << "Test basic object methods.";
   std::cout << std::endl;
 
-  if (numPixelsDifferent > 10)
-  {
-    std::cout << "Test failed - too many pixels different." << std::endl;
-    return EXIT_FAILURE;
-  }
+  testStatus |= [&]() -> int {
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      demonsFunction, VariationalRegistrationDemonsFunction, VariationalRegistrationFunction);
+    return EXIT_SUCCESS;
+  }();
+  testStatus |= [&]() -> int {
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      diffRegularizer, VariationalRegistrationDiffusionRegularizer, VariationalRegistrationRegularizer);
+    return EXIT_SUCCESS;
+  }();
+  testStatus |= [&]() -> int {
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(regFilter, VariationalRegistrationFilter, DenseFiniteDifferenceImageFilter);
+    return EXIT_SUCCESS;
+  }();
+  testStatus |= [&]() -> int {
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(warper, ContinuousBorderWarpImageFilter, WarpImageFilter);
+    return EXIT_SUCCESS;
+  }();
 
-  // -----------------------------------------------------------
-  std::cout << "Test printing informations.";
+  std::cout << "Test running registration without initial deformation field.";
   std::cout << std::endl;
 
-  demonsFunction->Print(std::cout);
-  diffRegularizer->Print(std::cout);
-  regFilter->Print(std::cout);
-  warper->Print(std::cout);
+  regFilter->ResetPipeline();
+  regFilter->SetInput(nullptr);
+  regFilter->SetNumberOfIterations(2);
+  testStatus |= [&]() -> int {
+    ITK_TRY_EXPECT_NO_EXCEPTION(regFilter->Update());
+    return EXIT_SUCCESS;
+  }();
 
-  // -----------------------------------------------------------
-  std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
-
-  bool passed = true;
-  try
-  {
-    regFilter->SetInput(nullptr);
-    regFilter->SetNumberOfIterations(2);
-    regFilter->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cout << "Unexpected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = false;
-  }
-
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  //--------------------------------------------------------------
-  std::cout << "Test exception handling." << std::endl;
-
-  std::cout << "Test NULL moving image. " << std::endl;
-  passed = false;
-  try
-  {
-    regFilter->SetInput(caster->GetOutput());
-    regFilter->SetMovingImage(nullptr);
-    regFilter->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = true;
-  }
-
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "Test null moving image." << std::endl;
+  regFilter->ResetPipeline();
+  regFilter->SetInput(caster->GetOutput());
+  regFilter->SetMovingImage(nullptr);
+  testStatus |= [&]() -> int {
+    ITK_TRY_EXPECT_EXCEPTION(regFilter->Update());
+    return EXIT_SUCCESS;
+  }();
   regFilter->SetMovingImage(moving);
   regFilter->ResetPipeline();
 
-
-  std::cout << "Test passed" << std::endl;
-  return EXIT_SUCCESS;
+  if (testStatus == EXIT_SUCCESS)
+  {
+    std::cout << "Test passed" << std::endl;
+  }
+  return testStatus;
 }
