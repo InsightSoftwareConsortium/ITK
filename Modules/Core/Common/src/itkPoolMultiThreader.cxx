@@ -283,7 +283,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
   ProgressReporter reporter(filter, 0, splitCount);
   itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
 
-  // Each work unit computes its own sub-region, so no per-unit region is built or copied here.
+  // Captured by value: a shared or stack-aliased region here regresses large-region performance (cache contention).
   auto futures = m_ThreadPool->AddWorkBatch(splitCount - 1, [funcP, region, splitter, splitCount](SizeValueType unit) {
     ImageIORegion      iRegion = region;
     const ThreadIdType i = static_cast<ThreadIdType>(unit) + 1;
@@ -299,6 +299,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
   {
     m_WorkUnitInfoArray[i].Future = std::move(futures[i - 1]);
   }
+
   ImageIORegion iRegion = region;
   splitter->GetSplit(0, splitCount, iRegion);
 
@@ -312,17 +313,17 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
   // now wait for the other computations to finish
   for (ThreadIdType i = 1; i < splitCount; ++i)
   {
-    exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
-      std::future_status status;
-      do
+    auto & future = m_WorkUnitInfoArray[i].Future;
+    // A throwing progress observer must not end the wait: workers still reference `splitter` and `funcP`.
+    while (future.wait_for(threadCompletionPollingInterval) != std::future_status::ready)
+    {
+      if (filter)
       {
-        status = m_WorkUnitInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
-        if (filter && status == std::future_status::timeout)
-        {
-          filter->IncrementProgress(0);
-        }
-      } while (status != std::future_status::ready);
-      m_WorkUnitInfoArray[i].Future.get();
+        exceptionHandler.TryAndCatch([&filter] { filter->IncrementProgress(0); });
+      }
+    }
+    exceptionHandler.TryAndCatch([&future, &reporter] {
+      future.get();
       reporter.CompletedPixel();
     });
   }
