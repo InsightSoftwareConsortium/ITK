@@ -1,5 +1,5 @@
 # This is the root ITK CMakeLists file.
-cmake_minimum_required(VERSION 3.22.1...3.29.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.22.1...4.5.0 FATAL_ERROR)
 
 # This project is designed to be built outside the Insight source tree.
 project(HelloWorld)
