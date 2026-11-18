@@ -42,6 +42,19 @@ DomainThreader<TDomainPartitioner, TAssociate>::SetNumberOfWorkUnits(const Threa
 }
 
 template <typename TDomainPartitioner, typename TAssociate>
+void
+DomainThreader<TDomainPartitioner, TAssociate>::SetNumberOfWorkUnitsFromThreadRatio(const ThreadIdType ratio)
+{
+  const ThreadIdType oldValue = this->GetNumberOfWorkUnits();
+  this->m_MultiThreader->SetNumberOfWorkUnitsFromThreadRatio(ratio);
+  this->SetNumberOfWorkUnits(this->m_MultiThreader->GetNumberOfWorkUnits());
+  if (this->GetNumberOfWorkUnits() != oldValue)
+  {
+    this->Modified();
+  }
+}
+
+template <typename TDomainPartitioner, typename TAssociate>
 MultiThreaderBase *
 DomainThreader<TDomainPartitioner, TAssociate>::GetMultiThreader() const
 {

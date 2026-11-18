@@ -287,3 +287,25 @@ TEST(ThreadedIndexedContainerPartitioner, RepeatedExecutionPreservesWorkUnits)
   ASSERT_EQ(domains.size(), configured);
   EXPECT_EQ(domains.back()[1], largeRange[1]);
 }
+
+TEST(ThreadedIndexedContainerPartitioner, WorkUnitsFromThreadRatio)
+{
+  DomainThreaderAssociate                                    enclosingClass;
+  const DomainThreaderAssociate::TestDomainThreader::Pointer domainThreader = enclosingClass.GetDomainThreader();
+
+  const auto expected = [&domainThreader](itk::ThreadIdType ratio) {
+    auto reference = itk::MultiThreaderBase::New();
+    reference->SetMaximumNumberOfThreads(domainThreader->GetMaximumNumberOfThreads());
+    reference->SetNumberOfWorkUnitsFromThreadRatio(ratio);
+    return reference->GetNumberOfWorkUnits();
+  };
+  for (const itk::ThreadIdType ratio : { 1u, 2u, 4u })
+  {
+    domainThreader->SetNumberOfWorkUnitsFromThreadRatio(ratio);
+    EXPECT_EQ(domainThreader->GetNumberOfWorkUnits(), expected(ratio)) << "ratio " << ratio;
+  }
+
+  const itk::ModifiedTimeType before = domainThreader->GetMTime();
+  domainThreader->SetNumberOfWorkUnitsFromThreadRatio(4);
+  EXPECT_EQ(domainThreader->GetMTime(), before);
+}
