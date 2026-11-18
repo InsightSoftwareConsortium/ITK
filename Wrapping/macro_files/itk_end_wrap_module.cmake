@@ -599,14 +599,16 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
         set(_component_module "${WRAPPER_LIBRARY_NAME}")
       endif()
     endif()
+    cmake_path(SET _lib_destination NORMALIZE "${PY_SITE_PACKAGES_PATH}/itk")
     install(
       TARGETS
         "${lib}"
-      DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
+      DESTINATION "${_lib_destination}"
       COMPONENT
         ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
     )
     unset(_component_module)
+    unset(_lib_destination)
 
     if(NOT EXTERNAL_WRAP_ITK_PROJECT)
       # don't depends on the targets from wrapitk in external projects
