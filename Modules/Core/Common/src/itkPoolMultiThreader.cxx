@@ -30,7 +30,9 @@
 #include "itkImageSourceCommon.h"
 #include <algorithm>
 #include <exception>
+#include <functional>
 #include <iostream>
+#include <numeric>
 #include <string>
 
 namespace itk
@@ -263,80 +265,74 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
     filter = nullptr;
   }
 
-  if (m_NumberOfWorkUnits == 1) // no multi-threading wanted
+  const size_t numberOfPixels = std::accumulate(size, size + dimension, size_t{ 1 }, std::multiplies<>());
+
+  if (m_NumberOfWorkUnits == 1 || numberOfPixels <= 1) // no multi-threading wanted
   {
     ProgressReporter reporter(filter, 0, 1);
     funcP(index, size); // process whole region
     reporter.CompletedPixel();
+    return;
   }
-  else
+
+  ImageIORegion region(dimension);
+  for (unsigned int d = 0; d < dimension; ++d)
   {
-    ImageIORegion region(dimension);
-    for (unsigned int d = 0; d < dimension; ++d)
-    {
-      region.SetIndex(d, index[d]);
-      region.SetSize(d, size[d]);
-    }
-    if (region.GetNumberOfPixels() <= 1)
-    {
-      funcP(index, size); // process whole region
-    }
-    else
-    {
-      const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
-      const ThreadIdType              splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
-      this->EnsureWorkUnitInfoArraySize(splitCount);
-      ProgressReporter reporter(filter, 0, splitCount);
-      itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
-
-      // Each work unit computes its own sub-region, so no per-unit region is built or copied here.
-      auto futures =
-        m_ThreadPool->AddWorkBatch(splitCount - 1, [funcP, region, splitter, splitCount](SizeValueType unit) {
-          ImageIORegion      iRegion = region;
-          const ThreadIdType i = static_cast<ThreadIdType>(unit) + 1;
-          const ThreadIdType total = splitter->GetSplit(i, splitCount, iRegion);
-          if (i >= total)
-          {
-            itkGenericExceptionMacro("Could not get work unit "
-                                     << i << " even though we checked possible number of splits beforehand!");
-          }
-          funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
-        });
-      for (ThreadIdType i = 1; i < splitCount; ++i)
-      {
-        m_WorkUnitInfoArray[i].Future = std::move(futures[i - 1]);
-      }
-      ImageIORegion iRegion = region;
-      splitter->GetSplit(0, splitCount, iRegion);
-
-      // execute this thread's share
-      ExceptionHandler exceptionHandler;
-      exceptionHandler.TryAndCatch([funcP, iRegion, &reporter] {
-        funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
-        reporter.CompletedPixel();
-      });
-
-      // now wait for the other computations to finish
-      for (ThreadIdType i = 1; i < splitCount; ++i)
-      {
-        exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
-          std::future_status status;
-          do
-          {
-            status = m_WorkUnitInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
-            if (filter && status == std::future_status::timeout)
-            {
-              filter->IncrementProgress(0);
-            }
-          } while (status != std::future_status::ready);
-          m_WorkUnitInfoArray[i].Future.get();
-          reporter.CompletedPixel();
-        });
-      }
-
-      exceptionHandler.RethrowFirstCaughtException();
-    }
+    region.SetIndex(d, index[d]);
+    region.SetSize(d, size[d]);
   }
+
+  const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
+  const ThreadIdType              splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
+  this->EnsureWorkUnitInfoArraySize(splitCount);
+  ProgressReporter reporter(filter, 0, splitCount);
+  itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
+
+  // Each work unit computes its own sub-region, so no per-unit region is built or copied here.
+  auto futures = m_ThreadPool->AddWorkBatch(splitCount - 1, [funcP, region, splitter, splitCount](SizeValueType unit) {
+    ImageIORegion      iRegion = region;
+    const ThreadIdType i = static_cast<ThreadIdType>(unit) + 1;
+    const ThreadIdType total = splitter->GetSplit(i, splitCount, iRegion);
+    if (i >= total)
+    {
+      itkGenericExceptionMacro("Could not get work unit "
+                               << i << " even though we checked possible number of splits beforehand!");
+    }
+    funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
+  });
+  for (ThreadIdType i = 1; i < splitCount; ++i)
+  {
+    m_WorkUnitInfoArray[i].Future = std::move(futures[i - 1]);
+  }
+  ImageIORegion iRegion = region;
+  splitter->GetSplit(0, splitCount, iRegion);
+
+  // execute this thread's share
+  ExceptionHandler exceptionHandler;
+  exceptionHandler.TryAndCatch([funcP, iRegion, &reporter] {
+    funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
+    reporter.CompletedPixel();
+  });
+
+  // now wait for the other computations to finish
+  for (ThreadIdType i = 1; i < splitCount; ++i)
+  {
+    exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
+      std::future_status status;
+      do
+      {
+        status = m_WorkUnitInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
+        if (filter && status == std::future_status::timeout)
+        {
+          filter->IncrementProgress(0);
+        }
+      } while (status != std::future_status::ready);
+      m_WorkUnitInfoArray[i].Future.get();
+      reporter.CompletedPixel();
+    });
+  }
+
+  exceptionHandler.RethrowFirstCaughtException();
 }
 
 void
