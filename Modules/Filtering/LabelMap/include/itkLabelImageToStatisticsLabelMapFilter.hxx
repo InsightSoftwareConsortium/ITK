@@ -71,7 +71,8 @@ LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::
   auto labelizer = LabelizerType::New();
   labelizer->SetInput(this->GetInput());
   labelizer->SetBackgroundValue(m_BackgroundValue);
-  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  // The labelizer may limit its own number of work units.
+  labelizer->SetNumberOfWorkUnits(std::min(this->GetNumberOfWorkUnits(), labelizer->GetNumberOfWorkUnits()));
   progress->RegisterInternalFilter(labelizer, .5f);
 
   auto valuator = LabelObjectValuatorType::New();
