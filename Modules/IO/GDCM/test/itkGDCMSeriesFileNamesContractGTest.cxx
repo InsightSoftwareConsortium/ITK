@@ -29,8 +29,8 @@
 #include "itkGDCMImageIO.h"
 #include "itkImageSeriesReader.h"
 #include "itkImage.h"
+#include "itkBridgeMathDeterminant.h"
 #include "itkMath.h"
-#include "vnl/algo/vnl_determinant.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/Directory.hxx"
 #include "gdcmReader.h"
@@ -246,7 +246,7 @@ ExpectGeometricOrdering(const std::string & root, unsigned int expected)
   reader->SetImageIO(itk::GDCMImageIO::New());
   reader->SetFileNames(ordered);
   ASSERT_NO_THROW(reader->Update());
-  EXPECT_GT(vnl_determinant(reader->GetOutput()->GetDirection().GetVnlMatrix().as_matrix()), 0.0)
+  EXPECT_GT(itk::bridge::Math::Determinant(reader->GetOutput()->GetDirection().GetVnlMatrix()), 0.0)
     << "Geometric ordering yields a right-handed volume";
 }
 
