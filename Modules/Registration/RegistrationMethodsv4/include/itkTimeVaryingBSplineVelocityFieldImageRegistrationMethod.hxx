@@ -645,19 +645,17 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
       {
         using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
         auto fixedResampler = FixedResamplerType::New();
-        fixedResampler->SetInput(fixedImages[n]);
+        fixedResampler->SetInput(this->MakeGraft(fixedImages[n]));
         fixedResampler->SetTransform(fixedTransform);
-        fixedResampler->UseReferenceImageOn();
-        fixedResampler->SetReferenceImage(virtualDomainImage);
+        fixedResampler->SetOutputParametersFromImage(virtualDomainImage);
         fixedResampler->SetDefaultPixelValue(0);
         fixedResampler->Update();
 
         using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
         auto movingResampler = MovingResamplerType::New();
-        movingResampler->SetInput(movingImages[n]);
+        movingResampler->SetInput(this->MakeGraft(movingImages[n]));
         movingResampler->SetTransform(movingTransform);
-        movingResampler->UseReferenceImageOn();
-        movingResampler->SetReferenceImage(virtualDomainImage);
+        movingResampler->SetOutputParametersFromImage(virtualDomainImage);
         movingResampler->SetDefaultPixelValue(0);
         movingResampler->Update();
 
@@ -677,19 +675,17 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   {
     using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
     auto fixedResampler = FixedResamplerType::New();
-    fixedResampler->SetInput(fixedImages[0]);
+    fixedResampler->SetInput(this->MakeGraft(fixedImages[0]));
     fixedResampler->SetTransform(fixedTransform);
-    fixedResampler->UseReferenceImageOn();
-    fixedResampler->SetReferenceImage(virtualDomainImage);
+    fixedResampler->SetOutputParametersFromImage(virtualDomainImage);
     fixedResampler->SetDefaultPixelValue(0);
     fixedResampler->Update();
 
     using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
     auto movingResampler = MovingResamplerType::New();
-    movingResampler->SetInput(movingImages[0]);
+    movingResampler->SetInput(this->MakeGraft(movingImages[0]));
     movingResampler->SetTransform(movingTransform);
-    movingResampler->UseReferenceImageOn();
-    movingResampler->SetReferenceImage(virtualDomainImage);
+    movingResampler->SetOutputParametersFromImage(virtualDomainImage);
     movingResampler->SetDefaultPixelValue(0);
     movingResampler->Update();
 
@@ -739,9 +735,9 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
     using FixedMaskResamplerType = ResampleImageFilter<MaskImageType, WeightedMaskImageType, RealType>;
     auto fixedMaskResampler = FixedMaskResamplerType::New();
     fixedMaskResampler->SetTransform(fixedTransform);
-    fixedMaskResampler->SetInput(
+    fixedMaskResampler->SetInput(this->MakeGraft(
       dynamic_cast<ImageMaskSpatialObjectType *>(const_cast<FixedImageMaskType *>(fixedImageMasks[0].GetPointer()))
-        ->GetImage());
+        ->GetImage()));
     fixedMaskResampler->SetSize(virtualDomainImage->GetRequestedRegion().GetSize());
     fixedMaskResampler->SetOutputOrigin(virtualDomainImage->GetOrigin());
     fixedMaskResampler->SetOutputSpacing(virtualDomainImage->GetSpacing());
