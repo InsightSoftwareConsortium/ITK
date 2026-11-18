@@ -45,6 +45,7 @@
 #include "itkTubeSpatialObjectPoint.h"
 #include "itkSpatialObjectPoint.h"
 #include "itkSpatialObjectWriter.h"
+#include "itkTestingMacros.h"
 
 /////////////////////////////////////////////////////////////
 // Reads a *.path file and adds the path info to the given filter
@@ -91,8 +92,12 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
       auto                                parts = itksys::SystemTools::SplitString(line, ']');
       std::vector<std::string>::size_type numNonNullParts = 0;
       for (auto & part : parts)
+      {
         if (part.length() != 0)
+        {
           numNonNullParts++;
+        }
+      }
       for (std::vector<std::string>::size_type i = 0; i < numNonNullParts; i++)
       {
         if (parts[i].length() != 0)
@@ -100,13 +105,21 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
           typename PathFilterType::PointType point;
           auto                               partsPoint = itksys::SystemTools::SplitString(parts[i], ',');
           for (std::vector<std::string>::size_type j = 0; j < partsPoint.size(); j++)
+          {
             point[j] = std::stod(partsPoint[j].c_str());
+          }
           if (i == 0)
+          {
             info->SetStartPoint(point);
+          }
           else if (i == numNonNullParts - 1)
+          {
             info->SetEndPoint(point);
+          }
           else
+          {
             info->AddWayPoint(point);
+          }
         }
       }
       pathFilter->AddPathInformation(info);
@@ -136,7 +149,7 @@ ReadPathImage(const char * PathImagename, typename PathFilterType::Pointer pathF
   reader->SetFileName(PathImagename);
 
   typename ImageType::Pointer labelIm = reader->GetOutput();
-  labelIm->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(labelIm->Update());
   labelIm->DisconnectPipeline();
 
   // iterate over the image and collect PointType locations for each non zero entry
@@ -196,120 +209,119 @@ Test_SpeedToPath_GradientDescent_ND(int argc, char * argv[])
   using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
-  try
+  // Print header info
+  if (argc != 6)
   {
-    // Print header info
-    if (argc != 6)
-    {
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0];
-      std::cerr << " OutputFilename";
-      std::cerr << " SpeedFilename";
-      std::cerr << " PathFilename";
-      std::cerr << " TerminationValue";   // Good default = 2.0
-      std::cerr << " NumberOfIterations"; // Good default = 1000
-      std::cerr << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Get arguments
-    unsigned int argi = 1;
-    char *       OutputFilename = argv[argi++];
-    char *       SpeedFilename = argv[argi++];
-    char *       PathFilename = argv[argi++];
-    float        TerminationValue = std::stod(argv[argi++]);
-    unsigned int NumberOfIterations = std::stoi(argv[argi++]);
-    // NOTE: Points will be read from the command line later
-
-    // Read speed function
-    std::cout << "Speed: " << SpeedFilename << std::endl;
-    typename ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(SpeedFilename);
-    reader->Update();
-    typename ImageType::Pointer speed = reader->GetOutput();
-    speed->DisconnectPipeline();
-
-    // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
-    typename InterpolatorType::Pointer interp = InterpolatorType::New();
-
-    // Create Cost Function
-    typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
-    cost->SetInterpolator(interp);
-
-    // Create GradientDescentOptimizer
-    using OptimizerType = itk::GradientDescentOptimizer;
-    typename OptimizerType::Pointer optimizer = OptimizerType::New();
-    optimizer->SetNumberOfIterations(NumberOfIterations);
-
-    // Create path filter
-    typename PathFilterType::Pointer pathFilter = PathFilterType::New();
-    pathFilter->SetInput(speed);
-    pathFilter->SetCostFunction(cost);
-    pathFilter->SetOptimizer(optimizer);
-    pathFilter->SetTerminationValue(TerminationValue);
-
-    // Read path file
-    if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
-    {
-      std::cerr << "Failed to read path file: " << PathFilename << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Compute the path
-    std::cout << "Computing path..." << std::endl;
-    itk::TimeProbe time;
-    time.Start();
-    pathFilter->Update();
-    time.Stop();
-    std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
-
-    // Allocate output image
-    typename OutputImageType::Pointer output = OutputImageType::New();
-    output->SetRegions(speed->GetLargestPossibleRegion());
-    output->SetSpacing(speed->GetSpacing());
-    output->SetOrigin(speed->GetOrigin());
-    output->Allocate();
-    output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
-
-    // Rasterize path
-    for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
-    {
-      // Get the path
-      typename PathType::Pointer path = pathFilter->GetOutput(i);
-
-      // Check path is valid
-      if (path->GetVertexList()->Size() == 0)
-      {
-        std::cout << "WARNING: Path " << (i + 1) << " contains no points!" << std::endl;
-        continue;
-      }
-
-      // Iterate path and convert to image
-      std::cout << "Rasterizing path..." << std::endl;
-      PathIteratorType it(output, path);
-      for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-      {
-        it.Set(itk::NumericTraits<OutputPixelType>::max());
-      }
-    }
-
-    // Write output
-    std::cout << "Output: " << OutputFilename << std::endl;
-    typename WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName(OutputFilename);
-    writer->SetInput(output);
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0];
+    std::cerr << " OutputFilename";
+    std::cerr << " SpeedFilename";
+    std::cerr << " PathFilename";
+    std::cerr << " TerminationValue";   // Good default = 2.0
+    std::cerr << " NumberOfIterations"; // Good default = 1000
+    std::cerr << std::endl;
     return EXIT_FAILURE;
   }
 
-  // Return
-  return EXIT_SUCCESS;
+  int testStatus = EXIT_SUCCESS;
+
+  // Get arguments
+  unsigned int argi = 1;
+  char *       OutputFilename = argv[argi++];
+  char *       SpeedFilename = argv[argi++];
+  char *       PathFilename = argv[argi++];
+  float        TerminationValue = std::stod(argv[argi++]);
+  unsigned int NumberOfIterations = std::stoi(argv[argi++]);
+  // NOTE: Points will be read from the command line later
+
+  // Read speed function
+  std::cout << "Speed: " << SpeedFilename << std::endl;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(SpeedFilename);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  typename ImageType::Pointer speed = reader->GetOutput();
+  speed->DisconnectPipeline();
+
+  // Create Interpolator
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
+  typename InterpolatorType::Pointer interp = InterpolatorType::New();
+
+  // Create Cost Function
+  typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
+  cost->SetInterpolator(interp);
+
+  // Create GradientDescentOptimizer
+  using OptimizerType = itk::GradientDescentOptimizer;
+  typename OptimizerType::Pointer optimizer = OptimizerType::New();
+  optimizer->SetNumberOfIterations(NumberOfIterations);
+
+  // Create path filter
+  typename PathFilterType::Pointer pathFilter = PathFilterType::New();
+  pathFilter->SetInput(speed);
+  pathFilter->SetCostFunction(cost);
+  pathFilter->SetOptimizer(optimizer);
+  pathFilter->SetTerminationValue(TerminationValue);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pathFilter, SpeedFunctionToPathFilter, ArrivalFunctionToPathFilter);
+
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetCostFunction(), cost, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetOptimizer(), optimizer, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetTerminationValue(), TerminationValue, testStatus);
+
+  // Read path file
+  if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
+  {
+    std::cerr << "Failed to read path file: " << PathFilename << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Compute the path
+  std::cout << "Computing path..." << std::endl;
+  itk::TimeProbe time;
+  time.Start();
+  ITK_TRY_EXPECT_NO_EXCEPTION(pathFilter->Update());
+  time.Stop();
+  std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
+
+  // Allocate output image
+  typename OutputImageType::Pointer output = OutputImageType::New();
+  output->SetRegions(speed->GetLargestPossibleRegion());
+  output->SetSpacing(speed->GetSpacing());
+  output->SetOrigin(speed->GetOrigin());
+  output->Allocate();
+  output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
+
+  // Rasterize path
+  for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
+  {
+    // Get the path
+    typename PathType::Pointer path = pathFilter->GetOutput(i);
+
+    // Check path is valid
+    if (path->GetVertexList()->Size() == 0)
+    {
+      std::cerr << "Path " << (i + 1) << " contains no points!" << std::endl;
+      testStatus = EXIT_FAILURE;
+      continue;
+    }
+
+    // Iterate path and convert to image
+    std::cout << "Rasterizing path..." << std::endl;
+    PathIteratorType it(output, path);
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      it.Set(itk::NumericTraits<OutputPixelType>::max());
+    }
+  }
+
+  // Write output
+  std::cout << "Output: " << OutputFilename << std::endl;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(OutputFilename);
+  writer->SetInput(output);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  return testStatus;
 }
 
 /////////////////////////////////////////////////////////////
@@ -330,136 +342,139 @@ Test_SpeedToPath_RegularStepGradientDescent_ND(int argc, char * argv[])
   using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
-  try
+  // Print header info
+  if (argc != 8)
   {
-    // Print header info
-    if (argc != 8)
-    {
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0];
-      std::cerr << " OutputFilename";
-      std::cerr << " SpeedFilename";
-      std::cerr << " PathFilename";
-      std::cerr << " TerminationValue";   // Good default = 2.0
-      std::cerr << " NumberOfIterations"; // Good default = 1000
-      std::cerr << " StepLengthFactor";   // Good default = 1.0
-      std::cerr << " StepLengthRelax";    // Good default = 0.999
-      std::cerr << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Get arguments
-    unsigned int argi = 1;
-    char *       OutputFilename = argv[argi++];
-    char *       SpeedFilename = argv[argi++];
-    char *       PathFilename = argv[argi++];
-    float        TerminationValue = std::stod(argv[argi++]);
-    unsigned int NumberOfIterations = std::stoi(argv[argi++]);
-    float        StepLengthFactor = std::stod(argv[argi++]);
-    float        StepLengthRelax = std::stod(argv[argi++]);
-    // NOTE: Points will be read from the command line later
-
-    // Read speed function
-    std::cout << "Speed: " << SpeedFilename << std::endl;
-    typename ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(SpeedFilename);
-    reader->Update();
-    typename ImageType::Pointer speed = reader->GetOutput();
-    speed->DisconnectPipeline();
-
-    // Compute the minimum spacing
-    typename ImageType::SpacingType spacing = speed->GetSpacing();
-    double                          minspacing = spacing[0];
-    for (unsigned int dim = 0; dim < Dimension; dim++)
-      if (spacing[dim] < minspacing)
-        minspacing = spacing[dim];
-
-    // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
-    typename InterpolatorType::Pointer interp = InterpolatorType::New();
-
-    // Create Cost Function
-    typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
-    cost->SetInterpolator(interp);
-
-    // Create RegularStepGradientDescentOptimizer
-    using OptimizerType = itk::RegularStepGradientDescentOptimizer;
-    typename OptimizerType::Pointer optimizer = OptimizerType::New();
-    optimizer->SetNumberOfIterations(NumberOfIterations);
-    optimizer->SetMaximumStepLength(1.0 * StepLengthFactor * minspacing);
-    optimizer->SetMinimumStepLength(0.5 * StepLengthFactor * minspacing);
-    optimizer->SetRelaxationFactor(StepLengthRelax);
-
-    // Create path filter
-    typename PathFilterType::Pointer pathFilter = PathFilterType::New();
-    pathFilter->SetInput(speed);
-    pathFilter->SetCostFunction(cost);
-    pathFilter->SetOptimizer(optimizer);
-    pathFilter->SetTerminationValue(TerminationValue);
-
-    // Read path file
-    if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
-    {
-      std::cerr << "Failed to read path file: " << PathFilename << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Compute the path
-    std::cout << "Computing path..." << std::endl;
-    itk::TimeProbe time;
-    time.Start();
-    pathFilter->Update();
-    time.Stop();
-    std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
-    std::cout << "Number of paths: " << pathFilter->GetNumberOfOutputs() << std::endl;
-    std::cout << "Number of path 0 vertices: " << pathFilter->GetOutput(0)->GetVertexList()->Size() << std::endl;
-
-    // Allocate output image
-    typename OutputImageType::Pointer output = OutputImageType::New();
-    output->SetRegions(speed->GetLargestPossibleRegion());
-    output->SetSpacing(speed->GetSpacing());
-    output->SetOrigin(speed->GetOrigin());
-    output->Allocate();
-    output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
-
-    // Rasterize path
-    for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
-    {
-      // Get the path
-      typename PathType::Pointer path = pathFilter->GetOutput(i);
-
-      // Check path is valid
-      if (path->GetVertexList()->Size() == 0)
-      {
-        std::cout << "WARNING: Path " << (i + 1) << " contains no points!" << std::endl;
-        continue;
-      }
-
-      // Iterate path and convert to image
-      std::cout << "Rasterizing path..." << std::endl;
-      PathIteratorType it(output, path);
-      for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-      {
-        it.Set(itk::NumericTraits<OutputPixelType>::max());
-      }
-    }
-
-    // Write output
-    std::cout << "Output: " << OutputFilename << std::endl;
-    typename WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName(OutputFilename);
-    writer->SetInput(output);
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0];
+    std::cerr << " OutputFilename";
+    std::cerr << " SpeedFilename";
+    std::cerr << " PathFilename";
+    std::cerr << " TerminationValue";   // Good default = 2.0
+    std::cerr << " NumberOfIterations"; // Good default = 1000
+    std::cerr << " StepLengthFactor";   // Good default = 1.0
+    std::cerr << " StepLengthRelax";    // Good default = 0.999
+    std::cerr << std::endl;
     return EXIT_FAILURE;
   }
 
-  // Return
-  return EXIT_SUCCESS;
+  int testStatus = EXIT_SUCCESS;
+
+  // Get arguments
+  unsigned int argi = 1;
+  char *       OutputFilename = argv[argi++];
+  char *       SpeedFilename = argv[argi++];
+  char *       PathFilename = argv[argi++];
+  float        TerminationValue = std::stod(argv[argi++]);
+  unsigned int NumberOfIterations = std::stoi(argv[argi++]);
+  float        StepLengthFactor = std::stod(argv[argi++]);
+  float        StepLengthRelax = std::stod(argv[argi++]);
+  // NOTE: Points will be read from the command line later
+
+  // Read speed function
+  std::cout << "Speed: " << SpeedFilename << std::endl;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(SpeedFilename);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  typename ImageType::Pointer speed = reader->GetOutput();
+  speed->DisconnectPipeline();
+
+  // Compute the minimum spacing
+  typename ImageType::SpacingType spacing = speed->GetSpacing();
+  double                          minspacing = spacing[0];
+  for (unsigned int dim = 0; dim < Dimension; dim++)
+  {
+    if (spacing[dim] < minspacing)
+    {
+      minspacing = spacing[dim];
+    }
+  }
+
+  // Create Interpolator
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
+  typename InterpolatorType::Pointer interp = InterpolatorType::New();
+
+  // Create Cost Function
+  typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
+  cost->SetInterpolator(interp);
+
+  // Create RegularStepGradientDescentOptimizer
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  typename OptimizerType::Pointer optimizer = OptimizerType::New();
+  optimizer->SetNumberOfIterations(NumberOfIterations);
+  optimizer->SetMaximumStepLength(1.0 * StepLengthFactor * minspacing);
+  optimizer->SetMinimumStepLength(0.5 * StepLengthFactor * minspacing);
+  optimizer->SetRelaxationFactor(StepLengthRelax);
+
+  // Create path filter
+  typename PathFilterType::Pointer pathFilter = PathFilterType::New();
+  pathFilter->SetInput(speed);
+  pathFilter->SetCostFunction(cost);
+  pathFilter->SetOptimizer(optimizer);
+  pathFilter->SetTerminationValue(TerminationValue);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pathFilter, SpeedFunctionToPathFilter, ArrivalFunctionToPathFilter);
+
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetCostFunction(), cost, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetOptimizer(), optimizer, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetTerminationValue(), TerminationValue, testStatus);
+
+  // Read path file
+  if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
+  {
+    std::cerr << "Failed to read path file: " << PathFilename << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Compute the path
+  std::cout << "Computing path..." << std::endl;
+  itk::TimeProbe time;
+  time.Start();
+  ITK_TRY_EXPECT_NO_EXCEPTION(pathFilter->Update());
+  time.Stop();
+  std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
+  std::cout << "Number of paths: " << pathFilter->GetNumberOfOutputs() << std::endl;
+  std::cout << "Number of path 0 vertices: " << pathFilter->GetOutput(0)->GetVertexList()->Size() << std::endl;
+
+  // Allocate output image
+  typename OutputImageType::Pointer output = OutputImageType::New();
+  output->SetRegions(speed->GetLargestPossibleRegion());
+  output->SetSpacing(speed->GetSpacing());
+  output->SetOrigin(speed->GetOrigin());
+  output->Allocate();
+  output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
+
+  // Rasterize path
+  for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
+  {
+    // Get the path
+    typename PathType::Pointer path = pathFilter->GetOutput(i);
+
+    // Check path is valid
+    if (path->GetVertexList()->Size() == 0)
+    {
+      std::cerr << "Path " << (i + 1) << " contains no points!" << std::endl;
+      testStatus = EXIT_FAILURE;
+      continue;
+    }
+
+    // Iterate path and convert to image
+    std::cout << "Rasterizing path..." << std::endl;
+    PathIteratorType it(output, path);
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      it.Set(itk::NumericTraits<OutputPixelType>::max());
+    }
+  }
+
+  // Write output
+  std::cout << "Output: " << OutputFilename << std::endl;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(OutputFilename);
+  writer->SetInput(output);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  return testStatus;
 }
 
 /////////////////////////////////////////////////////////////
@@ -480,125 +495,126 @@ Test_SpeedToPath_IterateNeighborhood_ND(int argc, char * argv[])
   using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
-  try
+  // Print header info
+  if (argc != 6)
   {
-    // Print header info
-    if (argc != 6)
-    {
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0];
-      std::cerr << " OutputFilename";
-      std::cerr << " SpeedFilename";
-      std::cerr << " PathFilename";
-      std::cerr << " TerminationValue"; // Good default = 2.0
-      std::cerr << " StepLengthFactor"; // Good default = 1.0
-      std::cerr << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Get arguments
-    unsigned int argi = 1;
-    char *       OutputFilename = argv[argi++];
-    char *       SpeedFilename = argv[argi++];
-    char *       PathFilename = argv[argi++];
-    float        TerminationValue = std::stod(argv[argi++]);
-    float        StepLengthFactor = std::stod(argv[argi++]);
-    // NOTE: Points will be read from the command line later
-
-    // Read speed function
-    std::cout << "Speed: " << SpeedFilename << std::endl;
-    typename ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(SpeedFilename);
-    reader->Update();
-    typename ImageType::Pointer speed = reader->GetOutput();
-    speed->DisconnectPipeline();
-
-    // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
-    typename InterpolatorType::Pointer interp = InterpolatorType::New();
-
-    // Create Cost Function
-    typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
-    cost->SetInterpolator(interp);
-
-    // Create IterateNeighborhoodOptimizer
-    using OptimizerType = itk::IterateNeighborhoodOptimizer;
-    typename OptimizerType::Pointer optimizer = OptimizerType::New();
-    optimizer->MinimizeOn();
-    optimizer->FullyConnectedOn();
-    typename OptimizerType::NeighborhoodSizeType size(Dimension);
-    for (unsigned int i = 0; i < Dimension; i++)
-      size[i] = speed->GetSpacing()[i] * StepLengthFactor;
-    optimizer->SetNeighborhoodSize(size);
-
-    // Create path filter
-    typename PathFilterType::Pointer pathFilter = PathFilterType::New();
-    pathFilter->SetInput(speed);
-    pathFilter->SetCostFunction(cost);
-    pathFilter->SetOptimizer(optimizer);
-    pathFilter->SetTerminationValue(TerminationValue);
-
-    // Read path file
-    if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
-    {
-      std::cerr << "Failed to read path file: " << PathFilename << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Compute the path
-    std::cout << "Computing path..." << std::endl;
-    itk::TimeProbe time;
-    time.Start();
-    pathFilter->Update();
-    time.Stop();
-    std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
-
-    // Allocate output image
-    typename OutputImageType::Pointer output = OutputImageType::New();
-    output->SetRegions(speed->GetLargestPossibleRegion());
-    output->SetSpacing(speed->GetSpacing());
-    output->SetOrigin(speed->GetOrigin());
-    output->Allocate();
-    output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
-
-    // Rasterize path
-    for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
-    {
-      // Get the path
-      typename PathType::Pointer path = pathFilter->GetOutput(i);
-
-      // Check path is valid
-      if (path->GetVertexList()->Size() == 0)
-      {
-        std::cout << "WARNING: Path " << (i + 1) << " contains no points!" << std::endl;
-        continue;
-      }
-
-      // Iterate path and convert to image
-      std::cout << "Rasterizing path..." << std::endl;
-      PathIteratorType it(output, path);
-      for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-      {
-        it.Set(itk::NumericTraits<OutputPixelType>::max());
-      }
-    }
-
-    // Write output
-    std::cout << "Output: " << OutputFilename << std::endl;
-    typename WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName(OutputFilename);
-    writer->SetInput(output);
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0];
+    std::cerr << " OutputFilename";
+    std::cerr << " SpeedFilename";
+    std::cerr << " PathFilename";
+    std::cerr << " TerminationValue"; // Good default = 2.0
+    std::cerr << " StepLengthFactor"; // Good default = 1.0
+    std::cerr << std::endl;
     return EXIT_FAILURE;
   }
 
-  // Return
-  return EXIT_SUCCESS;
+  int testStatus = EXIT_SUCCESS;
+
+  // Get arguments
+  unsigned int argi = 1;
+  char *       OutputFilename = argv[argi++];
+  char *       SpeedFilename = argv[argi++];
+  char *       PathFilename = argv[argi++];
+  float        TerminationValue = std::stod(argv[argi++]);
+  float        StepLengthFactor = std::stod(argv[argi++]);
+  // NOTE: Points will be read from the command line later
+
+  // Read speed function
+  std::cout << "Speed: " << SpeedFilename << std::endl;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(SpeedFilename);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  typename ImageType::Pointer speed = reader->GetOutput();
+  speed->DisconnectPipeline();
+
+  // Create Interpolator
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
+  typename InterpolatorType::Pointer interp = InterpolatorType::New();
+
+  // Create Cost Function
+  typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
+  cost->SetInterpolator(interp);
+
+  // Create IterateNeighborhoodOptimizer
+  using OptimizerType = itk::IterateNeighborhoodOptimizer;
+  typename OptimizerType::Pointer optimizer = OptimizerType::New();
+  optimizer->MinimizeOn();
+  optimizer->FullyConnectedOn();
+  typename OptimizerType::NeighborhoodSizeType size(Dimension);
+  for (unsigned int i = 0; i < Dimension; i++)
+  {
+    size[i] = speed->GetSpacing()[i] * StepLengthFactor;
+  }
+  optimizer->SetNeighborhoodSize(size);
+
+  // Create path filter
+  typename PathFilterType::Pointer pathFilter = PathFilterType::New();
+  pathFilter->SetInput(speed);
+  pathFilter->SetCostFunction(cost);
+  pathFilter->SetOptimizer(optimizer);
+  pathFilter->SetTerminationValue(TerminationValue);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pathFilter, SpeedFunctionToPathFilter, ArrivalFunctionToPathFilter);
+
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetCostFunction(), cost, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetOptimizer(), optimizer, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetTerminationValue(), TerminationValue, testStatus);
+
+  // Read path file
+  if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
+  {
+    std::cerr << "Failed to read path file: " << PathFilename << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Compute the path
+  std::cout << "Computing path..." << std::endl;
+  itk::TimeProbe time;
+  time.Start();
+  ITK_TRY_EXPECT_NO_EXCEPTION(pathFilter->Update());
+  time.Stop();
+  std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
+
+  // Allocate output image
+  typename OutputImageType::Pointer output = OutputImageType::New();
+  output->SetRegions(speed->GetLargestPossibleRegion());
+  output->SetSpacing(speed->GetSpacing());
+  output->SetOrigin(speed->GetOrigin());
+  output->Allocate();
+  output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
+
+  // Rasterize path
+  for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
+  {
+    // Get the path
+    typename PathType::Pointer path = pathFilter->GetOutput(i);
+
+    // Check path is valid
+    if (path->GetVertexList()->Size() == 0)
+    {
+      std::cerr << "Path " << (i + 1) << " contains no points!" << std::endl;
+      testStatus = EXIT_FAILURE;
+      continue;
+    }
+
+    // Iterate path and convert to image
+    std::cout << "Rasterizing path..." << std::endl;
+    PathIteratorType it(output, path);
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      it.Set(itk::NumericTraits<OutputPixelType>::max());
+    }
+  }
+
+  // Write output
+  std::cout << "Output: " << OutputFilename << std::endl;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(OutputFilename);
+  writer->SetInput(output);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  return testStatus;
 }
 
 template <unsigned int VDimension>
@@ -617,126 +633,127 @@ Test_SpeedToPath_IterateNeighborhood_ExtendedSeed_ND(int argc, char * argv[])
   using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
-  try
+  // Print header info
+  if (argc != 6)
   {
-    // Print header info
-    if (argc != 6)
-    {
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0];
-      std::cerr << " OutputFilename";
-      std::cerr << " SpeedFilename";
-      std::cerr << " PathImagename";
-      std::cerr << " TerminationValue"; // Good default = 2.0
-      std::cerr << " StepLengthFactor"; // Good default = 1.0
-      std::cerr << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Get arguments
-    unsigned int argi = 1;
-    char *       OutputFilename = argv[argi++];
-    char *       SpeedFilename = argv[argi++];
-    char *       PathImagename = argv[argi++];
-    float        TerminationValue = std::stod(argv[argi++]);
-    float        StepLengthFactor = std::stod(argv[argi++]);
-    // NOTE: Points will be read from the command line later
-
-    // Read speed function
-    std::cout << "Speed: " << SpeedFilename << std::endl;
-    typename ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(SpeedFilename);
-    reader->Update();
-    typename ImageType::Pointer speed = reader->GetOutput();
-    speed->DisconnectPipeline();
-
-    // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
-    typename InterpolatorType::Pointer interp = InterpolatorType::New();
-
-    // Create Cost Function
-    typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
-    cost->SetInterpolator(interp);
-    cost->SetMinimize();
-
-    // Create IterateNeighborhoodOptimizer
-    using OptimizerType = itk::IterateNeighborhoodOptimizer;
-    typename OptimizerType::Pointer optimizer = OptimizerType::New();
-    optimizer->MinimizeOn();
-    optimizer->FullyConnectedOn();
-    typename OptimizerType::NeighborhoodSizeType size(Dimension);
-    for (unsigned int i = 0; i < Dimension; i++)
-      size[i] = speed->GetSpacing()[i] * StepLengthFactor;
-    optimizer->SetNeighborhoodSize(size);
-
-    // Create path filter
-    typename PathFilterType::Pointer pathFilter = PathFilterType::New();
-    pathFilter->SetInput(speed);
-    pathFilter->SetCostFunction(cost);
-    pathFilter->SetOptimizer(optimizer);
-    pathFilter->SetTerminationValue(TerminationValue);
-
-    // Read path file
-    if (ReadPathImage<PathFilterType, Dimension>(PathImagename, pathFilter) == EXIT_FAILURE)
-    {
-      std::cerr << "Failed to read path image: " << PathImagename << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    // Compute the path
-    std::cout << "Computing path..." << std::endl;
-    itk::TimeProbe time;
-    time.Start();
-    pathFilter->Update();
-    time.Stop();
-    std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
-
-    // Allocate output image
-    typename OutputImageType::Pointer output = OutputImageType::New();
-    output->SetRegions(speed->GetLargestPossibleRegion());
-    output->SetSpacing(speed->GetSpacing());
-    output->SetOrigin(speed->GetOrigin());
-    output->Allocate();
-    output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
-
-    // Rasterize path
-    for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
-    {
-      // Get the path
-      typename PathType::Pointer path = pathFilter->GetOutput(i);
-
-      // Check path is valid
-      if (path->GetVertexList()->Size() == 0)
-      {
-        std::cout << "WARNING: Path " << (i + 1) << " contains no points!" << std::endl;
-        continue;
-      }
-
-      // Iterate path and convert to image
-      std::cout << "Rasterizing path..." << std::endl;
-      PathIteratorType it(output, path);
-      for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-      {
-        it.Set(itk::NumericTraits<OutputPixelType>::max());
-      }
-    }
-
-    // Write output
-    std::cout << "Output: " << OutputFilename << std::endl;
-    typename WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName(OutputFilename);
-    writer->SetInput(output);
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0];
+    std::cerr << " OutputFilename";
+    std::cerr << " SpeedFilename";
+    std::cerr << " PathImagename";
+    std::cerr << " TerminationValue"; // Good default = 2.0
+    std::cerr << " StepLengthFactor"; // Good default = 1.0
+    std::cerr << std::endl;
     return EXIT_FAILURE;
   }
 
-  // Return
-  return EXIT_SUCCESS;
+  int testStatus = EXIT_SUCCESS;
+
+  // Get arguments
+  unsigned int argi = 1;
+  char *       OutputFilename = argv[argi++];
+  char *       SpeedFilename = argv[argi++];
+  char *       PathImagename = argv[argi++];
+  float        TerminationValue = std::stod(argv[argi++]);
+  float        StepLengthFactor = std::stod(argv[argi++]);
+  // NOTE: Points will be read from the command line later
+
+  // Read speed function
+  std::cout << "Speed: " << SpeedFilename << std::endl;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(SpeedFilename);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  typename ImageType::Pointer speed = reader->GetOutput();
+  speed->DisconnectPipeline();
+
+  // Create Interpolator
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
+  typename InterpolatorType::Pointer interp = InterpolatorType::New();
+
+  // Create Cost Function
+  typename PathFilterType::CostFunctionType::Pointer cost = PathFilterType::CostFunctionType::New();
+  cost->SetInterpolator(interp);
+  cost->SetMinimize();
+
+  // Create IterateNeighborhoodOptimizer
+  using OptimizerType = itk::IterateNeighborhoodOptimizer;
+  typename OptimizerType::Pointer optimizer = OptimizerType::New();
+  optimizer->MinimizeOn();
+  optimizer->FullyConnectedOn();
+  typename OptimizerType::NeighborhoodSizeType size(Dimension);
+  for (unsigned int i = 0; i < Dimension; i++)
+  {
+    size[i] = speed->GetSpacing()[i] * StepLengthFactor;
+  }
+  optimizer->SetNeighborhoodSize(size);
+
+  // Create path filter
+  typename PathFilterType::Pointer pathFilter = PathFilterType::New();
+  pathFilter->SetInput(speed);
+  pathFilter->SetCostFunction(cost);
+  pathFilter->SetOptimizer(optimizer);
+  pathFilter->SetTerminationValue(TerminationValue);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pathFilter, SpeedFunctionToPathFilter, ArrivalFunctionToPathFilter);
+
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetCostFunction(), cost, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetOptimizer(), optimizer, testStatus);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(pathFilter->GetTerminationValue(), TerminationValue, testStatus);
+
+  // Read path file
+  if (ReadPathImage<PathFilterType, Dimension>(PathImagename, pathFilter) == EXIT_FAILURE)
+  {
+    std::cerr << "Failed to read path image: " << PathImagename << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Compute the path
+  std::cout << "Computing path..." << std::endl;
+  itk::TimeProbe time;
+  time.Start();
+  ITK_TRY_EXPECT_NO_EXCEPTION(pathFilter->Update());
+  time.Stop();
+  std::cout << std::setprecision(3) << "Path computed in: " << time.GetMean() << " seconds" << std::endl;
+
+  // Allocate output image
+  typename OutputImageType::Pointer output = OutputImageType::New();
+  output->SetRegions(speed->GetLargestPossibleRegion());
+  output->SetSpacing(speed->GetSpacing());
+  output->SetOrigin(speed->GetOrigin());
+  output->Allocate();
+  output->FillBuffer(itk::NumericTraits<OutputPixelType>::Zero);
+
+  // Rasterize path
+  for (unsigned int i = 0; i < pathFilter->GetNumberOfOutputs(); i++)
+  {
+    // Get the path
+    typename PathType::Pointer path = pathFilter->GetOutput(i);
+
+    // Check path is valid
+    if (path->GetVertexList()->Size() == 0)
+    {
+      std::cerr << "Path " << (i + 1) << " contains no points!" << std::endl;
+      testStatus = EXIT_FAILURE;
+      continue;
+    }
+
+    // Iterate path and convert to image
+    std::cout << "Rasterizing path..." << std::endl;
+    PathIteratorType it(output, path);
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      it.Set(itk::NumericTraits<OutputPixelType>::max());
+    }
+  }
+
+  // Write output
+  std::cout << "Output: " << OutputFilename << std::endl;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(OutputFilename);
+  writer->SetInput(output);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  return testStatus;
 }
 
 #endif
