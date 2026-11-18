@@ -6,34 +6,40 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(to ${to_types})
     itk_wrap_template("I${ITKM_${to}}${d}GI${ITKM_${to}}${d}"
-                      "itk::Image< ${ITKT_${to}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >")
+                      "itk::Image< ${ITKT_${to}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >"
+    )
     itk_wrap_template("GI${ITKM_${to}}${d}I${ITKM_${to}}${d}"
-                      "itk::GPUImage< ${ITKT_${to}}, ${d} >, itk::Image< ${ITKT_${to}}, ${d} >")
+                      "itk::GPUImage< ${ITKT_${to}}, ${d} >, itk::Image< ${ITKT_${to}}, ${d} >"
+    )
     itk_wrap_template("GI${ITKM_${to}}${d}GI${ITKM_${to}}${d}"
-                      "itk::GPUImage< ${ITKT_${to}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >")
+                      "itk::GPUImage< ${ITKT_${to}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >"
+    )
   endforeach()
   foreach(from ${from_types})
     foreach(to ${to_types})
-      if(NOT
-         ${from}
-         STREQUAL
-         ${to})
+      if(NOT ${from} STREQUAL ${to})
         itk_wrap_template("I${ITKM_${from}}${d}GI${ITKM_${to}}${d}"
-                          "itk::Image< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >")
+                          "itk::Image< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >"
+        )
         itk_wrap_template("GI${ITKM_${from}}${d}I${ITKM_${to}}${d}"
-                          "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::Image< ${ITKT_${to}}, ${d} >")
+                          "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::Image< ${ITKT_${to}}, ${d} >"
+        )
         itk_wrap_template("GI${ITKM_${from}}${d}GI${ITKM_${to}}${d}"
-                          "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >")
+                          "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >"
+        )
       endif()
     endforeach()
   endforeach()
   foreach(t ${vector_types})
     itk_wrap_template("I${ITKM_${t}${d}}${d}GI${ITKM_${t}${d}}${d}"
-                      "itk::Image< ${ITKT_${t}${d}}, ${d} >, itk::GPUImage< ${ITKT_${t}${d}}, ${d} >")
+                      "itk::Image< ${ITKT_${t}${d}}, ${d} >, itk::GPUImage< ${ITKT_${t}${d}}, ${d} >"
+    )
     itk_wrap_template("GI${ITKM_${t}${d}}${d}I${ITKM_${t}${d}}${d}"
-                      "itk::GPUImage< ${ITKT_${t}${d}}, ${d} >, itk::Image< ${ITKT_${t}${d}}, ${d} >")
+                      "itk::GPUImage< ${ITKT_${t}${d}}, ${d} >, itk::Image< ${ITKT_${t}${d}}, ${d} >"
+    )
     itk_wrap_template("GI${ITKM_${t}${d}}${d}GI${ITKM_${t}${d}}${d}"
-                      "itk::GPUImage< ${ITKT_${t}${d}}, ${d} >, itk::GPUImage< ${ITKT_${t}${d}}, ${d} >")
+                      "itk::GPUImage< ${ITKT_${t}${d}}, ${d} >, itk::GPUImage< ${ITKT_${t}${d}}, ${d} >"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
@@ -62,12 +68,14 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(from ${from_types})
     foreach(to ${to_types})
       itk_wrap_template("GI${ITKM_${from}}${d}GI${ITKM_${to}}${d}"
-                        "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >")
+                        "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >"
+      )
     endforeach()
   endforeach()
   foreach(t ${vector_types})
     itk_wrap_template("GI${ITKM_${t}${d}}${d}GI${ITKM_${t}${d}}${d}"
-                      "itk::GPUImage< ${ITKT_${t}${d}}, ${d} >, itk::GPUImage< ${ITKT_${t}${d}}, ${d} >")
+                      "itk::GPUImage< ${ITKT_${t}${d}}, ${d} >, itk::GPUImage< ${ITKT_${t}${d}}, ${d} >"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()

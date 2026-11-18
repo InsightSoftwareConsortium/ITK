@@ -32,25 +32,31 @@ endforeach()
 itk_end_wrap_class()
 set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 
-set(mangle_CellInterface_MapContainer
-    "\${ITKM_\${pixel_type}}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}MC\${ITKM_IT}\${ITKM_PF\${d}}"
+set(
+  mangle_CellInterface_MapContainer
+  "\${ITKM_\${pixel_type}}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}MC\${ITKM_IT}\${ITKM_PF\${d}}"
 )
-set(type_CellInterface_MapContainer
-    "\${ITKT_\${pixel_type}},itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::MapContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >"
-)
-
-set(mangle_CellInterface_VectorContainer
-    "\${ITKM_\${pixel_type}}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}VC\${ITKM_IT}\${ITKM_PF\${d}}"
-)
-set(type_CellInterface_VectorContainer
-    "\${ITKT_\${pixel_type}},itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::VectorContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >"
+set(
+  type_CellInterface_MapContainer
+  "\${ITKT_\${pixel_type}},itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::MapContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >"
 )
 
-set(mangle_CellInterface_Array_VectorContainer
-    "A\${ITKM_D}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}VC\${ITKM_IT}\${ITKM_PF\${d}}"
+set(
+  mangle_CellInterface_VectorContainer
+  "\${ITKM_\${pixel_type}}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}VC\${ITKM_IT}\${ITKM_PF\${d}}"
 )
-set(type_CellInterface_Array_VectorContainer
-    "itk::Array< \${ITKT_D} >,itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::VectorContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >"
+set(
+  type_CellInterface_VectorContainer
+  "\${ITKT_\${pixel_type}},itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::VectorContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >"
+)
+
+set(
+  mangle_CellInterface_Array_VectorContainer
+  "A\${ITKM_D}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}VC\${ITKM_IT}\${ITKM_PF\${d}}"
+)
+set(
+  type_CellInterface_Array_VectorContainer
+  "itk::Array< \${ITKT_D} >,itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::VectorContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >"
 )
 
 itk_wrap_class("itk::CellInterface" AUTOPOINTER)
@@ -67,7 +73,8 @@ itk_wrap_class("itk::MapContainer" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(pixel_type ${types})
     itk_wrap_template("${ITKM_IT}CI${mangle_CellInterface_MapContainer}"
-                      "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_MapContainer} > *")
+                      "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_MapContainer} > *"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
@@ -76,10 +83,12 @@ itk_wrap_class("itk::VectorContainer" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(pixel_type ${types})
     itk_wrap_template("${ITKM_IT}CI${mangle_CellInterface_VectorContainer}"
-                      "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_VectorContainer} > *")
+                      "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_VectorContainer} > *"
+    )
   endforeach()
   itk_wrap_template("${ITKM_IT}CI${mangle_CellInterface_Array_VectorContainer}"
-                    "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_Array_VectorContainer} > *")
+                    "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_Array_VectorContainer} > *"
+  )
 endforeach()
 itk_end_wrap_class()
 

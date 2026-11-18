@@ -31,10 +31,7 @@ itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_SCALAR
 # Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(d2 ${ITK_WRAP_IMAGE_DIMS})
-    if(NOT
-       "${d}"
-       EQUAL
-       "${d2}") # this was already taken care of elsewhere
+    if(NOT "${d}" EQUAL "${d2}") # this was already taken care of elsewhere
       foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
         itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}" "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
       endforeach()
@@ -46,7 +43,8 @@ endforeach()
 foreach(t ${WRAP_ITK_SCALAR})
   foreach(ut ${WRAP_ITK_INT})
     itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
-                      "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
+                      "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >"
+    )
   endforeach()
 endforeach()
 

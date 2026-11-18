@@ -5,7 +5,8 @@ itk_wrap_filter_dims(d 3)
 if(d)
   foreach(t ${WRAP_ITK_SCALAR})
     itk_wrap_template("VR3DT${ITKM_D}${ITKM_I${t}${d}}${ITKM_I${t}${d}}"
-                      "itk::VersorRigid3DTransform< ${ITKT_D} >,${ITKT_I${t}${d}},${ITKT_I${t}${d}}")
+                      "itk::VersorRigid3DTransform< ${ITKT_D} >,${ITKT_I${t}${d}},${ITKT_I${t}${d}}"
+    )
   endforeach()
 endif()
 
@@ -13,7 +14,8 @@ itk_wrap_filter_dims(d 2)
 if(d)
   foreach(t ${WRAP_ITK_SCALAR})
     itk_wrap_template("MOTB${ITKM_D}22${ITKM_I${t}${d}}${ITKM_I${t}${d}}"
-                      "itk::MatrixOffsetTransformBase< ${ITKT_D},2,2 >,${ITKT_I${t}${d}},${ITKT_I${t}${d}}")
+                      "itk::MatrixOffsetTransformBase< ${ITKT_D},2,2 >,${ITKT_I${t}${d}},${ITKT_I${t}${d}}"
+    )
   endforeach()
 endif()
 itk_end_wrap_class()

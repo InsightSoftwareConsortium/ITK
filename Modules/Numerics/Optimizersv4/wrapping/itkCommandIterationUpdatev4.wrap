@@ -17,16 +17,23 @@ itk_wrap_include("itkRegularStepGradientDescentOptimizerv4.h")
 
 itk_wrap_class("itk::CommandIterationUpdatev4" POINTER)
 # these types aren't templated
-set(simple_types "AmoebaOptimizerv4" "LBFGSOptimizerv4" "LBFGSBOptimizerv4")
-set(internal_types
-    "ConjugateGradientLineSearchOptimizerv4Template"
-    "ExhaustiveOptimizerv4"
-    "GradientDescentLineSearchOptimizerv4Template"
-    "MultiGradientOptimizerv4Template"
-    "MultiStartOptimizerv4Template"
-    "PowellOptimizerv4"
-    "QuasiNewtonOptimizerv4Template"
-    "RegularStepGradientDescentOptimizerv4")
+set(
+  simple_types
+  "AmoebaOptimizerv4"
+  "LBFGSOptimizerv4"
+  "LBFGSBOptimizerv4"
+)
+set(
+  internal_types
+  "ConjugateGradientLineSearchOptimizerv4Template"
+  "ExhaustiveOptimizerv4"
+  "GradientDescentLineSearchOptimizerv4Template"
+  "MultiGradientOptimizerv4Template"
+  "MultiStartOptimizerv4Template"
+  "PowellOptimizerv4"
+  "QuasiNewtonOptimizerv4Template"
+  "RegularStepGradientDescentOptimizerv4"
+)
 
 # mangle string then c++ type
 # e.g. itk_wrap_template("itkAmoebaOptimizerv4" "itk::AmoebaOptimizerv4")

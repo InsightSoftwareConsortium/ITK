@@ -4,7 +4,8 @@ foreach(s ${WRAP_ITK_REAL})
     foreach(v ${WRAP_ITK_VECTOR_REAL})
       if(${d} GREATER 1)
         itk_wrap_template("${ITKM_I${s}${d}}${ITKM_I${s}${d}}I${v}${d}${d}${s}"
-                          "${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, itk::Image< ${ITKT_${v}${d}}, ${d} >, ${ITKT_${s}}")
+                          "${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, itk::Image< ${ITKT_${v}${d}}, ${d} >, ${ITKT_${s}}"
+        )
       endif()
     endforeach()
   endforeach()

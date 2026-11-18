@@ -28,6 +28,5 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   if(ITK_WRAP_rgb_unsigned_short)
     itk_wrap_template("${ITKM_LM${d}}${ITKM_IRGBUS${d}}" "${ITKT_LM${d}}, ${ITKT_IRGBUS${d}}")
   endif()
-
 endforeach()
 itk_end_wrap_class()

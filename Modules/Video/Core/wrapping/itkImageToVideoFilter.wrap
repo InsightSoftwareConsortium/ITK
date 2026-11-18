@@ -9,11 +9,7 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     set(m_d ${d})
   endif()
 endforeach()
-string(
-  REPLACE ${m_d}
-          ""
-          INPUT_DIMS
-          "${ITK_WRAP_IMAGE_DIMS}")
+string(REPLACE ${m_d} "" INPUT_DIMS "${ITK_WRAP_IMAGE_DIMS}")
 
 itk_wrap_class("itk::ImageToVideoFilter" POINTER)
 foreach(d ${INPUT_DIMS})
@@ -23,7 +19,8 @@ foreach(d ${INPUT_DIMS})
     # Explicitly wrap vector image template arguments
     decrement(d2 ${d})
     itk_wrap_template("VI${ITKM_${t}}${d}VI${ITKM_${t}}${d2}"
-                      "${ITKT_VI${ITKM_${t}}${d}}, itk::VideoStream<${ITKT_VI${ITKM_${t}}${d2}}>")
+                      "${ITKT_VI${ITKM_${t}}${d}}, itk::VideoStream<${ITKT_VI${ITKM_${t}}${d2}}>"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()

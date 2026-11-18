@@ -22,10 +22,12 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   # which may be a bug in ITK but they're needed currently.
   itk_wrap_template(
     "${ITKM_PD${d}}${d}ST${ITKM_D}${d}${d}${ITKM_D}${ITKM_D}"
-    "${ITKT_PD${d}},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D} >")
+    "${ITKT_PD${d}},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D} >"
+  )
   itk_wrap_template(
     "${ITKM_UI}${d}DSM${ITKM_UI}${d}${d}${ITKM_F}${ITKM_F}${ITKM_UI}"
-    "${ITKT_UI},${d},itk::DefaultStaticMeshTraits<${ITKT_UI},${d},${d},${ITKT_F},${ITKT_F},${ITKT_UI} >")
+    "${ITKT_UI},${d},itk::DefaultStaticMeshTraits<${ITKT_UI},${d},${d},${ITKT_F},${ITKT_F},${ITKT_UI} >"
+  )
 endforeach()
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   itk_wrap_template("M${ITKM_D}${d}${d}" "itk::Matrix <${ITKT_D},${d},${d}>,${d}")

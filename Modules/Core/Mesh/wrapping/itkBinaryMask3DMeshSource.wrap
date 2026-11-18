@@ -2,7 +2,6 @@
 # ${ITKM_I${t}3}  note the '3' after ${t}
 itk_wrap_filter_dims(d3 3)
 if(d3)
-
   itk_wrap_include("itkMesh.h")
 
   itk_wrap_class("itk::BinaryMask3DMeshSource" POINTER)

@@ -8,7 +8,8 @@ itk_wrap_class("itk::GradientAnisotropicDiffusionImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
     itk_wrap_template("GI${ITKM_${t}}${d}GI${ITKM_${t}}${d}"
-                      "itk::GPUImage< ${ITKT_${t}}, ${d} >, itk::GPUImage< ${ITKT_${t}}, ${d} >")
+                      "itk::GPUImage< ${ITKT_${t}}, ${d} >, itk::GPUImage< ${ITKT_${t}}, ${d} >"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
@@ -72,7 +73,8 @@ itk_wrap_class("itk::GPUGradientAnisotropicDiffusionImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
     itk_wrap_template("GI${ITKM_${t}}${d}GI${ITKM_${t}}${d}"
-                      "itk::GPUImage< ${ITKT_${t}}, ${d} >, itk::GPUImage< ${ITKT_${t}}, ${d} >")
+                      "itk::GPUImage< ${ITKT_${t}}, ${d} >, itk::GPUImage< ${ITKT_${t}}, ${d} >"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
