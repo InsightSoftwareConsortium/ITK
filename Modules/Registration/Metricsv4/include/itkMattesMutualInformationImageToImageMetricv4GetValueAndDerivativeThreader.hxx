@@ -27,53 +27,6 @@ void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
-  TMattesMutualInformationMetric>::DetermineNumberOfWorkUnitsUsed()
-{
-  const auto * mattes = dynamic_cast<const TMattesMutualInformationMetric *>(this->m_Associate);
-  if (mattes == nullptr || !mattes->GetComputeDerivative() || mattes->HasLocalSupport())
-  {
-    Superclass::DetermineNumberOfWorkUnitsUsed();
-    return;
-  }
-  const ThreadIdType requested = this->GetNumberOfWorkUnits();
-  // Not the multithreader's maximum, which PlatformMultiThreader sets to the work units of the last evaluation.
-  const ThreadIdType threads = std::min(requested, MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
-  const ThreadIdType bound = TMattesMutualInformationMetric::ComputeMaximumNumberOfDerivativeWorkUnits(
-    mattes->GetNumberOfHistogramBins(),
-    mattes->GetNumberOfLocalParameters(),
-    threads,
-    mattes->GetMaximumJointPDFDerivativesBytes());
-  if (bound >= requested)
-  {
-    Superclass::DetermineNumberOfWorkUnitsUsed();
-    return;
-  }
-  // The multithreader runs the bounded count, so the requested count is restored after the threaded execution.
-  this->m_RequestedNumberOfWorkUnits = requested;
-  this->SetNumberOfWorkUnits(bound);
-  Superclass::DetermineNumberOfWorkUnitsUsed();
-}
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
-void
-MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
-  TMattesMutualInformationMetric>::RestoreRequestedNumberOfWorkUnits()
-{
-  if (this->m_RequestedNumberOfWorkUnits > 0)
-  {
-    const ThreadIdType requested = this->m_RequestedNumberOfWorkUnits;
-    this->m_RequestedNumberOfWorkUnits = 0;
-    this->SetNumberOfWorkUnits(requested);
-  }
-}
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
-void
-MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
   TMattesMutualInformationMetric>::BeforeThreadedExecution()
 {
   /* Most of this code needs to be here because we need to know the number
@@ -180,7 +133,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     this->m_MattesAssociate->m_PRatioArray.clear();
     this->m_MattesAssociate->m_JointPdfIndex1DPerPoint.clear();
     this->m_MattesAssociate->m_LocalDerivativeByParzenBin.clear();
-    this->m_MattesAssociate->m_ThreaderJointPDFDerivatives.clear();
     this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
   }
 
@@ -193,7 +145,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     this->m_MattesAssociate->m_JointPdfIndex1DPerPoint.assign(
       this->m_MattesAssociate->GetNumberOfParameters() / this->m_MattesAssociate->GetNumberOfLocalParameters(), 0);
     // Don't need this with local-support
-    this->m_MattesAssociate->m_ThreaderJointPDFDerivatives.clear();
     this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
     // This always has four entries because the parzen window size is fixed.
     this->m_MattesAssociate->m_LocalDerivativeByParzenBin.resize(4);
@@ -228,27 +179,39 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
                                      this->m_MattesAssociate->m_NumberOfHistogramBins,
                                      this->m_MattesAssociate->m_NumberOfHistogramBins } });
 
-    // Drop the alias of work unit 0's array first, so that each array is freed before its replacement is allocated.
-    this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
-    if (this->m_MattesAssociate->m_ThreaderJointPDFDerivatives.size() != localNumberOfWorkUnitsUsed)
+    // Set the regions and allocate
+    if (this->m_MattesAssociate->m_JointPDFDerivatives.IsNull() ||
+        (this->m_MattesAssociate->m_JointPDFDerivatives->GetBufferedRegion() != jointPDFDerivativesRegion))
     {
-      this->m_MattesAssociate->m_ThreaderJointPDFDerivatives.resize(localNumberOfWorkUnitsUsed);
+      this->m_MattesAssociate->m_JointPDFDerivatives = JointPDFDerivativesType::New();
+      this->m_MattesAssociate->m_JointPDFDerivatives->SetRegions(jointPDFDerivativesRegion);
+      this->m_MattesAssociate->m_JointPDFDerivatives->AllocateInitialized();
+    }
+    else
+    {
+      // Initialize to zero for accumulation
+      this->m_MattesAssociate->m_JointPDFDerivatives->FillBuffer(0.0F);
+    }
+    if ((this->m_MattesAssociate->m_ThreaderDerivativeManager.size() != localNumberOfWorkUnitsUsed))
+    {
+      this->m_MattesAssociate->m_ThreaderDerivativeManager.resize(localNumberOfWorkUnitsUsed);
     }
     for (ThreadIdType workUnitID = 0; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
     {
-      auto & jointPDFDerivatives = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[workUnitID];
-      if (jointPDFDerivatives.IsNull() || jointPDFDerivatives->GetBufferedRegion() != jointPDFDerivativesRegion)
-      {
-        jointPDFDerivatives = JointPDFDerivativesType::New();
-        jointPDFDerivatives->SetRegions(jointPDFDerivativesRegion);
-        jointPDFDerivatives->AllocateInitialized();
-      }
-      else
-      {
-        jointPDFDerivatives->FillBuffer(0.0);
-      }
+      this->m_MattesAssociate->m_ThreaderDerivativeManager[workUnitID].Initialize(
+        // A heuristic that assumes memory for 2x size of
+        // m_JointPDFDerivative efficient and easy to make, so
+        // split it across all the threads.  A work unit of at least 400 is needed
+        // when the thread size approaches the number of histograms so that the
+        // there is enough work to be done between thread lockings.
+        std::max<size_t>(500,
+                         this->m_MattesAssociate->m_NumberOfHistogramBins *
+                           this->m_MattesAssociate->m_NumberOfHistogramBins / localNumberOfWorkUnitsUsed),
+        this->GetCachedNumberOfLocalParameters(),
+        // Need address of the lock
+        &this->m_MattesAssociate->m_JointPDFDerivativesLock,
+        this->m_MattesAssociate->m_JointPDFDerivatives);
     }
-    this->m_MattesAssociate->m_JointPDFDerivatives = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[0];
   }
 }
 
@@ -392,11 +355,21 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
           (fixedImageParzenWindowIndex * this->m_MattesAssociate->m_JointPDFDerivatives->GetOffsetTable()[2]) +
           (pdfMovingIndex * this->m_MattesAssociate->m_JointPDFDerivatives->GetOffsetTable()[1]);
 
-        this->AccumulatePDFDerivatives(
-          jacobian,
-          movingImageGradient,
-          cubicBSplineDerivativeValue,
-          this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadId]->GetBufferPointer() + ThisIndexOffset);
+        PDFValueType * derivativeContributionPtr =
+          this->m_MattesAssociate->m_ThreaderDerivativeManager[threadId].GetNextElementAndAddOffset(ThisIndexOffset);
+        for (NumberOfParametersType mu = 0, maxElement = this->GetCachedNumberOfLocalParameters(); mu < maxElement;
+             ++mu)
+        {
+          PDFValueType innerProduct = 0.0;
+          for (SizeValueType dim = 0, lastDim = this->m_MattesAssociate->MovingImageDimension; dim < lastDim; ++dim)
+          {
+            innerProduct += jacobian[dim][mu] * movingImageGradient[dim];
+          }
+
+          *(derivativeContributionPtr) = innerProduct * cubicBSplineDerivativeValue;
+          ++derivativeContributionPtr;
+        }
+        this->m_MattesAssociate->m_ThreaderDerivativeManager[threadId].CheckAndReduceIfNecessary();
       }
     }
 
@@ -422,8 +395,18 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<TDomain
                                              const PDFValueType &            cubicBSplineDerivativeValue,
                                              DerivativeValueType *           localSupportDerivativeResultPtr) const
 {
-  this->AccumulatePDFDerivatives(
-    jacobian, movingImageGradient, cubicBSplineDerivativeValue, localSupportDerivativeResultPtr);
+  for (NumberOfParametersType mu = 0, maxElement = this->GetCachedNumberOfLocalParameters(); mu < maxElement; ++mu)
+  {
+    PDFValueType innerProduct = 0.0;
+    for (SizeValueType dim = 0, lastDim = this->m_MattesAssociate->MovingImageDimension; dim < lastDim; ++dim)
+    {
+      innerProduct += jacobian[dim][mu] * movingImageGradient[dim];
+    }
+
+    const PDFValueType derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
+    *(localSupportDerivativeResultPtr) += derivativeContribution;
+    ++localSupportDerivativeResultPtr;
+  }
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
@@ -433,8 +416,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   TImageToImageMetric,
   TMattesMutualInformationMetric>::AfterThreadedExecution()
 {
-  this->RestoreRequestedNumberOfWorkUnits();
-
   const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   /* Store the number of valid points in the enclosing class
    * m_NumberOfValidPoints by collecting the valid points per thread.
@@ -466,18 +447,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
 
     JointPDFDerivativesValueType * const accumulatorPdfDPtrStart =
       this->m_MattesAssociate->m_JointPDFDerivatives->GetBufferPointer();
-    for (ThreadIdType workUnitID = 1; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
-    {
-      JointPDFDerivativesValueType *       accumulatorPdfDPtr = accumulatorPdfDPtrStart;
-      const JointPDFDerivativesValueType * threadPdfDPtr =
-        this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[workUnitID]->GetBufferPointer();
-      const JointPDFDerivativesValueType * const threadPdfDPtrEnd = threadPdfDPtr + histogramTotalElementsSize;
-      while (threadPdfDPtr < threadPdfDPtrEnd)
-      {
-        *(accumulatorPdfDPtr++) += *(threadPdfDPtr++);
-      }
-    }
-
     JointPDFDerivativesValueType *             accumulatorPdfDPtr = accumulatorPdfDPtrStart;
     const JointPDFDerivativesValueType * const tempThreadPdfDPtrEnd =
       accumulatorPdfDPtrStart + histogramTotalElementsSize;
