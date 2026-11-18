@@ -369,14 +369,14 @@ GDCMImageIO::Read(void * pointer)
     for (size_t i = 0; i < fullBytes; ++i)
     {
       const unsigned char c = t[i];
-      copy[j + 0] = (c & 0x01) ? 255 : 0;
-      copy[j + 1] = (c & 0x02) ? 255 : 0;
-      copy[j + 2] = (c & 0x04) ? 255 : 0;
-      copy[j + 3] = (c & 0x08) ? 255 : 0;
-      copy[j + 4] = (c & 0x10) ? 255 : 0;
-      copy[j + 5] = (c & 0x20) ? 255 : 0;
-      copy[j + 6] = (c & 0x40) ? 255 : 0;
-      copy[j + 7] = (c & 0x80) ? 255 : 0;
+      copy[j + 0] = (c & 0x01) ? m_SingleBitForegroundValue : 0;
+      copy[j + 1] = (c & 0x02) ? m_SingleBitForegroundValue : 0;
+      copy[j + 2] = (c & 0x04) ? m_SingleBitForegroundValue : 0;
+      copy[j + 3] = (c & 0x08) ? m_SingleBitForegroundValue : 0;
+      copy[j + 4] = (c & 0x10) ? m_SingleBitForegroundValue : 0;
+      copy[j + 5] = (c & 0x20) ? m_SingleBitForegroundValue : 0;
+      copy[j + 6] = (c & 0x40) ? m_SingleBitForegroundValue : 0;
+      copy[j + 7] = (c & 0x80) ? m_SingleBitForegroundValue : 0;
       j += 8;
     }
     const size_t remainder = len % 8;
@@ -385,7 +385,7 @@ GDCMImageIO::Read(void * pointer)
       const unsigned char c = t[fullBytes];
       for (size_t bit = 0; bit < remainder; ++bit)
       {
-        copy[j + bit] = (c & (1 << bit)) ? 255 : 0;
+        copy[j + bit] = (c & (1 << bit)) ? m_SingleBitForegroundValue : 0;
       }
     }
     memcpy(static_cast<char *>(pointer), copy.get(), len);
@@ -1501,6 +1501,7 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "GlobalNumberOfDimensions: " << m_GlobalNumberOfDimensions << std::endl;
   os << indent << "CompressionType: " << m_CompressionType << std::endl;
   itkPrintSelfBooleanMacro(SingleBit);
+  os << indent << "SingleBitForegroundValue: " << static_cast<unsigned int>(m_SingleBitForegroundValue) << std::endl;
   os << indent << "InternalComponentType: " << m_InternalComponentType << std::endl;
 }
 

@@ -213,6 +213,12 @@ public:
   itkGetConstMacro(ReadYBRtoRGB, bool);
   itkBooleanMacro(ReadYBRtoRGB);
   /** @ITKEndGrouping */
+  /** Output value for a set bit when reading one-bit images. The default is
+   * 255. Set this to 1 to preserve binary segment presence values. */
+  /** @ITKStartGrouping */
+  itkSetMacro(SingleBitForegroundValue, unsigned char);
+  itkGetConstMacro(SingleBitForegroundValue, unsigned char);
+  /** @ITKEndGrouping */
   /** More general method to retrieve an arbitrary DICOM value based
    * on a DICOM Tag (eg "0123|45ef"). */
   bool
@@ -294,7 +300,8 @@ private:
 
   CompressionEnum m_CompressionType{};
 
-  bool m_SingleBit{};
+  bool          m_SingleBit{};
+  unsigned char m_SingleBitForegroundValue{ 255 };
 
   IOComponentEnum m_InternalComponentType{};
 };
