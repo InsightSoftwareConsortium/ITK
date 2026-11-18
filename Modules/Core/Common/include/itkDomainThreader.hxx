@@ -18,6 +18,7 @@
 #ifndef itkDomainThreader_hxx
 #define itkDomainThreader_hxx
 
+#include <algorithm>
 
 namespace itk
 {
@@ -93,7 +94,9 @@ template <typename TDomainPartitioner, typename TAssociate>
 void
 DomainThreader<TDomainPartitioner, TAssociate>::DetermineNumberOfWorkUnitsUsed()
 {
-  const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
+  const ThreadIdType numberOfWorkUnits =
+    std::clamp<ThreadIdType>(this->GetMaximumNumberOfWorkUnitsForExecution(), 1, this->GetNumberOfWorkUnits());
+  this->m_NumberOfWorkUnitsToPartition = numberOfWorkUnits;
 
   // Attempt a single dummy partition, just to get the number of subdomains actually created
   DomainType subdomain;
@@ -126,7 +129,12 @@ DomainThreader<TDomainPartitioner, TAssociate>::ThreaderCallback(void * arg)
   auto *             str = static_cast<ThreadStruct *>(info->UserData);
   DomainThreader *   thisDomainThreader = str->domainThreader;
   const ThreadIdType workUnitID = info->WorkUnitID;
-  const ThreadIdType workUnitCount = info->NumberOfWorkUnits;
+  const ThreadIdType workUnitCount =
+    std::min(info->NumberOfWorkUnits, thisDomainThreader->m_NumberOfWorkUnitsToPartition);
+  if (workUnitID >= workUnitCount)
+  {
+    return ITK_THREAD_RETURN_DEFAULT_VALUE;
+  }
 
   // Get the sub-domain to process for this thread.
   DomainType         subdomain;

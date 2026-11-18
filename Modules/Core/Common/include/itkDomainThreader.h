@@ -145,6 +145,15 @@ protected:
   virtual void
   DetermineNumberOfWorkUnitsUsed();
 
+  /** Upper bound on the work units that partition the domain in the current
+   * Execute(), without changing the configured count. Work units beyond it
+   * stay idle. Defaults to GetNumberOfWorkUnits(). */
+  virtual ThreadIdType
+  GetMaximumNumberOfWorkUnitsForExecution() const
+  {
+    return this->GetNumberOfWorkUnits();
+  }
+
   /** When \c Execute is run, this method is run singled-threaded before \c
    * ThreadedExecution.  Inside this method optional operations such as
    * creating instance variables needed per thread may be performed. */
@@ -195,6 +204,7 @@ private:
    * well into that number.
    * This value is determined at the beginning of \c Execute(). */
   ThreadIdType                            m_NumberOfWorkUnitsUsed{ 0 };
+  ThreadIdType                            m_NumberOfWorkUnitsToPartition{ 0 };
   typename DomainPartitionerType::Pointer m_DomainPartitioner{};
   DomainType                              m_CompleteDomain{};
   MultiThreaderBase::Pointer              m_MultiThreader{};

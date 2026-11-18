@@ -52,8 +52,20 @@ public:
       return m_DomainInThreadedExecution;
     }
 
+    void
+    SetWorkUnitCap(itk::ThreadIdType cap)
+    {
+      m_WorkUnitCap = cap;
+    }
+
   protected:
     TestDomainThreader() = default;
+
+    itk::ThreadIdType
+    GetMaximumNumberOfWorkUnitsForExecution() const override
+    {
+      return m_WorkUnitCap > 0 ? m_WorkUnitCap : this->GetNumberOfWorkUnits();
+    }
 
   private:
     void
@@ -89,6 +101,7 @@ public:
     }
 
     std::vector<DomainType> m_DomainInThreadedExecution;
+    itk::ThreadIdType       m_WorkUnitCap{ 0 };
   }; // end TestDomainThreader class
 
   DomainThreaderAssociate()
@@ -308,4 +321,40 @@ TEST(ThreadedIndexedContainerPartitioner, WorkUnitsFromThreadRatio)
   const itk::ModifiedTimeType before = domainThreader->GetMTime();
   domainThreader->SetNumberOfWorkUnitsFromThreadRatio(4);
   EXPECT_EQ(domainThreader->GetMTime(), before);
+}
+
+TEST(ThreadedIndexedContainerPartitioner, ExecutionCapKeepsConfiguredWorkUnits)
+{
+  DomainThreaderAssociate                                    enclosingClass;
+  const DomainThreaderAssociate::TestDomainThreader::Pointer domainThreader = enclosingClass.GetDomainThreader();
+
+  using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
+  DomainType fullRange;
+  fullRange[0] = 0;
+  fullRange[1] = 99;
+
+  domainThreader->SetNumberOfWorkUnits(8);
+  const itk::ThreadIdType configured = domainThreader->GetNumberOfWorkUnits();
+  if (configured < 4)
+  {
+    GTEST_SKIP() << "The multithreader accepted only " << configured << " work units";
+  }
+
+  domainThreader->SetWorkUnitCap(3);
+  enclosingClass.Execute(fullRange);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnitsUsed(), 3u);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnits(), configured);
+  const std::vector<DomainType> & capped = domainThreader->GetDomainInThreadedExecution();
+  ASSERT_EQ(capped.size(), 3u);
+  EXPECT_EQ(capped.front()[0], fullRange[0]);
+  EXPECT_EQ(capped.back()[1], fullRange[1]);
+  for (size_t i = 1; i < capped.size(); ++i)
+  {
+    EXPECT_EQ(capped[i - 1][1] + 1, capped[i][0]);
+  }
+
+  domainThreader->SetWorkUnitCap(configured + 5);
+  enclosingClass.Execute(fullRange);
+  EXPECT_EQ(domainThreader->GetNumberOfWorkUnitsUsed(), configured);
+  EXPECT_EQ(domainThreader->GetDomainInThreadedExecution().back()[1], fullRange[1]);
 }
