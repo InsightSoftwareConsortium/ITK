@@ -275,12 +275,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
     return;
   }
 
-  ImageIORegion region(dimension);
-  for (unsigned int d = 0; d < dimension; ++d)
-  {
-    region.SetIndex(d, index[d]);
-    region.SetSize(d, size[d]);
-  }
+  const ImageIORegion region(dimension, index, size);
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
   const ThreadIdType              splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
