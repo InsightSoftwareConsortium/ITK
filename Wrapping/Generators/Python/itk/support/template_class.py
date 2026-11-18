@@ -495,6 +495,10 @@ class itkTemplate(Mapping):
             elif paramNorm == "false":
                 param = False
 
+            elif paramNorm in itkTemplateBase.__named_template_registry__:
+                # template template parameter
+                param = itkTemplateBase.__named_template_registry__[paramNorm]
+
             else:
                 # unable to convert the parameter
                 # use it without changes, but display a warning message, to
@@ -530,7 +534,12 @@ class itkTemplate(Mapping):
             # In the case of itk class instance, get the class
             name: str = param.__class__.__name__
             isclass: bool = inspect.isclass(param)
-            if not isclass and name.startswith("itk") and name != "itkCType":
+            if (
+                not isclass
+                and name.startswith("itk")
+                and name != "itkCType"
+                and not isinstance(param, itkTemplate)
+            ):
                 param = param.__class__
 
             # append the parameter to the list. If it's not a supported type,

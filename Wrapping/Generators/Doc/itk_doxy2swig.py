@@ -50,6 +50,8 @@ class itkDoxy2SWIG(Doxy2SWIG):
             name = first["name"].firstChild.data
             if name[:8] == "operator":  # Don't handle operators yet.
                 return
+            if first["definition"].firstChild is None:
+                return
 
             # store self.pieces to be able to restore it if the docstring is empty.
             pieces_backup = list(self.pieces)

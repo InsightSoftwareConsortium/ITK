@@ -639,6 +639,10 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
     set(ITK_DOXYGEN_OUTPUT_DIR "${ITK_WRAP_DOC_LIBRARY_DIR}")
     include(${ITK_SOURCE_DIR}/Utilities/Doxygen/DoxygenConfig.cmake)
+    # doxy2swig reads only the XML, at the case-folded names itk_wrap_named_class expects.
+    set(DOXYGEN_GENERATE_XML "YES")
+    set(DOXYGEN_GENERATE_HTML "NO")
+    set(DOXYGEN_CASE_SENSE_NAMES "NO")
     doxygen_add_docs(
       ${WRAPPER_LIBRARY_NAME}Doxygen
       ${ITK_WRAP_DOC_DOXYGEN_HEADERS}
