@@ -27,6 +27,7 @@ rows labeled **Agent default** bind AI agents only. Agents set
 | Citing a publication in documentation | [conventions.md](./Documentation/AI/conventions.md) (Citing Publications) |
 | Avoiding compiler pitfalls and refactoring hazards | [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
 | Adding, moving, or removing a compiler or linker flag | [compiler-flags.md](./Documentation/AI/compiler-flags.md) |
+| Splitting work into commits; amending vs. adding a commit | [git-commits.md](./Documentation/AI/git-commits.md#commit-scope) |
 | Creating a **DOC:** commit | [git-commits.md](./Documentation/AI/git-commits.md) |
 | Creating a **STYLE:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
 | Creating a **BUG:** or **ENH:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [compiler-cautions.md](./Documentation/AI/compiler-cautions.md), [testing.md](./Documentation/AI/testing.md) |
