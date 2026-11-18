@@ -7,6 +7,10 @@ set(
   ${ITKNrrdIO_SOURCE_DIR}/src/NrrdIO
 )
 set(ITKNrrdIO_LIBRARIES ITKNrrdIO)
+
+# A stale configured NrrdIO.h here would shadow the source-tree header.
+file(REMOVE ${ITKNrrdIO_BINARY_DIR}/src/NrrdIO/NrrdIO.h)
+
 set(
   ITK_LIBRARY_PROPERTIES
   WINDOWS_EXPORT_ALL_SYMBOLS
