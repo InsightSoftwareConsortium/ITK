@@ -18,7 +18,7 @@
 #include "MinimalPathTest.h"
 
 int
-Test_SpeedToPath_GradientDescent_3D(int argc, char * argv[])
+itkSpeedToPathRegularStepGradientDescent2DTest(int argc, char * argv[])
 {
-  return Test_SpeedToPath_GradientDescent_ND<3>(argc, argv);
+  return Test_SpeedToPath_RegularStepGradientDescent_ND<2>(argc, argv);
 }
