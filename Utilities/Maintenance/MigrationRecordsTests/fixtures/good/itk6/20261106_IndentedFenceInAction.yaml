@@ -1,0 +1,12 @@
+summary: |
+  Code fenced inside a list item is code, not prose.
+actions:
+  - |
+    Decorate the class.
+
+      ```python
+      @dataclass
+      class Point:
+          x: float
+      ```
+impact: low

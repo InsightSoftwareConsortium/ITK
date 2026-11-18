@@ -1,0 +1,24 @@
+schema_version: 1
+title: IO modules write floating-point metadata with lossless precision
+summary: |
+  `float` and `double` metadata values are now serialized using
+  `itk::ConvertNumberToString()`, which produces the shortest decimal string
+  that round-trips exactly — replacing the previous 6-significant-digit default.
+details: |
+  Affected modules: **NIfTI** (`scl_slope`, `scl_inter`, `pixdim`, spacing,
+  and offset fields), **MetaImage**, **NRRD**, **VoxBoCUB**, **SpatialObject**,
+  and **Mesh IO**.
+
+  Tests that compare raw header text against golden baselines may fail because
+  values previously written as e.g. `"1"` are now written as `"1.0000001"`.
+  Replace exact string matches with numeric comparisons or regenerate baselines.
+  Files not written by ITK are unaffected.
+categories:
+  - FileFormat
+  - ResultsChange
+environment:
+  - data
+impact: medium
+pr: 6003
+commits:
+  - cd9ec887ed0

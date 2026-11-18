@@ -1,0 +1,11 @@
+summary: |
+  A record may show YAML that uses folded blocks.
+details: |
+  ```yaml
+  message: >
+    folded sample
+  steps:
+    - >
+      folded sample item
+  ```
+impact: low

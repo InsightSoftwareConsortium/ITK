@@ -1,0 +1,26 @@
+schema_version: 1
+title: '`ProcessObject` number of work units is held by the multi-threader'
+summary: |
+  `ProcessObject::SetNumberOfWorkUnits()` and `GetNumberOfWorkUnits()` now forward
+  to the filter's `MultiThreaderBase` instead of keeping a separate copy.
+  `GetNumberOfWorkUnits()` returns the value by copy and reports the count the
+  multi-threader accepted, so it reflects the multi-threader's limits (for
+  example, `SingleMultiThreader` always reports 1).
+details: |
+  `ProcessObject::SetMultiThreader()` no longer carries a work unit count over to
+  the new multi-threader; the filter uses the count of the multi-threader it is
+  given.
+
+  **What you need to do**
+
+  Call `SetNumberOfWorkUnits()` after `SetMultiThreader()` when a specific count is
+  wanted. Filters that share one multi-threader instance also share its number of
+  work units.
+categories:
+  - ResultsChange
+environment:
+  - cxx
+impact: low
+pr: 7146
+commits:
+  - a5805f97eab

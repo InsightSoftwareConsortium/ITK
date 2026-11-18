@@ -1,0 +1,9 @@
+summary: |
+  A fence line with an info string cannot close an open block.
+details: |
+  ```
+  @first
+  ```py
+  @second
+  ```
+impact: low

@@ -1,0 +1,13 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itksys::hash_map` has been removed. It should be replaced by `std::unordered_map`.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: low
+pr: 187
+commits:
+  - 0e2d4f2dc55

@@ -1,0 +1,14 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itk::TreeNode`, `itk::TreeContainer`, `itk::TreeIteratorBase`, and all related classes have been moved to `ITKDeprecated` module.
+categories:
+  - ApiDeprecated
+environment:
+  - cxx
+  - cmake
+impact: low
+pr: 1490
+commits:
+  - 48c2ff830e1

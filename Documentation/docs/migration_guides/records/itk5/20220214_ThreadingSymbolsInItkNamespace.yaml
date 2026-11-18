@@ -1,0 +1,46 @@
+schema_version: 1
+details: |
+  **Multithreading refactored**
+
+  -  ITK_THREAD_RETURN_TYPE is now in the itk:: namespace
+  ```cpp
+  #if ITK_VERSION_MAJOR >= 5
+    static itk::ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+  #else
+    static ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+  #endif
+  ```
+
+  - ITK_THREAD_RETURN_VALUE is named itk::ITK_THREAD_RETURN_DEFAULT_VALUE
+  ```cpp
+  #if ITK_VERSION_MAJOR >= 5
+    return itk::ITK_THREAD_RETURN_DEFAULT_VALUE;
+  #else
+    return ITK_THREAD_RETURN_VALUE;
+  #endif
+  ```
+
+  - ThreadInfoStruct is renamed to WorkUnitInfo
+  ```cpp
+  #if ITK_VERSION_MAJOR >= 5
+      (((itk::PlatformMultiThreader::WorkUnitInfo *)(arg))->UserData);
+  #else
+      (((itk::MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+  #endif
+  ```
+
+  The variables `ITK_MAX_THREADS` and `ITK_DEFAULT_THREAD_ID` are now in the `itk::` namespace.
+  Backwards compatibility is currently supported by exposing these to the global namespace
+  with
+  ```cpp
+    using itk::ITK_MAX_THREADS;
+    using itk::ITK_DEFAULT_THREAD_ID;
+  ```
+categories:
+  - ApiRenamed
+environment:
+  - cxx
+impact: medium
+pr: -1
+commits:
+  - df93980bc02

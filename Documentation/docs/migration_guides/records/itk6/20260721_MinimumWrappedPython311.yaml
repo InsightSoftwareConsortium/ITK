@@ -1,0 +1,17 @@
+schema_version: 1
+title: Minimum wrapped Python raised to 3.11
+summary: |
+  ITK 6 requires Python 3.11 or newer for Python wrapping; the previous floor was 3.10. Configuring the wrapping against an older interpreter now fails early.
+details: |
+  **What you need to do**
+
+  Use Python 3.11+ when building or installing the ITK Python wrapping. The prebuilt `itk` wheels already target 3.11 and newer.
+categories:
+  - Dependency
+environment:
+  - python
+  - wrapping
+impact: medium
+pr: 6677
+commits:
+  - 3c7145d69f5

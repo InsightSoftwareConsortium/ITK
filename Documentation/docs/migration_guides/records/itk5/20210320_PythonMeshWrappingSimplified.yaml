@@ -1,0 +1,15 @@
+schema_version: 1
+summary: |
+  **Python changes**
+
+  Mesh-related class wrapping has been simplified, made more consistent, and
+  expanded, but previous template parameters may not be available.
+categories:
+  - ApiRemoved
+environment:
+  - python
+  - wrapping
+impact: low
+pr: 403
+commits:
+  - 443955f9644
