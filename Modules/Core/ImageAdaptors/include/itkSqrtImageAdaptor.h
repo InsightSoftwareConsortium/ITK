@@ -49,13 +49,13 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void
+  static void
   Set(TInternalType & output, const TExternalType & input)
   {
     output = (TInternalType)std::sqrt(static_cast<double>(input));
   }
 
-  static inline TExternalType
+  static TExternalType
   Get(const TInternalType & input)
   {
     return (TExternalType)std::sqrt(static_cast<double>(input));

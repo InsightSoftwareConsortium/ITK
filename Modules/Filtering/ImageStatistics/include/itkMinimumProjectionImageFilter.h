@@ -50,7 +50,7 @@ public:
   MinimumAccumulator(SizeValueType) {}
   ~MinimumAccumulator() = default;
 
-  inline void
+  void
   Initialize()
   {
     if constexpr (std::is_same<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>::value)
@@ -64,7 +64,7 @@ public:
     }
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
 
@@ -88,7 +88,7 @@ public:
     }
   }
 
-  inline TInputPixel
+  TInputPixel
   GetValue()
   {
     return m_Minimum;

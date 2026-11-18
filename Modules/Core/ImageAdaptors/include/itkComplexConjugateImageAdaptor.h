@@ -39,13 +39,13 @@ public:
   using ExternalType = TComplexType;
   using InternalType = TComplexType;
 
-  static inline void
+  static void
   Set(TComplexType & output, const TComplexType & input)
   {
     output = std::conj(input);
   }
 
-  static inline TComplexType
+  static TComplexType
   Get(const TComplexType & input)
   {
     return std::conj(input);

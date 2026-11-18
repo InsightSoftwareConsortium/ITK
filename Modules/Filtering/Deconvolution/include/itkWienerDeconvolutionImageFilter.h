@@ -160,7 +160,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(WienerDeconvolutionFunctor);
 
-  inline TPixel
+  TPixel
   operator()(const TPixel & I, const TPixel & H) const
   {
     TPixel Pn = m_NoisePowerSpectralDensityConstant;

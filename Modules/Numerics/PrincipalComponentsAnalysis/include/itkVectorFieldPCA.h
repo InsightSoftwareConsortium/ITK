@@ -81,7 +81,7 @@ public:
   /**
    * \brief Evaluate the function. Input is the squared distance
    */
-  inline TRealValueType
+  TRealValueType
   Evaluate(const TRealValueType & u) const override
   {
     return (std::exp(u * m_OneOverMinusTwoSigmaSqr));

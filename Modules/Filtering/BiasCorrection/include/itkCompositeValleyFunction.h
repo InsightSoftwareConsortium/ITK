@@ -157,7 +157,7 @@ public:
   Evaluate(MeasureType x) override;
 
   /** Get an energy value for the valley. */
-  inline MeasureType
+  MeasureType
   valley(MeasureType d)
   {
     return 1 - 1 / (1 + d * d / 3);

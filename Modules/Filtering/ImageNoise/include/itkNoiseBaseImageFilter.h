@@ -70,7 +70,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  static inline uint32_t
+  static uint32_t
   Hash(uint32_t a, uint32_t b)
   {
     //  Knuth's Multiplicative Method for hashing

@@ -56,7 +56,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(VectorMagnitude);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return static_cast<TOutput>(A.GetNorm());

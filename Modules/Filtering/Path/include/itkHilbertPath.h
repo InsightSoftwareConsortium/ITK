@@ -120,7 +120,7 @@ public:
   }
 
   /** Remove all steps from the path*/
-  virtual inline void
+  virtual void
   Clear()
   {
     this->m_HilbertPath.clear();
@@ -128,7 +128,7 @@ public:
   }
 
   /** How many steps in the path? */
-  virtual inline HilbertPathSizeType
+  virtual HilbertPathSizeType
   NumberOfSteps() const
   {
     return m_HilbertPath.size();

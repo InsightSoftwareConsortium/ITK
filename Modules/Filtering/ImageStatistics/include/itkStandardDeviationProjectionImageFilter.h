@@ -59,21 +59,21 @@ public:
 
   ~StandardDeviationAccumulator() = default;
 
-  inline void
+  void
   Initialize()
   {
     m_Sum = TAccumulate{};
     m_Values.clear();
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
     m_Sum = m_Sum + input;
     m_Values.push_back(input);
   }
 
-  inline RealType
+  RealType
   GetValue()
   {
     // to avoid division by zero

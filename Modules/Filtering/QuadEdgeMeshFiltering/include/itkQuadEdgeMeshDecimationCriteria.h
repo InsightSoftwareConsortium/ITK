@@ -132,7 +132,7 @@ public:
   using typename Superclass::PriorityQueueWrapperType;
   using typename Superclass::PriorityType;
 
-  inline bool
+  bool
   is_satisfied(MeshType *          iMesh,
                const ElementType & itkNotUsed(iElement),
                const MeasureType & itkNotUsed(iValue)) const override
@@ -275,7 +275,7 @@ public:
   using typename Superclass::PriorityQueueWrapperType;
   using typename Superclass::PriorityType;
 
-  inline bool
+  bool
   is_satisfied(MeshType *, const ElementType &, const MeasureType & iValue) const override
   {
     return iValue >= this->m_MeasureBound;

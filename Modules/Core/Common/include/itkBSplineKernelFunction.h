@@ -95,7 +95,7 @@ private:
   {};
 
   /** Zeroth order spline. */
-  static inline TRealValueType
+  static TRealValueType
   Evaluate(const Dispatch<0> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::Absolute(u);
@@ -114,7 +114,7 @@ private:
   }
 
   /** First order spline */
-  static inline TRealValueType
+  static TRealValueType
   Evaluate(const Dispatch<1> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::Absolute(u);
@@ -127,7 +127,7 @@ private:
   }
 
   /** Second order spline. */
-  static inline TRealValueType
+  static TRealValueType
   Evaluate(const Dispatch<2> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::Absolute(u);
@@ -150,7 +150,7 @@ private:
   }
 
   /**  Third order spline. */
-  static inline TRealValueType
+  static TRealValueType
   Evaluate(const Dispatch<3> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::Absolute(u);
@@ -174,7 +174,7 @@ private:
   }
 
   /** Unimplemented spline order */
-  static inline TRealValueType
+  static TRealValueType
   Evaluate(const DispatchBase &, const TRealValueType &)
   {
     itkGenericExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);

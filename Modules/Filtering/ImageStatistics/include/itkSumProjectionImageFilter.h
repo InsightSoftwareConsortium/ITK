@@ -52,19 +52,19 @@ public:
   SumAccumulator(SizeValueType) {}
   ~SumAccumulator() = default;
 
-  inline void
+  void
   Initialize()
   {
     m_Sum = TOutputPixel{};
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
     m_Sum = m_Sum + input;
   }
 
-  inline TOutputPixel
+  TOutputPixel
   GetValue()
   {
     return m_Sum;

@@ -50,7 +50,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(VectorIndexSelectionCast);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return static_cast<TOutput>(A[m_Index]);

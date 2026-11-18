@@ -39,7 +39,7 @@ public:
   // not sure if this type alias really makes things more clear... could just use
   // TOutput?
 
-  inline TOutput
+  TOutput
   operator()(const std::vector<TInput> & B) const
   {
     OutputValueType A = NumericTraits<TOutput>::NonpositiveMin();

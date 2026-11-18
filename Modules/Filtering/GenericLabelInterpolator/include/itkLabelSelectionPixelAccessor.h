@@ -54,7 +54,7 @@ public:
     m_AcceptedValue = value;
   }
 
-  inline TExternalType
+  TExternalType
   Get(const TInternalType & input) const
   {
     return (TExternalType)((input == m_AcceptedValue) ? 1 : 0);

@@ -134,7 +134,7 @@ protected:
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  inline OutputImagePixelType
+  OutputImagePixelType
   ComputeFeatureVectorNormSquare(const InputImagePixelType & inputPixel) const
   {
     const unsigned int & nC = this->GetInput()->GetNumberOfComponentsPerPixel();
@@ -148,13 +148,13 @@ protected:
   }
 
   /**************** Helpers requiring the square norm of Riesz *******************/
-  inline OutputImagePixelType
+  OutputImagePixelType
   ComputeAmplitude(const InputImagePixelType & inputPixel, const OutputImagePixelType & featureAmpSquare) const
   {
     return sqrt(inputPixel[0] * inputPixel[0] + featureAmpSquare);
   }
 
-  inline OutputImagePixelType
+  OutputImagePixelType
   ComputePhase(const InputImagePixelType & inputPixel, const OutputImagePixelType & featureAmpSquare) const
   {
     return atan2(sqrt(featureAmpSquare), inputPixel[0]);

@@ -152,7 +152,7 @@ public:
   itkSetObjectMacro(LocalOptimizer, OptimizerType);
   itkGetModifiableObjectMacro(LocalOptimizer, OptimizerType);
   /** @ITKEndGrouping */
-  inline ParameterListSizeType
+  ParameterListSizeType
   GetBestParametersIndex()
   {
     return this->m_BestParametersIndex;

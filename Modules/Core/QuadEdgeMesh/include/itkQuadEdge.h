@@ -174,12 +174,12 @@ public:
 
   /** Sub-algebra Set methods. */
   /** @ITKStartGrouping */
-  inline void
+  void
   SetOnext(Self * onext)
   {
     this->m_Onext = onext;
   }
-  inline void
+  void
   SetRot(Self * rot)
   {
     this->m_Rot = rot;
@@ -190,22 +190,22 @@ public:
    *  Returns edge with same Origin (see
    *  "Accessing adjacent edges"). */
   /** @ITKStartGrouping */
-  inline Self *
+  Self *
   GetOnext()
   {
     return this->m_Onext;
   }
-  inline Self *
+  Self *
   GetRot()
   {
     return this->m_Rot;
   }
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetOnext() const
   {
     return this->m_Onext;
   }
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetRot() const
   {
     return this->m_Rot;
@@ -230,7 +230,7 @@ public:
    */
   // TODO fix this ref
   //   * \sa \ref DoxySurgeryConnectivity
-  inline void
+  void
   Splice(Self * b)
   {
     Self * aNext = this->GetOnext();
@@ -251,7 +251,7 @@ public:
   /** Returns the symmetric edge
    * (see "Accessing adjacent edges"). */
   /** @ITKStartGrouping */
-  inline Self *
+  Self *
   GetSym()
   {
     if (this->m_Rot)
@@ -261,7 +261,7 @@ public:
     return nullptr;
   }
 
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetSym() const
   {
     if (this->m_Rot)
@@ -335,7 +335,7 @@ public:
 
   /** Inverse operators */
   /** @ITKStartGrouping */
-  inline Self *
+  Self *
   GetInvRot()
   {
 #ifdef NDEBUG
@@ -360,27 +360,27 @@ public:
 #endif
   }
 
-  inline Self *
+  Self *
   GetInvOnext()
   {
     return this->GetOprev();
   }
-  inline Self *
+  Self *
   GetInvLnext()
   {
     return this->GetLprev();
   }
-  inline Self *
+  Self *
   GetInvRnext()
   {
     return this->GetRprev();
   }
-  inline Self *
+  Self *
   GetInvDnext()
   {
     return this->GetDprev();
   }
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetInvRot() const
   {
 #ifdef NDEBUG
@@ -405,22 +405,22 @@ public:
 #endif
   }
 
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetInvOnext() const
   {
     return this->GetOprev();
   }
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetInvLnext() const
   {
     return this->GetLprev();
   }
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetInvRnext() const
   {
     return this->GetRprev();
   }
-  [[nodiscard]] inline const Self *
+  [[nodiscard]] const Self *
   GetInvDnext() const
   {
     return this->GetDprev();
@@ -429,12 +429,12 @@ public:
 
   /** Queries. */
   /** @ITKStartGrouping */
-  [[nodiscard]] inline bool
+  [[nodiscard]] bool
   IsHalfEdge() const
   {
     return (m_Onext == this) || (m_Rot == nullptr);
   }
-  [[nodiscard]] inline bool
+  [[nodiscard]] bool
   IsIsolated() const
   {
     return this == this->GetOnext();

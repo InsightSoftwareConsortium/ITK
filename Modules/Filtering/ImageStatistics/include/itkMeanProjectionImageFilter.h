@@ -56,19 +56,19 @@ public:
 
   ~MeanAccumulator() { m_Size = SizeValueType{}; }
 
-  inline void
+  void
   Initialize()
   {
     m_Sum = TAccumulate{};
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
     m_Sum = m_Sum + input;
   }
 
-  inline RealType
+  RealType
   GetValue()
   {
     return ((RealType)m_Sum) / m_Size;

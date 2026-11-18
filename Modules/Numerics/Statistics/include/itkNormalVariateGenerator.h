@@ -124,7 +124,7 @@ protected:
   FastNorm();
 
 private:
-  static inline int
+  static int
   SignedShiftXOR(int irs)
   {
     // shifting of signed integer gives undefined results, explicitly

@@ -70,7 +70,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(IntensityLinearTransform);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & x) const
   {
     const RealType value = static_cast<RealType>(x) * m_Factor + m_Offset;

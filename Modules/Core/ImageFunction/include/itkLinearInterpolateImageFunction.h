@@ -123,13 +123,13 @@ private:
   struct Dispatch : public DispatchBase
   {};
 
-  inline OutputType
+  OutputType
   EvaluateOptimized(const Dispatch<0> &, const ContinuousIndexType &) const
   {
     return 0;
   }
 
-  inline OutputType
+  OutputType
   EvaluateOptimized(const Dispatch<1> &, const ContinuousIndexType & index) const
   {
     IndexType basei;
@@ -154,7 +154,7 @@ private:
     return (static_cast<OutputType>(val0 + (val1 - val0) * distance));
   }
 
-  inline OutputType
+  OutputType
   EvaluateOptimized(const Dispatch<2> &, const ContinuousIndexType & index) const
   {
     IndexType basei;
@@ -223,7 +223,7 @@ private:
     return (static_cast<OutputType>(valx0 + (valx1 - valx0) * distance1));
   }
 
-  inline OutputType
+  OutputType
   EvaluateOptimized(const Dispatch<3> &, const ContinuousIndexType & index) const
   {
     IndexType basei;
@@ -470,7 +470,7 @@ private:
     }
   }
 
-  inline OutputType
+  OutputType
   EvaluateOptimized(const DispatchBase &, const ContinuousIndexType & index) const
   {
     return this->EvaluateUnoptimized(index);

@@ -306,17 +306,17 @@ private:
 
   /** use different epsilon for float and double */
   /** @ITKStartGrouping */
-  static inline ValueType
+  static ValueType
   Epsilon(double *)
   {
     return 1e-10;
   }
-  static inline ValueType
+  static ValueType
   Epsilon(float *)
   {
     return 1e-7;
   }
-  static inline ValueType
+  static ValueType
   Epsilon()
   {
     return Epsilon((ValueType *)nullptr);

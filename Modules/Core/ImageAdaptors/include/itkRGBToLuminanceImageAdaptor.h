@@ -50,13 +50,13 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void
+  static void
   Set(TInternalType & output, const TExternalType & input)
   {
     output = static_cast<TInternalType>(input.GetLuminance());
   }
 
-  static inline TExternalType
+  static TExternalType
   Get(const TInternalType & input)
   {
     return static_cast<TExternalType>(input.GetLuminance());

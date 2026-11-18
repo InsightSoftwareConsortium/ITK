@@ -39,7 +39,7 @@ template <unsigned int VRadius, typename TInput = double, typename TOutput = dou
 class ITK_TEMPLATE_EXPORT CosineWindowFunction
 {
 public:
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
 
@@ -60,7 +60,7 @@ template <unsigned int VRadius, typename TInput = double, typename TOutput = dou
 class ITK_TEMPLATE_EXPORT HammingWindowFunction
 {
 public:
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
 
@@ -82,7 +82,7 @@ class ITK_TEMPLATE_EXPORT WelchWindowFunction
 {
 public:
   /** Equal to \f$ \frac{1}{m^2} \f$ */
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
 
@@ -104,7 +104,7 @@ template <unsigned int VRadius, typename TInput = double, typename TOutput = dou
 class ITK_TEMPLATE_EXPORT LanczosWindowFunction
 {
 public:
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     if (A == 0.0)
@@ -130,7 +130,7 @@ template <unsigned int VRadius, typename TInput = double, typename TOutput = dou
 class ITK_TEMPLATE_EXPORT BlackmanWindowFunction
 {
 public:
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
 

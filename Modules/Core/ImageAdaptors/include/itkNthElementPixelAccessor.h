@@ -67,14 +67,14 @@ public:
   using InternalType = TContainer;
 
   /** Write access to the NthElement component */
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input) const
   {
     DefaultConvertPixelTraits<InternalType>::SetNthComponent(m_ElementNumber, output, input);
   }
 
   /** Read access to the NthElement component */
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input) const
   {
     return static_cast<ExternalType>(DefaultConvertPixelTraits<InternalType>::GetNthComponent(m_ElementNumber, input));
@@ -129,13 +129,13 @@ public:
 
   using ActualPixelType = VariableLengthVector<TPixelType>;
 
-  inline void
+  void
   Set(ActualPixelType & output, const ExternalType & input) const
   {
     output[m_ElementNumber] = input;
   }
 
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input, const SizeValueType offset) const
   {
     // note: v is a reference to the internal buffer, this method of
@@ -145,14 +145,14 @@ public:
     return Set(v, input);
   }
 
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const ActualPixelType & input) const
   {
     const auto output = static_cast<ExternalType>(input[m_ElementNumber]);
     return output;
   }
 
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input, const SizeValueType offset) const
   {
     return Get(Superclass::Get(input, offset));

@@ -49,7 +49,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Square);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     const auto ra = static_cast<RealType>(A);

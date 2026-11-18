@@ -54,7 +54,7 @@ public:
     // the values are always initialized
   }
 
-  inline TRGBPixel
+  TRGBPixel
   operator()(const TInputPixel & p1, const TLabel & p2) const
   {
     TRGBPixel rgbPixel;

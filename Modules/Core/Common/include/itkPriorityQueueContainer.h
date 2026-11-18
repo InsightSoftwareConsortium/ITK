@@ -256,44 +256,44 @@ protected:
   // One instance of the interface to deal with the functions calls
   ElementInterfaceType m_Interface{};
 
-  inline ElementWrapperType &
+  ElementWrapperType &
   GetElementAtLocation(const ElementIdentifierType & identifier)
   {
     return this->operator[](identifier);
   }
 
-  inline const ElementWrapperType &
+  const ElementWrapperType &
   GetElementAtLocation(const ElementIdentifierType & identifier) const
   {
     return this->operator[](identifier);
   }
 
-  inline void
+  void
   SetElementAtLocation(const ElementIdentifierType & identifier, ElementWrapperType & element)
   {
     this->operator[](identifier) = element;
     m_Interface.SetLocation(element, identifier);
   }
 
-  inline ElementIdentifierType
+  ElementIdentifierType
   GetParent(const ElementIdentifierType & identifier) const
   {
     return (identifier - 1) >> 1;
   }
 
-  inline ElementIdentifierType
+  ElementIdentifierType
   GetLeft(const ElementIdentifierType & identifier) const
   {
     return (identifier << 1) + 1;
   }
 
-  inline ElementIdentifierType
+  ElementIdentifierType
   GetRight(const ElementIdentifierType & identifier) const
   {
     return (identifier << 1) + 2;
   }
 
-  inline bool
+  bool
   HasParent(const ElementIdentifierType & iId) const
   {
     return iId > 0;

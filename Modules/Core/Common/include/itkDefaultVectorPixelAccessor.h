@@ -72,7 +72,7 @@ public:
    * particular, `VariableLengthVector<T>(0)` whose internal data
    * pointer is null (see ITK commit 1d87efa5), which previously caused
    * a SIGSEGV when the implicit copy dereferenced the null buffer. */
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input, const SizeValueType offset) const
   {
     InternalType * truePixel = (&output) + offset * m_OffsetMultiplier;
@@ -92,7 +92,7 @@ public:
   }
 
   /** Get the value from input */
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input, const SizeValueType offset) const
   {
     // Do not create a local for this method, to use return value

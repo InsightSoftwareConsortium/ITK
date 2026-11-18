@@ -200,49 +200,49 @@ public:
   }
 
   /** Return an element of the matrix. */
-  inline T &
+  T &
   operator()(unsigned int row, unsigned int col)
   {
     return m_Matrix(row, col);
   }
 
   /** Return an element of the matrix. */
-  inline const T &
+  const T &
   operator()(unsigned int row, unsigned int col) const
   {
     return m_Matrix(row, col);
   }
 
   /** Return a row of the matrix. */
-  inline T *
+  T *
   operator[](unsigned int i)
   {
     return m_Matrix[i];
   }
 
   /** Return a row of the matrix. */
-  inline const T *
+  const T *
   operator[](unsigned int i) const
   {
     return m_Matrix[i];
   }
 
   /** Return the matrix. */
-  inline InternalMatrixType &
+  InternalMatrixType &
   GetVnlMatrix()
   {
     return m_Matrix;
   }
 
   /** Return the matrix. */
-  [[nodiscard]] inline const InternalMatrixType &
+  [[nodiscard]] const InternalMatrixType &
   GetVnlMatrix() const
   {
     return m_Matrix;
   }
 
   /** Set the matrix to identity. */
-  inline void
+  void
   SetIdentity()
   {
     m_Matrix.set_identity();
@@ -258,14 +258,14 @@ public:
   }
 
   /** Fill the matrix with a value. */
-  inline void
+  void
   Fill(const T & value)
   {
     m_Matrix.fill(value);
   }
 
   /** Assignment operator. */
-  inline Self &
+  Self &
   operator=(const vnl_matrix<T> & matrix)
   {
     m_Matrix = matrix;
@@ -274,7 +274,7 @@ public:
 
   /** Explicit constructor. Copies the elements from the specified
    *  `vnl_matrix` (assuming it has the same dimensions). */
-  inline explicit Matrix(const vnl_matrix<T> & matrix)
+  explicit Matrix(const vnl_matrix<T> & matrix)
     : m_Matrix(matrix)
   {}
 
@@ -291,7 +291,7 @@ public:
   }
 
   /** Comparison operators. */
-  inline bool
+  bool
   operator==(const Self & matrix) const
   {
     bool equal = true;
@@ -313,7 +313,7 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
 
-  inline Self &
+  Self &
   operator=(const InternalMatrixType & matrix)
   {
     this->m_Matrix = matrix;
@@ -321,12 +321,12 @@ public:
   }
 
   /** Converting constructor (implicit). */
-  inline Matrix(const InternalMatrixType & matrix)
+  Matrix(const InternalMatrixType & matrix)
     : m_Matrix(matrix)
   {}
 
   /** Return the inverse matrix. */
-  [[nodiscard]] inline vnl_matrix_fixed<T, VColumns, VRows>
+  [[nodiscard]] vnl_matrix_fixed<T, VColumns, VRows>
   GetInverse() const
   {
     if (bridge::Math::Determinant(m_Matrix) == T{})
@@ -337,7 +337,7 @@ public:
   }
 
   /** Return the transposed matrix. */
-  [[nodiscard]] inline vnl_matrix_fixed<T, VColumns, VRows>
+  [[nodiscard]] vnl_matrix_fixed<T, VColumns, VRows>
   GetTranspose() const
   {
     return vnl_matrix_fixed<T, VColumns, VRows>{ m_Matrix.transpose().as_matrix() };
@@ -407,7 +407,7 @@ public:
     swap(this->m_Matrix, other.m_Matrix);
   }
 
-  inline void
+  void
   PrintSelf(std::ostream & os, Indent indent) const
   {
     os << indent << "Matrix (" << VRows << "x" << VColumns << ")\n";

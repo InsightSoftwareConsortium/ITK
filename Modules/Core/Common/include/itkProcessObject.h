@@ -933,7 +933,7 @@ protected:
   /**
    * Internal method to convert internal integer progress to float [0.0, 1.0]
    */
-  static inline constexpr float
+  static constexpr float
   progressFixedToFloat(uint32_t fixed)
   {
     return static_cast<float>(static_cast<double>(fixed) / static_cast<double>(std::numeric_limits<uint32_t>::max()));
@@ -943,7 +943,7 @@ protected:
    * Internal method convert floating point progress [0.0, 1.0] to internal integer representation. Values outside the
    * [0.0, 1.0] range are clamped.
    */
-  static inline uint32_t
+  static uint32_t
   progressFloatToFixed(float f)
   {
     if (f <= 0.0f)

@@ -43,7 +43,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ComplexToModulus);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return (TOutput)(std::sqrt(A.real() * A.real() + A.imag() * A.imag()));

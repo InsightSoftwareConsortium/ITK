@@ -51,7 +51,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(WeightedAdd2);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     const RealType sum1 = A * m_Alpha;

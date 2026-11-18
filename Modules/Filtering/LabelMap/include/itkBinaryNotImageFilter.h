@@ -66,7 +66,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(BinaryNot);
 
-  inline TPixel
+  TPixel
   operator()(const TPixel & A) const
   {
     const bool a = (A == m_ForegroundValue);

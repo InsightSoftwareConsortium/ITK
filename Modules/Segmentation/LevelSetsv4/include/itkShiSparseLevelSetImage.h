@@ -101,22 +101,22 @@ public:
   void
   EvaluateMeanCurvature(const InputType & inputIndex, LevelSetDataType & data) const override;
 
-  static inline LayerIdType
+  static LayerIdType
   MinusThreeLayer()
   {
     return -3;
   }
-  static inline LayerIdType
+  static LayerIdType
   MinusOneLayer()
   {
     return -1;
   }
-  static inline LayerIdType
+  static LayerIdType
   PlusOneLayer()
   {
     return 1;
   }
-  static inline LayerIdType
+  static LayerIdType
   PlusThreeLayer()
   {
     return 3;

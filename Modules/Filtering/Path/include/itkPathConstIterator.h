@@ -174,7 +174,7 @@ public:
    * the first index will only be visited once--at the end of the path?  If set
    * to false, then GoToBegin() will always move to the 1'st index.  The
    * constructor presets m_VisitStartIndexAsLastIndexIfClosed to true. */
-  inline virtual void
+  virtual void
   VisitStartIndexAsLastIndexIfClosed(bool flag)
   {
     m_VisitStartIndexAsLastIndexIfClosed = flag;

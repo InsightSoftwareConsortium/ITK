@@ -116,7 +116,7 @@ private:
   // be
   // used on both the left and right hand of assignments for reads & writes, ex:
   // StepValue(1,1,1) = 2+MeritValue(0,0,3);
-  inline int &
+  int &
   StepValue(int f, int l, int x)
   {
     const int rows = m_SwathSize[1];
@@ -124,7 +124,7 @@ private:
     return m_StepValues[(x * rows * rows) + (f * rows) + (l)];
   }
 
-  inline double &
+  double &
   MeritValue(int f, int l, int x)
   {
     const int rows = m_SwathSize[1];

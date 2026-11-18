@@ -157,7 +157,7 @@ public:
 
   /** Scalar operator*=.  Scales elements by a scalar. */
   template <typename Tt>
-  inline const Self &
+  const Self &
   operator*=(const Tt & value)
   {
     for (unsigned int i = 0; i < VVectorDimension; ++i)
@@ -169,7 +169,7 @@ public:
 
   /** Scalar operator/=.  Scales (divides) elements by a scalar. */
   template <typename Tt>
-  inline const Self &
+  const Self &
   operator/=(const Tt & value)
   {
     for (unsigned int i = 0; i < VVectorDimension; ++i)
@@ -207,7 +207,7 @@ public:
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
-  inline Self
+  Self
   operator*(const ValueType & value) const
   {
     Self result;
@@ -222,7 +222,7 @@ public:
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
   template <typename Tt>
-  inline Self
+  Self
   operator/(const Tt & value) const
   {
     Self result;

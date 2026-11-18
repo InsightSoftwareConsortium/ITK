@@ -119,7 +119,7 @@ public:
   [[nodiscard]] bool
   IsNodeColored() const;
 
-  inline void
+  void
   SetParentOctree(OctreeBase * parent)
   {
     m_Parent = parent;
@@ -152,7 +152,7 @@ public:
     }
   }
 
-  inline OctreeNode *
+  OctreeNode *
   GetLeaf(OctreeNode::LeafIdentifierEnum LeafID)
   {
     return &m_Leaves[static_cast<uint8_t>(LeafID)];

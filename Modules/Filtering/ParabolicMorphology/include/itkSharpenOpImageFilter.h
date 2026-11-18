@@ -63,7 +63,7 @@ public:
     return !(*this != other);
   }
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C)
   {
     // the sharpening operator. A is the dilation, B the original, C

@@ -151,13 +151,13 @@ public:
   itkSetInputMacro(FeaturePoints, FeaturePointsType);
   itkGetInputMacro(FeaturePoints, FeaturePointsType);
   /** @ITKEndGrouping */
-  inline DisplacementsType *
+  DisplacementsType *
   GetDisplacements()
   {
     return dynamic_cast<DisplacementsType *>(this->ProcessObject::GetOutput(0));
   }
 
-  inline SimilaritiesType *
+  SimilaritiesType *
   GetSimilarities()
   {
     return dynamic_cast<SimilaritiesType *>(this->ProcessObject::GetOutput(1));

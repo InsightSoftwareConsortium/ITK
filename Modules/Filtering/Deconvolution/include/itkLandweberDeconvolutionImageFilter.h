@@ -44,7 +44,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(LandweberMethod);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & estimateFT, const TInput2 & kernelFT, const TInput2 & inputFT) const
   {
     return m_Alpha * std::conj(kernelFT) * inputFT +

@@ -35,7 +35,7 @@ class Add1
 {
 public:
   using AccumulatorType = typename NumericTraits<TInput>::AccumulateType;
-  inline TOutput
+  TOutput
   operator()(const std::vector<TInput> & B) const
   {
     AccumulatorType sum = TOutput{};

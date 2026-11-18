@@ -96,7 +96,7 @@ public:
   }
 
   /// TODO this method should be really optimized!!!
-  [[nodiscard]] inline CoordType
+  [[nodiscard]] CoordType
   ComputeError(const PointType & iP) const
   {
     //     ComputeAMatrixAndBVector();
@@ -136,7 +136,7 @@ public:
   }
 
   /// TODO this method should be really optimized!!!
-  inline CoordType
+  CoordType
   ComputeErrorAtOptimalLocation(const PointType & iP)
   {
     PointType optimal_location = ComputeOptimalLocation(iP);

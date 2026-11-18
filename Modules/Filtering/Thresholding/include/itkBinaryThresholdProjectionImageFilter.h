@@ -54,13 +54,13 @@ public:
   BinaryThresholdAccumulator(SizeValueType) {}
   ~BinaryThresholdAccumulator() = default;
 
-  inline void
+  void
   Initialize()
   {
     m_IsForeground = false;
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
     if (input >= m_ThresholdValue)
@@ -69,7 +69,7 @@ public:
     }
   }
 
-  inline TOutputPixel
+  TOutputPixel
   GetValue()
   {
     if (m_IsForeground)

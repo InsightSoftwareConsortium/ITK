@@ -55,7 +55,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(BoundedReciprocal);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     return static_cast<TOutput>(1.0 / (1.0 + static_cast<double>(A)));

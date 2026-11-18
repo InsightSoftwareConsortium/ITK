@@ -28,7 +28,7 @@ template <typename TPixel>
 class MinFunctor
 {
 public:
-  inline TPixel
+  TPixel
   operator()(const TPixel & A, const TPixel & B) const
   {
     return std::min(A, B);

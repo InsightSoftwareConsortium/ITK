@@ -54,7 +54,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(InvertIntensityTransform);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & x) const
   {
     auto result = static_cast<TOutput>(m_Maximum - x);

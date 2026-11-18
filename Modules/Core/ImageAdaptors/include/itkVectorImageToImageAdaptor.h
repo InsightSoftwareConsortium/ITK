@@ -59,26 +59,26 @@ public:
 
   using ActualPixelType = VariableLengthVector<TType>;
 
-  inline void
+  void
   Set(ActualPixelType output, const ExternalType & input) const
   {
     output[m_ComponentIdx] = input;
   }
 
-  inline void
+  void
   Set(InternalType & output, const ExternalType & input, const SizeValueType offset) const
   {
     return Set(Superclass::Get(output, offset), input);
   }
 
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const ActualPixelType & input) const
   {
     const ExternalType output = input[m_ComponentIdx];
     return output;
   }
 
-  [[nodiscard]] inline ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input, const SizeValueType offset) const
   {
     return Get(Superclass::Get(input, offset));

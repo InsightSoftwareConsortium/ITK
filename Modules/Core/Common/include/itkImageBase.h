@@ -371,7 +371,7 @@ public:
    * conceivably be outside the buffer. If bounds checking is needed,
    * one can call ImageRegion::IsInside(ind) on the BufferedRegion
    * prior to calling ComputeOffset. */
-  inline OffsetValueType
+  OffsetValueType
   ComputeOffset(const IndexType & ind) const
   {
     OffsetValueType offset = 0;
@@ -405,7 +405,7 @@ public:
    * should be between 0 and the number of pixels in the
    * BufferedRegion (the latter can be found using
    * ImageRegion::GetNumberOfPixels()). */
-  inline IndexType
+  IndexType
   ComputeIndex(OffsetValueType offset) const
   {
     IndexType         index;

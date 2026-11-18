@@ -35,13 +35,13 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::AttributeValueType;
 
-  inline const AttributeValueType
+  const AttributeValueType
   operator()(const LabelObjectType * labelObject)
   {
     return labelObject->GetAttribute();
   }
 
-  inline void
+  void
   operator()(LabelObjectType * labelObject, AttributeValueType value)
   {
     labelObject->SetAttribute(value);

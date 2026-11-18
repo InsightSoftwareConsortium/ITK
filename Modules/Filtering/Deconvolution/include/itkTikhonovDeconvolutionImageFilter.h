@@ -136,7 +136,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TikhonovDeconvolutionFunctor);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & I, const TInput2 & H) const
   {
     const typename TOutput::value_type normH = std::norm(H);

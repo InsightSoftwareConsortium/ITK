@@ -37,7 +37,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetMinimum();
@@ -51,7 +51,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetMaximum();
@@ -65,7 +65,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetMean();
@@ -79,7 +79,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetSum();
@@ -93,7 +93,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetStandardDeviation();
@@ -107,7 +107,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetVariance();
@@ -121,7 +121,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetMedian();
@@ -135,7 +135,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::IndexType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetMaximumIndex();
@@ -149,7 +149,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::IndexType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetMinimumIndex();
@@ -163,7 +163,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::PointType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetCenterOfGravity();
@@ -192,7 +192,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::VectorType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetWeightedPrincipalMoments();
@@ -206,7 +206,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::MatrixType;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetWeightedPrincipalAxes();
@@ -220,7 +220,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetKurtosis();
@@ -234,7 +234,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetSkewness();
@@ -248,7 +248,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetWeightedElongation();
@@ -263,7 +263,7 @@ public:
 
   using AttributeValueType = typename LabelObjectType::HistogramType *;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetHistogram();
@@ -277,7 +277,7 @@ public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType
+  AttributeValueType
   operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetWeightedFlatness();

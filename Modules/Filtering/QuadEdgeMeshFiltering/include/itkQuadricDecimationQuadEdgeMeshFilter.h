@@ -94,7 +94,7 @@ protected:
    *  \param[in,out] oQ quadric element to be modified
    *  \param[in] outputMesh mesh to be processed
    */
-  inline void
+  void
   QuadricAtOrigin(OutputQEType * iEdge, QuadricElementType & oQ, OutputMeshType * outputMesh)
   {
     OutputPointIdentifier id[3];

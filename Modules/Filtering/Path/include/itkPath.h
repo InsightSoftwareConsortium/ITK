@@ -81,7 +81,7 @@ public:
   /** Where does the path begin?  For most types of paths, the path will begin
    * at zero.  This value can be overridden in children, and is necessary for
    * iterators to know how to go to the beginning of a path. */
-  virtual inline InputType
+  virtual InputType
   StartOfInput() const
   {
     return InputType{};
@@ -89,7 +89,7 @@ public:
 
   /** Where does the path end (what is the last valid input value)?  This value
    * is sometimes used by IncrementInput() to go to the end of a path. */
-  virtual inline InputType
+  virtual InputType
   EndOfInput() const
   {
     return NumericTraits<InputType>::OneValue();

@@ -52,13 +52,13 @@ public:
   BinaryAccumulator(SizeValueType) {}
   ~BinaryAccumulator() = default;
 
-  inline void
+  void
   Initialize()
   {
     m_IsForeground = false;
   }
 
-  inline void
+  void
   operator()(const TInputPixel & input)
   {
     if (input == m_ForegroundValue)
@@ -67,7 +67,7 @@ public:
     }
   }
 
-  inline TOutputPixel
+  TOutputPixel
   GetValue()
   {
     if (m_IsForeground)

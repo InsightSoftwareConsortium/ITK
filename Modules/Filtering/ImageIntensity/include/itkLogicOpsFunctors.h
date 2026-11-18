@@ -122,7 +122,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (Math::ExactlyEquals(A, static_cast<TInput1>(B)))
@@ -156,7 +156,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (Math::NotExactlyEquals(A, B))
@@ -191,7 +191,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (A >= B)
@@ -226,7 +226,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (A > B)
@@ -261,7 +261,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (A <= B)
@@ -296,7 +296,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     if (A < B)
@@ -325,7 +325,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(NOT);
 
-  inline TOutput
+  TOutput
   operator()(const TInput & A) const
   {
     if (!A)
@@ -353,7 +353,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TernaryOperator);
 
-  inline TOutput
+  TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const
   {
     if (A)

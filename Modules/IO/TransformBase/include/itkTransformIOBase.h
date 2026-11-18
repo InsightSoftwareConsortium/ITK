@@ -146,7 +146,7 @@ public:
    * will be chosen at compile time within template classes in order to
    * patch up the type name.
    *  */
-  static inline void
+  static void
   CorrectTransformPrecisionType(std::string & itkNotUsed(inputTransformName))
   {
     itkGenericExceptionMacro("Unknown ScalarType" << typeid(ScalarType).name());
@@ -166,7 +166,7 @@ protected:
 
   /* The following struct returns the string name of computation type */
   /* default implementation */
-  static inline std::string
+  static std::string
   GetTypeNameString()
   {
     itkGenericExceptionMacro("Unknown ScalarType" << typeid(ScalarType).name());

@@ -49,7 +49,7 @@ public:
 
   /** operator().  This is the "call" method of the functor. */
   using OutputType = typename TAccessor::ExternalType;
-  inline OutputType
+  OutputType
   operator()(const TInput & A) const
   {
     return m_Accessor.Get(A);

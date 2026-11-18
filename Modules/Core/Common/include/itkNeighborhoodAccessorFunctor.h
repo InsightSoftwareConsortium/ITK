@@ -55,7 +55,7 @@ public:
   using ImageBoundaryConditionType = ImageBoundaryCondition<ImageType, TOutput>;
 
   /** Set the pointer index to the start of the buffer. */
-  inline void
+  void
   SetBegin(const InternalPixelType *)
   {}
 
@@ -65,21 +65,21 @@ public:
    * The reason is that dereferencing a pointer to a location of
    * VectorImage pixel involves a different operation that simply
    * dereferencing the pointer.  */
-  inline PixelType
+  PixelType
   Get(const InternalPixelType * pixelPointer) const
   {
     return *pixelPointer;
   }
 
   /** Method to set the pixel value at a certain pixel pointer */
-  inline void
+  void
   Set(InternalPixelType * const pixelPointer, const PixelType & p) const
   {
     *pixelPointer = p;
   }
 
   template <typename TOutput>
-  inline typename ImageBoundaryConditionType<TOutput>::OutputPixelType
+  typename ImageBoundaryConditionType<TOutput>::OutputPixelType
   BoundaryCondition(const OffsetType &                          point_index,
                     const OffsetType &                          boundary_offset,
                     const NeighborhoodType *                    data,
