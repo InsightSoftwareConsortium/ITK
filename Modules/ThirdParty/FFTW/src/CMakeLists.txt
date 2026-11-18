@@ -37,6 +37,8 @@ function(itk_fftw_add_precision precision)
   # FFTW is always built optimized; other flags are kept.
   # Optimization tokens are removed in place so quoted arguments are left intact.
   set(_fftw_opt_flag " [-/](O[0-9sgdxz]?|Ob[0-9]|RTC[1csu]*) ")
+  # Under CMP0184 runtime checks are not in the flags; MSVC rejects them with /O2.
+  set(CMAKE_MSVC_RUNTIME_CHECKS "")
   set(
     _fftw_configs
     DEBUG
