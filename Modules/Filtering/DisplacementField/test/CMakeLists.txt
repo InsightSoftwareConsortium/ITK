@@ -204,6 +204,7 @@ set(
   itkDisplacementFieldTransformTransformPointGTest.cxx
   itkExponentialDisplacementFieldImageFilterGTest.cxx
   itkInverseDisplacementFieldImageFilterGTest.cxx
+  itkInvertDisplacementFieldImageFilterGTest.cxx
   itkIterativeInverseDisplacementFieldImageFilterGTest.cxx
   itkVelocityFieldTransformGTest.cxx
 )
