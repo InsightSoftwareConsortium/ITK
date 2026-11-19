@@ -145,7 +145,7 @@ public:
 
   /** Basic iterators methods. */
   /** @ITKStartGrouping */
-  inline itkQEDefineIteratorMethodsMacro(Onext);
+  itkQEDefineIteratorMethodsMacro(Onext);
   // itkQEDefineIteratorMethodsMacro( Sym );
   // itkQEDefineIteratorMethodsMacro( Lnext );
   // itkQEDefineIteratorMethodsMacro( Rnext );

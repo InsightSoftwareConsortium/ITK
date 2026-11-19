@@ -176,7 +176,7 @@ private:
      * return true if the object is a worth choice for the best axis
      * than the object in parameter
      */
-    inline bool
+    bool
     operator<(const DirectionCost & dc) const
     {
       if (m_Count > dc.m_Count)

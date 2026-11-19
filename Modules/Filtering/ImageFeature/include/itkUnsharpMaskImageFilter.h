@@ -203,7 +203,7 @@ private:
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(UnsharpMaskingFunctor);
 
-    inline OutPixelType
+    OutPixelType
     operator()(const InPixelType & v, const FunctorRealType & s) const
     {
       FunctorRealType diff = v - s;

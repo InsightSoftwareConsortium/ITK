@@ -451,9 +451,7 @@ public:
 
   /** Set the segmentation function.  In general, this should only be
    *  called by a subclass of this object. It is made public to allow
-   *  itk::Command objects access. The method is inline to avoid a
-   *  problem with the gcc 2.95 compiler matching the declaration with
-   *  the definition. */
+   *  itk::Command objects access. */
   virtual void
   SetSegmentationFunction(SegmentationFunctionType * s)
   {

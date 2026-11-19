@@ -129,7 +129,7 @@ inline constexpr float float_sqrteps = 3.4526698300e-4F;
  *  bit, the 64 bit or the vanilla version */
 #define itkTemplateFloatingToIntegerMacro(name)                             \
   template <typename TReturn, typename TInput>                              \
-  inline constexpr auto name(TInput x)                                      \
+  constexpr auto name(TInput x)                                             \
   {                                                                         \
     if constexpr (sizeof(TReturn) <= 4)                                     \
     {                                                                       \

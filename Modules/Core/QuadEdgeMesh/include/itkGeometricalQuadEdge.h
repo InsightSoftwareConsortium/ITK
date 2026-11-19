@@ -89,19 +89,19 @@ public:
 
   /** Basic iterators methods. */
   /** @ITKStartGrouping */
-  inline itkQEDefineIteratorGeomMethodsMacro(Onext);
-  inline itkQEDefineIteratorGeomMethodsMacro(Sym);
-  inline itkQEDefineIteratorGeomMethodsMacro(Lnext);
-  inline itkQEDefineIteratorGeomMethodsMacro(Rnext);
-  inline itkQEDefineIteratorGeomMethodsMacro(Dnext);
-  inline itkQEDefineIteratorGeomMethodsMacro(Oprev);
-  inline itkQEDefineIteratorGeomMethodsMacro(Lprev);
-  inline itkQEDefineIteratorGeomMethodsMacro(Rprev);
-  inline itkQEDefineIteratorGeomMethodsMacro(Dprev);
-  inline itkQEDefineIteratorGeomMethodsMacro(InvOnext);
-  inline itkQEDefineIteratorGeomMethodsMacro(InvLnext);
-  inline itkQEDefineIteratorGeomMethodsMacro(InvRnext);
-  inline itkQEDefineIteratorGeomMethodsMacro(InvDnext);
+  itkQEDefineIteratorGeomMethodsMacro(Onext);
+  itkQEDefineIteratorGeomMethodsMacro(Sym);
+  itkQEDefineIteratorGeomMethodsMacro(Lnext);
+  itkQEDefineIteratorGeomMethodsMacro(Rnext);
+  itkQEDefineIteratorGeomMethodsMacro(Dnext);
+  itkQEDefineIteratorGeomMethodsMacro(Oprev);
+  itkQEDefineIteratorGeomMethodsMacro(Lprev);
+  itkQEDefineIteratorGeomMethodsMacro(Rprev);
+  itkQEDefineIteratorGeomMethodsMacro(Dprev);
+  itkQEDefineIteratorGeomMethodsMacro(InvOnext);
+  itkQEDefineIteratorGeomMethodsMacro(InvLnext);
+  itkQEDefineIteratorGeomMethodsMacro(InvRnext);
+  itkQEDefineIteratorGeomMethodsMacro(InvDnext);
   /** @ITKEndGrouping */
   /** QE macros. */
   itkQEAccessorsMacro(Superclass, Self, DualType);
