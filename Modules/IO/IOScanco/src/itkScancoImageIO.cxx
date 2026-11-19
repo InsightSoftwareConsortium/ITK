@@ -267,7 +267,15 @@ ScancoImageIO::ReadImageInformation()
     itkExceptionMacro("Incompatible filetype in: " << this->m_FileName);
   }
 
-  this->m_HeaderSize = this->m_HeaderIO->ReadHeader(infile);
+  try
+  {
+    this->m_HeaderSize = this->m_HeaderIO->ReadHeader(infile);
+  }
+  catch (const std::exception & e)
+  {
+    infile.close();
+    itkExceptionMacro("Failed to read Scanco header in " << this->m_FileName << ": " << e.what());
+  }
 
   // set dimensions/spacing
   this->SetNumberOfDimensions(3);
