@@ -214,3 +214,26 @@ TEST(PoolMultiThreader, ParallelizeImageRegionKeepsWaitingWhenReportingProgressT
   EXPECT_EQ(source->GetNumberOfFinishedWorkUnits(), source->GetNumberOfStartedWorkUnits());
   EXPECT_EQ(source->GetNumberOfStartedWorkUnits(), static_cast<int>(numberOfWorkUnits));
 }
+
+
+TEST(PoolMultiThreader, ParallelizeImageRegionHandlesPixelCountsThatOverflow32Bits)
+{
+  const auto threader = itk::PoolMultiThreader::New();
+  threader->SetNumberOfWorkUnits(numberOfWorkUnits);
+
+  constexpr itk::SizeValueType side = 1u << 16; // side * side == 2^32, overflowing a 32-bit SizeValueType.
+  const itk::IndexValueType    index[2]{ 0, 0 };
+  const itk::SizeValueType     size[2]{ side, side };
+
+  const itk::ImageIORegion region(2, index, size);
+  const auto               expectedUnits =
+    itk::ImageSourceCommon::GetGlobalDefaultSplitter()->GetNumberOfSplits(region, numberOfWorkUnits);
+  ASSERT_GT(expectedUnits, 1u);
+
+  std::atomic<int> callCount{ 0 };
+  const auto       funcP = [&](const itk::IndexValueType *, const itk::SizeValueType *) { ++callCount; };
+
+  threader->ParallelizeImageRegion(2, index, size, funcP, nullptr);
+
+  EXPECT_EQ(callCount, static_cast<int>(expectedUnits));
+}
