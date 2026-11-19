@@ -43,67 +43,6 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::SetTrueDims(const unsigned 
   this->m_TrueDims[2] = Dim2;
 }
 
-/** This is moving bits to get the values of the 8 octants
- *   Possible values are the 3 bits to be set.
- *   0   000 Contains origin
- *   1   001
- *   2   010
- *   3   011
- *   4   100
- *   5   101
- *   6   110
- *   7   111 Contains extents
- *   ....^^^
- *   ....|| The LSB is 1 if requested X voxel is greater than X centerline of subcube
- *   ....|  The middle bit is 1 if requested Y voxel is greater than Y centerline of subcube
- *   ....   The MSB is 1 if requested Z voxel is greater than Z centerline of subcube
- *   \author Hans J. Johnson, adapted from Vincent A. Magnotta
- *   \param VoxX The desired voxel
- *   \param VoxY The desired voxel
- *   \param VoxZ The desired voxel
- *   \param CenterLineX The division line between octants
- *   \param CenterLineY The division line between octants
- *   \param CenterLineZ The division line between octants
- *   \return The octant that the voxel falls into.
- */
-inline unsigned int
-OCTREE_OCTANT(const unsigned int VoxX,
-              const unsigned int CenterLineX,
-              const unsigned int VoxY,
-              const unsigned int CenterLineY,
-              const unsigned int VoxZ,
-              const unsigned int CenterLineZ)
-{
-  return (
-    ((static_cast<unsigned int>(VoxZ >= CenterLineZ) << 2) | (static_cast<unsigned int>(VoxY >= CenterLineY) << 1)) |
-    (static_cast<unsigned int>(VoxX >= CenterLineX)));
-}
-
-/**
- * \defgroup Octant directional identifying functions
- * These functions determine if the directions are in the "lower" or
- * "upper" portion of the Octree in the given directions.
- * @ITKStartGrouping
- */
-inline unsigned int
-XF(const unsigned int octantID)
-{
-  return octantID & 1; // Just return 1 if 0th bit is a one
-}
-
-inline unsigned int
-YF(const unsigned int octantID)
-{
-  return (octantID >> 1) & 1; // Just return 1 if 1st bit is a one
-}
-
-inline unsigned int
-ZF(const unsigned int octantID)
-{
-  return (octantID >> 2) & 1; // Just return 1 if 2nd bit is a one
-}
-
-/** @ITKEndGrouping */ // End of defgroup
 
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
 int
@@ -129,12 +68,18 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::GetValue(const unsigned int
   {
     // NOTE:  halfwidth=halfwidth/2 is the same as halfwidth >> 1
     halfwidth = halfwidth >> 1;
-    const unsigned int octantID = OCTREE_OCTANT(Dim0, ox + halfwidth, Dim1, oy + halfwidth, Dim2, oz + halfwidth);
-    // Determine new origin for next child.
-    ox = ox + XF(octantID) * halfwidth;
-    oy = oy + YF(octantID) * halfwidth;
-    oz = oz + ZF(octantID) * halfwidth;
 
+    // Determine if the directions are in the "lower" or "upper" portion of the Octree in the given directions
+    const unsigned int xf{ Dim0 >= (ox + halfwidth) };
+    const unsigned int yf{ Dim1 >= (oy + halfwidth) };
+    const unsigned int zf{ Dim2 >= (oz + halfwidth) };
+
+    // Determine new origin for next child.
+    ox = ox + xf * halfwidth;
+    oy = oy + yf * halfwidth;
+    oz = oz + zf * halfwidth;
+
+    const unsigned int octantID{ xf | (yf << 1) | (zf << 2) };
     CurrentOctreeNode = &CurrentOctreeNode->GetChild(static_cast<OctreeNode::LeafIdentifierEnum>(octantID));
   }
   return CurrentOctreeNode->GetColor();
