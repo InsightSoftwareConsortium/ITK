@@ -250,11 +250,14 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   wrap_itk_python_bindings_install(/itk/support "ITKCommon" ${ITK_WRAP_PYTHON_FILES})
   wrap_itk_python_bindings_install(/itk/Configuration "ITKCommon" "${ITK_CONFIGURATION_INIT_MODULE}")
   wrap_itk_python_bindings_install(/itk "ITKCommon" ${ITK_INIT_MODULE})
-  install(
-    DIRECTORY
-      ${ITK_STUB_DIR}/
-    DESTINATION ${PY_SITE_PACKAGES_PATH}/${ITK_STUB_BASENAME}
+  cmake_path(
+    SET
+    _stub_destination
+    NORMALIZE
+    "${PY_SITE_PACKAGES_PATH}/${ITK_STUB_BASENAME}"
   )
+  install(DIRECTORY ${ITK_STUB_DIR}/ DESTINATION "${_stub_destination}")
+  unset(_stub_destination)
 endif()
 
 ###############################################################################
