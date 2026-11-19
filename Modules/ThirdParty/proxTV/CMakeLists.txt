@@ -27,7 +27,9 @@ endif()
   itk_module_impl()
 else()
   # 3.23 Required for proxTV FILE_SETS, which allows for implicit installation of header files with the library target.
-  cmake_minimum_required(VERSION 3.23.0)
+  if(CMAKE_VERSION VERSION_LESS 3.23)
+    message(FATAL_ERROR "Building proxTV requires CMake 3.23 or newer.")
+  endif()
 
   set(ITKproxTV_LIBRARIES proxTV)
 
