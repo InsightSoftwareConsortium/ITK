@@ -169,6 +169,7 @@ public:
   using SpacingType = typename InputImageType::SpacingType;
   using SpacingValueType = typename InputImageType::SpacingValueType;
   using IndexType = typename InputImageType::IndexType;
+  static_assert(InputImageType::ImageDimension == 3, "CuberilleImageToMeshFilter supports only 3D images.");
   using PointType = typename OutputMeshType::PointType;
 
   using InterpolatorType = TInterpolator;

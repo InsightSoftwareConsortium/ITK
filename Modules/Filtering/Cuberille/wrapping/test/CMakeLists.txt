@@ -1,13 +1,13 @@
-itk_python_expression_add_test(
-  NAME itkCuberilleImageToMeshFilterPythonTest
-  EXPRESSION "filter = itk.CuberilleImageToMeshFilter.New()"
-)
-
 set(test_input_dir ${CMAKE_CURRENT_SOURCE_DIR}/../../test/Input)
 # cmake_path(CONVERT ${test_input_dir} TO_CMAKE_PATH_LIST test_input_dir NORMALIZE)  # CMake 3.20+
 
 list(FIND ITK_WRAP_IMAGE_DIMS 3 wrap_3_index)
 if(wrap_3_index GREATER -1)
+  itk_python_expression_add_test(
+    NAME itkCuberilleImageToMeshFilterPythonTest
+    EXPRESSION "filter = itk.CuberilleImageToMeshFilter.New()"
+  )
+
   itk_python_add_test(
     NAME Cuberille_blob0_python
     TEST_DRIVER_ARGS
