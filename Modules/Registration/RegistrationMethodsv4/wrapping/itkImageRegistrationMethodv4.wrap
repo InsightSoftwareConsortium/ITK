@@ -16,7 +16,8 @@ foreach(d ${ITK_WRAP_DIMS})
   itk_wrap_template("BSOUDFT${ITKM_D}${d}" "itk::BSplineSmoothingOnUpdateDisplacementFieldTransform< ${ITKT_D}, ${d} >")
   # necessary for TimeVaryingVelocityFieldImageRegistrationMethodv4
   itk_wrap_template("GSOUTVVFT${ITKM_D}${d}"
-                    "itk::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform< ${ITKT_D}, ${d} >")
+                    "itk::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform< ${ITKT_D}, ${d} >"
+  )
   # necessary for TimeVaryingBSplineVelocityFieldImageRegistrationMethodv4
   itk_wrap_template("TVBVFT${ITKM_D}${d}" "itk::TimeVaryingBSplineVelocityFieldTransform< ${ITKT_D}, ${d} >")
 endforeach()
@@ -26,7 +27,8 @@ itk_wrap_class("itk::ImageRegistrationMethodv4" POINTER)
 foreach(d ${ITK_WRAP_DIMS})
   foreach(t ${WRAP_ITK_REAL})
     itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}"
-                      "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >")
+                      "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >"
+    )
     itk_wrap_template(
       "REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}T${ITKM_D}${d}${ITKM_${t}}${d}M${ITKM_D}${d}"
       "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::Transform< ${ITKT_D}, ${d}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::Mesh< ${ITKT_D}, ${d} >"

@@ -2,12 +2,14 @@ set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkWindowedSincInterpolateImageFunction.h")
 itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
 
-set(window_functions
-    "Hamming"
-    "Cosine"
-    "Welch"
-    "Lanczos")
-set(radii 2 3)
+set(
+  window_functions
+  "Hamming"
+  "Cosine"
+  "Welch"
+  "Lanczos"
+)
+set(radii "2;3")
 foreach(function ${window_functions})
   itk_wrap_class("itk::Function::${function}WindowFunction")
   foreach(r ${radii})
@@ -22,7 +24,8 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(r ${radii}) # radius
       foreach(function ${window_functions})
         itk_wrap_template("${ITKM_I${t}${d}}${r}${function}"
-                          "${ITKT_I${t}${d}}, ${r}, itk::Function::${function}WindowFunction< ${r} >")
+                          "${ITKT_I${t}${d}}, ${r}, itk::Function::${function}WindowFunction< ${r} >"
+        )
       endforeach()
     endforeach()
   endforeach()

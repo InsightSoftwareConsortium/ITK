@@ -18,18 +18,21 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
       if(ITKM_I${ITKM_RGB${f}}${d} AND ITKT_I${ITKM_RGB${f}}${d})
         # Image of RGBPixel as input
         itk_wrap_template("${ITKM_I${ITKM_RGB${f}}${d}}${ITKM_I${t}${d}}"
-                          "${ITKT_I${ITKM_RGB${f}}${d}},${ITKT_I${t}${d}}")
+                          "${ITKT_I${ITKM_RGB${f}}${d}},${ITKT_I${t}${d}}"
+        )
       endif()
       foreach(c ${ITK_WRAP_VECTOR_COMPONENTS})
         if(ITKM_I${ITKM_V${f}${c}}${d} AND ITKT_I${ITKM_V${f}${c}}${d})
           # Image of Vector as input
           itk_wrap_template("${ITKM_I${ITKM_V${f}${c}}${d}}${ITKM_I${t}${d}}"
-                            "${ITKT_I${ITKM_V${f}${c}}${d}},${ITKT_I${t}${d}}")
+                            "${ITKT_I${ITKM_V${f}${c}}${d}},${ITKT_I${t}${d}}"
+          )
         endif()
         if(ITKM_I${ITKM_CV${f}${c}}${d} AND ITKT_I${ITKM_CV${f}${c}}${d})
           # Image of CovariantVector as input
           itk_wrap_template("${ITKM_I${ITKM_CV${f}${c}}${d}}${ITKM_I${t}${d}}"
-                            "${ITKT_I${ITKM_CV${f}${c}}${d}},${ITKT_I${t}${d}}")
+                            "${ITKT_I${ITKM_CV${f}${c}}${d}},${ITKT_I${t}${d}}"
+          )
         endif()
       endforeach()
     endforeach()

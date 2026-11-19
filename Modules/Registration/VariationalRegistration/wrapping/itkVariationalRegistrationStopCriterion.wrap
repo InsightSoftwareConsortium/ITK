@@ -8,7 +8,8 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(v ${WRAP_ITK_VECTOR_REAL})
       itk_wrap_template(
         "VRF${ITKM_I${s}${d}}${ITKM_I${s}${d}}${ITKM_I${v}${d}${d}}VRMRF${ITKM_I${s}${d}}${ITKM_I${s}${d}}${ITKM_I${v}${d}${d}}"
-        "itk::VariationalRegistrationFilter<${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, ${ITKT_I${v}${d}${d}}>, itk::VariationalRegistrationMultiResolutionFilter<${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, ${ITKT_I${v}${d}${d}}>")
+        "itk::VariationalRegistrationFilter<${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, ${ITKT_I${v}${d}${d}}>, itk::VariationalRegistrationMultiResolutionFilter<${ITKT_I${s}${d}}, ${ITKT_I${s}${d}}, ${ITKT_I${v}${d}${d}}>"
+      )
     endforeach()
   endforeach()
 endforeach()

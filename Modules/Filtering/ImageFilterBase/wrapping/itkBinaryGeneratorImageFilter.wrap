@@ -5,7 +5,8 @@ foreach(
   ${WRAP_ITK_VECTOR}
   ${WRAP_ITK_RGB}
   ${WRAP_ITK_RGBA}
-  ${WRAP_ITK_COMPLEX_REAL})
+  ${WRAP_ITK_COMPLEX_REAL}
+)
   itk_wrap_image_filter_combinations("${type}" "${WRAP_ITK_INT}" "${type}")
 endforeach()
 
@@ -13,9 +14,11 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${WRAP_ITK_REAL})
     foreach(c ${WRAP_ITK_COMPLEX_REAL})
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d}}${ITKM_I${c}${d}}"
-                        "${ITKT_I${t}${d}},${ITKT_I${t}${d}},${ITKT_I${c}${d}}")
+                        "${ITKT_I${t}${d}},${ITKT_I${t}${d}},${ITKT_I${c}${d}}"
+      )
       itk_wrap_template("${ITKM_I${c}${d}}${ITKM_I${t}${d}}${ITKM_I${c}${d}}"
-                        "${ITKT_I${c}${d}},${ITKT_I${t}${d}},${ITKT_I${c}${d}}")
+                        "${ITKT_I${c}${d}},${ITKT_I${t}${d}},${ITKT_I${c}${d}}"
+      )
     endforeach()
   endforeach()
 endforeach()

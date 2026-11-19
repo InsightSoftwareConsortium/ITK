@@ -4,7 +4,8 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t2 ${WRAP_ITK_INT})
       foreach(t3 ${WRAP_ITK_REAL})
         itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_${t2}}${ITKM_${t3}}${ITKM_${t3}}"
-                          "${ITKT_VI${t}${d}}, ${ITKT_${t2}}, ${ITKT_${t3}}, ${ITKT_${t3}}")
+                          "${ITKT_VI${t}${d}}, ${ITKT_${t2}}, ${ITKT_${t3}}, ${ITKT_${t3}}"
+        )
       endforeach()
     endforeach()
   endforeach()

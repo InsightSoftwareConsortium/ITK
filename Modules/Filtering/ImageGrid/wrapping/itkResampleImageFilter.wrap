@@ -18,7 +18,8 @@ if(ITK_WRAP_unsigned_char)
 endif()
 foreach(t ${PA3DSCI_types})
   itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t}}3"
-                    "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t}}, 3 >")
+                    "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t}}, 3 >"
+  )
 endforeach()
 
 itk_end_wrap_class()

@@ -5,7 +5,11 @@ macro(EXTEND_IMAGE_DUPLICATOR type)
     if(${pos} EQUAL -1)
       string(PREPEND ITK_WRAP_PYTHON_SWIG_EXT "${import_text}")
     endif()
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_FORCE_SNAKE_CASE_CLASS(itkImageDuplicator${type})\n")
+    string(
+      APPEND
+      ITK_WRAP_PYTHON_SWIG_EXT
+      "DECL_PYTHON_FORCE_SNAKE_CASE_CLASS(itkImageDuplicator${type})\n"
+    )
   endif()
 endmacro()
 
@@ -14,11 +18,7 @@ itk_wrap_class("itk::ImageDuplicator" POINTER)
 # as this filter is used in the Python NumPy  bridge.
 unique(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
 foreach(t ${types})
-  string(
-    REGEX MATCHALL
-          "(V${t}|CV${t})"
-          VectorTypes
-          ${WRAP_ITK_VECTOR})
+  string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes ${WRAP_ITK_VECTOR})
   set(PixelType ${t})
   foreach(d ${ITK_WRAP_DIMS})
     if(DEFINED ITKT_I${t}${d})
@@ -36,16 +36,8 @@ foreach(t ${types})
     # We have to recompute them all to extract the pixel component type.
     foreach(p RGB;RGBA)
       set(WRAP_RGBA_RGB "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
-      list(
-        FIND
-        WRAP_RGBA_RGB
-        "${p}${t}"
-        pos)
-      if(NOT
-         ${pos}
-         EQUAL
-         -1
-         AND DEFINED ITKT_I${p}${t}${d})
+      list(FIND WRAP_RGBA_RGB "${p}${t}" pos)
+      if(NOT ${pos} EQUAL -1 AND DEFINED ITKT_I${p}${t}${d})
         extend_image_duplicator("${ITKM_I${p}${t}${d}}")
         itk_wrap_template("${ITKM_I${p}${t}${d}}" "${ITKT_I${p}${t}${d}}")
       endif()
@@ -68,6 +60,10 @@ foreach(t ${types})
   endforeach()
 endforeach()
 
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/pyCommon.i DESTINATION "${WRAP_ITK_TYPEDEFS_DIRECTORY}")
+file(
+  COPY
+    ${CMAKE_CURRENT_LIST_DIR}/pyCommon.i
+  DESTINATION "${WRAP_ITK_TYPEDEFS_DIRECTORY}"
+)
 
 itk_end_wrap_class()

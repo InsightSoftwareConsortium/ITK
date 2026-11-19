@@ -5,7 +5,9 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${real_types})
     itk_wrap_template("${ITKM_${t}}${d}" "itk::Transform< ${ITKT_${t}},${d},${d} >")
     set(adaptor_name "itkTransformParametersAdaptorBase${ITKM_${t}}${d}")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+    string(
+      APPEND
+      ITK_WRAP_PYTHON_SWIG_EXT
       "DECL_PYTHON_STD_VEC_RAW_TO_SMARTPTR_TYPEMAP(${adaptor_name}, ${adaptor_name}_Pointer)\n"
       "%template(vector${adaptor_name}) std::vector< ${adaptor_name}_Pointer, std::allocator< ${adaptor_name}_Pointer > >;\n"
     )

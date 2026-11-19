@@ -10,7 +10,8 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(tt ${transform_type})
       itk_wrap_template(
         "M${ITKM_${t}}${d}M${ITKM_${t}}${d}T${ITKM_${tt}}${d}${d}"
-        "itk::Mesh< ${ITKT_${t}},${d} >, itk::Mesh< ${ITKT_${t}},${d} >, itk::Transform< ${ITKT_${tt}}, ${d}, ${d} >")
+        "itk::Mesh< ${ITKT_${t}},${d} >, itk::Mesh< ${ITKT_${t}},${d} >, itk::Transform< ${ITKT_${tt}}, ${d}, ${d} >"
+      )
     endforeach()
   endforeach()
 endforeach()

@@ -2,7 +2,8 @@ itk_wrap_class("itk::KernelImageFilter" POINTER)
 foreach(t ${WRAP_ITK_SCALAR})
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d}}Neighborhood"
-                      "${ITKT_I${t}${d}}, ${ITKT_I${t}${d}}, itk::Neighborhood< bool, ${d} >")
+                      "${ITKT_I${t}${d}}, ${ITKT_I${t}${d}}, itk::Neighborhood< bool, ${d} >"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
@@ -11,7 +12,8 @@ itk_wrap_class("itk::MovingHistogramImageFilterBase" POINTER)
 foreach(t ${WRAP_ITK_SCALAR})
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d}}Neighborhood"
-                      "${ITKT_I${t}${d}}, ${ITKT_I${t}${d}}, itk::Neighborhood< bool, ${d} >")
+                      "${ITKT_I${t}${d}}, ${ITKT_I${t}${d}}, itk::Neighborhood< bool, ${d} >"
+    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
