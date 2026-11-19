@@ -117,7 +117,7 @@ public:
   }
 
   /** Return the number of parameters. */
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return m_ShapeFunction->GetNumberOfParameters();

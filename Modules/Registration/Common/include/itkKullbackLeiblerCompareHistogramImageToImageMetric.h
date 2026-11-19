@@ -114,7 +114,7 @@ public:
   itkGetConstReferenceMacro(Epsilon, double);
 
   /** Return the number of parameters required by the Transform */
-  [[nodiscard]] unsigned int
+  [[nodiscard]] typename Superclass::NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return this->GetTransform()->GetNumberOfParameters();

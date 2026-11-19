@@ -149,7 +149,7 @@ public:
   void
   InitializeDistributions(Array<double> classMeans, Array<double> classSigmas);
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override;
 
 protected:

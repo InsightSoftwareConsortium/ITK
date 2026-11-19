@@ -1,0 +1,55 @@
+schema_version: 1
+title: Cost function and metric parameter counts are 64-bit
+summary: |
+  `CostFunctionTemplate::GetNumberOfParameters()` and the v4
+  `ObjectToObjectMetricBaseTemplate::NumberOfParametersType` now use
+  `IdentifierType`, the type `TransformBase` already uses. Classes that override
+  `GetNumberOfParameters()` or `GetNumberOfLocalParameters()` with an
+  `unsigned int` return type no longer compile.
+details: |
+  The v4 metrics returned the transform's 64-bit parameter count through a
+  32-bit `unsigned int`. With a dense displacement field of more than 2^32 - 1
+  parameters (about 1.43 billion voxels in 3-D), the count was truncated, the
+  derivative buffer was made too small, and the metric threads wrote past its
+  end. ITK 6.0 first rejected such counts with an exception; the metric now
+  reports the full count, so such registrations can run.
+
+  `CostFunctionTemplate` gains `NumberOfParametersType`, and the v4 metrics keep
+  their own `NumberOfParametersType`, now the same type. Overrides in derived
+  classes must return it. Code that only calls `GetNumberOfParameters()` and
+  stores the result in an `unsigned int` still compiles, but truncates counts
+  above 2^32 - 1.
+actions:
+  - Return `NumberOfParametersType` from overrides of `GetNumberOfParameters()`
+    in classes derived from `SingleValuedCostFunction` or
+    `MultipleValuedCostFunction`, and from overrides of
+    `GetNumberOfParameters()` and `GetNumberOfLocalParameters()` in v4 metrics.
+    In a class template whose base depends on a template parameter, write
+    `typename Superclass::NumberOfParametersType`.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: medium
+pr: 7216
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/issues/6949
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/6991
+examples:
+  - language: cpp
+    before: |
+      unsigned int
+      GetNumberOfParameters() const override
+      {
+        return SpaceDimension;
+      }
+    after: |
+      NumberOfParametersType
+      GetNumberOfParameters() const override
+      {
+        return SpaceDimension;
+      }
+    note: An override in a class derived from SingleValuedCostFunction.
+hints:
+  - "Find the overrides: git grep -n -B1 -E '^\\s*GetNumberOf(Local)?Parameters\\(\\) const' | grep 'unsigned int'"
+  - "To compile against both ITK 5 and ITK 6, declare the return type as decltype(std::declval<const Superclass &>().GetNumberOfParameters())."

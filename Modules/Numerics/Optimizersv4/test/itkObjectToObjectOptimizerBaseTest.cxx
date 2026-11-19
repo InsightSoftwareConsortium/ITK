@@ -40,7 +40,7 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 5;
@@ -71,7 +71,7 @@ public:
     derivative.Fill(0.0);
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfLocalParameters() const override
   {
     return 3;

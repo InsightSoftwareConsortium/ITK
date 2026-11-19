@@ -165,7 +165,7 @@ public:
     derivative[2] = (turnZValue - baseValue) / deltaAngle;
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension;
