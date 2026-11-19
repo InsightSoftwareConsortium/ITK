@@ -462,16 +462,12 @@ itkImageToImageMetricv4Test(int, char ** const)
   for (itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6; ++numberOfThreads)
   {
     metric->SetMaximumNumberOfWorkUnits(numberOfThreads);
-    // FIXME
-    // lh and rh are not equal
-    // ITK_TEST_SET_GET_VALUE(numberOfThreads, metric->GetMaximumNumberOfWorkUnits());
+    ITK_TEST_SET_GET_VALUE(numberOfThreads, metric->GetMaximumNumberOfWorkUnits());
 
 #if !defined(ITK_LEGACY_REMOVE)
 
     metric->SetMaximumNumberOfThreads(numberOfThreads);
-    // FIXME
-    // lh and rh are not equal
-    // ITK_TEST_SET_GET_VALUE(numberOfThreads, metric->GetMaximumNumberOfThreads());
+    ITK_TEST_SET_GET_VALUE(numberOfThreads, metric->GetMaximumNumberOfThreads());
 
 #endif
 

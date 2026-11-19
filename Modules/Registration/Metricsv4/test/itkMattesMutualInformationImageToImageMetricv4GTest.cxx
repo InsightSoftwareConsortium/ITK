@@ -401,9 +401,11 @@ TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundReaches
   const auto image = MakeReproducibilityImage();
 
   const auto bounded = MakeMetric(image, MakeAffine(), 8);
+  EXPECT_EQ(bounded->GetMaximumNumberOfWorkUnits(), 8u);
   bounded->SetMaximumJointPDFDerivativesBytes(3 * affineArrayBytes);
   const auto boundedResult = Evaluate(bounded);
   EXPECT_EQ(boundedResult.numberOfWorkUnitsUsed, 3u);
+  EXPECT_EQ(bounded->GetMaximumNumberOfWorkUnits(), 3u);
 
   // The bound partitions the domain like a request for that many work units, so the result is the same.
   const auto requested = Evaluate(MakeMetric(image, MakeAffine(), 3));
