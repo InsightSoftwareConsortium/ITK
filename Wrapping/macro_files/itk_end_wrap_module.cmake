@@ -645,9 +645,16 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     set(DOXYGEN_GENERATE_XML "YES")
     set(DOXYGEN_GENERATE_HTML "NO")
     set(DOXYGEN_CASE_SENSE_NAMES "NO")
+    # Group and page definitions that the headers' \ingroup and \ref commands name.
+    file(
+      GLOB _doxygen_group_files
+      "${ITK_SOURCE_DIR}/Documentation/Doxygen/*.dox"
+      "${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/ITK-AllGroups.dox"
+    )
     doxygen_add_docs(
       ${WRAPPER_LIBRARY_NAME}Doxygen
       ${ITK_WRAP_DOC_DOXYGEN_HEADERS}
+      ${_doxygen_group_files}
       ALL
       WORKING_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR}
       USE_STAMP_FILE
@@ -655,6 +662,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
         "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure."
     )
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
+    unset(_doxygen_group_files)
     unset(ITK_DOXYGEN_OUTPUT_DIR)
     unset(ITK_WRAP_DOC_LIBRARY_DIR)
   endif()

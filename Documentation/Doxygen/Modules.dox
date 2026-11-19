@@ -176,6 +176,12 @@
   These filters compute local gradients of images.
 */
 
+/**
+  \defgroup FourierTransform Fourier Transform Filters
+  \ingroup ImageFilters
+
+  These filters compute discrete Fourier transforms of images.
+*/
 
 /**
   \defgroup GeometricTransform Geometric Transformation Filters

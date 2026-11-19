@@ -26,7 +26,7 @@ namespace itk
 {
 /** \class ScancoImageIOFactory
  * \brief Create instances of ScancoImageIO objects using an object factory.
- * \ingroup ITKIOScanco
+ * \ingroup IOScanco
  */
 class IOScanco_EXPORT ScancoImageIOFactory : public ObjectFactoryBase
 {

@@ -14,7 +14,7 @@ if(ITK_USE_GPU)
   set(${ModuleName}_GPU_COMMON "ITKGPUCommon")
 endif()
 itk_module(
-  ${ModuleName}
+  SmoothingRecursiveYvvGaussianFilter
   DEPENDS
     ITKCommon
     ITKIOImageBase

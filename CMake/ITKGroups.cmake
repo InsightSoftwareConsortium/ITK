@@ -116,9 +116,9 @@ foreach(group ${group_list})
     string(
       REGEX
       MATCH
-      "itk_module[ \n]*(\\([ \n]*)([A-Za-z0-9]*)"
+      "(^|\n)[ \t]*itk_module[ \t\r\n]*\\([ \t\r\n]*([A-Za-z0-9_]*)"
       _module_name
-      ${_module_file_content}
+      "${_module_file_content}"
     )
     set(_module_name ${CMAKE_MATCH_2})
     set(_${_module_name}_module_line ${_module_line})
