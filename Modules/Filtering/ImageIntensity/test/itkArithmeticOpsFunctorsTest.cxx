@@ -73,6 +73,20 @@ TEST(ArithmeticOpsTest, DivReal)
 }
 
 
+TEST(ArithmeticOpsTest, DivideOrZeroOutShort)
+{
+  using OpType = itk::Functor::DivideOrZeroOut<short, short, short>;
+  OpType op;
+  ASSERT_EQ(op.m_Threshold, 1);
+  op.m_Constant = 5;
+
+  EXPECT_EQ(op(7, 0), 5);
+  EXPECT_EQ(op(7, -2), 5);
+  EXPECT_EQ(op(7, 2), 3);
+
+  EXPECT_FLOAT_EQ(itk::Functor::DivideOrZeroOut<float>().m_Threshold, 1e-5f);
+}
+
 TEST(ArithmeticOpsTest, UnaryMinus)
 {
 
