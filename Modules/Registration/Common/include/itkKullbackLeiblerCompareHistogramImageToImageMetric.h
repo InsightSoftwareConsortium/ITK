@@ -82,6 +82,7 @@ public:
   itkOverrideGetNameOfClassMacro(KullbackLeiblerCompareHistogramImageToImageMetric);
 
   /** Types transferred from the base class */
+  using typename Superclass::NumberOfParametersType;
   using typename Superclass::RealType;
   using typename Superclass::TransformType;
   using typename Superclass::TransformPointer;
@@ -114,7 +115,7 @@ public:
   itkGetConstReferenceMacro(Epsilon, double);
 
   /** Return the number of parameters required by the Transform */
-  [[nodiscard]] unsigned int
+  [[nodiscard]] NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return this->GetTransform()->GetNumberOfParameters();

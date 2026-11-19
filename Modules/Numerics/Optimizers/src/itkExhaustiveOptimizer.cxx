@@ -139,7 +139,7 @@ ExhaustiveOptimizer::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   ParametersType newPosition(spaceDimension);
   IncrementIndex(newPosition);
@@ -152,8 +152,8 @@ ExhaustiveOptimizer::AdvanceOneStep()
 void
 ExhaustiveOptimizer::IncrementIndex(ParametersType & newPosition)
 {
-  unsigned int       idx = 0;
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  unsigned int idx = 0;
+  const auto   spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   while (idx < spaceDimension)
   {

@@ -43,7 +43,7 @@ MultipleValuedNonLinearOptimizer::SetCostFunction(CostFunctionType * costFunctio
 
   if (!m_ScalesInitialized)
   {
-    const unsigned int numberOfParameters = m_CostFunction->GetNumberOfParameters();
+    const auto numberOfParameters = m_CostFunction->GetNumberOfParameters();
 
     ScalesType scales(numberOfParameters);
     scales.Fill(1.0f);

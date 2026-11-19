@@ -173,7 +173,8 @@ LBFGSOptimizer::GetValue() const
 void
 LBFGSOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 {
-  const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
+  // vnl sizes are unsigned int; throws RangeError for a larger count instead of truncating it.
+  const auto numberOfParameters = Math::CastWithRangeCheck<unsigned int>(costFunction->GetNumberOfParameters());
 
   auto * adaptor = new CostFunctionAdaptorType(numberOfParameters);
 

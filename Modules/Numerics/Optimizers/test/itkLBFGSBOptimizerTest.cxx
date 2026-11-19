@@ -104,7 +104,7 @@ public:
   }
 
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension;

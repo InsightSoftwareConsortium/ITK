@@ -96,12 +96,12 @@ public:
     }
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }
-  unsigned int
+  NumberOfParametersType
   GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;

@@ -99,7 +99,7 @@ SPSAOptimizer::StartOptimization()
   }
 
   // The number of parameters
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
   if (spaceDimension != this->GetInitialPosition().GetSize())
   {
     itkExceptionStringMacro("Number of parameters not correct!");
@@ -168,7 +168,7 @@ SPSAOptimizer::AdvanceOneStep()
   const double direction = (this->m_Maximize) ? 1.0 : -1.0;
 
   // The number of parameters
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   // Instantiate the newPosition vector and get the current parameters
   ParametersType         newPosition(spaceDimension);
@@ -348,7 +348,7 @@ SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double i
   }
 
   // The number of parameters
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   // Check if the initial position has the correct number of parameters
   const ParametersType & initialPosition = this->GetInitialPosition();

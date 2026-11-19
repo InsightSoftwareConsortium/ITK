@@ -1,0 +1,71 @@
+schema_version: 1
+title: Cost function and metric parameter counts are 64-bit
+summary: |
+  `CostFunctionTemplate::GetNumberOfParameters()` and the v4
+  `ObjectToObjectMetricBaseTemplate::NumberOfParametersType` now use
+  `IdentifierType`, the type `TransformBase` already uses. Classes that override
+  `GetNumberOfParameters()` or `GetNumberOfLocalParameters()` with an
+  `unsigned int` return type no longer compile.
+details: |
+  The v4 metrics returned the transform's 64-bit parameter count through a
+  32-bit `unsigned int`. With a dense displacement field of more than 2^32 - 1
+  parameters (about 1.43 billion voxels in 3-D), the count was truncated, the
+  derivative buffer was made too small, and the metric threads wrote past its
+  end. Earlier versions truncated the count; the metric now reports the full
+  count, so such registrations can run. The vnl-based optimizers (LBFGS,
+  LBFGSB, Amoeba, conjugate gradient, Levenberg-Marquardt, one-plus-one
+  evolutionary), whose vnl objects are sized with `unsigned int`, throw
+  `itk::RangeError` for a count above 2^32 - 1 instead of truncating it.
+
+  `CostFunctionTemplate` gains `NumberOfParametersType`, and the v4 metrics keep
+  their own `NumberOfParametersType`, now the same type. Overrides in derived
+  classes must return it. Code that only calls `GetNumberOfParameters()` and
+  stores the result in an `unsigned int` by copy-initialization still
+  compiles, but truncates counts above 2^32 - 1, and warns under MSVC (C4244,
+  on by default), clang `-Wshorten-64-to-32` and GCC `-Wconversion`. Brace
+  initialization into `unsigned int`, `std::min` or `std::max` with an
+  `unsigned int` argument, and calls to functions overloaded on
+  `unsigned int` and `int` no longer compile.
+actions:
+  - Return `NumberOfParametersType` from overrides of `GetNumberOfParameters()`
+    in classes derived from `SingleValuedCostFunction` or
+    `MultipleValuedCostFunction`, and from overrides of
+    `GetNumberOfParameters()` and `GetNumberOfLocalParameters()` in v4 metrics.
+    In a class template whose base depends on a template parameter, write
+    `typename Superclass::NumberOfParametersType`.
+  - Delete any local `NumberOfParametersType` alias that redefines it as
+    `unsigned int`.
+  - Code that must also build against ITK 5.4, where `CostFunctionTemplate`
+    has no `NumberOfParametersType`, can declare the return type as
+    `decltype(std::declval<const SingleValuedCostFunction &>().GetNumberOfParameters())`
+    (with `<utility>`), naming its own base class.
+  - Store the count as `NumberOfParametersType` or `auto` in callers, or
+    convert it explicitly where a 32-bit API needs it.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: medium
+pr: 7216
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/issues/6949
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/6991
+examples:
+  - language: cpp
+    before: |
+      unsigned int
+      GetNumberOfParameters() const override
+      {
+        return SpaceDimension;
+      }
+    after: |
+      NumberOfParametersType
+      GetNumberOfParameters() const override
+      {
+        return SpaceDimension;
+      }
+    note: An override in a class derived from SingleValuedCostFunction.
+hints:
+  - "Overrides declared on one line: git grep -nE 'unsigned( int)?[[:space:]]+([[:alnum:]_:<>, ]+::)?GetNumberOf(Local)?Parameters[[:space:]]*\\('"
+  - "Overrides with the return type on the previous line: git grep -n -B1 -E '^[[:space:]]*([[:alnum:]_]+(<[^>]*>)?::)?GetNumberOf(Local)?Parameters[[:space:]]*\\(' | grep -E 'unsigned( int)?[[:space:]]*$'"
+  - "Shadowing aliases: git grep -nE 'using[[:space:]]+NumberOfParametersType[[:space:]]*=[[:space:]]*unsigned'"

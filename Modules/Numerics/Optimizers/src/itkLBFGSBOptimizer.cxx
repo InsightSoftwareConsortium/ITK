@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkLBFGSBOptimizer.h"
+#include "itkMath.h"
 #include "vnl/algo/vnl_lbfgsb.h"
 
 extern "C"
@@ -256,7 +257,8 @@ LBFGSBOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 {
   m_CostFunction = costFunction;
 
-  const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
+  // vnl sizes are unsigned int; throws RangeError for a larger count instead of truncating it.
+  const auto numberOfParameters = Math::CastWithRangeCheck<unsigned int>(costFunction->GetNumberOfParameters());
 
   auto * adaptor = new CostFunctionAdaptorType(numberOfParameters);
 
@@ -288,7 +290,7 @@ LBFGSBOptimizer::StartOptimization()
 {
   // Check if all the bounds parameters are the same size as the initial
   // parameters.
-  const unsigned int numberOfParameters = m_CostFunction->GetNumberOfParameters();
+  const auto numberOfParameters = m_CostFunction->GetNumberOfParameters();
 
   if (this->GetInitialPosition().Size() < numberOfParameters)
   {

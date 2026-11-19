@@ -204,7 +204,7 @@ public:
     derivative[5] = (transZValue - baseValue) / deltaTranslation;
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return Self::SpaceDimension;

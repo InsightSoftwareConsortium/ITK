@@ -32,7 +32,7 @@ QuaternionRigidTransformGradientDescentOptimizer::AdvanceOneStep()
   const double       direction = (m_Maximize) ? 1.0 : -1.0;
   const ScalesType & scales = this->GetScales();
 
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   // Make sure the scales have been set
   if (scales.size() != spaceDimension)

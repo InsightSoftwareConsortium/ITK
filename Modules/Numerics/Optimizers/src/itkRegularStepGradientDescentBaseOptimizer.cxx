@@ -61,7 +61,7 @@ RegularStepGradientDescentBaseOptimizer::StartOptimization()
                       << m_GradientMagnitudeTolerance);
   }
 
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   m_Gradient = DerivativeType(spaceDimension);
   m_PreviousGradient = DerivativeType(spaceDimension);
@@ -140,7 +140,7 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   DerivativeType     transformedGradient(spaceDimension);
   DerivativeType     previousTransformedGradient(spaceDimension);

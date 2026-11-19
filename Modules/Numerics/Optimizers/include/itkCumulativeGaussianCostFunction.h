@@ -97,7 +97,7 @@ public:
   EvaluateCumulativeGaussian(double argument) const;
 
   /** Get the SpaceDimension. */
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override;
 
   /** Get the number Range Dimension. */

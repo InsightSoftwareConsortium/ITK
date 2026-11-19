@@ -20,8 +20,13 @@
 #include "itkObjectToObjectMetric.h"
 
 #include "itkGTest.h"
+#include "itkAmoebaOptimizerv4.h"
 #include "itkIdentityTransform.h"
+#include "itkLBFGSBOptimizerv4.h"
+#include "itkLBFGSOptimizerv4.h"
+#include <cstdint>
 #include <limits>
+#include <type_traits>
 
 namespace
 {
@@ -110,21 +115,46 @@ TEST(ObjectToObjectMetric, PreservesRepresentableParameterCounts)
   }
 }
 
-TEST(ObjectToObjectMetric, RejectsParameterCountOverflow)
+// A dense displacement field can have more than 2^32 parameters; the metric must report all of them (#6949).
+TEST(ObjectToObjectMetric, PreservesParameterCountsAbove32Bits)
 {
-  using TransformCountType = CountTransform::NumberOfParametersType;
-  using MetricCountType = CountMetric::NumberOfParametersType;
-  if constexpr (std::numeric_limits<TransformCountType>::digits <= std::numeric_limits<MetricCountType>::digits)
+  static_assert(std::is_same_v<CountMetric::NumberOfParametersType, CountTransform::NumberOfParametersType>);
+  const auto transform = CountTransform::New();
+  const auto metric = CountMetric::New();
+  metric->SetMovingTransform(transform);
+  using CountType = CountMetric::NumberOfParametersType;
+  if constexpr (std::numeric_limits<CountType>::digits <= 32)
   {
-    GTEST_SKIP() << "The transform count type is not wider than the metric count type";
+    GTEST_SKIP() << "IdentifierType is 32 bits in this build";
   }
   else
   {
-    const auto transform = CountTransform::New();
-    const auto metric = CountMetric::New();
-    metric->SetMovingTransform(transform);
-    const auto maximum = static_cast<TransformCountType>(std::numeric_limits<MetricCountType>::max());
-    transform->SetCount(maximum + TransformCountType{ 1 });
-    EXPECT_THROW(metric->GetNumberOfParameters(), itk::ExceptionObject);
+    const CountType count = CountType{ std::numeric_limits<uint32_t>::max() } + 4;
+    transform->SetCount(count);
+    EXPECT_EQ(metric->GetNumberOfParameters(), count);
+  }
+}
+
+// The vnl-based optimizers size their vnl objects with unsigned int; a larger count must throw, not truncate.
+TEST(ObjectToObjectMetric, VnlOptimizersRejectParameterCountsAbove32Bits)
+{
+  const auto transform = CountTransform::New();
+  const auto metric = CountMetric::New();
+  metric->SetMovingTransform(transform);
+  using CountType = CountMetric::NumberOfParametersType;
+  if constexpr (std::numeric_limits<CountType>::digits <= 32)
+  {
+    GTEST_SKIP() << "IdentifierType is 32 bits in this build";
+  }
+  else
+  {
+    transform->SetCount(CountType{ std::numeric_limits<uint32_t>::max() } + 4);
+    EXPECT_THROW(itk::LBFGSOptimizerv4::New()->SetMetric(metric), itk::RangeError);
+    EXPECT_THROW(itk::LBFGSBOptimizerv4::New()->SetMetric(metric), itk::RangeError);
+    EXPECT_THROW(itk::AmoebaOptimizerv4::New()->SetMetric(metric), itk::RangeError);
+
+    transform->SetCount(17);
+    EXPECT_NO_THROW(itk::LBFGSOptimizerv4::New()->SetMetric(metric));
+    EXPECT_NO_THROW(itk::AmoebaOptimizerv4::New()->SetMetric(metric));
   }
 }

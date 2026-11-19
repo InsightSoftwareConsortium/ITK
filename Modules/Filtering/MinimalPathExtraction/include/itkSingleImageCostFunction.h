@@ -119,7 +119,7 @@ public:
   Initialize();
 
   /** Return the number of parameters required by the Transform */
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return ImageDimension;

@@ -158,7 +158,7 @@ public:
     derivative = m_Derivative;
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension;

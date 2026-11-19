@@ -169,8 +169,8 @@ CumulativeGaussianCostFunction::GetValuePointer(ParametersType & parameters)
   return &m_MeasurePointer;
 }
 
-unsigned int
-CumulativeGaussianCostFunction::GetNumberOfParameters() const
+auto
+CumulativeGaussianCostFunction::GetNumberOfParameters() const -> NumberOfParametersType
 {
   // Return the number of parameters.
   return SpaceDimension;

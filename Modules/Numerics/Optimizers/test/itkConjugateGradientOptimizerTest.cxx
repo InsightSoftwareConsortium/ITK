@@ -101,7 +101,7 @@ public:
     std::cout << derivative[1] << ')' << std::endl;
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension;

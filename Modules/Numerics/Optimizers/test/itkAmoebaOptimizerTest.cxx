@@ -126,7 +126,7 @@ public:
     }
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension;
@@ -182,7 +182,7 @@ public:
     throw itk::ExceptionObject(__FILE__, __LINE__, "no derivative available");
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 1;
