@@ -79,6 +79,23 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   /* Superclass initialization */
   this->Superclass::Initialize();
 
+  if (!this->HasLocalSupport())
+  {
+    // Each work unit of the derivative pass keeps a bins^2 x parameters array, so its work units are bounded by memory.
+    const auto boundWorkUnits = [this](auto * threader) {
+      const ThreadIdType requested = threader->GetNumberOfWorkUnits();
+      const ThreadIdType threads = std::min(requested, MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+      threader->SetNumberOfWorkUnits(
+        std::min(requested,
+                 ComputeMaximumNumberOfDerivativeWorkUnits(this->m_NumberOfHistogramBins,
+                                                           this->GetNumberOfLocalParameters(),
+                                                           threads,
+                                                           this->m_MaximumJointPDFDerivativesBytes)));
+    };
+    boundWorkUnits(this->m_DenseGetValueAndDerivativeThreader.GetPointer());
+    boundWorkUnits(this->m_SparseGetValueAndDerivativeThreader.GetPointer());
+  }
+
   /* Expects moving image gradient source */
   if (this->GetGradientSourceIncludesFixed() || !this->GetGradientSourceIncludesMoving())
   {

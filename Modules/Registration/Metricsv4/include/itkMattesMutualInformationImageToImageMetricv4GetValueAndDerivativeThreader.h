@@ -89,11 +89,6 @@ protected:
     : m_MattesAssociate(nullptr)
   {}
 
-  /** For transforms without local support, uses no more work units than the metric's
-   * MaximumJointPDFDerivativesBytes allows, since each keeps a joint PDF derivative array. */
-  ThreadIdType
-  GetMaximumNumberOfWorkUnitsForExecution() const override;
-
   void
   BeforeThreadedExecution() override;
 

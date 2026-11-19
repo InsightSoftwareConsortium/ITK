@@ -23,29 +23,6 @@ namespace itk
 {
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
-ThreadIdType
-MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
-  TMattesMutualInformationMetric>::GetMaximumNumberOfWorkUnitsForExecution() const
-{
-  const ThreadIdType requested = this->GetNumberOfWorkUnits();
-  const auto *       mattes = dynamic_cast<const TMattesMutualInformationMetric *>(this->m_Associate);
-  if (mattes == nullptr || !mattes->GetComputeDerivative() || mattes->HasLocalSupport())
-  {
-    return requested;
-  }
-  // Not the multithreader's maximum, which PlatformMultiThreader sets to the work units of the last evaluation.
-  const ThreadIdType threads = std::min(requested, MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
-  return std::min(requested,
-                  TMattesMutualInformationMetric::ComputeMaximumNumberOfDerivativeWorkUnits(
-                    mattes->GetNumberOfHistogramBins(),
-                    mattes->GetNumberOfLocalParameters(),
-                    threads,
-                    mattes->GetMaximumJointPDFDerivativesBytes()));
-}
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
 void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,

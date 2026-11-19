@@ -150,7 +150,8 @@ public:
   /** Total bytes the joint PDF derivative arrays may use, for transforms without local support. Each work unit keeps
    * one array of bins^2 x parameters values. Zero (the default) allows one array plus 32 MiB per thread, where threads
    * is the requested number of work units, at most MultiThreaderBase::GetGlobalDefaultNumberOfThreads(). A nonzero
-   * value is a hard limit, down to one work unit. */
+   * value is a hard limit, down to one work unit. Initialize() lowers the metric's work units to this bound, and they
+   * stay lowered until SetMaximumNumberOfWorkUnits() is called again. */
   /** @ITKStartGrouping */
   itkSetMacro(MaximumJointPDFDerivativesBytes, uint64_t);
   itkGetConstMacro(MaximumJointPDFDerivativesBytes, uint64_t);

@@ -30,9 +30,10 @@ details: |
   threader alongside it. Code that relied on these headers to include `<mutex>`
   must include it directly.
 
-  Each work unit's array takes bins^2 x parameters values, so the derivative
-  pass uses no more work units than `SetMaximumJointPDFDerivativesBytes()`
-  allows. The default (0) allows one array plus 32 MiB per thread, where threads
+  Each work unit's array takes bins^2 x parameters values, so `Initialize()`
+  lowers the metric's work units to what `SetMaximumJointPDFDerivativesBytes()`
+  allows. They stay lowered until `SetMaximumNumberOfWorkUnits()` is called
+  again. The default (0) allows one array plus 32 MiB per thread, where threads
   is the requested number of work units, at most the global default number of
   threads. For example, a 3-D `BSplineTransform` on a 10 x 10 x 10 mesh (6591
   parameters) with 32 bins needs about 51 MiB of doubles per work unit, so at 16
