@@ -30,6 +30,8 @@
 =========================================================================*/
 
 #include "itkScancoImageIO.h"
+#include <cstdint>
+#include <limits>
 #include "itkSpatialOrientationAdapter.h"
 #include "itkIOCommon.h"
 #include "itksys/SystemTools.hxx"
@@ -280,8 +282,18 @@ ScancoImageIO::ReadImageInformation()
   // set dimensions/spacing
   this->SetNumberOfDimensions(3);
 
+  // Leaves room for the bytes per voxel, so no buffer size derived from the dimensions can wrap
+  constexpr uint64_t maximumVoxels = std::numeric_limits<size_t>::max() / 64;
+  uint64_t           voxels = 1;
   for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
+    const int dimension = this->m_HeaderData.m_PixelData.m_Dimensions[i];
+    if (dimension < 0 || (dimension > 0 && voxels > maximumVoxels / static_cast<uint64_t>(dimension)))
+    {
+      infile.close();
+      itkExceptionMacro("Invalid image dimension " << dimension << " in " << this->m_FileName);
+    }
+    voxels *= static_cast<uint64_t>(dimension);
     this->SetDimensions(i, this->m_HeaderData.m_PixelData.m_Dimensions[i]);
     this->SetSpacing(i, this->m_HeaderData.m_PixelData.m_Spacing[i]);
     // the origin will reflect the cropping of the data
@@ -299,7 +311,29 @@ ScancoImageIO::ReadImageInformation()
     this->m_Compression = 0;
   }
 
+  // Each data byte yields one voxel byte uncompressed, 8 voxels packed, and at most 255 voxels run-length encoded
+  infile.clear();
+  infile.seekg(0, std::ios::end);
+  const std::streamoff fileLength = infile.tellg();
   infile.close();
+  const uint64_t dataLength = (fileLength > 0 && static_cast<uint64_t>(fileLength) > this->m_HeaderSize)
+                                ? static_cast<uint64_t>(fileLength) - this->m_HeaderSize
+                                : 0;
+  uint64_t       dataNeeded = voxels * this->GetNumberOfComponents() * this->GetComponentSize();
+  if (this->m_Compression == 0x00b1)
+  {
+    dataNeeded = voxels / 8;
+  }
+  else if (this->m_Compression == 0x00b2 || this->m_Compression == 0x00c2)
+  {
+    dataNeeded = voxels / 255;
+  }
+  if (dataNeeded > dataLength)
+  {
+    itkExceptionMacro("Image dimensions need " << dataNeeded << " bytes of data, but " << this->m_FileName << " holds "
+                                               << dataLength);
+  }
+
   this->PopulateMetaDataDictionary();
 }
 
