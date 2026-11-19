@@ -43,8 +43,9 @@ details: |
 
   With the default, the number of work units used, and so the summation order,
   can follow the global thread count. To keep the number of work units fixed
-  whatever the machine's thread count, set both `SetMaximumNumberOfWorkUnits()`
-  and a nonzero `SetMaximumJointPDFDerivativesBytes()`. Different compilers or
+  whatever the machine's thread count, call both
+  `ImageToImageMetricv4::SetMaximumNumberOfWorkUnits()` and a nonzero
+  `SetMaximumJointPDFDerivativesBytes()` on the metric. Different compilers or
   processors can still round differently.
 categories:
   - ResultsChange
