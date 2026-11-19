@@ -533,7 +533,8 @@ public:
 
   /** Set number of work units to use. This the maximum number of work units to use
    * when multithreaded.  The actual number of work units used (may be less than
-   * this value) can be obtained with \c GetNumberOfWorkUnitsUsed. */
+   * this value) can be obtained with \c GetNumberOfWorkUnitsUsed. Until it is set, the getter returns the work
+   * units of the threader in use. */
   /** @ITKStartGrouping */
   virtual void
   SetMaximumNumberOfWorkUnits(const ThreadIdType number);
@@ -769,6 +770,9 @@ protected:
    * calculator for image gradient calculations. */
   bool m_UseFixedImageGradientFilter{};
   bool m_UseMovingImageGradientFilter{};
+
+  /** The last SetMaximumNumberOfWorkUnits() value, kept because threaders may clamp it; 0 until then. */
+  ThreadIdType m_MaximumNumberOfWorkUnits{ 0 };
 
   /** Gradient filters */
   FixedImageGradientFilterPointer  m_FixedImageGradientFilter{};
