@@ -19,38 +19,84 @@
 #==========================================================================*/
 
 
-# This script, given a path to another script, applies this to the source
-# code of the remote modules in the ITK source tree whose CI status shows
-# a successful build.
-#
-# The script clones the successful remote modules to the ITK source tree,
-# creates a feature branch on each module, applies the provided script to the
-# source code of each module, adds the modified files to the git stage area,
-# commits them using the provided commit message, and pushes the commit to the
-# remote module repository.
-#
-# Please, review the commit message directives at:
-# https://github.com/InsightSoftwareConsortium/ITK/blob/main/CONTRIBUTING.md
-
+#% NAME
+#%     ApplyScriptToRemotes.sh - run a script on remote modules and commit
+#%
+#% SYNOPSIS
+#%     ApplyScriptToRemotes.sh SCRIPT FEATURE_BRANCH COMMIT_MESSAGE
+#%     ApplyScriptToRemotes.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Apply SCRIPT to the source code of the remote modules listed in
+#%     Modules/Remote/*.cmake, commit the result on FEATURE_BRANCH in each
+#%     module, and offer to push each commit to the user's GitHub fork.
+#%
+#%     A remote module is selected when the GIT_TAG in its .cmake file equals
+#%     the latest commit on the main branch of its GitHub repository. The
+#%     code that would also require a successful CI status exists but is not
+#%     enabled, so CI status is not checked.
+#%
+#%     The parser expects the module name on the same line as
+#%     itk_fetch_module(, so the current Modules/Remote/*.cmake files, which
+#%     put the name on the next line, give an empty name and no module is
+#%     selected; ITK is still
+#%     configured, and no module is changed.
+#%
+#%     ITK is configured once with every selected module turned on, which
+#%     fetches the modules into Modules/Remote. In each module the script
+#%     checks out main, creates FEATURE_BRANCH from origin/main (or checks
+#%     out an existing FEATURE_BRANCH), runs SCRIPT, stages tracked files
+#%     with the extensions .txt, .cmake, .rst, .py, .yml, .c, .cxx, .h,
+#%     .hxx, and .wrap, and commits them with COMMIT_MESSAGE. It then asks
+#%     whether to push the branch. Afterward, open the pull requests by hand.
+#%
+#%     With a missing argument the script prints this help and exits with
+#%     status 1.
+#%
+#% OPTIONS
+#%     SCRIPT
+#%         Command to run from the top directory of each module. Give an
+#%         absolute path, or a command on PATH.
+#%     FEATURE_BRANCH
+#%         Branch to create or reuse in each module, and to push.
+#%     COMMIT_MESSAGE
+#%         Commit message, following the ITK commit message conventions.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs git, curl, cmake, and network access to github.com. The script
+#%     asks for a GitHub user name and pushes over SSH to
+#%     git@github.com:USER/REPOSITORY.git, so an SSH key for that account
+#%     and a fork of each module are needed.
+#%
+#%     The script changes to its own directory, so it may be run from
+#%     anywhere, but the ITK source tree must be in a directory named ITK.
+#%     It creates the build directory ITK-build beside the source tree and
+#%     deletes it at the end. The fetched modules, their branches, and
+#%     their commits stay in Modules/Remote.
+#%
+#%     The extensions are expanded by the shell in each module's top
+#%     directory before git sees them. When a top-level file has the
+#%     extension, only top-level files with it are staged; otherwise git
+#%     matches the extension in every subdirectory.
+#%
+#% EXAMPLES
+#%     ./Utilities/Maintenance/ApplyScriptToRemotes.sh \
+#%         /path/to/fix.sh fix-branch "STYLE: Apply fix"
+#%         Run fix.sh in each selected module and commit on fix-branch.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     CONTRIBUTING.md:
+#%         Commit message conventions.
+#%     Utilities/Maintenance/UpdateRemoteModules.sh:
+#%         Update the remote module GIT_TAG entries.
 
 # Utility functions
 usage() {
-cat << EOF
-Usage: $0 <script_filename> <feature_branch> <commit_message>
-
-Use this script to apply another script to the source code of the remote
-remote modules in the ITK source tree whose CI status shows a successful
-build.
-
-The script clones the successful remote modules to the ITK source tree,
-creates a feature branch on each module, applies the provided script to the
-source code of each module, adds the modified files to the git stage area,
-commits them using the provided commit message, and pushes the commit to the
-remote module repository.
-
-Please, review the commit message directives at:
-https://github.com/InsightSoftwareConsortium/ITK/blob/main/CONTRIBUTING.md
-EOF
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
 }
 
 die() {
@@ -67,9 +113,8 @@ do
   opt="$1";
   case "$opt" in
     "-h"|"--help")
-      shift;
-      help=true
-      break;;
+      usage
+      exit 1;;
     *)
       break;;
   esac

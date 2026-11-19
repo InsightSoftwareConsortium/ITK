@@ -17,46 +17,54 @@
 #
 #==========================================================================*/
 
+#% NAME
+#%     runValgrind.sh - run ITK tests under valgrind and report as HTML
+#%
+#% SYNOPSIS
+#%     runValgrind.sh [<ctest options>...]
+#%     runValgrind.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Run the selected tests of an ITK build under the CTest memory checker
+#%     (ctest -D ExperimentalMemCheck) and turn its DynamicAnalysis.xml into
+#%     HTML pages. If the newest DynamicAnalysis.xml lists no tests, the
+#%     script prints "No memory leaks were detected" and writes no pages.
+#%
+#%     Otherwise it writes, in the current directory, memcheck_index.html,
+#%     one <test>.html for each test listed, and a copy of stylish.css.
+#%     Open memcheck_index.html in a browser to read the report.
+#%
+#% OPTIONS
+#%     <ctest options>
+#%         Passed to ctest unquoted, usually -R <regex> to select tests.
+#%         Check the selection first with ctest -R <regex> -N, which lists
+#%         the tests without running them.
+#%     -h, --help
+#%         Print this help and exit with status 1. Only the first argument
+#%         is checked.
+#%
+#% IMPLEMENTATION
+#%     Needs valgrind, xsltproc, and ctest, on Linux or macOS. Build ITK with
+#%     CMAKE_BUILD_TYPE RelWithDebInfo and run from the top of the build
+#%     directory. Every DynamicAnalysis.xml under the current directory is
+#%     deleted before the run. The XSL files and stylish.css are read from
+#%     the directory holding this script, and a temporary test.xsl is
+#%     written to the current directory and removed.
+#%
+#% EXAMPLES
+#%     ~/src/ITK/Utilities/Maintenance/runValgrind.sh -R itkHDF5ImageIOTest
+#%         Check itkHDF5ImageIOTest for memory errors.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/DynamicAnalysis.xsl:
+#%         Stylesheet for the index page.
+#%     Utilities/Maintenance/DynamicAnalysisFile.xsl:
+#%         Stylesheet for the per-test pages.
+
 usage() {
-
-cat << EOF
-  How to use this script:
-
-0)  Use Linux or Mac, install
-     - valgrind
-     - xsltproc
-
-1)  Compile ITK with RelWithDebInfo CMAKE_BUILD_TYPE
-
-2)  cd into  the ITK binary build directory
-
-3)  From the TOP of the binary directory type the "ctest" expression that
-set(DOC  "
-    selects the tests that you want to perform memory checking on.
-
-For example:
-
-    ctest  -R   itkHDF5ImageIOTest  -N
-
-This will print the tests selected by the regular expression but not run the
-tests (-N option).
-
-4)  Type the path to this script in the ITK source tree and add the select expression
-    from step 3 above.
-
-For example:
-
-   ~/src/ITK/Utilities/Maintenance/runValgrind.sh    \
-      -R itkHDF5ImageIOTest
-
-This will run the selected tests under valgrind and generate HTML that can be
-opened with your favorite browser.  The HTML is written to ./memcheck_index.html
-To open:
-
-  In Linux, you can do      firefox  ./memcheck_index.html
-  In Mac,   you can do      open     ./memcheck_index.html
-EOF
-
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
 }
 
 if test "$1" == "-h" -o "$1" == "--help"; then

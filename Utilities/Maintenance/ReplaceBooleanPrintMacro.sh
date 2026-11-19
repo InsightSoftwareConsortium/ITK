@@ -18,17 +18,55 @@
 #
 #==========================================================================*/
 
-# Find all patterns of the type, e.g.
-#
-# os << indent << "Minimize: " << (m_Minimize ? "On" : "Off") << std::endl;
-# os << indent << "ForwardAzimuthElevationToPhysical: " << (m_ForwardAzimuthElevationToPhysical ? "On" : "Off")
-#    << std::endl;
-#
-# And substitute them the contents captured in the second group, e.g.
-#
-# itkPrintSelfBooleanMacro(Minimize);
-# itkPrintSelfBooleanMacro(ForwardAzimuthElevationToPhysical);
-#
+#% NAME
+#%     ReplaceBooleanPrintMacro.sh - use itkPrintSelfBooleanMacro in PrintSelf
+#%
+#% SYNOPSIS
+#%     ReplaceBooleanPrintMacro.sh
+#%     ReplaceBooleanPrintMacro.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Replace PrintSelf statements that print a boolean member as On or Off
+#%     with itkPrintSelfBooleanMacro. A statement such as
+#%
+#%         os << indent << "Minimize: " << (m_Minimize ? "On" : "Off")
+#%            << std::endl;
+#%
+#%     becomes
+#%
+#%         itkPrintSelfBooleanMacro(Minimize);
+#%
+#%     The member may also be written this->m_Minimize, and the statement
+#%     may be split across lines. The files edited and the number of files
+#%     are printed for each of the two patterns. Arguments are ignored.
+#%
+#% OPTIONS
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Edits .cxx, .h, and .hxx files in place under the directory named by
+#%     the environment variable dir, or under the current directory when
+#%     dir is unset. Needs GNU find, GNU grep (for -P), and perl.
+#%
+#% EXAMPLES
+#%     cd Modules && ../Utilities/Maintenance/ReplaceBooleanPrintMacro.sh
+#%         From the top of an ITK checkout, convert every module.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 function adopt_boolean_macro_pattern() {
 

@@ -1,6 +1,55 @@
 #!/bin/bash
 
-# strip trailing whitespaces from filenames sent to stdin or as args
+#% NAME
+#%     strip-trailing-whitespace - strip trailing spaces and tabs from files
+#%
+#% SYNOPSIS
+#%     strip-trailing-whitespace FILE...
+#%     strip-trailing-whitespace < FILE_LIST
+#%     strip-trailing-whitespace -h | --help
+#%
+#% DESCRIPTION
+#%     Remove the spaces and tabs at the end of every line of each named
+#%     file, printing "stripping FILE" for each. With no arguments, read the
+#%     file names from standard input, one per line. Each file is rewritten
+#%     in place through a temporary file and keeps its permissions.
+#%
+#% OPTIONS
+#%     FILE...
+#%         Files to strip. Processing stops at the first empty argument.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Requires GNU sed. The pattern writes the tab as a backslash and t in
+#%     a bracket expression, which only GNU sed reads as a tab; a POSIX sed
+#%     strips trailing backslashes and t characters instead of tabs.
+#%
+#%     File names are split at white space, so a name containing a space
+#%     is not handled; from standard input only its first word is used.
+#%     Reading standard input stops when no line arrives within 2 seconds.
+#%     The temporary file comes from tempfile or mktemp.
+#%
+#% EXAMPLES
+#%     ./Utilities/Maintenance/strip-trailing-whitespace CMakeLists.txt
+#%         Strip trailing white space from one file.
+#%     git ls-files '*.txt' | Utilities/Maintenance/strip-trailing-whitespace
+#%         Strip every tracked .txt file, run from the ITK root.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 if which tempfile &>/dev/null; then
   TEMPMAKER=tempfile

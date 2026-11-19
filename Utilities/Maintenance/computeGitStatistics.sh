@@ -17,26 +17,41 @@
 #
 #==========================================================================*/
 
+#% NAME
+#%     computeGitStatistics.sh - generate git history statistics with gitstats
+#%
+#% SYNOPSIS
+#%     computeGitStatistics.sh SOURCE_TREE OUTPUT_DIR
+#%     computeGitStatistics.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Run gitstats on the git repository SOURCE_TREE and write its
+#%     statistics pages to OUTPUT_DIR. Up to 300 authors are listed. The
+#%     arguments are not checked.
+#%
+#% OPTIONS
+#%     SOURCE_TREE
+#%         The ITK git repository to analyze.
+#%     OUTPUT_DIR
+#%         Directory for the generated files.
+#%     -h, --help
+#%         Print this help and exit with status 1.
+#%
+#% IMPLEMENTATION
+#%     Written for Linux; needs gitstats on PATH.
+#%
+#% EXAMPLES
+#%     computeGitStatistics.sh ~/src/ITK /tmp/ITKGitStats
+#%         Write statistics for ~/src/ITK to /tmp/ITKGitStats.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/CodeSwarmWithGource.sh:
+#%         Render the git history as a video.
+
 usage() {
-
-cat << EOF
-  How to use this script:
-
-1)  Use Linux, install
-
-     - gitstat
-
-2) Run this script and pass as arguments
-
-     a) The source three of the ITK Git repository
-     b) An output directory to put the generated files
-
-For example:
-
-  computeGitStatistics.sh  ~/src/ITK /tmp/ITKGitStats
-
-EOF
-
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
 }
 
 if test "$1" == "-h" -o "$1" == "--help"; then
