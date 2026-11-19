@@ -42,6 +42,7 @@
 #include "itkScancoDataManipulation.h"
 #include "itkAIMHeaderIO.h"
 #include "itkISQHeaderIO.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -532,6 +533,14 @@ ScancoImageIO::Read(void * buffer)
   std::ifstream infile;
   this->OpenFileForReading(infile, this->m_FileName);
 
+  infile.seekg(0, std::ios::end);
+  const std::streamoff fileLength = infile.tellg();
+  if (fileLength < 0 || static_cast<size_t>(fileLength) < this->m_HeaderSize)
+  {
+    itkExceptionMacro("File is truncated, image data starts beyond the end of " << this->m_FileName);
+  }
+  const size_t dataLength = static_cast<size_t>(fileLength) - this->m_HeaderSize;
+
   // seek to the data
   infile.seekg(this->m_HeaderSize);
 
@@ -550,8 +559,9 @@ ScancoImageIO::Read(void * buffer)
   size_t    outSize = this->GetImageSizeInBytes();
 
   // For the input (compressed) data
-  char * input = nullptr;
-  size_t size = 0;
+  std::unique_ptr<char[]> inputBuffer;
+  char *                  input = nullptr;
+  size_t                  size = 0;
 
   if (this->m_Compression == 0)
   {
@@ -561,17 +571,22 @@ ScancoImageIO::Read(void * buffer)
   else if (this->m_Compression == 0x00b1)
   {
     // Compute the size of the binary packed data
-    size_t xinc = (xsize + 1) / 2;
-    size_t yinc = (ysize + 1) / 2;
-    size_t zinc = (zsize + 1) / 2;
+    size_t xinc = (static_cast<size_t>(xsize) + 1) / 2;
+    size_t yinc = (static_cast<size_t>(ysize) + 1) / 2;
+    size_t zinc = (static_cast<size_t>(zsize) + 1) / 2;
     size = xinc * yinc * zinc + 1;
-    input = new char[size];
+    if (size > dataLength)
+    {
+      itkExceptionMacro("File is truncated, " << size - dataLength << " bytes are missing");
+    }
+    inputBuffer = make_unique_for_overwrite<char[]>(size);
+    input = inputBuffer.get();
     infile.read(input, size);
   }
   else if (this->m_Compression == 0x00b2 || this->m_Compression == 0x00c2)
   {
     // Get the size of the compressed data
-    char head[8];
+    char head[8] = {};
     infile.read(head, intSize);
     size = static_cast<unsigned int>(DecodeInt(head));
     if (intSize == 8)
@@ -580,8 +595,15 @@ ScancoImageIO::Read(void * buffer)
       unsigned int high = DecodeInt(head + 4);
       size += (static_cast<uint64_t>(high) << 32);
     }
-    input = new char[size - intSize];
+    // Run-length bits start with the two voxel values
+    const size_t minimumSize = intSize + (this->m_Compression == 0x00b2 ? 2 : 0);
+    if (size < minimumSize || size > dataLength)
+    {
+      itkExceptionMacro("Invalid compressed data size " << size << " in " << this->m_FileName);
+    }
     size -= intSize;
+    inputBuffer = make_unique_for_overwrite<char[]>(size);
+    input = inputBuffer.get();
     infile.read(input, size);
   }
 
@@ -600,8 +622,8 @@ ScancoImageIO::Read(void * buffer)
   if (this->m_Compression == 0x00b1)
   {
     // Unpack binary data, each byte becomes a 2x2x2 block of voxels
-    size_t        xinc = (xsize + 1) / 2;
-    size_t        yinc = (ysize + 1) / 2;
+    size_t        xinc = (static_cast<size_t>(xsize) + 1) / 2;
+    size_t        yinc = (static_cast<size_t>(ysize) + 1) / 2;
     unsigned char v = input[size - 1];
     v = (v == 0 ? 0x7f : v);
     unsigned char bit = 0;
@@ -685,8 +707,6 @@ ScancoImageIO::Read(void * buffer)
       } while (--size != 0 && outSize != 0);
     }
   }
-
-  delete[] input;
 
   // Convert the image to HU.
   // Only SHORT images have been tested
