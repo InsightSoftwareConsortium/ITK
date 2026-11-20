@@ -90,7 +90,7 @@ TEST(ThreadPool, AddWorkPropagatesExceptionsThroughTheFuture)
   auto voidFuture = pool->AddWork([] { throw std::runtime_error("void"); });
   auto valueFuture = pool->AddWork([]() -> int { throw std::runtime_error("value"); });
   EXPECT_THROW(voidFuture.get(), std::runtime_error);
-  EXPECT_THROW(valueFuture.get(), std::runtime_error);
+  EXPECT_THROW(static_cast<void>(valueFuture.get()), std::runtime_error);
 }
 
 TEST(ThreadPool, AddWorkBatchInvokesEveryIndexExactlyOnce)
