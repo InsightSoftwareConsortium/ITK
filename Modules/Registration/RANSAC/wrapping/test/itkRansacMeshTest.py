@@ -90,7 +90,7 @@ transformParameters = itk.vector.D()
 bestTransformParameters = itk.vector.D()
 
 TransformType = itk.Similarity3DTransform.D
-RegistrationEstimatorType = itk.Ransac.LandmarkRegistrationEstimator[6, TransformType]
+RegistrationEstimatorType = itk.LandmarkRegistrationEstimator[6, TransformType]
 registrationEstimator = RegistrationEstimatorType.New()
 registrationEstimator.SetMinimalForEstimate(number_of_ransac_points)
 registrationEstimator.SetAgreeData(agreeData)
