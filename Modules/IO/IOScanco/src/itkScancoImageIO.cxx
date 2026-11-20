@@ -30,6 +30,8 @@
 =========================================================================*/
 
 #include "itkScancoImageIO.h"
+#include <cstdint>
+#include <limits>
 #include "itkSpatialOrientationAdapter.h"
 #include "itkIOCommon.h"
 #include "itksys/SystemTools.hxx"
@@ -267,13 +269,31 @@ ScancoImageIO::ReadImageInformation()
     itkExceptionMacro("Incompatible filetype in: " << this->m_FileName);
   }
 
-  this->m_HeaderSize = this->m_HeaderIO->ReadHeader(infile);
+  try
+  {
+    this->m_HeaderSize = this->m_HeaderIO->ReadHeader(infile);
+  }
+  catch (const std::exception & e)
+  {
+    infile.close();
+    itkExceptionMacro("Failed to read Scanco header in " << this->m_FileName << ": " << e.what());
+  }
 
   // set dimensions/spacing
   this->SetNumberOfDimensions(3);
 
+  // Leaves room for the bytes per voxel, so no buffer size derived from the dimensions can wrap
+  constexpr uint64_t maximumVoxels = std::numeric_limits<size_t>::max() / 64;
+  uint64_t           voxels = 1;
   for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
+    const int dimension = this->m_HeaderData.m_PixelData.m_Dimensions[i];
+    if (dimension < 0 || (dimension > 0 && voxels > maximumVoxels / static_cast<uint64_t>(dimension)))
+    {
+      infile.close();
+      itkExceptionMacro("Invalid image dimension " << dimension << " in " << this->m_FileName);
+    }
+    voxels *= static_cast<uint64_t>(dimension);
     this->SetDimensions(i, this->m_HeaderData.m_PixelData.m_Dimensions[i]);
     this->SetSpacing(i, this->m_HeaderData.m_PixelData.m_Spacing[i]);
     // the origin will reflect the cropping of the data
@@ -291,7 +311,29 @@ ScancoImageIO::ReadImageInformation()
     this->m_Compression = 0;
   }
 
+  // Each data byte yields one voxel byte uncompressed, 8 voxels packed, and at most 255 voxels run-length encoded
+  infile.clear();
+  infile.seekg(0, std::ios::end);
+  const std::streamoff fileLength = infile.tellg();
   infile.close();
+  const uint64_t dataLength = (fileLength > 0 && static_cast<uint64_t>(fileLength) > this->m_HeaderSize)
+                                ? static_cast<uint64_t>(fileLength) - this->m_HeaderSize
+                                : 0;
+  uint64_t       dataNeeded = voxels * this->GetNumberOfComponents() * this->GetComponentSize();
+  if (this->m_Compression == 0x00b1)
+  {
+    dataNeeded = voxels / 8;
+  }
+  else if (this->m_Compression == 0x00b2 || this->m_Compression == 0x00c2)
+  {
+    dataNeeded = voxels / 255;
+  }
+  if (dataNeeded > dataLength)
+  {
+    itkExceptionMacro("Image dimensions need " << dataNeeded << " bytes of data, but " << this->m_FileName << " holds "
+                                               << dataLength);
+  }
+
   this->PopulateMetaDataDictionary();
 }
 
@@ -490,6 +532,14 @@ ScancoImageIO::Read(void * buffer)
   std::ifstream infile;
   this->OpenFileForReading(infile, this->m_FileName);
 
+  infile.seekg(0, std::ios::end);
+  const std::streamoff fileLength = infile.tellg();
+  if (fileLength < 0 || static_cast<size_t>(fileLength) < this->m_HeaderSize)
+  {
+    itkExceptionMacro("File is truncated, image data starts beyond the end of " << this->m_FileName);
+  }
+  const size_t dataLength = static_cast<size_t>(fileLength) - this->m_HeaderSize;
+
   // seek to the data
   infile.seekg(this->m_HeaderSize);
 
@@ -519,17 +569,21 @@ ScancoImageIO::Read(void * buffer)
   else if (this->m_Compression == 0x00b1)
   {
     // Compute the size of the binary packed data
-    size_t xinc = (xsize + 1) / 2;
-    size_t yinc = (ysize + 1) / 2;
-    size_t zinc = (zsize + 1) / 2;
+    size_t xinc = (static_cast<size_t>(xsize) + 1) / 2;
+    size_t yinc = (static_cast<size_t>(ysize) + 1) / 2;
+    size_t zinc = (static_cast<size_t>(zsize) + 1) / 2;
     size = xinc * yinc * zinc + 1;
+    if (size > dataLength)
+    {
+      itkExceptionMacro("File is truncated, " << size - dataLength << " bytes are missing");
+    }
     input = new char[size];
     infile.read(input, size);
   }
   else if (this->m_Compression == 0x00b2 || this->m_Compression == 0x00c2)
   {
     // Get the size of the compressed data
-    char head[8];
+    char head[8] = {};
     infile.read(head, intSize);
     size = static_cast<unsigned int>(DecodeInt(head));
     if (intSize == 8)
@@ -538,8 +592,14 @@ ScancoImageIO::Read(void * buffer)
       unsigned int high = DecodeInt(head + 4);
       size += (static_cast<uint64_t>(high) << 32);
     }
-    input = new char[size - intSize];
+    // Run-length bits start with the two voxel values
+    const size_t minimumSize = intSize + (this->m_Compression == 0x00b2 ? 2 : 0);
+    if (size < minimumSize || size > dataLength)
+    {
+      itkExceptionMacro("Invalid compressed data size " << size << " in " << this->m_FileName);
+    }
     size -= intSize;
+    input = new char[size];
     infile.read(input, size);
   }
 
@@ -547,6 +607,7 @@ ScancoImageIO::Read(void * buffer)
   size_t shortread = size - infile.gcount();
   if (shortread != 0)
   {
+    delete[] input;
     itkExceptionMacro("File is truncated, " << shortread << " bytes are missing");
   }
 
@@ -558,8 +619,8 @@ ScancoImageIO::Read(void * buffer)
   if (this->m_Compression == 0x00b1)
   {
     // Unpack binary data, each byte becomes a 2x2x2 block of voxels
-    size_t        xinc = (xsize + 1) / 2;
-    size_t        yinc = (ysize + 1) / 2;
+    size_t        xinc = (static_cast<size_t>(xsize) + 1) / 2;
+    size_t        yinc = (static_cast<size_t>(ysize) + 1) / 2;
     unsigned char v = input[size - 1];
     v = (v == 0 ? 0x7f : v);
     unsigned char bit = 0;
@@ -568,7 +629,7 @@ ScancoImageIO::Read(void * buffer)
       bit ^= (bit & 2);
       for (int j = 0; j < ysize; j++)
       {
-        char * inPtr = input + (i * yinc + j) * xinc;
+        char * inPtr = input + ((i / 2) * yinc + (j / 2)) * xinc;
         bit ^= (bit & 1);
         for (int k = 0; k < xsize; k++)
         {

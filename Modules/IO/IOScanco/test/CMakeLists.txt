@@ -174,3 +174,11 @@ itk_add_test(
   ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWritev030.aim
 )
+
+set(IOScancoGTests itkScancoImageIOGTest.cxx)
+creategoogletestdriver(IOScanco "${IOScanco-Test_LIBRARIES}" "${IOScancoGTests}")
+target_compile_definitions(
+  IOScancoGTestDriver
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)

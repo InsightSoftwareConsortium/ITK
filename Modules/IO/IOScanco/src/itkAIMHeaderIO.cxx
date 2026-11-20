@@ -16,10 +16,12 @@
  *
  *=========================================================================*/
 #include "itkAIMHeaderIO.h"
+#include <cstdint>
 #include <sstream>
 #include <cstdio>
 #include <cstring>
 #include <iomanip>
+#include <memory>
 
 constexpr const char * AIM020String = "AIMDATA_V020   ";
 constexpr const char * AIM030String = "AIMDATA_V030   ";
@@ -107,39 +109,46 @@ namespace itk
 unsigned long
 AIMHeaderIO::ReadHeader(std::ifstream & infile)
 {
-  size_t bytesRead = 0; // Use as offset for reading the header
-
   if (!infile.is_open())
   {
     throw std::runtime_error("AIMHeaderIO: Input file stream is not open.");
   }
 
-  // Populate the data structure with the raw header information
-  // Initially read one block to retrieve the header size and version
-  char * headerBytes = new char[ScancoHeaderBlockSize];
-  infile.read(headerBytes, ScancoHeaderBlockSize);
-  int versionType = CheckVersion(headerBytes);
+  infile.seekg(0, std::ios::end);
+  const std::streamoff fileLength = infile.tellg();
+  infile.seekg(0, std::ios::beg);
+  if (fileLength <= 0)
+  {
+    throw std::runtime_error("AIMHeaderIO: Unable to determine the file size.");
+  }
+  const auto fileSize = static_cast<size_t>(fileLength);
 
-  // The size of the data values depends on the file version
+  // Initially read one block to retrieve the header size and version
+  auto headerBytes = std::make_unique<char[]>(ScancoHeaderBlockSize);
+  infile.read(headerBytes.get(), ScancoHeaderBlockSize);
+  infile.clear(); // a file shorter than one block sets eofbit and failbit
+  const int versionType = CheckVersion(headerBytes.get());
+
+  size_t bytesRead = 0; // Use as offset for reading the header
+  size_t expectedStructSize = 0;
   switch (versionType)
   {
     case static_cast<int>(ScancoFileVersions::AIM_020):
       this->m_IntSize = 4; // AIM v020 uses 32-bit [4 byte] integers
       strcpy(this->m_HeaderData->m_Version, AIM020String);
+      expectedStructSize = sizeof(AIMV020StructHeader);
       break;
 
     case static_cast<int>(ScancoFileVersions::AIM_030):
       this->m_IntSize = 8; // AIM v030 uses 64-bit [8 byte] integers
       strcpy(this->m_HeaderData->m_Version, AIM030String);
+      expectedStructSize = sizeof(AIMV030StructHeader);
       bytesRead += ScancoHeaderField::VersionDiskWidth; // Skip the version string
       break;
 
     default:
       throw std::runtime_error("AIMHeaderIO: Unrecognized file version.");
-      break;
   }
-
-  // Read the pre-header to get remaining header and log size
 
   if (this->ReadPreHeader(infile, bytesRead) != 0)
   {
@@ -147,47 +156,49 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
   }
   bytesRead += this->m_PreHeaderSize;
 
-  size_t headerSize = this->m_PreHeaderSize + this->m_ImgStructSize + this->m_ProcessingLogSize;
-
-  if (headerSize > static_cast<size_t>(ScancoHeaderBlockSize))
+  if (this->m_ImgStructSize != expectedStructSize)
   {
-    // Allocate more space for the header and read the rest into the raw header
-    delete[] headerBytes;
-    delete[] this->m_HeaderData->m_RawHeader;
-    const size_t v030Extra =
-      (versionType == static_cast<int>(ScancoFileVersions::AIM_030)) ? ScancoHeaderField::VersionDiskWidth : 0;
-    headerBytes = new char[headerSize + v030Extra];
-    // headerSize does not include the version string from v030
-    infile.seekg(0, std::ios::beg);
-    infile.read(headerBytes, headerSize + v030Extra);
+    throw std::runtime_error("AIMHeaderIO: Image structure length does not match the AIM version.");
   }
-  // we have read the full header, save to our data structure
-  this->m_HeaderData->m_RawHeader = headerBytes;
+  if (bytesRead + this->m_ImgStructSize > fileSize ||
+      this->m_ProcessingLogSize > fileSize - bytesRead - this->m_ImgStructSize)
+  {
+    throw std::runtime_error("AIMHeaderIO: Header extends beyond the end of the file.");
+  }
+
+  // Full on-disk header length, including the v030 version string
+  const size_t headerSize = bytesRead + this->m_ImgStructSize + this->m_ProcessingLogSize;
+  size_t       headerBufferSize = ScancoHeaderBlockSize;
+  if (headerSize > headerBufferSize)
+  {
+    headerBufferSize = headerSize;
+    headerBytes = std::make_unique<char[]>(headerBufferSize);
+    infile.seekg(0, std::ios::beg);
+    infile.read(headerBytes.get(), headerBufferSize);
+    if (static_cast<size_t>(infile.gcount()) != headerBufferSize)
+    {
+      throw std::runtime_error("AIMHeaderIO: Failed to read the full header.");
+    }
+  }
 
   // Read the image structure header (version-dependent)
-  switch (versionType)
+  if (versionType == static_cast<int>(ScancoFileVersions::AIM_020))
   {
-    case static_cast<int>(ScancoFileVersions::AIM_020):
-    {
-      AIMV020StructHeader * structHeader = new AIMV020StructHeader;
-      memcpy((char *)structHeader, headerBytes + bytesRead, this->m_ImgStructSize);
-      this->ReadImgStructHeader(structHeader);
-      delete structHeader;
-      break;
-    }
-    case static_cast<int>(ScancoFileVersions::AIM_030):
-    {
-      AIMV030StructHeader * structHeader = new AIMV030StructHeader;
-      memcpy((char *)structHeader, headerBytes + bytesRead, this->m_ImgStructSize);
-      this->ReadImgStructHeader(structHeader);
-      delete structHeader;
-      break;
-    }
-    default:
-      throw std::runtime_error("Error: invalid AIM type.");
-      break;
+    AIMV020StructHeader structHeader{};
+    memcpy(&structHeader, headerBytes.get() + bytesRead, sizeof(structHeader));
+    this->ReadImgStructHeader(&structHeader);
+  }
+  else
+  {
+    AIMV030StructHeader structHeader{};
+    memcpy(&structHeader, headerBytes.get() + bytesRead, sizeof(structHeader));
+    this->ReadImgStructHeader(&structHeader);
   }
   bytesRead += this->m_ImgStructSize;
+
+  // we have read the full header, save to our data structure
+  delete[] this->m_HeaderData->m_RawHeader;
+  this->m_HeaderData->m_RawHeader = headerBytes.release();
 
   // Read the processing log
   this->ReadProcessingLog(infile, bytesRead, this->m_ProcessingLogSize);
@@ -259,32 +270,37 @@ AIMHeaderIO::ReadPreHeader(std::ifstream & file, size_t offset)
   if (m_IntSize == 4)
   {
     // AIM v020 uses 32-bit integers
-    AIMPreHeaderV020 * headerData = new AIMPreHeaderV020;
-    file.read((char *)headerData, sizeof(AIMPreHeaderV020));
-    this->m_PreHeaderSize = DecodeInt(headerData->m_PreHeaderLength);
+    AIMPreHeaderV020 headerData{};
+    file.read(reinterpret_cast<char *>(&headerData), sizeof(AIMPreHeaderV020));
+    if (file.gcount() != static_cast<std::streamsize>(sizeof(AIMPreHeaderV020)))
+    {
+      return -1;
+    }
+    this->m_PreHeaderSize = DecodeInt(headerData.m_PreHeaderLength);
     if (this->m_PreHeaderSize != sizeof(AIMPreHeaderV020))
     {
       return -1; // Invalid pre-header size
     }
 
-    this->m_ImgStructSize = DecodeInt(headerData->m_ImageStructLength);
-    this->m_ProcessingLogSize = DecodeInt(headerData->m_ProcessingLogLength);
-
-    delete headerData;
+    this->m_ImgStructSize = static_cast<uint32_t>(DecodeInt(headerData.m_ImageStructLength));
+    this->m_ProcessingLogSize = static_cast<uint32_t>(DecodeInt(headerData.m_ProcessingLogLength));
   }
   else if (m_IntSize == 8)
   {
     // AIM v020 uses 32-bit integers
-    AIMPreHeaderV030 * headerData = new AIMPreHeaderV030;
-    file.read((char *)headerData, sizeof(AIMPreHeaderV030));
-    this->m_PreHeaderSize = DecodeInt64(headerData->m_PreHeaderLength);
+    AIMPreHeaderV030 headerData{};
+    file.read(reinterpret_cast<char *>(&headerData), sizeof(AIMPreHeaderV030));
+    if (file.gcount() != static_cast<std::streamsize>(sizeof(AIMPreHeaderV030)))
+    {
+      return -1;
+    }
+    this->m_PreHeaderSize = DecodeInt64(headerData.m_PreHeaderLength);
     if (this->m_PreHeaderSize != sizeof(AIMPreHeaderV030))
     {
       return -1; // Invalid pre-header size
     }
-    this->m_ImgStructSize = DecodeInt64(headerData->m_ImageStructLength);
-    this->m_ProcessingLogSize = DecodeInt64(headerData->m_ProcessingLogLength);
-    delete headerData;
+    this->m_ImgStructSize = DecodeInt64(headerData.m_ImageStructLength);
+    this->m_ProcessingLogSize = DecodeInt64(headerData.m_ProcessingLogLength);
   }
   else
   {
