@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=../migration-record.schema.json
+schema_version: 1
+
+title: WeightedAddImageFilter weighs the second input by one by default
+
+summary: |
+  Without a call to `SetAlpha()`, `itk::WeightedAddImageFilter` now outputs
+  its second input, as its documented `alpha * input1 + (1 - alpha) * input2`
+  gives with the default alpha of zero. It output zero before.
+
+details: |
+  Both weights were zero until `SetAlpha()` was called, although
+  `GetAlpha()` returned zero, so the output was an all-zero image. Only
+  code that never calls `SetAlpha()` sees a different result; code that
+  sets alpha gets the same output as before.
+
+categories:
+  - DefaultChanged
+  - ResultsChange
+
+environment:
+  - cxx
+  - python
+
+impact: low
+
+pr: 7209
