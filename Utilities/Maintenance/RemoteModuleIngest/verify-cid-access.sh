@@ -1,40 +1,71 @@
 #!/usr/bin/env bash
-# verify-cid-access.sh — confirm every .cid under a tree resolves
-#
-# Walks a module tree, finds every .cid content-link, and confirms
-# each resolves to retrievable bytes via at least one ExternalData
-# mirror / IPFS gateway.  Intended as a mandatory pre-push gate
-# for remote-module ingests: the ITK CI will try to fetch the same
-# content, and a .cid that the agent can't fetch from here is a
-# .cid that CI can't fetch either.
-#
-# Usage:
-#   verify-cid-access.sh <path-under-ITK> [options]
-#
-# Example:
-#   verify-cid-access.sh Modules/Filtering/AnisotropicDiffusionLBR
-#
-# Options:
-#   --quiet        Only print failing files.
-#   --fail-fast    Exit on first failure.
-#   --jobs N       Parallel workers (default: 16).
-#   --no-cache     Don't read/write the per-CID success cache.
-#   -h|--help      Show this help.
-#
-# Gateways tried, in order (fastest/most-reliable first for ITK content):
-#   https://itk.mypinata.cloud/ipfs/{cid}   (ITK's pinned gateway)
-#   https://w3s.link/ipfs/{cid}
-#   https://ipfs.io/ipfs/{cid}
-#   https://{cid}.ipfs.dweb.link/           (CID-subdomain; slowest DNS)
-#
-# Successful resolutions are cached at:
-#   ${XDG_CACHE_HOME:-$HOME/.cache}/itk-verify-cid/<cid>.ok
-# Content addresses are immutable, so a cached OK is permanent.
-#
-# Exit codes:
-#   0  — every .cid resolves from at least one gateway
-#   1  — usage / environment error
-#   2  — one or more .cid stubs did not resolve
+
+#% NAME
+#%     verify-cid-access.sh - check that every .cid link under a tree resolves
+#%
+#% SYNOPSIS
+#%     verify-cid-access.sh <path> [options]
+#%     verify-cid-access.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Find every .cid content link under <path> and check that each one
+#%     can be downloaded from at least one IPFS gateway. ITK CI fetches the
+#%     same data, so a link that fails here will also fail in CI. Run it
+#%     before pushing a remote-module ingest.
+#%
+#%     Gateways are tried in this order, with a one-byte ranged request:
+#%         https://itk.mypinata.cloud/ipfs/<cid>
+#%         https://w3s.link/ipfs/<cid>
+#%         https://ipfs.io/ipfs/<cid>
+#%         https://<cid>.ipfs.dweb.link/
+#%
+#%     Each link prints one line on stdout: "OK" with the gateway used or
+#%     "(cached)", "FAIL" with the link path, or "EMPTY" for a file with no
+#%     CID in it.
+#%
+#%     Exit status: 0 when every link resolves or none are found; 1 for a
+#%     usage error; 2 when any link did not resolve.
+#%
+#% OPTIONS
+#%     <path>
+#%         Directory to search, relative to the current directory, such as
+#%         Modules/Filtering/AnisotropicDiffusionLBR.
+#%     --quiet
+#%         Print only the FAIL and EMPTY lines.
+#%     --fail-fast
+#%         Meant to stop at the first failure. It passes --halt, which
+#%         xargs does not accept, so when any .cid files are found a run
+#%         with this option checks no links and exits with status 2.
+#%     --jobs N, --jobs=N
+#%         Number of links checked in parallel. Default: 16.
+#%     --no-cache
+#%         Neither read nor write the cache of resolved CIDs.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs curl, xargs, and network access. A resolved CID is recorded as
+#%     an empty file named <cid>.ok in XDG_CACHE_HOME/itk-verify-cid (by
+#%     default ~/.cache/itk-verify-cid) and is not checked again, since the
+#%     data behind a CID cannot change. Output is also copied to a temporary
+#%     log in /tmp, which is removed before exit.
+#%
+#% EXAMPLES
+#%     Utilities/Maintenance/RemoteModuleIngest/verify-cid-access.sh \
+#%       Modules/Filtering/AnisotropicDiffusionLBR
+#%         Check every .cid link in that module.
+#%
+#%     Utilities/Maintenance/RemoteModuleIngest/verify-cid-access.sh \
+#%       Modules/Filtering/AnisotropicDiffusionLBR --quiet --no-cache
+#%         Check again without the cache, printing only failures.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Documentation/docs/contributing/upload_binary_data.md:
+#%         How test data is uploaded and linked by CID.
+#%     Utilities/Maintenance/RemoteModuleIngest/cid-normalize.sh:
+#%         Convert .md5 and .shaNNN links to .cid.
 
 set -euo pipefail
 
@@ -43,7 +74,7 @@ warn() { printf 'WARN: %s\n' "$*" >&2; }
 die()  { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 show_help() {
-  sed -n '2,/^$/{ s/^# \?//; p }' "$0"
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
   exit 0
 }
 

@@ -1,5 +1,53 @@
 #!/bin/bash
-## This script is intended to find files that are missing the proper ITK license.
+
+#% NAME
+#%     FindMissingCopyrightStatementsInITK.sh - list files missing the license
+#%
+#% SYNOPSIS
+#%     FindMissingCopyrightStatementsInITK.sh
+#%     FindMissingCopyrightStatementsInITK.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Print the path of each source file under Modules/ that does not
+#%     contain the Apache License URL of the ITK license header. Paths
+#%     containing ThirdParty are not reported. Nothing is modified.
+#%
+#%     The exit status is 0 if any file is reported, and 1 otherwise.
+#%
+#% OPTIONS
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Modules/ is found from the path used to call the script, three
+#%     directory levels up, so call it by a path that includes
+#%     Utilities/Maintenance, as in the example.
+#%
+#%     The file-name pattern is a bracket expression, not a list of
+#%     extensions: it selects every file whose name ends in c, h, x, a
+#%     period, or a vertical bar, such as .c and .sh files as well as .h,
+#%     .hxx, and .cxx files.
+#%
+#% EXAMPLES
+#%     ./Utilities/Maintenance/FindMissingCopyrightStatementsInITK.sh
+#%         List files without the license header, run from the ITK root.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/UpdateCopyrightStatementsInITK.py:
+#%         Update the license header of ITK source files.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 MODULES_DIR=$(dirname $(dirname $(dirname $0)))/Modules
 

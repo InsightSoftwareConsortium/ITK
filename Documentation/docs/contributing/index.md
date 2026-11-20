@@ -487,6 +487,7 @@ ITK Git Cheatsheet <https://github.com/InsightSoftwareConsortium/ITK/blob/main/D
 CDash Dashboard <https://open.cdash.org/index.php?project=Insight>
 dashboard.md
 updating_third_party.md
+script_documentation.md
 Migration records <https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/AI/migration-records.md>
 python_packaging.md
 ../README.md

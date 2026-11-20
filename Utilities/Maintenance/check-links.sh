@@ -19,41 +19,71 @@
 #==========================================================================*/
 
 
-# Run the lychee link checker against ITK's documentation, examples,
-# release notes, and other text artifacts to surface broken links.
-#
-# This script is intended for periodic manual / cron use, NOT for the
-# per-PR CI pipeline.  Lychee against the full ITK tree triggers
-# rate-limit (HTTP 429) responses on hosts such as github.com,
-# doi.org, and journal mirrors that the CI runner cannot work around
-# (see lycheeverse/lychee#1574).  Running locally with caching across
-# invocations is reliable; running on every PR is not.
-#
-# Usage:
-#   Utilities/Maintenance/check-links.sh
-#       Scans the entire repository.  Reads
-#       Utilities/Maintenance/lychee.toml for include / exclude
-#       configuration.  Cache persists between runs at .lycheecache.
-#       Exit code 0 means no broken links; non-zero indicates findings
-#       in the report.
-#
-#   Utilities/Maintenance/check-links.sh path1 [path2 ...]
-#       Scans only the listed files / directories (relative to the
-#       repository root).
-#
-# Output:
-#   Plain-text report on stdout plus a Markdown summary at
-#   .lychee-report.md (gitignored — local artifact).
-#
-# Dependencies:
-#   - lychee (https://lychee.cli.rs/) >= 0.15
-#       Install via: cargo install lychee
-#                    or: brew install lychee
-#                    or: pre-built binary from
-#                        https://github.com/lycheeverse/lychee/releases
-#   - bash >= 4
+#% NAME
+#%     check-links.sh - report broken links in the ITK source tree
+#%
+#% SYNOPSIS
+#%     check-links.sh [PATH...]
+#%     check-links.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Run the lychee link checker on ITK's documentation, examples, release
+#%     notes, and other text files. Includes and excludes come from
+#%     Utilities/Maintenance/lychee.toml. With no PATH the whole repository
+#%     is scanned.
+#%
+#%     The script is meant for manual or periodic use, not for per-PR CI.
+#%     A scan of the whole tree draws rate-limit (HTTP 429) responses from
+#%     hosts such as github.com, doi.org, and journal mirrors, which a CI
+#%     runner cannot work around (lycheeverse/lychee#1574). A local run with
+#%     the cache kept between runs is reliable.
+#%
+#%     The exit status is that of lychee: 0 when no broken link is found,
+#%     nonzero otherwise. It is 127 when lychee is not on PATH, and 1 when
+#%     lychee.toml is missing.
+#%
+#% OPTIONS
+#%     PATH
+#%         File or directory to scan, relative to the repository root.
+#%         Several may be given.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs lychee 0.15 or later and bash 4 or later. Install lychee with
+#%     "cargo install lychee", "brew install lychee", or a binary from
+#%     https://github.com/lycheeverse/lychee/releases (see
+#%     https://lychee.cli.rs/). Needs network access.
+#%
+#%     The script may be run from any directory; it changes to the
+#%     repository root. It writes a Markdown report to .lychee-report.md
+#%     and a cache to .lycheecache at the root, both ignored by git. Cached
+#%     results expire after one day, and HTTP 429 responses are not cached.
+#%
+#% EXAMPLES
+#%     Utilities/Maintenance/check-links.sh
+#%         Check every link in the repository.
+#%     Utilities/Maintenance/check-links.sh Documentation Examples
+#%         Check only the links under Documentation and Examples.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/lychee.toml:
+#%         The lychee configuration used by this script.
 
 set -uo pipefail
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 LYCHEE_CONFIG="${REPO_ROOT}/Utilities/Maintenance/lychee.toml"

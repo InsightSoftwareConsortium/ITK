@@ -1,40 +1,93 @@
 #!/usr/bin/env bash
-# ingest-module-v4.sh — Phase A driver for v4 remote-module ingestion
-#
-# Phase A is the LOCAL, REVERSIBLE half of the ingestion process.  It
-# rewrites the upstream remote-module's history into a form suitable
-# for a Mode-A merge into ITK proper.  Phase A makes NO commits or
-# pushes to the upstream remote — the local clone is throwaway.  The
-# subsequent upstream-archival publish step lives in Phase B
-# (archive-remote-module.sh) and is gated on the Phase A PR being
-# merged into ITK main.
-#
-# See INGESTION_STRATEGY_v4.md for the full design.
-#
-# Usage:
-#   ingest-module-v4.sh <Module> <DestGroup> [options]
-#
-# Options:
-#   --upstream-url URL    Override the GIT_REPOSITORY parsed from
-#                         Modules/Remote/<Module>.remote.cmake.
-#   --whitelist FILE      Override the default whitelist location
-#                         (whitelists/default.list, this directory).
-#   --dry-run             Run filter-repo + sanitize passes but do
-#                         NOT merge into ITK.  Reports what would
-#                         land.
-#   --keep-tempdir        Don't delete the rewritten clone after
-#                         finishing (useful with --dry-run for
-#                         post-mortem inspection).
-#   --skip-format         Skip sanitize-history.py.  ONLY for debugging
-#                         the filter-repo passes; the resulting branch
-#                         will not pass ITK's pre-commit gate.
-#   -h, --help            Show this help.
-#
-# Exit codes:
-#   0  — success
-#   1  — argument or environment failure
-#   2  — filter-repo, sanitize, or merge failure
-#   3  — post-merge verification failed (pre-commit, prefix scan)
+
+#% NAME
+#%     ingest-module-v4.sh - merge a remote module's history into ITK
+#%
+#% SYNOPSIS
+#%     ingest-module-v4.sh <Module> <DestGroup> [options]
+#%     ingest-module-v4.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Phase A of the v4 remote-module ingestion. Clone the upstream remote
+#%     module into a temporary directory and rewrite its history there:
+#%     keep only the whitelisted paths, drop CI, packaging, and license
+#%     scaffolding, move everything under Modules/<DestGroup>/<Module>/,
+#%     and run sanitize-history.py to reformat every commit and give every
+#%     subject an ITK prefix. Merge commits are kept.
+#%
+#%     The script stops if upstream had merges and the rewrite has none, or
+#%     if a commit subject still lacks a BUG, COMP, DOC, ENH, PERF, STYLE,
+#%     or WIP prefix. It then merges the rewritten history into the current
+#%     ITK branch with a --no-ff merge commit that names the upstream tip
+#%     and adds a Co-authored-by trailer for every author except the most
+#%     frequent one. Last it runs "pre-commit run --all-files" and prints
+#%     the follow-up commits the pull request needs.
+#%
+#%     Nothing is pushed and the upstream repository is not changed. Phase
+#%     B, archive-remote-module.sh, runs after the ingest pull request
+#%     merges.
+#%
+#%     Exits 0 on success, 3 when the final pre-commit run fails (the merge
+#%     commit stays in place), and another nonzero status on any other
+#%     failure.
+#%
+#% OPTIONS
+#%     <Module>
+#%         Module name, such as IOMeshSTL.
+#%     <DestGroup>
+#%         Module group to place it in, such as IO, Filtering, or
+#%         Segmentation.
+#%     --upstream-url URL
+#%         Upstream repository URL. Default: the GIT_REPOSITORY in
+#%         Modules/Remote/<Module>.remote.cmake.
+#%     --whitelist FILE
+#%         Paths to keep, in git filter-repo --paths-from-file format.
+#%         Default: whitelists/default.list next to this script.
+#%     --dry-run
+#%         Clone, rewrite, and check, but do not merge into ITK. The clean
+#%         working tree and existing destination checks are skipped.
+#%     --keep-tempdir
+#%         Keep the rewritten clone and sanitize logs after exit.
+#%     --skip-format
+#%         Skip sanitize-history.py and the prefix check. For debugging the
+#%         filter-repo passes only; the result will not pass pre-commit.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Run from inside an ITK checkout with a clean working tree; the merge
+#%     goes into the branch that is checked out. Modules/<DestGroup>/<Module>
+#%     must not exist yet. Needs network access, git-filter-repo, and,
+#%     unless --skip-format is given, python3, clang-format, black, and
+#%     gersemi, configured from the checkout's .clang-format and
+#%     .gersemi.config. The final check needs pre-commit.
+#%
+#%     The clone is made under TMPDIR (or /tmp) and deleted on exit unless
+#%     --keep-tempdir is given. During the merge the script adds a remote
+#%     named ingest-v4-tmp and a branch named ingest-v4-tmp-default to the
+#%     ITK checkout, and removes them afterward; if the merge fails they are
+#%     left behind.
+#%
+#% EXAMPLES
+#%     Utilities/Maintenance/RemoteModuleIngest/ingest-module-v4.sh \
+#%       IOMeshSTL IO --dry-run --keep-tempdir
+#%         Rewrite the history and keep the clone for inspection.
+#%
+#%     Utilities/Maintenance/RemoteModuleIngest/ingest-module-v4.sh \
+#%       IOMeshSTL IO
+#%         Merge the rewritten history into the current ITK branch.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/RemoteModuleIngest/INGESTION_STRATEGY_v4.md:
+#%         The Phase A and Phase B design.
+#%     Utilities/Maintenance/RemoteModuleIngest/sanitize-history.py:
+#%         The per-commit formatter this script runs.
+#%     Utilities/Maintenance/RemoteModuleIngest/archive-remote-module.sh:
+#%         Phase B, which archives the upstream repository.
+#%     Utilities/Maintenance/RemoteModuleIngest/verify-whitelist-history.sh:
+#%         Check an ingested history for leaked scaffolding.
 
 set -euo pipefail
 
@@ -47,7 +100,7 @@ warn() { printf 'WARN: %s\n'  "$*" >&2; }
 die()  { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 show_help() {
-  sed -n '2,/^$/{ s/^# \?//; p }' "$0"
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
   exit 0
 }
 

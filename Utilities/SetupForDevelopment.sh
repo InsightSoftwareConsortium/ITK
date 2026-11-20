@@ -17,7 +17,77 @@
 #
 #==========================================================================*/
 
-# Run this script to set up your local repository for development with Git.
+#% NAME
+#%     SetupForDevelopment.sh - set up an ITK clone for development with Git
+#%
+#% SYNOPSIS
+#%     SetupForDevelopment.sh
+#%     SetupForDevelopment.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Configure the local ITK repository for contributing. The script asks
+#%     for your author name and email if they are not confirmed, offers to
+#%     point the "origin" remote at the upstream ITK repository, and asks
+#%     for the name of the remote for your GitHub fork. It then prints Git
+#%     and GitHub tips.
+#%
+#%     It also sets these local Git options: Git aliases such as "git pr" and
+#%     "git review-push", rebase on pull for main, blame.ignoreRevsFile, the
+#%     KWStyle hook configuration, and hooks.SetupForDevelopment, the version
+#%     number that the pre-commit hook checks to ask for a rerun after this
+#%     script changes. If the old Gerrit Change-Id hook is enabled, it is
+#%     disabled and the "gerrit" and "stage" remotes are removed.
+#%
+#%     If a local "master" branch exists, the script offers to rename it to
+#%     "main" and to update its tracking and fetch configuration. Finally it
+#%     installs the pre-commit hooks and generates the git-ignored migration
+#%     guides.
+#%
+#% OPTIONS
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Run it from the top of the clone, as ./Utilities/SetupForDevelopment.sh,
+#%     or by absolute path. From another directory, a relative path sends
+#%     the later steps to the wrong directory, and running it as
+#%     "bash SetupForDevelopment.sh" skips the setup steps. It is
+#%     interactive and reads answers
+#%     from the terminal. Installing the hooks needs curl and network
+#%     access the first time, when pixi is downloaded into .git/hooks/pixi.
+#%
+#%     Git settings are written to the clone's own configuration, not the
+#%     global one. The master rename checks out branches to do its work.
+#%
+#%     The Git version check (1.6.6 or newer) and the check for a stray
+#%     .git/.git directory call a "die" function that this script does not
+#%     define, so a failed check prints "command not found" and the script
+#%     continues.
+#%
+#% EXAMPLES
+#%     ./Utilities/SetupForDevelopment.sh
+#%         Set up a fresh ITK clone, or update the setup after a change.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Documentation/docs/contributing/index.md:
+#%         The contributing guide that tells new developers to run this.
+#%     Utilities/GitSetup/:
+#%         The setup steps this script runs.
+#%     Utilities/Hooks/pre-commit:
+#%         The hook that asks for a rerun when this script's version changes.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 cd "${BASH_SOURCE%/*}/.." &&
 Utilities/GitSetup/setup-user && echo &&

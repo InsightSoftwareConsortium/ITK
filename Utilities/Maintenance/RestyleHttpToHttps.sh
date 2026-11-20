@@ -19,9 +19,50 @@
 #==========================================================================
 
 
-# Script to automate restyling in an ITK remote module.
-# `sed` is used to replace http with https links for
-# known valid cases.
+#% NAME
+#%     RestyleHttpToHttps.sh - change http links to https for known sites
+#%
+#% SYNOPSIS
+#%     RestyleHttpToHttps.sh
+#%     RestyleHttpToHttps.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Replace http:// with https:// for a fixed list of host names
+#%     known to serve https, in every file under the current directory.
+#%     Written for restyling an ITK remote module, it works on any tree.
+#%     Paths containing .git/, ThirdParty, or sed-commands are skipped.
+#%     Files are edited in place and nothing is committed. Arguments are
+#%     ignored.
+#%
+#% OPTIONS
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs GNU sed (for sed -i -r). Every regular file is passed to sed,
+#%     binary files included. File names containing newlines are not
+#%     handled.
+#%
+#% EXAMPLES
+#%     cd ITKFoo && ../ITK/Utilities/Maintenance/RestyleHttpToHttps.sh
+#%         Update the links in a remote module checked out beside ITK.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/ApplyScriptToRemotes.sh:
+#%         Apply a script to the remote modules of an ITK source tree.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 find . -type f | \
     fgrep -v sed-commands | fgrep -v .git/ | fgrep -v ThirdParty | \

@@ -1,52 +1,77 @@
 #!/usr/bin/env bash
-# cid-normalize.sh — convert .md5 / .shaNNN content-links to .cid
-#
-# Walks a module tree, finds every non-.cid content-link
-# (.md5 / .sha1 / .sha224 / .sha256 / .sha384 / .sha512), resolves
-# the referenced content via the ExternalData fetch mirrors, and
-# replaces the stub with a .cid file whose contents are the IPFS
-# CIDv1 for the same bytes.  Old hash files are removed.
-#
-# Content is byte-identical across the conversion; only the
-# pointer format changes.  ITK's CMake/ExternalData.cmake supports
-# all of these algorithms simultaneously, so the content link file
-# format is the only thing that differs.
-#
-# Usage:
-#   cid-normalize.sh <path-under-ITK> [options]
-#
-# Examples:
-#   cid-normalize.sh Modules/Filtering/AnisotropicDiffusionLBR
-#   cid-normalize.sh Modules/Filtering/AnisotropicDiffusionLBR --dry-run
-#
-# Options:
-#   --dry-run    Report what would change without modifying anything.
-#   --verify     After conversion, call verify-cid-access.sh to
-#                confirm every .cid resolves through an IPFS gateway.
-#   -h|--help    Show this help.
-#
-# Prerequisites:
-#   * `npm install -g @web3-storage/w3cli` and `w3 login <email>`
-#     (only needed if a referenced blob is not already pinned
-#     to web3.storage; see Documentation/docs/contributing/upload_binary_data.md).
-#   * `ipfs-cid` pure-Go tool OR a local `multihash`/`ipfs` CLI for
-#     CID computation.  The script prefers the `w3 cid` subcommand
-#     if available, then `ipfs add --only-hash`, then a pure-Python
-#     fallback using the `multiformats` package.
-#   * Network access to an ExternalData mirror to fetch the
-#     referenced bytes (ITK's `CMake/ExternalData.cmake` handles
-#     several: data.kitware.com, w3.link, dweb.link, …).
-#
-# Exit codes:
-#   0  — success (all content-links are now .cid, or --dry-run finished)
-#   1  — usage / environment error
-#   2  — action required (a file > 100 MiB needs manual upload)
-#   3  — one or more fetches or CID computations failed
-#
-# Output: a per-file line on stdout of the form:
-#   CONVERT  <old-path>  <md5|shaN>  ->  <new-path>  <cidv1>
-#   SKIP     <path>  (already .cid)
-#   FAIL     <path>  <reason>
+
+#% NAME
+#%     cid-normalize.sh - convert .md5 and .shaNNN content links to .cid
+#%
+#% SYNOPSIS
+#%     cid-normalize.sh <path> [--dry-run] [--verify]
+#%     cid-normalize.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Find every .md5, .sha1, .sha224, .sha256, .sha384, and .sha512
+#%     content link under <path>, download the data each one names, and
+#%     replace it with a .cid file that holds the IPFS CIDv1 of the same
+#%     bytes. The data does not change, only the link format.
+#%
+#%     The new .cid file is written but not staged. The old link is removed
+#%     with git rm when it is tracked, and with rm otherwise.
+#%
+#%     Each link prints one line on stdout:
+#%         CONVERT  <old link>  <algorithm>  ->  <new .cid file>  <cid>
+#%         FAIL     <old link>  <reason>
+#%
+#%     Exit status: 0 on success or when nothing needs converting; 1 for a usage
+#%     error or when no CID tool is installed; 2 when the data is larger than
+#%     100 MiB, which must be uploaded by hand; 3 when any download or CID
+#%     computation failed or a link file is empty. The script stops at the first
+#%     file over 100 MiB, and files converted before it stay converted.
+#%
+#% OPTIONS
+#%     <path>
+#%         Directory to search, relative to the current directory, such as
+#%         Modules/Filtering/AnisotropicDiffusionLBR.
+#%     --dry-run
+#%         List the links that would be converted, without the CID column;
+#%         download and change nothing.
+#%     --verify
+#%         When no link failed, run verify-cid-access.sh on <path>, also
+#%         with --dry-run; its exit status then becomes this script's.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs curl, network access, and one CID tool, tried in this order:
+#%     "w3 cid" from the web3.storage CLI, "ipfs add --only-hash", or
+#%     python3 with the multiformats package. The tool is checked before
+#%     anything else, even with --dry-run.
+#%
+#%     The multiformats fallback hashes the whole file as one raw block.
+#%     For files larger than about 1 MiB that CID differs from the one
+#%     ipfs or w3 computes and may not resolve through public gateways.
+#%
+#%     Data is downloaded from the first of these that answers:
+#%         https://insightsoftwareconsortium.github.io/ITKTestingData/
+#%         https://itk.org/files/ExternalData/
+#%         https://data.kitware.com/api/v1/file/hashsum/
+#%
+#%     Nothing is uploaded. Commit the result yourself.
+#%
+#% EXAMPLES
+#%     Utilities/Maintenance/RemoteModuleIngest/cid-normalize.sh \
+#%       Modules/Filtering/AnisotropicDiffusionLBR --dry-run
+#%         List the links that would be converted in that module.
+#%
+#%     Utilities/Maintenance/RemoteModuleIngest/cid-normalize.sh \
+#%       Modules/Filtering/AnisotropicDiffusionLBR --verify
+#%         Convert the links, then check that every .cid resolves.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Documentation/docs/contributing/upload_binary_data.md:
+#%         How to upload test data and create a .cid link by hand.
+#%     Utilities/Maintenance/RemoteModuleIngest/verify-cid-access.sh:
+#%         Check that every .cid link resolves through an IPFS gateway.
 
 set -euo pipefail
 
@@ -55,7 +80,7 @@ warn() { printf 'WARN: %s\n' "$*" >&2; }
 die()  { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 show_help() {
-  sed -n '2,/^$/{ s/^# \?//; p }' "$0"
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
   exit 0
 }
 

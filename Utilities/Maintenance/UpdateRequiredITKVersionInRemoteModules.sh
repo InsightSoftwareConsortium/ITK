@@ -19,25 +19,60 @@
 #==========================================================================*/
 
 
-# This script, given the location of the 'azure-pipelines.yml' and 'setup.py'
-# files of a remote module, updates the required ITK version to its latest in
-# them.
-#
-# Since the required ITK version update is a major change, the Python package
-# of the remote module is updated to a new major version.
+#% NAME
+#%     UpdateRequiredITKVersionInRemoteModules.sh - require the latest ITK
+#%
+#% SYNOPSIS
+#%     UpdateRequiredITKVersionInRemoteModules.sh <azure_pipelines_ci_filename>
+#%                                                <python_setup_filename>
+#%     UpdateRequiredITKVersionInRemoteModules.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Update a remote module to require the latest ITK release. In the Azure
+#%     Pipelines file, the ITKGitTag value becomes the latest ITK tag and the
+#%     ITKPythonGitTag value becomes the latest ITKPythonBuilds tag. In the
+#%     Python setup file, the ITK version read from the line after
+#%     install_requires=[ is replaced, wherever it appears in the file, by the
+#%     latest ITKPythonBuilds tag without its leading v, and the third number of
+#%     the package version is increased by one. The intent is a new major
+#%     version of the package, but the code changes the third number, and
+#%     assumes it is a single digit.
+#%
+#%     The latest tag is the one that sorts last after removing tags that
+#%     contain a0, b0, or rc. The sort is a plain text sort, so v5.10.0
+#%     sorts before v5.9.0. Both files are edited in place.
+#%
+#% OPTIONS
+#%     <azure_pipelines_ci_filename>
+#%         The module's azure-pipelines.yml.
+#%     <python_setup_filename>
+#%         The module's setup.py.
+#%     -h, --help
+#%         Print this help and exit with status 1. The help is also
+#%         printed, with status 1, when either file name is missing.
+#%
+#% IMPLEMENTATION
+#%     Needs network access to github.com (git ls-remote of the ITK and
+#%     ITKPythonBuilds repositories), GNU grep (for -P), and bash 4.2 or
+#%     later. Nothing is committed.
+#%
+#% EXAMPLES
+#%     UpdateRequiredITKVersionInRemoteModules.sh azure-pipelines.yml \
+#%       setup.py
+#%         Run from the top of a remote module checkout.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Documentation/Maintenance/Release.md:
+#%         The release step that runs this script on the remote modules.
+#%     Utilities/Maintenance/ApplyScriptToRemotes.sh:
+#%         Apply a script to the remote modules of an ITK source tree.
 
 
 # Utility functions
 usage() {
-cat << EOF
-Usage: $0 <azure_pipelines_ci_filename> <python_setup_filename>
-
-Use this script to update the required ITK version to its latest in the
-'azure-pipelines.yml' and 'setup.py' files of a remote module.
-
-Since the required ITK version update is a major change, the
-Python package of the remote module is updated to a new major version.
-EOF
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
 }
 
 die() {

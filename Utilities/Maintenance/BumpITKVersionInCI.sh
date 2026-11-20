@@ -18,8 +18,58 @@
 #
 #==========================================================================
 
-# Script to automate ITK version upgrade ("bump") in ITK remote module
-# continuous integration pipelines.
+#% NAME
+#%     BumpITKVersionInCI.sh - set the ITK version in remote module CI files
+#%
+#% SYNOPSIS
+#%     BumpITKVersionInCI.sh
+#%     BumpITKVersionInCI.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Update the ITK version used by the continuous integration pipelines
+#%     of an ITK remote module. The script asks for the ITK C++ commit tag
+#%     and the ITK Python wheel tag, then edits in place every file under
+#%     the current directory whose path contains ".yml":
+#%
+#%     - itk-git-tag is set to the C++ tag.
+#%     - itk-python-git-tag (as a list item) and itk-wheel-tag are set to
+#%       the wheel tag.
+#%     - python-version lists become [311, 312], and python-version-minor
+#%       lists become [11, 12], whatever the tags entered.
+#%     - set PATH="C:\P\grep;%PATH%" loses its quotes, for Windows builds.
+#%
+#%     These edits move a module from the CI of ITK before 6.0.0 to the
+#%     current one. Nothing is committed.
+#%
+#% OPTIONS
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Run from the root of the remote module checkout. The search includes
+#%     hidden directories such as .git and .github. The script needs GNU
+#%     sed, because it calls sed -i -r without a backup suffix.
+#%
+#% EXAMPLES
+#%     cd ITKMyModule && ../ITK/Utilities/Maintenance/BumpITKVersionInCI.sh
+#%         Prompt for the tags and update the module's CI files.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/UpdateRequiredITKVersionInRemoteModules.sh:
+#%         Update the required ITK version of a remote module.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 # Get the new ITK version
 read -ep "Please enter the ITK C++ commit tag >> " itkGitTag

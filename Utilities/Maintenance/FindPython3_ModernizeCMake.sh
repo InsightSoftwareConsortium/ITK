@@ -1,5 +1,55 @@
 #!/bin/bash
 
+#% NAME
+#%     FindPython3_ModernizeCMake.sh - rewrite old CMake Python variables
+#%
+#% SYNOPSIS
+#%     FindPython3_ModernizeCMake.sh
+#%     FindPython3_ModernizeCMake.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Help move CMake code from the deprecated find_package(PythonInterp)
+#%     and find_package(PythonLibs) to find_package(Python3). Every file
+#%     named CMakeLists.txt, or with .cmake in its name, under the current
+#%     directory is edited in place:
+#%
+#%     - find_package(PythonInterp ...) becomes
+#%       find_package(Python3 COMPONENTS Interpreter ...), and
+#%       find_package(PythonLibs ...) becomes
+#%       find_package(Python3 COMPONENTS Development ...).
+#%     - PYTHONINTERP_FOUND, PYTHON_EXECUTABLE, PYTHON_VERSION_STRING,
+#%       PYTHON_VERSION_MAJOR, PYTHON_VERSION_MINOR, PYTHON_VERSION_PATCH,
+#%       PYTHONLIBS_FOUND, PYTHON_LIBRARIES, PYTHON_INCLUDE_DIRS, and
+#%       PYTHONLIBS_VERSION_STRING become their Python3_ equivalents.
+#%     - PYTHON_INCLUDE_PATH, PYTHON_INCLUDE_DIR, PYTHON_LIBRARY, and
+#%       PYTHON_DEBUG_LIBRARIES have no equivalent. They become names
+#%       containing XXX and NO_MAPPING, which must be fixed by hand.
+#%     - SIMPLE_PYTHON_EXECUTABLE and ITK_WRAP_PYTHON_LIBRARY are restored
+#%       after the substitutions above.
+#%
+#%     The result is a starting point, not a finished change: review every
+#%     edit before committing. The script does not commit. Only the
+#%     first argument is checked for -h or --help; other arguments are
+#%     ignored.
+#%
+#% OPTIONS
+#%     -h, --help
+#%         Print this help and exit with status 1.
+#%
+#% IMPLEMENTATION
+#%     Needs GNU sed; on macOS it calls gsed. Run from the top of the tree
+#%     to convert. Writes /tmp/temp.sed (the sed program) and
+#%     /tmp/git_message.txt (a suggested commit message), and leaves both
+#%     in place.
+#%
+#% EXAMPLES
+#%     cd ~/src/ITK && ./Utilities/Maintenance/FindPython3_ModernizeCMake.sh
+#%         Convert the CMake files of an ITK checkout, then review the diff.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+
 COMMIT_INFO="COMP: Script to initiate updating to find_package(Python3)
 
 Now that cmake FindPython3 can be universally
@@ -23,10 +73,7 @@ NOTE: This script is intended to make it easier
 
 # Utility functions
 usage() {
-cat << EOF
-Usage: $0
-$COMMIT_INFO
-EOF
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
 }
 
 die() {

@@ -16,29 +16,59 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-#
-# How to use this script
-#
-# 0) Use Linux or Mac
-#
-# 1) run cmake
-#
-# 2) TURN ON ITK_BUILD_DOCUMENTATION
-#
-# 3) cd into the ITK binary build directory
-#
-# 4) example:
-#
-# * for a single file:
-#
-# $ ~/src/ITK/Utilities/Maintenance/single-doxygen.sh ~/src/ITK/Modules/Core/Common/include/itkObject.h
-#
-# * for a module:
-#
-# $ ~/src/ITK/Utilities/Maintenance/single-doxygen.sh ~/src/ITK/Modules/Core/Common/include/
 
-#
-# 4) firefox temp/html/index.html
+#% NAME
+#%     single-doxygen.sh - run Doxygen on one file or directory
+#%
+#% SYNOPSIS
+#%     single-doxygen.sh <path>
+#%     single-doxygen.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Build Doxygen documentation for a single header or a single
+#%     directory, to check its documentation without building the
+#%     documentation of all of ITK. The script copies single-doxygen.config
+#%     from the current directory to temp-single-doxygen.config, replacing
+#%     each INPUT_SINGLE_FILE in it with <path>, runs doxygen on the copy,
+#%     and deletes the copy.
+#%
+#% OPTIONS
+#%     <path>
+#%         The header file or directory to document.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs doxygen and Linux or macOS. Run from a directory holding
+#%     single-doxygen.config. Nothing in the ITK source tree creates that
+#%     file, so it must be provided. Output is written where the config
+#%     file says.
+#%
+#% EXAMPLES
+#%     ~/ITK/Utilities/Maintenance/single-doxygen.sh \
+#%       ~/ITK/Modules/Core/Common/include/itkObject.h
+#%         Document one header.
+#%
+#%     ~/ITK/Utilities/Maintenance/single-doxygen.sh \
+#%       ~/ITK/Modules/Core/Common/include/
+#%         Document the headers of one module.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Documentation/docs/contributing/document_itk.md:
+#%         How ITK classes are documented.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 FILE=$1
 
