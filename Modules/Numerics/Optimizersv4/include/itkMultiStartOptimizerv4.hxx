@@ -171,7 +171,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
         this->m_ParametersList[this->m_CurrentIteration] = this->m_Metric->GetParameters();
       }
       this->m_CurrentMetricValue = this->m_Metric->GetValue();
-      this->m_MetricValuesList.push_back(this->m_CurrentMetricValue);
     }
     catch (const ExceptionObject &)
     {
@@ -180,7 +179,11 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
       itkWarningMacro("An exception occurred in sub-optimization number "
                       << this->m_CurrentIteration
                       << ".  If too many of these occur, you may need to set a different set of initial parameters.");
+      // The failed start gets the maximum value, so that it is not the best and the metric values list keeps
+      // one value per start. Otherwise the value of the previous start, or of the previous run, was used.
+      this->m_CurrentMetricValue = this->m_MaximumMetricValue;
     }
+    this->m_MetricValuesList.push_back(this->m_CurrentMetricValue);
 
     if (this->m_CurrentMetricValue < this->m_MinimumMetricValue)
     {

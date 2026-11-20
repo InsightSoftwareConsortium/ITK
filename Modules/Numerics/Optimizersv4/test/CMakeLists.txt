@@ -39,6 +39,7 @@ set(
   ITKOptimizersv4GTests
   itkGradientDescentOptimizerv4ObserverGTest.cxx
   itkMultiGradientOptimizerv4GTest.cxx
+  itkMultiStartOptimizerv4GTest.cxx
   itkObjectToObjectMetricGTest.cxx
   itkWindowConvergenceMonitoringFunctionGTest.cxx
 )
