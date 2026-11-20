@@ -1,7 +1,0 @@
-itk_wrap_class("itk::Matrix")
-foreach(d 2 3)
-  foreach(t ${WRAP_ITK_COMPLEX_REAL})
-    itk_wrap_template("${ITKM_${t}}${d}${d}" "${ITKT_${t}},${d},${d}")
-  endforeach()
-endforeach()
-itk_end_wrap_class()

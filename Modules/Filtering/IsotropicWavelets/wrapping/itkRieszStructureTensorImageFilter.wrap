@@ -1,5 +1,22 @@
 itk_wrap_include("itkVariableSizeMatrix.h")
 
+# GaussianSourceType, when ITKImageSources does not wrap double images.
+if(NOT "D" IN_LIST WRAP_ITK_SCALAR)
+  foreach(
+    source
+    ImageSource
+    GenerateImageSource
+    ParametricImageSource
+    GaussianImageSource
+  )
+    itk_wrap_class("itk::${source}" POINTER)
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+      itk_wrap_template("${ITKM_ID${d}}" "${ITKT_ID${d}}")
+    endforeach()
+    itk_end_wrap_class()
+  endforeach()
+endif()
+
 itk_wrap_class("itk::Image" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   itk_wrap_template("VSM${d}"
