@@ -558,9 +558,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 {
   if (this->m_UseSampledPointSet)
   {
-    return this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
+    return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnits();
   }
-  return this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
+  return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnits();
 }
 
 template <typename TFixedImage,

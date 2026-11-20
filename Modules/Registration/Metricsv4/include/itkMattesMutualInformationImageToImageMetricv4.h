@@ -25,7 +25,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
-#include <mutex>
+#include <cstdint>
 
 namespace itk
 {
@@ -147,6 +147,25 @@ public:
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
   /** @ITKEndGrouping */
 
+  /** Total bytes the joint PDF derivative arrays may use, for transforms without local support. Each work unit keeps
+   * one array of bins^2 x parameters values. Zero (the default) allows one array plus 32 MiB per thread, where threads
+   * is the requested number of work units, at most MultiThreaderBase::GetGlobalDefaultNumberOfThreads(). A nonzero
+   * value is a hard limit, down to one work unit. Initialize() lowers the metric's work units to this bound, and they
+   * stay lowered until SetMaximumNumberOfWorkUnits() is called again. */
+  /** @ITKStartGrouping */
+  itkSetMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  itkGetConstMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  /** @ITKEndGrouping */
+
+  /** The most work units the derivative pass uses for transforms without local support, given the number of histogram
+   * bins, the number of local parameters, the number of threads and MaximumJointPDFDerivativesBytes, at most
+   * ITK_MAX_THREADS. */
+  static ThreadIdType
+  ComputeMaximumNumberOfDerivativeWorkUnits(uint64_t     numberOfHistogramBins,
+                                            uint64_t     numberOfLocalParameters,
+                                            ThreadIdType numberOfThreads,
+                                            uint64_t     maximumJointPDFDerivativesBytes);
+
   void
   Initialize() override;
 
@@ -184,9 +203,6 @@ public:
   {
     return this->m_JointPDFDerivatives;
   }
-
-  void
-  FinalizeThread(const ThreadIdType threadId) override;
 
 protected:
   MattesMutualInformationImageToImageMetricv4();
@@ -236,6 +252,7 @@ protected:
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins{ 50 };
+  uint64_t      m_MaximumJointPDFDerivativesBytes{ 0 };
   PDFValueType  m_MovingImageNormalizedMin{};
   PDFValueType  m_FixedImageNormalizedMin{};
   PDFValueType  m_FixedImageTrueMin{};
@@ -258,102 +275,13 @@ protected:
   mutable std::vector<PDFValueType>              m_MovingImageMarginalPDF{};
   mutable std::vector<std::vector<PDFValueType>> m_ThreaderFixedImageMarginalPDF{};
 
-  /** The joint PDF and PDF derivatives. */
-  typename std::vector<typename JointPDFType::Pointer> m_ThreaderJointPDF{};
+  /** The joint PDF of each work unit. */
+  std::vector<typename JointPDFType::Pointer> m_ThreaderJointPDF{};
 
-  /* \class DerivativeBufferManager
-   * A helper class to manage complexities of minimizing memory
-   * needs for mattes mutual information derivative computations
-   * per thread.
-   *
-   * Thread safety note:
-   * A separate object is used locally per each thread. Only the members
-   * m_ParentJointPDFDerivativesMutexPtr and m_ParentJointPDFDerivatives
-   * are shared between threads and access to m_ParentJointPDFDerivatives
-   * is controlled with the m_ParentJointPDFDerivativesMutexPtr mutex lock.
-   * \ingroup ITKMetricsv4
-   */
-  class DerivativeBufferManager
-  {
-    using Self = DerivativeBufferManager;
-
-  public:
-    /* All these methods are thread safe except ReduceBuffer */
-
-    void
-    Initialize(size_t                                    maxBufferLength,
-               const size_t                              cachedNumberOfLocalParameters,
-               std::mutex *                              parentDerivativeMutexPtr,
-               typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
-
-    void
-    DoubleBufferSize();
-
-    DerivativeBufferManager()
-      : m_MemoryBlock(0)
-    {}
-
-    ~DerivativeBufferManager() = default;
-
-    [[nodiscard]] size_t
-    GetCachedNumberOfLocalParameters() const
-    {
-      return this->m_CachedNumberOfLocalParameters;
-    }
-
-    /**
-     * Attempt to dump the buffer if it is full.
-     * If the attempt to acquire the lock fails, double the buffer size and try again.
-     */
-    void
-    CheckAndReduceIfNecessary();
-
-    /**
-     * Force the buffer to dump by blocking.
-     */
-    void
-    BlockAndReduce();
-
-    // If offset is same as previous offset, then accumulate with previous
-    PDFValueType *
-    GetNextElementAndAddOffset(const OffsetValueType & offset)
-    {
-      m_BufferOffsetContainer[m_CurrentFillSize] = offset;
-      PDFValueType * PDFBufferForWriting = m_BufferPDFValuesContainer[m_CurrentFillSize];
-      ++m_CurrentFillSize;
-      return PDFBufferForWriting;
-    }
-
-    /**
-     * Apply the operations stored in the buffer.
-     * This method is not thread safe and requires a lock while threading.
-     */
-    void
-    ReduceBuffer();
-
-  private:
-    static constexpr size_t MaximumMemoryBlockBytes = size_t{ 32 } << 20;
-    static constexpr size_t MaximumBufferLength = 5000;
-
-    // How many AccumulatorElements used
-    size_t m_CurrentFillSize{ 0 };
-    // Contiguous chunk of memory for efficiency
-    std::vector<PDFValueType> m_MemoryBlock;
-    // The (number of lines in the buffer) * (cells per line)
-    size_t                       m_MemoryBlockSize;
-    std::vector<PDFValueType *>  m_BufferPDFValuesContainer;
-    std::vector<OffsetValueType> m_BufferOffsetContainer;
-    size_t                       m_CachedNumberOfLocalParameters;
-    size_t                       m_MaxBufferSize;
-    // Pointer handle to parent version
-    std::mutex * m_ParentJointPDFDerivativesMutexPtr;
-    // Smart pointer handle to parent version
-    typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
-  };
-
-  std::vector<DerivativeBufferManager>      m_ThreaderDerivativeManager{};
-  std::mutex                                m_JointPDFDerivativesLock{};
-  typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives{};
+  /** The joint PDF derivatives of each work unit, and their sum. During the threaded pass the sum is the array of
+   * work unit 0, to which the others are added in work-unit order. */
+  std::vector<typename JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives{};
+  typename JointPDFDerivativesType::Pointer              m_JointPDFDerivatives{};
 
   PDFValueType m_JointPDFSum{};
 

@@ -115,6 +115,14 @@ public:
   virtual void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
   /** @ITKEndGrouping */
+
+  /** Immediately set the multithreader's work-unit count from its current
+   * maximum thread count and the ratio, then forward the accepted count through
+   * SetNumberOfWorkUnits(). The ratio is not stored.
+   * \sa MultiThreaderBase::SetNumberOfWorkUnitsFromThreadRatio */
+  virtual void
+  SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType ratio);
+
   /** Convenience methods to set/get the maximum number of threads to use.
    * \warning When setting the maximum number of threads, it will be clamped by
    * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads().
