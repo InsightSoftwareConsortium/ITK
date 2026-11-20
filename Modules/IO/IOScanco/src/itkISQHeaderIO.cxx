@@ -108,8 +108,6 @@ struct ISQCalibrationHeaderBlock
   EncodedByte   m_Fill8[328];
 };
 
-constexpr const char * ISQVersionString = "CTDATA-HEADER_V1";
-
 namespace itk
 {
 

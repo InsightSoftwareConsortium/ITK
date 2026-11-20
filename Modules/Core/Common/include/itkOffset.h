@@ -45,7 +45,7 @@ namespace itk
  * Offset<3> var{{ 256, 256, 20 }}; // Also prevent narrowing conversions
  * Offset<3> var = {{ 256, 256, 20 }};
  *
- * The doubled braces {{ and }} are required to prevent `gcc -Wall'
+ * The doubled braces {{ and }} are required to prevent `gcc -Wall`
  * (and perhaps other compilers) from complaining about a partly
  * bracketed initializer.
  *

@@ -60,6 +60,8 @@ public:
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TTransform::InputSpaceDimension;
+  static_assert(TTransform::OutputSpaceDimension == ImageDimension,
+                "Strain requires a transform with equal input and output dimensions.");
 
   using TransformType = TTransform;
   using TransformInputType = DataObjectDecorator<TransformType>;
