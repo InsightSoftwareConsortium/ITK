@@ -170,6 +170,9 @@ protected:
   virtual void
   StorePointDerivativeResult(const VirtualIndexType & virtualIndex, const ThreadIdType threadId);
 
+  /** SampleIndex value outside the sparse loop. */
+  static constexpr SizeValueType NoSampleIndex = NumericTraits<SizeValueType>::max();
+
   struct GetValueAndDerivativePerThreadStruct
   {
     /** Intermediary threaded metric value storage. */
@@ -182,6 +185,8 @@ protected:
     DerivativeType LocalDerivatives;
     /** Intermediary threaded metric value storage. */
     SizeValueType NumberOfValidPoints;
+    /** Index of the sample that the sparse loop is processing, or NoSampleIndex. */
+    SizeValueType SampleIndex;
     /** Pre-allocated transform jacobian objects, for use as needed by derived
      * classes for efficiency. */
     JacobianType MovingTransformJacobian;

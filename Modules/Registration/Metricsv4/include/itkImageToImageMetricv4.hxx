@@ -169,6 +169,10 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     itkDebugMacro("Initialize: ComputeMovingImageGradientFilterImage");
     this->ComputeMovingImageGradientFilterImage();
   }
+
+  /* Initialize() can change what the fixed samples map to, so start with an empty cache. */
+  this->m_FixedSampleCacheIsEnabled = false;
+  this->m_FixedSampleCacheKey = FixedSampleCacheKey{};
 }
 
 template <typename TFixedImage,
@@ -278,6 +282,94 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     /* Clear derivative final result. */
     this->m_DerivativeResult->Fill(DerivativeValueType{});
   }
+
+  this->UpdateFixedSampleCache();
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+bool
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  InspectFixedTransform(const FixedTransformType * transform, ModifiedTimeType & time, bool & identity)
+{
+  time = std::max(time, transform->GetMTime());
+  if constexpr (VirtualImageDimension == FixedImageDimension)
+  {
+    using ScalarType = typename FixedTransformType::ScalarType;
+    if (dynamic_cast<const IdentityTransform<ScalarType, FixedImageDimension> *>(transform) != nullptr)
+    {
+      return true;
+    }
+    // A composite transform keeps its modified time when one of its transforms is modified.
+    using MultiTransformType = MultiTransform<ScalarType, FixedImageDimension, FixedImageDimension>;
+    if (const auto * const multiTransform = dynamic_cast<const MultiTransformType *>(transform))
+    {
+      for (SizeValueType n = 0; n < multiTransform->GetNumberOfTransforms(); ++n)
+      {
+        if (!InspectFixedTransform(multiTransform->GetNthTransformConstPointer(n), time, identity))
+        {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+  identity = false;
+  return transform->GetTransformCategory() == FixedTransformType::TransformCategoryEnum::Linear;
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+void
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  UpdateFixedSampleCache() const
+{
+  ModifiedTimeType transformTime{};
+  bool             identity = true;
+  if (!this->m_UseSampledPointSet || this->m_VirtualSampledPointSet.IsNull() ||
+      !InspectFixedTransform(this->m_FixedTransform.GetPointer(), transformTime, identity))
+  {
+    if (this->m_FixedSampleCacheIsEnabled)
+    {
+      this->m_FixedSampleCacheIsEnabled = false;
+      this->m_FixedSampleCacheKey = FixedSampleCacheKey{};
+      std::vector<FixedSampleState>().swap(this->m_FixedSampleStates);
+      std::vector<FixedImagePixelType>().swap(this->m_FixedSampleValues);
+      std::vector<FixedImagePointType>().swap(this->m_FixedSamplePoints);
+    }
+    return;
+  }
+
+  FixedSampleCacheKey key;
+  for (const Object * const object : { static_cast<const Object *>(this->m_FixedImage.GetPointer()),
+                                       static_cast<const Object *>(this->m_FixedInterpolator.GetPointer()),
+                                       static_cast<const Object *>(this->m_FixedImageMask.GetPointer()),
+                                       static_cast<const Object *>(this->m_VirtualSampledPointSet.GetPointer()),
+                                       // SetPoint() modifies the points container, not the point set.
+                                       static_cast<const Object *>(this->m_VirtualSampledPointSet->GetPoints()) })
+  {
+    key.Objects.push_back(object);
+    key.Times.push_back(object != nullptr ? object->GetMTime() : ModifiedTimeType{});
+  }
+  key.Objects.push_back(this->m_FixedTransform.GetPointer());
+  key.Times.push_back(transformTime);
+  key.NumberOfSamples = this->m_VirtualSampledPointSet->GetNumberOfPoints();
+
+  if (this->m_FixedSampleCacheIsEnabled && key == this->m_FixedSampleCacheKey)
+  {
+    return;
+  }
+  this->m_FixedSampleStates.assign(key.NumberOfSamples, FixedSampleState::Unknown);
+  this->m_FixedSampleValues.resize(key.NumberOfSamples);
+  this->m_FixedSamplePoints.resize(identity ? 0 : key.NumberOfSamples);
+  this->m_FixedSampleCacheKey = std::move(key);
+  this->m_FixedSampleCacheIsEnabled = true;
 }
 
 template <typename TFixedImage,
@@ -319,6 +411,47 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   }
 
   return pointIsValid;
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+bool
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  TransformAndEvaluateFixedSample(const SizeValueType      sampleIndex,
+                                  const VirtualPointType & virtualPoint,
+                                  FixedImagePointType &    mappedFixedPoint,
+                                  FixedImagePixelType &    mappedFixedPixelValue) const
+{
+  if (!this->m_FixedSampleCacheIsEnabled)
+  {
+    return this->TransformAndEvaluateFixedPoint(virtualPoint, mappedFixedPoint, mappedFixedPixelValue);
+  }
+  FixedSampleState & state = this->m_FixedSampleStates[sampleIndex];
+  if (state == FixedSampleState::Unknown)
+  {
+    const bool pointIsValid =
+      this->TransformAndEvaluateFixedPoint(virtualPoint, mappedFixedPoint, mappedFixedPixelValue);
+    this->m_FixedSampleValues[sampleIndex] = mappedFixedPixelValue;
+    if (!this->m_FixedSamplePoints.empty())
+    {
+      this->m_FixedSamplePoints[sampleIndex] = mappedFixedPoint;
+    }
+    state = pointIsValid ? FixedSampleState::Valid : FixedSampleState::Invalid;
+    return pointIsValid;
+  }
+  if (this->m_FixedSamplePoints.empty())
+  {
+    this->LocalTransformPoint(virtualPoint, mappedFixedPoint);
+  }
+  else
+  {
+    mappedFixedPoint = this->m_FixedSamplePoints[sampleIndex];
+  }
+  mappedFixedPixelValue = this->m_FixedSampleValues[sampleIndex];
+  return state == FixedSampleState::Valid;
 }
 
 template <typename TFixedImage,

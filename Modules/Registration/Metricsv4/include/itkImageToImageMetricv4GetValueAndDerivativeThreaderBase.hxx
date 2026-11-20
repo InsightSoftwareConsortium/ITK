@@ -57,6 +57,10 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   this->m_GetValueAndDerivativePerThreadVariables =
     make_unique_for_overwrite<AlignedGetValueAndDerivativePerThreadStruct[]>(numWorkUnitsUsed);
+  for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
+  {
+    this->m_GetValueAndDerivativePerThreadVariables[i].SampleIndex = NoSampleIndex;
+  }
 
   if (this->m_Associate->GetComputeDerivative())
   {
@@ -201,8 +205,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
    * then we otherwise get when exceptions are caught in MultiThreaderBase. */
   try
   {
+    // The sparse loop sets the sample index, which lets the metric reuse the fixed results of the sample.
+    const SizeValueType sampleIndex = this->m_GetValueAndDerivativePerThreadVariables[threadId].SampleIndex;
     pointIsValid =
-      this->m_Associate->TransformAndEvaluateFixedPoint(virtualPoint, mappedFixedPoint, mappedFixedPixelValue);
+      sampleIndex != NoSampleIndex
+        ? this->m_Associate->TransformAndEvaluateFixedSample(
+            sampleIndex, virtualPoint, mappedFixedPoint, mappedFixedPixelValue)
+        : this->m_Associate->TransformAndEvaluateFixedPoint(virtualPoint, mappedFixedPoint, mappedFixedPixelValue);
     if (pointIsValid && this->m_Associate->GetComputeDerivative() &&
         this->m_Associate->GetGradientSourceIncludesFixed())
     {
