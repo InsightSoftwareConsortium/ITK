@@ -95,24 +95,11 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
   return EXIT_SUCCESS;
 }
 
-} // namespace
-
-int
-itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
+template <unsigned int Dimension>
+[[nodiscard]] int
+SmoothingTest(char * argv[])
 {
-  if (argc != 5)
-  {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile normalizeAcrossScale sigma"
-              << std::endl;
-    return EXIT_FAILURE;
-  }
-
   int testStatus = EXIT_SUCCESS;
-
-  // Define the dimension of the images
-  constexpr unsigned int Dimension{ 2 };
 
   // Declare the types of the images
   using PixelType = unsigned char;
@@ -139,8 +126,8 @@ itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
   // Set the value of the standard deviation of the Gaussian used for smoothing
-  const SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = std::stod(argv[4]);
-  auto sigma = itk::MakeFilled<SmoothingRecursiveGaussianImageFilterType::SigmaArrayType>(sigmaValue);
+  const typename SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = std::stod(argv[4]);
+  auto sigma = itk::MakeFilled<typename SmoothingRecursiveGaussianImageFilterType::SigmaArrayType>(sigmaValue);
 
   filter->SetSigma(sigmaValue);
   ITK_TEST_SET_GET_VALUE(sigmaValue, filter->GetSigma());
@@ -174,4 +161,32 @@ itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
   // All objects should be automatically destroyed at this point
   std::cout << "Test finished." << std::endl;
   return testStatus;
+}
+
+} // namespace
+
+int
+itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
+{
+  if (argc != 5 && argc != 6)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv)
+              << " inputImageFile outputImageFile normalizeAcrossScale sigma [imageDimension]" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  const int dimension = (argc == 6) ? std::stoi(argv[5]) : 2;
+  if (dimension == 2)
+  {
+    return SmoothingTest<2>(argv);
+  }
+  // A 2D input read as a 3D image has a singleton axis, which must not be smoothed.
+  if (dimension == 3)
+  {
+    return SmoothingTest<3>(argv);
+  }
+  std::cerr << "Unsupported imageDimension: " << dimension << std::endl;
+  return EXIT_FAILURE;
 }

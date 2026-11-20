@@ -544,6 +544,7 @@ set_tests_properties(
 set(
   ITKRegistrationMethodsv4GTests
   itkSyNImageRegistrationMethodGTest.cxx
+  itkImageRegistrationMethodv4ShortDimensionsGTest.cxx
   itkImageRegistrationMethodv4VirtualDomainGTest.cxx
   itkSyNImageRegistrationMethodReleaseDataGTest.cxx
 )
