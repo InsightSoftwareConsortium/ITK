@@ -1656,6 +1656,7 @@ set(
   itkStringConvertGTest.cxx
   itkSymmetricEllipsoidInteriorExteriorSpatialFunctionGTest.cxx
   itkSymmetricSecondRankTensorGTest.cxx
+  itkPoolMultiThreaderGTest.cxx
   itkTBBMultiThreaderGTest.cxx
   itkThreadPoolGTest.cxx
   itkThreadedImageRegionPartitionerGTest.cxx

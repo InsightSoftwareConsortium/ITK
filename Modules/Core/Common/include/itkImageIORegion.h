@@ -92,6 +92,9 @@ public:
    * counted, so the constructor is public. */
   ImageIORegion(unsigned int dimension);
 
+  /** Constructor that copies the first `dimension` values of `index` and `size`. */
+  ImageIORegion(unsigned int dimension, const IndexValueType * index, const SizeValueType * size);
+
   /** Constructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the constructor is public.  Default dimension is 2. */
   ImageIORegion() = default;

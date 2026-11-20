@@ -284,12 +284,7 @@ TBBMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
   }
   else
   {
-    ImageIORegion region(dimension);
-    for (unsigned int d = 0; d < dimension; ++d)
-    {
-      region.SetIndex(d, index[d]);
-      region.SetSize(d, size[d]);
-    }
+    const ImageIORegion    region(dimension, index, size);
     const SizeValueType    totalCount = region.GetNumberOfPixels();
     TBBImageRegionSplitter regionSplitter(region, ChunkGrain(totalCount, m_NumberOfWorkUnits));
 

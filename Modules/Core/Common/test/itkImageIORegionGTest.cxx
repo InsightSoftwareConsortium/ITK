@@ -191,6 +191,35 @@ TEST(ImageIORegion, IsCopyAndMoveConstructible)
 }
 
 
+TEST(ImageIORegion, IsConstructibleFromIndexAndSizeArrays)
+{
+  const itk::IndexValueType index[] = { -3, 0, 7, 100 };
+  const itk::SizeValueType  size[] = { 5, 1, 0, 42 };
+
+  for (const unsigned int dimension : { 0, 1, 2, 3, 4 })
+  {
+    const itk::ImageIORegion region(dimension, index, size);
+
+    // The values are copied, so the result matches a region that was filled value by value.
+    itk::ImageIORegion expectedRegion(dimension);
+    for (unsigned int d = 0; d < dimension; ++d)
+    {
+      expectedRegion.SetIndex(d, index[d]);
+      expectedRegion.SetSize(d, size[d]);
+    }
+    EXPECT_EQ(region, expectedRegion);
+    EXPECT_EQ(region.GetImageDimension(), dimension);
+    EXPECT_EQ(region.GetIndex().size(), dimension);
+    EXPECT_EQ(region.GetSize().size(), dimension);
+  }
+
+  // Only the first `dimension` values are used.
+  const itk::ImageIORegion twoDimensionalRegion(2, index, size);
+  EXPECT_EQ(twoDimensionalRegion.GetIndex(), itk::ImageIORegion::IndexType({ -3, 0 }));
+  EXPECT_EQ(twoDimensionalRegion.GetSize(), itk::ImageIORegion::SizeType({ 5, 1 }));
+}
+
+
 TEST(ImageIORegion, IsAssignable)
 {
   Expect_Assignable(GenerateRandomRegion(2), GenerateRandomRegion(2));

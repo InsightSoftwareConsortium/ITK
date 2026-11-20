@@ -601,13 +601,8 @@ MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
   auto *             rnc = static_cast<struct RegionAndCallback *>(workUnitInfo->UserData);
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
-  ImageIORegion                   region(rnc->dimension);
-  for (unsigned int d = 0; d < rnc->dimension; ++d)
-  {
-    region.SetIndex(d, rnc->index[d]);
-    region.SetSize(d, rnc->size[d]);
-  }
-  const ThreadIdType total = splitter->GetSplit(workUnitID, workUnitCount, region);
+  ImageIORegion                   region(rnc->dimension, rnc->index, rnc->size);
+  const ThreadIdType              total = splitter->GetSplit(workUnitID, workUnitCount, region);
 
   TotalProgressReporter reporter(rnc->filter, 0);
 

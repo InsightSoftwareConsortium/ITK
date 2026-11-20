@@ -30,6 +30,12 @@ ImageIORegion::ImageIORegion(unsigned int dimension)
   , m_Size(dimension)
 {}
 
+ImageIORegion::ImageIORegion(unsigned int dimension, const IndexValueType * index, const SizeValueType * size)
+  : m_ImageDimension{ dimension }
+  , m_Index(index, index + dimension)
+  , m_Size(size, size + dimension)
+{}
+
 
 ImageIORegion &
 ImageIORegion::operator=(const Self & region)
