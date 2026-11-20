@@ -724,7 +724,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
         << "to one of: " << std::endl
         << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<unsigned char>::CType)
         << std::endl
-        << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<char>::CType) << std::endl
+        << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<signed char>::CType) << std::endl
         << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<unsigned short>::CType)
         << std::endl
         << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<short>::CType) << std::endl
@@ -799,7 +799,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
         << "to one of: " << std::endl
         << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<unsigned char>::CType)
         << std::endl
-        << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<char>::CType) << std::endl
+        << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<signed char>::CType) << std::endl
         << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<unsigned short>::CType)
         << std::endl
         << "    " << MeshIOBase::GetComponentTypeAsString(MeshIOBase::MapComponentType<short>::CType) << std::endl
