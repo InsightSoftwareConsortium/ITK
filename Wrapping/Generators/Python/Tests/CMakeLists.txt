@@ -333,3 +333,10 @@ itk_python_add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/pyi_generator_merge_test.py
     ${CMAKE_CURRENT_SOURCE_DIR}/../itk/pyi_generator.py
 )
+
+itk_python_add_test(
+  NAME PythonDoxy2SwigCitationTest
+  COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/doxy2swig_citation_test.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Doc
+)

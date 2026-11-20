@@ -306,11 +306,14 @@ function(generate_wrap_doc)
     COMMAND
       ${Python3_EXECUTABLE} ${_itk_doxy2swig_py} ${_doxy2swig_config_file}
       ${swig_doc_interface_file}
-    #DEPENDS ${ITK_WRAP_DOC_DOXYGEN_XML_FILES} ${_doxy2swig_config_file} ${_itk_doxy2swig_py}
+    # The target orders the Doxygen run; its stamp file reruns this command
+    # whenever Doxygen regenerates the XML.
     DEPENDS
       ${WRAPPER_LIBRARY_NAME}Doxygen
+      ${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}Doxygen.stamp
       ${_doxy2swig_config_file}
       ${_itk_doxy2swig_py}
+      ${ITK_WRAP_DOC_SOURCE_DIR}/doxy2swig.py
     #    COMMENT "-- Wrapping library ${_each_submodule_this_module}: Generating swig interface for inline documentation."
   )
 endfunction()
