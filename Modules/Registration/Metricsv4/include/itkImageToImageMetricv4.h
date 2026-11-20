@@ -710,6 +710,20 @@ protected:
                                  FixedImagePointType &    mappedFixedPoint,
                                  FixedImagePixelType &    mappedFixedPixelValue) const;
 
+  /**
+   * TransformAndEvaluateFixedPoint() for the sample \c sampleIndex of the virtual sampled point set.
+   * With a sampled point set and a fixed transform made only of linear transforms, the result for
+   * each sample is kept, so that later evaluations do not interpolate the fixed image again. The
+   * samples are filled during the first evaluation, each by the work unit that processes it, and
+   * are recomputed when the fixed image, fixed interpolator, fixed mask, fixed transform or
+   * sampled point set is modified.
+   */
+  bool
+  TransformAndEvaluateFixedSample(SizeValueType            sampleIndex,
+                                  const VirtualPointType & virtualPoint,
+                                  FixedImagePointType &    mappedFixedPoint,
+                                  FixedImagePixelType &    mappedFixedPixelValue) const;
+
   /** Transform and evaluate a point from VirtualImage domain to MovingImage domain. */
   bool
   TransformAndEvaluateMovingPoint(const VirtualPointType & virtualPoint,
@@ -887,6 +901,45 @@ private:
 
   /** Flag to know if derivative should be calculated */
   mutable bool m_ComputeDerivative{};
+
+  /** Enables, sizes or clears the fixed sample cache of TransformAndEvaluateFixedSample(). */
+  void
+  UpdateFixedSampleCache() const;
+
+  /** Sets \c time to the newest modified time of \c transform and of the transforms it is made of, and
+   * \c identity to whether they are all identity transforms. Returns false if one of them is not linear,
+   * as a displacement field, for example, can change without changing the modified time. */
+  static bool
+  InspectFixedTransform(const FixedTransformType * transform, ModifiedTimeType & time, bool & identity);
+
+  // State of a sample in the fixed sample cache.
+  enum class FixedSampleState : uint8_t
+  {
+    Unknown,
+    Valid,
+    Invalid
+  };
+
+  // Objects whose modification clears the fixed sample cache, and their modified times.
+  struct FixedSampleCacheKey
+  {
+    std::vector<const Object *>   Objects{};
+    std::vector<ModifiedTimeType> Times{};
+    SizeValueType                 NumberOfSamples{};
+
+    bool
+    operator==(const FixedSampleCacheKey & other) const
+    {
+      return Objects == other.Objects && Times == other.Times && NumberOfSamples == other.NumberOfSamples;
+    }
+  };
+
+  mutable bool                             m_FixedSampleCacheIsEnabled{};
+  mutable FixedSampleCacheKey              m_FixedSampleCacheKey{};
+  mutable std::vector<FixedSampleState>    m_FixedSampleStates{};
+  mutable std::vector<FixedImagePixelType> m_FixedSampleValues{};
+  /** Mapped fixed points; empty when the fixed transform is the identity, which maps each point to itself. */
+  mutable std::vector<FixedImagePointType> m_FixedSamplePoints{};
 
   /** Only floating-point images are currently supported. To support integer images,
    * several small changes must be made */

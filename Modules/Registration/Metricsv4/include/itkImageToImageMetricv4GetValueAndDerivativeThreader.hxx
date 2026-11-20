@@ -60,7 +60,9 @@ ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartit
   {
     const VirtualPointType & virtualPoint = virtualSampledPointSet->GetPoint(i);
     const auto               virtualIndex = virtualImage->TransformPhysicalPointToIndex(virtualPoint);
+    this->m_GetValueAndDerivativePerThreadVariables[threadId].SampleIndex = i;
     this->ProcessVirtualPoint(virtualIndex, virtualPoint, threadId);
+    this->m_GetValueAndDerivativePerThreadVariables[threadId].SampleIndex = Superclass::NoSampleIndex;
   }
   // Finalize per thread actions
   this->m_Associate->FinalizeThread(threadId);
