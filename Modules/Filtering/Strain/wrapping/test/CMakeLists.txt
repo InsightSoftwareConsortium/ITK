@@ -6,5 +6,5 @@ itk_python_expression_add_test(
 itk_python_expression_add_test(
   NAME itkTransformToStrainFilterTestPython
   EXPRESSION
-    "instance = itk.TransformToStrainFilter[itk.Transform[itk.D,3,3]].New()"
+    "instance = itk.TransformToStrainFilter[itk.Transform[itk.D,3,3],itk.D,itk.D].New()"
 )
