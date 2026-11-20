@@ -139,7 +139,9 @@ public:
   void
   SetParametersList(ParametersListType & p);
 
-  /** Get the list of metric values that we produced after the multi-start search. */
+  /** Get the list of metric values that we produced after the multi-start search, one per start, in the order
+   * of the parameters list. A start whose optimization or metric evaluation throws gets
+   * NumericTraits<MeasureType>::max(); if every start throws, the best value is that maximum. */
   const MetricValuesListType &
   GetMetricValuesList() const;
 
