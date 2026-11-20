@@ -21,34 +21,35 @@ else()
   set(_download_castxml_binaries 0)
   set(_castxml_url)
   set(_castxml_hash)
-  set(_castxml_version 0.6.5)
+  set(_castxml_version 2026.01.30)
+  set(_castxml_git_tag 9864b1ee75ff08bda40dee12b8a339237fbac97d)
 
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
     set(_castxml_hash
-      592fcb6c7f85b6a1670cef7e0692ec6d1c9ba2e250825032ed6dcf9581aa169540eded608510aa1208ea1174df48c16390ee7daf7a17c7114d93a83a8a8e109b
+      3aec9aa812c7a15b650f51bf0704da9503fc55309819bd4b2a296378f7b14f2b
     )
     set(_castxml_url
-        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-linux.tar.gz")
+        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-alma-linux-8-x86_64.tar.gz")
     set(_download_castxml_binaries 1)
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
 
     set(_castxml_hash
-      229d5339e217660f09dd87e2e639d666921a8c4e6c328a754dcae4290bba6bcac9d3b8e953814314ecdbf908d5d8e0d7dacbf1fdf6040a2e20d7acb98fb32f7d
+      3f2bb32f852ee9bcc4b29ef9b0a1239649883108f64061bc8b6a97caf1e17469
     )
     set(_castxml_url
-        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-linux-aarch64.tar.gz")
+        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-alma-linux-8-arm-aarch64.tar.gz")
     set(_download_castxml_binaries 1)
 
     # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
     set(_castxml_hash
-      7c1970ad6f2e5f06a8704606db92df3400c4cd9716f88cac604924430c7e6865f8256a67282d28005714f0ed0a42f7f6e386f24ce80fb075371902d35674c6cc
+      5ed409aba73247c7efd7599ebebd345982d78c7815d32464ac4eca1f5a8121b0
     )
     set(_castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows.zip"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows-win11-amd64.zip"
     )
     set(_download_castxml_binaries 1)
 
@@ -59,22 +60,22 @@ else()
     AND (NOT
          CMAKE_HOST_SYSTEM_VERSION
          VERSION_LESS
-         "11.0.0"
+         "13.0.0"
         ))
 
     set(_castxml_hash
-      c6986a796ab9a4f4deaf569534d628cc584088aa8b0e56026ea5ba19550b8ceeb41c34f46a85566a21205d6bb529717ee8944cfa9a9c7c27edb0504eece5544a
+      a457bb99240be90d66513d961803dc8e361338b95a530199e0afdab32ea1bbcf
     )
     set(_castxml_url
-        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macosx.tar.gz")
+        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-15-intel-x86_64.tar.gz")
     set(_download_castxml_binaries 1)
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
 
     set(_castxml_hash
-        4c8c969f7e53cd758b516bada449b322d37ad19d6d46602660d83ece20ce07f3d55462493382a1c422048928962fd33f9704638e2e41637d1147473562a55f94
+        c30861b8e10941818e76187a546203e0cdc105671d98d1764525b254fb5ab644
     )
     set(_castxml_url
-        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-arm.tar.gz")
+        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-15-arm64.tar.gz")
     set(_download_castxml_binaries 1)
 
   endif()
@@ -94,7 +95,7 @@ else()
     ExternalProject_Add(
       castxml
       URL ${_castxml_url}
-      URL_HASH SHA512=${_castxml_hash}
+      URL_HASH SHA256=${_castxml_hash}
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml"
@@ -218,7 +219,7 @@ else()
     ExternalProject_Add(
       castxml
       GIT_REPOSITORY https://github.com/CastXML/CastXML.git
-      GIT_TAG v${_castxml_version}
+      GIT_TAG ${_castxml_git_tag}
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
