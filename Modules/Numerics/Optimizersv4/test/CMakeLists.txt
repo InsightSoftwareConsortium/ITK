@@ -41,6 +41,9 @@ itk_add_test(
   ITKOptimizersv4TestDriver
   itkWindowConvergenceMonitoringFunctionTest)
 
+set(ITKOptimizersv4GTests itkObjectToObjectMetricGTest.cxx)
+creategoogletestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4GTests}")
+
 itk_add_test(
   NAME
   itkObjectToObjectOptimizerBaseTest
