@@ -335,6 +335,7 @@ itk_add_test(
     ITKIONRRDTestDriver
     itkNrrdVectorImageUnitLabelReadTest
     DATA{${ITK_DATA_ROOT}/Input/CTCardioCropped.seq.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/itkNrrdVectorImageUnitLabelReadTest.nrrd
 )
 itk_add_test(
   NAME itkNrrd5dVectorImageReadWriteTest

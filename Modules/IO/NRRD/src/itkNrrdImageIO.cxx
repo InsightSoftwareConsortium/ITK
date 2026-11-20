@@ -1212,6 +1212,13 @@ NrrdImageIO::Write(const void * buffer)
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
           nrrd->axis[axi + numberOfPixelAxis_nrrd].label = airStrdup(value.c_str());
         }
+        else if (numberOfPixelAxis_nrrd == 1 && !strcmp(keyField + strlen(field), "[pixel]"))
+        {
+          // Label of the pixel (component) axis, stored under the same key as on read
+          std::string value;
+          ExposeMetaData<std::string>(thisDic, *keyIt, value);
+          nrrd->axis[0].label = airStrdup(value.c_str());
+        }
       }
       field = airEnumStr(nrrdField, nrrdField_units);
       if (!strncmp(keyField, field, strlen(field)))
@@ -1221,6 +1228,13 @@ NrrdImageIO::Write(const void * buffer)
           std::string value;
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
           nrrd->axis[axi + numberOfPixelAxis_nrrd].units = airStrdup(value.c_str());
+        }
+        else if (numberOfPixelAxis_nrrd == 1 && !strcmp(keyField + strlen(field), "[pixel]"))
+        {
+          // Units of the pixel (component) axis, i.e. of the pixel values, stored under the same key as on read
+          std::string value;
+          ExposeMetaData<std::string>(thisDic, *keyIt, value);
+          nrrd->axis[0].units = airStrdup(value.c_str());
         }
       }
       field = airEnumStr(nrrdField, nrrdField_old_min);
