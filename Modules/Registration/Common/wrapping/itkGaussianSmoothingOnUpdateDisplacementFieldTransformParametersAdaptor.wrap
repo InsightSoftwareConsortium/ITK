@@ -1,0 +1,8 @@
+itk_wrap_include("itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h")
+
+itk_wrap_class(
+  "itk::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor"
+  POINTER
+)
+set(WRAPPER_TEMPLATES "${gaussian_displacement_field_adaptor_templates}")
+itk_end_wrap_class()
