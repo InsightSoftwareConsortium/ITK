@@ -147,7 +147,7 @@ public:
                         DerivativeType &       Derivative) const override = 0;
 
   /** Return the number of parameters required by the Transform. */
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override;
 
   /** Initialize the metric. */

@@ -52,10 +52,13 @@ public:
   using ParametersValueType = TInternalComputationValueType;
   using ParametersType = OptimizerParameters<TInternalComputationValueType>;
 
+  /** Type of the number of parameters, the same as TransformBase::NumberOfParametersType. */
+  using NumberOfParametersType = IdentifierType;
+
   /** Return the number of parameters required to compute
    *  this cost function.
    *  This method MUST be overloaded by derived classes. */
-  virtual unsigned int
+  virtual NumberOfParametersType
   GetNumberOfParameters() const = 0;
 
 protected:

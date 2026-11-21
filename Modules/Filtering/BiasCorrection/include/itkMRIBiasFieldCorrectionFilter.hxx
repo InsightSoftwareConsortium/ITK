@@ -44,8 +44,8 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::InitializeDistributions(A
 }
 
 template <typename TImage, typename TImageMask, typename TBiasField>
-unsigned int
-MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetNumberOfParameters() const
+auto
+MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetNumberOfParameters() const -> NumberOfParametersType
 {
   if (m_BiasField == nullptr)
   {

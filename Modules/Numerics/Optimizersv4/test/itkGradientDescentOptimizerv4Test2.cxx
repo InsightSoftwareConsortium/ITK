@@ -99,7 +99,7 @@ public:
     m_Parameters += update;
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension * 3;
@@ -111,7 +111,7 @@ public:
     return false;
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;

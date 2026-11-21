@@ -118,7 +118,7 @@ public:
   SetTransformParameters(const ParametersType & parameters) const;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return m_Transform->GetNumberOfParameters();

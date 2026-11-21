@@ -82,7 +82,7 @@ public:
     return measure;
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return SpaceDimension;

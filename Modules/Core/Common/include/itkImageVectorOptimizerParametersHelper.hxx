@@ -39,7 +39,7 @@ ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>:
   using vectorElement = typename ParameterImageType::PixelContainer::Element;
   auto * vectorPointer = reinterpret_cast<vectorElement *>(pointer);
   // We're expecting the new memory buffer t be of same size.
-  const unsigned int sizeInVectors = m_ParameterImage->GetPixelContainer()->Size();
+  const SizeValueType sizeInVectors = m_ParameterImage->GetPixelContainer()->Size();
   // After this call, PixelContainer will *not* manage its memory.
   this->m_ParameterImage->GetPixelContainer()->SetImportPointer(vectorPointer, sizeInVectors);
   Superclass::MoveDataPointer(container, pointer);
