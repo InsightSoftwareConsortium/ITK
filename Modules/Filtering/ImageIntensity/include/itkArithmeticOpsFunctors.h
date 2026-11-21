@@ -20,6 +20,8 @@
 
 #include "itkMath.h"
 
+#include <type_traits>
+
 namespace itk::Functor
 {
 
@@ -161,8 +163,11 @@ template <typename TNumerator, typename TDenominator = TNumerator, typename TOut
 class ITK_TEMPLATE_EXPORT DivideOrZeroOut
 {
 public:
+  // Integers need 1: a truncated 1e-5 is 0, and 0 < 0 is false.
   DivideOrZeroOut()
-    : m_Threshold(1e-5 * NumericTraits<TDenominator>::OneValue())
+    : m_Threshold(std::is_integral_v<TDenominator>
+                    ? NumericTraits<TDenominator>::OneValue()
+                    : static_cast<TDenominator>(1e-5 * NumericTraits<TDenominator>::OneValue()))
     , m_Constant(TOutput{})
   {}
 

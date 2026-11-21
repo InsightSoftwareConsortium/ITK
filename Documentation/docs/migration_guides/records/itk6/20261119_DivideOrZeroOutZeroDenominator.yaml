@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../migration-record.schema.json
+schema_version: 1
+
+title: DivideOrZeroOutImageFilter default threshold is one for integer types
+
+summary: |
+  The default threshold of `itk::DivideOrZeroOutImageFilter` is now 1 for
+  integer denominator types, so a zero denominator gives the constant
+  instead of a division by zero.
+
+details: |
+  The default threshold, `1e-5`, truncated to 0 for integer denominator
+  types, so a zero denominator, which is not below 0, was divided by. With
+  an integer output type this is undefined behavior and usually crashes;
+  with a floating-point output type the result was infinite or NaN. Only a
+  denominator of exactly 0 changes, since negative values were already
+  below 0 and no integer lies between 0 and 1. `GetThreshold()` now returns 1
+  for these types. Floating-point types keep the default of `1e-5`, and an
+  explicitly set threshold is used as before.
+
+categories:
+  - DefaultChanged
+  - ResultsChange
+
+environment:
+  - cxx
+
+impact: low
+
+pr: 7211
