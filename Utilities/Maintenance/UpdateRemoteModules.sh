@@ -18,25 +18,129 @@
 #
 #==========================================================================*/
 
-
-# This script updates the git commit hashes of all successful remote modules.
+# NAME
+#     UpdateRemoteModules.sh - updates the git commit hashes of ITK's remote modules
 #
-# The script updates the git commit hashes in ITK's Modules/Remote
-# '*.remote.cmake' files for the remote modules whose CI build status is
-# successful.
+# SYNOPSIS
+#     UpdateRemoteModules.sh [-ongreen]
+#     UpdateRemoteModules.sh -h | --help
+#
+# DESCRIPTION
+#     This script updates the git commit hash in each of ITK's remote module
+#     files (Modules/Remote/*.remote.cmake) to the latest commit on that
+#     module's master or main branch. It edits those files in place and does
+#     not commit the changes, so the result should be reviewed and committed
+#     afterwards. To find each latest commit, it contacts GitHub over SSH.
+#
+#     Only -h, --help and -ongreen are recognized, and only as the first
+#     argument. Any other argument is ignored and the update runs, so use
+#     --help to read this text without modifying any files.
+#
+#     When it finishes, the script prints the modules it updated in green, or a
+#     message saying that all modules are up to date. With -ongreen, it also
+#     prints the failing modules it skipped in red.
+#
+# OPTIONS
+#     -h, --help
+#         Print the usage summary and exit without making any changes.
+#
+#     -ongreen
+#         Update a module only if its latest commit has a successful CI status
+#         on GitHub. Modules with any other status are left unchanged and
+#         listed as failing. Without this option, every module with a newer
+#         commit is updated and no status is checked.
+#
+# IMPLEMENTATION
+#     The script first defines its usage() text and checks whether the first
+#     argument asks for help, in which case it prints the usage and stops. It
+#     then moves to its own directory and locates Modules/Remote. For each
+#     .cmake file there, it reads the current commit hash and the GitHub
+#     repository, asks GitHub for the latest commit on master (or main if there
+#     is no master), and skips the module if the two hashes match. If the script
+#     runs with -ongreen, it will also query the commit's status through the
+#     GitHub API and skip the module if the status is not "success". Otherwise,
+#     it replaces the old hash with the new one in the .cmake file. Once changes
+#     are done, users should review changes then commit the .cmake file.
+#
+# EXAMPLES
+#     ./Utilities/Maintenance/UpdateRemoteModules.sh --help
+#         Print the usage text without changing anything.
+#
+#     ./Utilities/Maintenance/UpdateRemoteModules.sh
+#         Update every remote module that has a newer commit.
+#
+#     ./Utilities/Maintenance/UpdateRemoteModules.sh -ongreen
+#         Update modules whose latest commit has a successful status.
+#
+# SEE ALSO
+#     - Release.md (Documentation/Maintenance/Release.md):
+#         Describes the remote module procedure this script belongs to.
+#     - UpdateRequiredITKVersionInRemoteModules.sh (same directory):
+#         Updates the required ITK version in a remote module.
 
 
 # Utility functions
 usage() {
 cat << EOF
-Usage: $0
+NAME
+  UpdateRemoteModules.sh - updates the git commit hashes of ITK's remote modules
 
-Use this script to update the git commit hashes of all successful remote
-modules.
+SYNOPSIS
+  UpdateRemoteModules.sh [-ongreen]
+  UpdateRemoteModules.sh -h | --help
 
-The script updates the git commit hashes in ITK's Modules/Remote
-'*.remote.cmake' files for the remote modules whose CI build status is
-successful.
+DESCRIPTION
+  This script updates the git commit hash in each of ITK's remote module
+  files (Modules/Remote/*.remote.cmake) to the latest commit on that
+  module's master or main branch. It edits those files in place and does
+  not commit the changes, so the result should be reviewed and committed
+  afterwards. To find each latest commit, it contacts GitHub over SSH.
+
+  Only -h, --help and -ongreen are recognized, and only as the first
+  argument. Any other argument is ignored and the update runs, so use
+  --help to read this text without modifying any files.
+
+  When it finishes, the script prints the modules it updated in green, or a
+  message saying that all modules are up to date. With -ongreen, it also
+  prints the failing modules it skipped in red.
+
+OPTIONS
+  -h, --help
+      Print the usage summary and exit without making any changes.
+
+  -ongreen
+      Update a module only if its latest commit has a successful CI status
+      on GitHub. Modules with any other status are left unchanged and
+      listed as failing. Without this option, every module with a newer
+      commit is updated and no status is checked.
+
+IMPLEMENTATION
+  The script first defines its usage() text and checks whether the first
+  argument asks for help, in which case it prints the usage and stops. It
+  then moves to its own directory and locates Modules/Remote. For each
+  .cmake file there, it reads the current commit hash and the GitHub
+  repository, asks GitHub for the latest commit on master (or main if there
+  is no master), and skips the module if the two hashes match. If the script
+  runs with -ongreen, it will also query the commit's status through the
+  GitHub API and skip the module if the status is not "success". Otherwise,
+  it replaces the old hash with the new one in the .cmake file. Once changes
+  are done, users should review changes then commit the .cmake file.
+
+EXAMPLES
+  ./Utilities/Maintenance/UpdateRemoteModules.sh --help
+      Print the usage text without changing anything.
+
+  ./Utilities/Maintenance/UpdateRemoteModules.sh
+      Update every remote module that has a newer commit.
+
+  ./Utilities/Maintenance/UpdateRemoteModules.sh -ongreen
+      Update modules whose latest commit has a successful status.
+
+SEE ALSO
+  - Release.md (Documentation/Maintenance/Release.md):
+      Describes the remote module procedure this script belongs to.
+  - UpdateRequiredITKVersionInRemoteModules.sh (same directory):
+      Updates the required ITK version in a remote module.
 EOF
 }
 
