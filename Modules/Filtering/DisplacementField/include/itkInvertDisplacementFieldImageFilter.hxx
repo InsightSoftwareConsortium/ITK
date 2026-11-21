@@ -111,6 +111,23 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   float oldProgress = 0.0f;
 
+  // One composer for all iterations, so that its output buffer is allocated once and reused.
+  using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
+  auto composer = ComposerType::New();
+  composer->ReleaseDataBeforeUpdateFlagOff();
+  // Grafts keep this filter's fields buffered when the composer releases its inputs.
+  auto       displacementFieldGraft = DisplacementFieldType::New();
+  auto       inverseDisplacementFieldGraft = InverseDisplacementFieldType::New();
+  const auto graftFields = [&]() {
+    displacementFieldGraft->Graft(displacementField);
+    inverseDisplacementFieldGraft->Graft(inverseDisplacementField);
+  };
+  // Graft before SetDisplacementField(), which hands the field to the composer's interpolator.
+  graftFields();
+  composer->SetDisplacementField(displacementFieldGraft);
+  composer->SetWarpingField(inverseDisplacementFieldGraft);
+  this->m_ComposedField = composer->GetOutput();
+
   while ((iteration++ < this->m_MaximumNumberOfIterations) &&
          (this->m_MaxErrorNorm > this->m_MaxErrorToleranceThreshold) &&
          (this->m_MeanErrorNorm > this->m_MeanErrorToleranceThreshold))
@@ -118,19 +135,10 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
     itkDebugMacro("Iteration " << iteration << ": mean error norm = " << this->m_MeanErrorNorm
                                << ", max error norm = " << this->m_MaxErrorNorm);
 
-    using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
-    auto composer = ComposerType::New();
-    // Grafts, so that releasing the composer's inputs leaves this filter's input and output buffered.
-    auto displacementFieldGraft = DisplacementFieldType::New();
-    displacementFieldGraft->Graft(displacementField);
-    auto inverseDisplacementFieldGraft = InverseDisplacementFieldType::New();
-    inverseDisplacementFieldGraft->Graft(inverseDisplacementField);
-    composer->SetDisplacementField(displacementFieldGraft);
-    composer->SetWarpingField(inverseDisplacementFieldGraft);
-
-    this->m_ComposedField = composer->GetOutput();
-    this->m_ComposedField->Update();
-    this->m_ComposedField->DisconnectPipeline();
+    // GlobalReleaseDataFlag releases the grafts after each Update(), and the estimate changes in place.
+    graftFields();
+    composer->Modified();
+    composer->Update();
 
     // Multithread processing to multiply each element of the composed field by 1 / spacing
     this->m_MeanErrorNorm = RealType{};
