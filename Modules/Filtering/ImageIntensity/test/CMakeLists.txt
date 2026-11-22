@@ -789,6 +789,7 @@ set(
   itkNotEqualGTest.cxx
   itkRoundImageFilterGTest.cxx
   itkSquareImageFilterGTest.cxx
+  itkWeightedAddImageFilterGTest.cxx
 )
 
 if(MSVC)

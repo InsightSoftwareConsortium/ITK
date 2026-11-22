@@ -39,7 +39,7 @@ public:
   using RealType = typename NumericTraits<TInput1>::RealType;
   WeightedAdd2()
     : m_Alpha(0.0)
-    , m_Beta(0.0)
+    , m_Beta(NumericTraits<RealType>::OneValue())
   {}
   ~WeightedAdd2() = default;
 
