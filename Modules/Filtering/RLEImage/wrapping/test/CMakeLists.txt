@@ -18,3 +18,8 @@ itk_python_expression_add_test(
   EXPRESSION
     "instance = itk.RegionOfInterestImageFilter.RLEImageSS2USRLEImageSS2US.New()"
 )
+
+itk_python_expression_add_test(
+  NAME itkRLEImageSS2USPythonTest
+  EXPRESSION "instance = itk.RLEImage[itk.SS, 2, itk.US].New()"
+)
