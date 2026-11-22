@@ -59,6 +59,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader = MattesMutualInformationDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = MattesMutualInformationSparseGetValueAndDerivativeThreaderType::New();
+  this->m_DenseDefaultNumberOfWorkUnits = this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnits();
+  this->m_SparseDefaultNumberOfWorkUnits = this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnits();
 }
 
 /**
@@ -76,8 +78,33 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TInternalComputationValueType,
                                             TMetricTraits>::Initialize()
 {
+  // Start from the requested work units, so that the bound of an earlier Initialize() does not lower this one.
+  const auto requestWorkUnits = [this](auto * threader, const ThreadIdType defaultWorkUnits) {
+    threader->SetNumberOfWorkUnits(this->m_MaximumNumberOfWorkUnits > 0 ? this->m_MaximumNumberOfWorkUnits
+                                                                        : defaultWorkUnits);
+  };
+  requestWorkUnits(this->m_DenseGetValueAndDerivativeThreader.GetPointer(), this->m_DenseDefaultNumberOfWorkUnits);
+  requestWorkUnits(this->m_SparseGetValueAndDerivativeThreader.GetPointer(), this->m_SparseDefaultNumberOfWorkUnits);
+
   /* Superclass initialization */
   this->Superclass::Initialize();
+
+  if (!this->HasLocalSupport())
+  {
+    // Each work unit of the derivative pass keeps a bins^2 x parameters array, so its work units are bounded by memory.
+    const auto boundWorkUnits = [this](auto * threader) {
+      const ThreadIdType requested = threader->GetNumberOfWorkUnits();
+      const ThreadIdType threads = std::min(requested, MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+      threader->SetNumberOfWorkUnits(
+        std::min(requested,
+                 ComputeMaximumNumberOfDerivativeWorkUnits(this->m_NumberOfHistogramBins,
+                                                           this->GetNumberOfLocalParameters(),
+                                                           threads,
+                                                           this->m_MaximumJointPDFDerivativesBytes)));
+    };
+    boundWorkUnits(this->m_DenseGetValueAndDerivativeThreader.GetPointer());
+    boundWorkUnits(this->m_SparseGetValueAndDerivativeThreader.GetPointer());
+  }
 
   /* Expects moving image gradient source */
   if (this->GetGradientSourceIncludesFixed() || !this->GetGradientSourceIncludesMoving())
@@ -594,39 +621,6 @@ MattesMutualInformationImageToImageMetricv4<
   }
 
   return pindex;
-}
-
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TVirtualImage,
-          typename TInternalComputationValueType,
-          typename TMetricTraits>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,
-                                            TMovingImage,
-                                            TVirtualImage,
-                                            TInternalComputationValueType,
-                                            TMetricTraits>::GetValueAndDerivative(MeasureType &    value,
-                                                                                  DerivativeType & derivative) const
-{
-  try
-  {
-    Superclass::GetValueAndDerivative(value, derivative);
-  }
-  catch (...)
-  {
-    if (auto * dense = dynamic_cast<MattesMutualInformationDenseGetValueAndDerivativeThreaderType *>(
-          this->m_DenseGetValueAndDerivativeThreader.GetPointer()))
-    {
-      dense->RestoreRequestedNumberOfWorkUnits();
-    }
-    if (auto * sparse = dynamic_cast<MattesMutualInformationSparseGetValueAndDerivativeThreaderType *>(
-          this->m_SparseGetValueAndDerivativeThreader.GetPointer()))
-    {
-      sparse->RestoreRequestedNumberOfWorkUnits();
-    }
-    throw;
-  }
 }
 
 template <typename TFixedImage,

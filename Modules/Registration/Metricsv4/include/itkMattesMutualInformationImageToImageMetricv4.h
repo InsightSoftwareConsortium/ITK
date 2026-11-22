@@ -150,15 +150,11 @@ public:
   /** Total bytes the joint PDF derivative arrays may use, for transforms without local support. Each work unit keeps
    * one array of bins^2 x parameters values. Zero (the default) allows one array plus 32 MiB per thread, where threads
    * is the requested number of work units, at most MultiThreaderBase::GetGlobalDefaultNumberOfThreads(). A nonzero
-   * value is a hard limit, down to one work unit. */
+   * value is a hard limit, down to one work unit. Each Initialize() lowers the requested work units to this bound. */
   /** @ITKStartGrouping */
   itkSetMacro(MaximumJointPDFDerivativesBytes, uint64_t);
   itkGetConstMacro(MaximumJointPDFDerivativesBytes, uint64_t);
   /** @ITKEndGrouping */
-
-  /** Restores the requested number of work units if the evaluation throws while the derivative pass bounds it. */
-  void
-  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override;
 
   void
   Initialize() override;
@@ -264,6 +260,10 @@ protected:
   PDFValueType  m_MovingImageTrueMax{};
   PDFValueType  m_FixedImageBinSize{};
   PDFValueType  m_MovingImageBinSize{};
+
+  /** The threaders' work units before any request, which Initialize() bounds when none is set. */
+  ThreadIdType m_DenseDefaultNumberOfWorkUnits{ 1 };
+  ThreadIdType m_SparseDefaultNumberOfWorkUnits{ 1 };
 
   /** Helper array for storing the values of the JointPDF ratios. */
   using PRatioType = PDFValueType;

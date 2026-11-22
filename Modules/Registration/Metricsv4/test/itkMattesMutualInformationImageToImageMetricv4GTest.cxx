@@ -449,87 +449,29 @@ TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundReaches
   EXPECT_EQ(requested.numberOfWorkUnitsUsed, 3u);
   EXPECT_EQ(boundedResult.valueAndDerivative, requested.valueAndDerivative);
 
-  // The requested work units are kept for later evaluations.
+  // Each Initialize() bounds the requested work units, so lifting the limit restores them.
   bounded->SetMaximumJointPDFDerivativesBytes(0);
   EXPECT_EQ(Evaluate(bounded).numberOfWorkUnitsUsed, 8u);
 }
 
-namespace
-{
-// An affine transform whose parameter Jacobian throws on request, to abort an evaluation inside the threaded pass.
-class ThrowingAffineTransform : public itk::AffineTransform<double, Dimension>
-{
-public:
-  ITK_DISALLOW_COPY_AND_MOVE(ThrowingAffineTransform);
-  using Self = ThrowingAffineTransform;
-  using Superclass = itk::AffineTransform<double, Dimension>;
-  using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro(Self);
-  itkOverrideGetNameOfClassMacro(ThrowingAffineTransform);
-
-  bool m_Throw{ false };
-
-  void
-  ComputeJacobianWithRespectToParametersCachedTemporaries(const InputPointType & point,
-                                                          JacobianType &         jacobian,
-                                                          JacobianType &         cachedJacobian) const override
-  {
-    if (m_Throw)
-    {
-      itkExceptionStringMacro("Requested by the test.");
-    }
-    Superclass::ComputeJacobianWithRespectToParametersCachedTemporaries(point, jacobian, cachedJacobian);
-  }
-
-protected:
-  ThrowingAffineTransform() = default;
-};
-} // namespace
-
-TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundAfterAFailedEvaluation)
+TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundIsStableAcrossInitialize)
 {
   if (itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() < 8)
   {
     GTEST_SKIP() << "Needs at least 8 work units.";
   }
+  // With the default limit, a mesh-6 B-spline with 50 bins allows fewer work units than threads.
   const auto image = MakeReproducibilityImage();
-  const auto transform = ThrowingAffineTransform::New();
-  transform->SetParameters(MakeAffine()->GetParameters());
+  const auto metric = MakeMetric(image, MakeBSpline(image, 6), 8);
+  metric->SetNumberOfHistogramBins(50);
+  const itk::ThreadIdType threads =
+    std::min<itk::ThreadIdType>(8, itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+  const itk::ThreadIdType expected =
+    std::min<itk::ThreadIdType>(8, BoundMetric::ComputeMaximumNumberOfDerivativeWorkUnits(50, 2187, threads, 0));
 
-  // Without a change by the caller, the next evaluation restores the request that the failed one bounded.
-  const auto unchanged = MakeMetric(image, transform, 8);
-  unchanged->SetMaximumJointPDFDerivativesBytes(3 * affineArrayBytes);
-  transform->m_Throw = true;
-  EXPECT_THROW(Evaluate(unchanged), itk::ExceptionObject);
-  transform->m_Throw = false;
-  unchanged->SetMaximumJointPDFDerivativesBytes(0);
-  EXPECT_EQ(Evaluate(unchanged).numberOfWorkUnitsUsed, 8u);
-
-  // A count the caller sets after the failure replaces that request.
-  const auto changed = MakeMetric(image, transform, 8);
-  changed->SetMaximumJointPDFDerivativesBytes(3 * affineArrayBytes);
-  transform->m_Throw = true;
-  EXPECT_THROW(Evaluate(changed), itk::ExceptionObject);
-  transform->m_Throw = false;
-  changed->SetMaximumNumberOfWorkUnits(1);
-  changed->SetMaximumJointPDFDerivativesBytes(0);
-  EXPECT_EQ(Evaluate(changed).numberOfWorkUnitsUsed, 1u);
-
-  // So does a count equal to the bound, with either threader.
-  for (const auto threader :
-       { itk::MultiThreaderBase::ThreaderEnum::Pool, itk::MultiThreaderBase::ThreaderEnum::Platform })
+  for (int repeat = 0; repeat < 3; ++repeat)
   {
-    const auto previousThreader = itk::MultiThreaderBase::GetGlobalDefaultThreader();
-    itk::MultiThreaderBase::SetGlobalDefaultThreader(threader);
-    const auto same = MakeMetric(image, transform, 8);
-    itk::MultiThreaderBase::SetGlobalDefaultThreader(previousThreader);
-    same->SetMaximumJointPDFDerivativesBytes(3 * affineArrayBytes);
-    transform->m_Throw = true;
-    EXPECT_THROW(Evaluate(same), itk::ExceptionObject);
-    transform->m_Throw = false;
-    same->SetMaximumNumberOfWorkUnits(3);
-    same->SetMaximumJointPDFDerivativesBytes(0);
-    EXPECT_EQ(Evaluate(same).numberOfWorkUnitsUsed, 3u) << threader;
+    EXPECT_EQ(Evaluate(metric).numberOfWorkUnitsUsed, expected) << "repeat " << repeat;
   }
 }
 
@@ -555,7 +497,7 @@ TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundSkipsLo
   EXPECT_EQ(Evaluate(metric).numberOfWorkUnitsUsed, ClampToMaxThreads(4));
 }
 
-TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundIsRestoredWithPlatformThreader)
+TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundWithPlatformThreader)
 {
   if (itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() < 8 ||
       itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() < 8)
@@ -575,7 +517,7 @@ TEST(MattesMutualInformationImageToImageMetricv4, DerivativeWorkUnitBoundIsResto
   metric->SetMaximumJointPDFDerivativesBytes(3 * arrayBytes);
   EXPECT_EQ(Evaluate(metric).numberOfWorkUnitsUsed, 3u);
 
-  // Without a limit all 8 work units return.
+  // Without a limit, all 8 work units return, although the bound also lowered the thread count.
   metric->SetMaximumJointPDFDerivativesBytes(std::numeric_limits<uint64_t>::max());
   EXPECT_EQ(Evaluate(metric).numberOfWorkUnitsUsed, 8u);
 }
