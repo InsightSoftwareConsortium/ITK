@@ -77,6 +77,14 @@ if(HDF5_ENABLE_Z_LIB_SUPPORT)
   set(H5_ZLIB_HEADER "itk_zlib.h")
 endif()
 
+# HDF5 inherits ITK's policies. It passes DEPENDS to add_custom_command(TARGET)
+# (CMP0175) and relies on macro arguments dropping escaping backslashes (CMP0219).
+foreach(p CMP0175 CMP0219)
+  if(POLICY ${p})
+    cmake_policy(SET ${p} OLD)
+  endif()
+endforeach()
+
 add_subdirectory(itkhdf5)
 
 mark_as_advanced(HDF_ENABLE_LARGE_FILE)
