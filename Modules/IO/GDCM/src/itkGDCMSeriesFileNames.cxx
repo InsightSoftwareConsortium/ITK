@@ -25,6 +25,7 @@
 #include "gdcmTag.h"
 #include "gdcmDirectionCosines.h"
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <map>
 #include <optional>
@@ -63,7 +64,8 @@ OrientationsAgree(const std::vector<std::string> & files)
   {
     return false;
   }
-  std::optional<gdcm::DirectionCosines> reference;
+  // gdcm::DirectionCosines has a user-declared destructor, so copying it is deprecated.
+  std::optional<std::array<double, 6>> reference;
   for (const std::string & fileName : files)
   {
     gdcm::DirectionCosines cosines;
@@ -73,13 +75,14 @@ OrientationsAgree(const std::vector<std::string> & files)
       return false;
     }
     cosines.Normalize();
+    const double * current = cosines;
     if (!reference)
     {
-      reference = cosines;
+      reference.emplace();
+      std::copy_n(current, reference->size(), reference->begin());
       continue;
     }
-    const double * current = cosines;
-    const double * first = *reference;
+    const double * first = reference->data();
     if (1.0 - gdcm::DirectionCosines::Dot(current, first) > OrientationTolerance ||
         1.0 - gdcm::DirectionCosines::Dot(current + 3, first + 3) > OrientationTolerance)
     {
