@@ -17,37 +17,44 @@
 #
 #==========================================================================*/
 
+#% NAME
+#%     CodeSwarmWithGource.sh - render a git history video with gource
+#%
+#% SYNOPSIS
+#%     CodeSwarmWithGource.sh SOURCE_TREE OUTPUT_NAME
+#%     CodeSwarmWithGource.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Render the commit history of the git repository SOURCE_TREE as an
+#%     animation with gource, and encode it with ffmpeg into the MPEG-4
+#%     video OUTPUT_NAME.mp4. An existing file of that name is overwritten.
+#%     The arguments are not checked.
+#%
+#% OPTIONS
+#%     SOURCE_TREE
+#%         The git repository to visualize.
+#%     OUTPUT_NAME
+#%         Output file name without the .mp4 extension.
+#%     -h, --help
+#%         Print this help and exit with status 1.
+#%
+#% IMPLEMENTATION
+#%     Written for Linux; needs gource and ffmpeg. gource opens a 1024x768
+#%     window while it renders. The video is written relative to the
+#%     current directory.
+#%
+#% EXAMPLES
+#%     CodeSwarmWithGource.sh ~/src/ITK ITKSwarm
+#%         Write the history of ~/src/ITK to ITKSwarm.mp4.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/computeGitStatistics.sh:
+#%         Compute statistics on the git history.
+
 usage() {
-
-cat << EOF
-  How to use this script:
-
-Use Linux, install
-
-     - gource
-
-Invoke the script as:
-
-    CodeSwarmWithGource.sh  sourcetree  outputvideofile
-
-
-This will generate as output a file called
-
-                outputvideofile.mp4
-
-
-For example:
-
-  CodeSwarmWithGource.sh  ~/src/ITK  ITKSwarm
-
-
-This will generate the video file
-
-                 ITKSwarm.mp4
-
-
-EOF
-
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
 }
 
 if test "$1" == "-h" -o "$1" == "--help"; then

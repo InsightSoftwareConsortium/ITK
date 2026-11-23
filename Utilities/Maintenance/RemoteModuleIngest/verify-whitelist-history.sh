@@ -1,38 +1,72 @@
 #!/usr/bin/env bash
-# verify-whitelist-history.sh — confirm no scaffolding patterns leaked
-# into an ingested module's history.
-#
-# The whitelist in ingest-module-v4.sh admits everything under
-# `include/`, `src/`, `test/`, `wrapping/` + the two root CMake
-# files.  Directory-level admission is not tight enough on its own:
-# some upstream repos put scaffolding (CI configs, Dockerfiles,
-# packaging files) inside those directories, and the whitelist
-# cannot tell "foo/azure-pipelines.yml" apart from "foo/*.cxx".
-#
-# This helper scans EVERY commit reachable from the current branch,
-# restricted to the supplied module path, for any basename that
-# matches a known scaffolding pattern.  Prints each leak on stdout
-# and exits with code 2 if any are found.
-#
-# Intended uses:
-#  * As the final step of ingest-module-v4.sh (driver embeds it).
-#  * As a standalone audit of an already-merged ingest:
-#      verify-whitelist-history.sh Modules/Filtering/AnisotropicDiffusionLBR
-#  * As a CI check on the ingest branch before push.
-#
-# Usage:
-#   verify-whitelist-history.sh <module-path> [options]
-#
-# Options:
-#   --git-dir DIR    Use a different git dir (default: inferred).
-#   --revision REV   Scan history reachable from REV rather than HEAD.
-#   --extra-pattern REGEX   Add a custom pattern to the scan.
-#   -h|--help        Show this help.
-#
-# Exit codes:
-#   0  — no scaffolding basenames found in any commit of the history
-#   1  — usage / environment error
-#   2  — one or more scaffolding paths leaked into the history
+
+#% NAME
+#%     verify-whitelist-history.sh - find scaffolding files in module history
+#%
+#% SYNOPSIS
+#%     verify-whitelist-history.sh <module-path> [options]
+#%     verify-whitelist-history.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Check that no CI, container, or packaging file ever entered the
+#%     history of an ingested module. The ingest whitelist admits whole
+#%     directories such as include, src, test, and wrapping, and some
+#%     upstream modules keep such files inside them.
+#%
+#%     Every path that git log lists for the revision inside <module-path>
+#%     is matched against these names, in any
+#%     subdirectory: CTestConfig.cmake, azure-pipelines*.yml, Dockerfile
+#%     and Dockerfile.* or Dockerfile-*, .dockerignore, Jenkinsfile,
+#%     circle.yml, .travis.yml, appveyor.yml, tox.ini, pyproject.toml,
+#%     setup.py, setup.cfg, MANIFEST.in, requirements*.txt,
+#%     environment*.yml, and .cirun, .gitlab-ci, .clang-format,
+#%     .clang-tidy, .pre-commit-config, or .codecov followed by .yml or
+#%     .yaml. Any path inside a .github, .circleci, .docker, docker (either
+#%     case), or .azure-pipelines directory also matches. Default git log
+#%     history simplification applies, so a side branch that a merge made
+#%     redundant is not scanned. Because of the required
+#%     suffix, plain .clang-format and .clang-tidy files are not reported.
+#%
+#%     Matching paths are listed on stderr. Nothing is modified.
+#%
+#%     Exit status: 0 when nothing matches; 1 for a usage error; 2 when any
+#%     path matches. Errors from git are hidden, so a bad revision or a
+#%     directory outside a repository also reports no matches and exits 0.
+#%
+#% OPTIONS
+#%     <module-path>
+#%         Module directory, such as Modules/Filtering/AnisotropicDiffusionLBR,
+#%         relative to the current directory.
+#%     --git-dir DIR
+#%         Repository to read. Default: the one containing the current
+#%         directory.
+#%     --revision REV
+#%         Scan history reachable from REV. Default: HEAD.
+#%     --extra-pattern REGEX
+#%         Also report paths matching this extended regular expression.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs git. Run from the root of the ITK checkout so that
+#%     <module-path> names the module.
+#%
+#% EXAMPLES
+#%     Utilities/Maintenance/RemoteModuleIngest/verify-whitelist-history.sh \
+#%       Modules/Filtering/AnisotropicDiffusionLBR
+#%         Audit the history of an ingested module on the current branch.
+#%
+#%     Utilities/Maintenance/RemoteModuleIngest/verify-whitelist-history.sh \
+#%       Modules/IO/IOMeshSTL --revision upstream/main
+#%         Audit the module as it is on upstream/main.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/RemoteModuleIngest/ingest-module-v4.sh:
+#%         The ingest driver whose deny pass removes these files.
+#%     Utilities/Maintenance/RemoteModuleIngest/whitelists/default.list:
+#%         The default ingest whitelist.
 
 set -euo pipefail
 
@@ -41,7 +75,7 @@ warn() { printf 'WARN: %s\n' "$*" >&2; }
 die()  { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 show_help() {
-  sed -n '2,/^$/{ s/^# \?//; p }' "$0"
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
   exit 0
 }
 

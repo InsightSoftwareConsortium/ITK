@@ -1,21 +1,76 @@
 #!/bin/bash
-# Update code to new macro names
-#
-# script for updating all the remote modules to update
-# to the latest ITK.
-# This script is also useful for updating other packages
-# 	BRAINSTools
-# 	ANTs
-# 	Slicer
-# 	....
-cat > /dev/null << EOF
-cd ~/Dashboard/src/ITK/Modules/Remote
-for gg in ~/Dashboard/src/ITK/Moudules/Remote/*/.git; do
-  cd $(dirname $gg)
-  bash  ~/Dashboard/src/ITK/Utilities/Maintenance/migrate-itk6-code-recommendations.sh $(pwd)
-  cd ~/Dashboard/src/ITK/Modules/Remote
-done
-EOF
+
+#% NAME
+#%     migrate-itk6-code-recommendations.sh - update a repository for ITK 6
+#%
+#% SYNOPSIS
+#%     migrate-itk6-code-recommendations.sh <directory>
+#%     migrate-itk6-code-recommendations.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Apply ITK 6 code recommendations to the git repository in
+#%     <directory>, such as a remote module or a project built on ITK
+#%     (BRAINSTools, ANTs, Slicer). Five migrations run in turn. Each one
+#%     whose pattern git grep finds stages the matching files, creates a
+#%     new branch from the current HEAD, commits, and runs gh pr create,
+#%     even when its sed edit changed nothing:
+#%
+#%     - itkTypeMacro to itkOverrideGetNameOfClassMacro and
+#%       itkTypeMacroNoParent to itkVirtualGetNameOfClassMacro
+#%       (branch update-to-new-macros).
+#%     - ITK_DISALLOW_COPY_AND_ASSIGN to ITK_DISALLOW_COPY_AND_MOVE
+#%       (branch use-new-dissallow-copy-and-move).
+#%     - itkStaticConstMacro to static constexpr, and
+#%       itkGetStaticConstMacro(name) to Self::name
+#%       (branch replace-itkstaticconstmacro-with-constexpr).
+#%     - ITKv5_CONST to const (branch replace_ITKv5_CONST-with-const).
+#%     - CoordRepType aliases to CoordinateType
+#%       (branch use-CoordinateType).
+#%
+#%     Each new branch starts from the branch before it, so the branches
+#%     stack. If <directory> is not a directory, the script prints a message
+#%     and exits with status 255.
+#%
+#% OPTIONS
+#%     <directory>
+#%         The git repository to convert.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs git, gh, realpath, and GNU sed (gsed on macOS), plus network
+#%     access and push rights to the origin remote. Before converting, it
+#%     fetches origin and, if a remote named upstream exists, fetches it
+#%     and force-pushes upstream's main or master branch, whichever of the
+#%     two exists locally, over the same
+#%     branch on origin. It then rebases the current branch onto that
+#%     origin branch. gh pr create is interactive. At the end the script
+#%     force-pushes to origin the branches whose names it finds; as
+#%     written, that check matches only the last three branches listed
+#%     above.
+#%
+#% EXAMPLES
+#%     migrate-itk6-code-recommendations.sh ~/src/ITK/Modules/Remote/Foo
+#%         Convert one remote module and open its pull requests. To convert
+#%         every remote module of an ITK source tree, call it once for each
+#%         directory under Modules/Remote that holds a .git directory.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/ApplyScriptToRemotes.sh:
+#%         Apply a script to the remote modules of an ITK source tree.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 directory_to_convert=$(realpath $1)
 

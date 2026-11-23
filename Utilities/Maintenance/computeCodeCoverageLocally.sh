@@ -16,36 +16,57 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-if [[ $1 == "--help" ]]
-then
-echo "      "
-echo "  How to use this script      "
-echo "      "
-echo "   0)  Use Linux or Mac, "
-echo "        - install lcov"
-echo "        - use the gcc compiler"
-echo "      "
-echo "   1)  Add the CMake flags:      "
-echo "      "
-echo "       CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage     "
-echo "       CMAKE_C_FLAGS:STRING= -g -O0  -fprofile-arcs -ftest-coverage      "
-echo "      "
-echo "   2)  Compile ITK for Debug      "
-echo "      "
-echo "                     CMAKE_BUILD_TYPE  Debug      "
-echo "      "
-echo "   3)  From the TOP of the binary directory type the path to this script "
-echo "       in the ITK source tree.  This will run all tests in ITK and generate "
-echo "       code coverage for the entire toolkit.  The code coverage report will "
-echo "       be generated in HTML and can be opened with your favorite browser.     "
-echo "    "
-echo "       For example, "
-echo "    "
-echo "          In Linux, you can do        firefox  ./index.html     "
-echo "          In Mac,   you can do        open     ./index.html     "
-echo "    "
 
-else
+#% NAME
+#%     computeCodeCoverageLocally.sh - report code coverage of all ITK tests
+#%
+#% SYNOPSIS
+#%     computeCodeCoverageLocally.sh
+#%     computeCodeCoverageLocally.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Run every ITK test with ctest in a coverage build and write an HTML
+#%     code coverage report for the whole toolkit to the current directory.
+#%     Coverage counters are reset first. Files whose paths match KWStyle,
+#%     test, ThirdParty, or /usr are left out of the report.
+#%
+#% OPTIONS
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs lcov (with genhtml), ctest, and the gcc compiler, on Linux or
+#%     macOS. Build ITK for coverage first:
+#%
+#%         CMAKE_BUILD_TYPE=Debug
+#%         CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+#%         CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+#%
+#%     Run from the top of the build directory. The script writes app.info,
+#%     app.info2, index.html, and the other report files there, and
+#%     overwrites any earlier report.
+#%
+#% EXAMPLES
+#%     cd ITK-build
+#%     ../ITK/Utilities/Maintenance/computeCodeCoverageLocally.sh
+#%         Run all tests and write the report; open ./index.html to view it.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/computeCodeCoverageLocallyForOneTest.sh:
+#%         Coverage from selected tests only.
+
+usage() {
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
+}
+
+case "${1-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+esac
 
 #==========================================================================
 
@@ -56,5 +77,3 @@ lcov --remove app.info '*KWStyle*' '*test*'  '*ThirdParty*' '/usr/*' --output-fi
 genhtml app.info2
 echo "To view results on Linux, type firefox ./index.html"
 echo "To view results on Mac, type open ./index.html"
-
-fi

@@ -1,46 +1,84 @@
 #!/usr/bin/env bash
-# archive-remote-module.sh — Phase B driver for v4 ingestion
-#
-# Phase B is the IRREVERSIBLE, UPSTREAM-PUBLISH half.  It runs ONLY
-# AFTER the Phase A ingest PR has merged into ITK main.  Phase B:
-#
-#   1. Clones the upstream remote module fresh (NEVER reuses Phase A's
-#      filter-repo'd clone — that history is rewritten and unsafe to
-#      push back).
-#   2. Removes the whitelisted files (the ones now living in ITK).
-#   3. Promotes MIGRATION_README.md to README.md so the GitHub-rendered
-#      landing page shows the migration notice (per
-#      feedback_ingest_archive_readme.md).
-#   4. Pushes the resulting two commits to upstream main.
-#   5. Verifies via gh api that the rendered README contains the
-#      migration notice.
-#   6. Flips archived=true on the GitHub repo.
-#
-# See INGESTION_STRATEGY_v4.md for the full design.
-#
-# Usage:
-#   archive-remote-module.sh <Module> [options]
-#
-# Options:
-#   --upstream-url URL    Override the GIT_REPOSITORY parsed from
-#                         Modules/Remote/<Module>.remote.cmake.
-#   --whitelist FILE      Override the default whitelist location
-#                         (whitelists/<Module>.list, this directory).
-#   --itk-pr-number N     The merged Phase A PR number, included in
-#                         the upstream removal-commit message.
-#   --no-archive-flip     Push the deletion + README commits, but do
-#                         NOT flip archived=true.  Use when the
-#                         upstream still needs hand-tweaks.
-#   --dry-run             Build the commits in a tempdir and show
-#                         what would be pushed; do not push.
-#   --keep-tempdir        Don't delete the throwaway clone.
-#   -h, --help            Show this help.
-#
-# Exit codes:
-#   0  — success
-#   1  — argument or environment failure
-#   2  — clone, commit, or push failure
-#   3  — README verification failed (rendered README is not the migration notice)
+
+#% NAME
+#%     archive-remote-module.sh - archive an upstream module after ingestion
+#%
+#% SYNOPSIS
+#%     archive-remote-module.sh <Module> [options]
+#%     archive-remote-module.sh -h | --help
+#%
+#% DESCRIPTION
+#%     Phase B of the v4 remote-module ingestion. Run it only after the
+#%     Phase A ingest pull request has merged into ITK main. It publishes
+#%     to the upstream repository and cannot be undone by this script.
+#%
+#%     The script makes a fresh clone of the upstream module (depth 50),
+#%     never the rewritten Phase A clone. In that clone it removes every
+#%     path listed in the whitelist, renames README.rst to info.rst (or
+#%     README.md to info.md), renames MIGRATION_README.md to README.md so
+#%     GitHub shows the migration notice, and commits as "ITK Migration
+#%     Bot". It pushes the result to the upstream default branch, checks
+#%     through the GitHub API that the first 20 lines of the rendered README
+#%     contain migrat, archive, or moved to ITK in any case, and then marks
+#%     the GitHub repository archived.
+#%
+#%     The count of removed paths is kept in a subshell, so the script
+#%     always warns that no whitelisted paths matched and never makes a
+#%     separate removal commit. The removals are staged and go into the
+#%     README commit. If upstream has no MIGRATION_README.md, the script
+#%     warns and commits nothing, and the push sends nothing new.
+#%
+#%     Exits 0 on success and nonzero on any failure. A failed README check
+#%     happens after the push, and leaves the repository unarchived.
+#%
+#% OPTIONS
+#%     <Module>
+#%         Module name, such as IOMeshSTL.
+#%     --upstream-url URL
+#%         Upstream repository URL. By default it is read from
+#%         Modules/Remote/<Module>.remote.cmake in the ITK checkout that
+#%         contains the current directory, or from the deleted copy of that
+#%         file in its history. Must be a GitHub URL.
+#%     --whitelist FILE
+#%         Paths to remove, one shell glob per line, # for comments.
+#%         Default: whitelists/<Module>.list next to this script. That
+#%         directory ships only default.list, so this is usually needed.
+#%     --itk-pr-number N
+#%         The merged Phase A pull request. Unless --dry-run is given, the
+#%         script aborts when this ITK pull request is not merged.
+#%     --no-archive-flip
+#%         Push the commit but do not mark the repository archived.
+#%     --dry-run
+#%         Build the commit in the temporary clone and stop before the push.
+#%     --keep-tempdir
+#%         Keep the temporary clone; without it, the clone is deleted on
+#%         exit, including after --dry-run.
+#%     -h, --help
+#%         Print this help and exit.
+#%
+#% IMPLEMENTATION
+#%     Needs git, an authenticated gh with write and admin access to the
+#%     upstream repository, and network access. The clone is made under
+#%     TMPDIR (or /tmp). The ITK checkout is only read.
+#%
+#% EXAMPLES
+#%     Run these from Utilities/Maintenance/RemoteModuleIngest.
+#%
+#%     ./archive-remote-module.sh IOMeshSTL \
+#%       --whitelist whitelists/default.list --dry-run --keep-tempdir
+#%         Prepare the archival commit and keep the clone for inspection.
+#%
+#%     ./archive-remote-module.sh IOMeshSTL \
+#%       --whitelist whitelists/default.list --itk-pr-number 1234
+#%         Archive the upstream module after ITK pull request 1234 merged.
+#%
+#% SEE ALSO
+#%     Documentation/docs/contributing/script_documentation.md:
+#%         How these help sections are written.
+#%     Utilities/Maintenance/RemoteModuleIngest/INGESTION_STRATEGY_v4.md:
+#%         The Phase A and Phase B design.
+#%     Utilities/Maintenance/RemoteModuleIngest/ingest-module-v4.sh:
+#%         Phase A, which brings the module into ITK.
 
 set -euo pipefail
 
@@ -53,7 +91,7 @@ warn() { printf 'WARN: %s\n'  "$*" >&2; }
 die()  { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 show_help() {
-  sed -n '2,/^$/{ s/^# \?//; p }' "$0"
+  sed -n 's/^#% \{0,1\}//p' "${BASH_SOURCE[0]}"
   exit 0
 }
 
