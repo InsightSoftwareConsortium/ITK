@@ -1,0 +1,58 @@
+schema_version: 1
+title: Mattes mutual information derivatives repeat for a fixed number of work units
+summary: |
+  `MattesMutualInformationImageToImageMetricv4` now accumulates the joint PDF
+  derivatives of transforms without local support (for example affine and
+  `BSplineTransform`) in one array per work unit, and adds the arrays in
+  work-unit order. Repeated runs with the same number of work units give
+  bit-identical derivatives. A different number of work units groups the sum
+  differently, so the derivative can still change at the level of floating-point
+  rounding. The protected nested class `DerivativeBufferManager`, the
+  `m_ThreaderDerivativeManager` member, `m_JointPDFDerivativesLock`, and the
+  `FinalizeThread()` override are removed. They were protected parts of the
+  threaded reduction and cannot work beside the new one, so they have no
+  deprecation period. During the threaded pass, `m_JointPDFDerivatives` is the
+  array of work unit 0, to which the other work units' arrays are then added.
+details: |
+  **What you need to do**
+
+  Nothing, unless a subclass used `DerivativeBufferManager`, `FinalizeThread()`,
+  or the members above. Such a subclass should accumulate into
+  `m_ThreaderJointPDFDerivatives[threadId]` instead.
+
+  A class that instantiates
+  `MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader`
+  with its own metric, rather than with
+  `MattesMutualInformationImageToImageMetricv4` or a subclass of it, must now
+  provide `m_ThreaderJointPDFDerivatives`; the threader no longer uses
+  `m_ThreaderDerivativeManager` or `m_JointPDFDerivativesLock`. Either add that
+  member to the metric or keep a copy of the previous threader alongside it.
+  Code that relied on these headers to include `<mutex>` must include it
+  directly.
+
+  Each work unit's array takes bins^2 x parameters values, so each
+  `Initialize()` lowers the requested work units to what
+  `SetMaximumJointPDFDerivativesBytes()` allows; raising the limit restores
+  them at the next `Initialize()`. The bound also applies to `GetValue()`, since `Initialize()` cannot
+  know whether a derivative will be requested. The default (0) allows one array
+  plus 32 MiB per thread, where threads is the requested number of work units,
+  at most the global default number of threads. For example, a 3-D
+  `BSplineTransform` on a 10 x 10 x 10 mesh (6591 parameters) with 32 bins needs
+  about 51 MiB of doubles per work unit, so at 16 threads it uses 10 work units
+  and about 515 MiB. A nonzero value limits the total at each `Initialize()`,
+  down to one work unit. Transforms with local support, such as
+  `DisplacementFieldTransform`, keep no such arrays and are not limited.
+
+  With the default, the number of work units used, and so the summation order,
+  can follow the global thread count. To keep the number of work units fixed
+  whatever the machine's thread count, call both
+  `ImageToImageMetricv4::SetMaximumNumberOfWorkUnits()` and a nonzero
+  `SetMaximumJointPDFDerivativesBytes()` on the metric. Different compilers or
+  processors can still round differently.
+categories:
+  - ResultsChange
+  - ApiRemoved
+environment:
+  - cxx
+impact: medium
+pr: 7089

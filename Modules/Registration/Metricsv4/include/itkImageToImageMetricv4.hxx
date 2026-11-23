@@ -531,18 +531,15 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   SetMaximumNumberOfWorkUnits(const ThreadIdType number)
 {
-  if (number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() ||
-      number != this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnits())
+  const auto setWorkUnits = [number](auto * threader) {
+    threader->SetMaximumNumberOfThreads(number);
+    threader->SetNumberOfWorkUnits(number);
+  };
+  setWorkUnits(this->m_SparseGetValueAndDerivativeThreader.GetPointer());
+  setWorkUnits(this->m_DenseGetValueAndDerivativeThreader.GetPointer());
+  if (number != this->m_MaximumNumberOfWorkUnits)
   {
-    this->m_SparseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
-    this->m_SparseGetValueAndDerivativeThreader->SetNumberOfWorkUnits(number);
-    this->Modified();
-  }
-  if (number != this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() ||
-      number != this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnits())
-  {
-    this->m_DenseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
-    this->m_DenseGetValueAndDerivativeThreader->SetNumberOfWorkUnits(number);
+    this->m_MaximumNumberOfWorkUnits = number;
     this->Modified();
   }
 }
@@ -556,11 +553,15 @@ ThreadIdType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   GetMaximumNumberOfWorkUnits() const
 {
+  if (this->m_MaximumNumberOfWorkUnits > 0)
+  {
+    return this->m_MaximumNumberOfWorkUnits;
+  }
   if (this->m_UseSampledPointSet)
   {
-    return this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
+    return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnits();
   }
-  return this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
+  return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnits();
 }
 
 template <typename TFixedImage,

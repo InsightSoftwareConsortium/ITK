@@ -89,9 +89,10 @@ TEST_P(ImageToImageMetricv4WorkUnits, SetMaximumNumberOfWorkUnitsEqualToThreadCo
   const auto image = MakeImage();
   const auto metric = MakeMetric(image, GetParam());
 
-  const itk::ThreadIdType threads = metric->GetMaximumNumberOfWorkUnits();
+  const itk::ThreadIdType threads = itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
   ASSERT_GE(threads, 1u);
   metric->SetMaximumNumberOfWorkUnits(threads);
+  EXPECT_EQ(metric->GetMaximumNumberOfWorkUnits(), threads);
   EXPECT_LE(WorkUnitsUsed(*metric), threads);
 }
 
