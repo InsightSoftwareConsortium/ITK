@@ -144,11 +144,17 @@ namespace itk
 #  else
 #    define ITK_CLANG_SUPPRESS_Wduplicate_enum
 #  endif
+#  if __has_warning("-Wallocator-wrappers")
+#    define ITK_CLANG_SUPPRESS_Wallocator_wrappers ITK_PRAGMA(clang diagnostic ignored "-Wallocator-wrappers")
+#  else
+#    define ITK_CLANG_SUPPRESS_Wallocator_wrappers
+#  endif
 #else
 #  define ITK_CLANG_PRAGMA_PUSH
 #  define ITK_CLANG_PRAGMA_POP
 #  define ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
 #  define ITK_CLANG_SUPPRESS_Wduplicate_enum
+#  define ITK_CLANG_SUPPRESS_Wallocator_wrappers
 #endif
 
 // These were not intended as public API, but some code was nevertheless using them.
