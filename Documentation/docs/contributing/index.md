@@ -388,6 +388,9 @@ where `X.X` is the maintenance version targeted by the fix (e.g., `5.4`).
    - If the patch applies to an **older maintenance series** (e.g., ITK 5),
      fork the topic off `release-5.4` (or the corresponding `release-X.X`
      branch). Open the pull request against that same `release-X.X` branch.
+   - If the fix is **already merged on `main`**, fork the topic off the
+     maintenance branch as above and cherry-pick the `main` commit onto it.
+     The commit appears twice in the history after the merges below.
 
 2. Merge the topic into the `release-X.X` branch:
 
@@ -421,6 +424,14 @@ development branch, and that `release-X.X`, `release`, and `main` all stay
 connected in the Git history (the directed acyclic graph that records branch
 ancestry). Keeping the branches connected also avoids future merge conflicts
 between the maintenance and development lines.
+
+Steps 3 and 4 may be done later by a release manager, but no later than
+after the next patch release is tagged, so the tag becomes an ancestor of
+`main`. When a merge conflicts because `main` already holds the fix in a newer
+form, keep `main`'s version, and list each conflict and its resolution in the
+pull request. The rules and the commands that check the branches are
+connected are in
+[Documentation/AI/release-branches.md](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/AI/release-branches.md).
 
 (delete-a-topic)=
 Delete a Topic
