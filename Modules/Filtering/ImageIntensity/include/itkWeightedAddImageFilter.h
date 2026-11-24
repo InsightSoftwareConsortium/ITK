@@ -37,9 +37,10 @@ class WeightedAdd2
 public:
   using AccumulatorType = typename NumericTraits<TInput1>::AccumulateType;
   using RealType = typename NumericTraits<TInput1>::RealType;
+  using ScalarRealType = typename NumericTraits<TInput1>::ScalarRealType;
   WeightedAdd2()
     : m_Alpha(0.0)
-    , m_Beta(NumericTraits<RealType>::OneValue())
+    , m_Beta(NumericTraits<ScalarRealType>::OneValue())
   {}
   ~WeightedAdd2() = default;
 
@@ -54,28 +55,28 @@ public:
   TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
-    const RealType sum1 = A * m_Alpha;
-    const RealType sum2 = B * m_Beta;
+    const RealType sum1 = static_cast<RealType>(A) * m_Alpha;
+    const RealType sum2 = static_cast<RealType>(B) * m_Beta;
 
     return static_cast<TOutput>(sum1 + sum2);
   }
 
   void
-  SetAlpha(RealType alpha)
+  SetAlpha(ScalarRealType alpha)
   {
     m_Alpha = alpha;
-    m_Beta = NumericTraits<RealType>::OneValue() - m_Alpha;
+    m_Beta = NumericTraits<ScalarRealType>::OneValue() - m_Alpha;
   }
 
-  [[nodiscard]] RealType
+  [[nodiscard]] ScalarRealType
   GetAlpha() const
   {
     return m_Alpha;
   }
 
 private:
-  RealType m_Alpha;
-  RealType m_Beta; // auxiliary var to avoid a subtraction at every pixel
+  ScalarRealType m_Alpha;
+  ScalarRealType m_Beta; // auxiliary var to avoid a subtraction at every pixel
 };
 } // namespace Functor
 
@@ -131,6 +132,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   using RealType = typename FunctorType::RealType;
+  using ScalarRealType = typename FunctorType::ScalarRealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -140,14 +142,14 @@ public:
 
   /** Set the weight for the first operand of the weighted addition */
   void
-  SetAlpha(RealType alpha)
+  SetAlpha(ScalarRealType alpha)
   {
     this->GetFunctor().SetAlpha(alpha);
     this->Modified();
   }
 
   /** Returns the current alpha value setting */
-  RealType
+  ScalarRealType
   GetAlpha() const
   {
     return this->GetFunctor().GetAlpha();
@@ -155,9 +157,9 @@ public:
 
   itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage1::PixelType>));
   itkConceptMacro(Input1RealTypeMultiplyCheck,
-                  (Concept::MultiplyOperator<typename TInputImage1::PixelType, RealType, RealType>));
+                  (Concept::MultiplyOperator<typename TInputImage1::PixelType, ScalarRealType, RealType>));
   itkConceptMacro(Input2RealTypeMultiplyCheck,
-                  (Concept::MultiplyOperator<typename TInputImage2::PixelType, RealType, RealType>));
+                  (Concept::MultiplyOperator<typename TInputImage2::PixelType, ScalarRealType, RealType>));
 
 protected:
   WeightedAddImageFilter() = default;
