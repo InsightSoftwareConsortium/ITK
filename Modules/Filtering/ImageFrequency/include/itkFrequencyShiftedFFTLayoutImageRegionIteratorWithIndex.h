@@ -276,6 +276,10 @@ private:
   void
   Init()
   {
+    if (this->m_Image.IsNull())
+    {
+      return;
+    }
     IndexType minIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
     SizeType  sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
