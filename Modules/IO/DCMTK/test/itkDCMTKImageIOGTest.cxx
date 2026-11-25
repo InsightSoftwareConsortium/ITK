@@ -22,6 +22,7 @@
 #include "dcmtk/config/osconfig.h"
 #include "dcmtk/dcmdata/dctk.h"
 
+#include <fstream>
 #include <string>
 
 #define _STRING(s) #s
@@ -129,4 +130,18 @@ TEST(DCMTKImageIO, InPlaneSpacingOrderWithoutSpacingBetweenSlices)
   EXPECT_EQ(image->GetLargestPossibleRegion().GetSize()[1], ROWS);
   EXPECT_DOUBLE_EQ(image->GetSpacing()[0], COLUMN_SPACING);
   EXPECT_DOUBLE_EQ(image->GetSpacing()[1], ROW_SPACING);
+}
+
+// A file that DCMTK cannot load is reported by an exception rather than a null dataset dereference.
+TEST(DCMTKImageIO, ReadImageInformationThrowsOnUnreadableFile)
+{
+  const std::string fileName = OutputPath("itkDCMTKImageIONotDicom.dcm");
+  std::ofstream     file(fileName);
+  file << "not a DICOM file";
+  file.close();
+  ASSERT_TRUE(file);
+
+  const auto imageIO = itk::DCMTKImageIO::New();
+  imageIO->SetFileName(fileName);
+  EXPECT_THROW(imageIO->ReadImageInformation(), itk::ExceptionObject);
 }

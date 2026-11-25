@@ -370,15 +370,7 @@ DCMTKImageIO::ReadImageInformation()
 
   DCMTKFileReader reader;
   reader.SetFileName(this->m_FileName);
-  try
-  {
-    reader.LoadFile();
-  }
-  catch (...)
-  {
-    std::cerr << "DCMTKImageIO::ReadImageInformation: "
-              << "DicomImage could not read the file." << std::endl;
-  }
+  reader.LoadFile();
 
   // check for multiframe > 3D
   itk::int32_t numPhases;
