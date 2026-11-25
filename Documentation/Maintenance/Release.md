@@ -412,6 +412,13 @@ git merge --ff-only release
 git push upstream $major_minor
 ```
 
+After a patch release of an older series, merge `release-X.X` into `release`
+and `release` into `main`, one pull request each. Then confirm the branches
+are connected with the checks in
+[release-branches.md](../AI/release-branches.md#checking-conformance): each
+prints nothing when every maintenance commit and release tag has reached
+`main`.
+
 ### Remote modules
 
 Add any new remote modules to nightly builds. Some builds may be difficult to add
