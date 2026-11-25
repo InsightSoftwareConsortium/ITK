@@ -496,3 +496,22 @@ TEST(FrequencyIteratorConversions, DeduceImageTypeFromBaseIterator)
   static_assert(std::is_same_v<decltype(itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(base)),
                                itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>>);
 }
+
+
+// Checks that each frequency iterator can be default-constructed, and constructed from a default-constructed base
+// iterator.
+TEST(FrequencyIteratorConversions, DefaultConstructible)
+{
+  using ImageType = itk::Image<float, 2>;
+  [[maybe_unused]] const itk::FrequencyImageRegionIteratorWithIndex<ImageType>                            it0{};
+  [[maybe_unused]] const itk::FrequencyImageRegionConstIteratorWithIndex<ImageType>                       it1{};
+  [[maybe_unused]] const itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType>                   it2{};
+  [[maybe_unused]] const itk::FrequencyFFTLayoutImageRegionConstIteratorWithIndex<ImageType>              it3{};
+  [[maybe_unused]] const itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex<ImageType>      it4{};
+  [[maybe_unused]] const itk::FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<ImageType> it5{};
+  [[maybe_unused]] const itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType>            it6{};
+  [[maybe_unused]] const itk::FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<ImageType>       it7{};
+
+  const itk::ImageIteratorWithIndex<ImageType>                                 base{};
+  [[maybe_unused]] const itk::FrequencyImageRegionIteratorWithIndex<ImageType> fromBase(base);
+}

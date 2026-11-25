@@ -302,6 +302,10 @@ private:
   void
   Init()
   {
+    if (this->m_Image.IsNull())
+    {
+      return;
+    }
     SizeType sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
     this->m_MinIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
     this->m_MaxIndex = this->m_Image->GetLargestPossibleRegion().GetUpperIndex();

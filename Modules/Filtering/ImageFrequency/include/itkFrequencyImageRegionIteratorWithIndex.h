@@ -198,6 +198,10 @@ private:
   void
   Init()
   {
+    if (this->m_Image.IsNull())
+    {
+      return;
+    }
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       this->m_FrequencyOrigin[dim] = this->m_Image->GetOrigin()[dim];
