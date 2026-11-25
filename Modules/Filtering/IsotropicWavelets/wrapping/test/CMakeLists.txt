@@ -86,3 +86,12 @@ itk_python_expression_add_test(
   NAME itkIsotropicWaveletsUtilitiesPythonTest
   EXPRESSION "itk.IsotropicWaveletsUtilities.Factorial(2)"
 )
+itk_python_expression_add_test(
+  NAME itkRieszStructureTensorImageFilterGaussianSourcePythonTest
+  EXPRESSION
+    "assert isinstance(itk.RieszStructureTensorImageFilter[itk.Image[itk.F, 2], itk.Image[itk.VariableSizeMatrix[itk.D], 2]].New().GetGaussianSource(), itk.GaussianImageSource[itk.Image[itk.D, 2]])"
+)
+itk_python_expression_add_test(
+  NAME itkArrayComplexPythonTest
+  EXPRESSION "instance = itk.Array[itk.complex[itk.D]](3)"
+)
