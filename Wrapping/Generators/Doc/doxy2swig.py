@@ -218,7 +218,7 @@ class Doxy2SWIG:
             for n in names:
                 if n in first:
                     self.parse(first[n])
-            self.add_text(['";', "\n"])
+            self.end_docstring()
             for n in node.childNodes:
                 if n not in first.values():
                     self.parse(n)
@@ -290,7 +290,10 @@ class Doxy2SWIG:
             for n in node.childNodes:
                 if n not in first.values():
                     self.parse(n)
-            self.add_text(['";', "\n"])
+            self.end_docstring()
+
+    def end_docstring(self):
+        self.add_text(['";', "\n"])
 
     def do_definition(self, node):
         data = node.firstChild.data
