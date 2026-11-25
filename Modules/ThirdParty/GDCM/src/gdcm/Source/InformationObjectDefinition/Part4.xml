@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Program: GDCM (Grassroots DICOM). A DICOM library
+
+  Copyright (c) 2006-2011 Mathieu Malaterre
+  All rights reserved.
+  See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notice for more information.
+-->
+<sop-classes>
+  <standard-and-related-general-sop-classes>
+    <mapping sop-class-name="12-lead ECG Waveform Storage" sop-class-uid="General ECG Waveform Storage" iod=""/>
+    <mapping sop-class-name="Digital Mammography X-Ray Image Storage - For Presentation" sop-class-uid="Digital X-Ray Image Storage - For Presentation" iod=""/>
+    <mapping sop-class-name="Digital Mammography X-Ray Image Storage - For Processing" sop-class-uid="Digital X-Ray Image Storage - For Processing" iod=""/>
+    <mapping sop-class-name="Digital Intra-Oral X-Ray Image Storage - For Presentation" sop-class-uid="Digital X-Ray Image Storage - For Presentation" iod=""/>
+    <mapping sop-class-name="Digital Intra-Oral X-Ray Image Storage - For Processing" sop-class-uid="Digital X-Ray Image Storage - For Processing" iod=""/>
+    <mapping sop-class-name="Basic Text SR" sop-class-uid="Enhanced SR" iod=""/>
+    <mapping sop-class-name="Comprehensive SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Enhanced SR" sop-class-uid="Comprehensive SR" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive SR" sop-class-uid="Comprehensive 3D SR" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="Extensible SR" iod=""/>
+    <mapping sop-class-name="Procedure Log" sop-class-uid="Enhanced SR" iod=""/>
+    <mapping sop-class-name="Comprehensive SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Simplified Adult Echo SR" sop-class-uid="Enhanced SR" iod=""/>
+    <mapping sop-class-name="Comprehensive SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="X-Ray Radiation Dose SR" sop-class-uid="Enhanced SR" iod=""/>
+    <mapping sop-class-name="Comprehensive SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Radiopharmaceutical Radiation Dose SR" sop-class-uid="Enhanced SR" iod=""/>
+    <mapping sop-class-name="Comprehensive SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Acquisition Context SR" sop-class-uid="Enhanced SR (see note)" iod=""/>
+    <mapping sop-class-name="Comprehensive SR (see note)" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Extensible SR" sop-class-uid="" iod=""/>
+    <mapping sop-class-name="Spectacle Prescription Report" sop-class-uid="Enhanced SR" iod=""/>
+    <mapping sop-class-name="Macular Grid Thickness and Volume Report" sop-class-uid="Enhanced SR" iod=""/>
+    <mapping sop-class-name="Enhanced CT Image Storage" sop-class-uid="Legacy Converted Enhanced CT Image Storage" iod=""/>
+    <mapping sop-class-name="Enhanced MR Image Storage" sop-class-uid="Legacy Converted Enhanced MR Image Storage" iod=""/>
+    <mapping sop-class-name="Enhanced PET Image Storage" sop-class-uid="Legacy Converted Enhanced PET Image Storage" iod=""/>
+  </standard-and-related-general-sop-classes>
+  <standard-sop-classes>
+    <mapping sop-class-name="Computed Radiography Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.1" iod=""/>
+    <mapping sop-class-name="Digital X-Ray Image Storage - For Presentation" sop-class-uid="1.2.840.10008.5.1.4.1.1.1.1" iod="DX IOD (see B.5.1.1)"/>
+    <mapping sop-class-name="Digital X-Ray Image Storage - For Processing" sop-class-uid="1.2.840.10008.5.1.4.1.1.1.1.1" iod="DX IOD (see B.5.1.1)"/>
+    <mapping sop-class-name="Digital Mammography X-Ray Image Storage - For Presentation" sop-class-uid="1.2.840.10008.5.1.4.1.1.1.2" iod="Digital Mammography IOD (see B.5.1.2)"/>
+    <mapping sop-class-name="Digital Mammography X-Ray Image Storage - For Processing" sop-class-uid="1.2.840.10008.5.1.4.1.1.1.2.1" iod="Digital Mammography IOD (see B.5.1.2)"/>
+    <mapping sop-class-name="Digital Intra-Oral X-Ray Image Storage - For Presentation" sop-class-uid="1.2.840.10008.5.1.4.1.1.1.3" iod="Digital Intra-oral X-Ray IOD (see B.5.1.3)"/>
+    <mapping sop-class-name="Digital Intra-Oral X-Ray Image Storage - For Processing" sop-class-uid="1.2.840.10008.5.1.4.1.1.1.3.1" iod="Digital Intra-oral X-Ray IOD (see B.5.1.3)"/>
+    <mapping sop-class-name="CT Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.2" iod=""/>
+    <mapping sop-class-name="Enhanced CT Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.2.1" iod="Enhanced CT Image (see B.5.1.7)"/>
+    <mapping sop-class-name="Legacy Converted Enhanced CT Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.2.2" iod="(see B.5.1.7)"/>
+    <mapping sop-class-name="Ultrasound Multi-frame Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.3.1" iod=""/>
+    <mapping sop-class-name="MR Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.4" iod=""/>
+    <mapping sop-class-name="Enhanced MR Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.4.1" iod="Enhanced MR Image (see B.5.1.6)"/>
+    <mapping sop-class-name="MR Spectroscopy Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.4.2" iod="MR Spectroscopy"/>
+    <mapping sop-class-name="Enhanced MR Color Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.4.3" iod="Enhanced MR Color Image"/>
+    <mapping sop-class-name="Legacy Converted Enhanced MR Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.4.4" iod="(see B.5.1.6)"/>
+    <mapping sop-class-name="Ultrasound Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.6.1" iod=""/>
+    <mapping sop-class-name="Enhanced US Volume Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.6.2" iod="Enhanced US Volume"/>
+    <mapping sop-class-name="Secondary Capture Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.7" iod=""/>
+    <mapping sop-class-name="Multi-frame Single Bit Secondary Capture Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.7.1" iod=""/>
+    <mapping sop-class-name="Multi-frame Grayscale Byte Secondary Capture Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.7.2" iod=""/>
+    <mapping sop-class-name="Multi-frame Grayscale Word Secondary Capture Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.7.3" iod=""/>
+    <mapping sop-class-name="Multi-frame True Color Secondary Capture Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.7.4" iod=""/>
+    <mapping sop-class-name="12-lead ECG Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.1.1" iod=""/>
+    <mapping sop-class-name="General ECG Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.1.2" iod=""/>
+    <mapping sop-class-name="Ambulatory ECG Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.1.3" iod=""/>
+    <mapping sop-class-name="Hemodynamic Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.2.1" iod=""/>
+    <mapping sop-class-name="Cardiac Electrophysiology Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.3.1" iod=""/>
+    <mapping sop-class-name="Basic Voice Audio Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.4.1" iod=""/>
+    <mapping sop-class-name="General Audio Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.4.2" iod=""/>
+    <mapping sop-class-name="Arterial Pulse Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.5.1" iod=""/>
+    <mapping sop-class-name="Respiratory Waveform Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.9.6.1" iod=""/>
+    <mapping sop-class-name="Grayscale Softcopy Presentation State Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.11.1" iod=""/>
+    <mapping sop-class-name="Color Softcopy Presentation State Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.11.2" iod=""/>
+    <mapping sop-class-name="Pseudo-Color Softcopy Presentation State Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.11.3" iod=""/>
+    <mapping sop-class-name="Blending Softcopy Presentation State Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.11.4" iod=""/>
+    <mapping sop-class-name="XA/XRF Grayscale Softcopy Presentation State Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.11.5" iod=""/>
+    <mapping sop-class-name="Grayscale Planar MPR Volumetric Presentation State Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.11.6" iod=""/>
+    <mapping sop-class-name="Compositing Planar MPR Volumetric Presentation State Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.11.7" iod=""/>
+    <mapping sop-class-name="X-Ray Angiographic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.12.1" iod=""/>
+    <mapping sop-class-name="Enhanced XA Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.12.1.1" iod=""/>
+    <mapping sop-class-name="X-Ray Radiofluoroscopic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.12.2" iod=""/>
+    <mapping sop-class-name="Enhanced XRF Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.12.2.1" iod=""/>
+    <mapping sop-class-name="X-Ray 3D Angiographic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.13.1.1" iod=""/>
+    <mapping sop-class-name="X-Ray 3D Craniofacial Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.13.1.2" iod=""/>
+    <mapping sop-class-name="Breast Tomosynthesis Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.13.1.3" iod=""/>
+    <mapping sop-class-name="Breast Projection X-Ray Image Storage - For Presentation" sop-class-uid="1.2.840.10008.5.1.4.1.1.13.1.4" iod=""/>
+    <mapping sop-class-name="Breast Projection X-Ray Image Storage - For Processing" sop-class-uid="1.2.840.10008.5.1.4.1.1.13.1.5" iod=""/>
+    <mapping sop-class-name="Intravascular Optical Coherence Tomography Image Storage - For Presentation" sop-class-uid="1.2.840.10008.5.1.4.1.1.14.1" iod="(see B.5.1.13)"/>
+    <mapping sop-class-name="Intravascular Optical Coherence Tomography Image Storage - For Processing" sop-class-uid="1.2.840.10008.5.1.4.1.1.14.2" iod="(see B.5.1.13)"/>
+    <mapping sop-class-name="Nuclear Medicine Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.20" iod=""/>
+    <mapping sop-class-name="Parametric Map Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.30" iod=""/>
+    <mapping sop-class-name="Raw Data Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.66" iod=""/>
+    <mapping sop-class-name="Spatial Registration Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.66.1" iod=""/>
+    <mapping sop-class-name="Spatial Fiducials Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.66.2" iod=""/>
+    <mapping sop-class-name="Deformable Spatial Registration Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.66.3" iod=""/>
+    <mapping sop-class-name="Segmentation Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.66.4" iod=""/>
+    <mapping sop-class-name="Surface Segmentation Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.66.5" iod=""/>
+    <mapping sop-class-name="Tractography Results Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.66.6" iod=""/>
+    <mapping sop-class-name="Real World Value Mapping Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.67" iod=""/>
+    <mapping sop-class-name="Surface Scan Mesh Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.68.1" iod=""/>
+    <mapping sop-class-name="Surface Scan Point Cloud Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.68.2" iod=""/>
+    <mapping sop-class-name="VL Endoscopic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.1" iod=""/>
+    <mapping sop-class-name="Video Endoscopic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.1.1" iod=""/>
+    <mapping sop-class-name="VL Microscopic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.2" iod=""/>
+    <mapping sop-class-name="Video Microscopic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.2.1" iod=""/>
+    <mapping sop-class-name="VL Slide-Coordinates Microscopic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.3" iod=""/>
+    <mapping sop-class-name="VL Photographic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.4" iod=""/>
+    <mapping sop-class-name="Video Photographic Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.4.1" iod=""/>
+    <mapping sop-class-name="Ophthalmic Photography 8 Bit Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.5.1" iod=""/>
+    <mapping sop-class-name="Ophthalmic Photography 16 Bit Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.5.2" iod=""/>
+    <mapping sop-class-name="Stereometric Relationship Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.5.3" iod=""/>
+    <mapping sop-class-name="Ophthalmic Tomography Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.5.4" iod=""/>
+    <mapping sop-class-name="Wide Field Ophthalmic Photography Stereographic Projection Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.5.5" iod=""/>
+    <mapping sop-class-name="Wide Field Ophthalmic Photography 3D Coordinates Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.5.6" iod=""/>
+    <mapping sop-class-name="VL Whole Slide Microscopy Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.77.1.6" iod=""/>
+    <mapping sop-class-name="Lensometry Measurements Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.1" iod=""/>
+    <mapping sop-class-name="Autorefraction Measurements Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.2" iod=""/>
+    <mapping sop-class-name="Keratometry Measurements Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.3" iod=""/>
+    <mapping sop-class-name="Subjective Refraction Measurements Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.4" iod=""/>
+    <mapping sop-class-name="Visual Acuity Measurements Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.5" iod=""/>
+    <mapping sop-class-name="Spectacle Prescription Report Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.6" iod=""/>
+    <mapping sop-class-name="Ophthalmic Axial Measurements Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.7" iod=""/>
+    <mapping sop-class-name="Intraocular Lens Calculations Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.78.8" iod=""/>
+    <mapping sop-class-name="Macular Grid Thickness and Volume Report" sop-class-uid="1.2.840.10008.5.1.4.1.1.79.1" iod=""/>
+    <mapping sop-class-name="Ophthalmic Visual Field Static Perimetry Measurements Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.80.1" iod=""/>
+    <mapping sop-class-name="Ophthalmic Thickness Map Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.81.1" iod=""/>
+    <mapping sop-class-name="Corneal Topography Map Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.82.1" iod=""/>
+    <mapping sop-class-name="Basic Text SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.11" iod=""/>
+    <mapping sop-class-name="Enhanced SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.22" iod=""/>
+    <mapping sop-class-name="Comprehensive SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.33" iod=""/>
+    <mapping sop-class-name="Comprehensive 3D SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.34" iod=""/>
+    <mapping sop-class-name="Extensible SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.35" iod=""/>
+    <mapping sop-class-name="Procedure Log Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.40" iod=""/>
+    <mapping sop-class-name="Mammography CAD SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.50" iod=""/>
+    <mapping sop-class-name="Key Object Selection Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.59" iod=""/>
+    <mapping sop-class-name="Chest CAD SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.65" iod=""/>
+    <mapping sop-class-name="X-Ray Radiation Dose SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.67" iod=""/>
+    <mapping sop-class-name="Radiopharmaceutical Radiation Dose SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.68" iod=""/>
+    <mapping sop-class-name="Colon CAD SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.69" iod=""/>
+    <mapping sop-class-name="Implantation Plan SR Document Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.70" iod=""/>
+    <mapping sop-class-name="Acquisition Context SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.71" iod=""/>
+    <mapping sop-class-name="Simplified Adult Echo SR Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.88.72" iod=""/>
+    <mapping sop-class-name="Content Assessment Results Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.90.1" iod=""/>
+    <mapping sop-class-name="Encapsulated PDF Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.104.1" iod=""/>
+    <mapping sop-class-name="Encapsulated CDA Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.104.2" iod=""/>
+    <mapping sop-class-name="Positron Emission Tomography Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.128" iod=""/>
+    <mapping sop-class-name="Enhanced PET Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.130" iod="(see B.5.1.16)"/>
+    <mapping sop-class-name="Legacy Converted Enhanced PET Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.128.1" iod=""/>
+    <mapping sop-class-name="Basic Structured Display Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.131" iod=""/>
+    <mapping sop-class-name="CT Performed Procedure Protocol Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.200.2" iod=""/>
+    <mapping sop-class-name="RT Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.1" iod=""/>
+    <mapping sop-class-name="RT Dose Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.2" iod=""/>
+    <mapping sop-class-name="RT Structure Set Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.3" iod=""/>
+    <mapping sop-class-name="RT Beams Treatment Record Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.4" iod=""/>
+    <mapping sop-class-name="RT Plan Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.5" iod=""/>
+    <mapping sop-class-name="RT Brachy Treatment Record Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.6" iod=""/>
+    <mapping sop-class-name="RT Treatment Summary Record Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.7" iod=""/>
+    <mapping sop-class-name="RT Ion Plan Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.8" iod=""/>
+    <mapping sop-class-name="RT Ion Beams Treatment Record Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.481.9" iod=""/>
+    <mapping sop-class-name="RT Beams Delivery Instruction Storage" sop-class-uid="1.2.840.10008.5.1.4.34.7" iod=""/>
+    <mapping sop-class-name="RT Brachy Application Setup Delivery Instruction Storage" sop-class-uid="1.2.840.10008.5.1.4.34.10" iod=""/>
+  </standard-sop-classes>
+  <retired-standard-sop-classes>
+    <mapping sop-class-name="Nuclear Medicine Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.5" iod=""/>
+    <mapping sop-class-name="Ultrasound Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.6" iod=""/>
+    <mapping sop-class-name="Ultrasound Multi-frame Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.3" iod=""/>
+    <mapping sop-class-name="X-Ray Angiographic Bi-plane Image Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.12.3" iod=""/>
+  </retired-standard-sop-classes>
+  <modality-specific-sop-class-conversions>
+    <mapping sop-class-name="CT Image Storage" sop-class-uid="Enhanced CT Image Storage" iod=""/>
+    <mapping sop-class-name="MR Image Storage" sop-class-uid="Enhanced MR Image Storage" iod=""/>
+    <mapping sop-class-name="PET Image Storage" sop-class-uid="Enhanced PET Image Storage" iod=""/>
+  </modality-specific-sop-class-conversions>
+  <media-storage-standard-sop-classes>
+    <mapping sop-class-name="Media Storage Directory Storage" sop-class-uid="1.2.840.10008.1.3.10" iod=""/>
+  </media-storage-standard-sop-classes>
+  <standard-sop-classes2>
+    <mapping sop-class-name="Hanging Protocol Storage" sop-class-uid="1.2.840.10008.5.1.4.38.1" iod=""/>
+    <mapping sop-class-name="Color Palette Storage" sop-class-uid="1.2.840.10008.5.1.4.39.1" iod=""/>
+    <mapping sop-class-name="Generic Implant Template Storage" sop-class-uid="1.2.840.10008.5.1.4.43.1" iod=""/>
+    <mapping sop-class-name="Implant Assembly Template Storage" sop-class-uid="1.2.840.10008.5.1.4.44.1" iod=""/>
+    <mapping sop-class-name="Implant Template Group Storage" sop-class-uid="1.2.840.10008.5.1.4.45.1" iod=""/>
+    <mapping sop-class-name="CT Defined Procedure Protocol Storage" sop-class-uid="1.2.840.10008.5.1.4.1.1.200.1" iod=""/>
+  </standard-sop-classes2>
+</sop-classes>

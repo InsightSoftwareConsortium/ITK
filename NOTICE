@@ -1,0 +1,15 @@
+ITK Software Licenses
+=====================
+
+The copyright of the Insight Toolkit (ITK) is held by:
+
+> Copyright 1999-2019    Insight Software Consortium
+>
+> Copyright 2020-present NumFOCUS
+
+This software is distributed under the Apache 2.0 License.
+
+See [LICENSE](../../LICENSE) file for details.
+
+Vendored third party software are copyrighted with licenses compatible with the Apache 2.0 License.
+For details, see the [licenses.md file](Documentation/docs/licenses.md).

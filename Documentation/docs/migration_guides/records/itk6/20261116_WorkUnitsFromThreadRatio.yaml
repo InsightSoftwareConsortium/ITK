@@ -1,0 +1,29 @@
+schema_version: 1
+title: Set work units from the current thread count
+summary: |
+  `MultiThreaderBase::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType)` is a new
+  pure virtual method. Custom multi-threaders must implement it.
+details: |
+  `ProcessObject` exposes the same setter. It immediately sets the multi-threader's
+  work-unit count and forwards the accepted count through the virtual
+  `SetNumberOfWorkUnits()`, including for composite filters:
+
+  ```cpp
+  filter->SetNumberOfWorkUnitsFromThreadRatio(2);
+  ```
+
+  Pool and TBB set the count to their current maximum number of threads times the
+  ratio, clamped to `[1, NumericTraits<ThreadIdType>::max() / threadCount]` so the
+  product cannot overflow, even for a shared pool larger than `ITK_MAX_THREADS`.
+  Platform keeps one work unit per thread without increasing
+  its thread count; Single always uses one work unit. The ratio is not retained:
+  later thread-count changes, explicit work-unit settings, and multi-threader
+  replacement do not reapply it.
+environment:
+  - cxx
+impact: low
+pr: 7180
+commits:
+  - 740be14deb6
+  - 43180f48479
+  - a5c2d8f9ae1

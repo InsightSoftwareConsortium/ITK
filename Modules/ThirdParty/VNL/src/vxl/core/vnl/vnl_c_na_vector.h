@@ -1,0 +1,93 @@
+// This is core/vnl/vnl_c_na_vector.h
+#ifndef vnl_c_na_vector_h_
+#define vnl_c_na_vector_h_
+//:
+// \file
+// \brief Math on blocks of memory
+//
+//    NA aware vnl_c_vector-like interfaces to lowlevel memory-block operations.
+//
+// \author Andrew W. Fitzgibbon, Ian Scott
+// \date   3 Nov 2010
+//
+// \verbatim
+//  Modifications
+// \endverbatim
+//
+//-----------------------------------------------------------------------------
+
+#include <iosfwd>
+#include <cmath>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
+#include "vnl_numeric_traits.h"
+#include "vnl/vnl_export.h"
+
+// avoid messing about with aux_* functions for gcc 2.7 -- fsm
+template <class T, class S>
+VNL_EXPORT void
+vnl_c_na_vector_one_norm(const T * p, unsigned n, S * out);
+template <class T, class S>
+VNL_EXPORT void
+vnl_c_na_vector_two_norm(const T * p, unsigned n, S * out);
+template <class T, class S>
+VNL_EXPORT void
+vnl_c_na_vector_two_norm_squared(const T * p, unsigned n, S * out);
+
+//: vnl_c_na_vector interfaces to NA-aware lowlevel memory-block operations.
+template <class T>
+class VNL_EXPORT vnl_c_na_vector
+{
+public:
+  using abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using real_t = typename vnl_numeric_traits<T>::real_t;
+
+  static T
+  sum(const T * v, unsigned n);
+  static inline abs_t
+  squared_magnitude(const T * p, unsigned n)
+  {
+    abs_t val;
+    vnl_c_na_vector_two_norm_squared(p, n, &val);
+    return val;
+  }
+
+  static T
+  mean(const T * p, unsigned n);
+
+  //:  one_norm : sum of abs values
+  static inline abs_t
+  one_norm(const T * p, unsigned n)
+  {
+    abs_t val;
+    vnl_c_na_vector_one_norm(p, n, &val);
+    return val;
+  }
+
+  //: two_norm : sqrt of sum of squared abs values
+  static inline abs_t
+  two_norm(const T * p, unsigned n)
+  {
+    abs_t val;
+    vnl_c_na_vector_two_norm(p, n, &val);
+    return val;
+  }
+
+  //: two_nrm2 : sum of squared abs values
+  static inline abs_t
+  two_nrm2(const T * p, unsigned n)
+  {
+    abs_t val;
+    vnl_c_na_vector_two_norm_squared(p, n, &val);
+    return val;
+  }
+};
+
+//: Input & output
+// \relatesalso vnl_c_na_vector
+template <class T>
+VNL_EXPORT std::ostream &
+print_na_vector(std::ostream &, const T *, unsigned);
+
+#endif // vnl_c_na_vector_h_

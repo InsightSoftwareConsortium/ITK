@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#==========================================================================
+#
+#   Copyright NumFOCUS
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#          https://www.apache.org/licenses/LICENSE-2.0.txt
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#==========================================================================*/
+
+egrep-q() {
+  egrep "$@" >/dev/null 2>/dev/null
+}
+
+die() {
+  echo 'pre-commit hook failure' 1>&2
+  echo '-----------------------' 1>&2
+  echo '' 1>&2
+  echo "$@" 1>&2
+  exit 1
+}
+
+#-----------------------------------------------------------------------------
+
+# Check that developer setup is up-to-date.
+lastSetupForDevelopment=$(git config --get hooks.SetupForDevelopment || echo 0)
+eval $(grep '^SetupForDevelopment_VERSION=' "${BASH_SOURCE%/*}/../SetupForDevelopment.sh")
+top_level_dir=$(git rev-parse --show-toplevel)
+test -n "$SetupForDevelopment_VERSION" || SetupForDevelopment_VERSION=0
+if test $lastSetupForDevelopment -lt $SetupForDevelopment_VERSION; then
+  die "Developer setup in this work tree is out of date.  Please re-run
+
+  \"$top_level_dir/Utilities/SetupForDevelopment.sh\"
+"
+fi
+
+#-----------------------------------------------------------------------------
+# Check files added by commit
+
+added=$(git diff-index --diff-filter=A --cached HEAD --)
+added_normal=$(echo "$added" | grep -v '^:...... 160000')
+added_module=$(echo "$added" | grep    '^:...... 160000')
+
+# Do not allow adding of files with .txx extension.
+added_txx=$(echo "$added_normal" | grep '\.txx$')
+bad=$(
+  test -n "$added_txx" &&
+  echo "Files with the .txx extension are deprecated -- please use .hxx instead:" &&
+  echo "$added_txx" | awk '{printf("  %s\n",$6)}'
+)
+test -z "$bad" || die "$bad"
+
+# Do not allow addition of submodules.
+bad=$(
+  test -n "$added_module" &&
+  echo "Submodules may not be added to ITK at this time:" &&
+  echo "$added_module" | awk '{printf("  %s\n",$6)}'
+)
+test -z "$bad" || die "$bad"
+
+#-----------------------------------------------------------------------------
+# Style hooks.
+. "${BASH_SOURCE%/*}/pre-commit-style.bash"

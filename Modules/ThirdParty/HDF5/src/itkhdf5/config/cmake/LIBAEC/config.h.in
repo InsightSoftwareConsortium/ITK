@@ -1,0 +1,6 @@
+#cmakedefine WORDS_BIGENDIAN
+#cmakedefine01 HAVE_DECL___BUILTIN_CLZLL
+#cmakedefine HAVE_BSR64
+#cmakedefine HAVE_SNPRINTF
+#cmakedefine HAVE__SNPRINTF
+#cmakedefine HAVE__SNPRINTF_S

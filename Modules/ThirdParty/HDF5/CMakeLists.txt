@@ -1,0 +1,125 @@
+project(ITKHDF5)
+set(ITKHDF5_THIRD_PARTY 1)
+
+# Reset BUILD_SHARED_LIBS to ITK_BUILD_SHARED_LIBS
+# that keeps track of the initial state of the root
+# project BUILD_SHARED_LIBS option (which could be
+# modified before reaching this point)
+set(BUILD_SHARED_LIBS ${ITK_BUILD_SHARED_LIBS})
+
+if(ITK_USE_SYSTEM_HDF5)
+  if(HDF5_DIR)
+    set(_HDF5_DIR_CODE "set(HDF5_DIR \"${HDF5_DIR}\")")
+  endif()
+  if(HDF5_NO_MODULE)
+    set(_HDF5_NO_MODULE_ARG "NO_MODULE")
+  endif()
+
+  # When ITK's config is loaded, load HDF5 too.
+  set(
+    ITKHDF5_EXPORT_CODE_INSTALL
+    "
+${_HDF5_DIR_CODE}
+find_package(HDF5 ${_HDF5_NO_MODULE_ARG} REQUIRED COMPONENTS CXX C HL)
+"
+  )
+  set(
+    ITKHDF5_EXPORT_CODE_BUILD
+    "
+if(NOT ITK_BINARY_DIR)
+  ${_HDF5_DIR_CODE}
+  find_package(HDF5 ${_HDF5_NO_MODULE_ARG} REQUIRED COMPONENTS CXX C HL)
+endif()
+"
+  )
+
+  if(BUILD_SHARED_LIBS)
+    set(_hdf5_type -shared)
+  else()
+    set(_hdf5_type -static)
+  endif()
+
+  if(TARGET hdf5::hdf5${_hdf5_type})
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5::hdf5_cpp${_hdf5_type}
+      hdf5::hdf5${_hdf5_type}
+      hdf5::hdf5_hl${_hdf5_type}
+      hdf5::hdf5_hl_cpp${_hdf5_type}
+    )
+  elseif(TARGET hdf5${_hdf5_type})
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5_cpp${_hdf5_type}
+      hdf5${_hdf5_type}
+      hdf5_hl${_hdf5_type}
+      hdf5_hl_cpp${_hdf5_type}
+    )
+  elseif(TARGET hdf5::hdf5)
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5::hdf5_cpp
+      hdf5::hdf5
+      hdf5::hdf5_hl
+      hdf5::hdf5_hl_cpp
+    )
+  else()
+    message(
+      FATAL_ERROR
+      "ITK_USE_SYSTEM_HDF5 is ON but the HDF5 targets were not found. "
+      "Please set HDF5_DIR to the directory containing HDF5Config.cmake."
+    )
+  endif()
+
+  set(
+    ITKHDF5_INCLUDE_DIRS
+    ${ITKHDF5_BINARY_DIR}/src # itk_hdf5.h and itk_H5Cpp.h
+  )
+
+  set(ITKHDF5_NO_SRC 1)
+else()
+  set(
+    ITKHDF5_INCLUDE_DIRS
+    ${ITKHDF5_SOURCE_DIR}/src
+    ${ITKHDF5_SOURCE_DIR}/src/itkhdf5/src
+    ${ITKHDF5_SOURCE_DIR}/src/itkhdf5/hl/src
+    ${ITKHDF5_BINARY_DIR}/src
+    ${ITKHDF5_BINARY_DIR}/src/itkhdf5/src
+    ${ITKHDF5_BINARY_DIR}/src/itkhdf5/hl/src
+  )
+  if(BUILD_SHARED_LIBS)
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5_cpp-shared
+      hdf5-shared
+      hdf5_hl-shared
+      hdf5_hl_cpp-shared
+    )
+  else()
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5_cpp-static
+      hdf5-static
+      hdf5_hl-static
+      hdf5_hl_cpp-static
+    )
+  endif()
+endif()
+
+configure_file(src/itk_hdf5.h.in src/itk_hdf5.h)
+configure_file(src/itk_H5Cpp.h.in src/itk_H5Cpp.h)
+list(
+  APPEND
+  ITK_LIBRARY_PROPERTIES
+  WINDOWS_EXPORT_ALL_SYMBOLS
+  FALSE
+)
+itk_module_impl()
+
+install(
+  FILES
+    ${ITKHDF5_BINARY_DIR}/src/itk_hdf5.h
+    ${ITKHDF5_BINARY_DIR}/src/itk_H5Cpp.h
+  DESTINATION ${ITKHDF5_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
+)

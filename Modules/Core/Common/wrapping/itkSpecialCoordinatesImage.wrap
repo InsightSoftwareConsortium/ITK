@@ -1,0 +1,13 @@
+itk_wrap_include("complex")
+
+# Wrap underlying class hierarchy
+itk_wrap_class("itk::SpecialCoordinatesImage" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}}, ${d}")
+  endforeach()
+  foreach(t3 ${WRAP_ITK_COMPLEX_REAL})
+    itk_wrap_template("${ITKM_${t3}}${d}" "${ITKT_${t3}}, ${d}")
+  endforeach()
+endforeach()
+itk_end_wrap_class()

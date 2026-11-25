@@ -1,0 +1,15 @@
+importScripts('workbox-sw.prod.v2.0.1.js');
+
+const workboxSW = new self.WorkboxSW({clientsClaim: true})
+workboxSW.precache([])
+
+workboxSW.router.registerRoute(
+  /\.html$|\.gif$|\.png$/,
+  workboxSW.strategies.cacheFirst({
+  cacheName: 'cacheFirstContent',
+  cacheExpiration: {
+    maxEntries: 100,
+    maxAgeSeconds: 7 * 24 * 60 * 60 * 4,
+    }
+  })
+);

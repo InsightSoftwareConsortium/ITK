@@ -1,0 +1,3 @@
+itk_wrap_class("itk::GradientVectorFlowImageFilter" POINTER)
+  itk_wrap_image_filter("${WRAP_ITK_COV_VECTOR_REAL}" 2)
+itk_end_wrap_class()

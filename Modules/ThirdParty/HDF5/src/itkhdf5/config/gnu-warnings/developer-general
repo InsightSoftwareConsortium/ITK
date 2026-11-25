@@ -1,0 +1,9 @@
+# (suggestions from gcc, not code problems)
+-Waggregate-return
+-Wdisabled-optimization
+-Wmissing-format-attribute
+-Wmissing-noreturn
+-Wswitch-default
+-Wswitch-enum
+-Wunsafe-loop-optimizations
+-Wunused-macros

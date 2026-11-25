@@ -1,0 +1,20 @@
+// This is core/vnl/vnl_double_2x1.h
+#ifndef vnl_double_2x1_h_
+#define vnl_double_2x1_h_
+//:
+//  \file
+//  \brief 2x1 matrix of double
+//
+//    vnl_double_2x1 is a vnl_matrix<double> of fixed size 2x1.
+//    It is merely a typedef for vnl_matrix_fixed<double,2,1>
+//
+//  \author Peter Vanroose
+//  \date   29 June 2003
+//
+//-----------------------------------------------------------------------------
+
+#include "vnl_matrix_fixed.h"
+
+using vnl_double_2x1 = vnl_matrix_fixed<double, 2, 1>;
+
+#endif // vnl_double_2x1_h_

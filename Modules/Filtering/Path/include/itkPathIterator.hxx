@@ -1,0 +1,86 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkPathIterator_hxx
+#define itkPathIterator_hxx
+
+#include "itkOffset.h" // for operator++
+
+namespace itk
+{
+template <typename TImage, typename TPath>
+PathIterator<TImage, TPath>::PathIterator(TImage * imagePtr, const PathType * pathPtr)
+  : m_Image(imagePtr)
+  , m_Path(pathPtr)
+  , m_Region(m_Image->GetLargestPossibleRegion())
+  , m_ImageOrigin(m_Image->GetOrigin())
+  , m_ImageSpacing(m_Image->GetSpacing())
+  , m_ImageSize(m_Region.GetSize().m_InternalArray)
+  , m_VisitStartIndexAsLastIndexIfClosed(true)
+{
+  m_ZeroOffset.Fill(0);
+  GoToBegin();
+}
+
+template <typename TImage, typename TPath>
+void
+PathIterator<TImage, TPath>::GoToBegin()
+{
+  // Go the beginning
+  m_CurrentPathPosition = m_Path->StartOfInput();
+
+  // But don't visit the first index twice for closed paths (unless told to)
+  if (m_VisitStartIndexAsLastIndexIfClosed)
+  {
+    // Are the first and last indices coincident?
+    if (m_Path->EvaluateToIndex(m_Path->EndOfInput()) == m_Path->EvaluateToIndex(m_Path->StartOfInput()))
+    {
+      // Skip the starting index; we will visit it later.
+      m_Path->IncrementInput(m_CurrentPathPosition);
+    }
+  }
+  // Update the other member data
+  m_CurrentImageIndex = m_Path->EvaluateToIndex(m_CurrentPathPosition);
+  m_IsAtEnd = false;
+}
+
+template <typename TImage, typename TPath>
+void
+PathIterator<TImage, TPath>::operator++()
+{
+  // We need to modify m_CurrentPathPosition, m_CurrentImageIndex, m_IsAtEnd
+  const OffsetType offset = m_Path->IncrementInput(m_CurrentPathPosition);
+  if (m_ZeroOffset == offset)
+  {
+    // We tried to go past the end (and we are still there)
+    m_IsAtEnd = true;
+  }
+  else if (!m_Region.IsInside(m_CurrentImageIndex))
+  {
+    // The new index is outside the acceptable region.  We can iterate no
+    // farther, call this the end.  NOTE THAT INPUT IS STILL INCREMENTED.
+    m_IsAtEnd = true;
+    itkWarningMacro("Path left region; unable to finish tracing it");
+  }
+  else
+  {
+    m_CurrentImageIndex += offset;
+  }
+}
+} // end namespace itk
+
+#endif

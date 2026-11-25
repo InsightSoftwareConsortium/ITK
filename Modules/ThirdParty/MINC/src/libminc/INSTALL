@@ -1,0 +1,39 @@
+
+libminc is now compiled with cmake
+----------------------------------
+
+Shared or Static libraries?
+---------------------------
+By default, only a static version (i.e. libminc.a) will be produced.
+A shared version of the library may be enabled using the configure
+flag "--enabled-shared".  See also "--disable-static".
+
+
+Finding NetCDF/HDF5
+-------------------
+The NetCDF and HDF libraries must be built and installed before you 
+can build MINC. Teaching MINC to find the NetCDF library depends on where
+the latter is installed.  There are two possibilities here:
+
+1. NetCDF and HDF5 may be installed in a location where the compiler can find
+it.  If so, you have nothing to do.
+
+2. Third-party libraries are commonly installed with headers
+in /usr/local/include and libraries in /usr/local/include.
+If this is the case, you should pass the argument
+"--with-build-path=/usr/local" to configure as such:
+
+   ./configure --with-build-path=/usr/local <options>
+
+3. Use NetCDF 4.X and HDF5 1.8.X for minc-2.1.X.
+
+Compiling
+---------
+Now that things are configured all you need to do is run:
+
+  ccmake
+
+and then
+
+  make install
+

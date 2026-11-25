@@ -1,0 +1,14 @@
+/**
+  \page GeometryPage Geometry Concepts
+
+  ITK provides basic classes to represent geometrical concepts. Despite
+  not being a computational geometry modelling toolkit, ITK offers a set
+  of such elements necessary for common procedures in image processing.
+
+  This document presents the different geometric concepts used in the toolkit,
+  as well as their relationships and how they can effectively be used.
+
+  The toolkit supports representing meshes of different nature and points
+  through the itk::Mesh, itk::QuadEdgeMesh, and itk::Point classes.
+
+ */

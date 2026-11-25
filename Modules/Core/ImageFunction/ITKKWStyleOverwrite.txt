@@ -1,0 +1,2 @@
+test/.*\.cxx Namespace Disable
+itkRayCastInterpolateImageFunction\.hxx Namespace Disable

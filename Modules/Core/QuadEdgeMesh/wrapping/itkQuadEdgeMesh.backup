@@ -1,0 +1,7 @@
+# for the time being this filter is only wrapped for 3D
+itk_wrap_filter_dims(d3 3)
+if(d3)
+  itk_wrap_class("itk::QuadEdgeMesh" POINTER)
+    itk_wrap_template("${ITKM_D}3" "${ITKT_D},3")
+  itk_end_wrap_class()
+endif()

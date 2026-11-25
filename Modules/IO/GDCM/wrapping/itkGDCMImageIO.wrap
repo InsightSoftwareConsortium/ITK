@@ -1,0 +1,7 @@
+itk_wrap_simple_class("itk::GDCMImageIOFactory" POINTER)
+itk_wrap_simple_class("itk::GDCMSeriesFileNames" POINTER)
+
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkGDCMImageIO.h")
+itk_wrap_simple_class("itk::GDCMImageIOEnums")
+itk_wrap_simple_class("itk::GDCMImageIO" POINTER)

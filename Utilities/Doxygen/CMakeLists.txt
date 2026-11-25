@@ -1,0 +1,274 @@
+option(ITK_BUILD_DOCUMENTATION "Build the documentation (Doxygen)." OFF)
+mark_as_advanced(ITK_BUILD_DOCUMENTATION)
+if(ITK_BUILD_DOCUMENTATION)
+  find_package(UnixCommands)
+  find_package(Doxygen)
+  find_package(Gnuplot)
+  find_package(HTMLHelp)
+  find_package(Wget)
+endif()
+
+# -------------------------------------------------------------
+#
+# Generate Doxygen configuration file in all configuration file
+#
+if(${DOXYGEN_DOT_FOUND})
+  set(ITK_HAVE_DOT "YES")
+else()
+  set(ITK_HAVE_DOT "NO")
+endif()
+
+set(DOX_MODULE_LIST ${ITK_MODULES_ENABLED})
+
+foreach(itk-module ${DOX_MODULE_LIST})
+  if(${itk-module}_IS_TEST)
+    list(APPEND DOXYGEN_TEST_DIRS "${${itk-module}_SOURCE_DIR}")
+  else()
+    if(EXISTS ${${itk-module}_SOURCE_DIR}/include)
+      list(APPEND DOXYGEN_INCLUDE_DIRS "${${itk-module}_SOURCE_DIR}/include")
+    endif()
+  endif()
+endforeach()
+
+list(APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Examples")
+list(APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}")
+list(APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Modules/Remote")
+
+#
+# Configure the script and the doxyfile, then add target
+#
+set(ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/Utilities/Doxygen)
+
+set(ITK_DOXYGEN_DIAGRAMS YES)
+
+cmake_dependent_option(
+  ITK_DOXYGEN_HTML
+  "Doxygen will generate HTML Output"
+  ON
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+cmake_dependent_option(
+  ITK_DOXYGEN_DOCSET
+  "Doxygen will generate additional index files for Xcode 3"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+cmake_dependent_option(
+  ITK_DOXYGEN_CHM
+  "Doxygen will generate Microsoft HTML help"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+cmake_dependent_option(
+  ITK_DOXYGEN_QHP
+  "Doxygen will generate Qt Compressed Help"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+cmake_dependent_option(
+  ITK_DOXYGEN_ECLIPSEHELP
+  "Doxygen will generate Eclipse help plugin"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+cmake_dependent_option(
+  ITK_DOXYGEN_LATEX
+  "Doxygen will generate LaTeX output"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+cmake_dependent_option(
+  ITK_DOXYGEN_RTF
+  "Doxygen will generate RTF output optimized for Word 97"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+cmake_dependent_option(
+  ITK_DOXYGEN_XML
+  "Doxygen will generate XML output"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+
+cmake_dependent_option(
+  ITK_DOXYGEN_SERVER_BASED_SEARCH
+  "Doxygen HTML will use PHP server based search."
+  ON
+  ITK_DOXYGEN_HTML
+  OFF
+)
+
+cmake_dependent_option(
+  ITK_DOXYGEN_WARNINGS_ONLY
+  "Doxygen emits warnings as errors without generating output formats or implicit graphs"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+
+mark_as_advanced(
+  ITK_DOXYGEN_HTML
+  ITK_DOXYGEN_DOCSET
+  ITK_DOXYGEN_CHM
+  ITK_DOXYGEN_QHP
+  ITK_DOXYGEN_ECLIPSEHELP
+  ITK_DOXYGEN_LATEX
+  ITK_DOXYGEN_RTF
+  ITK_DOXYGEN_XML
+  ITK_DOXYGEN_SERVER_BASED_SEARCH
+  ITK_DOXYGEN_WARNINGS_ONLY
+)
+
+# -------------------------------------------------------------
+if(ITK_BUILD_DOCUMENTATION)
+  # When updating Doxygen versions, also re-run workbox-sw to regenerate the
+  # service worker pre-cache. Do this by running:
+  #
+  #  npm install -g workbox-cli
+  #  cd ITK-Doxygen-build
+  #  make Documentation
+  #  cd Utilities/Doxygen
+  #  workbox inject:manifest
+  #  cp ./html/serviceWorker.js ~/src/ITK/Utilities/Doxygen/
+  #
+  # If workbox has changed version, we also need to update workbox-sw.prod*.js
+  # referenced below
+  file(
+    COPY
+      workbox-cli-config.js
+      serviceWorker.js.in
+    DESTINATION ${ITK_BINARY_DIR}/Utilities/Doxygen/
+  )
+
+  # Write the date and time in RFC 2822 format to the output variable, `_DATETIME`.
+  string(TIMESTAMP _DATETIME "%a, %d %b %Y %H:%M:%S +0000" UTC)
+
+  if(_DATETIME STREQUAL "")
+    message(FATAL_ERROR "Datetime failed!")
+  endif()
+
+  configure_file(
+    ${CMAKE_CURRENT_LIST_DIR}/build_text.js.in
+    "${ITK_BINARY_DIR}/Utilities/Doxygen//html/build_text.js"
+  )
+
+  find_package(LATEX)
+
+  file(
+    GLOB_RECURSE EXAMPLES_LIST
+    CONFIGURE_DEPENDS
+    "${ITK_SOURCE_DIR}/Examples/*.cxx"
+    "${ITK_SOURCE_DIR}/Examples/*.py"
+    "${ITK_SOURCE_DIR}/Examples/*.java"
+  )
+  set(ITK_EXAMPLES ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox)
+
+  # Removing an example changes only EXAMPLES_LIST, which cannot make
+  # Examples.dox out of date; depend on a stamp holding the list itself so a
+  # deletion is seen. file(CONFIGURE) rewrites only when the content differs.
+  set(
+    ITK_EXAMPLES_LIST_STAMP
+    ${ITK_BINARY_DIR}/Documentation/Doxygen/ExamplesList.txt
+  )
+  string(REPLACE ";" "\n" ITK_EXAMPLES_LIST_CONTENT "${EXAMPLES_LIST}")
+  file(
+    CONFIGURE
+    OUTPUT ${ITK_EXAMPLES_LIST_STAMP}
+    CONTENT "${ITK_EXAMPLES_LIST_CONTENT}\n"
+  )
+
+  # Custom command to generate a examples page which include all ITK examples
+  add_custom_command(
+    OUTPUT
+      ${ITK_EXAMPLES}
+    COMMAND
+      ${CMAKE_COMMAND} -D "PROJECT_SOURCE_DIR:PATH=${ITK_SOURCE_DIR}" -D
+      "OUTPUT_FILE:PATH=${ITK_EXAMPLES}" -P
+      "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
+    DEPENDS
+      ${EXAMPLES_LIST}
+      ${ITK_EXAMPLES_LIST_STAMP}
+      "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
+  )
+  add_custom_target(ITKDoxygenExamplesDox ALL DEPENDS ${ITK_EXAMPLES})
+
+  set(
+    ITK_DOXYGEN_INPUT
+    ${DOXYGEN_INCLUDE_DIRS}
+    ${ITK_SOURCE_DIR}/Documentation/Doxygen
+    ${ITK_BINARY_DIR}/Documentation/Doxygen
+    ${ITK_EXAMPLES}
+    ${ITK_BINARY_DIR}/Utilities/Doxygen/Modules
+    ${ITK_DOXYGEN_INPUT}
+  )
+  list(REMOVE_DUPLICATES ITK_DOXYGEN_INPUT)
+
+  # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in file
+  # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
+  include(${CMAKE_CURRENT_LIST_DIR}/DoxygenConfig.cmake)
+  if(ITK_DOXYGEN_WARNINGS_ONLY)
+    foreach(
+      _format
+      ITEMS
+        HTML
+        DOCSET
+        CHM
+        QHP
+        ECLIPSEHELP
+        LATEX
+        RTF
+        XML
+    )
+      set(DOXYGEN_GENERATE_${_format} "NO")
+    endforeach()
+    # Explicit \dot commands still render; only the implicit graph classes are disabled.
+    foreach(
+      _graph
+      ITEMS
+        CLASS_GRAPH
+        COLLABORATION_GRAPH
+        INCLUDE_GRAPH
+        INCLUDED_BY_GRAPH
+        CALL_GRAPH
+        CALLER_GRAPH
+        GRAPHICAL_HIERARCHY
+        DIRECTORY_GRAPH
+    )
+      set(DOXYGEN_${_graph} "NO")
+    endforeach()
+    set(DOXYGEN_WARN_AS_ERROR "FAIL_ON_WARNINGS")
+    set(DOXYGEN_WARN_LOGFILE "${ITK_BINARY_DIR}/doxygen-warnings.log")
+    # GENERATE_TAGFILE stays: doxygen requires at least one output and the tag file is the cheapest.
+  endif()
+  doxygen_add_docs(
+    Documentation
+    ${ITK_DOXYGEN_INPUT}
+    # -- Only build if 'Documentation' target is requested ALL
+    WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
+    # -- Some of the ITK_DOXYGEN_INPUT are directories, USE_STAMP_FILE requires only files be listed
+    COMMENT "-- Building ITK Doxygen."
+  )
+  unset(ITK_DOXYGEN_INPUT)
+  add_dependencies(Documentation ITKDoxygenExamplesDox)
+
+  #  add_custom_target(Documentation ALL
+  #    COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
+  #    MAIN_DEPENDENCY ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
+  #    DEPENDS         ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl
+  #    DEPENDS         ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox
+  #    WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
+  #    )
+
+  message(
+    STATUS
+    "To generate Doxygen's documentation, you need to build the Documentation target"
+  )
+endif()

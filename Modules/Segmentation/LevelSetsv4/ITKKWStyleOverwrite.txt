@@ -1,0 +1,3 @@
+test/.*\.cxx Namespace Disable
+itkLevelSetContainer\.h Comments Disable
+itkBinaryImageToLevelSetImageAdaptor\.h Comments Disable

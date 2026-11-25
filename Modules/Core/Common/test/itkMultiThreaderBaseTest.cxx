@@ -1,0 +1,346 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
+#include <algorithm>
+#include <atomic>
+#include <limits>
+#include <mutex>
+#include <set>
+#include <thread>
+#include <vector>
+#include "itkImageRegion.h"
+#include "itkMultiThreaderBase.h"
+#include "itkPlatformMultiThreader.h"
+#include "itkPoolMultiThreader.h"
+#include "itkSingleMultiThreader.h"
+#include "itkThreadPool.h"
+#ifdef ITK_USE_TBB
+#  include "itkTBBMultiThreader.h"
+#endif
+#include "itkTestingMacros.h"
+
+struct SingleMethodExecutionData
+{
+  std::thread::id       CallingThread;
+  std::atomic<unsigned> CallCount{ 0 };
+  std::atomic<bool>     CalledOnCallingThread{ false };
+};
+
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+SingleMethodExecution(void * data)
+{
+  const auto * workUnitInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(data);
+  auto *       executionData = static_cast<SingleMethodExecutionData *>(workUnitInfo->UserData);
+  ++executionData->CallCount;
+  if (std::this_thread::get_id() == executionData->CallingThread)
+  {
+    executionData->CalledOnCallingThread = true;
+  }
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
+}
+
+bool
+VerifyRange(itk::ThreadIdType value, itk::ThreadIdType min, itk::ThreadIdType max, const char * msg)
+{
+  if (value < min)
+  {
+    std::cerr << msg << std::endl;
+    return false;
+  }
+
+  if (value > max)
+  {
+    std::cerr << msg << std::endl;
+    return false;
+  }
+  return true;
+}
+
+
+bool
+SetAndVerifyGlobalMaximumNumberOfThreads(int value)
+{
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(value);
+  return VerifyRange(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(),
+                     1,
+                     itk::ITK_MAX_THREADS,
+                     "Range error in MaximumNumberOfThreads");
+}
+
+bool
+SetAndVerifyGlobalDefaultNumberOfThreads(int value)
+{
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(value);
+  return VerifyRange(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
+                     1,
+                     itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(),
+                     "Range error in DefaultNumberOfThreads");
+}
+
+bool
+SetAndVerifyMaximumNumberOfThreads(int value, itk::MultiThreaderBase * threader)
+{
+  threader->SetMaximumNumberOfThreads(value);
+  return VerifyRange(threader->GetMaximumNumberOfThreads(),
+                     1,
+                     itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(),
+                     "Range error in MaximumNumberOfThreads");
+}
+
+bool
+SetAndVerify(int number)
+{
+  bool result = true;
+  result &= SetAndVerifyGlobalMaximumNumberOfThreads(number);
+  result &= SetAndVerifyGlobalDefaultNumberOfThreads(number);
+  const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+  // PoolMultiThreader can only increase number of threads
+  // so make sure to increase this before testing thread count
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(itk::ITK_MAX_THREADS);
+  result &= SetAndVerifyMaximumNumberOfThreads(number, threader);
+  // number of Work Units is not max-limited by TBBMultiThreader
+  return result;
+}
+
+int
+TestWorkUnitThreadRatio(itk::MultiThreaderBase * threader, bool usesRatio)
+{
+  const auto threadCount = threader->GetMaximumNumberOfThreads();
+  for (const unsigned int ratio : { 0u, 1u, 2u })
+  {
+    threader->SetNumberOfWorkUnitsFromThreadRatio(ratio);
+    const auto expected = usesRatio ? threadCount * std::max(1u, ratio) : threadCount;
+    ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), expected);
+    ITK_TEST_EXPECT_EQUAL(threader->GetMaximumNumberOfThreads(), threadCount);
+  }
+
+  const auto              maximumValue = std::numeric_limits<itk::ThreadIdType>::max();
+  const itk::ThreadIdType maximumRatio = maximumValue / threadCount;
+  for (const itk::ThreadIdType ratio : { maximumRatio, std::min(maximumRatio, maximumValue - 1) + 1, maximumValue })
+  {
+    threader->SetNumberOfWorkUnitsFromThreadRatio(ratio);
+    ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), usesRatio ? threadCount * maximumRatio : threadCount);
+    ITK_TEST_EXPECT_EQUAL(threader->GetMaximumNumberOfThreads(), threadCount);
+  }
+
+  threader->SetNumberOfWorkUnits(1);
+  ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), 1);
+  if (usesRatio)
+  {
+    threader->SetNumberOfWorkUnitsFromThreadRatio(2);
+    threader->SetMaximumNumberOfThreads(threadCount + 1);
+    ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), 2 * threadCount);
+    threader->SetNumberOfWorkUnitsFromThreadRatio(2);
+    ITK_TEST_EXPECT_EQUAL(threader->GetNumberOfWorkUnits(), 2 * threader->GetMaximumNumberOfThreads());
+  }
+  return EXIT_SUCCESS;
+}
+
+#define TEST_SINGLE_CLASS(ClassName)                                           \
+  {                                                                            \
+    itk::ClassName::Pointer threader = itk::ClassName::New();                  \
+    if (threader.IsNull())                                                     \
+    {                                                                          \
+      result = false;                                                          \
+    }                                                                          \
+                                                                               \
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(threader, ClassName, MultiThreaderBase); \
+  }                                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
+
+int
+itkMultiThreaderBaseTest(int argc, char * argv[])
+{
+  bool result = true;
+
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
+  result &= itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() == 1;
+  result &= itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() == 1;
+
+  // Choose a number of threads.
+  int numberOfThreads = 10;
+  if (argc > 1)
+  {
+    const int nt = std::stoi(argv[1]);
+    if (nt > 1)
+    {
+      numberOfThreads = nt;
+    }
+  }
+
+  TEST_SINGLE_CLASS(PlatformMultiThreader);
+  TEST_SINGLE_CLASS(PoolMultiThreader);
+  TEST_SINGLE_CLASS(SingleMultiThreader);
+#ifdef ITK_USE_TBB
+  TEST_SINGLE_CLASS(TBBMultiThreader);
+#endif
+
+
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(2);
+  result &= VerifyRange(
+    itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), 1, 2, "Range error in MaximumNumberOfThreads");
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(4);
+  result &= VerifyRange(
+    itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), 1, 2, "Range error in DefaultNumberOfThreads");
+
+
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(numberOfThreads);
+
+  result &= SetAndVerify(-1);
+  result &= SetAndVerify(0);
+  result &= SetAndVerify(1);
+  result &= SetAndVerify(2);
+  result &= SetAndVerify(itk::ITK_MAX_THREADS);
+  result &= SetAndVerify(itk::ITK_MAX_THREADS - 1);
+  result &= SetAndVerify(itk::ITK_MAX_THREADS + 1);
+  result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
+  result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() - 1);
+  result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() + 1);
+
+  // Work units per thread ratio: default of 4, clamped to at least 1, and used by the Pool threader.
+  if (itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio() != 4)
+  {
+    std::cerr << "Default WorkUnitPerThreadRatio is not 4" << std::endl;
+    result = false;
+  }
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(0);
+  result &= VerifyRange(itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio(),
+                        1,
+                        1,
+                        "Range error in DefaultWorkUnitPerThreadRatio");
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(std::numeric_limits<itk::ThreadIdType>::max());
+  result &= VerifyRange(itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio(),
+                        1,
+                        std::numeric_limits<itk::ThreadIdType>::max() / itk::ITK_MAX_THREADS,
+                        "Range error in DefaultWorkUnitPerThreadRatio upper bound");
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(itk::ITK_MAX_THREADS);
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(2);
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(3);
+  if (itk::MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio() != 3 ||
+      itk::PoolMultiThreader::New()->GetNumberOfWorkUnits() != 6)
+  {
+    std::cerr << "WorkUnitPerThreadRatio not applied to PoolMultiThreader" << std::endl;
+    result = false;
+  }
+#ifdef ITK_USE_TBB
+  ITK_TEST_EXPECT_EQUAL(itk::TBBMultiThreader::New()->GetNumberOfWorkUnits(), 6);
+#endif
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(std::numeric_limits<itk::ThreadIdType>::max());
+  const itk::ThreadIdType maximumRatio = std::numeric_limits<itk::ThreadIdType>::max() / itk::ITK_MAX_THREADS;
+  ITK_TEST_EXPECT_EQUAL(itk::PoolMultiThreader::New()->GetNumberOfWorkUnits(), 2 * maximumRatio);
+#ifdef ITK_USE_TBB
+  ITK_TEST_EXPECT_EQUAL(itk::TBBMultiThreader::New()->GetNumberOfWorkUnits(), 2 * maximumRatio);
+#endif
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
+  ITK_TEST_EXPECT_EQUAL(itk::PoolMultiThreader::New()->GetNumberOfWorkUnits(), 1);
+#ifdef ITK_USE_TBB
+  ITK_TEST_EXPECT_EQUAL(itk::TBBMultiThreader::New()->GetNumberOfWorkUnits(), 1);
+#endif
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(2);
+  itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(4);
+
+  const itk::ThreadIdType               moreWorkUnits = itk::ITK_MAX_THREADS + 1;
+  const itk::PoolMultiThreader::Pointer poolThreader = itk::PoolMultiThreader::New();
+  poolThreader->SetNumberOfWorkUnits(moreWorkUnits);
+  std::atomic<itk::SizeValueType> processedItems{ 0 };
+  poolThreader->ParallelizeArray(
+    0, moreWorkUnits, [&processedItems](itk::SizeValueType) { ++processedItems; }, nullptr);
+  result &= poolThreader->GetNumberOfWorkUnits() == moreWorkUnits;
+  result &= processedItems == moreWorkUnits;
+  SingleMethodExecutionData executionData{ std::this_thread::get_id() };
+  poolThreader->SetSingleMethod(SingleMethodExecution, &executionData);
+  poolThreader->SingleMethodExecute();
+  result &= executionData.CallCount == moreWorkUnits;
+  result &= executionData.CalledOnCallingThread;
+
+  constexpr itk::SizeValueType pixelsPerWorkUnit = 4;
+  const itk::SizeValueType     regionSize = pixelsPerWorkUnit * moreWorkUnits;
+  std::vector<unsigned>        pixelVisits(regionSize, 0);
+  std::atomic<unsigned>        chunkCount{ 0 };
+  std::mutex                   visitsMutex;
+  itk::ImageRegion<1>          imageRegion;
+  imageRegion.SetSize(0, regionSize);
+  // Call through the base class: PoolMultiThreader hides the templated overload.
+  static_cast<itk::MultiThreaderBase &>(*poolThreader)
+    .ParallelizeImageRegion<1>(
+      imageRegion,
+      [&](const itk::ImageRegion<1> & chunk) {
+        ++chunkCount;
+        const std::lock_guard<std::mutex> lock(visitsMutex);
+        for (itk::SizeValueType i = 0; i < chunk.GetSize(0); ++i)
+        {
+          ++pixelVisits[static_cast<itk::SizeValueType>(chunk.GetIndex(0)) + i];
+        }
+      },
+      nullptr);
+  result &= chunkCount > itk::ITK_MAX_THREADS;
+  for (const unsigned visits : pixelVisits)
+  {
+    result &= visits == 1;
+  }
+
+  // Test streaming enumeration for MultiThreaderBaseEnums::Threader elements
+  const std::set<itk::MultiThreaderBaseEnums::Threader> allThreader{
+    itk::MultiThreaderBaseEnums::Threader::Platform,
+    //            itk::MultiThreaderBaseEnums::Threader::First,
+    itk::MultiThreaderBaseEnums::Threader::Pool,
+    itk::MultiThreaderBaseEnums::Threader::TBB,
+    itk::MultiThreaderBaseEnums::Threader::Single,
+    //            itk::MultiThreaderBaseEnums::Threader::Last,
+    itk::MultiThreaderBaseEnums::Threader::Unknown
+  };
+  for (const auto & ee : allThreader)
+  {
+    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::Threader: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for MultiThreaderBaseEnums::ThreadExitCode elements
+  const std::set<itk::MultiThreaderBaseEnums::ThreadExitCode> allThreadExitCode{
+    itk::MultiThreaderBaseEnums::ThreadExitCode::SUCCESS,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::ITK_EXCEPTION,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::ITK_PROCESS_ABORTED_EXCEPTION,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::STD_EXCEPTION,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::UNKNOWN
+  };
+  for (const auto & ee : allThreadExitCode)
+  {
+    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::ThreadExitCode: " << ee << std::endl;
+  }
+
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::PlatformMultiThreader::New(), false), EXIT_SUCCESS);
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::SingleMultiThreader::New(), false), EXIT_SUCCESS);
+#ifdef ITK_USE_TBB
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::TBBMultiThreader::New(), true), EXIT_SUCCESS);
+#endif
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::PoolMultiThreader::New(), true), EXIT_SUCCESS);
+
+  // The shared pool can exceed ITK_MAX_THREADS; the ratio product must not wrap.
+  // Last, because the added threads persist in the process-wide pool.
+  const itk::ThreadPool::Pointer pool = itk::ThreadPool::GetInstance();
+  if (pool->GetMaximumNumberOfThreads() <= itk::ITK_MAX_THREADS)
+  {
+    pool->AddThreads(static_cast<itk::ThreadIdType>(itk::ITK_MAX_THREADS) + 1 - pool->GetMaximumNumberOfThreads());
+  }
+  ITK_TEST_EXPECT_EQUAL(TestWorkUnitThreadRatio(itk::PoolMultiThreader::New(), true), EXIT_SUCCESS);
+
+  if (!result)
+  {
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
+}

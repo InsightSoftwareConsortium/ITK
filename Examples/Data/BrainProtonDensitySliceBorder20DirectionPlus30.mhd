@@ -1,0 +1,14 @@
+ObjectType = Image
+NDims = 2
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = True
+CompressedDataSize = 16894
+TransformMatrix = 0.8660254    0.5  -0.5   0.8660254
+Offset = 0 0
+CenterOfRotation = 0 0
+ElementSpacing = 1 1
+DimSize = 221 257
+AnatomicalOrientation = ??
+ElementType = MET_UCHAR
+ElementDataFile = BrainProtonDensitySliceBorder20.zraw

@@ -1,0 +1,2 @@
+itkUnaryGeneratorImageFilter\.h SemicolonSpace Disable
+itkBinaryGeneratorImageFilter\.h SemicolonSpace Disable

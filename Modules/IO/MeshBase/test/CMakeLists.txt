@@ -1,0 +1,20 @@
+itk_module_test()
+
+set(ITKIOMeshBaseTests itkMeshFileReaderWriterTest.cxx)
+
+createtestdriver(ITKIOMeshBase "${ITKIOMeshBase-Test_LIBRARIES}" "${ITKIOMeshBaseTests}")
+
+itk_add_test(
+  NAME itkMeshFileReaderWriterTest
+  COMMAND
+    ITKIOMeshBaseTestDriver
+    itkMeshFileReaderWriterTest
+    DATA{${ITK_DATA_ROOT}/Input/mushroom.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/itkMeshFileReaderWriterTest.vtk
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMeshFileReaderWriterTest.vtk
+)
+
+set(ITKIOMeshBaseGTests itkMeshIOExceptionsGTest.cxx)
+creategoogletestdriver(ITKIOMeshBase "${ITKIOMeshBase-Test_LIBRARIES}" "${ITKIOMeshBaseGTests}")

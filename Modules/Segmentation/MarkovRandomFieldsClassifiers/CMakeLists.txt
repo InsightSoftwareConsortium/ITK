@@ -1,0 +1,3 @@
+project(ITKMarkovRandomFieldsClassifiers)
+set(ITKMarkovRandomFieldsClassifiers_LIBRARIES ITKMarkovRandomFieldsClassifiers)
+itk_module_impl()

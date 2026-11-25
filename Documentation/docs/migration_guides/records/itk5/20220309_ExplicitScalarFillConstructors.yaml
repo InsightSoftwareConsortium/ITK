@@ -1,0 +1,21 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  Implicit conversion of a single scalar value to a container (which would _fill_ the container by the
+  scalar value) is discouraged. With ITK 5.3, when having `ITK_LEGACY_REMOVE=ON`, the constructors of
+  `Point`, `RGBPixel`, `RGBAPixel`, and `Vector` that accept a single scalar value as argument are
+  declared `explicit`. ITK 5.3 has included a preferable alternative to these constructors:
+  `itk::MakeFilled<ContainerType>(value)`.
+categories:
+  - ApiDeprecated
+environment:
+  - cxx
+impact: low
+pr: 3237
+commits:
+  - "88258344063"
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/3255
+deprecated_in: "5.3"
+legacy_guard: ITK_LEGACY_REMOVE

@@ -1,0 +1,54 @@
+itk_wrap_include("itkVariableSizeMatrix.h")
+
+# GaussianSourceType, when ITKImageSources does not wrap double images.
+if(NOT "D" IN_LIST WRAP_ITK_SCALAR)
+  foreach(
+    source
+    ImageSource
+    GenerateImageSource
+    ParametricImageSource
+    GaussianImageSource
+  )
+    itk_wrap_class("itk::${source}" POINTER)
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+      itk_wrap_template("${ITKM_ID${d}}" "${ITKT_ID${d}}")
+    endforeach()
+    itk_end_wrap_class()
+  endforeach()
+endif()
+
+itk_wrap_class("itk::Image" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("VSM${d}"
+      "itk::VariableSizeMatrix< ${ITKT_D} >, ${d}"
+  )
+endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageSource" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("IVSM${d}"
+      "itk::Image<itk::VariableSizeMatrix< ${ITKT_D} >, ${d} >"
+  )
+endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageToImageFilter" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_REAL})
+    itk_wrap_template("${ITKM_I${t}${d}}IVSM${d}"
+        "${ITKT_I${t}${d}}, itk::Image<itk::VariableSizeMatrix< ${ITKT_D} >, ${d} >"
+    )
+  endforeach()
+endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::RieszStructureTensorImageFilter" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_REAL})
+    itk_wrap_template("${ITKM_I${t}${d}}IVSM${d}"
+        "${ITKT_I${t}${d}}, itk::Image<itk::VariableSizeMatrix< ${ITKT_D} >, ${d} >"
+    )
+  endforeach()
+endforeach()
+itk_end_wrap_class()

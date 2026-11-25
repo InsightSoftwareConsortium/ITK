@@ -1,0 +1,26 @@
+# Note: if you change any of the settings here, please reformat the entire
+# codebase as part of the same commit, that will prevent subsequent commits
+# from being flagged as being improperly formatted.
+
+---
+# This configuration requires clang-format 8.0 or higher.
+BasedOnStyle: Mozilla
+AlignAfterOpenBracket: DontAlign
+AlignOperands: false
+AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterDefinitionReturnType: None
+BreakBeforeBraces: Allman
+BinPackArguments: true
+BinPackParameters: true
+ColumnLimit: 100
+SpaceAfterTemplateKeyword: true
+Standard: Cpp11
+StatementMacros:
+- PyObject_HEAD
+- PyObject_VAR_HEAD
+- vtkAbstractTypeMacro
+- vtkTypeMacro
+- vtkBaseTypeMacro
+- vtkAbstractTemplateTypeMacro
+- vtkAbstractTypeMacroWithNewInstanceType
+...

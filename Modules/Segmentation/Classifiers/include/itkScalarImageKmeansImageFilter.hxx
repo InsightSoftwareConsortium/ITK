@@ -1,0 +1,241 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkScalarImageKmeansImageFilter_hxx
+#define itkScalarImageKmeansImageFilter_hxx
+
+#include "itkImageRegionExclusionIteratorWithIndex.h"
+
+#include <cstdint>
+
+#include "itkDistanceToCentroidMembershipFunction.h"
+
+#include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
+
+namespace itk
+{
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::SetImageRegion(const ImageRegionType & region)
+{
+  m_ImageRegion = region;
+  m_ImageRegionDefined = true;
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
+{
+  this->Superclass::VerifyPreconditions();
+
+  if (this->m_InitialMeans.empty())
+  {
+    itkExceptionStringMacro("At least one InitialMean is required.");
+  }
+
+  // Non-contiguous labels need 2*N <= max() (the interval max()/N - 1 must stay >= 1);
+  // contiguous labels plus the out-of-region sentinel at N need N <= max().
+  const auto numberOfClasses = static_cast<std::uintmax_t>(this->m_InitialMeans.size());
+  const auto maxLabel = static_cast<std::uintmax_t>(NumericTraits<OutputPixelType>::max());
+  if (m_UseNonContiguousLabels ? (2 * numberOfClasses > maxLabel) : (numberOfClasses > maxLabel))
+  {
+    itkExceptionStringMacro("Too many classes to produce distinct labels in the output pixel type.");
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
+{
+  auto adaptor = AdaptorType::New();
+
+  // Setup the regions here if a sub-region has been specified to restrict
+  // classification on. Since this is not ThreadedGenerateData, we are
+  // safe...
+  if (m_ImageRegionDefined)
+  {
+    auto regionOfInterestFilter = RegionOfInterestFilterType::New();
+    regionOfInterestFilter->SetRegionOfInterest(m_ImageRegion);
+    regionOfInterestFilter->SetInput(this->GetInput());
+    regionOfInterestFilter->Update();
+    adaptor->SetImage(regionOfInterestFilter->GetOutput());
+  }
+  else
+  {
+    adaptor->SetImage(this->GetInput());
+  }
+
+  auto treeGenerator = TreeGeneratorType::New();
+
+  treeGenerator->SetSample(adaptor);
+  treeGenerator->SetBucketSize(16);
+  treeGenerator->Update();
+
+  auto estimator = EstimatorType::New();
+
+  const size_t numberOfClasses = this->m_InitialMeans.size();
+
+  ParametersType initialMeans(numberOfClasses);
+  for (unsigned int cl = 0; cl < numberOfClasses; ++cl)
+  {
+    initialMeans[cl] = this->m_InitialMeans[cl];
+  }
+
+  estimator->SetParameters(initialMeans);
+
+  estimator->SetKdTree(treeGenerator->GetOutput());
+  estimator->SetMaximumIteration(200);
+  estimator->SetCentroidPositionChangesThreshold(0.0);
+  estimator->StartOptimization();
+
+  this->m_FinalMeans = estimator->GetParameters();
+
+  using RegionType = typename InputImageType::RegionType;
+
+  // Now classify the samples
+  auto decisionRule = DecisionRuleType::New();
+  auto classifier = ClassifierType::New();
+
+  classifier->SetDecisionRule(decisionRule);
+  classifier->SetInput(adaptor);
+
+  classifier->SetNumberOfClasses(numberOfClasses);
+
+  ClassLabelVectorType classLabels;
+  classLabels.resize(numberOfClasses);
+
+  // Spread the labels over the intensity range
+  std::uintmax_t labelInterval = 1;
+  if (m_UseNonContiguousLabels)
+  {
+    labelInterval = static_cast<std::uintmax_t>(NumericTraits<OutputPixelType>::max() / numberOfClasses) - 1;
+  }
+
+  std::uintmax_t               label = 0;
+  MembershipFunctionVectorType membershipFunctions;
+
+  for (unsigned int k = 0; k < numberOfClasses; ++k)
+  {
+    classLabels[k] = static_cast<typename ClassLabelVectorType::value_type>(label);
+    label += labelInterval;
+    const MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionOriginType    origin(adaptor->GetMeasurementVectorSize());
+    origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector
+                                       // of dimension 1
+    membershipFunction->SetCentroid(origin);
+    const MembershipFunctionType * constMembershipFunction = membershipFunction;
+    membershipFunctions.push_back(constMembershipFunction);
+  }
+
+  const typename ClassifierType::MembershipFunctionVectorObjectPointer membershipFunctionsObject =
+    ClassifierType::MembershipFunctionVectorObjectType::New();
+  membershipFunctionsObject->Set(membershipFunctions);
+  classifier->SetMembershipFunctions(membershipFunctionsObject);
+
+  using ClassLabelVectorObjectType = typename ClassifierType::ClassLabelVectorObjectType;
+  auto classLabelsObject = ClassLabelVectorObjectType::New();
+  classLabelsObject->Set(classLabels);
+  classifier->SetClassLabels(classLabelsObject);
+
+  // Execute the actual classification
+  classifier->Update();
+
+  // Now classify the pixels
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
+
+
+  outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
+  outputPtr->Allocate();
+
+  RegionType region = outputPtr->GetBufferedRegion();
+
+  // If we constrained the classification to a region, label only pixels within
+  // the region. Label outside pixels as numberOfClasses + 1
+  if (m_ImageRegionDefined)
+  {
+    region = m_ImageRegion;
+  }
+
+  ImageRegionIterator pixel(outputPtr, region);
+
+  using ClassifierOutputType = typename ClassifierType::MembershipSampleType;
+  const ClassifierOutputType * membershipSample = classifier->GetOutput();
+
+  using LabelIterator = typename ClassifierOutputType::ConstIterator;
+
+  LabelIterator       iter = membershipSample->Begin();
+  const LabelIterator end = membershipSample->End();
+
+  while (iter != end)
+  {
+    pixel.Set(iter.GetClassLabel());
+    ++iter;
+    ++pixel;
+  }
+
+  if (m_ImageRegionDefined)
+  {
+    // If a region is defined to constrain classification to, we need to label
+    // pixels outside with numberOfClasses + 1.
+    ImageRegionExclusionIteratorWithIndex exIt(outputPtr, outputPtr->GetBufferedRegion());
+    exIt.SetExclusionRegion(region);
+    exIt.GoToBegin();
+    if (m_UseNonContiguousLabels)
+    {
+      const auto outsideLabel = static_cast<OutputPixelType>(labelInterval * numberOfClasses);
+      while (!exIt.IsAtEnd())
+      {
+        exIt.Set(outsideLabel);
+        ++exIt;
+      }
+    }
+    else
+    {
+      while (!exIt.IsAtEnd())
+      {
+        exIt.Set(numberOfClasses);
+        ++exIt;
+      }
+    }
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::AddClassWithInitialMean(RealPixelType mean)
+{
+  this->m_InitialMeans.push_back(mean);
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  using namespace print_helper;
+
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "InitialMeans: " << m_InitialMeans << std::endl;
+  os << indent << "FinalMeans: " << m_FinalMeans << std::endl;
+  os << indent << "UseContiguousLabels: " << m_UseNonContiguousLabels << std::endl;
+  os << indent << "ImageRegion: " << m_ImageRegion << std::endl;
+  os << indent << "ImageRegionDefined: " << m_ImageRegionDefined << std::endl;
+}
+} // end namespace itk
+
+#endif

@@ -1,0 +1,3 @@
+project(ITKIONIFTI)
+set(ITKIONIFTI_LIBRARIES ITKIONIFTI)
+itk_module_impl()

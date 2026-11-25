@@ -1,0 +1,3 @@
+# Python pth file to add itk package path to sys.path
+# for itk version "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+@ITK_WRAP_PYTHON_ROOT_BINARY_DIR@

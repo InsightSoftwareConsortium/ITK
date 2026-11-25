@@ -1,0 +1,7 @@
+{
+    "output_directory": "DownloadLinks",
+    "major_version": "5",
+    "minor_version": "0",
+    "patch_identifier": [".", "a", "b", "rc"],
+    "patch_version": "0"
+}

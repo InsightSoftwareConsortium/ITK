@@ -1,0 +1,211 @@
+// This is core/vnl/algo/vnl_powell.cxx
+//:
+// \file
+#include <iostream>
+#include <cassert>
+#include <limits>
+#include "vnl_powell.h"
+
+#include "vnl/vnl_math.h"
+#undef VNL_USE_OLD_BRENT_MINIMIZER // #define VNL_USE_OLD_BRENT_MINIMIZER
+// This version was deprecated, and the refactoring to the new minimizer was not done correctly with respect to
+// initialisation.
+#ifdef VNL_USE_OLD_BRENT_MINIMIZER
+#  include <vnl/algo/vnl_brent.h>
+#else
+#  include <cmath>
+#  include <vnl/algo/vnl_brent_minimizer.h>
+#  include <vnl/algo/vnl_bracket_minimum.h>
+#endif
+#ifdef DEBUG
+#  include "vnl/vnl_matlab_print.h"
+#  ifdef _MSC_VER
+#    include "vcl_msvc_warnings.h"
+#  endif
+#endif
+
+namespace
+{
+//: Validate that a size_t fits in an int before narrowing, so the guard
+// runs before the conversion is used. A delegating constructor evaluates
+// its target's argument in the member-initializer, before its own body, so
+// the check cannot be written as an assert in the constructor body.
+inline int
+vnl_powell_checked_int(size_t n)
+{
+  assert(n <= static_cast<size_t>(std::numeric_limits<int>::max()));
+  return static_cast<int>(n);
+}
+} // namespace
+
+class vnl_powell_1dfun : public vnl_cost_function
+{
+public:
+  vnl_powell * powell_;
+  vnl_cost_function * f_;
+  unsigned int n_;
+  vnl_vector<double> x0_;
+  vnl_vector<double> dx_;
+  vnl_vector<double> tmpx_;
+  vnl_powell_1dfun(int n, vnl_cost_function * func, vnl_powell * p)
+    : vnl_cost_function(1)
+    , powell_(p)
+    , f_(func)
+    , n_(n)
+    , x0_(n)
+    , dx_(n)
+    , tmpx_(n)
+  {}
+  vnl_powell_1dfun(size_t n, vnl_cost_function * func, vnl_powell * p)
+    : vnl_powell_1dfun(vnl_powell_checked_int(n), func, p)
+  {}
+
+  void
+  init(const vnl_vector<double> & x0, const vnl_vector<double> & dx)
+  {
+    x0_ = x0;
+    dx_ = dx;
+    assert(x0.size() == n_);
+    assert(dx.size() == n_);
+  }
+
+  double
+  f(const vnl_vector<double> & x) override
+  {
+    uninit(x[0], tmpx_);
+    const double e = f_->f(tmpx_);
+    powell_->pub_report_eval(e);
+    return e;
+  }
+
+  void
+  uninit(double lambda, vnl_vector<double> & out)
+  {
+    for (unsigned int i = 0; i < n_; ++i)
+      out[i] = x0_[i] + lambda * dx_[i];
+  }
+};
+
+vnl_nonlinear_minimizer::ReturnCodes
+vnl_powell::minimize(vnl_vector<double> & p)
+{
+  // verbose_ = true;
+  const size_t n = p.size();
+  vnl_powell_1dfun f1d(n, functor_, this);
+
+  vnl_matrix<double> xi(n, n, vnl_matrix_identity);
+  vnl_vector<double> ptt(n);
+  vnl_vector<double> xit(n);
+  double fret = functor_->f(p);
+  report_eval(fret);
+  vnl_vector<double> pt = p;
+  while (num_iterations_ < unsigned(maxfev))
+  {
+    const double fp = fret;
+    size_t ibig = 0;
+    double del = 0.0;
+
+    for (size_t i = 0; i < n; i++)
+    {
+      // xit = ith column of xi
+      for (size_t j = 0; j < n; ++j)
+        xit[j] = xi[j][i];
+      const double fptt = fret;
+
+      // 1D minimization along xi
+      f1d.init(p, xit);
+#ifdef VNL_USE_OLD_BRENT_MINIMIZER
+      vnl_brent brent(&f1d);
+      double ax;
+      double xx = initial_step_;
+      double bx = 0.0;
+      brent.bracket_minimum(&ax, &xx, &bx);
+      fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+#else
+      vnl_brent_minimizer brent(f1d);
+      double ax = 0.0;
+      double xx = initial_step_;
+      double bx = NAN;
+      {
+        double fa = NAN;
+        double fxx = NAN;
+        double fb = NAN;
+        vnl_bracket_minimum(f1d, ax, xx, bx, fa, fxx, fb);
+      }
+      brent.set_x_tolerance(linmin_xtol_);
+      xx = brent.minimize_given_bounds(ax, xx, bx);
+      fret = brent.f_at_last_minimum();
+#endif
+
+      f1d.uninit(xx, p);
+      // Now p is minimizer along xi
+
+      if (std::fabs(fptt - fret) > del)
+      {
+        del = std::fabs(fptt - fret);
+        ibig = i;
+      }
+    }
+
+    if (2.0 * std::fabs(fp - fret) <= ftol * (std::fabs(fp) + std::fabs(fret)))
+    {
+#ifdef DEBUG
+      vnl_matlab_print(std::cerr, xi, "xi");
+#endif
+      return CONVERGED_FTOL;
+    }
+
+    if (num_iterations_ == unsigned(maxfev))
+      return TOO_MANY_ITERATIONS;
+
+    for (size_t j = 0; j < n; ++j)
+    {
+      ptt[j] = 2.0 * p[j] - pt[j];
+      xit[j] = p[j] - pt[j];
+      pt[j] = p[j];
+    }
+
+    const double fptt = functor_->f(ptt);
+    report_eval(fret);
+    if (fptt < fp)
+    {
+      const double t = 2.0 * (fp - 2.0 * fret + fptt) * vnl_math::detail::sqr(fp - fret - del) - del * vnl_math::detail::sqr(fp - fptt);
+      if (t < 0.0)
+      {
+        f1d.init(p, xit);
+#ifdef VNL_USE_OLD_BRENT_MINIMIZER
+        vnl_brent brent(&f1d);
+        double ax;
+        double xx = 1.0;
+        double bx = 0.0;
+        brent.bracket_minimum(&ax, &xx, &bx);
+        fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+#else
+        vnl_brent_minimizer brent(f1d);
+        double ax = 0.0;
+        double xx = 1.0;
+        double bx = NAN;
+        {
+          double fa = NAN;
+          double fxx = NAN;
+          double fb = NAN;
+          vnl_bracket_minimum(f1d, ax, xx, bx, fa, fxx, fb);
+        }
+        brent.set_x_tolerance(linmin_xtol_);
+        xx = brent.minimize_given_bounds(ax, xx, bx);
+        fret = brent.f_at_last_minimum();
+#endif
+        f1d.uninit(xx, p);
+
+        for (size_t j = 0; j < n; j++)
+        {
+          xi[j][ibig] = xi[j][n - 1];
+          xi[j][n - 1] = xit[j];
+        }
+      }
+    }
+    if (report_iter())
+      return FAILED_USER_REQUEST;
+  }
+  return TOO_MANY_ITERATIONS;
+}

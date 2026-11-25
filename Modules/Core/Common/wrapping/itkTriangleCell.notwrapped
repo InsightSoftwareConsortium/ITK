@@ -1,0 +1,8 @@
+itk_wrap_include("itkQuadEdgeCellTraitsInfo.h")
+itk_wrap_include("itkCellInterface.h")
+
+itk_wrap_class("itk::TriangleCell" AUTOPOINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("CIDQEMCTI${d}" "itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo< ${d} > >")
+  endforeach()
+itk_end_wrap_class()

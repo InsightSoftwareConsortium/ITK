@@ -1,0 +1,6 @@
+# itk::Math::MatrixExponential is a free function template (not a class), so
+# there is no class to wrap; registering the header makes the declaration
+# available to the module's wrapping translation unit. Python callables for
+# specific itk::Matrix instantiations can be added here if needed.
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkMatrixExponential.h")

@@ -1,0 +1,6 @@
+itk_wrap_simple_class("itk::JPEG2000ImageIOFactory" POINTER)
+
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkJPEG2000ImageIO.h")
+itk_wrap_simple_class("itk::JPEG2000ImageIOInternalEnums")
+itk_wrap_simple_class("itk::JPEG2000ImageIO" POINTER)

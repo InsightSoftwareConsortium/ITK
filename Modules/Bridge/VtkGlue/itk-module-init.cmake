@@ -1,0 +1,126 @@
+#
+# Find the packages required by this module
+#
+
+# Required VTK version. ITK 6 requires VTK 9.1 or newer because:
+#   * VTK 9.0 was the first stable release of the new module system, which
+#     replaces the legacy `vtk_module_config` macro with imported targets
+#     (e.g. VTK::CommonCore).
+#   * VTK 9.0 ships only the OpenGL2 rendering backend.
+#   * VTK 9.1 stabilised the imported-target names and the
+#     `vtk_module_autoinit` helper that ITKVtkGlue relies on
+#     unconditionally.
+# VTK 9.4+ is recommended (current security/CVE patches and bug fixes)
+# but not required.
+set(VERSION_MIN "9.1.0")
+
+find_package(VTK ${VERSION_MIN} NO_MODULE)
+if(NOT VTK_FOUND)
+  message(
+    FATAL_ERROR
+    "Module_ITKVtkGlue requires VTK >= ${VERSION_MIN}. Set VTK_DIR to its CMake package directory.\n"
+    "${VTK_NOT_FOUND_MESSAGE}"
+  )
+endif()
+# Not REQUIRED, so a Python-wrapped VTK reports an unusable Python here instead of failing inside FindPython3.
+if(VTK_WRAP_PYTHON AND DEFINED VTK_Python_FOUND AND NOT VTK_Python_FOUND)
+  message(
+    FATAL_ERROR
+    "The VTK at\n"
+    "  ${VTK_DIR}\n"
+    "is Python-wrapped, but its Python is inconsistent with the selected one:\n"
+    "  Python3_EXECUTABLE=${Python3_EXECUTABLE} (Python ${Python3_VERSION})\n"
+    "  Python3_INCLUDE_DIR=${Python3_INCLUDE_DIR}\n"
+    "  Python3_LIBRARY=${Python3_LIBRARY}\n"
+    "Set Python3_EXECUTABLE to the Python VTK was built with, or set Module_ITKVtkGlue=OFF."
+  )
+endif()
+
+# VTK 9 omits VTK_RENDERING_BACKEND; infer rendering support from its OpenGL2 target.
+if(NOT VTK_RENDERING_BACKEND)
+  if(TARGET VTK::RenderingOpenGL2)
+    set(VTK_RENDERING_BACKEND OpenGL2)
+  else()
+    set(VTK_RENDERING_BACKEND None)
+  endif()
+endif()
+
+set(_target_freetypeopengl)
+if(TARGET VTK::RenderingFreeType${VTK_RENDERING_BACKEND})
+  set(_target_freetypeopengl VTK::RenderingFreeType${VTK_RENDERING_BACKEND})
+endif()
+
+set(
+  _required_vtk_libraries
+  VTK::IOImage
+  VTK::ImagingSources
+  VTK::vtksys
+  VTK::kwiml
+)
+
+if(ITK_WRAP_PYTHON)
+  list(
+    APPEND
+    _required_vtk_libraries
+    VTK::CommonCore
+    VTK::CommonDataModel
+    VTK::CommonExecutionModel
+  )
+endif()
+if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
+  list(
+    APPEND
+    _required_vtk_libraries
+    VTK::Rendering${VTK_RENDERING_BACKEND}
+    VTK::RenderingFreeType
+    ${_target_freetypeopengl}
+    VTK::InteractionStyle
+    VTK::InteractionWidgets
+  )
+endif()
+
+# VTK exports no shared/static variable, so ask an imported target directly.
+set(_vtk_common_core_type)
+if(TARGET VTK::CommonCore)
+  get_target_property(_vtk_common_core_type VTK::CommonCore TYPE)
+endif()
+
+if(ITK_WRAP_PYTHON)
+  if(NOT VTK_WRAP_PYTHON)
+    message(
+      FATAL_ERROR
+      "ITK_WRAP_PYTHON is ON and Module_ITKVtkGlue is enabled, but the VTK at\n"
+      "  ${VTK_DIR}\n"
+      "was built with VTK_WRAP_PYTHON=OFF. Rebuild VTK with VTK_WRAP_PYTHON=ON,\n"
+      "or set Module_ITKVtkGlue=OFF."
+    )
+  endif()
+  if(_vtk_common_core_type STREQUAL "STATIC_LIBRARY")
+    message(
+      FATAL_ERROR
+      "ITK_WRAP_PYTHON is ON and Module_ITKVtkGlue is enabled, but the VTK at\n"
+      "  ${VTK_DIR}\n"
+      "is a static build. Its Python wrapping collapses into a single\n"
+      "_vtkmodules_static module that ITK's wrapping cannot import. Rebuild VTK\n"
+      "with BUILD_SHARED_LIBS=ON, or set Module_ITKVtkGlue=OFF."
+    )
+  endif()
+endif()
+
+# MSVC builds reset BUILD_SHARED_LIBS before this point; ITK_BUILD_SHARED_LIBS keeps the user's choice.
+if(ITK_BUILD_SHARED_LIBS AND _vtk_common_core_type STREQUAL "STATIC_LIBRARY")
+  if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
+    message(
+      WARNING
+      "BUILD_SHARED_LIBS is ON, but the VTK at\n"
+      "  ${VTK_DIR}\n"
+      "is a static build. ITKVtkGlue and each executable linking it get separate\n"
+      "copies of VTK, so object factory overrides registered in one copy are\n"
+      "missing in the other (e.g. vtkRenderWindow::New() returns nullptr in\n"
+      "QuickView). Use a shared VTK, or build ITK with BUILD_SHARED_LIBS=OFF."
+    )
+  endif()
+endif()
+unset(_vtk_common_core_type)
+
+set(ITKVtkGlue_VTK_LIBRARIES ${_required_vtk_libraries})

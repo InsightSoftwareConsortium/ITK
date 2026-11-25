@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::GiplImageIO" POINTER)
+itk_wrap_simple_class("itk::GiplImageIOFactory" POINTER)

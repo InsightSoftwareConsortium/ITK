@@ -1,0 +1,6 @@
+itkFFTWComplexToComplexFFTImageFilter.h IfNDefDefine Disable
+itkFFTWForwardFFTImageFilter.h IfNDefDefine Disable
+itkFFTWHalfHermitianToRealInverseFFTImageFilter.h IfNDefDefine Disable
+itkFFTWInverseFFTImageFilter.h IfNDefDefine Disable
+itkFFTWRealToHalfHermitianForwardFFTImageFilter.h IfNDefDefine Disable
+itkComplexToComplexFFTImageFilter.h Comments Disable

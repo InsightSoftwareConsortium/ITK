@@ -1,0 +1,17 @@
+##TITLE=Parameter List
+##JCAMPDX=4.24
+##DATATYPE=Parameter Values
+##ORIGIN=Bruker BioSpin MRI GmbH
+##OWNER=pvsu
+$$ Mon Dec  6 09:44:25 2004 EST (UT-5h)  pvsu
+$$ /opt/Pv3.0.1/data/pvsu/nmr/DCB120604.t61/AdjStatePerStudy
+##$Completed=Yes
+##$Name=( 3, 32 )
+<AutoSHIM> <AutoSF> <AdjRefG>
+##$Time=( 3, 21 )
+<09:42:47  6 Dec 2004> <09:43:39  6 Dec 2004> <09:43:50  6 Dec 2004>
+##$Expno=( 3 )
+1 1 1
+##$State=( 3 )
+adj_successful adj_successful adj_successful
+##END=

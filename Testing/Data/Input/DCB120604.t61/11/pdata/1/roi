@@ -1,0 +1,43 @@
+##TITLE=Parameter List
+##JCAMPDX=4.24
+##DATATYPE=Parameter Values
+##ORIGIN=Bruker BioSpin MRI GmbH
+##OWNER=pvsu
+$$ Mon Dec  6 14:20:24 2004 EST (UT-5h)  pvsu
+$$ /opt/Pv3.0.1/data/pvsu/nmr/DCB120604.t61/11/pdata/1/roi
+##$ROI_version=( 20 )
+<Version 2.0>
+##$ROI_n=1
+##$ROI_par=( 1 )
+(RoiSquare, <>, 4, 0, 0, -1)
+##$ROI_dpar=( 4 )
+0.5 0.5 0.1 0.1
+##$ROI_dpar_off=( 1 )
+0
+##$ROI_cpar_off=( 1 )
+0
+##$ROI_ndx=0
+##$ROI_dpar_ndx=( 4 )
+0.5 0.5 0.1 0.1
+##$ROI_cpar_ndx=( 1 )
+<>
+##$ROI_identifier=( 20 )
+<Roi_4>
+##$ROI_type=( 20 )
+<Circle>
+##$ROI_source_image_depth=16
+##$ROI_minimal_source_value=393493
+##$ROI_minimal_display_value=149
+##$ROI_maximal_source_value=654814
+##$ROI_maximal_display_value=247
+##$ROI_mean_source_value=500546
+##$ROI_mean_display_value=189.484
+##$ROI_source_standard_dev=56752.6
+##$ROI_display_standard_dev=21.3305
+##$ROI_area=19.6075
+##$ROI_area_pu=514
+##$ROI_integral_source_value=9.81448e+06
+##$ROI_integral_display_value=3715.32
+##$ROI_integral_source_value_pu=2.57281e+08
+##$ROI_integral_display_value_pu=97395
+##END=

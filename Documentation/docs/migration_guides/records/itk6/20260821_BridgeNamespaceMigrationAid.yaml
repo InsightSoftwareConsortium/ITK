@@ -1,0 +1,33 @@
+schema_version: 1
+title: 'The `itk::bridge` namespace: a migration aid, not supported ITK API'
+summary: |
+  The Eigen-backed replacements named throughout this guide live in
+  `itk::bridge`. That namespace holds **convenience wrappers intended to ease the
+  initial burden of moving off the deprecated VNL algorithms** — a `vnl_svd` call
+  site can become `itk::bridge::Math::SVD` as a mechanical edit, without the
+  caller first learning Eigen's API.
+details: |
+  These wrappers are **not part of the core ITK mission to maintain or validate**:
+
+  - The API and ABI may change, or be removed, without the deprecation cycle that
+    core ITK API changes receive.
+  - The numerical behavior is the backend's. ITK does not independently validate
+    accuracy, conditioning, or convergence, and does not guarantee bit-for-bit
+    stability across backend versions.
+  - Coverage extends only to what ITK's own migration required; missing
+    functionality will not necessarily be added.
+
+  **Downstream users should prefer depending on Eigen (or another numerical
+  library) directly** rather than on the API/ABI of these wrappers. Using
+  `itk::bridge` as a transitional step while retiring VNL is reasonable; treating
+  it as a permanent dependency is not. Code that needs a long-lived, supported
+  numerical interface should call the backend directly, where the API contract,
+  versioning policy, and documentation are the numerical library's own.
+categories:
+  - Policy
+environment:
+  - cxx
+impact: low
+pr: 6768
+commits:
+  - a2c58cc9bc4

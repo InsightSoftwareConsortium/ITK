@@ -1,0 +1,45 @@
+% ---------------------------------------------------------
+% Parameters for the single- or multi-resolution techniques
+% ---------------------------------------------------------
+1	% Number of levels in the multi-res pyramid (1 = single-res)
+1	% Highest level to use in the pyramid
+1 1 1   	% Scaling at lowest level of pyramid
+4		% Number of pixels per element
+6.e3 	        % Elasticity (E)
+3.e3 	        % Density x capacity (RhoC)
+1		% Image energy scaling (gamma) - sets gradient step size
+2		% NumberOfIntegrationPoints
+1  		% WidthOfMetricRegion
+50		% MaximumIterations
+% -------------------------------
+% Parameters for the registration
+% -------------------------------
+0 0.99  % Similarity metric (0=mean sq, 1 = ncc, 2=pattern int, 3=MI, 5=demons)
+1.0	% Alpha
+0	% DescentDirection (1 = max, 0 = min)
+0	% DoLineSearch (0=never, 1=always, 2=if needed)
+1.e1	% TimeStep
+0.5     % Landmark variance
+0       % Employ regridding / enforce diffeomorphism ( >= 1 -> true)
+% ----------------------------------
+% Information about the image inputs
+% ----------------------------------
+109	% Nx (image x dimension)
+109	% Ny (image y dimension)
+58  	% Nz (image z dimension - not used if 2D)
+ResampledVolume_RigidRegistered.mha  % ReferenceFileName 
+ResampledVolume_Intraop.mha  % TargetFileName
+% -------------------------------------------------------------------
+% The actions below depend on the values of the flags preceding them.
+% For example, to write out the displacement fields, you have to set
+% the value of WriteDisplacementField to 1.
+% -------------------------------------------------------------------
+0	% UseLandmarks? - read the file name below if this is true
+FiniteElementRegistrationLandmarks.txt	% LandmarkFileName
+DeformableRegistered.mha               % ResultsFileName (prefix only)
+0                                     % WriteDisplacementField?
+./RatLung_disp                         % DisplacementsFileName (prefix only)
+0       % ReadMeshFile?
+-       % MeshFileName
+END
+

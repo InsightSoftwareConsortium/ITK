@@ -1,0 +1,28 @@
+#
+# This Valgrind suppression file is for the Ubuntu 18.04 LTS system compiler and valgrind.
+#
+{
+   dlopen
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.?.?
+   fun:_ZN6itksys13DynamicLoader11OpenLibraryERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEi
+}
+{
+   ioclt
+   Memcheck:Param
+   ioctl(generic)
+   fun:ioctl
+   fun:_ZN6itksysL16CloneFileContentERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_
+}
+# Offending line contains comment that the array may contain garbage
+{
+   zlib_uninitialized
+   Memcheck:Cond
+   fun:slide_hash
+   fun:fill_window
+   fun:deflate_fast
+   fun:itkzlib_deflate
+}

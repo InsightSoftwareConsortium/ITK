@@ -1,0 +1,1692 @@
+<!--
+  FROZEN. This file is no longer edited or published. Add a migration record
+  instead: Documentation/AI/migration-records.md. A cleanup PR converts any
+  sections added after the freeze and then deletes this file.
+-->
+ITK v6 Migration Guide
+========This guide documents the changes required to migrate a code base
+which uses ITK v5 to use ITK v6. The migration guide for transition
+from v4 to v5 can be found [here](./itk_5_migration_guide.md).
+
+Require modern C++ language feature use
+---------------------------------------
+Many backward compatible/ forward enabling compiler features are now required to be used.
+
+Replace `ITKv5_CONST` with `const`
+
+Minimum supported VTK version: 9.1
+----------------------------------
+
+`ITKVtkGlue` (and any code that links it) now requires **VTK 9.1 or
+newer**. The previous floor of VTK 8.1 has been raised because:
+
+* VTK 9.0 was the first stable release of the new module system, which
+  replaces the legacy `vtk_module_config(NS …)` macro with imported
+  targets such as `VTK::CommonCore` and `VTK::IOImage`.
+* VTK 9.0 removed the `OpenGL` rendering backend; only `OpenGL2` is
+  shipped.
+* VTK 9.1 stabilised the imported-target names and the
+  `vtk_module_autoinit` helper that ITKVtkGlue now relies on
+  unconditionally, removing a significant amount of legacy
+  compatibility code from `Modules/Bridge/VtkGlue/`.
+
+**VTK 9.4 or newer is recommended** for current security/CVE patches
+and bug fixes, but **not required** — every imported-target name and
+CMake helper that ITKVtkGlue depends on was already stable in 9.1, so
+ITK 6 is happy to build against any 9.1.x release. Use 9.4+ if you
+have the choice.
+
+### What you need to do
+
+If your project links `ITKVtkGlue` (directly or via `find_package(ITK)`):
+
+1. **Build / link against VTK 9.1 or newer.** Distribution packages
+   that ship a supported VTK as of this release: Ubuntu 22.04 LTS and
+   24.04 LTS (`libvtk9.1`), Fedora 38+ (9.2+), Homebrew (`brew install
+   vtk` tracks current — currently 9.5). Anaconda's `conda-forge::vtk`
+   is at 9.4+. 3D Slicer and ParaView build VTK 9.4+ from source as
+   part of their superbuild.
+
+2. **Remove any local `vtk_module_config(...)` calls in your CMake.**
+   The shim that ITKVtkGlue used to inject when consuming legacy VTK
+   has been deleted. Replace such calls with a direct
+   `target_link_libraries(<your-target> PUBLIC VTK::IOImage VTK::…)`,
+   then call `vtk_module_autoinit` so VTK's object factories and I/O
+   readers/writers register at startup. Without this call, factory-
+   dispatched features (e.g., `vtkImageReader2Factory`) silently
+   produce empty results:
+   ```cmake
+   target_link_libraries(<your-target>
+     PUBLIC
+       VTK::IOImage
+       VTK::ImagingSources
+       # …other VTK modules you use
+   )
+   vtk_module_autoinit(
+     TARGETS <your-target>
+     MODULES VTK::IOImage VTK::ImagingSources # …same list as above
+   )
+   ```
+
+3. **Remove any `VTK_RENDERING_BACKEND` selection logic that fell back
+   to `OpenGL`.** Only `OpenGL2` is supported now. Code such as
+   ```cmake
+   if(VTK_RENDERING_BACKEND STREQUAL "OpenGL")
+     # ...
+   endif()
+   ```
+   can be deleted; the special cases for `OpenGL` no longer exist
+   upstream.
+
+4. **Update `find_package(VTK …)` calls** to require 9.1 explicitly:
+   ```cmake
+   find_package(VTK 9.1 NO_MODULE REQUIRED)
+   ```
+   If a project also exports its own `<Project>Config.cmake`, mirror
+   the version pin so downstream consumers get a clear failure rather
+   than a confusing missing-target error. Bump to `9.4` instead of
+   `9.1` if you want to enforce the recommended-not-required floor in
+   your own build.
+
+### Note for downstream projects that pin both ITK and VTK
+
+ITK 6 + VTK 9.1+ is the supported combination, with VTK 9.4+
+recommended. If you maintain a SuperBuild that pins both
+(e.g., 3D Slicer, BRAINSTools, ANTs, ITK Remote Modules), bump the
+pinned VTK tag to **at least `v9.1.0`** (or, preferably, the latest
+9.4.x) before bumping the ITK pin to 6. Building ITK 6 against VTK
+8.x or VTK 9.0 will fail at `find_package` time with a clear
+version-mismatch error.
+
+Distributions still on VTK 8.x or VTK 9.0 should track ITK 5.4.x
+until their VTK is updated; ITK 5.4 patch releases continue to
+support the wider VTK 8.1+/9.0+ range.
+
+
+
+Remove support for ITKv4 interfaces
+-----------------------------------
+
+`ITKV4_COMPATIBILITY` is no longer a supported option.  Previously this option
+was off by default.  Previously when enabled, the ITK API was modified to
+provide support for ITKV4 functions.
+
+Remove support for ITKv5
+-----------------------------------
+
+All contents of the Deprecated module were removed. This includes TreeContainer
+and related classes; atomic primitives, mutexes and related classes which are
+now part of C++ standard; specialized Vector filters - specialized versions are
+no longer needed, as regular filters can work with vector images. For details, see
+[ITKv5 Migration Guide](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/docs/migration_guides/itk_5_migration_guide.md).
+
+Prefer standard CXX language features rather than ITK macros
+-------------------------------------------------------------
+
+Replace ITK aliases (left column) with CXX standard feature (right column)
+
+```txt
+ITK_FALLTHROUGH                   [[fallthrough]]
+ITK_DELETE_FUNCTION               = delete
+ITK_CONSTEXPR_FUNC                constexpr
+ITK_CONSTEXPR_VAR                 constexpr
+
+ITK_ALIGNAS(X)                    alignas(X)
+ITK_ALIGNOF(X)                    alignof(X)
+ITK_DEPRECATED                    [[deprecated]]
+ITK_DEPRECATED_MSG(MSG)           [[deprecated(MSG)]]
+ITK_CONSTEXPR                     constexpr
+ITK_DELETED_FUNCTION              = delete
+ITK_EXTERN_TEMPLATE               extern
+ITK_FINAL                         final
+ITK_NOEXCEPT                      noexcept
+ITK_NOEXCEPT_EXPR(X)              noexcept(X)
+ITK_NULLPTR                       nullptr
+ITK_OVERRIDE                      override
+ITK_STATIC_ASSERT(X)              static_assert(X, #X)
+ITK_STATIC_ASSERT_MSG(X, MSG)     static_assert(X, MSG)
+ITK_THREAD_LOCAL                  thread_local
+```
+
+Removed ITKv5 migration/maintenance scripts
+-----------------------
+
+The following scripts used for migrating to ITKv5 were removed from the ITKv6.
+
+```sh
+  CheckForOutdatedDefines.sh
+  EnumPrintFunction.py
+  Move_DISALLOW_COPY_to_public_section.cpp
+  ReplaceITK_NULLPTRMacroNames.sh
+  ReplaceITK_OVERRIDEMacroNames.sh
+  ReplaceitkGetObjectMacro.sh
+  UpdateAllC++Headers.sh
+  UseNativeC++Syntax.sh
+  misc-unused-parameters.sh
+  modernize-loop-convert.sh
+  modernize-pass-by-value.sh
+  modernize-return-braced-init-list.sh
+  modernize-use-auto.sh
+  modernize-use-bool-literals.sh
+  modernize-use-default-member-init.sh
+  modernize-use-emplace.sh
+  modernize-use-equals-default.sh
+  modernize-use-equals-delete.sh
+  modernize-use-nullptr.sh
+  modernize-use-override.sh
+  performance-general.sh
+  prefer-type-alias-over-typedef.sh
+  prefer_constexpr_for_const_literals.sh
+  readability-container-size-empty.sh
+  replaceClassWithTypename.py
+  replace_itkStaticConstMacro.sh
+  replace_vnl_math_XXX.sh
+```
+
+Accessing outdated ITKv5 migration scripts
+------------------------------------------
+
+```
+git worktree add .../ITKv5.4 v5.4.0
+ls ../ITKv5/Utilities/ITKv5Preparation
+```
+
+Class changes
+-------------
+
+The `Clone()` member function of `itk::PointSet` now does a "deep copy" of its
+data, creating a new instance that has a copy of the points, the point data and
+the region information properties of the original PointSet object. With previous
+ITK versions, `PointSet::Clone()` did not copy any data. (It previously just
+created a default-constructed PointSet object, like `PointSet::CreateAnother()`
+does.)
+
+For the sake of code readability, a new `CoordinateType` alias is added for
+each nested `CoordRepType` alias. The old `CoordRepType` aliases will still be
+available with ITK 6.0, but it is recommended to use `CoordinateType` instead.
+The `CoordRepType` aliases will be removed when `ITK_FUTURE_LEGACY_REMOVE` is
+enabled. Similarly, `InputCoordinateType`, `OutputCoordinateType`, and
+`ImagePointCoordinateType` replace `InputCoordRepType`, `OutputCoordRepType`,
+and `ImagePointCoordRepType`, respectively.
+
+itkIsNumber.h got deprecated. To modernize your code base, replace `mpl::IsNumber<X>::Value`
+with `std::is_arithmetic_v<X>`, and `#include "itkIsNumber.h"` with `#include <type_traits>`.
+
+The member functions `New()` and `Delete()` of `itk::Indent` and `itk::TimeStamp` are
+deprecated. If your application is still using them, you may replace their use with
+constructing instances of these types directly.
+
+
+ITKFEM and ITKFEMRegistration modules removed
+---------------------------------------------
+
+The `ITKFEM` (`Modules/Numerics/FEM`) and `ITKFEMRegistration`
+(`Modules/Registration/FEM`) modules are removed from the ITK main tree.
+Both were opt-in (`EXCLUDE_FROM_DEFAULT`) and no in-tree module depended
+on them.
+
+The modules, with their full history, are preserved as the unmaintained
+remote module `InsightSoftwareConsortium/ITKFEM`. Projects that enabled
+`Module_ITKFEM` / `Module_ITKFEMRegistration`, linked `ITKFEM` /
+`ITKFEMRegistration`, or used `itk::fem::*` classes (including
+`FEMRegistrationFilter` and the `LinearSystemWrapper*` family) can re-enable
+it via `Module_FEM` (a `Modules/Remote/FEM.remote.cmake` breadcrumb). It is
+unmaintained and scheduled for removal in ITK 7 (see
+[InsightSoftwareConsortium/ITK#6511](https://github.com/InsightSoftwareConsortium/ITK/issues/6511));
+if you depend on it, comment on that issue.
+
+
+ITKVNLInstantiation library is removed
+--------------------------------------
+
+The usage of ITKVNLInstantiation library should be replaced directly with the
+ITKVNL module. The ITKVNLInstantiation library was an empty library used for
+compatibility and provided transitive linking to ITKVNL.
+
+
+`itk::Math::sqrteps` changed by 1 ULP for accuracy
+--------------------------------------------------
+
+`itk::Math::sqrteps` is now `0x1p-26`, the exact `sqrt(eps)`;
+`vnl_math::sqrteps` (`1.490116119384766e-08`) was 1 ULP higher.
+
+Prefer itk::AnatomicalOrientation over itk::SpatialOrientation
+------------------------------------------------
+
+The enumeration defined in `itk::SpatialOrientation`, including `itk::SpatialOrientation::CoordinateTerms`,
+`itk::SpatialOrientation::CoordinateMajornessTerms`, and `itk::SpatialOrientation::ValidCoordinateOrientations` may be
+deprecated in the future. These terms described an orientation of an axis in a coordinate system, by the "from" or
+"negative" direction. For example `CoordinateTerms::ITK_COORDINATE_Right` describes an axis moving from the "Right" to
+the "Left" side of the body.
+
+This is the opposite of the DICOM `Patient Orientation (0020,0020)` tag.
+
+The `itk::AnatomicalOrientation` class now represents the anatomical orientation. The class can provide a representation
+of itself as an unambiguous enumeration, string and a matrix. It provides both a `PositiveEnum` and a `NegativeEnum` for
+three letter descriptions of the anatomical orientation, which is ambiguous.
+
+The recommended unambiguous way to define an anatomical orientation is the following:
+
+```cpp
+itk::AnatomicalOrientation(itk::AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                           itk::AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                           itk::AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
+```
+
+The `itk::SpatialOrientation::ValidCoordinateOrientations` enumerations can be explicitly or implicitly converted to the
+new `AnatomicalOrientation` object:
+
+```cpp
+itk::AnatomicalOrientation orientation = itk::SpatialOrientation::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+orientation = itk::AnatomicalOrientation(itk::SpatialOrientation::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;)
+```
+
+Implicit conversion is not available in ITK Python.  An error messaging like the following can occur:
+```text
+TypeError: in method 'itkOrientImageFilterID3ID3_SetDesiredCoordinateOrientation', argument 2 of type 'itkAnatomicalOrientation'
+```
+
+Explicitly converting to `AnatomicalOrientation` is required in ITK Python:
+```python
+reoriented_image = itk.orient_image_filter(
+    image,
+    use_image_direction=True,
+    desired_coordinate_orientation=itk.AnatomicalOrientation(
+        itk.SpatialOrientationEnums.ValidCoordinateOrientations_ITK_COORDINATE_ORIENTATION_RAS
+    ),
+)
+```
+
+`GetIndex()` replaced with `ComputeIndex()`, for iterators without index
+------------------------------------------------------------------------
+`ImageConstIterator::GetIndex()` is marked to be removed in the future. This iterator does not have an index,
+internally, so its `GetIndex()` member function does a potentially expensive computation. For an iterator that is
+derived from `ImageConstIterator`, please use its newly introduced `ComputeIndex()` member function instead. Or use an
+iterator _with_ index (like `ImageIteratorWithIndex`).
+
+
+
+Remove support for Python wrapped `long double` types
+-----------------------------------------------------
+
+The swig wrapping of `long double` types into python
+resulted in implicit type conversions to `double`,
+which results in silent loss of precision.
+
+There has never been an option for "ITK_WRAP_long_double"
+configuration, and manually wrapped functions in vnl for
+for long double were never needed by ITK based functions.
+
+Given the undefined behavior of wrapping long double types
+with swig, and given that there is no use case for long double
+support directly from the wrapped ITK API, these manual vnl
+wrappings could not be reached from ITK interfaces.
+
+The handful of manually wrapped long double functions were
+removed from python wrapping.
+
+
+IO modules write floating-point metadata with lossless precision
+-----------------------------------------------------------------
+
+`float` and `double` metadata values are now serialized using
+`itk::ConvertNumberToString()`, which produces the shortest decimal string
+that round-trips exactly — replacing the previous 6-significant-digit default.
+
+Affected modules: **NIfTI** (`scl_slope`, `scl_inter`, `pixdim`, spacing,
+and offset fields), **MetaImage**, **NRRD**, **VoxBoCUB**, **SpatialObject**,
+and **Mesh IO**.
+
+Tests that compare raw header text against golden baselines may fail because
+values previously written as e.g. `"1"` are now written as `"1.0000001"`.
+Replace exact string matches with numeric comparisons or regenerate baselines.
+Files not written by ITK are unaffected.
+
+Legacy GoogleTest Target Names Removed
+--------------------------------------
+
+ITK 6 now uses the standard CMake `FindGTest` target names for GoogleTest libraries, aligning with upstream project and CMake.
+
+### Target Name Changes
+
+**Before (ITK 5):**
+```cmake
+target_link_libraries(MyTest
+  GTest::GTest      # legacy target
+  GTest::Main       # legacy target
+)
+```
+
+**After (ITK 6):**
+```cmake
+target_link_libraries(MyTest
+  GTest::gtest      # compatible target
+  GTest::gtest_main # compatible target
+)
+```
+
+### Rationale
+
+These names were deprecated in CMake 3.20 and removed in CMake 4.1.0. Additionally, the GoogleTest project itself uses the lowercase target names (`GTest::gtest` and `GTest::gtest_main`), meaning the old ITK-specific aliases were not compatible when using GoogleTest directly from its upstream repository. ITK 6 adopts the standard lowercase target names to ensure compatibility with modern CMake versions, the GoogleTest project, and consistency with other projects.
+
+Python Global Interpreter Lock (GIL) Release
+---------------------------------------------
+
+ITK releases the Python Global Interpreter Lock (GIL) during `Update()` and
+`UpdateLargestPossibleRegion()` by default. Other wrapped methods retain the GIL.
+This allows independent pipelines to execute concurrently from Python threads.
+
+### Key Changes
+
+**New CMake Option:**
+- `ITK_PYTHON_RELEASE_GIL` (default: `ON`) - Controls GIL release during pipeline execution
+- When enabled, SWIG's `-threads` flag supports GIL release in the update wrappers
+
+**Benefits:**
+- Multiple Python threads can execute ITK operations concurrently
+- Improves performance in parallel computing scenarios
+- Prevents thread blocking when using frameworks like Dask
+
+**Example:**
+
+```python
+import itk
+import threading
+
+image_paths = ["image1.mha", "image2.mha"]
+
+def process_image(image_path):
+    # Pipeline updates release the GIL.
+    image = itk.imread(image_path)
+    smoothed = itk.median_image_filter(image, radius=5)
+    return smoothed
+
+# Multiple threads can now execute ITK operations concurrently
+threads = [
+    threading.Thread(target=process_image, args=(path,))
+    for path in image_paths
+]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+```
+
+**Note:** Python callbacks reacquire the GIL. Concurrent threads must use independent
+pipelines; GIL release does not make shared filters or images thread-safe.
+Build with `-DITK_PYTHON_RELEASE_GIL=OFF` to retain the GIL during updates.
+
+Python lazy loading is always on
+--------------------------------
+
+The Python wrapping layer's lazy-loading mechanism has been rewritten on top
+of the standard-library [PEP 562](https://peps.python.org/pep-0562/)
+module-level `__getattr__` / `__dir__` protocol. Lazy first-touch resolution
+is now the only mode of operation: there is no eager-import alternative.
+
+### Removed
+
+- `itkConfig.LazyLoading` — previously a boolean attribute on `itkConfig`
+  that, when set to `False`, forced every wrapped submodule to be imported
+  at `import itk` time.
+- `ITK_PYTHON_LAZYLOADING` — the environment variable that seeded the value
+  of `itkConfig.LazyLoading` at startup.
+- The custom `itk.support.lazy.LazyITKModule` `types.ModuleType` subclass
+  (and its `ITKLazyLoadLock`, `_lazy_itk_module_reconstructor`, and
+  `not_loaded` sentinel) that the previous implementation relied on.
+
+### What you need to do
+
+If your code or test suite contains either of the following, remove
+them:
+
+- `itkConfig.LazyLoading = False` — assignment alone is silently ignored
+  (module attributes are mutable, but no ITK code reads the value
+  anymore). On a fresh `import itkConfig` with no prior assignment, a
+  *read* of `itkConfig.LazyLoading` raises `AttributeError` because the
+  attribute is no longer defined. Delete both the writes and any reads:
+
+  ```python
+  import itkConfig
+
+  # Remove any assignments — they are silently no-ops:
+  itkConfig.LazyLoading = False
+
+  # Remove any reads — without a prior assignment they raise
+  # AttributeError, since itkConfig no longer defines this attribute:
+  if itkConfig.LazyLoading:
+      ...
+  ```
+
+- `ITK_PYTHON_LAZYLOADING` — the environment variable is no longer
+  consulted. Any export is silently ignored; remove it from launch
+  scripts and CI configurations:
+
+  ```bash
+  ITK_PYTHON_LAZYLOADING=0 python my_script.py  # drop the env var
+  ```
+
+The observable contract from a caller's point of view is otherwise
+unchanged: `import itk` returns the package, attribute access on `itk`
+or any `itk.<Submodule>` resolves on first touch, `dir(itk)` lists the
+full set of lazily-discoverable attributes, and pickle / cloudpickle
+round-trips through `sys.modules` continue to work.
+
+### Why this changed
+
+The previous `LazyITKModule.__getattribute__` intercepted *every* attribute
+read on the `itk` package just to check a sentinel; the PEP 562 hook only
+fires on a miss, so steady-state attribute access now hits the standard
+module fast path. The legacy `ITKLazyLoadLock` also combined
+`threading.RLock` and `multiprocessing.RLock`, and constructing the
+multiprocessing half pinned the multiprocessing start method at
+`import itk` time — breaking downstream callers that wanted to call
+`multiprocessing.set_start_method(...)` after import. The replacement uses
+only `threading.RLock`.
+
+Modern CMake Interface Libraries
+---------------------------------
+
+ITK 6 introduces modern CMake interface libraries for all ITK modules, providing improved dependency management and
+simplified linking. Each module now exports a namespaced interface library following the pattern `ITK::{ModuleName}Module`.
+
+### Key Changes
+
+**Interface Library Naming:**
+- All ITK module libraries are now exported with the `ITK::` namespace
+- Module interface libraries follow the pattern: `ITK::{ModuleName}Module`
+- Example: `ITKCommon` library is accessed as `ITK::ITKCommonModule`
+
+**Variable Behavior Changes:**
+- `${ModuleName}_LIBRARIES` now contains **only** libraries produced by that specific module
+- Transitive dependencies are automatically handled through the interface library
+- Previously, `${ModuleName}_LIBRARIES` included some transitive dependencies
+
+**Use Target-Specific Properties:**
+- CMake global and directory scoped properties such and include directories and libraries have been replaced with target-specific properties.
+- The interface libraries handle transitive dependencies, include paths, and compiler flags automatically through
+CMake's `INTERFACE` properties.
+- Eliminates the need for `UseITK.cmake` which modified global CMake state.
+
+Benefits:
+- Cleaner, more maintainable CMake code
+- Prevents conflicts between different dependency requirements
+- Explicit dependency relationships
+- Better IDE integration and IntelliSense support
+
+#### Application Configuration
+
+The usage of `${ITK_USE_FILE}` or UseITK.cmake` is now deprecated, and provides the legacy compatibility of setting global properties for include directory, CXX flags etc.
+
+For applications using ITK, use the interface library for proper dependency linking. See the
+[Installation Example](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Examples/Installation)
+for a complete working example.
+
+**Before:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS MyModule)
+include(${ITK_USE_FILE})
+add_executable(Example Example.cxx)
+target_link_libraries(Example ${ITK_LIBRARIES})
+```
+
+**After:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS MyModule)
+itk_generate_factory_registration()
+add_executable(Example Example.cxx)
+target_link_libraries(Example ITK::MyModuleModule)
+```
+
+Alternatively, the CMake variable `ITK_INTERFACE_LIBRARIES` can be used to link against all loaded modules.
+
+**Factory Registration with Meta-Modules:**
+
+ITK uses factory registration to load IO formats and pluggable components at runtime. ITK 6 uses
+meta-modules that simplify factory registration by grouping related modules together.
+
+Factory meta-modules include:
+- `ITKImageIO` - All image IO modules (JPEG, PNG, NIFTI, DICOM, etc.)
+- `ITKMeshIO` - All mesh IO modules
+- `ITKTransformIO` - Transform IO modules
+- `ITKFFTImageFilterInit` - FFT implementations
+
+To register all factories:
+
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKCommon ITKImageIO )
+itk_generate_factory_registration( )
+...
+target_link_libraries(MyTarget ${ITK_INTERFACE_LIBRARIES} ITK::ITKImageIO)
+```
+
+The `itk_generate_factory_registration()` macro *must* be called **before** adding executables. It optionally takes the factory types to register. The CMake macro generates registration code for the IO modules and factory-enabled components from the modules loaded in `find_package()`. The meta-module *must* be linked to the target to include and enable the generated registration code.
+
+In the above example, because `ITKImageIO` is provided as a required component, all available ImageIO modules are registered. Note that if no components are requested in `find_package()`, then all components are loaded and registered.
+
+To explicitly register factories:
+
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKCommon ITKIOGDCM ITKIONRRD )
+itk_generate_factory_registration( ImageIO )
+...
+target_link_libraries(MyTarget ${ITK_INTERFACE_LIBRARIES} ITK::ITKImageIO)
+```
+
+In this example, the GDCM and NRRD ImageIO modules are explicitly loaded. Only the ImageIO factory type is registered and generated.
+
+
+**Determining Required Modules:**
+
+To identify which ITK modules your code depends on, use the `WhatModulesITK.py` utility:
+
+```bash
+python Utilities/Maintenance/WhatModulesITK.py /path/to/ITK/source file1.cxx file2.h
+```
+
+This script analyzes your source files and reports the required ITK modules based on the headers included.
+The output lists the modules you should specify in `find_package(ITK REQUIRED COMPONENTS ...)`.
+
+Use the `--link` option to generate `target_link_libraries()` commands with the interface library names.
+This outputs the namespaced interface libraries (e.g., `ITK::ITKCommonModule`) suitable for direct use in
+`target_link_libraries()` commands.
+
+#### FFTW
+
+FFTW is built or found by the `ITKFFTW` third-party module, and its include directories, libraries, and compile
+options are carried by the `ITK::ITKFFTModule` interface library. Link that target, rather than naming FFTW
+directories or libraries. Code that includes `fftw3.h` directly is covered too, because `ITK::ITKFFTModule` provides
+the FFTW include directory.
+
+**Before:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKFFT)
+include(${ITK_USE_FILE})
+include_directories(${ITK_FFTW_INCLUDE_PATH})
+link_directories(${ITK_FFTW_LIBDIR})
+add_executable(Example Example.cxx)
+target_link_libraries(Example ${ITK_LIBRARIES} fftw3 fftw3f)
+```
+
+**After:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKFFT)
+add_executable(Example Example.cxx)
+target_link_libraries(Example PRIVATE ITK::ITKFFTModule)
+```
+
+To use FFTW without the FFT filters, request the module directly with `find_package(ITK COMPONENTS ITKFFTW)` and link
+`ITK::ITKFFTWModule`.
+
+`ITK_FFTW_INCLUDE_PATH` and `ITK_FFTW_LIBDIR` are no longer defined by `ITKConfig.cmake`, and FFTW directories are no
+longer appended to `ITK_INCLUDE_DIRS` and `ITK_LIBRARY_DIRS`. The bundled libraries are installed as `libitkfftw3*`
+instead of `libfftw3*`, so linking `fftw3` or `-lfftw3` by name fails to find the library. Only the precisions ITK was
+built with (`ITK_USE_FFTWF` and `ITK_USE_FFTWD`) are provided.
+
+When ITK is built against a system FFTW (`ITK_USE_SYSTEM_FFTW=ON`), downstream `find_package(ITK)` runs ITK's
+installed `FindFFTW.cmake`, seeded with the include directory and library files ITK found. Set `FFTW_ROOT` to search
+for a different installation instead. The ITK build options `FFTW_INCLUDE_PATH`, `FFTWD_BASE_LIB`, `FFTWF_BASE_LIB`,
+`FFTWD_THREADS_LIB`, and `FFTWF_THREADS_LIB` are still honored; the library results are now full paths rather than
+file names. A separate FFTW threads library is optional.
+
+The `FindFFTW` result variables `FFTW_INCLUDE`, `FFTWD_LIBRARIES`, `FFTWF_LIBRARIES`, `FFTWD_FOUND`, and `FFTWF_FOUND`
+are no longer set in projects that call `find_package(ITK)`; only the `FFTW::Double` and `FFTW::Float` targets are
+created. This is unlikely to affect existing code. Link `ITK::ITKFFTWModule`, or a module that depends on it such as
+`ITK::ITKFFTModule`, to get FFTW's include directories and libraries.
+
+With `ITK_USE_MKL=ON`, ITK now finds oneMKL through its CMake package (`find_package(MKL CONFIG)`) and links
+`MKL::MKL`, which requires oneMKL 2021.3 or newer. Set `MKL_DIR`, or add the installation to `CMAKE_PREFIX_PATH`, to
+select it. `MKLROOT` is no longer read. `MKL_LINK`, `MKL_INTERFACE`, and `MKL_THREADING` default to `static`, `lp64`, and
+`sequential`; the FFTW3 interface is the same under `lp64` and `ilp64`. The `MKL_INTEL_ILP64_LIB`, `MKL_CORE_LIB`, and
+`MKL_SEQUENTIAL_LIB` cache entries and `FFTW_INCLUDE_PATH` are no longer used with oneMKL.
+
+The FFTW3 interfaces of oneMKL and cuFFTW do not create real-to-real plans. With `ITK_USE_MKL` or `ITK_USE_CUFFTW`,
+`VariationalRegistrationCurvatureRegularizer` uses PocketFFT, and `CurvatureRegistrationFilter` is not available.
+
+
+### Migration for ITK Modules
+
+Remote modules should be updated to use modern CMake patterns for better integration with ITK 6.
+
+#### Using itk_module_add_library
+
+Replace direct `add_library()` calls with `itk_module_add_library()`:
+
+**Before:**
+```cmake
+set(MyModule_SRCS
+  itkClass1.cxx
+  itkClass2.cxx
+)
+add_library(MyModule ${ITK_LIBRARY_BUILD_TYPE} ${MyModule_SRCS})
+itk_module_link_dependencies(MyModule)
+itk_module_target(MyModule)
+```
+
+**After:**
+```cmake
+set(MyModule_SRCS
+  itkClass1.cxx
+  itkClass2.cxx
+)
+itk_module_add_library(MyModule ${MyModule_SRCS})
+```
+
+The `itk_module_add_library()` macro automatically:
+- Sets the appropriate library type (SHARED/STATIC)
+- Configures include directories using generator expressions
+- Links dependencies via the interface library
+- Sets up export targets
+
+In some cases when the dependencies of the module are not needed for the library, only `itk_module_target()` is needed.
+
+#### Using Interface Libraries for Executables
+
+When linking executables or examples, use the interface library instead of module variables:
+
+**Before:**
+```cmake
+add_executable(MyExample MyExample.cxx)
+target_link_libraries(MyExample ${MyModule_LIBRARIES})
+```
+
+**After:**
+```cmake
+add_executable(MyExample MyExample.cxx)
+target_link_libraries(MyExample ITK::MyModuleModule)
+```
+
+#### Backward Compatibility
+
+For backward compatibility, non-namespaced aliases are created with deprecation warnings. However, new code should use the namespaced `ITK::` targets exclusively.
+
+## 32-bit x86 requires SSE2 floating-point math
+
+ITK 6 compiles one floating-point rounding path on x86. On 32-bit x86, `itkConfigure.h` stops with `#error` unless the compiler uses SSE2 floating-point math, and the x87 inline assembly is removed. ITK's targets and `UseITK.cmake` pass `-msse2 -mfpmath=sse` to GCC and Clang, and MSVC has defaulted to SSE2 since Visual Studio 2012, so most builds need no change. 64-bit x86 and ARM are not affected.
+
+The CMake variable `ITK_SSE2_CFLAGS_IF_AVAILABLE` and the `check_sse2_flags()` function are removed. `ITK_COMPILER_SUPPORTS_SSE2_32` (any x86) and `ITK_COMPILER_SUPPORTS_SSE2_64` (x86_64) are still defined, but ITK no longer reads them.
+
+### What you need to do
+
+A 32-bit x86 project that compiles ITK headers without ITK's imported targets or `UseITK.cmake` adds `-msse2 -mfpmath=sse` (GCC, Clang) or `/arch:SSE2` (MSVC). Remove any use of `ITK_SSE2_CFLAGS_IF_AVAILABLE`.
+
+## Minimum Visual Studio raised to 2019 16.2
+
+ITK 6 requires MSVC 19.22 (Visual Studio 2019 16.2) or newer; the previous floor was 19.20 (16.0). Releases 16.0 and 16.1 reject `using typename Superclass::X;` declarations with errors C2653 and C2886, which 16.2 fixed. Configuring with an older compiler now fails early.
+
+### What you need to do
+
+Update Visual Studio 2019 to 16.11, its final servicing baseline, with the Visual Studio Installer, or use Visual Studio 2022. ITK's own Windows CI already builds with Visual Studio 2022.
+
+## Minimum wrapped Python raised to 3.11
+
+ITK 6 requires Python 3.11 or newer for Python wrapping; the previous floor was 3.10. Configuring the wrapping against an older interpreter now fails early.
+
+### What you need to do
+
+Use Python 3.11+ when building or installing the ITK Python wrapping. The prebuilt `itk` wheels already target 3.11 and newer.
+
+## NumPy bridge: `image_from_array(arr.T)` is no longer transpose-equivalent to `image_from_array(arr)`
+
+### Rationale
+
+Previously, `itk.image_from_array` (and the underlying
+`itk.PyBuffer.GetImageViewFromArray` / `GetImageFromArray`) special-cased
+F-contiguous inputs, with the result that `image_from_array(arr)` and
+`image_from_array(arr.T)` produced ITK images with **identical** sizes and
+content -- the transpose was effectively a no-op through this API. The
+docstrings explicitly documented this behavior and pointed users at
+`np.reshape` for any actual flipping.
+
+This was buggy in practice: the C++ side performed its own shape reversal
+on F-contiguous buffers, so size handling double-reversed and `image.shape`
+disagreed with `array.shape[::-1]` for F-contiguous inputs. Round-tripping
+through `array_from_image(image_from_array(arr))` could silently transpose
+the data.
+
+### What changed in ITKv6
+
+`GetImageViewFromArray` / `GetImageFromArray` now **deep-copy** any
+non-C-contiguous input via `np.ascontiguousarray()` before constructing
+the image. The resulting image owns an independent buffer that does
+**not** reference the user's original array; mutations to the original
+will no longer be visible through the image. The shape rule is now
+uniform regardless of memory layout:
+
+```
+itk.size(image)            ==  array.shape[::-1]
+image.GetPixel((i, j, k))  ==  array[k, j, i]
+```
+
+As a consequence, `arr` and `arr.T` produce ITK images with **different
+(reversed) sizes** -- `np.transpose` / `.T` is now the correct operation
+to flip the dimension order through this API.
+
+### What you need to do
+
+Audit any code that relied on `image_from_array(arr)` and
+`image_from_array(arr.T)` returning the same image. The most common idioms
+to inspect:
+
+- Code that called `itk.image_from_array(some_view.T)` expecting the
+  transpose to be ignored. Drop the `.T` to recover the prior behavior,
+  or accept the new transposed-image semantics if that was the intent.
+- Code that round-trips arrays through ITK: previously
+  `array_from_image(image_from_array(arr_f))` could differ from `arr_f`
+  for F-contiguous inputs; now it equals `np.ascontiguousarray(arr_f)`,
+  preserving values exactly with the original `arr_f.shape`.
+- A new warning fires when `GetImageViewFromArray` is called on a
+  non-C-contiguous input (since a deep-copy is performed). Set
+  `need_contiguous=False` to silence it if the deep-copy is intended.
+  `GetImageFromArray` already silences the warning internally because
+  it always deep-copies via `ImageDuplicator`; the kwarg is not exposed
+  on that API.
+
+## Vnl FFT backend replaced by PocketFFT
+
+The `VnlFFT*` image filter family, `vnl_fft`/`vnl_convolve` in the vendored
+vxl, and the Temperton GPFA sources (`v3p/netlib/temperton/`) have been
+removed. The default (non-FFTW) FFT backend is now PocketFFT
+(`PocketFFT*ImageFilter`), which supports images of **any** size — the
+2^a·3^b·5^c size restriction is gone.
+
+### What you need to do
+
+- Replace `Vnl<X>FFTImageFilter` with `PocketFFT<X>FFTImageFilter`
+  (Forward, Inverse, RealToHalfHermitian, HalfHermitianToReal,
+  ComplexToComplex, and the 1D variants). Factory-based instantiation
+  (`ForwardFFTImageFilter::New()` etc.) requires no change.
+- `VnlFFTImageFilterInitFactory` is now `PocketFFTImageFilterInitFactory`;
+  the CMake backend key changed from `FFTImageFilterInit::Vnl` to
+  `FFTImageFilterInit::Pocket`.
+- Code calling `vnl_fft_1d`/`vnl_fft_2d`/`vnl_convolve` directly must move
+  to another FFT (e.g. `pocketfft_hdronly.h` via `itkPocketFFTCommon.h`,
+  as `itkN4BiasFieldCorrectionImageFilter.hxx` now does).
+- `vnl_fft_1d` is retained as a deprecated PocketFFT-backed shim, but it now
+  pulls in `pocketfft_hdronly.h`: any consumer that includes
+  `vnl/algo/vnl_fft_1d.h` must depend on the ITKFFT module.
+
+### Concerns
+
+- Numerical results differ from the Vnl backend at the ULP level;
+  bit-exact baselines must move to tolerance-based comparison.
+- One-platform precision concession (`aarch64`-Linux only): for a `float`
+  image, PocketFFT's half-Hermitian (r2c/c2r) reconstruction and its
+  full-complex reconstruction of the same transform agree to ~1e-4 rather
+  than ~1e-5 — a handful of pixels (1–13 of thousands) cross 1e-5 from the
+  aarch64-Linux libm/FMA rounding of the two distinct algorithms. The same
+  builds on x86-64 Linux and on aarch64 macOS agree exactly (0 ULP), and the
+  result is bit-identical regardless of thread count (PocketFFT parallelizes
+  independent 1-D lines), so this is neither a multithreading effect nor a
+  layout error — the reconstruction is correct (round-trip ~1e-14). Only
+  `FrequencyIterators.{Even2D,Even3D,Odd3D}` are affected; they use a 1e-4
+  Hermitian tolerance, matching the pre-existing `Odd2D` test.
+- PocketFFT real transforms use native r2c/c2r (half-complex), not the
+  full-complex emulation Vnl used — faster and less memory, same results.
+- The deletions under `Modules/ThirdParty/VNL/src/vxl/` (temperton/,
+  vnl_fft*, vnl_convolve*) diverge from upstream vxl and must be re-applied
+  or upstreamed on the next vnl pin update.
+- `vnl_fft_prime_factors`, `gpfa`-family symbols, and the vxl
+  `vnl_algo_test_fft*`/`test_convolve` tests are gone from the vendored tree.
+
+## The `itk::bridge` namespace: a migration aid, not supported ITK API
+
+The Eigen-backed replacements named throughout this guide live in
+`itk::bridge`. That namespace holds **convenience wrappers intended to ease the
+initial burden of moving off the deprecated VNL algorithms** — a `vnl_svd` call
+site can become `itk::bridge::Math::SVD` as a mechanical edit, without the
+caller first learning Eigen's API.
+
+These wrappers are **not part of the core ITK mission to maintain or validate**:
+
+- The API and ABI may change, or be removed, without the deprecation cycle that
+  core ITK API changes receive.
+- The numerical behavior is the backend's. ITK does not independently validate
+  accuracy, conditioning, or convergence, and does not guarantee bit-for-bit
+  stability across backend versions.
+- Coverage extends only to what ITK's own migration required; missing
+  functionality will not necessarily be added.
+
+**Downstream users should prefer depending on Eigen (or another numerical
+library) directly** rather than on the API/ABI of these wrappers. Using
+`itk::bridge` as a transitional step while retiring VNL is reasonable; treating
+it as a permanent dependency is not. Code that needs a long-lived, supported
+numerical interface should call the backend directly, where the API contract,
+versioning policy, and documentation are the numerical library's own.
+
+## Eigen-backed eigendecompositions replace netlib EISPACK `vnl_*_eigensystem`
+
+`vnl_real_eigensystem`, `vnl_symmetric_eigensystem`, and
+`vnl_generalized_eigensystem` (netlib EISPACK `rg`/`rs`/`rsg`), and the only
+other client `vnl_scatter_3x3`, are deprecated in favor of Eigen-backed
+`itk::bridge::RealEigenDecomposition`, `itk::bridge::SymmetricEigenDecomposition`, and
+`itk::bridge::GeneralizedEigenDecomposition`. Under `ITK_FUTURE_LEGACY_REMOVE` these
+classes and the entire `v3p/netlib/eispack/` subdirectory are excluded from the
+build.
+
+### What you need to do
+
+- Replace `vnl_symmetric_eigensystem<T>` with `itk::bridge::SymmetricEigenDecomposition<T>`
+  (it mirrors the `V`/`D` members and `get_eigenvector`/`get_eigenvalue`
+  accessors, so most call sites change only the type name and the include:
+  `itkBridgeSymmetricEigenDecomposition.h`). Use `itk::bridge::RealEigenDecomposition` and
+  `itk::bridge::GeneralizedEigenDecomposition` for the non-symmetric and
+  symmetric-definite generalized problems.
+- For the eigenvalues/eigenvectors of a 3x3 scatter matrix, build the matrix
+  directly and feed `itk::bridge::SymmetricEigenDecomposition`.
+
+### A different correct representation — not a regression
+
+An eigenvector is only defined up to sign (and a complex one up to phase), so the
+sign returned is mathematically arbitrary. The new symmetric/generalized classes
+**canonicalize** real eigenvector columns to a deterministic convention
+(largest-magnitude entry positive), which is reproducible across platforms and
+SIMD widths — unlike the EISPACK signs the old baselines were implicitly locked
+to. Opt out per call with the `canonicalizeSigns = false` constructor argument.
+
+Because of this, a few filters that consume an eigenvector's raw direction emit
+**the same geometric result expressed from a different, equally-valid
+representative**:
+
+- `LabelGeometryImageFilter`: the oriented bounding-box *image* is anchored at
+  the opposite corner (its origin shifts); the rendered region is identical.
+- `ShapeLabelMapFilter` / `StatisticsLabelMapFilter`:
+  `GetOrientedBoundingBoxOrigin()` reports the opposite corner for
+  non-axis-aligned directions.
+
+In every case the underlying quantity is unchanged — bounding-box **size**,
+principal **moments**, elongation, eccentricity, orientation angle, and the
+principal **axes** themselves (which flip sign consistently) are all the same.
+The origin, axes, and size together still describe the identical box. **If a
+baseline or expected value changed, it is a selection of a different correct
+representation of the same result, not an indication of a failure.** Update such
+expected values to the new (now platform-stable) representatives; the migrated
+ITK tests have been updated this way.
+
+## Optional Eigen-backed `itk::bridge::Math::SVD`
+
+A new opt-in, header-only `itk::bridge::Math::SVD` (`itkBridgeMathSVD.h`) provides an
+Eigen-backed singular value decomposition. It returns `U`, `W`, `V` as vnl types
+plus `PseudoInverse()`, `Solve()`, `Rank()` and `Recompose()` -- the dominant `vnl_svd`
+operations. `vnl_svd` is unchanged by this addition, but the direction is to
+migrate ITK and downstream code onto `itk::bridge::Math::SVD` and ultimately **deprecate
+and remove** the `vnl_svd` path. Prefer `itk::bridge::Math::SVD` in new code.
+
+A runtime-sized `vnl_matrix` of any shape is accepted: square inputs take a fast
+JacobiSVD/BDCSVD path; rectangular inputs use BDCSVD with thin U/V (`U` is m x k,
+`V` is n x k, `k = min(m, n)`). The square-vs-rectangular choice is a single
+runtime dimension comparison, so the square fast path is unaffected. The
+fixed-size overloads (`vnl_matrix_fixed`, `itk::Matrix`) are square-only by
+signature.
+
+### What you need to do
+
+Nothing is required immediately, but prefer `itk::bridge::Math::SVD` in new code. The
+`vnl_svd`-only operations (`nullvector`, `well_condition`, `singularities`) have
+no remaining callers in ITK, so the new API already covers every ITK use; the few
+remaining `vnl_svd` call sites are slated for migration as part of the broader
+vnl-to-Eigen deprecation effort.
+
+### Performance: faster on the common and critical paths, at equal accuracy
+
+Accuracy is equivalent to `vnl_svd` -- reconstruction and singular values agree
+to machine precision (the newer BDCSVD divide-and-conquer engine is marginally
+more accurate at large sizes). Speed is size-dependent (idle, single-thread,
+AppleClang arm64; ratio > 1 means the Eigen path is faster):
+
+| Square size | Eigen vs vnl_svd |
+|---|---|
+| 3x3 | ~2.2x faster |
+| 4x4 | ~2.0x faster |
+| 6x6 | ~parity |
+| 8x8 | slower (~0.5-0.8x) -- `vnl_svd`/LINPACK wins ([rarely used](#midsize-rarity)) |
+| 16x16 | slower (~0.5-0.8x) -- `vnl_svd`/LINPACK wins ([rarely used](#midsize-rarity)) |
+| >= 50x50 | ~1.5-2.3x faster (BDCSVD) |
+
+LINPACK may have a hardware-alignment advantage at these mid sizes that has not
+been explored.
+
+<a id="midsize-rarity"></a>
+The **rare** cases where Eigen is similar or slightly slower are mid-sized dense
+square matrices (8x8 and 16x16). These are seldom -- perhaps never -- exercised in
+practice across the ITK and downstream call sites, which are dominated by 3x3/4x4
+transform and image-orientation problems (where Eigen is ~2x faster) plus
+occasional large dense systems (where BDCSVD wins). On the common and critical
+paths the Eigen path is a significant performance improvement with no loss of
+accuracy.
+
+### Deterministic signs -- a different correct representation
+
+Like the eigendecomposition classes above, `itk::bridge::Math::SVD` canonicalizes the
+singular-vector signs by default (reproducible across platforms and SIMD width),
+whereas `vnl_svd`'s signs depend on solver internals. Sign-invariant operations
+-- `U * V^T`, `PseudoInverse()`, `Solve()` -- are stable across the swap; code that
+reads individual `U`/`V` columns as directions may see the same geometry from a
+different, equally-valid representative. Pass `canonicalizeSigns = false` to
+reproduce `vnl_svd`'s raw signs (e.g. for equivalence testing).
+
+## `FixedPointInverseDisplacementFieldImageFilter::OutputIterator` is now `ImageRegionIteratorWithIndex`
+
+The public nested type alias
+`FixedPointInverseDisplacementFieldImageFilter<...>::OutputIterator` changed from
+`ImageRegionIterator<OutputImageType>` to
+`ImageRegionIteratorWithIndex<OutputImageType>`. The filter calls `GetIndex()` on
+this iterator, which `ImageRegionIterator` only provides under the removed
+`ITK_FUTURE_LEGACY_REMOVE` API; `ImageRegionIteratorWithIndex` supplies it
+natively.
+
+### What you need to do
+
+Downstream code that names the concrete alias explicitly -- e.g. a template
+specialization or overload keyed on `ImageRegionIterator<OutputImageType>`, or a
+variable declared as `FilterType::OutputIterator` and then passed where an
+`ImageRegionIterator` is required -- must accept
+`ImageRegionIteratorWithIndex<OutputImageType>` instead. The two iterators are
+siblings in the iterator hierarchy, not subclasses, so such uses do not convert
+implicitly. Code that only iterates (`GoToBegin`/`IsAtEnd`/`Get`/`Set`) needs no
+change.
+
+## `itkDCMTKFileReader.h` is now a private header of `ITKIODCMTK`
+
+`itkDCMTKFileReader.h` and `itkDCMTKFileReader.cxx` moved from the module's
+installed `include/` directory to `src/`, making `ITKDCMTK` a private dependency
+of `ITKIODCMTK`. The reader (`itk::DCMTKFileReader`, `itk::DCMTKSequence`,
+`itk::DCMTKItem`) is no longer installed and is not part of the public ITK API.
+Downstream code that did `#include "itkDCMTKFileReader.h"` no longer resolves.
+
+### What you need to do
+
+Because the header is now private, its contents may change without notice or
+API-stability guarantees. Do not depend on it as an installed header. Instead,
+vendor a private copy of both files into your own project from the last commit
+where they were the public interface:
+
+```
+ITK commit db492d9b092a6ca585ab6b12e896ca63229ad8e8
+  Modules/IO/DCMTK/src/itkDCMTKFileReader.h
+  Modules/IO/DCMTK/src/itkDCMTKFileReader.cxx
+```
+
+Pin to that exact hash rather than tracking `main`; the file lives outside the
+public interface now and may diverge substantially in future ITK versions.
+Compile the vendored `.cxx` into your target and neutralize the
+`ITKIODCMTK_EXPORT` macro (define it empty) since the reader is no longer
+exported from a shared library. This is the approach taken by the Slicer
+`SUVFactorCalculatorCLI` and `PETStandardUptakeValueComputation` CLIs and by
+BRAINSTools `DWIConvert`.
+
+## `GDCMSeriesFileNames` reimplemented on `gdcm::Scanner`/`IPPSorter`
+
+`itk::GDCMSeriesFileNames` no longer uses the GDCM-deprecated
+`gdcm::SerieHelper`. It now enumerates with `gdcm::Directory`, groups series
+with `gdcm::Scanner` (replicating `SerieHelper::CreateUniqueSeriesIdentifier`),
+and orders slices geometrically with `gdcm::IPPSorter`. The public API is
+unchanged; consumers compile without modification.
+
+### What you need to do
+
+- Nothing for the common case: single-series directories enumerate, group, and
+  order as before.
+- If you relied on file ordering for **duplicate-`ImagePositionPatient`** or
+  **gantry-tilted** acquisitions, re-check it. `gdcm::IPPSorter` is strict and
+  fails to sort those; on failure an exception is thrown by default. Call
+  `SetFailOnAmbiguousOrdering(false)` to instead accept the legacy
+  `SerieHelper` heuristics (Instance Number when unique, else lexicographic
+  filename order) — a non-standards-conforming fallback retained only for
+  determinism and backward compatibility; do not trust its output.
+  First-class support is tracked in
+  [#6468](https://github.com/InsightSoftwareConsortium/ITK/issues/6468).
+- Slices whose ImageOrientationPatient strings differ only by rounding (unit
+  row and column cosines within `1 - cos <= 1e-6`, about 0.08 degrees) are
+  still ordered geometrically, as `SerieHelper` did; `gdcm::IPPSorter` alone
+  requires identical strings. Orientations that differ by more are rejected,
+  which `SerieHelper` did not check.
+- Tags passed to `AddSeriesRestriction` now refine the series identifier
+  (sub-dividing a `SeriesInstanceUID`, the documented intent, e.g.
+  `"0008|0021"`) instead of `SerieHelper`'s largely-inert file-restriction
+  list. Malformed tags are warned-and-ignored rather than honored.
+- `SetLoadSequences`/`SetLoadPrivateTags` have no effect with the
+  `gdcm::Scanner` backend (the scan reads only the grouping/ordering tags).
+  They are retained for source compatibility but no longer alter enumeration.
+- Non-image DICOM objects (structured reports, RTSTRUCT, DICOMDIR,
+  presentation states — anything without Rows `(0028,0010)`) are excluded
+  from enumeration, matching `SerieHelper`'s `ImageReader`-based acceptance.
+- `GetUseSeriesDetails()` now defaults to `false`, consistent with the
+  documented opt-in ("you may want to try calling `SetUseSeriesDetails(true)`")
+  and with DICOM series identity: by default series are grouped by their raw
+  `SeriesInstanceUID` `(0020,000e)`, and `GetFileNames(<raw UID>)` matches.
+  Grouping behavior is unchanged — the previous backend never applied the
+  detail tags until `SetUseSeriesDetails(true)` was called, even though the
+  getter misreported `true`. Only code that read `GetUseSeriesDetails()`
+  before calling the setter sees a different (now truthful) value.
+
+### Concerns
+
+- Repeated `GetSeriesUIDs`/`GetFileNames`/`GetInputFileNames` calls no longer
+  re-scan the directory (lazy parse cached by a `TimeStamp`); a directory
+  mutated on disk between calls without an intervening `Modified()` is not
+  re-read.
+- The vendored `gdcm::SerieHelper` is untouched (GDCM still uses it
+  internally); it may be removed once upstream GDCM drops it.
+
+## `RenyiEntropyThresholdCalculator`/`MaximumEntropyThresholdCalculator`: max-entropy seed corrected
+
+Both calculators seeded their running-maximum entropy accumulator with
+`NumericTraits<double>::min()` -- the smallest *positive* double, not the
+most negative representable value. These entropy formulas are provably
+non-negative, but legitimately reach exactly `0` for a degenerate or
+tied sub-histogram split (common with `AutoMinimumMaximum` off, since
+the fixed bin range then often extends past the image's actual data) --
+and `0` does not exceed `min()`. The reported threshold could then stick
+at its pre-loop initial value instead of the bin that actually maximizes
+entropy. The seed is now `NumericTraits<double>::NonpositiveMin()`, which
+is guaranteed to compare less than any real entropy value, including `0`.
+
+### What you need to do
+
+Nothing in your code needs to change -- the fix is internal to the
+calculators. But if you depend on an exact threshold from either
+calculator, or from `RenyiEntropyThresholdImageFilter` /
+`MaximumEntropyThresholdImageFilter`, with `AutoMinimumMaximum` off and a
+configured min/max range wider than the image's actual intensity range,
+re-verify that threshold -- it may now differ (correctly) from the
+previous ITK release. The common case, `AutoMinimumMaximum` on (the
+default) with a non-degenerate histogram, is unaffected.
+## `JointHistogramMutualInformationImageToImageMetricv4` corrected
+
+The JointHistogram mutual-information metric's marginal PDFs were swapped
+(since introduction) and its analytic derivative was not an MI gradient; both
+are fixed, and the derivative is now unit-consistent with a bounded per-sample
+weight. The public API is unchanged and code compiles unmodified, but
+registration values and convergence with this metric change (toward the true
+optimum), and hand-tuned fixed learning rates must be re-tuned. Details, the
+downstream-consumer impact survey (SimpleITK, BRAINSFit, ANTs), and the
+re-baselining checklist are in the companion guide:
+[JointHistogramMutualInformation metric correction](./joint_histogram_mutual_information_metric_correction.md).
+## Projection and accumulate filters: collapsed-axis output origin centered
+
+`ProjectionImageFilter` (and its `Maximum`/`Mean`/`Minimum`/`Sum`/`Median`/
+`StandardDeviation`/`Binary` subclasses), `AccumulateImageFilter`, and
+`GetAverageSliceImageFilter` place the single output pixel of the collapsed
+axis at the physical center of the collapsed input extent. The previous
+`inOrigin[i] + (i - 1) * inSpacing[i] / 2` expression did not depend on the
+collapsed axis and produced an incorrect origin. For a same-dimension
+projection the output origin now shifts by `(size - 1) / 2 * spacing` along
+the collapsed axis, transformed through the input direction cosines.
+`AccumulateImageFilter` now also throws on an out-of-range
+`AccumulateDimension`, matching `ProjectionImageFilter`'s long-standing
+behavior.
+
+### What you need to do
+
+Nothing in your code needs to change. If you read the physical origin of a
+projected or accumulated output, or compare it against a stored `.mha`/`.nrrd`
+baseline that encodes origin, re-verify that value -- it now reflects the
+corrected collapsed-axis center. Formats that do not store an origin (`.tif`,
+`.png`) and dimension-reducing projections (output dimension less than input)
+are unaffected.
+
+## `HDF5ImageIO` no longer compresses by default
+
+`HDF5ImageIO` previously applied deflate compression unconditionally,
+ignoring the `UseCompression` flag. The flag is now respected.
+`ImageFileWriter` defaults `UseCompression` to `false`, so HDF5 files
+written through the standard writer pipeline are **uncompressed by default**.
+
+### What you need to do
+
+Call `writer->UseCompressionOn()` to restore compressed output. To control the
+deflate level (1–9, default 5), also call `writer->SetCompressionLevel(N)`.
+
+## `GradientStructureTensorImageFilter`: feature-scale smoothing is now isotropic
+
+`GradientStructureTensorImageFilter` computes the structure tensor
+`J_rho = K_rho * (grad(u_sigma) (x) grad(u_sigma))`, where `K_rho` is a Gaussian
+of standard deviation `rho` (the *feature scale*). The defining property of that
+smoothing step is that it is **isotropic**: the outer-product tensor field is
+convolved with the *same* Gaussian along every spatial axis, so that the tensor
+at each voxel aggregates gradient orientations from a rotationally-symmetric
+neighborhood. That symmetry is what lets the tensor's eigenvectors report the
+locally-dominant structure direction irrespective of how the image is oriented
+on the grid.
+
+The implementation built the `K_rho` smoother — and, on one unreachable branch,
+the noise-scale `K_sigma` smoother — from `RecursiveGaussianImageFilter`. That
+filter derives from `RecursiveSeparableImageFilter` and smooths a **single**
+axis, the one named by `SetDirection()`, which was never called and defaults to
+`0`. The tensor field was therefore blurred along the first axis only. The
+result was not a rotationally-symmetric structure tensor at all: it was
+axis-dependent, and rotating the input image changed the tensor field by more
+than the rotation alone. The fix replaces both smoothers with
+`SmoothingRecursiveGaussianImageFilter`, which chains one recursive Gaussian per
+axis and so realizes the intended isotropic `K_rho`. (The gradient smoother in
+the same filter already used `GradientRecursiveGaussianImageFilter`, which loops
+`SetDirection()` over every axis, and was always correct — the defect was
+confined to the two feature/noise-scale smoothers.)
+
+### What you need to do
+
+- **Only code that names the tensor class changes.** The AnisotropicDiffusionLBR
+  class `StructureTensorImageFilter` is now `GradientStructureTensorImageFilter`
+  (header `itkGradientStructureTensorImageFilter.h`), because the
+  IsotropicWavelets module defined a different class with the same name. The
+  class was never wrapped for Python. Its interface is otherwise unchanged, and
+  `AnisotropicDiffusionLBRImageFilter` and
+  `CoherenceEnhancingDiffusionImageFilter` users need no edits.
+- **Expect different output** from `GradientStructureTensorImageFilter` and from
+  the two public filters built on it —
+  `CoherenceEnhancingDiffusionImageFilter` (CED/EED) and
+  `AnisotropicDiffusionLBRImageFilter`. The new tensors are isotropic, so
+  coherence-enhancing and edge-enhancing diffusion now steer along genuinely
+  orientation-independent structure directions. On most inputs the change is
+  visible but modest; on strongly anisotropic or diagonally-oriented structures
+  it can be large, because the previous axis-0-only smoothing biased the flow
+  toward the first grid axis.
+- **Re-baseline** any regression tests or downstream pipelines that pin the exact
+  output of these filters. All 16 `AnisotropicDiffusionLBR` image-comparison
+  baselines were regenerated for this change; if you maintain your own baselines
+  for CED/EED or LBR diffusion, regenerate them the same way.
+- If you *depended* on the old single-axis behavior (for example, to smooth the
+  tensor field along one axis only), it was never expressible through the public
+  API — there is no setter for the smoothing direction — so no supported code
+  path is removed.
+
+## IsotropicWavelets `StructureTensorImageFilter` is now `RieszStructureTensorImageFilter`
+
+The IsotropicWavelets module and the AnisotropicDiffusionLBR module both defined
+`itk::StructureTensorImageFilter` with the same include guard, so a build that
+enabled both modules could not use either class, and Python wrapping failed to
+compile (issue #7057). The two classes are different algorithms. The
+IsotropicWavelets class takes two or more component images (for example Riesz
+components) and outputs per-pixel eigenvectors and eigenvalues; the
+AnisotropicDiffusionLBR class takes one image and outputs the tensor.
+
+### What you need to do
+
+- Replace `itk::StructureTensorImageFilter` with
+  `itk::RieszStructureTensorImageFilter` and include
+  `itkRieszStructureTensorImageFilter.h`. Template parameters, setters, and
+  output are unchanged.
+- In Python, replace `itk.StructureTensorImageFilter` with
+  `itk.RieszStructureTensorImageFilter`; the wrapped instantiations are the same.
+- The old name is not kept as an alias, because an alias would reintroduce the
+  name clash.
+
+## `NiftiImageIO` preserves NaN and infinite pixel values
+
+Reading a floating-point or complex NIfTI image previously replaced every
+non-finite value with `0`. A file whose voxels were `1.5 NaN Inf -Inf 2.5`
+was returned as `1.5 0 0 0 2.5`, with no warning. Non-finite values are now
+read verbatim.
+
+NaN and ±Inf are valid IEEE-754 values that carry meaning — the out-of-mask
+voxels of a statistical map are the common case — and `0` is a valid
+intensity, so the substitution was both lossy and indistinguishable from
+real data.
+
+### What you need to do
+
+For most pipelines, nothing: the values that now survive were previously
+destroyed, so any file that read correctly before still does. The change is
+only observable for images that actually contain non-finite voxels, which
+previously could not be read faithfully at all.
+
+Code that relied on the reader to sanitize its input should filter
+explicitly, which is clearer than depending on an I/O side effect:
+
+```cpp
+using ThresholdType = itk::ThresholdImageFilter<ImageType>;
+auto sanitizer = ThresholdType::New();
+sanitizer->SetInput(reader->GetOutput());
+sanitizer->ThresholdOutside(lowerBound, upperBound); // non-finite values fail both tests
+sanitizer->SetOutsideValue(0);
+```
+
+To restore the previous behavior at the reader instead, set the new flag on
+the IO object:
+
+```cpp
+auto imageIO = itk::NiftiImageIO::New();
+imageIO->ZeroNonFinitePixelsOn();
+reader->SetImageIO(imageIO);
+```
+
+Note that `NaN` never compares equal to itself, so a test written as
+`pixel == std::numeric_limits<PixelType>::quiet_NaN()` is always false;
+use `std::isnan(pixel)`.
+## `GetInverseTransform()` returns the concrete transform type for more 3D transforms
+
+`Transform::GetInverseTransform()` returns an inverse wrapped in an
+`InverseTransformBasePointer`. For several 3D transforms the *runtime* type of
+that inverse was the parent class rather than the transform's own type: an
+`Euler3DTransform` inverse came back as a `MatrixOffsetTransformBase`, a
+`ScaleLogarithmicTransform` inverse as a `ScaleTransform`, and so on. The 2D
+transform family (`Rigid2DTransform`, `Euler2DTransform`, `Similarity2DTransform`,
+and the centered variants) already overrode `GetInverseTransform()` to preserve
+the concrete type; their 3D counterparts did not.
+
+The following transforms now return an inverse of their own concrete type:
+`Euler3DTransform`, `QuaternionRigidTransform`, `Similarity3DTransform`,
+`VersorRigid3DTransform`, `VersorTransform`,
+`FixedCenterOfRotationAffineTransform`, and `ScaleLogarithmicTransform`. The
+inverse is still computed by the inherited `GetInverse()`, which re-extracts the
+constrained parameters (Euler angles, versor, log-scales) through the virtual
+`ComputeMatrixParameters()`; only the returned pointer's concrete type changed.
+
+`BSplineTransform` (no closed-form global inverse; returns `nullptr`) and
+`AzimuthElevationToCartesianTransform` (nonlinear; its inverse is an affine
+approximation) are unchanged and intentionally do not return their own type.
+
+### What you need to do
+
+- **Nothing in most code.** Calls that use the inverse through the
+  `InverseTransformBasePointer` base interface, or that `dynamic_cast`/`static_cast`
+  the inverse to a *base* type (for example `MatrixOffsetTransformBase` to read
+  `GetMatrix()`), continue to work: the returned object is now *more* derived, so
+  every upcast still succeeds.
+- **Re-baseline serialized inverses.** A transform inverse written to disk
+  (`.tfm`, `.h5`) now records the derived class name (e.g.
+  `Euler3DTransform_double_3_3` instead of `MatrixOffsetTransformBase_double_3_3`).
+  Factory-based readers load either form, but regression tests that byte- or
+  string-compare stored transform files must be regenerated.
+- If you relied on the inverse being *exactly* the parent type (an exact
+  `typeid` comparison, or a `static_cast` to a sibling type), update that code to
+  the new concrete type. Such a dependency is uncommon and was not found in a
+  survey of downstream ITK consumers.
+
+## MINC coordinates are converted from RAS to LPS by default
+
+MINC stores world coordinates in RAS: +x is right, +y is anterior, +z is
+superior. ITK physical space is LPS. `MINCImageIO` and `MINCTransformIO` now
+convert between the two by default (`RAStoLPS` is `true`). ITKv5 and ITK
+6.0a02 had no conversion. ITK 6.0a03 added it, switched off by default to keep
+compatibility, as the first of two planned steps; this is the second. Until
+now, MINC images did not line up with images from other ITK readers.
+
+For a MINC image read with default settings:
+
+- The x and y components of the origin change sign.
+- The x and y components of each direction cosine change sign.
+- Size, spacing, voxel order and voxel values do not change.
+
+`MINCTransformIO` converts `.xfm` matrices, offsets and displacement grids in
+the same way. The writers convert back to RAS, so a MINC → ITK → MINC round
+trip writes the same world coordinates as before. MINC files written from
+other formats (NIfTI, NRRD, DICOM) now have correct world coordinates; before,
+x and y were mirrored.
+
+### What you need to do
+
+Check code that stores or compares physical coordinates of MINC data made with
+an earlier ITK, such as seed points, landmarks, bounding boxes, or `.tfm` and
+`.h5` transforms computed on MINC images. Their x and y values are now
+mirrored. Pipelines that store no physical coordinates need no change, whether
+they use only MINC or mix MINC with other image formats: MINC data now lines up
+with them. Also check MINC files that an earlier ITK wrote from other formats
+(see below).
+
+### Turning the conversion off
+
+- For one IO object, call `RAStoLPSOff()`:
+
+  ```cpp
+  auto imageIO = itk::MINCImageIO::New();
+  imageIO->RAStoLPSOff();
+  reader->SetImageIO(imageIO);
+
+  auto transformIO = itk::MINCTransformIO::New();
+  transformIO->RAStoLPSOff();
+  transformReader->SetTransformIO(transformIO);
+  ```
+
+- For a whole process, set the environment variable
+  `ITK_MINC_IO_RAS_TO_LPS=OFF` (`NO`, `FALSE` and `0` also work). It sets the
+  default of every `MINCImageIO` and `MINCTransformIO` created afterwards,
+  including those that `ImageFileReader`, `TransformFileReader`, Python,
+  SimpleITK and command-line tools create through the IO factories.
+- For a whole ITK build, configure with `-DITK_MINC_IO_RAS_TO_LPS=OFF`.
+
+`SetRAStoLPS()` overrides the environment variable, which overrides the CMake
+option. `itk::MINCImageIO::GetDefaultRAStoLPS()` returns the current default.
+
+### MINC files that an earlier ITK wrote from other formats
+
+Earlier ITK wrote MINC files without conversion by default. Such a file is
+correct if the pipeline read MINC input: RAS values went in and came out
+unchanged. If the input came from an LPS format such as NIfTI, NRRD or DICOM,
+the file stores LPS values as RAS, so its x and y are mirrored, and the new
+default reads it mirrored against its source.
+
+Since ITK 6.0a03, `MINCImageIO` records the writer's setting in the
+`itk:RAStoLPS` attribute of MINC images, including the displacement-grid
+volumes of `.xfm` transforms. `itk:RAStoLPS = 0` means that the writer did not convert. It does
+not say whether the input was MINC, so the reader does not act on it. Files
+written by ITK 6.0a02 or earlier carry no attribute. The reader copies the
+attribute into the metadata dictionary:
+
+```cpp
+int rasToLps = 1;
+if (itk::ExposeMetaData<int>(image->GetMetaDataDictionary(), "itk:RAStoLPS", rasToLps) && rasToLps == 0)
+{
+  // Written without conversion: x and y are mirrored if the input was not MINC.
+}
+```
+
+To repair a mirrored file, read it with the conversion off and write it with
+the default IO. The new file has correct RAS coordinates and
+`itk:RAStoLPS = 1`. Affine `.xfm` files carry no marker: if an earlier ITK
+wrote one from a transform computed on images in another format, read it with
+`MINCTransformIO::RAStoLPSOff()`.
+
+## `GradientImageFilter::OverrideBoundaryCondition` deprecated in favor of `SetBoundaryCondition`
+
+`GradientImageFilter` is the only ITK class whose `OverrideBoundaryCondition` *takes
+ownership* of its argument; every other class of that name stores a non-owning
+pointer. Because the two share a signature, passing a stack object to a
+`GradientImageFilter` compiled silently and then double-freed.
+
+The owning API now says so in its name and its type:
+
+```cpp
+// ITKv6
+filter->SetBoundaryCondition(std::make_unique<itk::PeriodicBoundaryCondition<ImageType>>());
+
+// ITKv5 (deprecated, removed when ITK_FUTURE_LEGACY_REMOVE is enabled)
+filter->OverrideBoundaryCondition(new itk::PeriodicBoundaryCondition<ImageType>);
+```
+
+`GetBoundaryCondition()` and `ResetBoundaryCondition()` were added to complete the
+interface, matching the rest of the family.
+
+### What you need to do
+
+Replace `OverrideBoundaryCondition(new X)` with `SetBoundaryCondition(std::make_unique<X>())`
+on `GradientImageFilter`. In Python, pass the boundary condition to
+`SetBoundaryCondition`; ownership moves to the filter, and re-using that object
+afterwards raises `RuntimeError` rather than crashing.
+
+Calls to `OverrideBoundaryCondition` on any *other* class are unaffected — those
+never took ownership and keep their current behavior.
+
+## `ITK_AUTOLOAD_PATH` is read once; use `ObjectFactoryBase::SetAutoloadPaths`
+
+The `ITK_AUTOLOAD_PATH` environment variable lists the directories ITK scans for
+shared libraries that register dynamically loaded object factories (IO plugins,
+for example). Entries are separated by `:` (`;` on Windows). The scan happens
+lazily, the first time a factory is used, and only when ITK is built with
+`ITK_USE_AUTOLOAD_PATH` (dynamic loading enabled, not a Python-wrapped build).
+
+The autoload paths are now stored in `ObjectFactoryBase` global state as a
+`std::list<std::string>`, initialized by splitting the `ITK_AUTOLOAD_PATH`
+environment variable when that state is created.
+`ObjectFactoryBase::SetAutoloadPaths()` and `GetAutoloadPaths()` set and query
+the list at runtime. `ReHash()` no longer re-reads the environment.
+
+### What you need to do
+
+Code that calls `putenv("ITK_AUTOLOAD_PATH=...")` after startup and then
+`ObjectFactoryBase::ReHash()` must build a `std::list<std::string>` of
+directories and call `ObjectFactoryBase::SetAutoloadPaths(...)` instead. When
+factories were already initialized, follow it with `ReHash()`.
+
+## `MINCImageIO` reads a MINC time dimension as a fourth image axis
+
+A MINC file whose `time` dimension has more than one frame now reads as a 4D
+image. Time is always axis 3: the time step becomes `GetSpacing()[3]` and the
+time start becomes `GetOrigin()[3]`. Missing spatial axes read as size 1, so a
+2D series reads as `[x, y, 1, t]`. In ITKv5, each time frame was a pixel
+component, so the file read as a `VectorImage` with one component per frame. A
+MINC `vector_dimension` still maps to pixel components.
+
+When writing, the fourth axis of a 4D image becomes the MINC `time` dimension,
+with its start and step taken from `GetOrigin()[3]` and `GetSpacing()[3]`. The
+writer no longer reads the `tstart` and `tstep` metadata entries. Pixel
+components are always written as `vector_dimension`; the writer no longer turns
+more than three components into a `time` dimension.
+
+### What you need to do
+
+Read MINC time series into a 4D image type:
+
+```cpp
+using ImageType = itk::Image<float, 4>;
+const auto image = itk::ReadImage<ImageType>("series.mnc");
+const double frameStep = image->GetSpacing()[3];
+```
+
+Use `itk::VectorImage<T, 4>` if the file also has a `vector_dimension`.
+Reading a time series into a 3D image type returns only the first frame, with
+identity direction cosines, because `ImageFileReader` uses default directions
+when the file has more dimensions than the image type. To get one frame with
+its geometry, read the 4D image and use `ExtractImageFilter` with
+`SetDirectionCollapseToSubmatrix()`.
+
+To write a time series, write a 4D image instead of a `VectorImage` with one
+component per frame, and set the time start and step through the image origin
+and spacing rather than `tstart` and `tstep`.
+
+## `ITK_HAVE_FENV_H` is removed
+
+`itkConfigure.h` no longer defines `ITK_HAVE_FENV_H`. `<cfenv>` is part of
+C++11, so the macro was defined on every toolchain that can build ITK, and ITK
+itself never tested it.
+
+### What you need to do
+
+Delete any `#ifdef ITK_HAVE_FENV_H` test and include `<cfenv>` unconditionally.
+
+## Byte-order macros are deprecated in `itkConfigure.h`
+
+`itkConfigure.h` no longer takes the byte order from CMake; `CMAKE_WORDS_BIGENDIAN`
+and `ITK_WORDS_BIGENDIAN` are defined only when ITK is built without
+`ITK_LEGACY_REMOVE`. `itk::ByteSwapper<T>::SystemIsBigEndian()` is `constexpr`
+and determines the byte order of the architecture being compiled for from the
+compiler (`std::endian` in C++20, otherwise the compiler's own macros), so it is
+correct for each architecture of a universal binary or a cross-compile, which a
+value detected at configure time is not.
+
+### What you need to do
+
+Replace each preprocessor test of either macro with the `constexpr` query; its
+result does not depend on the type argument. A test that selects a value:
+
+```cpp
+// Before
+#ifdef ITK_WORDS_BIGENDIAN
+  m_UseMSBForHashing = true;
+#else
+  m_UseMSBForHashing = false;
+#endif
+
+// After
+#include "itkByteSwapper.h"
+m_UseMSBForHashing = itk::ByteSwapper<TScalar>::SystemIsBigEndian();
+```
+
+A test that guards a statement:
+
+```cpp
+// Before
+#ifndef ITK_WORDS_BIGENDIAN
+  png_set_swap(png_ptr);
+#endif
+
+// After
+#include "itkByteSwapper.h"
+if constexpr (!itk::ByteSwapper<unsigned short>::SystemIsBigEndian())
+{
+  png_set_swap(png_ptr);
+}
+```
+
+The same replacements apply to `CMAKE_WORDS_BIGENDIAN`. The query is usable in
+`static_assert` and template arguments as well, since it is `constexpr`.
+
+## ITK headers present one form in every C++ standard
+
+ITK headers no longer select declarations or inline code from `__cplusplus` or
+feature-test macros. A project built as C++20 or newer now sees the same
+definitions as ITK's own libraries, which are the C++17 forms. For example,
+classes that use `ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION` keep their member
+`operator!=` in a C++20 build.
+
+The advanced CMake options `ITK_ALPHA_FEATURE_CXX20`,
+`ITK_ALPHA_FEATURE_CXX23`, and `ITK_ALPHA_FEATURE_CXX26` select the newer
+forms. They are off by default, unsupported, and for testing only.
+
+### What you need to do
+
+Nothing, in most projects. If your code tests
+`ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR`, note that the macro is no
+longer defined in a C++20 build.
+
+## `ITK_HAS_CPP11_TYPETRAITS` is removed
+
+`itkConfigure.h` no longer defines `ITK_HAS_CPP11_TYPETRAITS`. It was always
+defined in builds without `ITK_LEGACY_REMOVE`, and ITK itself never tested it.
+
+### What you need to do
+
+Delete any `#ifdef ITK_HAS_CPP11_TYPETRAITS` test and keep the branch that uses
+`<type_traits>`.
+
+## `MultiThreaderBase` global default work-unit-per-thread ratio
+
+`PoolMultiThreader` and `TBBMultiThreader` now initialize their number of work
+units as `GetGlobalDefaultNumberOfThreads()` times the new
+`MultiThreaderBase::GetGlobalDefaultWorkUnitPerThreadRatio()`, instead of a
+hard-coded factor. The default ratio is 4, which matches the previous
+`PoolMultiThreader` behavior but reduces the `TBBMultiThreader` default from 16
+to 4 work units per thread. Fewer, larger work units lower scheduling overhead
+for most filters.
+
+### What you need to do
+
+To restore the previous `TBBMultiThreader` granularity, or to tune either
+threader, set the ratio before the multi-threaders are constructed:
+
+```cpp
+itk::MultiThreaderBase::SetGlobalDefaultWorkUnitPerThreadRatio(16);
+```
+
+or set the `ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO` environment variable
+(for example `ITK_GLOBAL_DEFAULT_WORK_UNIT_PER_THREAD_RATIO=16`). An explicit
+call to the setter takes precedence over the environment variable.
+
+The value is clamped to at least 1 and does not affect instances that already
+exist. A single-threaded configuration still uses one work unit.
+
+## `ProcessObject` number of work units is held by the multi-threader
+
+`ProcessObject::SetNumberOfWorkUnits()` and `GetNumberOfWorkUnits()` now forward
+to the filter's `MultiThreaderBase` instead of keeping a separate copy.
+`GetNumberOfWorkUnits()` returns the value by copy and reports the count the
+multi-threader accepted, so it reflects the multi-threader's limits (for
+example, `SingleMultiThreader` always reports 1).
+
+`ProcessObject::SetMultiThreader()` no longer carries a work unit count over to
+the new multi-threader; the filter uses the count of the multi-threader it is
+given.
+
+### What you need to do
+
+Call `SetNumberOfWorkUnits()` after `SetMultiThreader()` when a specific count is
+wanted. Filters that share one multi-threader instance also share its number of
+work units.
+
+## Set work units from the current thread count
+
+`MultiThreaderBase::SetNumberOfWorkUnitsFromThreadRatio(ThreadIdType)` is a new
+pure virtual method. Custom multi-threaders must implement it.
+
+`ProcessObject` exposes the same setter. It immediately sets the multi-threader's
+work-unit count and forwards the accepted count through the virtual
+`SetNumberOfWorkUnits()`, including for composite filters:
+
+```cpp
+filter->SetNumberOfWorkUnitsFromThreadRatio(2);
+```
+
+Pool and TBB set the count to their current maximum number of threads times the
+ratio, clamped to `[1, NumericTraits<ThreadIdType>::max() / threadCount]` so the
+product cannot overflow, even for a shared pool larger than `ITK_MAX_THREADS`.
+Platform keeps one work unit per thread without increasing
+its thread count; Single always uses one work unit. The ratio is not retained:
+later thread-count changes, explicit work-unit settings, and multi-threader
+replacement do not reapply it.
+
+## Image iterators take their access from the constness of the image type
+
+These image iterators now decide between read-only and writable access from
+their image type: `ImageIterator`, `ImageRegionIterator`,
+`ImageScanlineIterator`, the reverse iterators, `ImageIteratorWithIndex` and
+the iterators derived from it, the frequency iterators,
+`ReflectiveImageRegionIterator`, `LineIterator`, and `PathIterator`.
+`SliceIterator`, the neighborhood iterators, and the `RLEImage` iterators keep
+their read-only base classes, and the writable flood-filled iterators offer
+`Set()` only for a non-`const` image. `RLEImage` specializes only the `Const`
+names and the writable names over a non-`const` image, so read an `RLEImage`
+with `XxxConstIterator<RLEImage<...>>`, not `XxxIterator<const RLEImage<...>>`.
+`XxxIterator<const ImageType>` has no `Set()` and no writable
+`Value()`, so code that wrote to a `const` image through it no longer compiles.
+`XxxConstIterator<ImageType>` is a thin class derived from
+`XxxIterator<const ImageType>`, and each converts to the other.
+
+This inverts the class hierarchy. `XxxIterator<T>` no longer derives from
+`XxxConstIterator<T>`; the writable class is the implementation, and the
+read-only name derives from it. As a result:
+
+- `ImageIterator`, `ImageIteratorWithIndex`, `ImageReverseIterator`,
+  `LineIterator`, and `PathIterator` have no `Superclass`. For the other
+  writable iterators, `Superclass` is now the parent writable iterator, for
+  example `ImageRegionIterator<T>::Superclass` is `ImageIterator<T>`, and
+  `XxxConstIterator<T>::Superclass` is `XxxIterator<const T>`.
+- An `XxxIterator<T>` no longer binds to a non-const `XxxConstIterator<T> &`
+  parameter, does not convert to an `XxxConstIterator<T> *`, and does not
+  deduce `T` for a `const XxxConstIterator<T> &` template parameter.
+- A `const XxxConstIterator<T> &` parameter given an `XxxIterator<T>` now binds
+  to a converted copy, not to the original iterator.
+- The read-only names no longer derive from `ImageConstIterator<T>` or
+  `ImageConstIteratorWithIndex<T>`: `ImageRegionConstIterator<T>` derives
+  from `ImageRegionIterator<const T>`, a sibling of `ImageConstIterator<T>`.
+- A copy of a `ReflectiveImageRegionIterator` keeps the position and
+  reflection state of its source; call `GoToBegin()` to start over.
+- A read-only iterator no longer converts to a writable one. The protected
+  `XxxIterator(const XxxConstIterator &)` constructors and assignment
+  operators are removed, as is the public
+  `ImageRegionReverseIterator(const ImageConstIterator &)`.
+- `XxxIterator<const T>::ImageType` is `T`, as `XxxConstIterator<T>::ImageType`
+  was. With `ITK_FUTURE_LEGACY_REMOVE` it is `const T`, the image the iterator
+  walks, so that `XxxIterator<typename It::ImageType>` keeps the access of
+  `It`. Unlike other uses of that option, this changes what the alias means
+  rather than removing it: code that compares or dispatches on
+  `It::ImageType` compiles either way but sees a different type. To name the
+  image without `const` in both cases, write
+  `std::remove_const_t<typename It::ImageType>`.
+- `ImageReverseConstIterator` now has `operator++` and `operator--`, like
+  `ImageReverseIterator`.
+- `LineIterator<T>::Value()` still returns a `const` reference, now also for a
+  `const` image; write with `Set()`.
+- These `.hxx` files are removed; include the matching `.h` header, which
+  was the only file that included them: `itkImageIterator.hxx`,
+  `itkImageRegionConstIterator.hxx`, `itkImageScanlineConstIterator.hxx`,
+  `itkImageReverseIterator.hxx`, `itkImageRegionReverseIterator.hxx`,
+  `itkImageConstIteratorWithIndex.hxx`,
+  `itkImageLinearConstIteratorWithIndex.hxx`,
+  `itkImageRandomConstIteratorWithIndex.hxx`,
+  `itkImageRandomNonRepeatingConstIteratorWithIndex.hxx`,
+  `itkImageRegionConstIteratorWithIndex.hxx`,
+  `itkImageRegionExclusionConstIteratorWithIndex.hxx`,
+  `itkImageSliceConstIteratorWithIndex.hxx`, `itkLineConstIterator.hxx`,
+  `itkReflectiveImageRegionConstIterator.hxx`, and `itkPathConstIterator.hxx`.
+
+### What you need to do
+
+Code that only reads or writes pixels needs no change, except a call to
+`ImageReverseConstIterator<T>::Set()`, which was public: use
+`ImageReverseIterator<T>` to write. To pass a writable
+iterator where a read-only one is expected, a non-template function can take
+the parameter by value or by `const` reference; a function template must take
+the iterator type itself as its template parameter, because `T` is not deduced
+through the conversion. Code that used `Set()` on an iterator over a `const`
+image needs a non-`const` image.

@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::GEAdwImageIO" POINTER)
+itk_wrap_simple_class("itk::GEAdwImageIOFactory" POINTER)

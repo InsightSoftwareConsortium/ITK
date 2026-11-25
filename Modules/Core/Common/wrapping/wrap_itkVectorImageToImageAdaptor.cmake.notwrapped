@@ -1,0 +1,9 @@
+itk_wrap_class("itk::VectorImageToImageAdaptor" POINTER_WITH_SUPERCLASS)
+  UNIQUE(to_types "${WRAP_ITK_SCALAR};UC")
+
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(type ${to_types})
+      itk_wrap_template("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
+    endforeach(type)
+  endforeach()
+itk_end_wrap_class()

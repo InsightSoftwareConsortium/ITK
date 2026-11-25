@@ -1,0 +1,10 @@
+itk_module(
+  ITKIOCSV
+  ENABLE_SHARED
+  DEPENDS
+    ITKCommon
+  PRIVATE_DEPENDS
+    ITKIOImageBase
+  TEST_DEPENDS
+    ITKTestKernel
+)

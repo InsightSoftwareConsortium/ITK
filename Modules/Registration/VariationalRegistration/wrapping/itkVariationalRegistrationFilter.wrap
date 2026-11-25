@@ -1,0 +1,3 @@
+itk_wrap_class("itk::VariationalRegistrationFilter" POINTER)
+variational_registration_wrap_images_and_field()
+itk_end_wrap_class()

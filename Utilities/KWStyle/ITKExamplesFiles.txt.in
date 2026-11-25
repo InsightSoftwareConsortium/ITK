@@ -1,0 +1,3 @@
+@ITK_SOURCE_DIR@/Examples/*/*.h
+@ITK_SOURCE_DIR@/Examples/*/*.hxx
+@ITK_SOURCE_DIR@/Examples/*/*.cxx

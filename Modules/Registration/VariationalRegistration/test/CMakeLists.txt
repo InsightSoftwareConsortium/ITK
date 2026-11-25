@@ -1,0 +1,251 @@
+itk_module_test()
+
+# Neighborhood+intensity tolerances allow cross-platform convergence variation.
+set(
+  VR_RADIUS_TOL
+  "2"
+  CACHE STRING
+  "VariationalRegistration baseline radius tolerance"
+)
+set(
+  VR_INTENSITY_TOL
+  "20"
+  CACHE STRING
+  "VariationalRegistration baseline intensity tolerance"
+)
+set(
+  VR_NPIXELS_TOL
+  "200"
+  CACHE STRING
+  "VariationalRegistration baseline number-of-pixels tolerance"
+)
+
+set(
+  ${itk-module}Tests
+  itkVariationalRegistrationFilterTest.cxx
+  itkVariationalRegistrationMultiResolutionFilterTest.cxx
+)
+
+# both approaches do not work
+# list(APPEND ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
+# set(ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
+
+createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
+
+#####################################
+#
+# ADD TESTS
+#
+#####################################
+set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
+
+itk_add_test(
+  NAME itkVariationalRegistrationFilterTest
+  COMMAND
+    ${itk-module}TestDriver
+    itkVariationalRegistrationFilterTest
+)
+
+itk_add_test(
+  NAME itkVariationalRegistrationMultiResolutionFilterTest
+  COMMAND
+    ${itk-module}TestDriver
+    itkVariationalRegistrationMultiResolutionFilterTest
+)
+
+add_custom_target(
+  BuildExecutablesUsedInTests
+  COMMAND
+    echo "Dummy target"
+  DEPENDS
+    VariationalRegistration
+    VariationalRegistration2D
+)
+
+#####################################
+# 2D tests
+#####################################
+
+function(Test2D TestName OutputExt)
+  set(OutParam "")
+  if(OutputExt)
+    set(
+      OutParam
+      -O
+      "${TEMP}/${TestName}.${OutputExt}"
+    )
+  endif()
+
+  itk_add_test(
+    NAME ${TestName}
+    COMMAND
+      itkTestDriver
+      --compareRadiusTolerance
+      ${VR_RADIUS_TOL}
+      --compareIntensityTolerance
+      ${VR_INTENSITY_TOL}
+      --compareNumberOfPixelsTolerance
+      ${VR_NPIXELS_TOL}
+      --compare
+      DATA{Baseline/${TestName}.tif}
+      ${TEMP}/${TestName}.tif
+      $<TARGET_FILE:VariationalRegistration2D>
+      -F
+      DATA{Input/img1.png}
+      -M
+      DATA{Input/img2.png}
+      -l
+      4
+      -p
+      1
+      -g
+      0.00001
+      ${ARGN}
+      -W
+      ${TEMP}/${TestName}.tif
+      ${OutParam}
+  )
+
+  set_tests_properties(
+    ${TestName}
+    PROPERTIES
+      DEPENDS
+        BuildExecutablesUsedInTests
+  )
+endfunction()
+
+itk_add_test(
+  NAME VariationalRegistration2DPrintHelpTest
+  COMMAND
+    $<TARGET_FILE:VariationalRegistration2D>
+    -?
+)
+
+# Active Thirion forces and gaussian smoothing, test 3D output
+test2d(VariationalRegistrationGaussian2DTest mha -r 0 -v 1.5 -u 0 -3)
+
+# Active Thirion forces and diffusive regularization
+test2d(VariationalRegistrationDiffusive2DTest "" -r 1 -a 1.5)
+
+# Active Thirion forces and elastic regularization
+test2d(VariationalRegistrationElastic2DTest "" -r 2 -m 0.5 -b 1.0)
+
+# Active Thirion forces and curvature regularization
+test2d(VariationalRegistrationCurvature2DTest "" -r 3 -a 1)
+
+# Passive Thirion forces and gaussian smoothing
+test2d(VariationalRegistrationPassiveDemons2D "" -d 1 -a 1.5)
+
+# Symmetric Thirion forces and gaussian smoothing
+test2d(VariationalRegistrationSymmetricDemons2DTest "" -d 2 -a 1.5)
+
+# SSD forces and gaussian smoothing
+test2d(VariationalRegistrationSSD2DTest "" -f 1 -t 0.00075 -a 0.5)
+
+# NCC forces and gaussian smoothing
+test2d(VariationalRegistrationNCC2DTest "" -f 2 -t 40 -a 1.5 -q 3 -p 2)
+
+# Active Thirion forces, diffusive regularization, diffeomorphic transform
+test2d(VariationalRegistrationDiffeomorph2DTest "" -r 1 -a 1.5 -s 1 -e 2)
+
+# Active Thirion forces, diffusive regularization, symmetric diffeomorphic transform
+test2d(VariationalRegistrationSymDiff2DTest "" -r 1 -a 1.5 -s 2 -e 2)
+
+#####################################
+# 3D tests
+#####################################
+
+function(Test3D TestName)
+  set(npixels_tol ${VR_NPIXELS_TOL})
+  if(DEFINED ${TestName}_NPIXELS_TOL)
+    set(npixels_tol ${${TestName}_NPIXELS_TOL})
+  endif()
+  itk_add_test(
+    NAME ${TestName}
+    COMMAND
+      itkTestDriver
+      --compareRadiusTolerance
+      ${VR_RADIUS_TOL}
+      --compareIntensityTolerance
+      ${VR_INTENSITY_TOL}
+      --compareNumberOfPixelsTolerance
+      ${npixels_tol}
+      --compare
+      DATA{Baseline/${TestName}.nii.gz}
+      ${TEMP}/${TestName}.nii.gz
+      $<TARGET_FILE:VariationalRegistration>
+      -F
+      DATA{Input/10-P_5x5x5.nii.gz}
+      -M
+      DATA{Input/60-P_5x5x5.nii.gz}
+      -l
+      3
+      -p
+      1
+      -g
+      0.00001
+      ${ARGN}
+      -W
+      ${TEMP}/${TestName}.nii.gz
+      -O
+      ${TEMP}/${TestName}_displ.mhd
+  )
+
+  set_tests_properties(
+    ${TestName}
+    PROPERTIES
+      DEPENDS
+        BuildExecutablesUsedInTests
+  )
+endfunction()
+
+set(
+  COMMON_PARAMS3D
+  -F
+  DATA{Input/10-P_5x5x5.nii.gz}
+  -M
+  DATA{Input/60-P_5x5x5.nii.gz}
+  -l
+  3
+  -p
+  1
+  -g
+  0.00001
+)
+
+itk_add_test(
+  NAME VariationalRegistration3DPrintHelpTest
+  COMMAND
+    $<TARGET_FILE:VariationalRegistration>
+    -?
+)
+
+# Active Thirion forces and gaussian smoothing
+# ~0.08% of voxels diverge on native macOS ARM64 (issue #6459).
+set(VariationalRegistrationGaussian3DTest_NPIXELS_TOL "400")
+test3d(VariationalRegistrationGaussian3DTest -r 0 -v 1.5 -u 0)
+
+# Active Thirion forces and diffusive regularization
+test3d(VariationalRegistrationDiffusive3DTest -r 1 -a 1)
+
+# Active Thirion forces and elastic regularization
+test3d(VariationalRegistrationElastic3DTest -r 2 -m 0.25 -b 0.25)
+
+# Active Thirion forces and curvature regularization
+# 26 voxels differ on macOS ARM64 with FFTW or pocketfft; same allowance as the other 3D tests.
+set(VariationalRegistrationCurvature3DTest_NPIXELS_TOL "400")
+test3d(VariationalRegistrationCurvature3DTest -r 3 -a 1)
+
+# SSD forces and gaussian smoothing
+test3d(VariationalRegistrationSSD3DTest -f 1 -t 0.00001 -a 1)
+
+# NCC forces and gaussian smoothing
+# ~0.09% of voxels diverge on native macOS ARM64 (issue #6459).
+set(VariationalRegistrationNCC3DTest_NPIXELS_TOL "400")
+test3d(VariationalRegistrationNCC3DTest -f 2 -t 40 -r 0 -v 1 -u 0 -q 2 -p 1)
+
+# Active Thirion forces and diffusive regularization, diffeomorphic transform
+test3d(VariationalRegistrationDiffeomorph3DTest -r 1 -a 1 -s 1 -e 2)
+
+# Active Thirion forces and diffusive regularization, symmetric diffeomorphic transform
+test3d(VariationalRegistrationSymDiff3DTest -r 1 -a 1 -s 2 -e 2)

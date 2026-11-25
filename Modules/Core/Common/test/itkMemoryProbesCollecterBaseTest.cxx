@@ -1,0 +1,86 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#include "itkMemoryProbesCollectorBase.h"
+#include "itkTestingMacros.h"
+#include <chrono>
+#include <thread>
+
+
+int
+itkMemoryProbesCollecterBaseTest(int, char *[])
+{
+  constexpr auto sleepIfTestWithSleep = [] {
+#ifdef TEST_WITH_SLEEP
+    constexpr bool testWithSleep{ true };
+#else
+    constexpr bool testWithSleep{ false };
+#endif
+    // The `if` below here appears preferable to the equivalent `#ifdef`, because it enables syntax checking of the
+    // sleep_for call, even when TEST_WITH_SLEEP is not defined.
+    if constexpr (testWithSleep)
+    {
+      std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
+  };
+
+  constexpr size_t bufsize{ 768L * 1024L * 1024L }; // 768 MiB
+
+  itk::MemoryProbesCollectorBase mcollecter;
+  itk::MemoryProbe               probe;
+  mcollecter.Start("Update");
+  sleepIfTestWithSleep();
+  mcollecter.Stop("Update");
+  mcollecter.Report();
+  mcollecter.Clear();
+  mcollecter.Start("Update");
+  probe.Start();
+  auto * buf = new char[bufsize];
+  for (unsigned int i = 0; i < bufsize; ++i)
+  {
+    buf[i] = static_cast<char>(i & 0xff);
+  }
+  sleepIfTestWithSleep();
+  mcollecter.Stop("Update");
+  probe.Stop();
+  const itk::MemoryProbe::MemoryLoadType total = probe.GetTotal();
+  std::cout << " Total Value " << probe.GetTotal() << std::endl;
+  if (total == 0)
+  {
+    std::cout << "WARNING: Total memory usage should be greater than zero. Memory Probes do not work on this platform"
+              << std::endl;
+    delete[] buf;
+    return EXIT_SUCCESS;
+  }
+  mcollecter.Report();
+  probe.Start();
+  delete[] buf;
+  sleepIfTestWithSleep();
+  probe.Stop();
+  if (total < probe.GetTotal())
+  {
+    std::cerr << "Freeing memory should result in less memory but it is " << probe.GetTotal() << probe.GetUnit()
+              << " instead of " << total << probe.GetUnit() << std::endl;
+    return EXIT_FAILURE;
+  }
+
+
+  ITK_TRY_EXPECT_EXCEPTION(mcollecter.GetProbe("IDoNotExist"));
+  ITK_TRY_EXPECT_NO_EXCEPTION(mcollecter.GetProbe("Update"));
+
+  return EXIT_SUCCESS;
+}

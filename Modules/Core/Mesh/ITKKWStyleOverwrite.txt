@@ -1,0 +1,3 @@
+test/.*\.cxx Namespace Disable
+itkSimplexMeshGeometry\.h InternalVariables Disable
+itkQuadEdgeMeshEulerOperatorsTestHelper\.h Namespace Disable

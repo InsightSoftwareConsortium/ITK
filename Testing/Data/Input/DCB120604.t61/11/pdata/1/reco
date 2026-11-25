@@ -1,0 +1,120 @@
+##TITLE=Parameter List
+##JCAMPDX=4.24
+##DATATYPE=Parameter Values
+##ORIGIN=Bruker BioSpin MRI GmbH
+##OWNER=pvsu
+$$ Mon Dec  6 11:34:50 2004 EST (UT-5h)  pvsu
+$$ /opt/Pv3.0.1/data/pvsu/nmr/DCB120604.t61/11/pdata/1/reco
+##$RECO_mode=FT_MODE
+##$RECO_inp_order=NO_REORDERING
+##$RECO_inp_size=( 2 )
+512 256
+##$RECO_ft_size=( 2 )
+512 256
+##$RECO_fov=( 2 )
+25.0000 25.0000
+##$RECO_size=( 2 )
+256 256
+##$RECO_offset=( 2, 1 )
+128 0
+##$RECO_regrid_mode=NO_REGRID
+$$ @vis= RECO_mode RECO_inp_order RECO_ft_size RECO_fov RECO_size RECO_offset
+##$RECO_regrid_offset=0.00
+##$RECO_ramp_gap=0.00
+##$RECO_ramp_time=0.00
+##$RECO_ne_mode=NO_NAV_DATA
+##$RECO_ne_dist=NeNoInterleave
+##$RECO_ne_dens=NeCorrPerScan
+##$RECO_ne_type=NAV_PHASE
+##$RECO_ne_vals=( 1, 2 )
+0 0
+##$RECO_bc_mode=( 2 )
+NO_BC NO_BC
+##$RECO_bc_start=( 2 )
+384 192
+##$RECO_bc_len=( 2 )
+128 64
+##$RECO_dc_offset=( 2 )
+0 0
+##$RECO_dc_divisor=1
+##$RECO_bc_coroff=( 2 )
+0.0 0.0
+##$RECO_qopts=( 2 )
+CONJ_AND_QNEG NO_QOPTS
+##$RECO_wdw_mode=( 2 )
+NO_WDW NO_WDW
+##$RECO_lb=( 2 )
+-0.500 -0.500
+##$RECO_sw=( 2 )
+41666.667 1.000
+##$RECO_gb=( 2 )
+0.500 0.500
+##$RECO_sbs=( 2 )
+1.000 1.000
+##$RECO_tm1=( 2 )
+0.250 0.250
+##$RECO_tm2=( 2 )
+0.750 0.750
+##$RECO_ft_mode=( 2 )
+COMPLEX_FT COMPLEX_FFT
+$$ @vis= RECO_regrid_mode RECO_ne_mode RECO_bc_mode RECO_qopts RECO_wdw_mode
+##$RECO_pc_mode=( 2 )
+NO_PC NO_PC
+##$RECO_pc_lin=( 2 )
+(0.00, 0.00) (0.00, 0.00)
+##$RECO_rotate=( 2, 1 )
+0.0000 0.5000
+##$RECO_ppc_mode=NO_PPC
+##$RECO_ref_image=0
+##$RECO_nr_supports=0.4
+##$RECO_sig_threshold=0.15
+##$RECO_ppc_degree=1
+##$RECO_ppc_coeffs=( 1, 2, 2 )
+0 0 0 0
+##$RECO_dc_elim=No
+##$RECO_transposition=( 1 )
+0
+$$ @vis= RECO_ft_mode RECO_pc_mode RECO_rotate RECO_ppc_mode RECO_dc_elim
+##$RECO_image_type=MAGNITUDE_IMAGE
+##$RECO_image_threshold=0.15
+##$RECO_ir_scale=10
+##$RECO_wordtype=_16BIT_SGN_INT
+##$RECO_map_mode=PERCENTILE_MAPPING
+##$RECO_map_range=( 2 )
+-2.14748e+09 2.14748e+09
+##$RECO_map_percentile=( 2 )
+1 99.999
+$$ @vis= RECO_transposition RECO_image_type RECO_wordtype RECO_map_mode
+##$RECO_map_error=0.00025
+##$RECO_globex=( 1 )
+0
+##$RECO_minima=( 1 )
+0
+##$RECO_maxima=( 1 )
+32767
+$$ @vis= RECO_map_percentile RECO_map_error RECO_globex RECO_minima
+##$RECO_map_min=( 1 )
+-576840.9375
+##$RECO_map_max=( 1 )
+576840.9375
+##$RECO_map_offset=( 1 )
+0
+##$RECO_map_slope=( 1 )
+0.05680422112
+##$RECO_byte_order=littleEndian
+$$ @vis= RECO_maxima RECO_map_min RECO_map_max RECO_map_offset RECO_map_slope
+##$RECO_time=( 24 )
+<11:22:27  6 Dec 2004>
+##$RECO_abs_time=1102350147
+##$RECO_base_image_uid=( 65 )
+<2.16.756.5.5.14.3885393167.1102350890.741820>
+##$GS_reco_display=Yes
+$$ @vis= RECO_byte_order RECO_time RECO_abs_time RECO_base_image_uid
+##$GS_image_type=MAGNITUDE_IMAGE
+##$GO_reco_display=Yes
+##$GO_reco_each_nr=No
+##$GO_max_reco_mem=0
+$$ @vis= GS_reco_display GS_image_type RECO_GS GO_reco_display 
+GO_reco_each_nr
+$$ @vis= GO_max_reco_mem RECO_GO RECO
+##END=

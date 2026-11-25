@@ -1,0 +1,8 @@
+itk_wrap_class("itk::TernaryGeneratorImageFilter" POINTER)
+itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 4)
+foreach(t ${WRAP_ITK_ALL_TYPES})
+  if(NOT "${t}" STREQUAL "UC")
+    itk_wrap_image_filter_combinations("${t}" "UC" "${t}" "${t}")
+  endif()
+endforeach()
+itk_end_wrap_class()

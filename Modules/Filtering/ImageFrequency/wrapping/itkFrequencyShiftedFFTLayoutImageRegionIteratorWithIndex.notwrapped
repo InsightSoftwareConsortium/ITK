@@ -1,0 +1,1 @@
+message(FATAL_ERROR "No use to wrapping the iterator.")

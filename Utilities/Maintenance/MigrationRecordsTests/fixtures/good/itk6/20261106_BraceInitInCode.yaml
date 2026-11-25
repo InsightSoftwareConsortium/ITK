@@ -1,0 +1,3 @@
+summary: |
+  Construct the size with `SizeType{size}` or `{x}` in inline code.
+impact: low

@@ -1,0 +1,194 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
+#include "itkLaplacianSegmentationLevelSetImageFilter.h"
+#include "itkGTest.h"
+
+
+namespace
+{
+
+using ImageType = itk::Image<float, 3>;
+using SeedImageType = itk::Image<signed char, 3>;
+
+constexpr int V_WIDTH{ 64 };
+constexpr int V_HEIGHT{ 64 };
+constexpr int V_DEPTH{ 64 };
+
+float
+sphere(float x, float y, float z)
+{
+  const float dis =
+    (x - float{ V_WIDTH } / 2.0) * (x - float{ V_WIDTH } / 2.0) / ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+    (y - float{ V_HEIGHT } / 2.0) * (y - float{ V_HEIGHT } / 2.0) / ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+    (z - float{ V_DEPTH } / 2.0) * (z - float{ V_DEPTH } / 2.0) / ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  return 1.0f - dis;
+}
+
+float
+sphere2(float x, float y, float z)
+{
+  const float dis =
+    (x - float{ V_WIDTH } / 2.1) * (x - float{ V_WIDTH } / 2.1) / ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+    (y - float{ V_HEIGHT } / 2.0) * (y - float{ V_HEIGHT } / 2.0) / ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+    (z - float{ V_DEPTH } / 2.0) * (z - float{ V_DEPTH } / 2.0) / ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  return 1.0f - dis;
+}
+
+void
+evaluate_float_function(itk::Image<float, 3> * im, float (*f)(float, float, float))
+{
+  itk::Image<float, 3>::IndexType idx;
+
+  for (int z = 0; z < V_DEPTH; ++z)
+  {
+    idx[2] = z;
+    for (int y = 0; y < V_HEIGHT; ++y)
+    {
+      idx[1] = y;
+      for (int x = 0; x < V_WIDTH; ++x)
+      {
+        idx[0] = x;
+        const float val = f(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
+        // im->SetPixel(idx, -1.0 * f(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)));
+        if (val >= 0.0)
+        {
+          im->SetPixel(idx, (64 - val));
+        }
+        else
+        {
+          im->SetPixel(idx, 64 + val);
+        }
+      }
+    }
+  }
+}
+
+void
+evaluate_function(itk::Image<signed char, 3> * im, float (*f)(float, float, float))
+{
+  itk::Image<signed char, 3>::IndexType idx;
+
+  for (int z = 0; z < V_DEPTH; ++z)
+  {
+    idx[2] = z;
+    for (int y = 0; y < V_HEIGHT; ++y)
+    {
+      idx[1] = y;
+      for (int x = 0; x < V_WIDTH; ++x)
+      {
+        idx[0] = x;
+        if (f(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)) >= 0.0)
+        {
+          im->SetPixel(idx, 1);
+        }
+        else
+        {
+          im->SetPixel(idx, 0);
+        }
+      }
+    }
+  }
+}
+
+class RMSCommand : public itk::Command
+{
+public:
+  /** Smart pointer declaration methods */
+  using Self = RMSCommand;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
+  itkOverrideGetNameOfClassMacro(RMSCommand);
+  itkNewMacro(Self);
+
+  /** Standard Command virtual methods */
+  void
+  Execute(itk::Object * caller, const itk::EventObject &) override
+  {
+    std::cout << (dynamic_cast<itk::SparseFieldLevelSetImageFilter<SeedImageType, ImageType> *>(caller))->GetRMSChange()
+              << std::endl;
+    std::cout << (dynamic_cast<itk::SegmentationLevelSetImageFilter<SeedImageType, ImageType> *>(caller))
+                   ->GetSegmentationFunction()
+                   ->GetPropagationWeight()
+              << std::endl;
+  }
+  void
+  Execute(const itk::Object *, const itk::EventObject &) override
+  {
+    std::cout << "ack" << std::endl;
+  }
+
+protected:
+  RMSCommand() = default;
+  ~RMSCommand() override = default;
+};
+
+} // namespace
+
+
+TEST(LaplacianSegmentationLevelSetImageFilter, ConvertedLegacyTest)
+{
+  constexpr ImageType::RegionType::SizeType sz{ 64, 64, 64 };
+  ImageType::RegionType                     reg{ sz };
+
+  const ImageType::Pointer     inputImage = ImageType::New();
+  const SeedImageType::Pointer seedImage = SeedImageType::New();
+  inputImage->SetRegions(reg);
+  seedImage->SetRegions(reg);
+  inputImage->Allocate();
+  seedImage->Allocate();
+
+  // Starting surface is a sphere in the center of the image.
+  evaluate_function(seedImage, sphere);
+
+  // Target surface is a sphere VERY NEAR to the starting surface.  The
+  // laplacian segmentation is not a region growing type segmentation, but is
+  // better for refinement of existing approximate segmentations.
+
+  evaluate_float_function(inputImage, sphere2);
+
+
+  const itk::LaplacianSegmentationLevelSetImageFilter<SeedImageType, ImageType>::Pointer filter =
+    itk::LaplacianSegmentationLevelSetImageFilter<SeedImageType, ImageType>::New();
+
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, LaplacianSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+
+
+  filter->SetInput(seedImage);
+  filter->SetFeatureImage(inputImage);
+
+  filter->SetMaximumRMSError(0.02);
+  filter->SetNumberOfIterations(10);
+  //    filter->SetUseNegativeFeaturesOn(); // Change the default behavior of the speed
+  // function so that negative values result in
+  // surface growth.
+
+  const RMSCommand::Pointer c = RMSCommand::New();
+  filter->AddObserver(itk::IterationEvent(), c);
+  filter->SetIsoSurfaceValue(0.5); //<--- IMPORTANT!  Default is zero.
+  filter->SetFeatureScaling(100.0);
+
+  ASSERT_NO_THROW(filter->Update());
+  std::cout << "Done first trial" << std::endl;
+  // Repeat to make sure that the filter is reinitialized properly
+  filter->SetNumberOfIterations(5);
+  ASSERT_NO_THROW(filter->Update());
+  std::cout << "Done second trial" << std::endl;
+}

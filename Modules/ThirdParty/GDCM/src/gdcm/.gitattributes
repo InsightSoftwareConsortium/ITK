@@ -1,0 +1,9 @@
+appveyor.yml merge=ours
+* -whitespace
+
+/Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1500000
+/Source/DataDictionary/gdcmPrivateDefaultDicts.cxx hooks-max-size=1500000
+/Source/DataDictionary/gdcmTagToType.h hooks-max-size=1500000
+/Source/InformationObjectDefinition/Part3.xml hooks-max-size=3000000
+/Source/DataDictionary/privatedicts.xml hooks-max-size=1500000
+/Utilities/gdcmopenjpeg/src/lib/openjp2/j2k.c hooks-max-size=750000

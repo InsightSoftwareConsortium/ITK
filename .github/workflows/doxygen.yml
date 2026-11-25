@@ -1,0 +1,95 @@
+name: ITK.Doxygen.Warnings
+
+# pull_request intentionally has no paths-ignore: the check always runs, so it
+# can safely be made a required status without stranding filtered PRs.
+on:
+    push:
+        branches:
+            - main
+            - 'release*'
+        tags:
+            - 'v*'
+        paths-ignore:
+            - '*.md'
+            - LICENSE
+            - NOTICE
+            - 'Utilities/Debugger/**'
+            - 'Utilities/ITKv5Preparation/**'
+            - 'Utilities/Maintenance/**'
+    pull_request:
+
+concurrency:
+  group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  doxygen-warnings:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0.9.5
+
+      - name: Restore Doxygen build tree
+        uses: actions/cache@v5
+        with:
+          path: build-doxygen
+          key: doxygen-build-${{ hashFiles('CMakeLists.txt', 'CMake/**', 'Utilities/Doxygen/**', 'pyproject.toml', 'pixi.lock') }}
+          restore-keys: |
+            doxygen-build-
+
+      - name: Run warnings-only Doxygen pass
+        run: pixi run doxygen-ci
+
+      - name: Upload Doxygen tag file for the release job
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-tagfile
+          path: build-doxygen/Utilities/Doxygen/InsightDoxygen.tag
+          if-no-files-found: error
+
+      - name: Upload warnings log and effective configuration
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-warnings
+          path: |
+            build-doxygen/doxygen-warnings.log
+            build-doxygen/Utilities/Doxygen/Doxyfile.Documentation
+          if-no-files-found: ignore
+
+  publish-doxygen-tagfile:
+    needs: doxygen-warnings
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    permissions:
+      # Uploads the Doxygen tag file to the release for this version tag.
+      contents: write
+
+    steps:
+      - name: Download Doxygen tag file
+        uses: actions/download-artifact@v4
+        with:
+          name: doxygen-tagfile
+
+      - name: Publish Doxygen tag file to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          VERSION="${TAG_NAME#v}"
+          gzip -9 -c InsightDoxygen.tag > "InsightDoxygenDocTag-${VERSION}.gz"
+          if ! gh release view "$TAG_NAME" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release create "$TAG_NAME" --repo "$GITHUB_REPOSITORY" --draft --verify-tag \
+              --title "$TAG_NAME" --notes "Draft created by the Doxygen workflow to hold the tag file."
+          fi
+          gh release upload "$TAG_NAME" "InsightDoxygenDocTag-${VERSION}.gz" --clobber --repo "$GITHUB_REPOSITORY"

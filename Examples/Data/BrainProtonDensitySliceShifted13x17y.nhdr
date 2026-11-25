@@ -1,0 +1,12 @@
+NRRD0004
+# Complete NRRD file format specification at:
+# http://teem.sourceforge.net/nrrd/format.html
+type: unsigned char
+dimension: 2
+space dimension: 2
+sizes: 221 257
+space directions: (1,0) (0,1)
+kinds: domain domain
+encoding: raw
+space origin: (0,0)
+data file: BrainProtonDensitySliceShifted13x17y.raw

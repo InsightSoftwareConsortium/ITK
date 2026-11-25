@@ -1,0 +1,307 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkMattesMutualInformationImageToImageMetricv4_h
+#define itkMattesMutualInformationImageToImageMetricv4_h
+
+#include "itkImageToImageMetricv4.h"
+#include "itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader.h"
+#include "itkPoint.h"
+#include "itkIndex.h"
+#include "itkBSplineDerivativeKernelFunction.h"
+#include "itkArray2D.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
+#include <cstdint>
+
+namespace itk
+{
+
+/** \class MattesMutualInformationImageToImageMetricv4
+ *
+ * \brief Computes the mutual information between two images to be
+ * registered using the method of Mattes et al.
+ *
+ * MattesMutualInformationImageToImageMetric computes the mutual
+ * information between a fixed and moving image to be registered.
+ *
+ * This class is templated over the FixedImage type and the MovingImage
+ * type.
+ *
+ * The calculations are based on the method of Mattes et al
+ * \cite mattes2001, \cite mattes2003,
+ * where the probability density distribution are estimated using
+ * Parzen histograms. Since the fixed image PDF does not contribute
+ * to the derivatives, it does not need to be smooth. Hence,
+ * a zero order (box car) BSpline kernel is used
+ * for the fixed image intensity PDF. On the other hand, to ensure
+ * smoothness a third order BSpline kernel is used for the
+ * moving image intensity PDF.
+ *
+ * During each call of GetValue(), GetDerivatives(),
+ * GetValueAndDerivatives(), marginal and joint intensity PDF's
+ * values are estimated at discrete position or bins.
+ * The number of bins used can be set via SetNumberOfHistogramBins().
+ * To handle data with arbitrary magnitude and dynamic range,
+ * the image intensity is scaled such that any contribution to the
+ * histogram will fall into a valid bin.
+ *
+ * Once the PDF's have been constructed, the mutual information
+ * is obtained by double summing over the discrete PDF values.
+ *
+ * \warning Local-support transforms are not yet supported. If used,
+ * an exception is thrown during Initialize().
+ *
+ * \note The per-iteration post-processing code is not multi-threaded, but could be
+ * readily be made so for a small performance gain.
+ * See GetValueCommonAfterThreadedExecution(), GetValueAndDerivative()
+ * and threader::AfterThreadedExecution().
+ *
+ * The algorithm and much of the code was copied from the previous
+ * Mattes MI metric, i.e. itkMattesMutualInformationImageToImageMetric.
+ *
+ * See
+ *  MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader::ProcessPoint
+ *  for portions of the algorithm implementation.
+ *
+ * See ImageToImageMetricv4 for details of common metric operation and options.
+ *
+ * \sa itkImageToImageMetricv4
+ * \ingroup ITKMetricsv4
+ */
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage = TFixedImage,
+          typename TInternalComputationValueType = double,
+          typename TMetricTraits =
+            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>>
+class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4
+  : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(MattesMutualInformationImageToImageMetricv4);
+
+  /** Standard class type aliases. */
+  using Self = MattesMutualInformationImageToImageMetricv4;
+  using Superclass =
+    ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(MattesMutualInformationImageToImageMetricv4);
+
+  /** Superclass types */
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
+
+  using typename Superclass::FixedImageType;
+  using typename Superclass::FixedImagePointType;
+  using typename Superclass::FixedImageIndexType;
+  using typename Superclass::FixedImagePixelType;
+  using typename Superclass::FixedImageGradientType;
+
+  using typename Superclass::MovingImagePointType;
+  using typename Superclass::MovingImagePixelType;
+  using typename Superclass::MovingImageGradientType;
+
+  using typename Superclass::MovingTransformType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualIndexType;
+  using typename Superclass::VirtualPointType;
+  using typename Superclass::VirtualPointSetType;
+
+  /** Types inherited from Superclass. */
+  using typename Superclass::FixedSampledPointSetPointer;
+
+  /* Image dimension accessors */
+  static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
+
+  /** Number of bins to used in the histogram. Typical value is
+   * 50. The minimum value is 5 due to the padding required by the Parzen
+   * windowing with a cubic-BSpline kernel. Note that even if the metric
+   * is used on binary images, the number of bins should at least be
+   * equal to five. */
+  /** @ITKStartGrouping */
+  itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
+  itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
+  /** @ITKEndGrouping */
+
+  /** Total bytes the joint PDF derivative arrays may use, for transforms without local support. Each work unit keeps
+   * one array of bins^2 x parameters values. Zero (the default) allows one array plus 32 MiB per thread, where threads
+   * is the requested number of work units, at most MultiThreaderBase::GetGlobalDefaultNumberOfThreads(). A nonzero
+   * value is a hard limit, down to one work unit. Each Initialize() lowers the requested work units to this bound. */
+  /** @ITKStartGrouping */
+  itkSetMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  itkGetConstMacro(MaximumJointPDFDerivativesBytes, uint64_t);
+  /** @ITKEndGrouping */
+
+  void
+  Initialize() override;
+
+  /** The marginal PDFs are stored as std::vector. */
+  // NOTE:  floating point precision is not as stable.
+  // Double precision proves faster and more robust in real-world testing.
+  using PDFValueType = TInternalComputationValueType;
+
+  /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
+  using JointPDFType = Image<PDFValueType, 2>;
+  using JointPDFDerivativesType = Image<PDFValueType, 3>;
+
+  /**
+   * Get the internal JointPDF image that was used in
+   * creating the metric value.
+   */
+  const typename JointPDFType::Pointer
+  GetJointPDF() const
+  {
+    if (this->m_ThreaderJointPDF.empty())
+    {
+      return typename JointPDFType::Pointer(nullptr);
+    }
+    return this->m_ThreaderJointPDF[0];
+  }
+
+  /**
+   * Get the internal JointPDFDeriviative image that was used in
+   * creating the metric derivative value.
+   * This is only created when a global support transform is used, and
+   * derivatives are requested.
+   */
+  const typename JointPDFDerivativesType::Pointer
+  GetJointPDFDerivatives() const
+  {
+    return this->m_JointPDFDerivatives;
+  }
+
+protected:
+  MattesMutualInformationImageToImageMetricv4();
+  ~MattesMutualInformationImageToImageMetricv4() override = default;
+
+  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
+  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedIndexedContainerPartitioner,
+    Superclass,
+    Self>;
+  using MattesMutualInformationDenseGetValueAndDerivativeThreaderType =
+    MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+      ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+      Superclass,
+      Self>;
+  using MattesMutualInformationSparseGetValueAndDerivativeThreaderType =
+    MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
+                                                                             Superclass,
+                                                                             Self>;
+
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
+  /** The most work units the derivative pass uses for transforms without local support, given the number of histogram
+   * bins, the number of local parameters, the number of threads, and MaximumJointPDFDerivativesBytes, at most
+   * ITK_MAX_THREADS. */
+  static ThreadIdType
+  ComputeMaximumNumberOfDerivativeWorkUnits(uint64_t     numberOfHistogramBins,
+                                            uint64_t     numberOfLocalParameters,
+                                            ThreadIdType numberOfThreads,
+                                            uint64_t     maximumJointPDFDerivativesBytes);
+
+  using JointPDFIndexType = typename JointPDFType::IndexType;
+  using JointPDFValueType = typename JointPDFType::PixelType;
+  using JointPDFRegionType = typename JointPDFType::RegionType;
+  using JointPDFSizeType = typename JointPDFType::SizeType;
+  using JointPDFDerivativesIndexType = typename JointPDFDerivativesType::IndexType;
+  using JointPDFDerivativesValueType = typename JointPDFDerivativesType::PixelType;
+  using JointPDFDerivativesRegionType = typename JointPDFDerivativesType::RegionType;
+  using JointPDFDerivativesSizeType = typename JointPDFDerivativesType::SizeType;
+
+  /** Typedefs for BSpline kernel and derivative functions. */
+  using CubicBSplineFunctionType = BSplineKernelFunction<3, PDFValueType>;
+  using CubicBSplineDerivativeFunctionType = BSplineDerivativeKernelFunction<3, PDFValueType>;
+
+  /** Post-processing code common to both GetValue
+   * and GetValueAndDerivative. */
+  virtual void
+  GetValueCommonAfterThreadedExecution();
+
+  OffsetValueType
+  ComputeSingleFixedImageParzenWindowIndex(const FixedImagePixelType & value) const;
+
+  /** Variables to define the marginal and joint histograms. */
+  SizeValueType m_NumberOfHistogramBins{ 50 };
+  uint64_t      m_MaximumJointPDFDerivativesBytes{ 0 };
+  PDFValueType  m_MovingImageNormalizedMin{};
+  PDFValueType  m_FixedImageNormalizedMin{};
+  PDFValueType  m_FixedImageTrueMin{};
+  PDFValueType  m_FixedImageTrueMax{};
+  PDFValueType  m_MovingImageTrueMin{};
+  PDFValueType  m_MovingImageTrueMax{};
+  PDFValueType  m_FixedImageBinSize{};
+  PDFValueType  m_MovingImageBinSize{};
+
+  /** The threaders' work units before any request, which Initialize() bounds when none is set. */
+  ThreadIdType m_DenseDefaultNumberOfWorkUnits{ 1 };
+  ThreadIdType m_SparseDefaultNumberOfWorkUnits{ 1 };
+
+  /** Helper array for storing the values of the JointPDF ratios. */
+  using PRatioType = PDFValueType;
+  using PRatioArrayType = std::vector<PRatioType>;
+
+  mutable PRatioArrayType m_PRatioArray{};
+
+  /** Linearized joint PDF index of each virtual point, to retrieve the pRatio with a local-support transform. */
+  mutable std::vector<OffsetValueType> m_JointPdfIndex1DPerPoint{};
+
+  /** The moving image marginal PDF. */
+  mutable std::vector<PDFValueType>              m_MovingImageMarginalPDF{};
+  mutable std::vector<std::vector<PDFValueType>> m_ThreaderFixedImageMarginalPDF{};
+
+  /** The joint PDF of each work unit. */
+  std::vector<typename JointPDFType::Pointer> m_ThreaderJointPDF{};
+
+  /** The joint PDF derivatives of each work unit, and their sum. During the threaded pass the sum is the array of
+   * work unit 0, to which the others are added in work-unit order. */
+  std::vector<typename JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives{};
+  typename JointPDFDerivativesType::Pointer              m_JointPDFDerivatives{};
+
+  PDFValueType m_JointPDFSum{};
+
+  /** Store the per-point local derivative result by parzen window bin.
+   * For local-support transforms only. */
+  mutable std::vector<DerivativeType> m_LocalDerivativeByParzenBin{};
+
+private:
+  /** Perform the final step in computing results */
+  virtual void
+  ComputeResults() const;
+};
+
+} // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkMattesMutualInformationImageToImageMetricv4.hxx"
+#endif
+
+#endif

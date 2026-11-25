@@ -1,0 +1,2 @@
+test/.*\.cxx Namespace Disable
+itkSimpleMultiResolutionImageRegistrationUI\.h Namespace Disable

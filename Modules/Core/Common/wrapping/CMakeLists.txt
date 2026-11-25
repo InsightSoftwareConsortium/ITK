@@ -1,0 +1,68 @@
+itk_wrap_module(ITKCommon)
+list(APPEND WRAPPER_LIBRARY_INCLUDE_DIRECTORIES ${Python3_INCLUDE_DIRS})
+# Built into the Python module, not libITKCommon, which must not reference libpython symbols.
+list(
+  APPEND
+  WRAPPER_LIBRARY_CXX_SOURCES
+  "${CMAKE_CURRENT_LIST_DIR}/../src/itkPyCommand.cxx"
+)
+set(
+  WRAPPER_SUBMODULE_ORDER
+  itkFixedArray
+  itkVector
+  itkCovariantVector
+  itkPoint
+  itkTriangleHelper
+  itkVariableSizeMatrix
+  itkVersor
+  stdcomplex
+  vnl_c_vector
+  vnl_cost_function
+  vnl_diag_matrix
+  vnl_fortran_copy
+  vnl_least_squares_function
+  vnl_matrix_fixed
+  vnl_matrix_fixed_ref
+  vnl_matrix_ref
+  vnl_vector_ref
+  vnl_matrix
+  vnl_vector
+  vnl_unary_function
+  ITKCommonBase
+  itkSize
+  itkOffset
+  itkArray
+  itkIndex
+  itkContinuousIndex
+  itkMatrix
+  itkVectorContainer
+  itkMapContainer
+  itkBoundingBox
+  itkRGBPixel
+  itkRGBAPixel
+  itkVariableLengthVector
+  itkImageRegion
+  itkSymmetricSecondRankTensor
+  itkImage
+  itkVectorImage
+  itkSpecialCoordinatesImage
+  itkPhasedArray3DSpecialCoordinatesImage
+  itkNeighborhood
+  #  SwigExtras
+  itkImageSourceCommon
+  itkImageSource
+  itkImageToImageFilterCommon
+  itkImageToImageFilterA
+  itkImageToImageFilterB
+  itkInPlaceImageFilterA
+  itkInPlaceImageFilterB
+  itkDefaultDynamicMeshTraits
+  itkDefaultStaticMeshTraits
+  itkFunctionBase
+  #  itkCellInterface
+  #  itkPointSet
+  #  itkVertexCell
+  #  itkLineCell
+)
+
+itk_auto_load_and_end_wrap_submodules()

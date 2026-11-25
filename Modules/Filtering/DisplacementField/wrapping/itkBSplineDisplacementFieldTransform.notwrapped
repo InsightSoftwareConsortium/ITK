@@ -1,0 +1,5 @@
+itk_wrap_class("itk::BSplineDisplacementFieldTransform" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("${ITKM_D}${d}" "${ITKT_D},${d}")
+  endforeach()
+itk_end_wrap_class()

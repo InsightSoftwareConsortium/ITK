@@ -1,0 +1,194 @@
+##TITLE=Parameter List
+##JCAMPDX=4.24
+##DATATYPE=Parameter Values
+##ORIGIN=Bruker BioSpin MRI GmbH
+##OWNER=pvsu
+$$ Mon Dec  6 11:34:50 2004 EST (UT-5h)  pvsu
+$$ /opt/Pv3.0.1/data/pvsu/nmr/DCB120604.t61/11/imnd
+##$IMND_method=( 20 )
+<MSME_TOMO>
+##$IMND_method_display_name=( 40 )
+<MSME>
+##$IMND_dummy_method=MSME_TOMO
+##$IMND_nucleus=H_1
+##$IMND_matrix_eq=256
+$$ @vis= IMND_method IMND_method_display_name IMND_dummy_method IMND_nucleus
+##$IMND_matrix=( 2 )
+256 256
+##$IMND_sw_h=41666.7
+##$IMND_scout_orient_matrix_curr=( 3, 3 )
+0 1 0 0 0 1 1 0 0
+##$IMND_scout_orient_matrix=( 3, 3 )
+0 1 0 0 0 1 1 0 0
+##$IMND_rep_time=2.9000
+##$IMND_recov_time=2890.00
+##$IMND_echo_time=20.0000
+##$IMND_total_time=( 16 )
+<0h12m22s>
+$$ @vis= IMND_matrix_eq IMND_sw_h IMND_recov_time IMND_echo_time
+##$IMND_pulse_length=3200.0
+##$IMND_refocus_length=3200.0
+##$IMND_sat_pulse_length=3200.00
+##$IMND_n_averages=1
+##$IMND_flipback=No
+$$ @vis= IMND_total_time IMND_pulse_length IMND_refocus_length 
+IMND_n_averages
+##$IMND_n_echo_images=1
+##$IMND_echo_scan_eq=1
+##$IMND_n_echoes=1
+##$IMND_matched_bw=Off
+$$ @vis= IMND_flipback IMND_n_echo_images IMND_echo_scan_eq IMND_n_echoes
+##$IMND_bbmri_version=( 120 )
+<VERSION 3.0.1: 10.06.04>
+##$IMND_max_read=100
+##$IMND_flow=1
+##$IMND_inv_delay_storage=300
+##$IMND_phaseoffset=0.0
+##$IMND_dim=2
+##$IMND_dimension=_2D
+##$IMND_square_fov_matrix=Square_fov_and_matrix
+$$ @vis= IMND_matched_bw IMND_phaseoffset IMND_dim IMND_dimension
+##$IMND_isotropic=Fov
+##$IMND_fov_eq=25.00
+##$IMND_fov=( 2 )
+25.00 25.00
+##$IMND_slice_orient=Arbitrary_Oblique
+##$IMND_n_slices=1
+$$ @vis= IMND_square_fov_matrix IMND_isotropic IMND_fov_eq IMND_slice_orient
+##$IMND_slice_offset=0.00
+##$IMND_slice_sepn_mode=Packages
+##$IMND_slice_thick=4.00
+##$IMND_slice_angle=( 1 )
+-0.0
+##$IMND_slice_angle_eq=-0.0
+##$IMND_ScoutRel_SgRotAngle_eq=-0.0
+##$IMND_ScoutRel_SgTiltAngle_eq=0.0
+$$ @vis= IMND_n_slices IMND_slice_thick IMND_ScoutRel_SgRotAngle_eq
+##$IMND_ScoutRel_RgRotAngle_eq=90.0
+##$IMND_read_ext=2.00
+$$ @vis= IMND_ScoutRel_SgTiltAngle_eq IMND_ScoutRel_RgRotAngle_eq
+##$IMND_read_offset=( 1 )
+0.00
+##$IMND_read_offset_eq=0.00
+##$IMND_slice_scheme=interlaced
+##$IMND_slice_list=( 1 )
+0
+##$IMND_n_slicepacks=1
+##$IMND_slicepack_n_slices=( 1 )
+1
+$$ @vis= IMND_read_ext IMND_read_offset IMND_slice_scheme IMND_n_slicepacks
+##$IMND_slicepack_vector=( 1, 3 )
+0 0 1
+##$IMND_slicepack_position=( 1 )
+0.00
+##$IMND_slicepack_gap=( 1 )
+20.00
+##$IMND_read_vector=( 1, 3 )
+1 0 0
+##$IMND_slicepack_read_offset=( 1 )
+0.00
+$$ @vis= IMND_slicepack_n_slices IMND_slicepack_position IMND_slicepack_gap
+##$IMND_phase1_offset=( 1 )
+0.00
+##$IMND_anti_alias=( 3 )
+2 1 1
+##$IMND_csind_flag=No
+##$IMND_acq_mode=Spat
+$$ @vis= IMND_slicepack_read_offset IMND_phase1_offset IMND_anti_alias
+##$IMND_trigger_enable=No
+##$IMND_auto_adv=No
+##$IMND_evolution=No
+##$IMND_evolution_trigger=No
+##$IMND_movie=No
+##$IMND_mtc_mode=No
+$$ @vis= IMND_GEO IMND_trigger_enable IMND_auto_adv IMND_evolution IMND_movie
+##$IMND_inv_mode=No
+##$IMND_fat_mode=No
+##$IMND_suppression=No
+##$IMND_supp_shape_enum=gauss
+##$IMND_supp_length=20000.0
+##$IMND_sat_mode=No_Sat
+##$IMND_sat_shape=( 16 )
+<gauss>
+##$IMND_sat_slice_thick_hz=550
+##$IMND_FovSat_n_slices=0
+##$IMND_FovSat_thick=( 1 )
+4.00
+##$IMND_FovSat_offset=( 1 )
+0.00
+##$IMND_FovSat_dir_vector=( 1, 3 )
+0 0 1
+##$IMND_FovSat_rot_angle=( 1 )
+0.0
+##$IMND_FovSat_tilt_angle=( 1 )
+0.0
+##$IMND_InflowSat_n_slices=0
+##$IMND_InflowSat_thick=( 1 )
+0.00
+##$IMND_InflowSat_slice_offset=( 1 )
+0.00
+##$IMND_InflowSat_dir_int=( 1 )
+0
+##$IMND_InflowSat_dir_trans=( 1 )
+Rel_Foot
+##$IMND_InflowSat_dir_cor=( 1 )
+Rel_Posterior
+##$IMND_InflowSat_dir_sagg=( 1 )
+Rel_Left
+##$IMND_contrast_agent=No
+$$ @vis= IMND_mtc_mode IMND_inv_mode IMND_fat_mode IMND_sat_mode
+##$IMND_use_grad=100
+##$IMND_use_rise_time=100
+##$IMND_max_spoil_time=2.000
+$$ @vis= IMND_contrast_agent IMND_modules IMND_use_grad IMND_use_rise_time
+##$IMND_imag_shape_enum=gauss
+##$IMND_imag_shape=( 16 )
+<gauss>
+##$IMND_sl_thick_hz=550
+##$IMND_acq_time=12.28800
+$$ @vis= IMND_max_spoil_time IMND_imag_shape_enum IMND_sl_thick_hz
+##$IMND_DW_time=12
+##$IMND_rep_delay=2.8616000
+##$IMND_nuc1=( 8 )
+<1H>
+##$IMND_bf1=125.4417097
+##$IMND_rcvr_offset_bc=Yes
+##$IMND_isotropic_reco=No
+$$ @vis= IMND_acq_time IMND_DW_time IMND_rep_delay IMND_bf1
+##$IMND_zf=1
+##$IMND_apc=No
+##$IMND_phase_encoding_mode_1=Linear
+##$IMND_phase_encoding_mode=( 2 )
+Read Linear
+##$IMND_phase_start_1=-1
+##$IMND_phase_enc_start=( 2 )
+0 -1
+$$ @vis= IMND_isotropic_reco IMND_zf IMND_apc IMND_phase_encoding_mode
+##$IMND_dscan_time=2
+##$IMND_dscans=1
+##$IMND_derive_gains=Yes
+##$IMND_reference_gain=21.6
+$$ @vis= IMND_phase_enc_start IMND_dscan_time IMND_dscans IMND_derive_gains
+##$IMND_ref_gain_state=Norm_Pulse_Defined
+##$IMND_rg_defined=No
+##$IMND_rg=0
+##$IMND_motionsup=Off
+$$ @vis= IMND_reference_gain IMND_ref_gain_state IMND_rg_defined IMND_rg
+##$IMND_EffEchoTime1=20
+##$IMND_NEchoScan1=1
+##$IMND_RareMaxEchoes=1
+##$IMND_flowcomp=Off
+##$IMND_bandwidth_1=20833.3
+$$ @vis= IMND_motionsup IMND_extended IMND_EffEchoTime1 IMND_NEchoScan1
+##$IMND_ScanSummary=( 512 )
+<>
+##$IMND_invflag=No
+##$IMND_mtcflag=No
+##$IMND_fatflag=No
+$$ @vis= IMND_bandwidth_1 IMND_ScanSummary IMND_invflag IMND_mtcflag
+##$IMND_FovSat_flag=0
+##$IMND_InflowSat_flag=0
+##$IMND_split=No
+##$IMND_pulse_flag=No
+$$ @vis= IMND_fatflag IMND_split IMND_pulse_flag IMND
+##END=

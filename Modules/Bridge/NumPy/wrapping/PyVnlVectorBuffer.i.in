@@ -1,0 +1,103 @@
+%extend itkPyVnl@PyVnlTypes@{
+    %pythoncode %{
+
+    def GetArrayViewFromVnlVector(vnl_vector):
+        """Get a NumPy array view of a VNL vector."""
+
+        itksize = vnl_vector.size()
+        shape   = [itksize]
+
+        pixelType     = "@PixelType@"
+        numpy_dtype = _get_numpy_pixelid(pixelType)
+        memview       = itkPyVnl@PyVnlTypes@._GetArrayViewFromVnlVector(vnl_vector)
+        ndarr_view  = np.asarray(memview).view(dtype = numpy_dtype).reshape(shape).view(np.ndarray)
+        itk_view = NDArrayITKBase(ndarr_view, vnl_vector)
+
+        return itk_view
+
+    GetArrayViewFromVnlVector = staticmethod(GetArrayViewFromVnlVector)
+
+    def GetArrayFromVnlVector(vnl_vector):
+        """Get a NumPy ndarray from VNL Vector.
+
+        This is a deep copy of the VNL vector and is completely safe and without potential side effects.
+        """
+
+        arrayView = itkPyVnl@PyVnlTypes@.GetArrayViewFromVnlVector(vnl_vector)
+
+        # perform deep copy of the buffer
+        return np.array(arrayView, copy=True)
+
+    GetArrayFromVnlVector = staticmethod(GetArrayFromVnlVector)
+
+    def GetVnlVectorFromArray(ndarr):
+        """Get a VNL vector from a NumPy array.
+
+        This is a deep copy of the NumPy array buffer and is completely safe without potential
+        side effects.  It is not possible to have a view of a numpy array in a VNL vector since
+        there is no VNL vector constructor that allows sharing data.
+        """
+
+        assert ndarr.ndim == 1 , \
+            "Only arrays of 1 dimension are supported."
+
+        ndarr = np.ascontiguousarray(ndarr)
+        vec = itkPyVnl@PyVnlTypes@._GetVnlVectorFromArray( ndarr, ndarr.shape)
+
+        return vec
+
+    GetVnlVectorFromArray = staticmethod(GetVnlVectorFromArray)
+
+    def GetArrayViewFromVnlMatrix(vnl_matrix):
+        """Get a NumPy array view of a VNL matrix."""
+
+        cols = vnl_matrix.columns()
+        rows = vnl_matrix.rows()
+        dim     = 2
+        shape   = [rows,cols]
+
+        pixelType     = "@PixelType@"
+        numpy_dtype = _get_numpy_pixelid(pixelType)
+        memview       = itkPyVnl@PyVnlTypes@._GetArrayViewFromVnlMatrix(vnl_matrix)
+        ndarr_view  = np.asarray(memview).view(dtype = numpy_dtype).reshape(shape).view(np.ndarray)
+
+        itk_view = NDArrayITKBase(ndarr_view, vnl_matrix)
+
+        return itk_view
+
+    GetArrayViewFromVnlMatrix = staticmethod(GetArrayViewFromVnlMatrix)
+
+    def GetArrayFromVnlMatrix(vnl_matrix):
+        """Get a NumPy ndarray from VNL matrix.
+
+        This is a deep copy of the VNL matrix and is completely safe and without potential side effects.
+        """
+
+        arrayView = itkPyVnl@PyVnlTypes@.GetArrayViewFromVnlMatrix(vnl_matrix)
+
+        # perform deep copy of the buffer
+        return np.array(arrayView, copy=True)
+
+    GetArrayFromVnlMatrix = staticmethod(GetArrayFromVnlMatrix)
+
+
+    def GetVnlMatrixFromArray(ndarr):
+        """Get a VNL Matrix from a NumPy array.
+
+        This is a deep copy of the NumPy array buffer and is completely safe without potential
+        side effects. It is not possible to have a view of a numpy array in a VNL matrix since there is no
+        VNL matrix constructor that allows sharing data.
+        """
+
+        assert ndarr.ndim == 2 , \
+            "Only arrays of 2 dimensions are supported."
+
+        ndarr = np.ascontiguousarray(ndarr)
+        mat = itkPyVnl@PyVnlTypes@._GetVnlMatrixFromArray( ndarr, ndarr.shape)
+
+        return mat
+
+    GetVnlMatrixFromArray = staticmethod(GetVnlMatrixFromArray)
+
+  %}
+};

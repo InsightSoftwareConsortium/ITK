@@ -1,0 +1,31 @@
+schema_version: 1
+summary: |
+  **C++11**
+
+  A major improvement in ITK 5 is to fully adopt C++11.
+details: |
+  Prior to ITK 5, a limited subset of C++11 functionalities were available in ITK
+  through back-ports and macros. This functionality was enabled when ITK was built with the C++11 standard enabled.
+  ITK 5.0.0 deprecates or removes these macros (e.g. `ITK_NULLPTR`, `ITK_DELETED_FUNCTION`,
+  `ITK_NOEXCEPT`, `ITK_CONSTEXPR`) and directly uses C++11 keywords such as
+  [delete](https://github.com/InsightSoftwareConsortium/ITK/commit/02128abbd0bf790deadc86a28c62c4a25e23518b),
+  [constexpr](https://github.com/InsightSoftwareConsortium/ITK/commit/b8e41d0d1652a8f6ddb84328faef67b207e77430),
+  [nullptr](https://github.com/InsightSoftwareConsortium/ITK/commit/3c6372b80ac2900e2e197899989c4cd151f1695f),
+  [override](https://github.com/InsightSoftwareConsortium/ITK/commit/3ceacc0ad4ec699b094d96e23d33f9467c2a63c6),
+  [noexcept](https://github.com/InsightSoftwareConsortium/ITK/commit/af4f65519abb32b59cebb2d72f0186a96efe3b4e).
+  The keywords [auto](https://github.com/InsightSoftwareConsortium/ITK/commit/de713e7ac52f7815a35754de885795ff0a1c4981)
+  and  `using` [[1](https://github.com/InsightSoftwareConsortium/ITK/commit/66e5d6b3bcc28f1a85b702086b6cedc8cab6723b),
+  [2](https://github.com/InsightSoftwareConsortium/ITK/commit/f21c1d27025575167ea9194214aa5bf17a0a5495)]
+  as well as [range-based loops](https://github.com/InsightSoftwareConsortium/ITK/commit/48daed0751df99bcb5fd1077e78ceb1b47546ccc)
+  are also now used in ITK. As a consequence, due to limitations in C++11 support
+  Visual Studio 2013 (MSVC 12.0) and other older C++ complilers cannot be used to build ITK from 5.0 and forward.
+categories:
+  - CompilerEnvironment
+  - ApiDeprecated
+environment:
+  - cxx
+  - cmake
+impact: high
+pr: -1
+commits:
+  - babb6779b67

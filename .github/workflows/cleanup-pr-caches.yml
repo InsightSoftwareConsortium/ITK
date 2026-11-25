@@ -1,0 +1,57 @@
+name: Cleanup PR caches
+
+# When a pull request closes (merged or not), delete every GitHub Actions
+# cache entry scoped to its merge ref.  This reclaims the repo's 10 GB
+# cache budget within seconds of close, without adding any overhead to
+# the regular build/test runs.
+#
+# Reference:
+# https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#force-deleting-cache-entries
+
+on:
+  # Use pull_request_target rather than pull_request: GITHUB_TOKEN is
+  # read-only for pull_request events from forks, which would cause every
+  # real-world PR cache delete to return 403.  pull_request_target runs
+  # in the base-repo context with the permissions this workflow requests,
+  # and is safe here because the workflow never checks out or executes
+  # fork-authored code -- it only calls the GitHub API.
+  # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token
+  pull_request_target:
+    types: [closed]
+
+jobs:
+  purge-pr-caches:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write           # required to delete caches
+      contents: read
+    steps:
+      - name: Delete all caches for the closed PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          # Sweep both the merge-ref and the head-ref.  Most pull_request
+          # workflows cache against refs/pull/N/merge (github.sha resolves
+          # to the merge commit), but workflows that key on github.head_ref
+          # can write caches to refs/pull/N/head.  Cleaning up both is
+          # belt-and-braces against future workflow additions.
+          total=0
+          for scope in merge head; do
+            ref="refs/pull/${PR_NUM}/${scope}"
+            echo "Purging caches for ${REPO} at ref=${ref}"
+            while read -r id; do
+              [ -z "$id" ] && continue
+              if gh api -X DELETE "repos/${REPO}/actions/caches/${id}" >/dev/null 2>&1; then
+                total=$((total + 1))
+                echo "  deleted cache id=${id} (ref=${ref})"
+              else
+                echo "  WARN: failed to delete cache id=${id} (ref=${ref})"
+              fi
+            done < <(gh api --paginate \
+                       "repos/${REPO}/actions/caches?ref=${ref}&per_page=100" \
+                       --jq '.actions_caches[].id')
+          done
+          echo "Purged ${total} cache entries across merge+head refs."

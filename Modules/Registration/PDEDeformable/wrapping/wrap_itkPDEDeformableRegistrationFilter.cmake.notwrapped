@@ -1,0 +1,33 @@
+#------------------------------------------------------------------------------
+# Set the wrapped module
+set(itk_Module "itkPDEDeformableRegistrationFilter")
+# Set the class include
+set(itk_Include
+   "PDEDeformableRegistrationFilter"
+   "Image"
+)
+# Set the file name
+set(itk_File "${WrapITK_PART_DIR}/wrap_${itk_Module}.cxx")
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Write file header
+WRITE_WRAP_BEGIN(${itk_File} "${itk_Include}" ${itk_Module})
+
+#------------------------------------------------------------------------------
+# class
+set(itk_Class "PDEDeformableRegistrationFilter")
+set(itk_Wrap
+   "${ITKM_IF2}${ITKM_IF2}${ITKM_IVF22} # ${ITKT_IF2},${ITKT_IF2},${ITKT_IVF22}"
+   "${ITKM_IUS2}${ITKM_IUS2}${ITKM_IVF22} # ${ITKT_IUS2},${ITKT_IUS2},${ITKT_IVF22}"
+   "${ITKM_IF3}${ITKM_IF3}${ITKM_IVF33} # ${ITKT_IF3},${ITKT_IF3},${ITKT_IVF33}"
+   "${ITKM_IUS3}${ITKM_IUS3}${ITKM_IVF33} # ${ITKT_IUS3},${ITKT_IUS3},${ITKT_IVF33}"
+)
+WRITE_itk_wrap_class_POINTER(${itk_File} ${itk_Class} "${itk_Wrap}")
+
+#------------------------------------------------------------------------------
+# Write file footer
+WRITE_WRAP_END(${itk_File})
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------

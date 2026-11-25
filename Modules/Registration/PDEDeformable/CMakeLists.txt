@@ -1,0 +1,3 @@
+project(ITKPDEDeformableRegistration)
+set(ITKPDEDeformableRegistration_LIBRARIES ITKPDEDeformableRegistration)
+itk_module_impl()

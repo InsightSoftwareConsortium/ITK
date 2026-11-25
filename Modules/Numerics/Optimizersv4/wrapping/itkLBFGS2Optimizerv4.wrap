@@ -1,0 +1,13 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkLBFGS2Optimizerv4.h")
+
+itk_wrap_simple_class("itk::LBFGS2Optimizerv4Enums")
+
+# only double supported at the momemnt unique(types "D;${WRAP_ITK_REAL}")
+unique(types "D")
+
+itk_wrap_class("itk::LBFGS2Optimizerv4Template" POINTER_WITH_CONST_POINTER)
+foreach(t ${types})
+  itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+endforeach()
+itk_end_wrap_class()

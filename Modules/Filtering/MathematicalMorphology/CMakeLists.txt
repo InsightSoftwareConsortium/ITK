@@ -1,0 +1,3 @@
+project(ITKMathematicalMorphology)
+set(ITKMathematicalMorphology_LIBRARIES ITKMathematicalMorphology)
+itk_module_impl()

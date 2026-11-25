@@ -1,0 +1,1 @@
+itkConvolutionImageFilterBase\.h Comments Disable

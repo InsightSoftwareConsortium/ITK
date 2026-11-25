@@ -1,0 +1,6 @@
+PROGSRCS = \
+   Testing/example_modify.c \
+   Testing/example_tags.c \
+   Testing/example_volume_io.c \
+   Testing/test-xfm.c
+

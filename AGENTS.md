@@ -1,0 +1,60 @@
+# ITK AI Agent Guide
+
+The Insight Toolkit (ITK) is a cross-platform, open-source C++ toolkit for
+N-dimensional scientific image processing, segmentation, and registration.
+Apache 2.0 licensed. Build tool: **Pixi** (wraps CMake + Ninja).
+
+## Context to Load on Demand
+
+Load only what your task requires. Files are small and focused — load
+the minimum set for the task at hand.
+
+Rules come in two tiers ([rule-tiers.md](./Documentation/AI/rule-tiers.md)):
+project standards bind every contributor and are what reviewers cite;
+rows labeled **Agent default** bind AI agents only. Agents set
+`ITK_AI_AGENT=1` when running `git commit`.
+
+| Task | Read |
+|------|------|
+| Writing ANY committed text (in-source comment, commit message, PR body) | [prose-budget.md](./Documentation/AI/prose-budget.md) |
+| Reviewing a PR (human or AI reviewer), or deciding whether a rule binds human contributors | [rule-tiers.md](./Documentation/AI/rule-tiers.md) |
+| Understanding the codebase layout | [architecture.md](./Documentation/AI/architecture.md) |
+| Building or configuring ITK | [building.md](./Documentation/AI/building.md) |
+| Writing or running tests | [testing.md](./Documentation/AI/testing.md) |
+| Code style, formatting, naming | [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
+| Writing or reviewing C++ code | [code-review-lessons.md](./Documentation/AI/code-review-lessons.md) |
+| Writing ITK C++ classes, CMake, Python wrapping | [conventions.md](./Documentation/AI/conventions.md), [compiler-flags.md](./Documentation/AI/compiler-flags.md) |
+| Citing a publication in documentation | [conventions.md](./Documentation/AI/conventions.md) (Citing Publications) |
+| Avoiding compiler pitfalls and refactoring hazards | [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
+| Adding, moving, or removing a compiler or linker flag | [compiler-flags.md](./Documentation/AI/compiler-flags.md) |
+| Splitting work into commits; amending vs. adding a commit | [git-commits.md](./Documentation/AI/git-commits.md#commit-scope) |
+| Creating a **DOC:** commit | [git-commits.md](./Documentation/AI/git-commits.md) |
+| Creating a **STYLE:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
+| Creating a **BUG:** or **ENH:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [compiler-cautions.md](./Documentation/AI/compiler-cautions.md), [testing.md](./Documentation/AI/testing.md) |
+| Creating a **COMP:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
+| Commit or PR attribution | [attribution.md](./Documentation/AI/attribution.md) |
+| Changing downstream-visible API, behavior, or requirements | [migration-records.md](./Documentation/AI/migration-records.md) |
+| Backporting a fix, or any change to a `release` or `release-X.X` branch | [release-branches.md](./Documentation/AI/release-branches.md) |
+| Opening or updating a pull request | [pull-requests.md](./Documentation/AI/pull-requests.md), [attribution.md](./Documentation/AI/attribution.md) |
+| Updating a vendored ThirdParty dependency or its fork (eigen, DCMTK, VNL/vxl) | [ThirdPartyForkConventions.md](./Documentation/Maintenance/ThirdPartyForkConventions.md), [updating_third_party.md](./Documentation/docs/contributing/updating_third_party.md) |
+
+## Critical Pitfalls
+
+1. **Template errors are verbose** — focus on the *first* error only.
+2. **Python wrapping is incomplete** — check `wrapping/` dirs for available types before assuming a class is wrapped.
+3. **Never `delete` ITK objects** — always use `SmartPointer` (`auto filter = FilterType::New()`).
+4. **`Update()` is required** — filters don't execute until called; parameter changes after `Update()` need another call.
+5. **Link errors → check `itk-module.cmake`** — missing `DEPENDS` or `PRIVATE_DEPENDS` is the usual cause.
+6. **Licensing** — verify AI output does not reproduce third-party code in conflict with Apache 2.0.
+7. **Committed text must be load-bearing** — reviewers reject commit messages, in-source comments, and PR bodies that restate the diff or cite transient URLs, and in-source comments that narrate history ([prose-budget.md](./Documentation/AI/prose-budget.md)). Agents also follow its numeric caps. Cut prose, not code.
+8. **Headers use their C++17 form in every standard** — never select header code by `__cplusplus` value, `_MSVC_LANG`, or a `__cpp_*` macro (`#ifdef __cplusplus` is fine). Clients may use a newer C++ standard or another compiler than ITK, which breaks the One Definition Rule ([compiler-cautions.md](./Documentation/AI/compiler-cautions.md) section 16).
+
+## Resources
+
+- Docs: https://docs.itk.org/
+- Contribution guide: https://docs.itk.org/en/latest/contributing/
+- Discourse: https://discourse.itk.org/
+- Software Guide: https://itk.org/ItkSoftwareGuide.pdf
+- Examples: https://examples.itk.org/
+- Doxygen API: https://itk.org/Doxygen/html/
+- CDash: https://open.cdash.org/index.php?project=Insight

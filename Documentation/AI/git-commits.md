@@ -1,0 +1,154 @@
+# ITK Git Commit Guidelines
+
+## Required Format
+
+Enforced by the `kw-commit-msg.py` pre-commit hook. Commits that violate the
+format will be rejected.
+
+```
+PREFIX: Brief description (≤78 chars on subject line)
+
+Longer explanation if needed. Describe *what* changed and *why*,
+not just that a tool made the change.
+```
+
+**The 78-character subject-line limit is a hard constraint, not a guideline.**
+The `kw-commit-msg.py` hook rejects commits that exceed it, and CI will reject
+PRs containing such commits. The hook exempts `fixup!`, `squash!`, and `amend!`
+subjects (see [Prefixes](#prefixes)).
+Count characters before committing. The prefix (e.g., `DOC: `) counts toward
+the 78. When a descriptive subject would exceed the limit, move detail to the
+commit body — the subject should be scannable in `git log --oneline`.
+
+## Body budget
+
+Commit-message body caps, forbidden content, and good/bad examples
+are defined in [prose-budget.md](./prose-budget.md). Read it before
+authoring any commit body.
+
+## Prefixes
+
+| Prefix | Use for |
+|--------|---------|
+| `ENH:` | New feature or enhancement |
+| `BUG:` | Bug fix |
+| `COMP:` | Compilation fix (warnings, errors) |
+| `DOC:` | Documentation only |
+| `STYLE:` | Formatting, naming, no logic change |
+| `PERF:` | Performance improvement |
+| `WIP:` | Transient commits for development testing only |
+| `fixup!`<br>`squash!`<br>`amend!` | Transient commits to be squashed before a PR is pushed |
+
+> **`WIP:` on commit subjects is a two-layer opt-in — use it deliberately.**
+> The local `kw-commit-msg.py` hook **intentionally** accepts `WIP:` so
+> developers can commit probe tests, A/B experiments, and other work they
+> know is not suitable for `main` — without renaming the prefix on every
+> iteration. `ghostflow-check-main` (the GitHub App gating PR merge) then
+> rejects any commit whose subject begins with `WIP:`, which is the
+> intended safety net: `WIP:` commits cannot accidentally land on `main`.
+> Before marking the PR ready for review, remove, reword, fixup, or squash
+> `WIP:` commits into standard-prefix commits.
+>
+> To mark an entire PR (rather than individual commits) as
+> work-in-progress, add `[WIP]` to the **PR title** — the GitHub "WIP" app
+> gates merging on that string; remove it when the PR is ready.
+
+> **`fixup!`, `squash!`, and `amend!` on commit subjects are interpreted by
+> `git rebase --autosquash`**, which is why the local `kw-commit-msg.py` hook
+> **intentionally** accepts `fixup!`, `squash!`, and `amend!`, and exempts them
+> from the length limit. Squash these transient commits with
+> `git rebase -i --autosquash <base>` before pushing a PR.
+
+## Commit Scope
+
+One logical change per commit, per the
+[contributing guide](../docs/contributing/index.md#logical-commits).
+Cleanup of untouched code stays out of behavior commits
+([compiler-cautions.md §14a](./compiler-cautions.md#14a-do-not-introduce-new-clang-tidy-diagnostics)),
+and a pre-existing bug found along the way gets its own `BUG:` commit before
+the work that exposed it. Work that completes an earlier commit of the topic
+goes into that commit (`git commit --fixup=<sha>`, then autosquash as above);
+afterwards re-read that commit's message, per
+[code-review-lessons.md](./code-review-lessons.md#keep-commit-messages-and-pr-descriptions-in-sync-with-scope).
+
+Example: on top of `PERF: Limit FFTW plan threads by transform size`, do not
+add `ENH: Test FFTW thread limit and include ITK config first`. The include
+fix completes the PERF commit, so amend it there. The test builds and passes
+on its own, so it may stay a separate `ENH: Test FFTW thread limit` commit.
+
+## Commit Message Length
+
+Keep commit messages concise. A 1-line subject plus a short body
+describing *what* and *why* is the norm. Long, essay-style commit
+messages have been explicitly objected to in code review — put expanded
+rationale in the PR description, not the commit body. The commit should
+be readable in `git log --oneline` + a quick `git show`.
+
+**Agent default:** ≤ 12 non-blank body lines, per
+[prose-budget.md](./prose-budget.md).
+
+## Hook Behavior
+
+The pre-commit hook runs **clang-format** on staged C++ files and modifies
+them in place if formatting changes are needed. When this happens:
+
+1. The hook modifies the file(s)
+2. The original commit is aborted
+3. You must **re-stage** the modified files and **recommit**
+
+Do not use `--no-verify` to bypass hooks — the format check exists to keep
+CI green.
+
+**All pre-commit hooks must pass before submitting or updating a PR.**
+This is non-negotiable. If a hook fails, fix the underlying issue — do
+not disable, skip, or work around the hook. A PR with commits that were
+not validated by the local hooks will fail CI and waste reviewer time.
+If the hook environment is broken (e.g., a stale pixi environment),
+fix the environment first: `pixi install` or
+`./Utilities/SetupForDevelopment.sh`.
+
+Hooks are stale if `git config hooks.SetupForDevelopment` is below
+`SetupForDevelopment_VERSION` in `Utilities/SetupForDevelopment.sh`;
+stale hooks skip checks CI runs (e.g. gersemi). To check changed files
+without committing: `pixi exec pre-commit run --files <files>`.
+
+## First-Time Setup
+
+Run once after cloning:
+
+```bash
+./Utilities/SetupForDevelopment.sh
+```
+
+This installs the commit-msg and pre-commit hooks. Without it, commits will
+not be validated locally.
+
+## Commit Attribution
+
+Commit messages describe **what** changed and **why** — not **how** it
+was produced. AI tool names, model IDs, and tool-specific trailers do
+**not** belong in commit messages. Disclose substantive AI assistance
+in the **PR description** instead (inside a `<details>` block).
+
+Full attribution rules (Co-Authored-By, AI disclosure, external
+context, PR body format) are in
+[attribution.md](./attribution.md).
+
+### Pre-Commit Checklist for C++ Changes
+
+**Agent default.** Before committing any C++ code, an AI agent must
+complete all three steps (human contributors may commit work in
+progress locally, but CI must pass before merge):
+
+1. **Review compiler cautions** — Read
+   [compiler-cautions.md](./compiler-cautions.md) and verify the changed code
+   does not introduce any of the documented pitfalls. Use the Quick-Reference
+   Checklist in that file.
+
+2. **Compile the changed code** — Build the affected module(s) locally.
+   See [building.md](./building.md) for build instructions. A commit must not
+   introduce a compilation error.
+
+3. **Run relevant tests** — Execute the tests that exercise the changed code.
+   See [testing.md](./testing.md) for how to run a targeted subset with
+   `ctest -R <pattern>`.

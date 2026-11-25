@@ -1,0 +1,160 @@
+// This file contains enough suppressions to result in no cppcheck warnings,
+// at least on macOS with cppcheck 2.16 with the flags below.
+
+// To run:
+// cd /path/to/ITK/
+// cppcheck --platform=unspecified --enable=style -q --library=qt --library=posix --library=gnu --library=bsd --library=windows --check-level=exhaustive --suppressions-list=CMake/ITKcppcheckSuppressions.txt --template='{id},{file}:{line},{severity},{message}' -j8 -I Common/Core .
+// or
+// cd /path/to/ITK-bin/
+// cppcheck --project=compile_commands.json --platform=unspecified --enable=style -q --library=qt --library=posix --library=gnu --library=bsd --library=windows --check-level=exhaustive --suppressions-list=../ITK/CMake/ITKcppcheckSuppressions.txt --template='{id},{file}:{line},{severity},{message}' -j8
+
+// Suppress everything from ThirdParty.
+*:*/ThirdParty/*
+*:*H5*
+
+// If cppcheck itself crashes, well, that's its problem, ignore that.
+cppcheckError
+internalAstError
+syntaxError
+
+// When analyzing different define possibilities, it will sometimes hit a #error line
+preprocessorErrorDirective
+
+// Using reallocf() would be a good solution, but it's not available on all platforms.
+memleakOnRealloc
+
+// Using strtok_r() would be a good solution, but it's not available on all platforms.
+strtokCalled
+
+// ITK assumes IEEE 754 floats, so this warning isn't useful.
+memsetClassFloat
+
+// These are too stylistic
+useStlAlgorithm
+
+// Gives too many false positives.
+assertWithSideEffect
+argumentSize
+
+// There are many, could probably be changed automatically, with clang-tidy?
+cstyleCast
+
+// There are many, easily fixable, but possibly backwards incompatible.
+passedByValue
+
+// Deliberate
+duplicateExpression:*/itkFloatingPointExceptionsTest.cxx
+knownConditionTrueFalse:*/itkAggregateTypesGTest.cxx
+knownConditionTrueFalse:*/itkExceptionObjectTest.cxx
+knownConditionTrueFalse:*/itkGoogleTest.cxx
+knownConditionTrueFalse:*/itkImageIteratorTest.cxx
+knownConditionTrueFalse:*/itkJointDomainImageToListSampleAdaptorTest.cxx
+knownConditionTrueFalse:*/itkListSampleTest.cxx
+knownConditionTrueFalse:*/itkMembershipSampleTest1.cxx
+knownConditionTrueFalse:*/itkMembershipSampleTest2.cxx
+knownConditionTrueFalse:*/itkMembershipSampleTest3.cxx
+knownConditionTrueFalse:*/itkMembershipSampleTest4.cxx
+knownConditionTrueFalse:*/itkPointSetToListSampleAdaptorTest.cxx
+knownConditionTrueFalse:*/itkSmartPointerGTest.cxx
+knownConditionTrueFalse:*/itkSubsampleTest2.cxx
+knownConditionTrueFalse:*/itkVectorGeometryTest.cxx
+knownConditionTrueFalse:*/itkVectorTest.cxx
+oppositeInnerCondition:*/itkExhaustiveOptimizerv4.hxx
+postfixOperator:*itkLabelObjectTest.cxx
+redundantCondition:*/itkMINCTransformAdapter.h
+unusedPrivateFunction:*/itkMaskNegatedImageFilter.h
+unusedScopedObject:*/itkConceptChecking.h
+unusedStructMember:*/itkBasicFiltersPrintTest.cxx
+unusedStructMember:*/itkBioRadImageIO.cxx
+unusedStructMember:*/itkCommonPrintTest.cxx
+unusedStructMember:*/itkJPEG2000ImageIO.cxx
+unusedStructMember:*/itkObjectStoreTest.cxx
+unusedStructMember:*/itkTemporalProcessObjectTest.cxx
+
+// False positives.
+CastIntegerToAddressAtReturn:*/itkCellInterface.h
+duplicateExpression:*/itkVectorIndexSelectionCastImageFilter.h
+ignoredReturnValue:*/itkConnectedThresholdImageFilterTest.cxx
+knownArgument:*/itkMeanImageFilterGTest.cxx
+knownConditionTrueFalse:*/itkFixedArrayTest.cxx
+knownConditionTrueFalse:*/itkMeasurementVectorTraits.h
+knownConditionTrueFalse:*/itkNeighborhood.hxx
+knownConditionTrueFalse:*/itkQuadEdgeMeshCellInterfaceTest.cxx
+knownConditionTrueFalse:*/itkResourceProbe.hxx
+legacyUninitvar:*/itkDiscreteGaussianDerivativeImageFunctionTest.cxx
+legacyUninitvar:*/itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
+legacyUninitvar:*/itkDiscreteHessianGaussianImageFunctionTest.cxx
+legacyUninitvar:*/itkVectorImageTest.cxx
+mismatchingContainers:*/itkRangeGTestUtilities.h
+missingOverride:*/itkImage.h
+missingOverride:*/itkImageAdaptor.h
+missingOverride:*/itkLabelMap.h
+missingOverride:*/itkLevelSetQuadEdgeMesh.h
+missingOverride:*/itkVectorImage.h
+missingReturn:*/itkBSplineKernelFunction.h
+nullPointerRedundantCheck:*/itkQuadEdgeTest1.cxx
+nullPointerRedundantCheck:*/itkSpatialObject.hxx
+nullPointerRedundantCheck:*/itkTernaryGeneratorImageFilter.hxx
+postfixOperator:*/itkTriangleMeshToSimplexMeshFilter.hxx
+unusedPrivateFunction:*/itkMaskNegatedImageFilter.h
+unusedStructMember:*/ImageRegistrationHistogramPlotter.cxx
+unusedStructMember:*/itkGoogleTestFixture.cxx
+unusedStructMember:*/itkMinimumMaximumImageFilterGTest.cxx
+containerOutOfBounds:*/itkMINCTransformIO.cxx
+
+// Not false positives exactly, but essentially.
+duplicateExpression:*/IterativeClosestPoint2.cxx
+duplicateExpression:*/ResampleImageFilter3.cxx
+incrementboolean:*/itkMovingHistogramMorphologicalGradientImageFilter.h
+moduloofone:*/itkMeshConvertPixelTraits.h
+oppositeInnerCondition:*/itkExhaustiveOptimizer.cxx
+
+// Only a few to investigate, but non-trivial
+invalidIterator1
+invalidPointerCast
+objectIndex
+accessMoved
+
+// To investigate...
+constParameter
+constParameterCallback
+constParameterPointer
+constParameterReference
+constVariable
+constVariablePointer
+constVariableReference
+derefInvalidIteratorRedundantCheck
+duplInheritedMember
+duplicateAssignExpression
+duplicateCondition
+duplicateConditionalAssign
+knownConditionTrueFalse
+memleak
+noCopyConstructor
+noDestructor
+noExplicitConstructor
+noOperatorEq
+operatorEqToSelf
+operatorEqVarError
+redundantAssignment
+redundantInitialization
+rethrowNoCurrentException
+returnByReference
+shadowFunction
+throwInNoexceptFunction
+truncLongCastAssignment
+uninitMemberVar
+uninitdata
+uninitvar
+unpreciseMathCall
+unreadVariable
+unsafeClassCanLeak
+unsignedLessThanZero
+unsignedPositive
+unusedVariable
+useInitializationList
+uselessAssignmentArg
+uselessCallsRemove
+uselessOverride
+variableScope
+virtualCallInConstructor

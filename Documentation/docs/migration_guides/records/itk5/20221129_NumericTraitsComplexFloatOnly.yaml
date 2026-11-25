@@ -1,0 +1,15 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `itk::NumericTraits` can no longer be instantiated with `std::complex<T>`, if T is not a floating point type.
+  The old behavior can be restored by turning off `ITK_LEGACY_REMOVE`.
+categories:
+  - ApiRemoved
+environment:
+  - cxx
+impact: low
+pr: 3768
+commits:
+  - 37e4c718057
+legacy_guard: ITK_LEGACY_REMOVE

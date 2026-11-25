@@ -1,0 +1,15 @@
+schema_version: 1
+title: Remove support for ITKv4 interfaces
+summary: |
+  `ITKV4_COMPATIBILITY` is no longer a supported option.  Previously this option
+  was off by default.  Previously when enabled, the ITK API was modified to
+  provide support for ITKV4 functions.
+categories:
+  - ApiRemoved
+environment:
+  - cmake
+  - cxx
+impact: low
+pr: 4715
+commits:
+  - da532bcbfff

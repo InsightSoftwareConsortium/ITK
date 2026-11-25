@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::TIFFImageIO" POINTER)
+itk_wrap_simple_class("itk::TIFFImageIOFactory" POINTER)

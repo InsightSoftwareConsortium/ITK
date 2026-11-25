@@ -1,0 +1,23 @@
+set(
+  DOCUMENTATION
+  "This module contains the third party <a
+href=\"https://dicom.offis.de/dcmtk/\">DCMTK</a> DCMTK is a collection of libraries and applications implementing large parts the DICOM standard."
+)
+
+itk_module(
+  ITKIODCMTK
+  ENABLE_SHARED
+  DEPENDS
+    ITKIOImageBase
+  PRIVATE_DEPENDS
+    ITKDCMTK
+  TEST_DEPENDS
+    ITKGoogleTest
+    ITKTestKernel
+    ITKImageIntensity
+    ITKDCMTK
+  FACTORY_NAMES
+    ImageIO::DCMTK
+  DESCRIPTION "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
+)

@@ -1,0 +1,9 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("vnl/vnl_nonlinear_minimizer.h")
+itk_wrap_simple_class("vnl_nonlinear_minimizer")
+
+itk_wrap_include("vnl/algo/vnl_lbfgs.h")
+itk_wrap_simple_class("vnl_lbfgs")
+
+itk_wrap_include("vnl/algo/vnl_lbfgsb.h")
+itk_wrap_simple_class("vnl_lbfgsb")

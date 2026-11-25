@@ -1,0 +1,2 @@
+# Python pth file to add project's path to sys.path.
+@ITK_WRAP_PYTHON_ROOT_BINARY_DIR@

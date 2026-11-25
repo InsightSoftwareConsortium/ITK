@@ -1,0 +1,9 @@
+test/itkFastMarchingUpwindGradientBaseTest.cxx SemicolonSpace Disable
+test/itkFastMarchingUpwindGradientTest.cxx SemicolonSpace Disable
+test/*\.cxx Namespace Disable
+test/itkFastMarchingTest2.cxx Namespace Disable
+test/itkFastMarchingTest.cxx Namespace Disable
+test/itkFastMarchingImageFilterRealTest2.cxx Namespace Disable
+test/itkFastMarchingImageFilterRealTest1.cxx Namespace Disable
+test/itkFastMarchingExtensionImageFilterTest.cxx Namespace Disable
+itkFastMarchingTraits\.h Template Disable

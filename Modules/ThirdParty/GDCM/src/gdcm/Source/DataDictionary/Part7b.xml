@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Program: GDCM (Grassroots DICOM). A DICOM library
+
+  Copyright (c) 2006-2011 Mathieu Malaterre
+  All rights reserved.
+  See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notice for more information.
+-->
+  <dict ref="E.2" name="Retired command fields">
+    <entry group="0000" element="0001" vr="UL" vm="1" keyword="CommandLengthToEnd" name="Command Length to End" retired="true"/>
+    <entry group="0000" element="0010" vr="SH" vm="1" keyword="CommandRecognitionCode" name="Command Recognition Code" retired="true"/>
+    <entry group="0000" element="0200" vr="AE" vm="1" keyword="Initiator" name="Initiator" retired="true"/>
+    <entry group="0000" element="0300" vr="AE" vm="1" keyword="Receiver" name="Receiver" retired="true"/>
+    <entry group="0000" element="0400" vr="AE" vm="1" keyword="FindLocation" name="Find Location" retired="true"/>
+    <entry group="0000" element="0850" vr="US" vm="1" keyword="NumberOfMatches" name="Number of Matches" retired="true"/>
+    <entry group="0000" element="0860" vr="US" vm="1" keyword="ResponseSequenceNumber" name="Response Sequence Number" retired="true"/>
+    <entry group="0000" element="4000" vr="LT" vm="1" keyword="DialogReceiver" name="Dialog Receiver" retired="true"/>
+    <entry group="0000" element="4010" vr="LT" vm="1" keyword="TerminalType" name="Terminal Type" retired="true"/>
+    <entry group="0000" element="5010" vr="SH" vm="1" keyword="MessageSetID" name="Message Set ID" retired="true"/>
+    <entry group="0000" element="5020" vr="SH" vm="1" keyword="EndMessageID" name="End Message ID" retired="true"/>
+    <entry group="0000" element="5110" vr="LT" vm="1" keyword="DisplayFormat" name="Display Format" retired="true"/>
+    <entry group="0000" element="5120" vr="LT" vm="1" keyword="PagePositionID" name="Page Position ID" retired="true"/>
+    <entry group="0000" element="5130" vr="CS" vm="1" keyword="TextFormatID" name="Text Format ID" retired="true"/>
+    <entry group="0000" element="5140" vr="CS" vm="1" keyword="NormalReverse" name="Normal/Reverse" retired="true"/>
+    <entry group="0000" element="5150" vr="CS" vm="1" keyword="AddGrayScale" name="Add Gray Scale" retired="true"/>
+    <entry group="0000" element="5160" vr="CS" vm="1" keyword="Borders" name="Borders" retired="true"/>
+    <entry group="0000" element="5170" vr="IS" vm="1" keyword="Copies" name="Copies" retired="true"/>
+    <entry group="0000" element="5180" vr="CS" vm="1" keyword="CommandMagnificationType" name="Command Magnification Type" retired="true"/>
+    <entry group="0000" element="5190" vr="CS" vm="1" keyword="Erase" name="Erase" retired="true"/>
+    <entry group="0000" element="51a0" vr="CS" vm="1" keyword="Print" name="Print" retired="true"/>
+    <entry group="0000" element="51b0" vr="US" vm="1-n" keyword="Overlays" name="Overlays" retired="true"/>
+  </dict>

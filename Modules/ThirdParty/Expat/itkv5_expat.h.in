@@ -1,0 +1,44 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
+#ifndef itkv5_expat_h
+#define itkv5_expat_h
+
+/* Use the expat library configured for ITK.  */
+#cmakedefine ITK_USE_SYSTEM_EXPAT
+#ifdef ITK_USE_SYSTEM_EXPAT
+# error "This ITKv5 backward compatible stub file should never be used if requesting ITK_USE_SYSTEM_EXPAT=ON"
+#elif defined(ITK_FUTURE_LEGACY_REMOVE)
+# error "This ITKv5 backward compatible stub file should never be used if requesting ITK_FUTURE_LEGACY_REMOVE=ON"
+#else
+/* ITKv5 used the `#include <expat.h>` with itk mangled symbols and depends on compiler
+ * include file order to find the ITKv5 version of expat.h before the system version.
+ *
+ * ITKv6 moves the itk mangled symbols and expects ITK dependant exapt to use
+ * `#include "itk_expat.h"` to find the itk mangled symbols, or divert to `#include <expat.h>`
+ * if ITK_USE_SYSTEM_EXPAT.
+ *
+ * This file is intended for ITKv5 drop in compatibility by generating a
+ * the file that is found via include path precidence rules called "#include <expat.h>"
+ * by placing an itk generated file "expat.h" in the ITK included files path to superceed
+ * the system file when ITK_USE_SYSTEM_EXPAT=False and ITK_FUTURE_LEGACY_REMOVE=False.
+ */
+# include "itk_expat.h"
+#endif
+
+#endif

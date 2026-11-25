@@ -1,0 +1,6 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+
+itk_wrap_include("itkDataObject.h")
+itk_wrap_include("itkTemporalDataObject.h")
+itk_wrap_simple_class("itk::TemporalDataObjectEnums")
+itk_wrap_simple_class("itk::TemporalDataObject" POINTER)

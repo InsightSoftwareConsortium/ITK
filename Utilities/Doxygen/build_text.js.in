@@ -1,0 +1,3 @@
+$(function(){
+    document.getElementById("datetime").textContent = "@_DATETIME@"
+});

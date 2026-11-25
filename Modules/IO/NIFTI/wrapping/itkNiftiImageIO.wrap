@@ -1,0 +1,7 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkNiftiImageIO.h")
+itk_wrap_include("itkNiftiImageIOFactory.h")
+
+itk_wrap_simple_class("itk::NiftiImageIOEnums")
+itk_wrap_simple_class("itk::NiftiImageIO" POINTER)
+itk_wrap_simple_class("itk::NiftiImageIOFactory" POINTER)

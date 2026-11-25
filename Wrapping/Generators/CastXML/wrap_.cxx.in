@@ -1,0 +1,18 @@
+@CASTXML_INCLUDES@
+
+#ifdef ITK_WRAPPING_PARSER
+namespace _wrapping_
+{
+  const char* const group = "@WRAPPER_MODULE_NAME@";
+  namespace wrappers
+  {
+    @CASTXML_TYPEDEFS@
+  }
+
+  void force_instantiate()
+  {
+    using namespace _wrapping_::wrappers;
+    @CASTXML_FORCE_INSTANTIATE@
+  }
+}
+#endif

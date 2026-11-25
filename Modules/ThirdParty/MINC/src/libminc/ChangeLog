@@ -1,0 +1,1092 @@
+2016-05-05  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * libsrc/minc_simple.c, libsrc/minc_simple.h: Improved the usefulness
+	of minc_get_world_transform() and added minc_transform_to_world().
+
+2016-02-09  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * libsrc2/dimension.c, libsrc2/volume.c, testdir/minc2-dimension-test.c:
+	Existing code did not properly implement miset_dimension_widths()
+	and miget_dimension_widths().
+
+2015-11-16  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * volume_io/Volumes/volumes.c,
+     volume_io/Include/volume_io/vol_io_protoypes.h: Added
+	copy_volume_new_type() and declared that
+	get_volume_total_n_voxels() returns size_t.
+   * testdir/volume_test.c: Created a simple test for volume functions.
+   * CMakeLists.txt: Updated LIBMINC_SOVERSION
+
+2015-10-14  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * volume_io/Volumes/input_mgh.c: Fix loading of time-varying MGZ files.
+
+2015-10-07  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * libsrc2/m2util.c, libsrc2/volume.c: Fix improper handling of
+	label volumes on big-endian architectures.
+
+-- Release of minc 2.3.00 --
+2015-10-01  Vladimir S. FONOV <vladimir.fonov@gmail.com>
+   * Added new configuration environment variable MINC_FILE_CACHE_MB, 
+  it specifies (in megabytes) maximum per file cache for reading MINC2 files
+  default value is 100 Mb. **WARNING** specifying value of 0 will 
+  significantly degrade performance on compressed minc2 files.
+  
+   * Added new configuration environment variable MINC_CHECKSUM, when 
+   set to 1 will enable FLETCHER32 checksum in new MINC2 files, but only when 
+   chunking is enabled
+   
+2015-09-11  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * Remove autoconf/automake support.
+
+2015-08-24  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * libsrc/netcdf_convenience.c: Changed the logic in miopen() to
+	explicitly differentiate netCDF vs. HDF5 files. This was needed
+	because ncopen() in netCDF 4.4 successfully opens HDF5 files, so
+	the old	logic no longer worked.
+
+2015-08-13  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * volume_io/Volumes/input_nifti.c: Fix loading of dynamic scans, handle
+	NIfTI units.
+
+2015-06-11  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * libsrc/minc.h, libsrc2/minc2_defs.h: Increase MI_MAX_NUM_ICV from 32
+	to 1000. This should improve the behavior of voxel_loop programs
+	when used with a large number of input files.
+
+2015-05-28  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * libsrc/ParseArgv.c: Added ParseLong() function to handle numeric
+	command-line parameters. This eliminates the questionable support
+	for octal values. We now support only decimal (with optional
+	leading zeros) and hex (with a leading "0x").
+
+2015-04-23  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * Support for loading FreeSurfer and NIfTI-1 format files in volume_io.
+	(volume_io/Volumes/{input_mgh.c, input_nifti.c, input_volume.c})
+   * Added set_volume_n_dimensions() function.
+	(volume_io/Volumes/volumes.c)
+	(volume_io/Volumes/Include/volume_io/vol_io_prototypes.h)
+   * Incorporated public NIfTI-1 library code in new "nifti" subdirectory.
+	(nifti/*)
+
+2015-04-20  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * Allow the current_realtime_seconds() function to return fractional seconds.
+	(volume_io/Prog_utils/time.c)
+
+2015-04-20  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * Fix some warnings through use of "const" where appropriate.
+	(libsrc/ParseArgv.c, libsrc/ParseArgv.h, libsrc/image_conversion.c)
+	(libsrc/minc.h)
+   * Added range checks to catch edge cases in ICV code.
+	(libsrc/image_conversion.c, libsrc/dim_conversion.c)
+
+2014-08-05  Vladimir S. FONOV <vladimir.fonov@gmail.com>
+   * Merged changes from Steven M. Robbins
+
+2014-04-12  Andrew L Janke <a.janke@gmail.com>
+   * Updated README.release for CMake build instructions
+   * Release handover to Matthijs van Eede <matthijs@mouseimaging.ca>
+
+2014-04-09 Vladimir S Fonov
+   * Incorporated multiple bug fixes from Sean McBride
+   * Added some info in NEWS 
+
+2013-11-28 Vladimir S Fonov
+   * Removed autoconf/automake files
+   * MINC2 file format now can store long attributes, but uses HDF5 1.8 features
+   * MINC2 API can now read MINC1 files, by creating a temporary MINC2 file first, beware of huge files
+   * This is a pre-release of minc 2.3.00
+   * volume_io can now read and write files in MINC2 format using MINC2 API
+   * MINC2 library can be compiled without netcdf library
+
+2013-07-09  Vladimir S Fonov 
+   * Lots of bug fixes in minc2
+   * Joining of volume_io into main library
+
+2012-09-25  Andrew L Janke <a.janke@gmail.com> + Vladimir S Fonov
+   * split libminc from minc-tools
+   * started build of minc2 only for ITK
+
+-- Release of minc 2.2.00 --
+
+2012-09-24  Andrew L Janke <a.janke@gmail.com>
+   * added make_mincmorph_kernel.pl
+   * merged changed from develop branch
+   * added -size arguments to mincresample
+
+2012-08-03  Andrew L Janke <a.janke@gmail.com>
+   * progs/mincheader/mincheader: fixed to handle files with spaces
+
+2012-06-21  Andrew L Janke <a.janke@gmail.com>
+   * added mincblob.man1 and updated configure.ac and Makefile.am
+
+2012-05-16  Andrew L Janke <a.janke@gmail.com>
+   * added patches from Jordi Gutiérrez Hermoso
+   * libsrc/hdf_convenience.c: added default switch case
+   * libsrc/ParseArgv.c: added intptr_t casts
+   * conversion/dcm2mnc/dicom_to_minc.c: added initialisation of tmp_offset
+
+2012-04-10  Andrew L Janke <a.janke@gmail.com>
+   * libsrc2/grpattr.c: added a history patch from Leila
+
+2012-03-14  Andrew L Janke <a.janke@gmail.com>
+   * added progs/mincsample
+
+2012-03-14  Andrew L Janke <a.janke@gmail.com>
+   * added progs/mincmorph
+
+-- Release of minc 2.1.10 --
+
+2012-02-22  Andrew L Janke <a.janke@gmail.com>
+   * added a patch from Steve Robbins that factors references to PATH_MAX
+      out to fix a build problem on hurd
+
+2011-12-20  Andrew L Janke <a.janke@gmail.com>
+   * libsrc/netcdf_convenience.c: changed execute_decompress_command()
+      to always decompress the whole file as the approach used for
+      netCDF files for header_only does not work with HDF5 MINC2 files
+   * merged Vlad's ezminc branch
+
+2011-06-29  Andrew L Janke  <a.janke@gmail.com>
+   * configure.in: changed typo from enable to disable minc2
+
+2011-05-30  Andrew L Janke  <a.janke@gmail.com>
+   * progs/minccalc: added imax() and imin() operators
+
+2011-04-29  Andrew L Janke  <a.janke@gmail.com>
+   * libsrc2/volume.c: added minc_version global
+   * libsrc/netcdf_convenience.c: added minc_version global
+
+2011-02-17  Andrew L Janke  <a.janke@gmail.com>
+   * libsrc2/test/datatype-test.c: fixed a HDF5 bug in error output
+
+2011-02-14  Andrew L Janke  <a.janke@gmail.com>
+   * progs/mincview/mincview: converted from csh to bash and changed
+      from xv to display
+
+2011-02-09  Andrew L Janke  <a.janke@gmail.com>
+   * libsrc/minc_compat.h: Added cplusplus extern to header
+
+2011-01-19 Jim Nikelski <nikelski@bic.mni.mcgill.ca>
+   * Fixed x86_64 ecattominc bug which resulted in a segmentation fault
+     on 64-bit platforms. Change primarily required changing the type
+     of the "dirblock" IO buffer from long to int32_t, reflecting the
+     actual storage type in the ecat file.
+
+2010-11-23 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Fixed bug in dicom_to_minc.c for segmentation fault on undefined sequence
+     (initialization of gi_ptr->cur_size)
+   * Free some memory after usage
+
+2010-11-23 Ilana Leppert <ilana@bic.mni.mcgill.ca>
+   * Added b-matrix field for Siemens diffusion scans (version >= VB
+     only). 
+   * Made changes to ordering of slices: e.g. a descending acquisition
+     now has negative slice step. This was an issue with MOSAIC, in
+     which the ordering of the slices in the MOSAIC image is ascending,
+     even though the acquisition is descending (version >= VA25 and
+     >= VB11).
+
+-- Release of minc 2.1.00 --
+
+2010-07-27  Andrew L Janke  <a.janke@gmail.com>
+   * conversion/micropet/upet2mnc.c: error bug squashed (John Cupitt)
+
+2010-07-06 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Improved convergence and accuracy for application of non-linear
+     transformation (especially for 2-d slices)
+
+2010-06-28  Andrew L Janke  <a.janke@gmail.com>
+   * Added progs/xfm/xfm2def.c and progs/xfm/xfm2def.man1
+
+2010-05-23  Andrew L Janke  <a.janke@gmail.com>
+   * changed all calls to H5Acreate2 to the H5Acreate macro
+
+2010-05-18  Steve M. Robbins  <smr@sumost.ca>
+   * libsrc/hdf_convenience.c: specify version 2 of H5Gopen, H5Acreate.
+   * minc.h: ensure hdf5.h included before netcdf.h to avoid build
+     error with netcdf 4.1.1 and openmpi 1.4.1.
+
+2010-03-22  Andrew L Janke  <a.janke@gmail.com>
+   * added pod2man for manpage generation from scripts
+   * shifted minchistory man to POD
+   * conversion/vff2mnc/vff2mnc.c: added error checking for fgets
+   * set default volume_io caching to none
+   * added checks for outfiles in minccalc
+   * removed outdated GETTING_STARTED file
+
+2010-03-02  Andrew L Janke  <a.janke@gmail.com>
+   * Added minccmp (minccmp.c and minccmp.man1)
+   * libsrc/hdf_convenience.c: removed spurious debug output
+   * libsrc/minc.h: replaced MAX_NC_OPEN with 32
+   * libsrc/voxel_loop.c: replaced MAX_NC_OPEN with MI_MAX_NUM_ICV
+
+2010-02-03  Andrew L Janke  <a.janke@gmail.com>
+   * progs/mincpik/mincik: added -text_size option (Thanks Mishkin)
+   * removed all non-quoted string barewords (hash refs)
+   * added range calculation for anot bar if not defined
+
+2009-11-13 Andrew L Janke <a.janke@gmail.com>
+   * progs/mincpik/mincpik: added -sagittal_offset_perc option
+
+2009-11-06 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * volume_io/Volumes/output_mnc.c: fix output buffers for a slice
+          as only first buffer would be written out
+
+2009-08-11 Andrew L Janke <a.janke@gmail.com>
+   * progs/mincpik/mincpik: Added taking first time point for 4D files
+
+2009-07-08 Andrew L Janke <a.janke@gmail.com>
+   * Added minimum cmake version to CMakeLists.txt
+   * Added libtoolize/glibtoolize logic in autogen.sh (thanks Sean)
+
+2009-06-03 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Fixed bug in multidim_array_is_alloced for correct check of 
+     memory allocation of image data. Return volume=NULL when memory 
+     allocation fails.
+
+-- Release of minc 2.0.18 --
+
+2009-04-29 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Smarter utilization of buffer in input_mnc.c and output_mnc.c
+
+2009-04-29  Andrew L Janke <a.janke@gmail.com>
+	* progs/mincinfo/mincinfo.c: fixed a stack smash
+
+2009-04-21 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Fixed bug with chunking for internal file compression using hdf5
+     (now makes the code faster for large files)
+
+-- Release of minc 2.0.17 --
+
+2009-01-20  Andrew L Janke <a.janke@gmail.com>
+   * Updated version in CMakeLists.txt
+   * Note that with the bugfix in ParseArgv all other MINC 
+      programs that link against this will have to be 
+      rebuilt.
+   * CMakeLists.txt: updated version
+   
+   Warning cleanups below
+   * conversion/dcm2mnc/minc_file.c: fixed printf type
+   * conversion/dcm2mnc/siemens_to_dicom.c: fixed printf type
+   * conversion/ecattominc/machine_indep.c: added string.h and fixed 
+       2 fprintf missing format args
+   * conversion/micropet/upet2mnc.c: fixed two fprintf format args
+   * conversion/minctoecat/ecat_write.c: added string.h
+   * conversion/minctoecat/minctoecat.c: added missing argument to fprintf
+   * conversion/nifti1/mnc2nii.c: fixed incorrect printf type
+   * progs/mincview/invert_raw_image.c: added fwrite checking
+
+
+2009-01-03  Steve M. Robbins  <smr@sumost.ca>
+   * testdir/run_test_progs.sh: New.  Test that programs like
+      mincheader and mincdiff work properly.
+   * configure.in: Bump to version 2.0.17.
+   * libsrc/ParseArgv.c (ParseArgv): Change ARGV_CONSTANT to treat
+      src and dst and pointer to integer, as documented.  Reverts change
+      6.9 of this file.
+
+   * testdir/test_arg_parse.c: New. Test program for argument parsing
+      (ParseArgv.[ch]).
+   * testdir/run_test_arg_parse.sh: New. Test driver for above.
+   * testdir/Makefile.am (TESTS): Add run_test_arg_parse.sh.
+
+   * libsrc2/Makefile.am: Remove; the only content was SUBDIRS = test.
+   * Makefile.am: Change SUBDIRS from libsrc2 to libsrc2/test.
+   * configure.in: Remove libsrc2/Makefile output.
+
+   * testdir/xfmconcat_01.sh:
+   * testdir/xfmconcat_02.sh: Add -clobber to output-generating commands.
+
+   * libsrc2/test/testminctools.sh: Add "set -e" to exit on any error.
+
+   * configure.in: Remove AC_PROG_RANLIB, obsoleted by use of
+      AC_PROG_LIBTOOL.
+
+2008-10-12  Steve M. Robbins  <smr@sumost.ca>
+   * conversion/dcm2mnc/dcm2mnc.man1: 
+   * conversion/ecattominc/ecattominc.man1:
+   * conversion/micropet/upet2mnc.man1:
+   * conversion/minctoecat/minctoecat.man1:
+   * conversion/nifti1/mnc2nii.man1:
+   * conversion/nifti1/nii2mnc.man1:
+   * conversion/vff2mnc/vff2mnc.man1:
+   * progs/mincgen/mincgen.man1: Fix errors, mainly removing trailing
+      TAB characters.
+
+-- Release of minc 2.0.16 --
+
+2008-09-04  Andrew L Janke <a.janke@gmail.com>
+   * progs/xfm/xfmconcat.c: Added -verbose and -clobber options
+   * progs/xfm/xfmconcat.man1: added -verbose and -clobber
+   * progs/xfm/xfminvert.man1: added -verbose and -clobber
+
+2008-08-13  Andrew L Janke <a.janke@gmail.com>
+   * progs/rawtominc/rawtominc.c: changed to an enum for modalities
+      to get around an esoteric bug with use of ParseArgv and strings
+      passed by reference on 64 bit architectures
+
+2008-08-11  Andrew L Janke <a.janke@gmail.com>
+   * conversion/Acr_Nema: Many changes from Claude
+   * conversion/dcm2mnc: Many changes for 64 bit and "new" DICOM types
+
+2008-04-07  Andrew L Janke <a.janke@gmail.com>
+   * conversion/ecattominc/ecattominc.c: added config.h
+   * Makefile.am: removed minc_globdef.h
+   * libsrc/minc_basic.h: rewrote error code to avoid global vars (Claude)
+   * libsrc/minc_error.h: changes for error code (Claude)
+   * libsrc/minc_error.c: changes for error code (Claude)
+
+2008-03-08  Andrew L Janke <a.janke@gmail.com>
+   * progs/mincpik/mincpik: fixed a bug with bar width from Mike Ferreira
+
+2008-03-07  Andrew L Janke <a.janke@gmail.com>
+   * progs/mincpik/mincpik: fixed two bugs with lookup triplanars
+
+2008-02-28  Andrew L Janke <a.janke@gmail.com>
+   * progs/mincpik/mincpik: added the -anot_bar option
+
+-- Release of minc 2.0.15 --
+
+2008-02-15  Andrew L Janke <a.janke@gmail.com>
+   * Removed all fortran code (the subdirectory anyhow)
+   * removed get_image_offset.c as it will not work with MINC2
+   * updated configure.in and Makefile.am to suit
+   * changed --enable-minc2 to --disable-minc2
+
+2008-01-24  Andrew L Janke <a.janke@gmail.com>
+   * AUTHORS: added Claude Lepage
+   * progs/xfm/xfmconcat.c: Added a history patch from Mishkin Derakhshan
+   * conversion/nifti1/nii2mnc.c: Added a patch from Claude for patient names
+
+2008-01-17   Andrew L Janke <a.janke@gmail.com>
+   * libsrc/hdf_convenience.c (hdf_path_from_name): added NC_NAT to switch
+
+2008-01-17  Steve M. Robbins  <smr@sumost.ca>
+   * testdir/test_speed.c (nctypename): Return "unknown" if no switch
+      case used.
+   * libsrc2/test/vector_dimension-test.c (create_test_file): 
+   * libsrc2/test/hyper-test-2.c (create_test_file): 
+   * conversion/dcm2mnc/dicom_to_minc.c (copy_element_properties):
+      Change return type from int to void; no callers require a return value.
+   * testdir/icv_fillvalue.c (main):
+   * conversion/micropet/upet2mnc.c (main): Return 0 at end of function.
+
+2008-01-17  Andrew L Janke <a.janke@gmail.com>
+   * removed all rcsid's as they are not used
+   * removed a bunch of ^L's that crept in somehow
+   * removed old and out of date BUGS file
+
+2008-01-13  Steve M. Robbins  <smr@sumost.ca>
+   * progs/mincreshape/mincreshape.h: 
+   * progs/mincreshape/mincreshape.c: 
+   * progs/mincreshape/copy_data.c: Move static function declarations
+      from header file to .c files that define the function.  Avoids
+      compiler warnings.
+   * progs/mincresample/mincresample.h: 
+   * progs/mincresample/mincresample.c: 
+   * progs/mincresample/resample_volumes.c: Move static function
+      declarations from header file to .c files that define the
+      function.  Avoids compiler warnings.
+   * progs/minccalc/minccalc.c (constant,constant2): Remove unushed
+      variables.
+   * libsrc/voxel_loop.c (get_output_filename): Remove unused function.
+   * conversion/nifti1/nifti1_local.h:
+   * conversion/nifti1/mnc2nii.c: Move definition of dimnames to .c
+      file where it is used.  Avoids compiler warning.
+   * conversion/dcm2mnc/dicom_read.c: Don't declare or define
+      convert_numa3_coordinate(), since the caller is #if 0'd out.
+
+2008-01-12  Steve M. Robbins  <smr@sumost.ca>
+   * libsrc2/hyper.c (mirw_hyperslab_raw): 
+   * libsrc/hdf_convenience.c (hdf_varget): Use hsize_t rather than
+      hssize_t for 3rd argument to H5Sselect_hyperslab().
+   * libsrc/voxel_loop.c:
+   * progs/mincinfo/mincinfo.c:
+   * progs/mincmath/mincmath.c:
+   * progs/rawtominc/rawtominc.c:
+   * testdir/icv.c:
+   * testdir/icv_dim.c:
+   * testdir/icv_dim1.c:
+   * testdir/icv_fillvalue.c:
+   * testdir/icv_range.c:
+   * testdir/minc_types.c: Add braces around static initializers.
+
+2008-01-11  Andrew L Janke <a.janke@gmail.com>
+   * removed outdated TODO file
+   * merged WHATSNEW-2.0 into NEWS/README
+
+2008-01-09  Andrew L Janke <a.janke@gmail.com>
+   * replaced mincedit with a complete rewrite in sh
+
+2008-01-04  Andrew L Janke <a.janke@gmail.com>
+   * mincheader: updated scripting style and replaced tmpdir code
+
+2008-01-02  Steve M. Robbins  <smr@sumost.ca>
+   * testdir/run_tests.sh: 
+   * testdir/run_test2.sh: Quote the value assigned to variable tests,
+   so that the scripts run.
+
+2007-12-18 Jonathan Harlap <jharlap@bic.mni.mcgill.ca>
+   * dcm2mnc: Restored dicom fields in minc headers. 
+                (conversion/dcm2mnc/minc_file.c)
+   * dcm2mnc: Restored old name of acquisition comments 
+                attribute. (conversion/dcm2mnc/minc_file.c)
+
+2007-12-06 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Freed more memory in miicv_free (libsrc/image_conversion.c)
+   * Added cubic interpolation in mincresample for x-y slices
+   * Fixed seg fault bug with null history string (libsrc/minc_convenience.c)
+   * Changed hard-coded strings for MIxspace (y,z) (libsrc2/volume.c and
+          libsrc2/dimension.c)
+   * Made global variables static in minccompress to avoid conflict with libz
+
+2007-12-03 Andrew L Janke <a.janke@gmail.com>
+   * changed all global variables to static in progs directory to 
+      avoid possible linker errors in the future. 
+
+2007-10-23  Andrew L Janke <a.janke@gmail.com>
+   * Added most things needed for a CMake build
+   * nii2mnc mnc2nii: Fixed a linking bug 
+
+-- Release of minc 2.0.14 --
+
+2007-09-13  Andrew L Janke <a.janke@gmail.com>
+   * Added a few more free's for memory thanks to Claude
+
+2007-08-24  Andrew L Janke <a.janke@gmail.com>
+   * added xfmflip and man page
+   * fixed a bug in the build of minccalc
+   * updated nifti library for nii2mnc
+
+2007-08-08 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Increased size of MI_MAX_VAR_BUFFER_SIZE and fix chunking
+      for internal file compression using hdf5
+   * Modified mincconvert to use default chunking
+
+2007-05-18  Andrew L Janke <a.janke@gmail.com>
+   * Fixed up small problems with build process
+   * replaced csh scripts with sh. (checks fail if no tcsh)
+   * added libsrc2 to the INCLUDES. why this was not in before beats me
+
+2006-09-01  Jonathan Harlap <jharlap@bic.mni.mcgill.ca>
+   * conversion/Acr_nema - Fixed a bug causing dump_acr_nema to skip
+      all elements with element number 0x0010
+
+2006-05-31 Jonathan Harlap <jharlap@bic.mni.mcgill.ca>
+   * Makefile.am - modified to build and install
+      image_filters/extract and image_filters/byte_swap if the ACR NEMA
+      tools are intstalled, as they are required by dicom_to_minc.pl
+
+2006-05-18 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * progs/various... added config.h to source files that need it for
+      proper operation with MINC 2.0
+
+2006-04-19 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * fix duplicate instances of solve_linear_system and 
+      scaled_maximal_pivoting_gaussian_elimination in
+      volume_io/Geometry/gaussian.c and libsrc.2. Make static.
+      This is to avoid linker problems with minc2.
+
+2006-04-09 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/dcm2mnc, conversion/Acr_nema - added general support
+   for Siemens DTI sequences, inserting attributes according to
+   Jennifer Campbell's conventions.
+
+2006-03-27 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/nifti1/mnc2nii.c - Set time and vector dimensions 
+   "properly" for some versions of Analyze and NIfTI libraries. Also
+   set the intent_code field to NIFTI_INTENT_VECTOR if the 
+   vector_dimension is set. Also fixed an issue with file names.
+
+2006-03-10 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/Acr_nema/element.c - Modify acr_dump_element_list()
+   to use helper function maybe_print_as_string() to print data with
+   unknown VR as either ASCII or a string of hex bytes.
+
+2006-02-28 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * libsrc/hdf_convenience.c - Modify the hdf_vardef() function
+   to avoid errors in HDF5 1.6.5
+
+2006-02-19  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+   * testdir/create_grid_xfm.c (main): Initialize variable
+        mio before using.
+
+2006-02-09 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/dcm2mnc/dicom_to_minc.c, 
+      conversion/dcm2mnc/siemens_to_dicom.c - Deal more correctly
+      with some odd cases in .IMA files.
+
+2006-02-08 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * progs/rawtominc/rawtominc.c, conversion/nifti1/nii2mnc.c, 
+     conversion/micropet/upet2mnc.c: Change fopen() parameter
+        to "rb" to force correct operation on DOS/Windows.
+   * libsrc2/volume.c: Allow signed as well as unsigned base
+        types for labels.
+
+2005-12-15 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * libsrc2/volume.c - set units field unconditionally in 
+   _miget_file_dimension()
+
+2005-12-13 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/dcm2mnc/dicom_to_minc.c: Ignore DICOM protocol
+      errors. This change was necessitated by images from a Philips
+      Intera scanner version 'NT 10.4.1\\PIIM V2.1.4.1 MIMIT MCS' that
+      appears to set the DICOM length field incorrectly.
+
+2005-12-03 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/micropet/upet2mnc.c - fix handling of single-frame data
+   * progs/mincgen/main.c - make "-o" option imply "-b"
+
+2005-11-22 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * progs/mincgen/genlib.c - fix free() issue
+   * progs/mincgen/load.c - #include config.h
+
+2005-11-11 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/dcm2mnc/dcm2mnc.h - fix definition of IMA_MAGIC_SIZE
+   * conversion/dcm2mnc/dcm2mnc.c - fix test for is_ima_file()
+
+2005-11-04 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/dcm2mnc/dicom_to_minc.h - further relaxation of 
+      COORDINATE_EPSILON, now set to 0.005
+   * conversion/dcm2mnc/minc_file.c - combine cloned
+      regular/irregular dimension checking code into new function,
+      check_regular()
+   * conversion/dcm2mnc/dcm2mnc.c - update version to 2.0.07
+
+2005-10-26 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/dcm2mnc/dicom_to_minc.h - set COORDINATE_EPSILON to
+      a fixed value of 0.0001 rather than 100*FLT_EPSILON to allow for
+      more slop in coordinates.
+   * conversion/nifti1/mnc2nii.c - handle missing value for spacetype.
+   
+2005-09-16 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * libsrc2/conversion/dcm2mnc/dicom_read.c - again change the
+   handling of the slice thickness / slice spacing issue to
+   accomodate Andrew Janke's Philips data. If both slice thickness
+   and slice spacing are set, we select the maximum. For some reason
+   I had been choosing the minimum, but logically the opposite seems
+   more reasonable (and is certainly correct in Andrew's case).
+   
+2005-09-14 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * libsrc2/slice.c - in function mirw_slice_minmax(), properly 
+   reorient access for slice minimum and maximum if dimension 
+   order has been altered.
+   * libsrc2/hyper.c - normalize data correctly in 
+   miget_real_value_hyperslab().
+   * progs/mincinfo/mincinfo.c - include config.h
+   
+2005-08-26 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Implemented --enable-hdf5 option in ./configure
+   script so that we can selectively enable or disable MINC2 support.
+   This required changing the way we treat the MINC2 symbol, and
+   being careful to include config.h in all files that call netCDF 
+   functions.
+   * libsrc2/grpattr.c - Fixed issue in micreate_group() function -
+   it would not function properly when a group already existed in the 
+   file.
+   * conversion/dcm2mnc - Ported changes from MINC 1 branch.
+   
+2005-07-29  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * progs/mincstats/mincstats.c: Add warning when mask file
+   specified with no mask range option.
+   
+2005-07-28  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * conversion/nifti1/mnc2nii.c: Implement fix suggested by
+   Hyun-Pil Kim to set unused dimension lengths to 1 rather than
+   zero.
+   
+2005-07-25  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * progs/mincstats/mincstats.c: Fix calculation of percent
+   threshold to correctly account for non-zero histogram floor.
+   
+2005-07-15 Andrew Janke <a.janke@gmail.com>
+
+   * added -auto_range option to mincpik (thanks to Jon Harlap)
+
+2005-07-15 Bert Vincent <bert@bic.mni.mcgill.ca>
+   
+   * libsrc/hdf_convenience.c: Two minor fixes.  First, when
+   emulating 'signtype' attributes in MINC 2 files, comparisons
+   with MI_SIGNED and MI_UNSIGNED should NOT depend on a properly-
+   null-terminated  attribute value.  Second, suppress HDF5 errors 
+   in hdf_attdel()
+   
+   * progs/mincresample/mincresample.c
+   * progs/mincresample/mincresample.h
+   * progs/mincresample/mincresample.man1
+   * progs/mincresample/resample_volumes.c
+   Support windowed sinc interpolation, as ported from 1.X branch.
+   
+   * progs/mincconcat/mincconcat.c:
+   * progs/mincconcat/mincconcat.man1:
+   Add support for -filestarts option, as ported from 1.X branch.
+   
+2005-07-04  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * Makefile.am:
+   * progs/minchistory/minchistory.man1: New manual page for
+   minchistory.
+
+2005-07-03  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * configure.in: Check for sysconf().
+
+   * volume_io/Prog_utils/time.c (get_clock_ticks_per_second): Use
+   POSIX sysconf() function, if available.
+
+2005-06-22  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Minor fix to ncgenyy.l to avoid compiler complaint on ia64.
+   
+2005-05-20  Bert Vincent <bert@bic.mni.mcgill.ca>
+   
+   * Update Makefile.msvc-win32 to build converters.
+   
+   * Declare restructure_array() in hyper.c to be MNCAPI so that
+   nii2mnc can link to it.
+   
+   * Get rid of warnings in mincgen build.  Affected files are 
+   progs/mincgen/ncgenyy.l and progs/mincgen/ncgentab.y
+   
+   * Replace direct usage of H5Fis_hdf5() function to avoid annoying
+   error messages for nonexistant files.  Instead there is now a 
+   function named hdf_access() that returns a boolean value TRUE if
+   the file can be accessed and is in HDF5 format.  This change
+   affected the files libsrc/hdf_convenience.h,
+   libsrc/hdf_convenience.c, and libsrc/netcdf_convenience.c
+
+   * Remove and/or conditionalize some test code for memory-mapped
+   files that should not have been checked in.  Affected files are
+   libsrc/netcdf_convenience.c, libsrc/hdf_convenience.c, and 
+   progs/mincstats/mincstats.c
+   
+2005-05-19  Bert Vincent <bert@bic.mni.mcgill.ca>
+   
+   * Fix volume.c and m2util.c to be compatible with HDF5 1.6.3 and
+   later.
+   * Port nifti converter changes from MINC 1.X branch
+   * Port dcm2mnc converter changes from MINC 1.X branch
+   * Port build changes for dcm2mnc and ACR/NEMA library from MINC
+   1.X branch
+   
+2005-04-18  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Move volume_io headers into Include/volume_io subdirectory.
+   
+2005-03-17  Andrew Janke  <a.janke@gmail.com>
+   * removed ':' from temporary filenames for windows compatibility
+
+2005-03-11 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Improve nii2mnc's support for functional (time-varying) data, and
+   support qform as well as sform transforms in the header.
+   
+2005-01-28 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Incorporate NIfTI-1 converters, nii2mnc and mnc2nii
+   * Incorporate upet2mnc, converter for Concorde microPET data.
+   * Copied fix for mincmakescalar to warn user if the
+   vector_dimension is not the last dimension in the file.
+   * Modify Leila's vector_dimension-test code to create its own
+   data file, to avoid having to carry around a multi-megabyte test
+   file as part of the distrbution.
+   
+2005-01-19 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Incorporate Anthonin Reilhac's changes to ecattominc
+   * Add ecattominc, mnc2nii, and nii2mnc to the automake files
+   * Modify mincdump to print long attributes of type NC_BYTE as
+     strings if all of the characters are printable.
+   
+2005-01-04 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Adapt minc_simple.c to use Leila's revision of the 
+   restructure_array() parameters.  This seems to work properly again.
+   
+2004-12-14 Bert Vincent <bert@bic.mni.mcgill.ca>
+     * Got rid of lots of C99-related warnings
+     * Added new biModalT algorithms to mincstats
+
+2004-12-15 Andrew Janke <a.janke@gmail.com>
+    * added epm-header.in, removed mni_minc.epm.header
+
+2004-12-07 Andrew Janke <a.janke@gmail.com>
+    * Squashed yet another bug with the BiModalT code
+       aaargh!  This should now replicate volume_stats even closer!
+
+2004-10-18 Andrew Janke <a.janke@gmail.com>
+   * Fixed bug in mincstats -BimodalT code to
+           exactly replicate (within reason) volume_stats
+   * Changed default # of int histogram bins from 10000 to 65536
+
+2004-08-11 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Fix minc.h for netCDF 3.5.1
+   
+2004-08-03 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Added new test cases to dimension-test.c
+   * Fix bug(s) in volume.c
+   * Correctly implement some of the conversion functions
+   
+2004-06-21 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Updated mincgen man page
+   * "Improve" Doxygen documentation 
+   
+2004-06-16 Bert Vincent <bert@bic.mni.mcgill.ca>   
+   * Fixes and improvements for mincgen/mincdump
+   * Emulate a vector_dimension for MINC 2.0 files with a compound
+   datatype.
+   * Move libsrc2 (MINC 2.0 API) files under the MINC hierarchy in CVS
+   * Fix ordering of world coordinate values in miconvert_world_to_voxel
+   and miconvert_voxel_to_world
+   
+2004-06-11 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Fix issue with minc_modify_header's new -sappend and -dappend
+   options.
+   * Add "mincgen" based upon "ncgen" for "mincedit"
+   * Fix nasty minccalc bug.  Minccalc would fail to work properly 
+   on any file with a vector_dimension of length greater than 1.
+   
+2004-06-09 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Add netcdf and HDF5 versions to the -version list.
+   
+2004-06-08 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Avoid printing HDF5 errors on excessively long attributes.  Still
+   have to decide how best to deal with this situations - truncate, 
+   drop, or somehow convert the attribute into a dataset?  Right now
+   we will drop excessively large attributes from HDF5 files, which is
+   probably bad.
+   * Fix bug (mentioned in previous entries) which caused mincdump
+   (as derived from ncdump) to print zero-length attributes as an 
+   erroneous string of length one instead of as an empty string.
+   * Eliminate bogus "not implemented yet" message from volume_io
+   
+2004-06-07 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Fix setting of length in hdf_vardef/hdf_dimdef
+   * Handle zero-length character strings properly.  There is actually
+   a minor bug in "ncdump" which makes zero-length strings appear to
+   have length one (the bogus character will appear to match the first 
+   character in the preceding string).
+   
+2004-06-04 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Changed volume_io/Volumes/volume_cache.c to increase both the
+   cache size and the default cached volume size (i.e. the size which
+   turns on caching).
+   
+2004-06-01 Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Fixed endian-ness issues in MINC 2.0 format.
+   
+2004-05-25  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Added -dappend, -sappend to minc_modify_header
+   
+2004-05-20  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Revised man pages
+   * Added -2 option to minclookup
+   
+2004-04-30  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Further reduce compiler issues for IRIX MIPSpro compiler.
+   * Tagged version 2.0.06
+   
+2004-04-29  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Fix compiler compatibility problem against IRIX MIPSpro compiler
+   in netcdf_convenience.c
+   
+2004-04-22  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Expanded test cases
+   
+2004-04-15  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Add -DMINC2, #ifdef MINC2 to make most MINC2
+   additions and changes optional.
+   * Expand minc2_uguide.tex
+   
+2004-04-08  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Add mincdump command
+   * Minor changes to increase portability, esp. to Windows.
+
+2004-03-25  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Add support for -compress and -chunk options to mincconvert
+   * Some small library fixes
+   * Fix handling of irregular dimension variables in emulation
+   library.
+   
+2004-02-27  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Fix dimorder handling
+
+2004-02-18  Bert Vincent <bert@bic.mni.mcgill.ca> 
+   
+   * Fixed handling of "rootvariable" emulation in hdf_convenience.c
+   and netcdf_convenience.c
+   
+   * Fixed behavior of some of the netCDF emulation attribute functions
+   in hdf_convenience.c and minc_compat.c
+   
+2004-02-17  Bert Vincent <bert@bic.mni.mcgill.ca>
+   
+   * Fixed mincconvert - added ncendef()
+   
+   * Actually implemented MINC_COMPRESS
+
+MINC 1:
+
+2004-03-24  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Minor fix to miappend_history() in libsrc/minc_convenience.c
+   
+2004-03-23  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Modify configure.in, libsrc/netcdf_convenience.c, 
+   volume_io/Prog_utils/files.c, and volume_io/Prog_utils/time.c to 
+   make MINC more portable, especially to Windows compilers.
+   
+2003-02-02  Bert Vincent <bert@bic.mni.mcgill.ca>
+   * Added -version flag for all executables (or at least all "C" 
+   language executables).  Implemented in ParseArgv() to make it
+   universal, and applications can override their version number by
+   adding a "ARGV_VERINFO" record to their argTable[].
+
+   * Created miget_version() and miappend_history() functions.
+   
+2003-12-05  Andrew L. Janke <a.janke@gmail.com>
+
+    * Changes to mincpik: added -depth option (as per a diff supplied
+    by Jonathan HARLAP); while at it, did a bit of clean-up including
+    replacing home-grown tempdir cleanup with File::Temp; Added -clobber
+    option so that mincpik more closely matches the other minc tools.
+
+2003-11-23  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * configure.in: Set version to 1.3.  Check for headers sys/stat.h,
+   sys/wait.h, unistd.h; and for functions fork, system, and popen.
+
+   * libsrc/netcdf_convenience.c: Use above checks for conditional 
+   inclusion of headers.
+   (execute_decompress_command): Use fork or system to decompress
+   file, if facility available.
+
+2003-11-21  Steve ROBBINS  <stever@bic.mni.mcgill.ca>
+
+   * volume_io/Include/basic.h: Include <math.h> for M_PI definition.
+   Build problem reported by Maxime Descoteaux
+   <mdesco@cim.mcgill.ca>.
+
+2003-11-14  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * Makefile.am (libvolume_io_la_LDFLAGS): 
+   (libminc_la_LDFLAGS): Update version-info.
+
+   * progs/rawtominc/rawtominc.c: Include <unistd.h> for declaration
+   of swab().  Cast void pointer "image" to unsigned char before
+   adding integer size; otherwise IRIX CC fails.
+
+   * progs/mincview/invert_raw_image.c (main): 
+   * progs/minc_modify_header/minc_modify_header.c (main): Specify
+   return type.
+
+   * libsrc/voxel_loop.c: 
+   * libsrc/value_conversion.c: 
+   * libsrc/dim_conversion.c: Include <math.h> for declaration of fabs().
+
+2003-11-13  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * progs/minchistory:
+   * progs/mincpik: New.  Perl scripts moved here from Andrew Janke's
+   "minc_dev" tool set.
+   
+   * Makefile.am (dist_bin_SCRIPTS): Install minchistory and mincpik.
+
+   * README: Mention minchistory, mincpik.  Correct distribution
+   URL.
+
+   * mni_minc.epm.header: Update license, version.
+
+   * Makefile.am (EXTRA_DIST): Distribute README.binary_packaging.
+
+   * configure.in: Run autoupdate; change AM_CONFIG_HEADER to
+   AC_CONFIG_HEADERS.
+
+   * testdir/Makefile.am (INCLUDES): Add volume_io/Include.
+
+2003-10-31  Bert Vincent <bert@bic.mni.mcgill.ca>
+
+   * progs/rawtominc/rawtominc.c: Add options -dimorder and -swap_bytes.
+
+2003-06-01  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * testdir/Makefile.am (script_tests): 
+
+   * Makefile.am (SUBDIRS): Process volume_io before testdir,
+   because tests may link against volume_io.
+
+   * volume_io/MNI_formats/gen_xf_io.c (output_one_transform): 
+   Update *volume_count after writing a grid transform (thanks, Peter
+   Neelin).
+
+   * testdir/create_grid_xfm.c: New.  Utility to create grid
+   transformation.
+
+   * testdir/test_xfm.c: Copied from volume_io/Testing/test-xfm.c.
+
+   * testdir/xfmconcat_01.sh:
+   * testdir/xfmconcat_02.sh: New.  Test concatenation of grid
+   transformations.
+
+2003-03-17  Bert Vincent      <bert@bic.mni.mcgill.ca>
+
+   * configure.in: added check for mkstemp(), tempnam(), and tmpnam()
+   * libsrc/netcdf_convenience.c: added definition of micreate_tempfile()
+   * libsrc/minc.h: added declaration of micreate_tempfile()
+   * volume_io/Prog_utils/files.c: replaced uses of tmpnam() with
+     micreate_tempfile().
+   * volume_io/Volumes/volume_cache.c: replaced use of tmpnam() with
+     micreate_tempfile()
+   
+2003-02-14  Jason Lerch         <jason@bic.mni.mcgill.ca>
+
+   * configure.in: Set version to 1.1.1
+   * mni_minc.epm.header: added.
+   * README.binary_packaging: added.
+
+2003-01-17  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * configure.in: Set version to 1.2.
+   
+2003-01-17  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * MINC-1-1 tagged.
+   
+   * README.release:
+   * INSTALL.minc: new.
+
+   * AUTHORS:
+   * GETTING_STARTED:
+   * INSTALL:
+   * README: Tune up for release.
+
+2003-01-10  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * testdir/Makefile.am (INCLUDES): 
+   * volume_io/Testing/Makefile.am (INCLUDES): Set includes for
+   test files.
+
+   * Makefile.am (EXTRA_DIST, dist-hook): Distribute fortran
+   subdirectory, sans the CVS files.
+
+   * progs/mincstats/mincstats.man1: Document change of
+   -max_bins to -int_max_bins.
+
+2003-01-09  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * progs/rawtominc/rawtominc.man1: Document -skip option.
+
+   * volume_io/Makefile.am: New.
+
+   * volume_io/Documentation/Makefile.am: New.
+   
+   * volume_io/Testing/check_xfm.sh: 
+   * volume_io/Testing/test-xfm.c:
+   * volume_io/Testing/t1.xfm:
+   * volume_io/Testing/t2.xfm:
+   * volume_io/Testing/t3.xfm:
+   * volume_io/Testing/t3_grid_0.mnc:
+   * volume_io/Testing/Makefile.am: New.
+
+   * volume_io/Testing/test-xfm.c: Allow tolerance specified on
+   command line.  Exit with nonzero status if point out of tolerance.
+
+   * Makefile.am (dist_man3_MANS): Distribute and install ParseArgv(3).
+   (EXTRA_DIST): Distribute get_image_offset.c (not built).
+   (noinst_HEADERS): Remove vax_conversions.h (not used).
+
+   * doc/Makefile: Removed.
+   * doc/Makefile.am: New.
+
+   * testdir/run_tests.csh: Use -e flag to stop on error.  Look
+   for expected output files in $srcdir.
+
+   * testdir/Makefile: Removed.
+   * testdir/Makefile.am: New.
+
+   * configure.in: 
+   * Makefile.am: Adjust for testdir/Makefile.
+
+2003-01-07  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * autogen.sh: New.
+   * Makefile.am: New.
+   * configure.in: Updated to use automake, libtool.
+
+   * AUTHORS: New. 
+   * LICENCE: Renamed to ...
+   * COPYING: ... this.  Makes automake happier.
+
+   * progs/coordinates/voxeltoworld.man1:
+   * progs/minccopy/minccopy.man1:
+   * progs/mincdiff/mincdiff.man1:
+   * progs/mincedit/mincedit.man1:
+   * progs/mincextract/mincextract.man1:
+   * progs/minctoraw/minctoraw.man1:
+   * progs/mincview/invert_raw_image.man1:
+   * progs/mincview/mincview.man1:
+   * progs/mincwindow/mincwindow.man1:
+   * progs/xfm/transformtags.man1:
+   * progs/xfm/xfmconcat.man1:
+   * progs/xfm/xfminvert.man1: New.
+
+2002-12-11  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * progs/minccalc/gram.y: Insert missing semicolon at end
+   of "exprlist" production.
+
+2002-12-05  Steve Robbins  <swmgr@shadow.bic.mni.mcgill.ca>
+
+   * volume_io/Include/vol_io_prototypes.h: Add prototype
+   for get_volume_translation().
+
+2002-11-05  Jason Lerch         <jason@bic.mni.mcgill.ca>
+
+   * progs/mincresample/mincresample.{c,h}: changed the setting of
+   the interpolation type to go through an enum rather than directly
+   to a function pointer, as that is the behaviour that ParseArgv
+   expects and also makes mincresample 64 bit safe.
+
+2002-10-30  Jason Lerch       <jason@bic.mni.mcgill.ca>
+
+   * libsrc/ParseArgv: added the ARGV_LONG argument type.
+   * progs/mincresample/mincresample.c: changed the parsing of the
+   nelements arguments to be ARGV_LONG.
+
+2002-09-05  Andrew Janke  <a.janke@gmail.com>
+
+   * progs/mincstats/mincstats.c: Change command line option
+   "-max_bins" to "-int_max_bins", to avoid clash with option "-max".
+
+2002-09-03  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * CHANGES: Renamed ...
+   * NEWS: ... to this.  NEWS is the place to document important
+   user-visible changes.  The ChangeLog is the place for more detailed
+   notes.  See http://www.gnu.org/prep/standards.html.
+
+   * volume_io/MNI_formats/gen_xfs.c (transform_or_invert_point): Do
+   not flip inverse_flag when transform inverted.
+
+   * volume_io/Testing/test-xfm.c: New.  Regression tests
+   for General_transforms.
+
+2002-08-22  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * volume_io/Documentation/volume_io.tex (section{Volume Input}): 
+   Clarify notion of vector volume and vector-to-scalar conversion.
+
+   * progs/minccalc/eval.c: 
+   * progs/minccalc/gram.y:
+   * progs/minccalc/lex.l:
+   * progs/minccalc/minccalc.man1: 
+   * progs/minccalc/node.c:
+   * progs/minccalc/node.h: Add support for tan, asin, acos, and
+   atan, courtesy of Andrew Janke.
+
+2002-08-04  Peter Neelin  <neelin@bic.mni.mcgill.ca>
+
+   * progs/rawtominc/rawtominc.c: Add slightly modified code from
+   Colin Holmes to support -skip option.
+
+2002-04-08  John Sled  <jgsled@bic.mni.mcgill.ca>
+
+   * progs/mincstats/mincstats.c: Do not call fclose() on NULL file
+   pointer.
+
+2002-02-22  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+   * libsrc/ParseArgv.h: Declare code with "C" linkage when included
+   by C++ compiler.
+

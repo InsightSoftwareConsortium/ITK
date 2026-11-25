@@ -1,0 +1,13 @@
+#ifdef SWIGPYTHON
+%module(package="itk") @WRAPPER_LIBRARY_NAME@Python
+#endif
+
+%{
+@CONFIG_MODULE_INTERFACE_INCLUDES@
+%}
+
+%include itk.i
+
+%include @WRAPPER_LIBRARY_NAME@_ext.i
+
+@CONFIG_MODULE_INTERFACE_CONTENT@

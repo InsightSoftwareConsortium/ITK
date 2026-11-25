@@ -1,0 +1,6 @@
+itk_wrap_simple_class("itk::SingleValuedCostFunction" POINTER)
+itk_wrap_simple_class("itk::SingleValuedVnlCostFunctionAdaptor")
+itk_wrap_simple_class("itk::MultipleValuedCostFunction" POINTER)
+itk_wrap_simple_class("itk::MultipleValuedVnlCostFunctionAdaptor")
+itk_wrap_simple_class("itk::CumulativeGaussianCostFunction" POINTER)
+# TODO: itk::Statistics::GoodnessOfFitMixtureModelCostFunction

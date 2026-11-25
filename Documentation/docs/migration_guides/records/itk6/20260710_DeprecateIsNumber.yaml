@@ -1,0 +1,14 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  itkIsNumber.h got deprecated. To modernize your code base, replace `mpl::IsNumber<X>::Value`
+  with `std::is_arithmetic_v<X>`, and `#include "itkIsNumber.h"` with `#include <type_traits>`.
+categories:
+  - ApiDeprecated
+environment:
+  - cxx
+impact: low
+pr: 6573
+commits:
+  - 956a801e180

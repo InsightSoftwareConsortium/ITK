@@ -1,0 +1,60 @@
+# Configuration for Utilities/Maintenance/check-links.sh.
+#
+# See https://lychee.cli.rs/usage/config/ for the full schema.
+
+# Network behaviour ---------------------------------------------------
+max_concurrency = 8
+max_retries = 3
+retry_wait_time = 30  # seconds; matches lychee's default Retry-After honouring
+timeout = 30
+user_agent = "ITK-link-checker (https://github.com/InsightSoftwareConsortium/ITK)"
+
+# Treat the following as non-failures.  None of these are "broken
+# link" signals; they mean the host or gateway misbehaved on this
+# run, not that the target is gone.
+#   429 — rate limit.
+#   504 — gateway timeout (e.g. eth.limo gateway in front of
+#         content-link-upload.itk.eth.limo, Cloudflare in front of
+#         opencollective.org).
+#   522 — Cloudflare "origin unreachable" (transient).
+#   999 — LinkedIn / GitHub bot block.
+accept = [200, 203, 206, 301, 302, 303, 307, 308, 403, 429, 504, 522, 999]
+
+# Connection-reset / DNS / firewall failures that occur from the
+# specific network the maintainer happens to be on (e.g. ipfs.io,
+# monai.io, dicom.nema.org all reset the TCP connection from some
+# residential ISPs).  These are reachability artifacts, not broken
+# links, so accept them rather than surface as errors every run.
+accept_timeouts = true
+
+# Path filters --------------------------------------------------------
+# Limit lychee's recursive scan to documentation-style file extensions;
+# skipping the vendored ThirdParty trees keeps run time tractable and
+# avoids vendored README links that are not maintained by ITK.
+extensions = ["md", "rst", "txt", "html"]
+
+exclude_path = [
+    "Modules/ThirdParty",
+    ".git",
+    ".lycheecache",
+    "build",
+    "build-debug",
+    "build-release",
+    "build-python",
+]
+
+# URL patterns to skip.  GitHub commit URLs return 429 reliably and
+# need no checking; localhost / example placeholders are not real
+# targets; mailto and DOI redirects are checked elsewhere.
+exclude = [
+    "https?://github\\.com/[^/]+/[^/]+/commit/[0-9a-f]+",
+    "https?://localhost(?::\\d+)?",
+    "https?://127\\.0\\.0\\.1(?::\\d+)?",
+    "https?://example\\.com",
+    "^mailto:",
+    "^file:",
+]
+
+exclude_link_local = true
+exclude_loopback = true
+include_mail = false

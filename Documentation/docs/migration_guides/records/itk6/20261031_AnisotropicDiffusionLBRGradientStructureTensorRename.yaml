@@ -1,0 +1,17 @@
+schema_version: 1
+details: |
+  **`GradientStructureTensorImageFilter`: feature-scale smoothing is now isotropic**
+
+  **What you need to do**
+actions:
+  - '**Only code that names the tensor class changes.** The AnisotropicDiffusionLBR class `StructureTensorImageFilter` is now `GradientStructureTensorImageFilter` (header `itkGradientStructureTensorImageFilter.h`), because the IsotropicWavelets module defined a different class with the same name. The class was never wrapped for Python. Its interface is otherwise unchanged, and `AnisotropicDiffusionLBRImageFilter` and `CoherenceEnhancingDiffusionImageFilter` users need no edits.'
+categories:
+  - ApiRenamed
+environment:
+  - cxx
+impact: low
+pr: 7061
+commits:
+  - 3e464776516
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/issues/7057

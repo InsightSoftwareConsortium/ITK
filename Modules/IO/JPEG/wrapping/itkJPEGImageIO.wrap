@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::JPEGImageIO" POINTER)
+itk_wrap_simple_class("itk::JPEGImageIOFactory" POINTER)

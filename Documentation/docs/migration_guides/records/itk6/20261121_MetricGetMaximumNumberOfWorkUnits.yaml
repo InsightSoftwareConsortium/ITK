@@ -1,0 +1,32 @@
+schema_version: 1
+title: ImageToImageMetricv4::GetMaximumNumberOfWorkUnits returns the work units
+summary: |
+  `ImageToImageMetricv4::GetMaximumNumberOfWorkUnits()` now returns the value
+  last given to `SetMaximumNumberOfWorkUnits()`, even when a threader clamps it
+  (`SingleMultiThreader` always runs one work unit). Before the first call it
+  returns the work-unit count of the metric's active threader (the sparse one
+  for a sampled point set, otherwise the dense one). It returned the threader's
+  maximum number of threads, which the pool threader cannot lower below its
+  pool size.
+details: |
+  **What you need to do**
+
+  Nothing, unless code read `GetMaximumNumberOfWorkUnits()` as a thread count.
+  Without a call to `SetMaximumNumberOfWorkUnits()`, the getter now reports the
+  threader's default number of work units, which with the pool threader is a
+  multiple of the thread count (for example 64 rather than 16 on 16 threads).
+  For the number of threads, call
+  `MultiThreaderBase::GetGlobalDefaultNumberOfThreads()`.
+
+  The metric passes this value to the default fixed and moving image gradient
+  filters it creates, so those filters now split their work into that many
+  work units. Every subclass of `ImageToImageMetricv4` is affected, and
+  `SetMaximumNumberOfWorkUnits()` marks the metric modified only when the
+  value changes.
+categories:
+  - DefaultChanged
+environment:
+  - cxx
+  - python
+impact: low
+pr: 7089

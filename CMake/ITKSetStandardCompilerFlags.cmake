@@ -1,0 +1,407 @@
+# Where each flag belongs (ITK only, every client, or one target): Documentation/AI/compiler-flags.md
+
+# trict-null-sentinel Check the set of common warning flags supported by C and C++ compilers
+# check_compiler_warning_flags(<c_flags_var> <cxx_flags_var>)
+#  <c_flags_var> - variable to store valid C warning flags
+#  <cxx_flags_var> - variable to store valid CXX warning flags
+# This internally calls the check_c_compiler_flag and check_cxx_compiler_flag macros.
+
+# To create a portable build system, it is best to not
+# test for platforms, but to test for features.
+#
+# Instead of testing "if Windows then do this", test for
+# "if the -Wno-invalid-offsetof flag works then use it".
+#
+# Typical use of this module is:
+#
+#  include(CheckCompilerWarningFlags)
+#  check_compiler_warning_flags(C_WARNING_FLAGS CXX_WARNING_FLAGS)
+#  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_WARNING_FLAGS}")
+#  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_WARNING_FLAGS}")
+
+include(CheckCXXCompilerFlag)
+include(CheckCCompilerFlag)
+include(CheckPIESupported)
+check_pie_supported()
+
+function(check_c_compiler_flags c_flag_var)
+  set(local_c_flags "")
+  set(flag_list "${ARGN}")
+  foreach(flag IN LISTS flag_list)
+    string(REPLACE "=" "_" flag_var ${flag})
+    check_c_compiler_flag(
+      ${flag}
+      C_HAS_WARNING${flag_var}
+    )
+    if(${C_HAS_WARNING${flag_var}})
+      set(local_c_flags "${local_c_flags} ${flag}")
+    endif()
+  endforeach()
+  set(${c_flag_var} "${local_c_flags}" PARENT_SCOPE)
+endfunction()
+
+function(check_cxx_compiler_flags cxx_flag_var)
+  set(local_cxx_flags "")
+  set(flag_list "${ARGN}")
+  foreach(flag IN LISTS flag_list)
+    string(REPLACE "=" "_" flag_var ${flag})
+    check_cxx_compiler_flag(
+      ${flag}
+      CXX_HAS_WARNING${flag_var}
+    )
+    if(${CXX_HAS_WARNING${flag_var}})
+      set(local_cxx_flags "${local_cxx_flags} ${flag}")
+    endif()
+  endforeach()
+  set(${cxx_flag_var} "${local_cxx_flags}" PARENT_SCOPE)
+endfunction()
+
+function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
+  set(${c_warning_flags_var} "" PARENT_SCOPE)
+  set(${cxx_warning_flags_var} "" PARENT_SCOPE)
+
+  # Check this list on C compiler only
+  set(c_flags -Wno-unused-parameter)
+
+  ## On windows, the most verbose compiler options
+  ## is reporting 1000's of wanings in windows
+  ## header files, for now, limit the number of
+  ## warnings to level 3
+  if(WIN32)
+    set(VerboseWarningsFlag -W3)
+    ## A better solution would be to use -Wall,
+    ## and then disable warnings one by one
+    ## set(VerboseWarningsFlag -Wall -wd4820 -wd4682)
+  else()
+    set(VerboseWarningsFlag -Wall)
+  endif()
+
+  # Check this list on both C and C++ compilers
+  set(
+    c_and_cxx_flags
+    ${VerboseWarningsFlag}
+    -Wcast-align
+    -Wdisabled-optimization
+    -Wextra
+    -Wformat=2
+    -Winvalid-pch
+    -Wpointer-arith
+    -Wshadow
+    -Wunused
+    -Wwrite-strings
+  )
+
+  # Check this list on C++ compiler only
+  set(
+    cxx_flags
+    -Wno-undefined-var-template # suppress invalid warning when explicitly instantiated in another translation unit
+    -Woverloaded-virtual
+    -Wctad-maybe-unsupported
+    -Wstrict-null-sentinel
+  )
+  ##-Wno-c++0x-static-nonintegral-init
+  ## Clang compiler likes to warn about this feature that is technically only in
+  ## c++0x, but works on many compilers, and if it fails, then alternate methods are used
+
+  check_c_compiler_flags(CMAKE_C_WARNING_FLAGS ${c_flags} ${c_and_cxx_flags})
+  check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS ${c_and_cxx_flags} ${cxx_flags})
+
+  set(${c_warning_flags_var} "${CMAKE_C_WARNING_FLAGS}" PARENT_SCOPE)
+  set(${cxx_warning_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
+endfunction()
+
+function(
+  check_compiler_optimization_flags
+  c_optimization_flags_var
+  cxx_optimization_flags_var
+)
+  set(${c_optimization_flags_var} "" PARENT_SCOPE)
+  set(${cxx_optimization_flags_var} "" PARENT_SCOPE)
+
+  # No architecture-specific optimization flags are set by default,
+  # ensuring maximum redistributability for pip wheels, Docker images,
+  # and hardware translation layers (Rosetta, QEMU).
+  # Users building for local performance should add -march=native via
+  # CMAKE_C_FLAGS/CMAKE_CXX_FLAGS or CMakeUserPresets.json.
+  # NOTE: When using -march=native on CPUs with AVX-512, also add
+  # -mprefer-vector-width=256 to avoid Intel CPU frequency throttling.
+  # See: https://github.com/InsightSoftwareConsortium/ITK/issues/2634
+  #      https://github.com/InsightSoftwareConsortium/ITK/issues/1939
+
+  check_c_compiler_flags(CMAKE_C_WARNING_FLAGS)
+  check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS)
+
+  set(${c_optimization_flags_var} "${CMAKE_C_WARNING_FLAGS}" PARENT_SCOPE)
+  set(${cxx_optimization_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
+endfunction()
+
+macro(check_compiler_platform_flags)
+  # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
+  # warnings
+  if(WIN32)
+    if(NOT MINGW)
+      if(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
+        add_definitions(
+          -D_CRT_FAR_MAPPINGS_NO_DEPRECATE
+          -D_CRT_IS_WCTYPE_NO_DEPRECATE
+          -D_CRT_MANAGED_FP_NO_DEPRECATE
+          -D_CRT_NONSTDC_NO_DEPRECATE
+          -D_CRT_SECURE_NO_DEPRECATE
+          -D_CRT_SECURE_NO_DEPRECATE_GLOBALS
+          -D_CRT_SETERRORMODE_BEEP_SLEEP_NO_DEPRECATE
+          -D_CRT_TIME_FUNCTIONS_NO_DEPRECATE
+          -D_CRT_VCCLRIT_NO_DEPRECATE
+          -D_SCL_SECURE_NO_DEPRECATE
+        )
+      endif()
+      # With MS compilers on Win64, we need the /bigobj switch, else generated
+      # code results in objects with number of sections exceeding object file
+      # format.
+      # see https://msdn.microsoft.com/en-us/library/ms173499.aspx
+      if(MSVC)
+        string(APPEND CMAKE_CXX_FLAGS " /bigobj")
+      endif()
+    endif()
+  endif()
+
+  if(WIN32)
+    # Some libraries (e.g. vxl libs) have no dllexport markup, so we can
+    # build full shared libraries only with the GNU toolchain. For non
+    # gnu compilers on windows, only a few libraries are built shared.
+    # This is controlled with ITK_LIBRARY_BUILD_TYPE used in the add_library
+    # call. This allows for plugin type applications to use a dll for
+    # ITKCommon which will contain the static for Modified time.
+    if(CMAKE_COMPILER_IS_GNUCXX)
+      # CMake adds --enable-all-exports on Cygwin (since Cygwin is
+      # supposed to be UNIX-like), but we need to add it explicitly for
+      # a native windows build with the MinGW tools.
+      if(MINGW)
+        set(
+          CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS
+          "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import"
+        )
+        set(
+          CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS
+          "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import"
+        )
+        set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
+      endif()
+    else()
+      # if CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS is on, then
+      # BUILD_SHARED_LIBS works as it would on other systems
+      if(NOT CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS)
+        if(BUILD_SHARED_LIBS)
+          set(ITK_LIBRARY_BUILD_TYPE "SHARED")
+        else()
+          set(ITK_LIBRARY_BUILD_TYPE "STATIC")
+        endif()
+        # turn off BUILD_SHARED_LIBS as ITK_LIBRARY_BUILD_TYPE
+        # is used on the libraries that have markup.
+        set(BUILD_SHARED_LIBS OFF)
+      endif()
+    endif()
+  endif()
+  #-----------------------------------------------------------------------------
+  #ITK requires special compiler flags on some platforms.
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    if(APPLE)
+      option(
+        ITK_USE_64BITS_APPLE_TRUNCATION_WARNING
+        "Turn on warnings on 64bits to 32bits truncations."
+        OFF
+      )
+      mark_as_advanced(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
+
+      execute_process(
+        COMMAND
+          "${CMAKE_C_COMPILER}" --version
+        OUTPUT_VARIABLE _version
+        ERROR_VARIABLE _version
+      )
+
+      # -fopenmp breaks compiling the HDF5 library in shared library mode
+      # on the OS X platform -- at least with gcc 4.2 from Xcode.
+      set(
+        compile_flag_lists
+        CMAKE_C_FLAGS
+        CMAKE_CXX_FLAGS
+        CMAKE_C_FLAGS_DEBUG
+        CMAKE_C_FLAGS_MINSIZEREL
+        CMAKE_C_FLAGS_RELEASE
+        CMAKE_C_FLAGS_RELWITHDEBINFO
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_MINSIZEREL
+        CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_CXX_FLAGS_RELWITHDEBINFO
+      )
+      foreach(listname ${compile_flag_lists})
+        if("${${listname}}" MATCHES ".*-fopenmp.*")
+          string(REPLACE "-fopenmp" "" tmpFlags "${${listname}}")
+          set(${listname} "${tmpFlags}")
+          message(
+            "-fopenmp causes incorrect compilation of HDF, removing from ${listname}"
+          )
+        endif()
+      endforeach()
+    endif()
+  endif()
+
+  # itkConfigure.h requires SSE2 math on 32-bit x86, where GCC and Clang default to x87.
+  # Ask the compiler: CMAKE_SYSTEM_PROCESSOR names the host (x86_64) in a -m32 build.
+  # Nothing is added when the packager's own flags already select SSE2 math.
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4 AND NOT MSVC)
+    include(CheckCXXSourceCompiles)
+    check_cxx_source_compiles(
+      [=[
+#if defined(__i386__) && !defined(__SSE2_MATH__)
+#  error "x87 floating-point math"
+#endif
+int main() { return 0; }
+]=]
+      ITK_COMPILER_AVOIDS_X87_MATH
+    )
+    if(NOT ITK_COMPILER_AVOIDS_X87_MATH)
+      list(
+        APPEND
+        ITK_PUBLIC_CXX_COMPILE_OPTIONS
+        -msse2
+        -mfpmath=sse
+      )
+    endif()
+  endif()
+
+  # mingw thread support
+  if(MINGW)
+    list(APPEND ITK_PUBLIC_CXX_COMPILE_OPTIONS -mthreads)
+    list(APPEND ITK_PUBLIC_LINK_OPTIONS -mthreads)
+    string(APPEND CMAKE_C_FLAGS " -mthreads")
+  endif()
+
+  #-----------------------------------------------------------------------------
+  # Set the compiler-specific flag for disabling optimization.
+  if(MSVC)
+    set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "/Od")
+  elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(GNU|Intel)$" AND NOT MINGW)
+    set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "-O0")
+  endif()
+endmacro() #End the platform check function
+
+if(NOT ITK_C_WARNING_FLAGS OR NOT ITK_CXX_WARNING_FLAGS) # Only check once if not explicitly set on command line
+  #-----------------------------------------------------------------------------
+  #Check the set of warning flags the compiler supports
+  check_compiler_warning_flags(C_WARNING_FLAGS CXX_WARNING_FLAGS)
+endif()
+
+if(NOT ITK_C_WARNING_FLAGS) #Not set on cmake command line option -DITK_C_WARNING_FLAGS:STRING=""
+  set(ITK_C_WARNING_FLAGS ${C_WARNING_FLAGS})
+endif()
+set(
+  ITK_C_WARNING_FLAGS
+  ${ITK_C_WARNING_FLAGS}
+  CACHE STRING
+  "ITK C compiler warning flags. Modify to suit your needs."
+)
+
+if(NOT ITK_CXX_WARNING_FLAGS) #Not set on cmake command line option -DITK_CXX_WARNING_FLAGS:STRING=""
+  set(ITK_CXX_WARNING_FLAGS ${CXX_WARNING_FLAGS})
+endif()
+set(
+  ITK_CXX_WARNING_FLAGS
+  ${ITK_CXX_WARNING_FLAGS}
+  CACHE STRING
+  "ITK CXX compiler warning flags. Modify to suit your needs."
+)
+
+mark_as_advanced(ITK_CXX_WARNING_FLAGS)
+mark_as_advanced(ITK_C_WARNING_FLAGS)
+unset(C_WARNING_FLAGS)
+unset(CXX_WARNING_FLAGS)
+
+if(NOT ITK_C_OPTIMIZATION_FLAGS OR NOT ITK_CXX_OPTIMIZATION_FLAGS) # Only check once if not explicitly set on command line
+  #-----------------------------------------------------------------------------
+  #Check the set of warning flags the compiler supports
+  check_compiler_optimization_flags(C_OPTIMIZATION_FLAGS CXX_OPTIMIZATION_FLAGS)
+endif()
+if(NOT ITK_C_OPTIMIZATION_FLAGS) #Not set on cmake command line option -DITK_C_OPTIMIZATION_FLAGS:STRING=""
+  set(
+    ITK_C_OPTIMIZATION_FLAGS
+    ${C_OPTIMIZATION_FLAGS}
+    CACHE STRING
+    "ITK C Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly."
+  )
+else()
+  set(
+    ITK_C_OPTIMIZATION_FLAGS
+    ${ITK_C_OPTIMIZATION_FLAGS}
+    CACHE STRING
+    "ITK C Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly."
+  )
+endif()
+if(NOT ITK_CXX_OPTIMIZATION_FLAGS) #Not set on cmake command line option -DITK_CXX_OPTIMIZATION_FLAGS:STRING=""
+  set(
+    ITK_CXX_OPTIMIZATION_FLAGS
+    ${CXX_OPTIMIZATION_FLAGS}
+    CACHE STRING
+    "ITK CXX Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly."
+  )
+else()
+  set(
+    ITK_CXX_OPTIMIZATION_FLAGS
+    ${ITK_CXX_OPTIMIZATION_FLAGS}
+    CACHE STRING
+    "ITK CXX Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly."
+  )
+endif()
+mark_as_advanced(ITK_CXX_OPTIMIZATION_FLAGS)
+mark_as_advanced(ITK_C_OPTIMIZATION_FLAGS)
+unset(C_OPTIMIZATION_FLAGS)
+unset(CXX_OPTIMIZATION_FLAGS)
+
+#-----------------------------------------------------------------------------
+#Check the set of platform flags the compiler supports
+set(ITK_PUBLIC_CXX_COMPILE_OPTIONS "")
+set(ITK_PUBLIC_LINK_OPTIONS "")
+check_compiler_platform_flags()
+
+# itk_module_add_library() gives these to clients; ITK's own build gets them here.
+list(JOIN ITK_PUBLIC_CXX_COMPILE_OPTIONS " " _itk_public_cxx_flags)
+string(APPEND CMAKE_CXX_FLAGS " ${_itk_public_cxx_flags}")
+list(JOIN ITK_PUBLIC_LINK_OPTIONS " " _itk_public_link_flags)
+foreach(_itk_linker_flags_var EXE SHARED MODULE)
+  string(
+    APPEND
+    CMAKE_${_itk_linker_flags_var}_LINKER_FLAGS
+    " ${_itk_public_link_flags}"
+  )
+endforeach()
+unset(_itk_public_cxx_flags)
+unset(_itk_public_link_flags)
+
+# Append ITK warnings to the CMake flags.
+# We do not set them in ITK_REQUIRED FLAGS because all project which
+# use ITK don't require these flags .
+
+string(
+  REPLACE
+  " "
+  ";"
+  CMAKE_C_FLAGS
+  "${CMAKE_C_FLAGS} ${ITK_C_OPTIMIZATION_FLAGS} ${ITK_C_WARNING_FLAGS}"
+)
+list(REMOVE_DUPLICATES CMAKE_C_FLAGS)
+string(REPLACE ";" " " CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+
+# MSVC reports __cplusplus as 199711L unless asked to match /std:.
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus")
+endif()
+
+string(
+  REPLACE
+  " "
+  ";"
+  CMAKE_CXX_FLAGS
+  "${CMAKE_CXX_FLAGS} ${ITK_CXX_OPTIMIZATION_FLAGS} ${ITK_CXX_WARNING_FLAGS}"
+)
+list(REMOVE_DUPLICATES CMAKE_CXX_FLAGS)
+string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")

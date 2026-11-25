@@ -1,0 +1,8 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkNonLocalPatchBasedImageFilter.h")
+
+itk_wrap_simple_class("itk::NonLocalPatchBasedImageFilterEnums" ENUM)
+
+itk_wrap_class("itk::NonLocalPatchBasedImageFilter" POINTER)
+itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
+itk_end_wrap_class()

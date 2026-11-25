@@ -1,0 +1,39 @@
+This is documentation for the process to convert all
+CMakeLists.txt files to lower case format (as seems
+to be the default style in all recent documentation).
+
+
+
+Step #1:
+
+Determine all the cmake commands:
+TMP_DIR=/tmp
+cmake --help-command-list > ${TMP_DIR}/firstpass_script.vi
+
+Step #2:
+Use vim to convert the list into a vim compliant script file that can be
+applied to each file:
+
+Open firstpass_script.vi in vim, and issue the following substitution:
+vim ${TMP_DIR}/firstpass_script.vi
+:%s/^\(.*\)/:%s#\\<\U\1\\> *(#\l\1(#\ge/ge
+<<< Add ":%s/  *$//ge" to remove end of line spaces.
+<<< Add ":wqa" to end of the vim script >>>
+<<< Add ":%s#\<SUBDIRS\> *(#add_subdirectory(#ge" >>>
+:w! /tmp/convert_cmake_to_lowercase.vim
+
+This will create a file that is suitable for using as
+a vim batch script.
+
+Step #3:  Make list of files to convert
+
+cd ITK
+FILESTOCONVERT=/tmp/FileToConvert
+find . -name CMakeLists.txt |grep -v Utilities > ${FILESTOCONVERT}
+find . -name "*.cmake*"     |grep -v Utilities >>${FILESTOCONVERT}
+ls Utilities/CMakeLists.txt >> ${FILESTOCONVERT}
+
+for ff in $(cat ${FILESTOCONVERT}); do
+  echo "PROCESSING $ff"
+  vim -S ${TMP_DIR}/convert_cmake_to_lowercase.vim $ff
+done

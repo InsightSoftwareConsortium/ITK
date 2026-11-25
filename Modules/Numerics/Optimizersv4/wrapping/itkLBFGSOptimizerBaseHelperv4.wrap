@@ -1,0 +1,7 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+
+itk_wrap_include("itkLBFGSOptimizerBasev4.h")
+itk_wrap_class("itk::LBFGSOptimizerBaseHelperv4")
+itk_wrap_template("vnl_lbfgs" "vnl_lbfgs")
+itk_wrap_template("vnl_lbfgsb" "vnl_lbfgsb")
+itk_end_wrap_class()

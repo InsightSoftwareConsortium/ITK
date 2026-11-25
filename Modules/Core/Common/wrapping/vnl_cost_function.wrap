@@ -1,0 +1,6 @@
+# auto include feature must be disable because the class is not in the file
+# with the same name
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("vnl/vnl_cost_function.h")
+
+itk_wrap_simple_class("vnl_cost_function")

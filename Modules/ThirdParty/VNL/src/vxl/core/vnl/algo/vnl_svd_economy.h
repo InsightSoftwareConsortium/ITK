@@ -1,0 +1,88 @@
+// This is core/vnl/algo/vnl_svd_economy.h
+#ifndef vnl_svd_economy_h_
+#define vnl_svd_economy_h_
+
+// ITK deprecation shim: the Eigen-backed itk::bridge::Math::SVD (itkBridgeMathSVD.h) is the
+// supported replacement. The guard is active only when itkConfigure.h is
+// reachable (an ITK consumer); ITK's own VXL build is unaffected.
+#if __has_include(<itkConfigure.h>)
+#  include <itkConfigure.h>
+#  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
+#    error \
+      "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
+#    if defined(_MSC_VER)
+#      pragma message( \
+        "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed).")
+#    else
+#      warning \
+        "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
+#    endif
+#  endif
+#endif
+//:
+// \file
+// \brief SVD wrapper that doesn't compute the left singular vectors, U.
+// \author David Capel (d.capel@2d3.com)
+// \date 04 Mar 03
+//
+// The cost of SVD of an m*n matrix increases with O(m^2) if computation
+// of U is required, but only O(m) if not.
+
+#include <vnl/vnl_numeric_traits.h>
+#include <vnl/vnl_vector.h>
+#include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
+
+template <class real_t>
+class vnl_svd_economy
+{
+public:
+  //: The singular values of a matrix of complex<T> are of type T, not complex<T>
+  using singval_t = typename vnl_numeric_traits<real_t>::abs_t;
+
+  vnl_svd_economy(const vnl_matrix<real_t> & M);
+
+  //: Return right singular vectors.
+  const vnl_matrix<real_t> &
+  V() const
+  {
+    return V_;
+  }
+  vnl_matrix<real_t> &
+  V()
+  {
+    return V_;
+  }
+
+  //: Return singular values in decreasing order.
+  const vnl_vector<singval_t> &
+  lambdas() const
+  {
+    return sv_;
+  }
+  vnl_vector<singval_t> &
+  lambdas()
+  {
+    return sv_;
+  }
+
+  //: Return the rightmost column of V.
+  vnl_vector<real_t>
+  nullvector();
+
+protected:
+  long m_, n_;
+  vnl_matrix<real_t> V_;
+  vnl_vector<singval_t> sv_;
+
+private:
+  vnl_svd_economy(const vnl_svd_economy<real_t> &) {}
+  vnl_svd_economy<real_t> &
+  operator=(const vnl_svd_economy<real_t> &)
+  {
+    return *this;
+  }
+};
+
+#endif

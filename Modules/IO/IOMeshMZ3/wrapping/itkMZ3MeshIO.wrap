@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::MZ3MeshIO" POINTER)
+itk_wrap_simple_class("itk::MZ3MeshIOFactory" POINTER)

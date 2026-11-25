@@ -1,0 +1,49 @@
+itk_module_test()
+set(ITKIOGIPLTests itkGiplImageIOTest.cxx)
+
+createtestdriver(ITKIOGIPL "${ITKIOGIPL-Test_LIBRARIES}" "${ITKIOGIPLTests}")
+
+itk_add_test(
+  NAME itkGiplImageIOTest
+  COMMAND
+    ITKIOGIPLTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd,ramp.raw}
+    ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+    itkGiplImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/ramp.gipl}
+    ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ramp.{mhd,raw}
+)
+itk_add_test(
+  NAME itkGiplImageIOGzTest
+  COMMAND
+    ITKIOGIPLTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd,ramp.raw}
+    ${ITK_TEST_OUTPUT_DIR}/ramp-gz.mhd
+    itkGiplImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/ramp.gipl.gz}
+    ${ITK_TEST_OUTPUT_DIR}/ramp-gz.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ramp-gz.{mhd,raw}
+)
+itk_add_test(
+  NAME itkGiplImageIOTest2
+  COMMAND
+    ITKIOGIPLTestDriver
+    itkGiplImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/ramp.gipl}
+    ${ITK_TEST_OUTPUT_DIR}/ramp.gipl
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ramp.gipl
+)
+
+set(ITKIOGIPLGTests itkGiplImageIOGTest.cxx)
+creategoogletestdriver(ITKIOGIPL "${ITKIOGIPL-Test_LIBRARIES}" "${ITKIOGIPLGTests}")
+target_compile_definitions(
+  ITKIOGIPLGTestDriver
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)

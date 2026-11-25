@@ -1,0 +1,28 @@
+# Created by GLK in June 2022 as part of rebooting effort to do a Teem release
+# Significant experimentation went into trying to match the existing style,
+# except for # columns going up from 79 to 89.
+# This file is what provides info to "clang-format -style=file" when run in
+# this directory or a subdirectory.  The teem/src/_util/clang-format.sh
+# script helps do this.
+# For more info see: https://clang.llvm.org/docs/ClangFormat.html
+---
+Language: C
+BasedOnStyle: LLVM
+ColumnLimit: 89
+AlwaysBreakAfterDefinitionReturnType: All
+AlwaysBreakAfterReturnType: None
+PenaltyReturnTypeOnItsOwnLine: 400
+AllowShortIfStatementsOnASingleLine: WithoutElse
+PenaltyBreakBeforeFirstCallParameter: 100
+PenaltyBreakAssignment: 50
+AlignOperands: AlignAfterOperator
+BreakBeforeBinaryOperators: All
+PenaltyBreakOpenParenthesis: 300
+ContinuationIndentWidth: 2
+SortIncludes: false
+ExperimentalAutoDetectBinPacking: true
+IndentPPDirectives: AfterHash
+AllowShortEnumsOnASingleLine: false
+AlignConsecutiveMacros: AcrossComments
+AllowShortFunctionsOnASingleLine: All
+...

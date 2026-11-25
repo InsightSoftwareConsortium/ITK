@@ -1,0 +1,19 @@
+# https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Apply to all code files
+[*]
+# A newline ending every file
+insert_final_newline = true
+
+# Set default charset
+charset = utf-8
+
+# 4 space indentation
+indent_style = space
+indent_size = 2
+
+# Various options
+trim_trailing_whitespace = true

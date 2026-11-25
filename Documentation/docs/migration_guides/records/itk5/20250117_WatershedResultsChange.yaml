@@ -1,0 +1,18 @@
+schema_version: 1
+summary: |
+  **Class changes**
+
+  `WatershedImageFilter` produces slightly different results due to changes of `hash_map`.
+  Generally, [MorphologicalWatersheds](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MorphologicalWatershedImageFilter.html)
+  produce more stable results and should be preferred to regular watersheds.
+categories:
+  - ResultsChange
+environment:
+  - cxx
+  - data
+impact: medium
+pr: 187
+commits:
+  - 0e2d4f2dc55
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/744

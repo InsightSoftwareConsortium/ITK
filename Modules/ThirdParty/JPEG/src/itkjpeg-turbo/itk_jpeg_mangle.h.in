@@ -1,0 +1,215 @@
+#ifndef itk_jpeg_mangle_h
+#define itk_jpeg_mangle_h
+
+/*
+
+This header file mangles all symbols exported from the jpeg library.
+It is included in all files while building the jpeg library.  Due to
+namespace pollution, no jpeg headers should be included in .h files in
+itk.
+
+Assuming MANGLE_PREFIX is defined as "itk_" The following command was used to obtain the symbol list:
+
+OSX: nm -g lib/libitkjpeg* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/^_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort
+
+Linux: nm -g lib/libitkjpeg* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/itk_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort
+
+*/
+
+#define j12copy_sample_rows @MANGLE_PREFIX@_j12copy_sample_rows
+#define j12init_1pass_quantizer @MANGLE_PREFIX@_j12init_1pass_quantizer
+#define j12init_2pass_quantizer @MANGLE_PREFIX@_j12init_2pass_quantizer
+#define j12init_c_coef_controller @MANGLE_PREFIX@_j12init_c_coef_controller
+#define j12init_c_diff_controller @MANGLE_PREFIX@_j12init_c_diff_controller
+#define j12init_c_main_controller @MANGLE_PREFIX@_j12init_c_main_controller
+#define j12init_c_prep_controller @MANGLE_PREFIX@_j12init_c_prep_controller
+#define j12init_color_converter @MANGLE_PREFIX@_j12init_color_converter
+#define j12init_color_deconverter @MANGLE_PREFIX@_j12init_color_deconverter
+#define j12init_d_coef_controller @MANGLE_PREFIX@_j12init_d_coef_controller
+#define j12init_d_diff_controller @MANGLE_PREFIX@_j12init_d_diff_controller
+#define j12init_d_main_controller @MANGLE_PREFIX@_j12init_d_main_controller
+#define j12init_d_post_controller @MANGLE_PREFIX@_j12init_d_post_controller
+#define j12init_downsampler @MANGLE_PREFIX@_j12init_downsampler
+#define j12init_forward_dct @MANGLE_PREFIX@_j12init_forward_dct
+#define j12init_inverse_dct @MANGLE_PREFIX@_j12init_inverse_dct
+#define j12init_lossless_compressor @MANGLE_PREFIX@_j12init_lossless_compressor
+#define j12init_lossless_decompressor @MANGLE_PREFIX@_j12init_lossless_decompressor
+#define j12init_merged_upsampler @MANGLE_PREFIX@_j12init_merged_upsampler
+#define j12init_upsampler @MANGLE_PREFIX@_j12init_upsampler
+#define j16copy_sample_rows @MANGLE_PREFIX@_j16copy_sample_rows
+#define j16init_c_diff_controller @MANGLE_PREFIX@_j16init_c_diff_controller
+#define j16init_c_main_controller @MANGLE_PREFIX@_j16init_c_main_controller
+#define j16init_c_prep_controller @MANGLE_PREFIX@_j16init_c_prep_controller
+#define j16init_color_converter @MANGLE_PREFIX@_j16init_color_converter
+#define j16init_color_deconverter @MANGLE_PREFIX@_j16init_color_deconverter
+#define j16init_d_diff_controller @MANGLE_PREFIX@_j16init_d_diff_controller
+#define j16init_d_main_controller @MANGLE_PREFIX@_j16init_d_main_controller
+#define j16init_d_post_controller @MANGLE_PREFIX@_j16init_d_post_controller
+#define j16init_downsampler @MANGLE_PREFIX@_j16init_downsampler
+#define j16init_lossless_compressor @MANGLE_PREFIX@_j16init_lossless_compressor
+#define j16init_lossless_decompressor @MANGLE_PREFIX@_j16init_lossless_decompressor
+#define j16init_upsampler @MANGLE_PREFIX@_j16init_upsampler
+#define jcopy_block_row @MANGLE_PREFIX@_jcopy_block_row
+#define jcopy_sample_rows @MANGLE_PREFIX@_jcopy_sample_rows
+#define jdiv_round_up @MANGLE_PREFIX@_jdiv_round_up
+#define jinit_1pass_quantizer @MANGLE_PREFIX@_jinit_1pass_quantizer
+#define jinit_2pass_quantizer @MANGLE_PREFIX@_jinit_2pass_quantizer
+#define jinit_arith_decoder @MANGLE_PREFIX@_jinit_arith_decoder
+#define jinit_arith_encoder @MANGLE_PREFIX@_jinit_arith_encoder
+#define jinit_c_coef_controller @MANGLE_PREFIX@_jinit_c_coef_controller
+#define jinit_c_diff_controller @MANGLE_PREFIX@_jinit_c_diff_controller
+#define jinit_c_main_controller @MANGLE_PREFIX@_jinit_c_main_controller
+#define jinit_c_master_control @MANGLE_PREFIX@_jinit_c_master_control
+#define jinit_c_prep_controller @MANGLE_PREFIX@_jinit_c_prep_controller
+#define jinit_color_converter @MANGLE_PREFIX@_jinit_color_converter
+#define jinit_color_deconverter @MANGLE_PREFIX@_jinit_color_deconverter
+#define jinit_compress_master @MANGLE_PREFIX@_jinit_compress_master
+#define jinit_d_coef_controller @MANGLE_PREFIX@_jinit_d_coef_controller
+#define jinit_d_diff_controller @MANGLE_PREFIX@_jinit_d_diff_controller
+#define jinit_d_main_controller @MANGLE_PREFIX@_jinit_d_main_controller
+#define jinit_d_post_controller @MANGLE_PREFIX@_jinit_d_post_controller
+#define jinit_downsampler @MANGLE_PREFIX@_jinit_downsampler
+#define jinit_forward_dct @MANGLE_PREFIX@_jinit_forward_dct
+#define jinit_huff_decoder @MANGLE_PREFIX@_jinit_huff_decoder
+#define jinit_huff_encoder @MANGLE_PREFIX@_jinit_huff_encoder
+#define jinit_input_controller @MANGLE_PREFIX@_jinit_input_controller
+#define jinit_inverse_dct @MANGLE_PREFIX@_jinit_inverse_dct
+#define jinit_lhuff_decoder @MANGLE_PREFIX@_jinit_lhuff_decoder
+#define jinit_lhuff_encoder @MANGLE_PREFIX@_jinit_lhuff_encoder
+#define jinit_lossless_compressor @MANGLE_PREFIX@_jinit_lossless_compressor
+#define jinit_lossless_decompressor @MANGLE_PREFIX@_jinit_lossless_decompressor
+#define jinit_marker_reader @MANGLE_PREFIX@_jinit_marker_reader
+#define jinit_marker_writer @MANGLE_PREFIX@_jinit_marker_writer
+#define jinit_master_decompress @MANGLE_PREFIX@_jinit_master_decompress
+#define jinit_memory_mgr @MANGLE_PREFIX@_jinit_memory_mgr
+#define jinit_merged_upsampler @MANGLE_PREFIX@_jinit_merged_upsampler
+#define jinit_phuff_decoder @MANGLE_PREFIX@_jinit_phuff_decoder
+#define jinit_phuff_encoder @MANGLE_PREFIX@_jinit_phuff_encoder
+#define jinit_upsampler @MANGLE_PREFIX@_jinit_upsampler
+#define jpeg12_crop_scanline @MANGLE_PREFIX@_jpeg12_crop_scanline
+#define jpeg12_fdct_ifast @MANGLE_PREFIX@_jpeg12_fdct_ifast
+#define jpeg12_fdct_islow @MANGLE_PREFIX@_jpeg12_fdct_islow
+#define jpeg12_idct_10x10 @MANGLE_PREFIX@_jpeg12_idct_10x10
+#define jpeg12_idct_11x11 @MANGLE_PREFIX@_jpeg12_idct_11x11
+#define jpeg12_idct_12x12 @MANGLE_PREFIX@_jpeg12_idct_12x12
+#define jpeg12_idct_13x13 @MANGLE_PREFIX@_jpeg12_idct_13x13
+#define jpeg12_idct_14x14 @MANGLE_PREFIX@_jpeg12_idct_14x14
+#define jpeg12_idct_15x15 @MANGLE_PREFIX@_jpeg12_idct_15x15
+#define jpeg12_idct_16x16 @MANGLE_PREFIX@_jpeg12_idct_16x16
+#define jpeg12_idct_1x1 @MANGLE_PREFIX@_jpeg12_idct_1x1
+#define jpeg12_idct_2x2 @MANGLE_PREFIX@_jpeg12_idct_2x2
+#define jpeg12_idct_3x3 @MANGLE_PREFIX@_jpeg12_idct_3x3
+#define jpeg12_idct_4x4 @MANGLE_PREFIX@_jpeg12_idct_4x4
+#define jpeg12_idct_5x5 @MANGLE_PREFIX@_jpeg12_idct_5x5
+#define jpeg12_idct_6x6 @MANGLE_PREFIX@_jpeg12_idct_6x6
+#define jpeg12_idct_7x7 @MANGLE_PREFIX@_jpeg12_idct_7x7
+#define jpeg12_idct_9x9 @MANGLE_PREFIX@_jpeg12_idct_9x9
+#define jpeg12_idct_float @MANGLE_PREFIX@_jpeg12_idct_float
+#define jpeg12_idct_ifast @MANGLE_PREFIX@_jpeg12_idct_ifast
+#define jpeg12_idct_islow @MANGLE_PREFIX@_jpeg12_idct_islow
+#define jpeg12_read_raw_data @MANGLE_PREFIX@_jpeg12_read_raw_data
+#define jpeg12_read_scanlines @MANGLE_PREFIX@_jpeg12_read_scanlines
+#define jpeg12_skip_scanlines @MANGLE_PREFIX@_jpeg12_skip_scanlines
+#define jpeg12_write_raw_data @MANGLE_PREFIX@_jpeg12_write_raw_data
+#define jpeg12_write_scanlines @MANGLE_PREFIX@_jpeg12_write_scanlines
+#define jpeg16_read_scanlines @MANGLE_PREFIX@_jpeg16_read_scanlines
+#define jpeg16_write_scanlines @MANGLE_PREFIX@_jpeg16_write_scanlines
+#define jpeg_CreateCompress @MANGLE_PREFIX@_jpeg_CreateCompress
+#define jpeg_CreateDecompress @MANGLE_PREFIX@_jpeg_CreateDecompress
+#define jpeg_abort @MANGLE_PREFIX@_jpeg_abort
+#define jpeg_abort_compress @MANGLE_PREFIX@_jpeg_abort_compress
+#define jpeg_abort_decompress @MANGLE_PREFIX@_jpeg_abort_decompress
+#define jpeg_add_quant_table @MANGLE_PREFIX@_jpeg_add_quant_table
+#define jpeg_alloc_huff_table @MANGLE_PREFIX@_jpeg_alloc_huff_table
+#define jpeg_alloc_quant_table @MANGLE_PREFIX@_jpeg_alloc_quant_table
+#define jpeg_aritab @MANGLE_PREFIX@_jpeg_aritab
+#define jpeg_calc_jpeg_dimensions @MANGLE_PREFIX@_jpeg_calc_jpeg_dimensions
+#define jpeg_calc_output_dimensions @MANGLE_PREFIX@_jpeg_calc_output_dimensions
+#define jpeg_consume_input @MANGLE_PREFIX@_jpeg_consume_input
+#define jpeg_copy_critical_parameters @MANGLE_PREFIX@_jpeg_copy_critical_parameters
+#define jpeg_core_output_dimensions @MANGLE_PREFIX@_jpeg_core_output_dimensions
+#define jpeg_crop_scanline @MANGLE_PREFIX@_jpeg_crop_scanline
+#define jpeg_default_colorspace @MANGLE_PREFIX@_jpeg_default_colorspace
+#define jpeg_default_qtables @MANGLE_PREFIX@_jpeg_default_qtables
+#define jpeg_destroy @MANGLE_PREFIX@_jpeg_destroy
+#define jpeg_destroy_compress @MANGLE_PREFIX@_jpeg_destroy_compress
+#define jpeg_destroy_decompress @MANGLE_PREFIX@_jpeg_destroy_decompress
+#define jpeg_enable_lossless @MANGLE_PREFIX@_jpeg_enable_lossless
+#define jpeg_fdct_float @MANGLE_PREFIX@_jpeg_fdct_float
+#define jpeg_fdct_ifast @MANGLE_PREFIX@_jpeg_fdct_ifast
+#define jpeg_fdct_islow @MANGLE_PREFIX@_jpeg_fdct_islow
+#define jpeg_fill_bit_buffer @MANGLE_PREFIX@_jpeg_fill_bit_buffer
+#define jpeg_finish_compress @MANGLE_PREFIX@_jpeg_finish_compress
+#define jpeg_finish_decompress @MANGLE_PREFIX@_jpeg_finish_decompress
+#define jpeg_finish_output @MANGLE_PREFIX@_jpeg_finish_output
+#define jpeg_free_large @MANGLE_PREFIX@_jpeg_free_large
+#define jpeg_free_small @MANGLE_PREFIX@_jpeg_free_small
+#define jpeg_gen_optimal_table @MANGLE_PREFIX@_jpeg_gen_optimal_table
+#define jpeg_get_large @MANGLE_PREFIX@_jpeg_get_large
+#define jpeg_get_small @MANGLE_PREFIX@_jpeg_get_small
+#define jpeg_has_multiple_scans @MANGLE_PREFIX@_jpeg_has_multiple_scans
+#define jpeg_huff_decode @MANGLE_PREFIX@_jpeg_huff_decode
+#define jpeg_idct_10x10 @MANGLE_PREFIX@_jpeg_idct_10x10
+#define jpeg_idct_11x11 @MANGLE_PREFIX@_jpeg_idct_11x11
+#define jpeg_idct_12x12 @MANGLE_PREFIX@_jpeg_idct_12x12
+#define jpeg_idct_13x13 @MANGLE_PREFIX@_jpeg_idct_13x13
+#define jpeg_idct_14x14 @MANGLE_PREFIX@_jpeg_idct_14x14
+#define jpeg_idct_15x15 @MANGLE_PREFIX@_jpeg_idct_15x15
+#define jpeg_idct_16x16 @MANGLE_PREFIX@_jpeg_idct_16x16
+#define jpeg_idct_1x1 @MANGLE_PREFIX@_jpeg_idct_1x1
+#define jpeg_idct_2x2 @MANGLE_PREFIX@_jpeg_idct_2x2
+#define jpeg_idct_3x3 @MANGLE_PREFIX@_jpeg_idct_3x3
+#define jpeg_idct_4x4 @MANGLE_PREFIX@_jpeg_idct_4x4
+#define jpeg_idct_5x5 @MANGLE_PREFIX@_jpeg_idct_5x5
+#define jpeg_idct_6x6 @MANGLE_PREFIX@_jpeg_idct_6x6
+#define jpeg_idct_7x7 @MANGLE_PREFIX@_jpeg_idct_7x7
+#define jpeg_idct_9x9 @MANGLE_PREFIX@_jpeg_idct_9x9
+#define jpeg_idct_float @MANGLE_PREFIX@_jpeg_idct_float
+#define jpeg_idct_ifast @MANGLE_PREFIX@_jpeg_idct_ifast
+#define jpeg_idct_islow @MANGLE_PREFIX@_jpeg_idct_islow
+#define jpeg_input_complete @MANGLE_PREFIX@_jpeg_input_complete
+#define jpeg_make_c_derived_tbl @MANGLE_PREFIX@_jpeg_make_c_derived_tbl
+#define jpeg_make_d_derived_tbl @MANGLE_PREFIX@_jpeg_make_d_derived_tbl
+#define jpeg_mem_available @MANGLE_PREFIX@_jpeg_mem_available
+#define jpeg_mem_dest @MANGLE_PREFIX@_jpeg_mem_dest
+#define jpeg_mem_init @MANGLE_PREFIX@_jpeg_mem_init
+#define jpeg_mem_src @MANGLE_PREFIX@_jpeg_mem_src
+#define jpeg_mem_term @MANGLE_PREFIX@_jpeg_mem_term
+#define jpeg_natural_order @MANGLE_PREFIX@_jpeg_natural_order
+#define jpeg_nbits_table @MANGLE_PREFIX@_jpeg_nbits_table
+#define jpeg_new_colormap @MANGLE_PREFIX@_jpeg_new_colormap
+#define jpeg_open_backing_store @MANGLE_PREFIX@_jpeg_open_backing_store
+#define jpeg_quality_scaling @MANGLE_PREFIX@_jpeg_quality_scaling
+#define jpeg_read_coefficients @MANGLE_PREFIX@_jpeg_read_coefficients
+#define jpeg_read_header @MANGLE_PREFIX@_jpeg_read_header
+#define jpeg_read_icc_profile @MANGLE_PREFIX@_jpeg_read_icc_profile
+#define jpeg_read_raw_data @MANGLE_PREFIX@_jpeg_read_raw_data
+#define jpeg_read_scanlines @MANGLE_PREFIX@_jpeg_read_scanlines
+#define jpeg_resync_to_restart @MANGLE_PREFIX@_jpeg_resync_to_restart
+#define jpeg_save_markers @MANGLE_PREFIX@_jpeg_save_markers
+#define jpeg_set_colorspace @MANGLE_PREFIX@_jpeg_set_colorspace
+#define jpeg_set_defaults @MANGLE_PREFIX@_jpeg_set_defaults
+#define jpeg_set_linear_quality @MANGLE_PREFIX@_jpeg_set_linear_quality
+#define jpeg_set_marker_processor @MANGLE_PREFIX@_jpeg_set_marker_processor
+#define jpeg_set_quality @MANGLE_PREFIX@_jpeg_set_quality
+#define jpeg_simple_progression @MANGLE_PREFIX@_jpeg_simple_progression
+#define jpeg_skip_scanlines @MANGLE_PREFIX@_jpeg_skip_scanlines
+#define jpeg_start_compress @MANGLE_PREFIX@_jpeg_start_compress
+#define jpeg_start_decompress @MANGLE_PREFIX@_jpeg_start_decompress
+#define jpeg_start_output @MANGLE_PREFIX@_jpeg_start_output
+#define jpeg_std_error @MANGLE_PREFIX@_jpeg_std_error
+#define jpeg_stdio_dest @MANGLE_PREFIX@_jpeg_stdio_dest
+#define jpeg_stdio_src @MANGLE_PREFIX@_jpeg_stdio_src
+#define jpeg_suppress_tables @MANGLE_PREFIX@_jpeg_suppress_tables
+#define jpeg_write_coefficients @MANGLE_PREFIX@_jpeg_write_coefficients
+#define jpeg_write_icc_profile @MANGLE_PREFIX@_jpeg_write_icc_profile
+#define jpeg_write_m_byte @MANGLE_PREFIX@_jpeg_write_m_byte
+#define jpeg_write_m_header @MANGLE_PREFIX@_jpeg_write_m_header
+#define jpeg_write_marker @MANGLE_PREFIX@_jpeg_write_marker
+#define jpeg_write_raw_data @MANGLE_PREFIX@_jpeg_write_raw_data
+#define jpeg_write_scanlines @MANGLE_PREFIX@_jpeg_write_scanlines
+#define jpeg_write_tables @MANGLE_PREFIX@_jpeg_write_tables
+#define jround_up @MANGLE_PREFIX@_jround_up
+#define jzero_far @MANGLE_PREFIX@_jzero_far
+
+#endif

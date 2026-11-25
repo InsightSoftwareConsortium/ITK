@@ -1,0 +1,29 @@
+schema_version: 1
+title: ITKFEM and ITKFEMRegistration modules removed
+summary: |
+  The `ITKFEM` (`Modules/Numerics/FEM`) and `ITKFEMRegistration`
+  (`Modules/Registration/FEM`) modules are removed from the ITK main tree.
+  Both were opt-in (`EXCLUDE_FROM_DEFAULT`) and no in-tree module depended
+  on them.
+details: |
+  The modules, with their full history, are preserved as the unmaintained
+  remote module `InsightSoftwareConsortium/ITKFEM`. Projects that enabled
+  `Module_ITKFEM` / `Module_ITKFEMRegistration`, linked `ITKFEM` /
+  `ITKFEMRegistration`, or used `itk::fem::*` classes (including
+  `FEMRegistrationFilter` and the `LinearSystemWrapper*` family) can re-enable
+  it via `Module_FEM` (a `Modules/Remote/FEM.remote.cmake` breadcrumb). It is
+  unmaintained and scheduled for removal in ITK 7 (see
+  [InsightSoftwareConsortium/ITK#6511](https://github.com/InsightSoftwareConsortium/ITK/issues/6511));
+  if you depend on it, comment on that issue.
+categories:
+  - ApiRemoved
+environment:
+  - cmake
+  - cxx
+impact: low
+pr: 6524
+commits:
+  - caf908a1a5a
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/issues/6511
+  - https://github.com/InsightSoftwareConsortium/ITKFEM
