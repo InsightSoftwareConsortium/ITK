@@ -85,8 +85,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  auto localInput = InputImageType::New();
-  localInput->Graft(this->GetInput());
+  auto localInput = MakeGraft(this->GetInput());
 
   const KernelImageType * kernelImage = this->GetKernelImage();
 

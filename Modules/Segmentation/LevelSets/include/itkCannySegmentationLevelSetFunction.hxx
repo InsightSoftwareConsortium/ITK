@@ -71,14 +71,12 @@ template <typename TImageType, typename TFeatureImageType>
 void
 CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateDistanceImage()
 {
-  auto tempFeature = TFeatureImageType::New();
-
   // The minipipeline might muck with its feature image requested
   // region. The rest of the class relies on the feature image requested
   // region as specified by the original level set
   // filter. We make a temporary shallow copy of feature image to
   // build the distance image.
-  tempFeature->Graft(this->GetFeatureImage());
+  auto tempFeature = MakeGraft(this->GetFeatureImage());
 
   // AssignCannyInput either sets up a pipeline through the
   // CastImageFilter if TImageType != TFeatureImageType

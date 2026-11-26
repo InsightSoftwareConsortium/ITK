@@ -74,8 +74,7 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   OutputImageType * output = this->GetOutput();
 
-  auto input = InputImageType::New();
-  input->Graft(const_cast<InputImageType *>(this->GetInput()));
+  auto input = MakeGraft(this->GetInput());
 
   //  SEE HEADER FILE FOR MATH DESCRIPTION
 

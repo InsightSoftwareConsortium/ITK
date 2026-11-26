@@ -63,8 +63,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Gather statistics
 
-  auto localInput = TInputImage::New();
-  localInput->Graft(this->GetInput());
+  auto localInput = MakeGraft(this->GetInput());
 
   m_StatisticsFilter->SetInput(localInput);
   m_StatisticsFilter->Update();

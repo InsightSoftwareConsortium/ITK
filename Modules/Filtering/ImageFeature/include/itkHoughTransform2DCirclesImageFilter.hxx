@@ -200,14 +200,10 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
     // Blur the accumulator in order to find the maximum
     using InternalImageType = Image<float, 2>;
 
-    // The variable "outputImage" is only used as input to gaussianFilter.
-    // It should not be modified, because GetOutput(0) should not be changed.
-    const auto outputImage = OutputImageType::New();
-    outputImage->Graft(this->GetOutput(0));
-
     const auto gaussianFilter = DiscreteGaussianImageFilter<OutputImageType, InternalImageType>::New();
 
-    gaussianFilter->SetInput(outputImage); // The output is the accumulator image
+    // A graft, so that gaussianFilter cannot change GetOutput(0).
+    gaussianFilter->SetInput(MakeGraft(this->GetOutput(0))); // The output is the accumulator image
     gaussianFilter->SetVariance(m_Variance);
     gaussianFilter->SetUseImageSpacing(m_UseImageSpacing);
 

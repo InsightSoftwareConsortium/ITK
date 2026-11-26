@@ -119,10 +119,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThreaded
   using FilterType = itk::SignedMaurerDistanceMapImageFilter<InputImage2Type, DistanceMapType>;
   auto filter = FilterType::New();
 
-  auto input2 = InputImage2Type::New();
-  input2->Graft(const_cast<InputImage2Type *>(this->GetInput2()));
-
-  filter->SetInput(input2);
+  filter->SetInput(MakeGraft(this->GetInput2()));
   filter->SetSquaredDistance(false);
   filter->SetUseImageSpacing(m_UseImageSpacing);
   filter->Update();

@@ -188,10 +188,8 @@ StructuralSimilarityImageFilter<TInputImage, TOutputImage>::GenerateData()
   };
   // Grafting the inputs keeps the internal Update() calls from propagating upstream.
   const auto toRealImage = [](const InputImageType * input) -> RealImagePointer {
-    auto grafted = InputImageType::New();
-    grafted->Graft(input);
     auto cast = CastFilterType::New();
-    cast->SetInput(grafted);
+    cast->SetInput(MakeGraft(input));
     cast->Update();
     return cast->GetOutput();
   };

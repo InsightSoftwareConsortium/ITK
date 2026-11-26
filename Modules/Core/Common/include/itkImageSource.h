@@ -165,9 +165,7 @@ public:
      \code
         // Setup the mini-pipeline to process the input to this filter
         // The input is not connected to the pipeline.
-        auto input = InputImageType::New();
-        input->Graft( const_cast< InputImageType * >( this->GetInput() );
-        firstFilterInMiniPipeline->SetInput( input );
+        firstFilterInMiniPipeline->SetInput( MakeGraft( this->GetInput() ) );
 
         // setup the mini-pipeline to calculate the correct regions
         // and write to the appropriate bulk data block

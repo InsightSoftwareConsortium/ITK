@@ -112,25 +112,13 @@ void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
   // Store the input images.
-  InputImagePointer fixedImage = InputImageType::New();
-  fixedImage->Graft(this->GetFixedImage());
+  InputImagePointer fixedImage = MakeGraft(this->GetFixedImage());
 
-  InputImagePointer movingImage = InputImageType::New();
-  movingImage->Graft(this->GetMovingImage());
+  InputImagePointer movingImage = MakeGraft(this->GetMovingImage());
 
-  MaskImagePointer fixedMask = nullptr;
-  if (this->GetFixedImageMask())
-  {
-    fixedMask = MaskImageType::New();
-    fixedMask->Graft(this->GetFixedImageMask());
-  }
+  MaskImagePointer fixedMask = MakeGraft(this->GetFixedImageMask());
 
-  MaskImagePointer movingMask = nullptr;
-  if (this->GetMovingImageMask())
-  {
-    movingMask = MaskImageType::New();
-    movingMask->Graft(this->GetMovingImageMask());
-  }
+  MaskImagePointer movingMask = MakeGraft(this->GetMovingImageMask());
 
   this->UpdateProgress(m_AccumulatedProgress);
   const OutputImagePointer outputImage = this->GetOutput();

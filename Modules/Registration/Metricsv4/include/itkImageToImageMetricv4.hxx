@@ -436,9 +436,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   // A graft when the filter would release its input, so that the image stays buffered for the metric.
   if (this->m_FixedImage->ShouldIReleaseData())
   {
-    auto graft = FixedImageType::New();
-    graft->Graft(this->m_FixedImage);
-    this->m_FixedImageGradientFilter->SetInput(graft);
+    this->m_FixedImageGradientFilter->SetInput(MakeGraft(this->m_FixedImage));
   }
   else
   {
@@ -461,9 +459,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   // A graft when the filter would release its input, so that the image stays buffered for the metric.
   if (this->m_MovingImage->ShouldIReleaseData())
   {
-    auto graft = MovingImageType::New();
-    graft->Graft(this->m_MovingImage);
-    this->m_MovingImageGradientFilter->SetInput(graft);
+    this->m_MovingImageGradientFilter->SetInput(MakeGraft(this->m_MovingImage));
   }
   else
   {

@@ -41,8 +41,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 MedialThicknessImageFilter3D<TInputImage, TOutputImage>::GenerateData()
 {
-  typename InputImageType::Pointer input = InputImageType::New();
-  input->Graft(dynamic_cast<const InputImageType *>(this->GetInput()));
+  typename InputImageType::Pointer input = MakeGraft(this->GetInput());
   m_DistanceFilter->SetInput(input);
   m_ThinningFilter->SetInput(input);
   m_MultiplyFilter->Update();

@@ -212,9 +212,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       if (graftInput)
       {
-        auto inputGraft = TInputImage::New();
-        inputGraft->Graft(inputImage);
-        m_DerivativeFilter->SetInput(inputGraft);
+        m_DerivativeFilter->SetInput(MakeGraft(inputImage));
       }
 
       unsigned int i = 0;

@@ -161,8 +161,8 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
 
     auto fixedComposer = ComposerType::New();
-    fixedComposer->SetDisplacementField(this->MakeGraft(fixedToMiddleSmoothUpdateField));
-    fixedComposer->SetWarpingField(this->MakeGraft(this->m_FixedToMiddleTransform->GetDisplacementField()));
+    fixedComposer->SetDisplacementField(MakeGraft(fixedToMiddleSmoothUpdateField));
+    fixedComposer->SetWarpingField(MakeGraft(this->m_FixedToMiddleTransform->GetDisplacementField()));
     fixedComposer->Update();
 
     const DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp =
@@ -172,8 +172,8 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
                                            nullptr);
 
     auto movingComposer = ComposerType::New();
-    movingComposer->SetDisplacementField(this->MakeGraft(movingToMiddleSmoothUpdateField));
-    movingComposer->SetWarpingField(this->MakeGraft(this->m_MovingToMiddleTransform->GetDisplacementField()));
+    movingComposer->SetDisplacementField(MakeGraft(movingToMiddleSmoothUpdateField));
+    movingComposer->SetWarpingField(MakeGraft(this->m_MovingToMiddleTransform->GetDisplacementField()));
     movingComposer->Update();
 
     const DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp =
@@ -336,7 +336,7 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
         ResampleImageFilter<MaskImageType, WeightedMaskImageType, typename TOutputTransform::ScalarType>;
       auto fixedMaskResampler = MaskResamplerType::New();
       fixedMaskResampler->SetTransform(fixedTransform);
-      fixedMaskResampler->SetInput(this->MakeGraft(
+      fixedMaskResampler->SetInput(MakeGraft(
         dynamic_cast<ImageMaskSpatialObjectType *>(const_cast<FixedImageMaskType *>(fixedImageMasks[0].GetPointer()))
           ->GetImage()));
       fixedMaskResampler->SetOutputParametersFromImage(virtualDomainImage);
