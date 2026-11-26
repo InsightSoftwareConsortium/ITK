@@ -639,12 +639,8 @@ TIFFImageIO::InternalWrite(const void * buffer)
 
   if (this->GetImageSizeInBytes() > twoGibiBytes)
   {
-#ifdef TIFF_INT64_T // detect if libtiff4
     // Adding the "8" option enables the use of big tiff
     mode = "w8";
-#else
-    itkExceptionStringMacro("Size of image exceeds the limit of libtiff.");
-#endif
   }
 
   TIFF * tif = TIFFOpen(m_FileName.c_str(), mode);
@@ -799,11 +795,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     // Using 1 MB per strip leads to 256 rows per strip, which takes only 4 seconds to write over sshfs.
     // Rather than change that value in the third party libtiff library, we instead compute the
     // rowsperstrip here to lead to this same value.
-#ifdef TIFF_INT64_T // detect if libtiff4
-    uint64_t const scanlinesize = TIFFScanlineSize64(tif);
-#else
-    tsize_t scanlinesize = TIFFScanlineSize(tif);
-#endif
+    const uint64_t scanlinesize = TIFFScanlineSize64(tif);
     if (scanlinesize == 0)
     {
       itkExceptionStringMacro("TIFFScanlineSize returned 0");
@@ -1238,7 +1230,6 @@ TIFFImageIO::ReadTIFFTags()
           itkEncapsulate(double, double);
           break;
         case TIFF_IFD:
-#ifdef TIFF_INT64_T // detect if libtiff4
         case TIFF_LONG8:
           itkEncapsulate(uint64_t, uint64_t);
           break;
@@ -1246,7 +1237,6 @@ TIFFImageIO::ReadTIFFTags()
         case TIFF_IFD8:
           itkEncapsulate(int64_t, int64_t);
           break;
-#endif
         case TIFF_RATIONAL:
         case TIFF_SRATIONAL:
           // libtiff returns RATIONAL/SRATIONAL as float.
@@ -1491,11 +1481,7 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
     return;
   }
 
-#ifdef TIFF_INT64_T // detect if libtiff4
   const uint64_t scanlineSize = TIFFScanlineSize64(tif);
-#else
-  const uint64_t scanlineSize = TIFFScanlineSize(tif);
-#endif
   if (scanlineSize == 0)
   {
     itkExceptionMacro("Invalid TIFF scanline size");
