@@ -46,7 +46,7 @@ void
 roiTest(itk::SmartPointer<itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension>> orig)
 {
   using myRLEImage = itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension>;
-  using charRLEImage = itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension, char>;
+  using charRLEImage = itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension, signed char>;
   using charConverterType = itk::RegionOfInterestImageFilter<myRLEImage, charRLEImage>;
   typename charConverterType::Pointer cConv = charConverterType::New();
   cConv->SetInput(orig);
@@ -145,7 +145,7 @@ doTest(std::string inFilename, std::string outFilename)
   std::cout << "Running region of interest tests" << std::endl;
   if (xSize > 127)
   {
-    std::cout << "\n  xSize>127 (CHAR_MAX)" << std::endl;
+    std::cout << "\n  xSize>127 (SCHAR_MAX)" << std::endl;
     ITK_TRY_EXPECT_EXCEPTION(roiTest<myRLEImage>(test));
   }
   else
