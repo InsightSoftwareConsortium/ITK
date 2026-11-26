@@ -87,6 +87,7 @@ public:
 
   using InternalComputationValueType = typename ImageToImageMetricv4Type::InternalComputationValueType;
   using NumberOfParametersType = typename ImageToImageMetricv4Type::NumberOfParametersType;
+  using FullNumberOfParametersType = typename ImageToImageMetricv4Type::FullNumberOfParametersType;
 
   using CompensatedDerivativeValueType = CompensatedSummation<DerivativeValueType>;
   using CompensatedDerivativeType = std::vector<CompensatedDerivativeValueType>;
@@ -198,8 +199,8 @@ protected:
 
   /** Cached values to avoid call overhead.
    *  These will only be set once threading has been started. */
-  mutable NumberOfParametersType m_CachedNumberOfParameters{};
-  mutable NumberOfParametersType m_CachedNumberOfLocalParameters{};
+  mutable FullNumberOfParametersType m_CachedNumberOfParameters{};
+  mutable NumberOfParametersType     m_CachedNumberOfLocalParameters{};
 };
 
 } // end namespace itk

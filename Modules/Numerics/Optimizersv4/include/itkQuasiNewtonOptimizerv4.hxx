@@ -57,9 +57,9 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::StartOptimization
 {
   itkDebugMacro("StartOptimization");
 
-  const SizeValueType numPara = this->m_Metric->GetNumberOfParameters();
+  const SizeValueType numPara = this->m_Metric->GetFullNumberOfParameters();
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
-  const SizeValueType numLocals = this->m_Metric->GetNumberOfParameters() / numLocalPara;
+  const SizeValueType numLocals = this->m_Metric->GetFullNumberOfParameters() / numLocalPara;
 
   /* Set up the data for Quasi-Newton method */
   this->m_NewtonStep.SetSize(numPara);
@@ -92,7 +92,7 @@ void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
-  const SizeValueType numPara = this->m_Metric->GetNumberOfParameters();
+  const SizeValueType numPara = this->m_Metric->GetFullNumberOfParameters();
   this->m_CurrentPosition = this->m_Metric->GetParameters();
 
   if (this->GetCurrentIteration() == 0)
@@ -179,7 +179,7 @@ void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::CombineGradientNewtonStep()
 {
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
-  const SizeValueType numLocals = this->m_Metric->GetNumberOfParameters() / numLocalPara;
+  const SizeValueType numLocals = this->m_Metric->GetFullNumberOfParameters() / numLocalPara;
 
   bool validNewtonStepExists = false;
   for (SizeValueType loc = 0; loc < numLocals; ++loc)

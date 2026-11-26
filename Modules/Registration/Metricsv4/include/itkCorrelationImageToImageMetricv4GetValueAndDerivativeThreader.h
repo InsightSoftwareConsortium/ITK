@@ -71,6 +71,7 @@ public:
 
   using typename Superclass::InternalComputationValueType;
   using typename Superclass::NumberOfParametersType;
+  using typename Superclass::FullNumberOfParametersType;
 
 protected:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();

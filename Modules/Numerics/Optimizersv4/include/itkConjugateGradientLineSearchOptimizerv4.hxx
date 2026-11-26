@@ -39,9 +39,9 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::S
   bool doOnlyInitialization)
 {
   this->m_LearningRate = this->m_InitialLearningRate;
-  this->m_ConjugateGradient.SetSize(this->m_Metric->GetNumberOfParameters());
+  this->m_ConjugateGradient.SetSize(this->m_Metric->GetFullNumberOfParameters());
   this->m_ConjugateGradient.Fill(TInternalComputationValueType{});
-  this->m_LastGradient.SetSize(this->m_Metric->GetNumberOfParameters());
+  this->m_LastGradient.SetSize(this->m_Metric->GetFullNumberOfParameters());
   this->m_LastGradient.Fill(TInternalComputationValueType{});
   Superclass::StartOptimization(doOnlyInitialization);
 }

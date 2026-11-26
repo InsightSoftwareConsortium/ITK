@@ -1,0 +1,51 @@
+schema_version: 1
+title: v4 metrics report parameter counts above 2^32 through GetFullNumberOfParameters()
+summary: |
+  `ObjectToObjectMetricBaseTemplate` gains `GetFullNumberOfParameters()`, which
+  returns `FullNumberOfParametersType` (`IdentifierType`). The v4 metric
+  threaders, the multi-metric, and the gradient-based v4 optimizers use it to
+  size derivatives, so dense displacement fields with more than 2^32 - 1
+  parameters can be registered. `GetNumberOfParameters()` is unchanged and
+  still returns `unsigned int`; existing overrides and callers compile as
+  before.
+details: |
+  With a dense displacement field of more than 2^32 - 1 parameters (about 1.43
+  billion voxels in 3-D), `GetNumberOfParameters()` cannot represent the count.
+  The v4 metrics throw from it in that case, and now carry the full count
+  through `GetFullNumberOfParameters()` instead.
+
+  `GetFullNumberOfParameters()` defaults to `GetNumberOfParameters()`, so a
+  metric that overrides only `GetNumberOfParameters()` reports the same count
+  through both. `ObjectToObjectMetric` overrides it to return the moving
+  transform's count.
+
+  The vnl-based optimizers (Amoeba, LBFGS, LBFGSB, OnePlusOne, Powell) still
+  call `GetNumberOfParameters()` and throw for counts above 2^32 - 1. The v3
+  metrics in `Registration/Common` now throw `itk::RangeError` when the
+  transform's count does not fit in `unsigned int`, where they previously
+  truncated it.
+actions:
+  - No action is needed for code that overrides or calls
+    `GetNumberOfParameters()`.
+  - Code that sizes a buffer from a v4 metric's parameter count and must handle
+    dense fields above 2^32 - 1 parameters should call
+    `GetFullNumberOfParameters()` and store the result as
+    `FullNumberOfParametersType`.
+  - A v4 metric whose count can exceed 2^32 - 1 should override
+    `GetFullNumberOfParameters()`.
+categories:
+  - ResultsChange
+environment:
+  - cxx
+impact: low
+links:
+  - https://github.com/InsightSoftwareConsortium/ITK/issues/6949
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/6991
+  - https://github.com/InsightSoftwareConsortium/ITK/pull/7216
+examples:
+  - language: cpp
+    before: |
+      derivative.SetSize(metric->GetNumberOfParameters());
+    after: |
+      derivative.SetSize(metric->GetFullNumberOfParameters());
+    note: Sizing a derivative for a dense displacement field.

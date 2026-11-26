@@ -141,10 +141,11 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   {
     this->m_MattesAssociate->m_PRatioArray.assign(
       this->m_MattesAssociate->m_NumberOfHistogramBins * this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0);
-    itkAssertInDebugAndIgnoreInReleaseMacro(
-      this->m_MattesAssociate->GetNumberOfParameters() % this->m_MattesAssociate->GetNumberOfLocalParameters() == 0);
+    itkAssertInDebugAndIgnoreInReleaseMacro(this->m_MattesAssociate->GetFullNumberOfParameters() %
+                                              this->m_MattesAssociate->GetNumberOfLocalParameters() ==
+                                            0);
     this->m_MattesAssociate->m_JointPdfIndex1DPerPoint.assign(
-      this->m_MattesAssociate->GetNumberOfParameters() / this->m_MattesAssociate->GetNumberOfLocalParameters(), 0);
+      this->m_MattesAssociate->GetFullNumberOfParameters() / this->m_MattesAssociate->GetNumberOfLocalParameters(), 0);
     // Don't need this with local-support
     this->m_MattesAssociate->m_ThreaderJointPDFDerivatives.clear();
     this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
@@ -156,7 +157,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     for (SizeValueType n = 0; n < 4; ++n)
     {
       this->m_MattesAssociate->m_LocalDerivativeByParzenBin[n].SetSize(
-        this->m_MattesAssociate->GetNumberOfParameters());
+        this->m_MattesAssociate->GetFullNumberOfParameters());
       // Initialize to zero because we accumulate, and so skipped points will
       // behave properly
       this->m_MattesAssociate->m_LocalDerivativeByParzenBin[n].Fill(DerivativeValueType{});

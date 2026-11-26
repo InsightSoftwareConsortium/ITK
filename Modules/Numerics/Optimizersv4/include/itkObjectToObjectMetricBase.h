@@ -175,6 +175,9 @@ public:
    * any given iteration of the optimizer. */
   using NumberOfParametersType = unsigned int;
 
+  /** Type of the number of parameters of a dense transform, which can exceed NumberOfParametersType. */
+  using FullNumberOfParametersType = IdentifierType;
+
   /** Calculate and return the value for the metric based on the current
    * transformation(s). The result is both returned, and stored in the
    * m_Value member variable. */
@@ -201,6 +204,13 @@ public:
   virtual NumberOfParametersType
   GetNumberOfLocalParameters() const = 0;
   /** @ITKEndGrouping */
+
+  /** Number of parameters of the active transform without the 32-bit limit of GetNumberOfParameters(). */
+  virtual FullNumberOfParametersType
+  GetFullNumberOfParameters() const
+  {
+    return this->GetNumberOfParameters();
+  }
   /** Set the active transform's parameters by value*/
   virtual void
   SetParameters(ParametersType & params) = 0;

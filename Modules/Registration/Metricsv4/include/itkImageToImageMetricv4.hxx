@@ -270,7 +270,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   if (this->m_ComputeDerivative)
   {
     /* This size always comes from the active transform */
-    const NumberOfParametersType globalDerivativeSize = this->GetNumberOfParameters();
+    const FullNumberOfParametersType globalDerivativeSize = this->GetFullNumberOfParameters();
     if (this->m_DerivativeResult->GetSize() != globalDerivativeSize)
     {
       this->m_DerivativeResult->SetSize(globalDerivativeSize);
