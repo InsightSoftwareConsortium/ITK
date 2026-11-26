@@ -68,5 +68,5 @@ And the related:
 "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKCuberille.git
-  GIT_TAG 4ba447f256a93428e56507178f92124bb91e3f3c
+  GIT_TAG 2fc288204178c962b26b5838c2b0a975e175a9b2
   )
