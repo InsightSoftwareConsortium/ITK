@@ -208,8 +208,9 @@ public:
   struct MapComponentType
   {
     static constexpr IOComponentEnum CType =
-      std::is_same_v<TComponent, unsigned char>        ? IOComponentEnum::UCHAR
-      : std::is_same_v<TComponent, char>               ? IOComponentEnum::CHAR
+      std::is_same_v<TComponent, char> ? (std::is_signed_v<char> ? IOComponentEnum::CHAR : IOComponentEnum::UCHAR)
+      : std::is_same_v<TComponent, signed char>        ? IOComponentEnum::CHAR
+      : std::is_same_v<TComponent, unsigned char>      ? IOComponentEnum::UCHAR
       : std::is_same_v<TComponent, short>              ? IOComponentEnum::SHORT
       : std::is_same_v<TComponent, unsigned short>     ? IOComponentEnum::USHORT
       : std::is_same_v<TComponent, int>                ? IOComponentEnum::INT

@@ -16,5 +16,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMeshFileReaderWriterTest.vtk
 )
 
-set(ITKIOMeshBaseGTests itkMeshIOExceptionsGTest.cxx)
+set(
+  ITKIOMeshBaseGTests
+  itkMeshIOBaseGTest.cxx
+  itkMeshIOExceptionsGTest.cxx
+)
 creategoogletestdriver(ITKIOMeshBase "${ITKIOMeshBase-Test_LIBRARIES}" "${ITKIOMeshBaseGTests}")
