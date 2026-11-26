@@ -24,6 +24,7 @@
 #include "itkSingleValuedCostFunction.h"
 #include "itkMacro.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -158,7 +159,7 @@ public:
   unsigned int
   GetNumberOfParameters() const override
   {
-    return m_Transform->GetNumberOfParameters();
+    return Math::CastWithRangeCheck<unsigned int>(m_Transform->GetNumberOfParameters());
   }
 
   /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */

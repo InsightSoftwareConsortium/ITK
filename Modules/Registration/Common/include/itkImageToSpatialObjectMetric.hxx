@@ -20,6 +20,7 @@
 
 
 #include "itkPrintHelper.h"
+#include "itkMath.h"
 namespace itk
 {
 
@@ -39,7 +40,7 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::GetNumberOfParame
   {
     itkExceptionStringMacro("Transform is not present");
   }
-  return m_Transform->GetNumberOfParameters();
+  return Math::CastWithRangeCheck<unsigned int>(m_Transform->GetNumberOfParameters());
 }
 
 template <typename TFixedImage, typename TMovingSpatialObject>
