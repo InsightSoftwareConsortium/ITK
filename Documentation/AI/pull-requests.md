@@ -35,6 +35,24 @@ git push --force-with-lease          # changes only
 Conflict resolutions belong in the rebase push. Either order works; never
 combine both in one push.
 
+## Replying to review comments
+
+**Agent default.** Each reply posted on its own sends its own
+notification, so answering many review comments on one PR spams every
+reviewer and maintainer watching it. Batch the replies into one review
+submission, so the PR produces one notification for the whole round
+instead of one per comment.
+
+Create a pending review with the GraphQL `addPullRequestReview`
+mutation and no `event`, so it sends nothing yet. Attach each reply to
+the thread it answers with `addPullRequestReviewComment`, setting
+`inReplyTo` to the target comment's ID, then submit that review once
+with `submitPullRequestReview`. A reply that does not need to sit in a
+thread goes in the review body instead.
+
+The rule covers `gh pr review --comment` and `gh pr comment` too: one
+consolidated comment per round, not one per reply.
+
 ## AI Disclosure and Attribution
 
 See [attribution.md](./attribution.md) for the full policy. Key points:
