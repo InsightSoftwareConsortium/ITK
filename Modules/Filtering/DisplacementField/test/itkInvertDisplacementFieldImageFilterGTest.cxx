@@ -74,7 +74,7 @@ ExpectSameField(const TField * expected, const TField * actual)
   itk::ImageRegionConstIterator<TField> itA(actual, actual->GetBufferedRegion());
   for (; !itE.IsAtEnd(); ++itE, ++itA)
   {
-    ASSERT_EQ(itE.Get(), itA.Get()) << "at " << itE.GetIndex();
+    ASSERT_EQ(itE.Get(), itA.Get()) << "at " << itE.ComputeIndex();
   }
 }
 
