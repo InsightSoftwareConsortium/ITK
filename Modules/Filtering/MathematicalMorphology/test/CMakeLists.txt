@@ -55,7 +55,11 @@ createtestdriver(ITKMathematicalMorphology "${ITKMathematicalMorphology-Test_LIB
                  "${ITKMathematicalMorphologyTests}"
 )
 
-set(ITKMathematicalMorphologyGTests itkMathematicalMorphologyEnumsGTest.cxx)
+set(
+  ITKMathematicalMorphologyGTests
+  itkAnchorErodeDilateImageFilterGTest.cxx
+  itkMathematicalMorphologyEnumsGTest.cxx
+)
 creategoogletestdriver(
   ITKMathematicalMorphology
   "${ITKMathematicalMorphology-Test_LIBRARIES}"
