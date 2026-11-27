@@ -71,7 +71,7 @@ extern ITKIOGDCM_EXPORT std::ostream &
  *
  * To learn more about the revision shipped with ITK, call
  *
- *    git log -- Modules/ThirdParty/GDCM/src/
+ *     git log -- Modules/ThirdParty/GDCM/src/
  *
  * from an ITK Git checkout.
  *
