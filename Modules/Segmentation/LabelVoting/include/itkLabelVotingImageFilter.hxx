@@ -19,6 +19,7 @@
 #define itkLabelVotingImageFilter_hxx
 
 
+#include "itkImageScanlineIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkTotalProgressReporter.h"
 
@@ -46,11 +47,14 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::ComputeMaximumInputValue() ->
 
   for (size_t i = 0; i < numberOfInputIndexes; ++i)
   {
-    const InputImageType *   inputImage = this->GetInput(i);
-    ImageRegionConstIterator it(inputImage, inputImage->GetBufferedRegion());
-    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    const InputImageType *     inputImage = this->GetInput(i);
+    ImageScanlineConstIterator it(inputImage, inputImage->GetBufferedRegion());
+    for (; !it.IsAtEnd(); it.NextLine())
     {
-      maxLabel = std::max(maxLabel, it.Get());
+      for (; !it.IsAtEndOfLine(); ++it)
+      {
+        maxLabel = std::max(maxLabel, it.Get());
+      }
     }
   }
 
