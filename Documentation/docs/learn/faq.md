@@ -43,12 +43,12 @@ images.
 | [ITK HDF5](https://www.hdfgroup.org/solutions/hdf5/) | | |
 | [JPEG](https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format) † | [`itk::JPEGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1JPEGImageIO.html) | |
 | [LSM](https://www.openwetware.org/wiki/Dissecting_LSM_files) | [`itk::LSMImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1LSMImageIO.html) | |
-| [MetaImage](https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/MetaIO/Documentation) (.mha/.mhd) | [`itk::MetaImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MetaImageIO.html) | |
+| [MetaImage](https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/MetaIO/Documentation/) (.mha/.mhd) | [`itk::MetaImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MetaImageIO.html) | |
 | [MINC 2.0](https://en.wikibooks.org/wiki/MINC/SoftwareDevelopment/MINC2.0_File_Format_Reference) (Medical Image NetCDF) | [`itk::MINCImagIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MINCImageIO.html) | |
 | [MGH](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/MghFormat) | [`itk::MGHImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MGHImageIO.html) | |
 | [MRC](http://www.ccpem.ac.uk/mrc_format/mrc_format.php) | [`itk::MRCImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MRCImageIO.html) | |
 | [NIfTI](https://nifti.nimh.nih.gov/nifti-1) (.nii) | [`itk::NiftiImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NiftiImageIO.html) | |
-| [NRRD](http://teem.sourceforge.net/nrrd/format.html) (.nhdr/.nrrd) | [`itk::NrrdImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NrrdImageIO.html) | |
+| [NRRD](https://teem.sourceforge.net/nrrd/format.html) (.nhdr/.nrrd) | [`itk::NrrdImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NrrdImageIO.html) | |
 | [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) † | [`itk::PNGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1PNGImageIO.html) | |
 | Raw ‡ | [`itk::RawImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1RawImageIO.html) | |
 | Scanco microCT volume file format | | |

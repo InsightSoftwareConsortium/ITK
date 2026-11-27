@@ -1,7 +1,7 @@
 set(
   DOCUMENTATION
   "This modules contains an ImageIO class to read or write the
-<a href=\"http://niftilib.sourceforge.net/\">nifti</a> medical image format."
+<a href=\"https://niftilib.sourceforge.net/\">nifti</a> medical image format."
 )
 
 itk_module(

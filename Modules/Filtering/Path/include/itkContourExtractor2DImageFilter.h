@@ -45,7 +45,7 @@ namespace itk
  *
  * The marching squares algorithm is a special case of the marching cubes
  * algorithm \cite lorensen1987. A simple explanation is available
- * here: http://users.polytech.unice.fr/~lingrand/MarchingCubes/algo.html
+ * here: https://users.polytech.unice.fr/~lingrand/MarchingCubes/algo.html
  *
  * There is an ambiguous case in the marching squares algorithm: if a given
  * 2x2-pixel square has two high-valued and two low-valued pixels, each pair

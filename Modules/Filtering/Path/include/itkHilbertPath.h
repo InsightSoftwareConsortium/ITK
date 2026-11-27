@@ -42,7 +42,7 @@ namespace itk
  *
  * The implementation is based on \cite hamilton2006
  * and a direct porting of the Aldo Cortesi's python code found at
- * https://github.com/cortesi/scurve
+ * https://github.com/cortesi/spacecurve
  *
  * \author Nick Tustison
  *

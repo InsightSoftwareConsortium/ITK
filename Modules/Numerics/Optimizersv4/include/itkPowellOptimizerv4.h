@@ -31,7 +31,7 @@ namespace itk
  * The code in this class was adapted from the Wikipedia and the
  * netlib.org zeroin function.
  *
- * https://www.netlib.org/go/zeroin.f
+ * https://netlib.org/go/zeroin.f
  * https://en.wikipedia.org/wiki/Brent_method
  * https://en.wikipedia.org/wiki/Golden_section_search
  *
