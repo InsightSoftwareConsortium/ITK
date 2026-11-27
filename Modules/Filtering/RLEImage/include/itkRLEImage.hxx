@@ -45,9 +45,13 @@ RLEImage<TPixel, VImageDimension, CounterType>::Allocate(bool itkNotUsed(initial
 {
   itkAssertOrThrowMacro(this->GetBufferedRegion().GetSize(0) == this->GetLargestPossibleRegion().GetSize(0),
                         "BufferedRegion must contain complete run-length lines!");
-  itkAssertOrThrowMacro(this->GetLargestPossibleRegion().GetSize(0) <=
-                          itk::SizeValueType(std::numeric_limits<CounterType>::max()),
-                        "CounterType is not large enough to support image's X dimension!");
+  const itk::SizeValueType xSize = this->GetLargestPossibleRegion().GetSize(0);
+  const itk::SizeValueType maxCount = std::numeric_limits<CounterType>::max();
+  if (xSize > maxCount)
+  {
+    itkExceptionMacro("CounterType supports up to " << maxCount << " pixels per line, but the image's X dimension is "
+                                                    << xSize);
+  }
   this->ComputeOffsetTable();
   // SizeValueType num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
   m_Buffer->Allocate(false);
