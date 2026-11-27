@@ -23,8 +23,11 @@ namespace itk
 {
 
 template <typename TImage>
-ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(TImage * ptr, const RegionType & region)
+ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(TImage *           ptr,
+                                                                   const RegionType & region,
+                                                                   GeneratorPointer   generator)
   : ImageIteratorWithIndex<TImage>(ptr, region)
+  , m_Generator(generator ? generator : Statistics::MersenneTwisterRandomVariateGenerator::New())
   , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
 {}
 

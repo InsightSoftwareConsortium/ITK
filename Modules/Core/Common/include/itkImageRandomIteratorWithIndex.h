@@ -163,14 +163,16 @@ public:
   using typename Superclass::OffsetValueType;
   using typename Superclass::SizeValueType;
 
+  using GeneratorPointer = Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
+
   /** Default constructor. */
   ImageRandomIteratorWithIndex() = default;
 
   ~ImageRandomIteratorWithIndex() override = default;
 
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
-  ImageRandomIteratorWithIndex(TImage * ptr, const RegionType & region);
+  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Optionally,
+   * a custom random number generator may be specified. */
+  ImageRandomIteratorWithIndex(TImage * ptr, const RegionType & region, GeneratorPointer generator = {});
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRandomIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -268,7 +270,6 @@ private:
   void
   RandomJump();
 
-  using GeneratorPointer = Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
   GeneratorPointer m_Generator{ Statistics::MersenneTwisterRandomVariateGenerator::New() };
   SizeValueType    m_NumberOfSamplesRequested{};
   SizeValueType    m_NumberOfSamplesDone{};
