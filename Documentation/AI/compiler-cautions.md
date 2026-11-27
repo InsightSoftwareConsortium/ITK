@@ -691,3 +691,41 @@ for C++17, ITK's minimum, and reads the same in every standard.
   a check against a newer standard library belongs in a test `.cxx`.
 - The `check-no-cxx-standard-tests-in-headers` pre-commit hook rejects
   single-line violations only; check backslash continuations by hand.
+
+---
+
+## 17. When a Warning May Be Suppressed
+
+Fix the code first. A suppression is acceptable only when all four hold:
+
+1. **The warning is a confirmed false positive, or the code is not ITK's to
+   change** (vendored `Modules/ThirdParty/`, a system header). "Too many
+   warnings" is not a reason. A fix to vendored code goes upstream first; see
+   [ThirdPartyForkConventions.md](../Maintenance/ThirdPartyForkConventions.md).
+2. **The scope is the narrowest that works.** In order of preference:
+   `ITK_CLANG_PRAGMA_PUSH` / `ITK_CLANG_SUPPRESS_*` / `ITK_CLANG_PRAGMA_POP`
+   around one definition or one `#include`; a flag on one target; a
+   `CTEST_CUSTOM_WARNING_EXCEPTION` for one file. A project-wide `-Wno-` flag
+   in `CMake/ITKSetStandardCompilerFlags.cmake` needs reviewer agreement.
+3. **The source says why, in one line**, at the suppression. The commit
+   message carries the evidence.
+4. **The line names what lets it be removed**: an upstream fix, an API
+   change, or a compiler version.
+
+New `ITK_CLANG_SUPPRESS_<warning>` macros go in `itkMacro.h` behind
+`__has_warning`, so compilers without the warning see no unknown option, and
+in the `StatementMacros` list of `.clang-format`, so clang-format does not
+join the macro to the declaration that follows it.
+
+Worked example: AppleClang's `-Wallocator-wrappers` flags a function whose
+name contains "alloc" and that returns a byte-typed pointer (`void *`,
+`char *`, `unsigned char *`) obtained from an allocation. In
+`ImportImageContainer<…, unsigned char>::AllocateElements` this is a false
+positive, since `new TElement[n]` is already typed. Changing the virtual
+function's return type to `std::unique_ptr<TElement[]>` would silence it but
+breaks every subclass that overrides it, so the definition alone is wrapped
+in `ITK_CLANG_SUPPRESS_Wallocator_wrappers`, with the return-type change as
+the removal condition. The same warning on vendored Eigen, VNL, and
+PocketFFT wrappers, which do erase the type, is left for upstream fixes. A
+project-wide `-Wno-allocator-wrappers` was rejected because it would also hide
+future instances in ITK code.

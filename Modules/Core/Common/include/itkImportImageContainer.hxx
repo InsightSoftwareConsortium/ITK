@@ -150,6 +150,9 @@ ImportImageContainer<TElementIdentifier, TElement>::SetImportPointer(TElement * 
   this->Modified();
 }
 
+// new TElement[] is already typed; remove when AllocateElements returns std::unique_ptr.
+ITK_CLANG_PRAGMA_PUSH
+ITK_CLANG_SUPPRESS_Wallocator_wrappers
 template <typename TElementIdentifier, typename TElement>
 TElement *
 ImportImageContainer<TElementIdentifier, TElement>::AllocateElements(ElementIdentifier size,
@@ -180,6 +183,7 @@ ImportImageContainer<TElementIdentifier, TElement>::AllocateElements(ElementIden
   }
   return data;
 }
+ITK_CLANG_PRAGMA_POP
 
 template <typename TElementIdentifier, typename TElement>
 void
