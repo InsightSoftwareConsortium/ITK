@@ -389,7 +389,7 @@ copyright. The VXL copyright is as follows:
    USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
-See also the VXL web site: http://vxl.sourceforge.net/ for more information.
+See also the VXL web site: https://vxl.github.io/ for more information.
 
 
 ============== NEXT COPYRIGHT NOTICE AND LICENSE ENTRY ==============

@@ -1,7 +1,7 @@
 set(
   DOCUMENTATION
   "This module contains the third party <a
-href=\"https://vxl.sourceforge.net\">VNL</a> numeric library from the VXL vision
+href=\"https://vxl.github.io/\">VNL</a> numeric library from the VXL vision
 library suite."
 )
 
