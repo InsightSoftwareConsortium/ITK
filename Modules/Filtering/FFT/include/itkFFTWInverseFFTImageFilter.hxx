@@ -21,6 +21,7 @@
 #include "itkFullToHalfHermitianImageFilter.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 #include "itkMultiThreaderBase.h"
 
@@ -104,12 +105,16 @@ void
 FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  const unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-  ImageRegionIterator it(this->GetOutput(), outputRegionForThread);
+  const unsigned long   totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  ImageScanlineIterator it(this->GetOutput(), outputRegionForThread);
   while (!it.IsAtEnd())
   {
-    it.Set(it.Value() / totalOutputSize);
-    ++it;
+    while (!it.IsAtEndOfLine())
+    {
+      it.Set(it.Value() / totalOutputSize);
+      ++it;
+    }
+    it.NextLine();
   }
 }
 
