@@ -20,7 +20,6 @@
 
 #include "itkImageRegionConstIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include <list>
 
 namespace itk
 {
@@ -288,42 +287,9 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
                  const typename TInputImage::RegionType   AllImage,
                  const TLine                              line)
 {
-  // the face list calculator strategy fails in multithreaded mode
-  // with 1D kernels
-  // because it doesn't return faces of the sub-blocks if they don't
-  // fall along the edge of the image
-  using RegionType = typename TInputImage::RegionType;
-  using SizeType = typename TInputImage::SizeType;
-  using IndexType = typename TInputImage::IndexType;
-  using FaceListType = std::list<RegionType>;
-  FaceListType faceList;
-
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
-  {
-    SizeType  S1 = AllImage.GetSize();
-    IndexType I2 = AllImage.GetIndex();
-
-    S1[i] = 1;
-    RegionType R1 = AllImage;
-    RegionType R2 = AllImage;
-
-    // the first face will have the same starting index and one
-    // dimension removed
-    R1.SetSize(S1);
-
-    I2[i] = I2[i] + AllImage.GetSize()[i] - 1;
-    R2 = { I2, S1 };
-    faceList.push_back(R1);
-    faceList.push_back(R2);
-    //    std::cout << R1 << R2 << std::endl;
-  }
-  auto fit = faceList.begin();
-
-  bool         foundFace = false;
+  // figure out the dominant direction of the line
   float        MaxComp = NumericTraits<float>::NonpositiveMin();
   unsigned int DomDir = 0;
-  // std::cout << "------------" << std::endl;
-  // figure out the dominant direction of the line
   for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
   {
     const auto abs_line_elmt_tmp = itk::Math::Absolute(line[i]);
@@ -334,48 +300,24 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     }
   }
 
-  typename TInputImage::RegionType RelevantRegion;
-  for (; fit != faceList.end(); ++fit)
+  // Select the face by DomDir, not by a size of 1: AllImage itself may have size 1 along other dimensions.
+  typename TInputImage::RegionType RelevantRegion = AllImage;
+  RelevantRegion.SetSize(DomDir, 1);
+  bool foundFace = true;
+  if (line[DomDir] < -0.000001)
   {
-    // check whether this face is suitable for parallel sweeping - i.e
-    // whether the line is within 45 degrees of the perpendicular
-    // Figure out the perpendicular using the region size
-    unsigned int FaceDir = 0;
-    //    std::cout << "Face " << *fit << std::endl;
-    for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
-    {
-      if (fit->GetSize()[i] == 1)
-      {
-        FaceDir = i;
-      }
-    }
-    if (FaceDir == DomDir) // within 1 degree
-    {
-      // now check whether the line goes inside the image from this face
-      if (NeedToDoFace<typename TInputImage::RegionType, TLine>(AllImage, *fit, line))
-      {
-        //        std::cout << "Using face: " << *fit << line << std::endl;
-        RelevantRegion = *fit;
-        foundFace = true;
-        break;
-      }
-    }
+    RelevantRegion.SetIndex(DomDir,
+                            AllImage.GetIndex(DomDir) + static_cast<IndexValueType>(AllImage.GetSize(DomDir)) - 1);
+  }
+  else if (line[DomDir] <= 0.000001)
+  {
+    foundFace = false;
   }
   if (foundFace)
   {
     // enlarge the region so that sweeping the line across it will
     // cause all pixels to be visited.
-    // find the dimension not within the face
-    unsigned int NonFaceDim = 0;
-
-    for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
-    {
-      if (RelevantRegion.GetSize()[i] == 1)
-      {
-        NonFaceDim = i;
-        break;
-      }
-    }
+    const unsigned int NonFaceDim = DomDir;
 
     // figure out how much extra each other dimension needs to be extended
     typename TInputImage::SizeType  NewSize = RelevantRegion.GetSize();

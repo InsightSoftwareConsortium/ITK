@@ -58,6 +58,7 @@ createtestdriver(ITKMathematicalMorphology "${ITKMathematicalMorphology-Test_LIB
 set(
   ITKMathematicalMorphologyGTests
   itkAnchorErodeDilateImageFilterGTest.cxx
+  itkFlatMorphologyDegenerateRegionGTest.cxx
   itkMathematicalMorphologyEnumsGTest.cxx
   itkReconstructionImageFilterGTest.cxx
 )
