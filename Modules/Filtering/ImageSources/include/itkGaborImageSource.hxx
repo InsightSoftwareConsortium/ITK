@@ -22,6 +22,7 @@
 #include "itkGaborKernelFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -55,7 +56,7 @@ GaborImageSource<TOutputImage>::GenerateData()
   gabor->SetPhaseOffset(this->m_PhaseOffset);
   gabor->SetCalculateImaginaryPart(this->m_CalculateImaginaryPart);
 
-  ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Walk the output image, evaluating the spatial function at each pixel
   for (ImageScanlineIterator outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); outIt.NextLine())
@@ -74,8 +75,8 @@ GaborImageSource<TOutputImage>::GenerateData()
 
       // Set the pixel value to the function value
       outIt.Set(static_cast<PixelType>(value));
-      progress.CompletedPixel();
     }
+    progress.Completed(outputPtr->GetRequestedRegion().GetSize(0));
   }
 }
 

@@ -68,8 +68,8 @@ PhysicalPointImageSource<TOutputImage>::DynamicThreadedGenerateData(const Region
         px[i] = static_cast<typename PixelType::ValueType>(pt[i]);
       }
       it.Set(px);
-      progress.CompletedPixel();
     }
+    progress.Completed(outputRegionForThread.GetSize(0));
   }
 }
 } // end namespace itk
