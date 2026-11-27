@@ -8,7 +8,13 @@ if(ITK_USE_SYSTEM_MINC)
 
   set(ITKMINC_SYSTEM_INCLUDE_DIRS ${LIBMINC_INCLUDE_DIRS})
   set(ITKMINC_SYSTEM_LIBRARY_DIRS ${LIBMINC_LIBRARY_DIRS})
-  set(ITKMINC_LIBRARIES "${LIBMINC_LIBRARIES}")
+  if(TARGET LIBMINC::minc2)
+    # libminc >= 2.5.0
+    set(ITKMINC_LIBRARIES LIBMINC::minc2)
+  else()
+    # libminc < 2.5.0, no exported target
+    set(ITKMINC_LIBRARIES "${LIBMINC_LIBRARIES}")
+  endif()
   set(ITKMINC_NO_SRC 1)
   # When this module is loaded by an app, load LIBMINC too
   set(
