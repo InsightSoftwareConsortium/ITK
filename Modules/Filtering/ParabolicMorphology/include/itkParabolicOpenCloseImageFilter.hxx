@@ -18,6 +18,7 @@
 #ifndef itkParabolicOpenCloseImageFilter_hxx
 #define itkParabolicOpenCloseImageFilter_hxx
 
+#include "itkImageAlgorithm.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
@@ -305,17 +306,7 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
       else
       {
         // copy to output
-        using InItType = ImageRegionConstIterator<TInputImage>;
-        using OutItType = ImageRegionIterator<TOutputImage>;
-
-        InItType  InIt(inputImage, region);
-        OutItType OutIt(outputImage, region);
-        while (!InIt.IsAtEnd())
-        {
-          OutIt.Set(static_cast<OutputPixelType>(InIt.Get()));
-          ++InIt;
-          ++OutIt;
-        }
+        ImageAlgorithm::Copy(inputImage.GetPointer(), outputImage.GetPointer(), region, region);
       }
     }
     else

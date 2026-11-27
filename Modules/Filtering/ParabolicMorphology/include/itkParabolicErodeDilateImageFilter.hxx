@@ -18,6 +18,7 @@
 #ifndef itkParabolicErodeDilateImageFilter_hxx
 #define itkParabolicErodeDilateImageFilter_hxx
 
+#include "itkImageAlgorithm.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
@@ -243,17 +244,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
     else
     {
       // copy to output
-      using InItType = ImageRegionConstIterator<TInputImage>;
-      using OutItType = ImageRegionIterator<TOutputImage>;
-
-      InItType  InIt(inputImage, region);
-      OutItType OutIt(outputImage, region);
-      while (!InIt.IsAtEnd())
-      {
-        OutIt.Set(static_cast<OutputPixelType>(InIt.Get()));
-        ++InIt;
-        ++OutIt;
-      }
+      ImageAlgorithm::Copy(inputImage.GetPointer(), outputImage.GetPointer(), region, region);
     }
   }
   else

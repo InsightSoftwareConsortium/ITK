@@ -20,6 +20,7 @@
 
 #include <climits>
 
+#include "itkImageAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -240,18 +241,11 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  // walk the output of the singleIteration
-  ImageRegionIterator singleIt(singleIteration->GetOutput(), outputPtr->GetRequestedRegion());
-  // walk the real output of the filter
-  ImageRegionIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
-
   // cast and copy
-  while (!outIt.IsAtEnd())
-  {
-    outIt.Set(static_cast<OutputImagePixelType>(singleIt.Get()));
-    ++outIt;
-    ++singleIt;
-  }
+  ImageAlgorithm::Copy(singleIteration->GetOutput(),
+                       outputPtr.GetPointer(),
+                       outputPtr->GetRequestedRegion(),
+                       outputPtr->GetRequestedRegion());
 }
 
 template <typename TInputImage, typename TOutputImage>
