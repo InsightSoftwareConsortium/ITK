@@ -19,6 +19,7 @@
 #ifndef itkPhysicalPointImageSource_hxx
 #define itkPhysicalPointImageSource_hxx
 
+#include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
@@ -51,21 +52,24 @@ PhysicalPointImageSource<TOutputImage>::DynamicThreadedGenerateData(const Region
 
   TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageRegionIteratorWithIndex it(image, outputRegionForThread);
-  PointType                    pt;
-  PixelType                    px;
+  ImageScanlineIterator it(image, outputRegionForThread);
+  PointType             pt;
+  PixelType             px;
   NumericTraits<PixelType>::SetLength(px, TOutputImage::ImageDimension);
 
-  for (; !it.IsAtEnd(); ++it)
+  for (; !it.IsAtEnd(); it.NextLine())
   {
-    image->TransformIndexToPhysicalPoint(it.GetIndex(), pt);
-
-    for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+    for (auto index = it.ComputeIndex(); !it.IsAtEndOfLine(); ++it, ++index[0])
     {
-      px[i] = static_cast<typename PixelType::ValueType>(pt[i]);
+      image->TransformIndexToPhysicalPoint(index, pt);
+
+      for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+      {
+        px[i] = static_cast<typename PixelType::ValueType>(pt[i]);
+      }
+      it.Set(px);
+      progress.CompletedPixel();
     }
-    it.Set(px);
-    progress.CompletedPixel();
   }
 }
 } // end namespace itk
