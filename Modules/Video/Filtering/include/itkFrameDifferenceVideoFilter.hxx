@@ -21,6 +21,7 @@
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -113,31 +114,37 @@ FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGener
   }
 
   // Get iterators for the input frames
-  ImageRegionConstIterator I0Iter(input->GetFrame(inputStart), outputRegionForThread);
-  ImageRegionConstIterator I1Iter(input->GetFrame(inputStart + numFrames - 1), outputRegionForThread);
+  ImageScanlineConstIterator I0Iter(input->GetFrame(inputStart), outputRegionForThread);
+  ImageScanlineConstIterator I1Iter(input->GetFrame(inputStart + numFrames - 1), outputRegionForThread);
 
   // Get the output frame and its iterator
-  OutputFrameType *   outFrame = output->GetFrame(outputFrameNumber);
-  ImageRegionIterator outIter(outFrame, outputRegionForThread);
+  OutputFrameType *     outFrame = output->GetFrame(outputFrameNumber);
+  ImageScanlineIterator outIter(outFrame, outputRegionForThread);
 
   // Average the input frames at each pixel of the output region
   using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;
   while (!outIter.IsAtEnd())
   {
-    // Compute the signed difference as a real value
-    InputPixelRealType val =
-      static_cast<InputPixelRealType>(I0Iter.Get()) - static_cast<InputPixelRealType>(I1Iter.Get());
+    while (!outIter.IsAtEndOfLine())
+    {
+      // Compute the signed difference as a real value
+      InputPixelRealType val =
+        static_cast<InputPixelRealType>(I0Iter.Get()) - static_cast<InputPixelRealType>(I1Iter.Get());
 
-    // Square it
-    val *= val;
+      // Square it
+      val *= val;
 
-    // Set the output
-    outIter.Set(static_cast<OutputPixelType>(val));
+      // Set the output
+      outIter.Set(static_cast<OutputPixelType>(val));
 
-    // Update the iterators
-    ++outIter;
-    ++I0Iter;
-    ++I1Iter;
+      // Update the iterators
+      ++outIter;
+      ++I0Iter;
+      ++I1Iter;
+    }
+    outIter.NextLine();
+    I0Iter.NextLine();
+    I1Iter.NextLine();
   }
 }
 

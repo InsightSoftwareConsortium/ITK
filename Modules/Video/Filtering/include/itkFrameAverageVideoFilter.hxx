@@ -21,6 +21,7 @@
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -110,35 +111,43 @@ FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGenerate
   }
 
   // Get iterators for the input frames
-  std::vector<ImageRegionConstIterator<InputFrameType>> inputIters;
+  std::vector<ImageScanlineConstIterator<InputFrameType>> inputIters;
   for (SizeValueType i = inputStart; i < inputStart + numFrames; ++i)
   {
     inputIters.emplace_back(input->GetFrame(i), outputRegionForThread);
   }
 
   // Get the output frame and its iterator
-  OutputFrameType *   outFrame = output->GetFrame(outputFrameNumber);
-  ImageRegionIterator outIter(outFrame, outputRegionForThread);
+  OutputFrameType *     outFrame = output->GetFrame(outputFrameNumber);
+  ImageScanlineIterator outIter(outFrame, outputRegionForThread);
 
   // Average the input frames at each pixel of the output region
   using OutputPixelRealType = typename NumericTraits<OutputPixelType>::RealType;
   while (!outIter.IsAtEnd())
   {
-    // Get values for each input frame
-    OutputPixelRealType val = 0;
-    for (SizeValueType i = 0; i < numFrames; ++i)
+    while (!outIter.IsAtEndOfLine())
     {
-      val += (OutputPixelRealType)(inputIters[i].Get()) / (OutputPixelRealType)numFrames;
+      // Get values for each input frame
+      OutputPixelRealType val = 0;
+      for (SizeValueType i = 0; i < numFrames; ++i)
+      {
+        val += (OutputPixelRealType)(inputIters[i].Get()) / (OutputPixelRealType)numFrames;
+      }
+
+      // Compute the average and set the output pixel's value
+      outIter.Set((OutputPixelType)val);
+
+      // Update the iterators
+      ++outIter;
+      for (SizeValueType i = 0; i < numFrames; ++i)
+      {
+        ++inputIters[i];
+      }
     }
-
-    // Compute the average and set the output pixel's value
-    outIter.Set((OutputPixelType)val);
-
-    // Update the iterators
-    ++outIter;
+    outIter.NextLine();
     for (SizeValueType i = 0; i < numFrames; ++i)
     {
-      ++inputIters[i];
+      inputIters[i].NextLine();
     }
   }
 }
