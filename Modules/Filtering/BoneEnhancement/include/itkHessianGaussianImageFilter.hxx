@@ -20,6 +20,7 @@
 #define itkHessianGaussianImageFilter_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressAccumulator.h"
 #include "itkGaussianDerivativeOperator.h"
 #include "itkMath.h"
@@ -230,22 +231,25 @@ HessianGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       // on the output image of vectors
       m_ImageAdaptor->SelectNthElement(element++);
 
-      ImageRegionIteratorWithIndex<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
+      ImageScanlineConstIterator<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
 
-      ImageRegionIteratorWithIndex<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
+      ImageScanlineIterator<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
 
       const RealType spacingA = inputImage->GetSpacing()[dima];
       const RealType spacingB = inputImage->GetSpacing()[dimb];
 
       const RealType factor = spacingA * spacingB;
 
-      it.GoToBegin();
-      ot.GoToBegin();
       while (!it.IsAtEnd())
       {
-        ot.Set(it.Get() / factor);
-        ++it;
-        ++ot;
+        while (!it.IsAtEndOfLine())
+        {
+          ot.Set(it.Get() / factor);
+          ++it;
+          ++ot;
+        }
+        it.NextLine();
+        ot.NextLine();
       }
 
       derivativeImage->ReleaseData();
