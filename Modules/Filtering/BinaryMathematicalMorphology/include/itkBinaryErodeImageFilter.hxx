@@ -21,6 +21,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkOffset.h"
@@ -447,17 +448,21 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   }
 
   // now, we must to restore the background values
-  ImageRegionConstIterator inIt(input, outputRegion);
+  ImageScanlineConstIterator inIt(input, outputRegion);
+  ImageScanlineIterator      outLineIt(output, outputRegion);
 
-  for (inIt.GoToBegin(), outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt)
+  for (; !outLineIt.IsAtEnd(); outLineIt.NextLine(), inIt.NextLine())
   {
-    const InputPixelType  inValue = inIt.Get();
-    const OutputPixelType outValue = outIt.Get();
-    if (Math::ExactlyEquals(outValue, backgroundValue) && Math::NotExactlyEquals(inValue, foregroundValue))
+    for (; !outLineIt.IsAtEndOfLine(); ++outLineIt, ++inIt)
     {
-      outIt.Set(static_cast<OutputPixelType>(inValue));
+      const InputPixelType  inValue = inIt.Get();
+      const OutputPixelType outValue = outLineIt.Get();
+      if (Math::ExactlyEquals(outValue, backgroundValue) && Math::NotExactlyEquals(inValue, foregroundValue))
+      {
+        outLineIt.Set(static_cast<OutputPixelType>(inValue));
+      }
+      progress.CompletedPixel();
     }
-    progress.CompletedPixel();
   }
 }
 

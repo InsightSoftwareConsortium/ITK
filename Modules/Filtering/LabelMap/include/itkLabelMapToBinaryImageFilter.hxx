@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressTransformer.h"
 #include "itkPrintHelper.h"
 
@@ -98,22 +99,29 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   if (this->GetNumberOfIndexedInputs() == 2)
   {
     // fill the background with the background values from the background image
-    ImageRegionConstIterator bgIt(this->GetBackgroundImage(), outputRegionForThread);
-    ImageRegionIterator      oIt(output, outputRegionForThread);
+    ImageScanlineConstIterator bgIt(this->GetBackgroundImage(), outputRegionForThread);
+    ImageScanlineIterator      oIt(output, outputRegionForThread);
+    const OutputImagePixelType foregroundValue = this->m_ForegroundValue;
+    const OutputImagePixelType backgroundValue = this->m_BackgroundValue;
 
     while (!oIt.IsAtEnd())
     {
-      const OutputImagePixelType & bg = bgIt.Get();
-      if (bg != this->m_ForegroundValue)
+      while (!oIt.IsAtEndOfLine())
       {
-        oIt.Set(bg);
+        const OutputImagePixelType & bg = bgIt.Get();
+        if (bg != foregroundValue)
+        {
+          oIt.Set(bg);
+        }
+        else
+        {
+          oIt.Set(backgroundValue);
+        }
+        ++oIt;
+        ++bgIt;
       }
-      else
-      {
-        oIt.Set(this->m_BackgroundValue);
-      }
-      ++oIt;
-      ++bgIt;
+      oIt.NextLine();
+      bgIt.NextLine();
     }
   }
   else
