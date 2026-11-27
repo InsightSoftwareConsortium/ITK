@@ -75,7 +75,7 @@ namespace itk::Statistics
  * (2) The standard deviation in the values of each feature.
  *
  * Web reference:
- * http://www.fp.ucalgary.ca/mhallbey/tutorial.htm
+ * https://ucalgary.scholaris.ca/handle/1880/51900
  *
  * For algorithmic details see \cite haralick1973, \cite haralick1979,
  * \cite conners1980 and \cite conners1984.

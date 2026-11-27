@@ -33,7 +33,7 @@ namespace itk
  * keyword without an `&` causes the copy of an object...".
  * - SonarSource static code analysis, "Unnecessary expensive copy should be avoided when using `auto` as a placeholder
  * type", "Avoid this unnecessary copy by using a "const" reference. (cpp:S6032)",
- * https://rules.sonarsource.com/cpp/RSPEC-6032/
+ * https://www.sonarsource.com/products/sonarqube/rules/
  *
  * Example:
    \code

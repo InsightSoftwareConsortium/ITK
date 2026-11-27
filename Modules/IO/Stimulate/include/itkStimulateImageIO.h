@@ -43,7 +43,7 @@ namespace itk
  *
  *  This is based on the notes from:
  *
- *      https://www.cmrr.umn.edu/stimulate/stimUsersGuide/node57.html
+ *      https://downloads.cmrr.umn.edu/software/
  *
  *  It has been tested on:
  *

@@ -1,7 +1,7 @@
 set(
   DOCUMENTATION
   "This model contains a class for reading
-<a href=\"https://www.cmrr.umn.edu/stimulate/stimUsersGuide/node57.html\">
+<a href=\"https://downloads.cmrr.umn.edu/software\">
 Stimulate (SDT/SPR)</a> images."
 )
 
