@@ -272,3 +272,6 @@ itk_add_test(
   COMMAND
   ITKOptimizersv4TestDriver
   itkRegularStepGradientDescentOptimizerv4Test)
+
+set(ITKOptimizersv4GTests itkObjectToObjectMetricGTest.cxx)
+creategoogletestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4GTests}")
