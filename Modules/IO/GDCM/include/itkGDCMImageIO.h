@@ -67,7 +67,7 @@ extern ITKIOGDCM_EXPORT std::ostream &
  *  This class is only an adaptor to the GDCM library.
  *
  * GDCM can be found at:
- *   https://sourceforge.net/projects/gdcm
+ *   https://sourceforge.net/projects/gdcm/
  *
  * To learn more about the revision shipped with ITK, call
  *
