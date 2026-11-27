@@ -124,15 +124,12 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
   const KernelSizeType radius = this->GetKernelRadius(kernelImage);
   kernelOperator.CreateToRadius(radius);
 
-  auto localInput = InputImageType::New();
-  localInput->Graft(this->GetInput());
-
   // The NeighborhoodOperatorImageFilter does all the work.
   using ConvolutionFilterType = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType, KernelImagePixelType>;
   auto convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetOperator(kernelOperator);
   convolutionFilter->OverrideBoundaryCondition(this->GetBoundaryCondition());
-  convolutionFilter->SetInput(localInput);
+  convolutionFilter->SetInput(MakeGraft(this->GetInput()));
   convolutionFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   convolutionFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter(convolutionFilter, 1.0f - optionalFilterWeights);

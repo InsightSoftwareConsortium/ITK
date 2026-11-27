@@ -593,6 +593,30 @@ private:
   friend class ProcessObject;
   friend class DataObjectError;
 };
+
+/** Makes a new data object that shares the bulk data of `data`, for use in a mini-pipeline, so that the
+ * mini-pipeline cannot release or rewire `data`. Returns null for a null `data`. The graft has no source: call
+ * `data->UpdateSource()` first when `data` is a pipeline output that may be out of date. */
+template <typename TDataObject>
+typename TDataObject::Pointer
+MakeGraft(const TDataObject * data)
+{
+  if (data == nullptr)
+  {
+    return nullptr;
+  }
+  auto graft = TDataObject::New();
+  graft->Graft(data);
+  return graft;
+}
+
+/** \overload */
+template <typename TDataObject>
+typename TDataObject::Pointer
+MakeGraft(const SmartPointer<TDataObject> & data)
+{
+  return MakeGraft(data.GetPointer());
+}
 } // end namespace itk
 
 #endif

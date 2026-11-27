@@ -32,13 +32,6 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVe
   {
     using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
 
-    // Grafts, so that releasing the integrators' inputs leaves the velocity field buffered.
-    const auto makeVelocityFieldGraft = [this]() {
-      auto graft = VelocityFieldType::New();
-      graft->Graft(this->GetVelocityField());
-      return graft;
-    };
-
     // The integrators point the shared velocity field interpolator at their input; point it back afterward.
     const auto restoreInterpolatorInput = [this]() {
       if (this->GetVelocityFieldInterpolator())
@@ -49,7 +42,7 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVe
     try
     {
       auto integrator = IntegratorType::New();
-      integrator->SetInput(makeVelocityFieldGraft());
+      integrator->SetInput(MakeGraft(this->GetVelocityField()));
       integrator->SetLowerTimeBound(this->GetLowerTimeBound());
       integrator->SetUpperTimeBound(this->GetUpperTimeBound());
 
@@ -68,7 +61,7 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVe
       this->GetModifiableInterpolator()->SetInputImage(displacementField);
 
       auto inverseIntegrator = IntegratorType::New();
-      inverseIntegrator->SetInput(makeVelocityFieldGraft());
+      inverseIntegrator->SetInput(MakeGraft(this->GetVelocityField()));
       inverseIntegrator->SetLowerTimeBound(this->GetUpperTimeBound());
       inverseIntegrator->SetUpperTimeBound(this->GetLowerTimeBound());
       if (!this->GetVelocityFieldInterpolator())

@@ -277,11 +277,9 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
   {
     using SelectionFilterType =
       VectorIndexSelectionCastImageFilter<TimeVaryingVelocityFieldControlPointLatticeType, ComponentImageType>;
-    // A graft, so that releasing the selector's input leaves the lattice buffered for the next component.
-    auto latticeGraft = TimeVaryingVelocityFieldControlPointLatticeType::New();
-    latticeGraft->Graft(this->m_Transform->GetTimeVaryingVelocityFieldControlPointLattice());
     auto selector = SelectionFilterType::New();
-    selector->SetInput(latticeGraft);
+    // A graft, so that releasing the selector's input leaves the lattice buffered for the next component.
+    selector->SetInput(MakeGraft(this->m_Transform->GetTimeVaryingVelocityFieldControlPointLattice()));
     selector->SetIndex(j);
 
     /* Set the coefficient image as the input of the upsampler filter.

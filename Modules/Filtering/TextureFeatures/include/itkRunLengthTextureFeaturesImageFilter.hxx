@@ -84,8 +84,7 @@ void
 RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::BeforeThreadedGenerateData()
 {
 
-  typename TInputImage::Pointer input = InputImageType::New();
-  input->Graft(const_cast<TInputImage *>(this->GetInput()));
+  typename TInputImage::Pointer input = MakeGraft(this->GetInput());
 
   using DigitizerFunctorType = Digitizer<PixelType, PixelType, typename DigitizedImageType::PixelType>;
 
@@ -96,8 +95,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Befo
   typename FilterType::Pointer filter = FilterType::New();
   if (this->GetMaskImage() != nullptr)
   {
-    typename TMaskImage::Pointer mask = MaskImageType::New();
-    mask->Graft(const_cast<TMaskImage *>(this->GetMaskImage()));
+    typename TMaskImage::Pointer mask = MakeGraft(this->GetMaskImage());
     filter->SetInput1(mask);
   }
   else

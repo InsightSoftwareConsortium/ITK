@@ -36,8 +36,7 @@ template <typename TImageType, typename TKernel>
 void
 AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::BeforeThreadedGenerateData()
 {
-  auto input = ImageType::New();
-  input->Graft(const_cast<ImageType *>(this->GetInput()));
+  auto input = MakeGraft(this->GetInput());
 
   // Calculate min and max gray level of an input image
   // NOTE: This computation of min/max means that this filter should

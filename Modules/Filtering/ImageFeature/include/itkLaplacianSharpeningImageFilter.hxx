@@ -46,8 +46,7 @@ void
 LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
 
-  auto localInput = TInputImage::New();
-  localInput->Graft(this->GetInput());
+  auto localInput = MakeGraft(this->GetInput());
 
   // Calculate the needed input image statistics
 

@@ -101,8 +101,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
 {
   itkDebugMacro("Starting BeforeThreadedGenerateData");
 
-  auto inputImage = InputImageType::New();
-  inputImage->Graft(const_cast<InputImageType *>(this->GetInput()));
+  auto inputImage = MakeGraft(this->GetInput());
 
 
   m_AverageResidual = NumericTraits<double>::max();

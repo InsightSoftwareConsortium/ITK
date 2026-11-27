@@ -37,8 +37,7 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, DoOpen, TOutputImage>::Gene
   typename PadFilterType::SizeType BoundsSize;
   if (this->m_SafeBorder)
   {
-    auto localInput = TInputImage::New();
-    localInput->Graft(this->GetInput());
+    auto localInput = MakeGraft(this->GetInput());
 
     // need to compute some image statistics and determine the padding
     // extent. This will almost certainly be an over estimate
@@ -81,8 +80,7 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, DoOpen, TOutputImage>::Gene
   }
   else
   {
-    auto localInput = TInputImage::New();
-    localInput->Graft(this->GetInput());
+    auto localInput = MakeGraft(this->GetInput());
 
     inputImage = localInput;
   }

@@ -70,10 +70,8 @@ template <typename TInputImage, typename TOutputImage, typename TInternalPrecisi
 void
 UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::GenerateData()
 {
-  auto input = TInputImage::New();
-  input->Graft(const_cast<TInputImage *>(this->GetInput()));
   auto gaussianF = GaussianType::New();
-  gaussianF->SetInput(input);
+  gaussianF->SetInput(MakeGraft(this->GetInput()));
   gaussianF->SetSigmaArray(m_Sigmas);
   gaussianF->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 

@@ -73,8 +73,7 @@ WaveletCoeffsPhaseAnalyzisImageFilter<TImageType, TWaveletFunction>::GenerateDat
   // ====================================================================
   // ==================== Graft Input Declaration =======================
   // ====================================================================
-  typename ImageType::Pointer input = ImageType::New();
-  input->Graft(const_cast<ImageType *>(this->GetInput()));
+  typename ImageType::Pointer input = MakeGraft(this->GetInput());
   m_FFTPadFilter->SetInput(input);
 
   // ==================== Filter Inter Connection =======================

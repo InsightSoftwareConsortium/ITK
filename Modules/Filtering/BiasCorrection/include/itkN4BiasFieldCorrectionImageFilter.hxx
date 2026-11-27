@@ -42,17 +42,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
-template <typename TImage>
-auto
-N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::MakeInputView(const TImage * image) ->
-  typename TImage::Pointer
-{
-  auto view = TImage::New();
-  view->Graft(image);
-  return view;
-}
-
-template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::N4BiasFieldCorrectionImageFilter()
   : m_MaskLabel(NumericTraits<MaskPixelType>::OneValue())
   , m_CurrentConvergenceMeasurement(RealType{})
@@ -615,7 +604,7 @@ typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::ReconstructBiasField(
   const BiasFieldControlPointLatticeType * controlPointLattice)
 {
-  // The view made below has no source, so bring a pipeline output up to date first.
+  // The graft made below has no source, so bring a pipeline output up to date first.
   controlPointLattice->UpdateSource();
   const auto reconstructer = this->MakeBiasFieldReconstructer(controlPointLattice);
 
@@ -643,8 +632,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::MakeBia
   const InputImageType * inputImage = this->GetInput();
 
   auto reconstructer = BiasFieldReconstructerType::New();
-  // A view, so that releasing the reconstructer's input leaves the lattice buffered.
-  reconstructer->SetInput(MakeInputView(controlPointLattice));
+  // A graft, so that releasing the reconstructer's input leaves the lattice buffered.
+  reconstructer->SetInput(MakeGraft(controlPointLattice));
   reconstructer->SetOrigin(inputImage->GetOrigin());
   reconstructer->SetSpacing(inputImage->GetSpacing());
   reconstructer->SetDirection(inputImage->GetDirection());
