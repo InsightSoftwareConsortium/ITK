@@ -59,6 +59,7 @@ set(
   ITKMathematicalMorphologyGTests
   itkAnchorErodeDilateImageFilterGTest.cxx
   itkMathematicalMorphologyEnumsGTest.cxx
+  itkReconstructionImageFilterGTest.cxx
 )
 creategoogletestdriver(
   ITKMathematicalMorphology
