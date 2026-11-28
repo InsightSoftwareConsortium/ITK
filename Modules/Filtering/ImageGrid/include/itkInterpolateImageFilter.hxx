@@ -19,6 +19,7 @@
 #define itkInterpolateImageFilter_hxx
 
 
+#include "itkImageAlgorithm.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTotalProgressReporter.h"
 
@@ -103,28 +104,12 @@ InterpolateImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   intermediateRegion.SetIndex(ImageDimension, 0);
   intermediateRegion.SetSize(ImageDimension, 1);
 
-  ImageRegionConstIteratorWithIndex inIter(this->GetInput1(), outputRegion);
-  ImageRegionIteratorWithIndex      outIter(m_IntermediateImage, intermediateRegion);
-
-  while (!inIter.IsAtEnd())
-  {
-    outIter.Set(inIter.Get());
-    ++inIter;
-    ++outIter;
-  }
+  ImageAlgorithm::Copy(this->GetInput1(), m_IntermediateImage.GetPointer(), outputRegion, intermediateRegion);
 
   intermediateRegion.SetIndex(ImageDimension, 1);
   intermediateRegion.SetSize(ImageDimension, 1);
 
-  inIter = ImageRegionConstIteratorWithIndex<TInputImage>(this->GetInput2(), outputRegion);
-  outIter = ImageRegionIteratorWithIndex<IntermediateImageType>(m_IntermediateImage, intermediateRegion);
-
-  while (!inIter.IsAtEnd())
-  {
-    outIter.Set(inIter.Get());
-    ++inIter;
-    ++outIter;
-  }
+  ImageAlgorithm::Copy(this->GetInput2(), m_IntermediateImage.GetPointer(), outputRegion, intermediateRegion);
 
   // Connect input image to interpolator
   m_Interpolator->SetInputImage(m_IntermediateImage);

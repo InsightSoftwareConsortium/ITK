@@ -20,6 +20,7 @@
 
 #include <iostream>
 
+#include "itkImageAlgorithm.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkMakeUniqueForOverwrite.h"
@@ -277,14 +278,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   m_RegionToProcess = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIterator out(this->GetOutput(), m_RegionToProcess);
-
-  ImageRegionConstIterator in(this->GetInput(), m_RegionToProcess);
-
-  for (in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd(); ++in, ++out)
-  {
-    out.Set(static_cast<typename TOutputImage::PixelType>(in.Get()));
-  }
+  ImageAlgorithm::Copy(this->GetInput(), this->GetOutput(), m_RegionToProcess, m_RegionToProcess);
 
   // If the NarrowBand has been set, we update m_MaximumDistance using
   // narrowband TotalRadius plus a margin of 1 pixel.

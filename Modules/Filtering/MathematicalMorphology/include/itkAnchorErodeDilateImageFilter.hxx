@@ -19,6 +19,7 @@
 #define itkAnchorErodeDilateImageFilter_hxx
 
 
+#include "itkImageAlgorithm.h"
 #include "itkAnchorUtilities.h"
 namespace itk
 {
@@ -109,12 +110,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThreadedGenera
   }
 
   // copy internal buffer to output
-  ImageRegionIterator oit(this->GetOutput(), OReg);
-  ImageRegionIterator iit(internalbuffer, OReg);
-  for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
-  {
-    oit.Set(iit.Get());
-  }
+  ImageAlgorithm::Copy(internalbuffer.GetPointer(), this->GetOutput(), OReg, OReg);
 }
 
 template <typename TImage, typename TKernel, typename TFunction1>

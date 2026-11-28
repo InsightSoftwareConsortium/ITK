@@ -18,6 +18,7 @@
 #ifndef itkDecimateFramesVideoFilter_hxx
 #define itkDecimateFramesVideoFilter_hxx
 
+#include "itkImageAlgorithm.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
@@ -94,24 +95,8 @@ DecimateFramesVideoFilter<TVideoStream>::ThreadedGenerateData(const FrameSpatial
   const typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
   const SizeValueType                                     inFrameNum = inReqTempRegion.GetFrameStart();
 
-  // Since we want to support only returning a requested spatial region of the
-  // input frame, we do the pass-through the slow way using iterators rather
-  // than just copying memory.
-
-  // Get iterators for requested region of input and output frames
-  ImageRegionConstIterator inIter(input->GetFrame(inFrameNum), outputRegionForThread);
-  ImageRegionIterator      outIter(output->GetFrame(outFrameNum), outputRegionForThread);
-
-  // Pass the values from input to output
-  while (!outIter.IsAtEnd())
-  {
-    // Compute the average and set the output pixel's value
-    outIter.Set(inIter.Get());
-
-    // Update the iterators
-    ++outIter;
-    ++inIter;
-  }
+  ImageAlgorithm::Copy(
+    input->GetFrame(inFrameNum), output->GetFrame(outFrameNum), outputRegionForThread, outputRegionForThread);
 }
 
 } // end namespace itk

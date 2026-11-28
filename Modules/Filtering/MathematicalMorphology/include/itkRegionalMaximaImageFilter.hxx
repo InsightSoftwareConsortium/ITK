@@ -86,25 +86,7 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (regionalMax->GetFlat())
   {
     ProgressReporter progress2(this, 0, output->GetRequestedRegion().GetNumberOfPixels(), 33, 0.67, 0.33);
-
-    ImageRegionIterator outIt(output, output->GetRequestedRegion());
-
-    if (m_FlatIsMaxima)
-    {
-      for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
-      {
-        outIt.Set(m_ForegroundValue);
-        progress2.CompletedPixel();
-      }
-    }
-    else
-    {
-      for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
-      {
-        outIt.Set(m_BackgroundValue);
-        progress2.CompletedPixel();
-      }
-    }
+    output->FillBuffer(m_FlatIsMaxima ? m_ForegroundValue : m_BackgroundValue);
   }
   else
   {

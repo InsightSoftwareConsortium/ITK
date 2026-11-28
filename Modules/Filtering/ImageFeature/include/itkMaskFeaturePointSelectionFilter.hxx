@@ -20,6 +20,7 @@
 
 
 #include <map>
+#include "itkImageAlgorithm.h"
 #include "vnl/vnl_trace.h"
 #include "itkNeighborhood.h"
 #include "itkNumericTraits.h"
@@ -136,12 +137,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   else
   {
     // copy mask into selectionMap
-    ImageRegionConstIterator maskItr(mask, region);
-    ImageRegionIterator      mapItr(selectionMap, region);
-    for (maskItr.GoToBegin(), mapItr.GoToBegin(); !maskItr.IsAtEnd(); ++maskItr, ++mapItr)
-    {
-      mapItr.Set(static_cast<MapPixelType>(maskItr.Get()));
-    }
+    ImageAlgorithm::Copy(mask, selectionMap.GetPointer(), region, region);
   }
 
   // set safe region for picking feature points depending on whether tensors are computed

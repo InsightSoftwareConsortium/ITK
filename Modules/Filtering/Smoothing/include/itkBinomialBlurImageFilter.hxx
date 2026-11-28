@@ -18,6 +18,7 @@
 #ifndef itkBinomialBlurImageFilter_hxx
 #define itkBinomialBlurImageFilter_hxx
 
+#include "itkImageAlgorithm.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegion.h"
@@ -122,13 +123,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2 * NDimensions);
 
   // Copy the input image to the temporary image
-  ImageRegionIteratorWithIndex tempIt(tempPtr, tempPtr->GetRequestedRegion());
-  ImageRegionConstIterator     inputIt(inputPtr, inputPtr->GetRequestedRegion());
-
-  for (inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd(); ++tempIt, ++inputIt)
-  {
-    tempIt.Set(static_cast<double>(inputIt.Get()));
-  }
+  ImageAlgorithm::Copy(
+    inputPtr.GetPointer(), tempPtr.GetPointer(), inputPtr->GetRequestedRegion(), tempPtr->GetRequestedRegion());
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -221,13 +217,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Now, copy the temporary image to the output image. Note that the temp
   // buffer iterator walks a region defined by the output
-  ImageRegionIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
-  ImageRegionIterator tempIt2(tempPtr, outputPtr->GetRequestedRegion());
-
-  for (outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++tempIt2)
-  {
-    outIt.Set(static_cast<PixelType>(tempIt2.Get()));
-  }
+  ImageAlgorithm::Copy(
+    tempPtr.GetPointer(), outputPtr.GetPointer(), outputPtr->GetRequestedRegion(), outputPtr->GetRequestedRegion());
 }
 
 template <typename TInputImage, typename TOutputImage>

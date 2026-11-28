@@ -18,6 +18,7 @@
 #ifndef itkLabelSetMorphBaseImageFilter_hxx
 #define itkLabelSetMorphBaseImageFilter_hxx
 
+#include "itkImageAlgorithm.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
@@ -218,13 +219,10 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData(
   if (!firstValFound)
   {
     // no axis pass will run at all, so output stays as AllocateOutputs left it unless seeded here
-    ImageRegionConstIterator<TInputImage> identityInputIt(inputImage, outputImage->GetRequestedRegion());
-    ImageRegionIterator<TOutputImage>     identityOutputIt(outputImage, outputImage->GetRequestedRegion());
-    for (identityInputIt.GoToBegin(), identityOutputIt.GoToBegin(); !identityInputIt.IsAtEnd();
-         ++identityInputIt, ++identityOutputIt)
-    {
-      identityOutputIt.Set(static_cast<OutputPixelType>(identityInputIt.Get()));
-    }
+    ImageAlgorithm::Copy(inputImage.GetPointer(),
+                         outputImage.GetPointer(),
+                         outputImage->GetRequestedRegion(),
+                         outputImage->GetRequestedRegion());
   }
 
   m_FirstPassDone = false;

@@ -18,6 +18,7 @@
 #ifndef itkMultiScaleHessianBasedMeasureImageFilter_hxx
 #define itkMultiScaleHessianBasedMeasureImageFilter_hxx
 
+#include "itkImageAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkMath.h"
 
@@ -188,16 +189,7 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
   // we can assume that the meta-data should match between these two
   // image, therefore we iterate over the desired output region
   const OutputRegionType outputRegion = this->GetOutput()->GetBufferedRegion();
-  ImageRegionIterator    it(m_UpdateBuffer, outputRegion);
-
-  ImageRegionIterator oit(this->GetOutput(), outputRegion);
-
-  while (!oit.IsAtEnd())
-  {
-    oit.Value() = static_cast<OutputPixelType>(it.Get());
-    ++oit;
-    ++it;
-  }
+  ImageAlgorithm::Copy(m_UpdateBuffer.GetPointer(), this->GetOutput(), outputRegion, outputRegion);
 
   // Release data from the update buffer.
   m_UpdateBuffer->ReleaseData();

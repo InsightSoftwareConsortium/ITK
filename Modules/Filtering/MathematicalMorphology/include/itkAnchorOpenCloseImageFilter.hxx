@@ -18,6 +18,7 @@
 #ifndef itkAnchorOpenCloseImageFilter_hxx
 #define itkAnchorOpenCloseImageFilter_hxx
 
+#include "itkImageAlgorithm.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkAnchorUtilities.h"
 #include "itkImageRegionIterator.h"
@@ -155,12 +156,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   }
 
   // copy internal buffer to output
-  ImageRegionIterator oit(this->GetOutput(), OReg);
-  ImageRegionIterator iit(internalbuffer, OReg);
-  for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
-  {
-    oit.Set(iit.Get());
-  }
+  ImageAlgorithm::Copy(internalbuffer.GetPointer(), this->GetOutput(), OReg, OReg);
 }
 
 template <typename TImage, typename TKernel, typename TCompare1, typename TCompare2>
