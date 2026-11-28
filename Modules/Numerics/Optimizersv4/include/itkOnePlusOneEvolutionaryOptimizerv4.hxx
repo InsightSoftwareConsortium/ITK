@@ -87,7 +87,8 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
   this->InvokeEvent(StartEvent());
   m_Stop = false;
 
-  const unsigned int spaceDimension = this->m_Metric->GetNumberOfParameters();
+  // vnl sizes are unsigned int; throws RangeError for a larger count instead of truncating it.
+  const auto         spaceDimension = Math::CastWithRangeCheck<unsigned int>(this->m_Metric->GetNumberOfParameters());
   vnl_matrix<double> A(spaceDimension, spaceDimension);
   vnl_vector<double> parent(this->m_Metric->GetParameters());
   vnl_vector<double> f_norm(spaceDimension);

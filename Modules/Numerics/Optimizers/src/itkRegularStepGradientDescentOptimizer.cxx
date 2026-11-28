@@ -31,7 +31,7 @@ RegularStepGradientDescentOptimizer::StepAlongGradient(double factor, const Deri
 {
   itkDebugMacro("factor = " << factor << "  transformedGradient= " << transformedGradient);
 
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   ParametersType newPosition(spaceDimension);
   ParametersType currentPosition = this->GetCurrentPosition();

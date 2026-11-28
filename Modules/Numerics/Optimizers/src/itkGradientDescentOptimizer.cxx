@@ -138,7 +138,7 @@ GradientDescentOptimizer::AdvanceOneStep()
     direction = 1.0;
   }
 
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const auto spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   const ParametersType & currentPosition = this->GetCurrentPosition();
 

@@ -70,6 +70,7 @@ public:
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;
+  using typename Superclass::NumberOfParametersType;
   using typename Superclass::TransformType;
   using typename Superclass::TransformPointer;
   using TransformConstPointer = typename TransformType::ConstPointer;
@@ -130,7 +131,7 @@ public:
   itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
   /** @ITKEndGrouping */
   /** Return the number of parameters required by the Transform */
-  [[nodiscard]] unsigned int
+  [[nodiscard]] NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return this->GetTransform()->GetNumberOfParameters();

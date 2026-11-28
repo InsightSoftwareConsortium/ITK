@@ -17,6 +17,7 @@
  *=========================================================================*/
 #define ITK_TEMPLATE_EXPLICIT_LBFGSOptimizerBasev4
 #include "itkLBFGSOptimizerBasev4.h"
+#include "itkMath.h"
 
 extern "C"
 {
@@ -115,7 +116,8 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::SetMetric(MetricType * metric)
   this->m_Metric = metric;
 
   // assign to vnl cost-function adaptor
-  const unsigned int numberOfParameters = metric->GetNumberOfParameters();
+  // vnl sizes are unsigned int; throws RangeError for a larger count instead of truncating it.
+  const auto numberOfParameters = Math::CastWithRangeCheck<unsigned int>(metric->GetNumberOfParameters());
 
   auto * adaptor = new CostFunctionAdaptorType(numberOfParameters);
 

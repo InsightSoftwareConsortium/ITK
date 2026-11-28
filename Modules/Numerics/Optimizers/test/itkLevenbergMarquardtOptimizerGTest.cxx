@@ -48,7 +48,7 @@ public:
 
   explicit RosenbrockCostFunction() = default;
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 2;
@@ -97,7 +97,7 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 2;

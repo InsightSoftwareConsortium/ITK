@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  [[nodiscard]] unsigned int
+  [[nodiscard]] typename Superclass::NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 5;
@@ -73,7 +73,7 @@ public:
     derivative.Fill(0.0);
   }
 
-  [[nodiscard]] unsigned int
+  [[nodiscard]] typename Superclass::NumberOfParametersType
   GetNumberOfLocalParameters() const override
   {
     return 0;

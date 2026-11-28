@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkLevenbergMarquardtOptimizer.h"
+#include "itkMath.h"
 #include "itkEigenLevenbergMarquardtEngine.h"
 
 #include <algorithm>
@@ -39,7 +40,8 @@ LevenbergMarquardtOptimizer::~LevenbergMarquardtOptimizer() = default;
 void
 LevenbergMarquardtOptimizer::SetCostFunction(MultipleValuedCostFunction * costFunction)
 {
-  const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
+  // vnl sizes are unsigned int; throws RangeError for a larger count instead of truncating it.
+  const auto         numberOfParameters = Math::CastWithRangeCheck<unsigned int>(costFunction->GetNumberOfParameters());
   const unsigned int numberOfValues = costFunction->GetNumberOfValues();
 
   auto * adaptor = new CostFunctionAdaptorType(numberOfParameters, numberOfValues);

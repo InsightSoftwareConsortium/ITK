@@ -64,7 +64,7 @@ public:
     throw ExceptionObject(__FILE__, __LINE__, "no derivative available");
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 1;
@@ -127,7 +127,7 @@ public:
     throw ExceptionObject(__FILE__, __LINE__, "no derivative available");
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 2;
@@ -171,7 +171,7 @@ public:
     throw ExceptionObject(__FILE__, __LINE__, "no derivative available");
   }
 
-  unsigned int
+  NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return 2;

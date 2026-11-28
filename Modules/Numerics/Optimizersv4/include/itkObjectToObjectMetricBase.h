@@ -173,7 +173,7 @@ public:
 
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */
-  using NumberOfParametersType = unsigned int;
+  using NumberOfParametersType = IdentifierType;
 
   /** Calculate and return the value for the metric based on the current
    * transformation(s). The result is both returned, and stored in the

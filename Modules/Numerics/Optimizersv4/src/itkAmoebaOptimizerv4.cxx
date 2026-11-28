@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkAmoebaOptimizerv4.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -76,7 +77,8 @@ AmoebaOptimizerv4::SetMetric(MetricType * metric)
   this->m_Metric = metric;
 
   // if cost function is nullptr this will throw an exception when the pointer is dereferenced
-  const unsigned int numberOfParameters = metric->GetNumberOfParameters();
+  // vnl sizes are unsigned int; throws RangeError for a larger count instead of truncating it.
+  const auto numberOfParameters = Math::CastWithRangeCheck<unsigned int>(metric->GetNumberOfParameters());
 
   class AmoebaCostFunctionAdaptorv4 : public SingleValuedVnlCostFunctionAdaptorv4
   {
