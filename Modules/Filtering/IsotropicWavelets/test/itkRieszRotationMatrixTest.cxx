@@ -273,6 +273,13 @@ runRieszRotationMatrixTest()
   constexpr unsigned int order1 = 1;
   Sdefault.SetOrder(order1);
   Sdefault.SetSpatialRotationMatrix(R);
+  constexpr double maxAbsoluteDifference = 1e-5;
+  Sdefault.SetMaxAbsoluteDifferenceCloseToZero(maxAbsoluteDifference);
+  if (Sdefault.GetMaxAbsoluteDifferenceCloseToZero() != maxAbsoluteDifference)
+  {
+    testPassed = false;
+    std::cerr << "GetMaxAbsoluteDifferenceCloseToZero() != " << maxAbsoluteDifference << std::endl;
+  }
   // compute
   SteerableMatrix S(R, order1);
   // copy

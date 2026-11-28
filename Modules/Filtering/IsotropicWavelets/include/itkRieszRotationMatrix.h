@@ -193,7 +193,7 @@ public:
    *
    * \sa itk::Math::FloatAlmostEqual
    */
-  const ValueType &
+  const RealType &
   GetMaxAbsoluteDifferenceCloseToZero() const
   {
     return this->m_MaxAbsoluteDifferenceCloseToZero;
