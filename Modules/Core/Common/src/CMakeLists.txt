@@ -176,6 +176,10 @@ if(ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon_SRCS itkDynamicLoader.cxx)
 endif()
 
+if(ITK_HAS_CGROUP_CPU_LIMIT)
+  list(APPEND ITKCommon_SRCS itkCgroupCpuLimit.cxx)
+endif()
+
 if(ITK_USE_TBB)
   list(APPEND ITKCommon_SRCS itkTBBMultiThreader.cxx)
 endif()
