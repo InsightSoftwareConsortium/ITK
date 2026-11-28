@@ -77,13 +77,13 @@ protected:
 
   /** Weights convert from linear RGB to CIE luminance assuming a
    *  modern monitor. See Charles Poynton's Colour FAQ
-   *  https://poynton.ca/ColorFAQ.html */
+   *  https://poynton.ca/pdf/ColourFAQ.pdf */
   static void
   ConvertRGBToGray(const InputPixelType * inputData, OutputPixelType * outputData, size_t size);
 
   /** Weights convert from linear RGB to CIE luminance assuming a
    *  modern monitor. Values are attenuated by the Alpha channel. See Charles Poynton's Colour FAQ
-   *  https://poynton.ca/ColorFAQ.html */
+   *  https://poynton.ca/pdf/ColourFAQ.pdf */
   static void
   ConvertRGBAToGray(const InputPixelType * inputData, OutputPixelType * outputData, size_t size);
 
