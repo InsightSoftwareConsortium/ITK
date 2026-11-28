@@ -169,9 +169,9 @@ private:
   bool m_Previous;
 };
 
-// Runs a two-level SyN and returns the output displacement and inverse displacement fields.
+// Runs a two-level SyN and returns the output displacement and inverse displacement fields, and the metric if asked.
 std::vector<double>
-RunSyN(const Options & options)
+RunSyN(const Options & options, MetricType::Pointer * usedMetric = nullptr)
 {
   const auto fixed = MakeFixedImage();
   const auto moving = Warp(fixed);
@@ -270,6 +270,10 @@ RunSyN(const Options & options)
     registration->SetOptimizerWeights(weights);
   }
   registration->Update();
+  if (usedMetric)
+  {
+    *usedMetric = metric;
+  }
 
   std::vector<double> values;
   for (const FieldType * result :
@@ -327,6 +331,115 @@ TEST(SyNImageRegistrationMethod, MatchesBaseline)
       EXPECT_NEAR(values[offsets[k]], baseline[c][k], relativeTolerance * scale)
         << "configuration " << c << ", offset " << offsets[k];
     }
+  }
+}
+
+namespace
+{
+// The identity transform that SyN left in the metric.
+TransformType::Pointer
+MetricIdentityTransform()
+{
+  MetricType::Pointer metric;
+  RunSyN(Options{}, &metric);
+  return dynamic_cast<TransformType *>(metric->GetModifiableMovingTransform());
+}
+
+// A field with the geometry of reference and every displacement component equal to value.
+FieldType::Pointer
+ConstantFieldLike(const FieldType * reference, const double value)
+{
+  auto field = FieldType::New();
+  field->CopyInformation(reference);
+  field->SetRegions(reference->GetLargestPossibleRegion());
+  field->Allocate();
+  FieldType::PixelType displacement;
+  displacement.Fill(value);
+  field->FillBuffer(displacement);
+  return field;
+}
+
+// The x coordinate of the point (10.25, 20.5) after the transform, which a constant field shifts by its value.
+double
+TransformedX(const TransformType * transform)
+{
+  TransformType::InputPointType point;
+  point[0] = 10.25;
+  point[1] = 20.5;
+  return transform->TransformPoint(point)[0];
+}
+} // namespace
+
+TEST(SyNImageRegistrationMethod, MetricIdentityTransformFollowsChanges)
+{
+  {
+    // The transform as SyN left it.
+    const auto transform = MetricIdentityTransform();
+    ASSERT_NE(transform, nullptr);
+    EXPECT_EQ(TransformedX(transform), 10.25);
+  }
+  {
+    // A write into the field, followed by Modified().
+    const auto           transform = MetricIdentityTransform();
+    FieldType::PixelType displacement;
+    displacement.Fill(0.5);
+    transform->GetModifiableDisplacementField()->FillBuffer(displacement);
+    transform->GetModifiableDisplacementField()->Modified();
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 10.75);
+  }
+  {
+    // A write into the field, followed by setting the same field again.
+    const auto           transform = MetricIdentityTransform();
+    FieldType::PixelType displacement;
+    displacement.Fill(-0.5);
+    transform->GetModifiableDisplacementField()->FillBuffer(displacement);
+    transform->SetDisplacementField(transform->GetModifiableDisplacementField());
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 9.75);
+  }
+  {
+    // A parameter update, which sets the parameters the transform already holds.
+    const auto                    transform = MetricIdentityTransform();
+    TransformType::DerivativeType update(transform->GetNumberOfParameters());
+    update.Fill(0.25);
+    transform->UpdateTransformParameters(update);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 10.5);
+  }
+  {
+    // New parameters.
+    const auto                    transform = MetricIdentityTransform();
+    TransformType::ParametersType parameters(transform->GetNumberOfParameters());
+    parameters.Fill(1.5);
+    transform->SetParameters(parameters);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 11.75);
+  }
+  {
+    // A parameter update through the inverse, which shares the field.
+    const auto                    transform = MetricIdentityTransform();
+    const auto                    inverse = transform->GetInverseTransform();
+    TransformType::DerivativeType update(inverse->GetNumberOfParameters());
+    update.Fill(-0.25);
+    inverse->UpdateTransformParameters(update);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 10.0);
+  }
+  {
+    // A new field.
+    const auto transform = MetricIdentityTransform();
+    const auto field = ConstantFieldLike(transform->GetDisplacementField(), 0.75);
+    transform->SetDisplacementField(field);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 11.0);
+  }
+  {
+    // A new field given to the interpolator only.
+    const auto transform = MetricIdentityTransform();
+    const auto field = ConstantFieldLike(transform->GetDisplacementField(), 0.75);
+    transform->GetModifiableInterpolator()->SetInputImage(field);
+    EXPECT_DOUBLE_EQ(TransformedX(transform), 11.0);
+  }
+  {
+    // No interpolator: throws, as a DisplacementFieldTransform does.
+    const auto transform = MetricIdentityTransform();
+    transform->SetInterpolator(nullptr);
+    EXPECT_THROW(TransformedX(transform), itk::ExceptionObject);
   }
 }
 
