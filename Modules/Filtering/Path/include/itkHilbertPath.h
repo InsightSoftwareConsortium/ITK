@@ -42,7 +42,7 @@ namespace itk
  *
  * The implementation is based on \cite hamilton2006
  * and a direct porting of the Aldo Cortesi's python code found at
- * https://github.com/cortesi/spacecurve
+ * https://github.com/cortesi/spacecurve/blob/a59e8335c48a7cda7043fbd1b28bcae1abc9645d/scurve/hilbert.py
  *
  * \author Nick Tustison
  *
