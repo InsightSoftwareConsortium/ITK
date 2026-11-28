@@ -25,6 +25,7 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkOffset.h"
 #include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkMath.h"
 #include "itkPrintHelper.h"
 
@@ -75,10 +76,9 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // Support progress methods/callbacks
   // Setup a progress reporter.  We have 4 stages to the algorithm so
   // pretend we have 4 times the number of pixels
-  ProgressReporter progress(this,
-                            0,
-                            outputRegion.GetNumberOfPixels() * 2 + tmpRequestedRegion.GetNumberOfPixels() +
-                              requiredInputRegion.GetNumberOfPixels());
+  TotalProgressReporter progress(this,
+                                 outputRegion.GetNumberOfPixels() * 2 + tmpRequestedRegion.GetNumberOfPixels() +
+                                   requiredInputRegion.GetNumberOfPixels());
 
   // Allocate and reset output. We copy the input to the output,
   // except for pixels with DilateValue.  These pixels are initially
@@ -100,8 +100,8 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
     {
       outIt.Set(static_cast<OutputPixelType>(value));
     }
-    progress.CompletedPixel();
   }
+  progress.Completed(outputRegion.GetNumberOfPixels());
 
   // Create the temp image for surface encoding
   // The temp image size is equal to the output requested region for thread
@@ -158,8 +158,8 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
       // it as background
       tmpRegIt.Set(backgroundTag);
     }
-    progress.CompletedPixel();
   }
+  progress.Completed(requiredInputRegion.GetNumberOfPixels());
 
   // Second stage
   // Border tracking and encoding
@@ -451,6 +451,9 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
       progress.CompletedPixel();
     }
   }
+
+  // The border tracking stage reports fewer pixels than it was allotted.
+  this->UpdateProgress(1.0f);
 }
 
 /**

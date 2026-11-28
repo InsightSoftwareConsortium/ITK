@@ -20,6 +20,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkPrintHelper.h"
 #include <algorithm> // For generate.
 
@@ -247,19 +248,24 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       // on the output image of vectors
       m_ImageAdaptor->SelectNthElement(nc * ImageDimension + dim);
 
-      ImageRegionIterator it(derivativeImage, derivativeImage->GetRequestedRegion());
+      ImageScanlineConstIterator it(derivativeImage, derivativeImage->GetRequestedRegion());
 
-      ImageRegionIterator ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
+      ImageScanlineIterator ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
 
       const ScalarRealType spacing = inputImage->GetSpacing()[dim];
 
       while (!it.IsAtEnd())
       {
-        auto outValue = static_cast<OutputComponentType>(
-          DefaultConvertPixelTraits<InternalRealType>::GetNthComponent(nc, it.Get() / spacing));
-        ot.Set(outValue);
-        ++it;
-        ++ot;
+        while (!it.IsAtEndOfLine())
+        {
+          auto outValue = static_cast<OutputComponentType>(
+            DefaultConvertPixelTraits<InternalRealType>::GetNthComponent(nc, it.Get() / spacing));
+          ot.Set(outValue);
+          ++it;
+          ++ot;
+        }
+        it.NextLine();
+        ot.NextLine();
       }
     }
   }
