@@ -32,8 +32,7 @@ namespace itk
  * - Synopsys Coverity 2023.6.2, "CID 331225:  Performance inefficiencies  (AUTO_CAUSES_COPY)", "Using the `auto`
  * keyword without an `&` causes the copy of an object...".
  * - SonarSource static code analysis, "Unnecessary expensive copy should be avoided when using `auto` as a placeholder
- * type", "Avoid this unnecessary copy by using a "const" reference. (cpp:S6032)",
- * https://www.sonarsource.com/products/sonarqube/rules/
+ * type", "Avoid this unnecessary copy by using a "const" reference. (cpp:S6032)".
  *
  * Example:
    \code

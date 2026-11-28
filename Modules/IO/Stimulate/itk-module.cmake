@@ -1,8 +1,7 @@
 set(
   DOCUMENTATION
-  "This model contains a class for reading
-<a href=\"https://downloads.cmrr.umn.edu/software\">
-Stimulate (SDT/SPR)</a> images."
+  "This module contains a class for reading
+Stimulate (SDT/SPR) images. The format is described in this module's README.md."
 )
 
 itk_module(

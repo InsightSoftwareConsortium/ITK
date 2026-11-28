@@ -41,13 +41,9 @@ namespace itk
  *  This format is similar to a MetaImageIO file:
  *  The user should specify the .spr file (not the data file : .sdt)
  *
- *  This is based on the notes from:
- *
- *      https://downloads.cmrr.umn.edu/software/
- *
- *  It has been tested on:
- *
- *      ftp://ftp.cmrr.umn.edu/pub/stimulate/data/
+ *  The SDT/SPR format is described in the Stimulate User's Guide, appendix
+ *  "Sdt File Format" (CMRR, University of Minnesota), which is no longer
+ *  online; Modules/IO/Stimulate/README.md keeps the format notes.
  *
  *  \warning Beware of the scalar range of some files (See GetDisplayRange).
  *
