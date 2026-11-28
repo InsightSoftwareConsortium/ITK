@@ -96,6 +96,7 @@ public:
 
   using typename Superclass::InternalComputationValueType;
   using typename Superclass::NumberOfParametersType;
+  using typename Superclass::FullNumberOfParametersType;
   using typename Superclass::ImageDimensionType;
 
 protected:
@@ -111,7 +112,7 @@ protected:
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
   /** @ITKStartGrouping */
-  NumberOfParametersType
+  FullNumberOfParametersType
   GetCachedNumberOfParameters() const
   {
     return this->m_CachedNumberOfParameters;
@@ -174,6 +175,7 @@ public:
 
   using typename Superclass::InternalComputationValueType;
   using typename Superclass::NumberOfParametersType;
+  using typename Superclass::FullNumberOfParametersType;
 
 protected:
   /** Constructor. */
@@ -188,7 +190,7 @@ protected:
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
   /** @ITKStartGrouping */
-  NumberOfParametersType
+  FullNumberOfParametersType
   GetCachedNumberOfParameters() const
   {
     return this->m_CachedNumberOfParameters;

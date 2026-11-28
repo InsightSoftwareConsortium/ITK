@@ -50,7 +50,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
   // Resize the per thread memory objects.
   //-----------------------------------------------------------------
   // Cache some values
-  this->m_CachedNumberOfParameters = this->m_Associate->GetNumberOfParameters();
+  this->m_CachedNumberOfParameters = this->m_Associate->GetFullNumberOfParameters();
   this->m_CachedNumberOfLocalParameters = this->m_Associate->GetNumberOfLocalParameters();
 
   /* Per-thread results */
@@ -86,7 +86,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
       {
         itkDebugMacro("ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
         /* This size always comes from the moving image */
-        const NumberOfParametersType globalDerivativeSize = this->m_CachedNumberOfParameters;
+        const FullNumberOfParametersType globalDerivativeSize = this->m_CachedNumberOfParameters;
         /* Global transforms get a separate derivatives container for each thread
          * that holds the result over a particular image region.
          * Use a CompensatedSummation value to provide for better consistency between
@@ -110,7 +110,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
         /* Be sure to init to 0 here, because the threader may not use
          * all the threads if the region is better split into fewer
          * subregions. */
-        for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
+        for (FullNumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
         {
           this->m_GetValueAndDerivativePerThreadVariables[workUnit].CompensatedDerivatives[p].ResetToZero();
         }
@@ -140,7 +140,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
     if (this->m_Associate->m_MovingTransform->GetTransformCategory() !=
         MovingTransformType::TransformCategoryEnum::DisplacementField)
     {
-      for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); ++p)
+      for (FullNumberOfParametersType p = 0; p < this->m_Associate->GetFullNumberOfParameters(); ++p)
       {
         /* Use a compensated sum to be ready for when there is a very large number of threads */
         CompensatedDerivativeValueType sum;
@@ -293,7 +293,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
     if (this->m_Associate->GetUseFloatingPointCorrection())
     {
       const DerivativeValueType correctionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
-      for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
+      for (FullNumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
       {
         auto test = static_cast<intmax_t>(
           this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[p] * correctionResolution);
@@ -301,7 +301,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
           static_cast<DerivativeValueType>(test / correctionResolution);
       }
     }
-    for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
+    for (FullNumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
     {
       this->m_GetValueAndDerivativePerThreadVariables[threadId].CompensatedDerivatives[p] +=
         this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[p];

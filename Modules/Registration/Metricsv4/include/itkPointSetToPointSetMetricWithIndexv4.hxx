@@ -240,7 +240,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
     itkExceptionStringMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
   }
 
-  derivative.SetSize(this->GetNumberOfParameters());
+  derivative.SetSize(this->GetFullNumberOfParameters());
   if (!this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms())
   {
     derivative.SetSize(PointDimension * this->m_FixedTransformedPointSet->GetNumberOfPoints());

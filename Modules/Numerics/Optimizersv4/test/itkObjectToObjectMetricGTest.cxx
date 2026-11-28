@@ -95,6 +95,66 @@ protected:
   CountMetric() = default;
   ~CountMetric() override = default;
 };
+
+class LegacyCountMetric : public itk::ObjectToObjectMetricBase
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(LegacyCountMetric);
+
+  using Self = LegacyCountMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+  itkOverrideGetNameOfClassMacro(LegacyCountMetric);
+
+  void
+  Initialize() override
+  {}
+  MeasureType
+  GetValue() const override
+  {
+    return 0.0;
+  }
+  void
+  GetDerivative(DerivativeType &) const override
+  {}
+  void
+  GetValueAndDerivative(MeasureType &, DerivativeType &) const override
+  {}
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return 17;
+  }
+  unsigned int
+  GetNumberOfLocalParameters() const override
+  {
+    return 1;
+  }
+  void
+  SetParameters(ParametersType &) override
+  {}
+  const ParametersType &
+  GetParameters() const override
+  {
+    return m_Parameters;
+  }
+  bool
+  HasLocalSupport() const override
+  {
+    return false;
+  }
+  void
+  UpdateTransformParameters(const DerivativeType &, ParametersValueType) override
+  {}
+
+protected:
+  LegacyCountMetric() = default;
+  ~LegacyCountMetric() override = default;
+
+private:
+  ParametersType m_Parameters{};
+};
 } // namespace
 
 TEST(ObjectToObjectMetric, PreservesRepresentableParameterCounts)
@@ -107,6 +167,34 @@ TEST(ObjectToObjectMetric, PreservesRepresentableParameterCounts)
   {
     transform->SetCount(count);
     EXPECT_EQ(metric->GetNumberOfParameters(), count);
+    EXPECT_EQ(metric->GetFullNumberOfParameters(), count);
+  }
+}
+
+TEST(ObjectToObjectMetric, FullParameterCountDefaultsToLegacyOverride)
+{
+  const auto                                   metric = LegacyCountMetric::New();
+  const itk::ObjectToObjectMetricBase::Pointer base = metric.GetPointer();
+  EXPECT_EQ(base->GetFullNumberOfParameters(), 17u);
+}
+
+TEST(ObjectToObjectMetric, ReportsFullParameterCountBeyond32Bits)
+{
+  using TransformCountType = CountTransform::NumberOfParametersType;
+  using MetricCountType = CountMetric::NumberOfParametersType;
+  if constexpr (std::numeric_limits<TransformCountType>::digits <= std::numeric_limits<MetricCountType>::digits)
+  {
+    GTEST_SKIP() << "The transform count type is not wider than the metric count type";
+  }
+  else
+  {
+    const auto transform = CountTransform::New();
+    const auto metric = CountMetric::New();
+    metric->SetMovingTransform(transform);
+    const auto count = static_cast<TransformCountType>(std::numeric_limits<MetricCountType>::max()) + 4;
+    transform->SetCount(count);
+    EXPECT_EQ(metric->GetFullNumberOfParameters(), count);
+    EXPECT_THROW(metric->GetNumberOfParameters(), itk::ExceptionObject);
   }
 }
 

@@ -278,9 +278,9 @@ void
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::
   GetValueAndDerivative(MeasureType & firstValue, DerivativeType & derivativeResult) const
 {
-  if (derivativeResult.GetSize() != this->GetNumberOfParameters())
+  if (derivativeResult.GetSize() != this->GetFullNumberOfParameters())
   {
-    derivativeResult.SetSize(this->GetNumberOfParameters());
+    derivativeResult.SetSize(this->GetFullNumberOfParameters());
   }
   derivativeResult.Fill(DerivativeValueType{});
 
@@ -303,7 +303,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
       weightOverMagnitude = this->m_MetricWeights[j] / magnitude;
     }
     // derivative = \sum_j w_j * (dM_j / ||dM_j||)
-    for (NumberOfParametersType p = 0; p < this->GetNumberOfParameters(); ++p)
+    for (FullNumberOfParametersType p = 0; p < this->GetFullNumberOfParameters(); ++p)
     {
       // roll our own loop to avoid temporary variable that could be large when using displacement fields.
       derivativeResult[p] += (metricDerivative[p] * weightOverMagnitude);
@@ -314,7 +314,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   // This keeps the behavior of this metric the same as a regular metric, with respect to derivative
   // magnitudes.
   totalMagnitude /= this->GetNumberOfMetrics();
-  for (NumberOfParametersType p = 0; p < this->GetNumberOfParameters(); ++p)
+  for (FullNumberOfParametersType p = 0; p < this->GetFullNumberOfParameters(); ++p)
   {
     derivativeResult[p] *= totalMagnitude;
   }

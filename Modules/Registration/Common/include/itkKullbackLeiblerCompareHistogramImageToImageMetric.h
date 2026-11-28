@@ -19,6 +19,7 @@
 #define itkKullbackLeiblerCompareHistogramImageToImageMetric_h
 
 #include "itkCompareHistogramImageToImageMetric.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -117,7 +118,7 @@ public:
   [[nodiscard]] unsigned int
   GetNumberOfParameters() const override
   {
-    return this->GetTransform()->GetNumberOfParameters();
+    return Math::CastWithRangeCheck<unsigned int>(this->GetTransform()->GetNumberOfParameters());
   }
 
   /** Forms the histogram of the training images to prepare to evaluate the */

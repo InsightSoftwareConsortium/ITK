@@ -122,6 +122,7 @@ public:
   /**  Type of the parameters. */
   using typename Superclass::ParametersType;
   using typename Superclass::NumberOfParametersType;
+  using typename Superclass::FullNumberOfParametersType;
 
   using typename Superclass::GradientSourceEnum;
 
@@ -179,6 +180,8 @@ public:
 
   NumberOfParametersType
   GetNumberOfParameters() const override;
+  FullNumberOfParametersType
+  GetFullNumberOfParameters() const override;
   NumberOfParametersType
   GetNumberOfLocalParameters() const override;
   void

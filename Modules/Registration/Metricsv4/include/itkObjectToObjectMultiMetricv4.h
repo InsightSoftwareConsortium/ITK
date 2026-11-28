@@ -119,6 +119,7 @@ public:
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
   using typename Superclass::NumberOfParametersType;
+  using typename Superclass::FullNumberOfParametersType;
   using typename Superclass::CoordinateRepresentationType;
   using typename Superclass::MovingTransformType;
   using typename Superclass::FixedTransformType;

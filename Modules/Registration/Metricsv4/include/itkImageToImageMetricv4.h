@@ -358,6 +358,7 @@ public:
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */
   using typename Superclass::NumberOfParametersType;
+  using typename Superclass::FullNumberOfParametersType;
 
   /** Set fixed image*/
   void

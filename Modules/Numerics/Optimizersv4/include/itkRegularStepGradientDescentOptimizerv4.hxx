@@ -49,7 +49,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::StartOptim
     this->m_CurrentBestValue = NumericTraits<MeasureType>::max();
   }
 
-  const SizeValueType spaceDimension = this->m_Metric->GetNumberOfParameters();
+  const SizeValueType spaceDimension = this->m_Metric->GetFullNumberOfParameters();
 
   this->m_Gradient = DerivativeType(spaceDimension);
   this->m_PreviousGradient = DerivativeType(spaceDimension);

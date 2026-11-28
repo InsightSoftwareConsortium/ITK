@@ -25,6 +25,7 @@
 #include "itkSpatialObject.h"
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkMultiThreaderBase.h"
+#include "itkMath.h"
 
 #include <memory> // For unique_ptr.
 
@@ -238,7 +239,7 @@ public:
   unsigned int
   GetNumberOfParameters() const override
   {
-    return m_Transform->GetNumberOfParameters();
+    return Math::CastWithRangeCheck<unsigned int>(m_Transform->GetNumberOfParameters());
   }
 
   /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */
