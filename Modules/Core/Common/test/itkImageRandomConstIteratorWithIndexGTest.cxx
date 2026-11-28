@@ -74,3 +74,47 @@ TEST(ImageRandomConstIteratorWithIndex, IsDeterministicWhenGlobalRandomSeedsAreR
     EXPECT_EQ(generateSamples(), generateSamples());
   }
 }
+
+
+// Tests that the constructor of ImageRandomConstIteratorWithIndex allows specifying a custom random variate generator.
+TEST(ImageRandomConstIteratorWithIndex, ConstructorAllowsSpecifyingGenerator)
+{
+  // Create just a small test image, but still having enough pixels for the iterator to pick different samples from.
+  using ImageType = itk::Image<int, 2>;
+  const auto image = ImageType::CreateInitialized(ImageType::SizeType::Filled(3));
+
+  // Make sure that each pixel has a different value.
+  const itk::ImageBufferRange imageBufferRange(*image);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), 0);
+
+  using itk::Statistics::MersenneTwisterRandomVariateGenerator;
+  const auto generator = MersenneTwisterRandomVariateGenerator::New();
+
+  const auto generateSamples = [image, generator](const MersenneTwisterRandomVariateGenerator::IntegerType seed) {
+    generator->SetSeed(seed);
+
+    itk::ImageRandomConstIteratorWithIndex<ImageType> iterator(image, image->GetRequestedRegion(), generator);
+
+    // Request just a small number of samples, for performance reasons.
+    std::array<std::pair<ImageType::PixelType, ImageType::IndexType>, 3> samples{};
+    iterator.SetNumberOfSamples(samples.size());
+
+    for (auto & sample : samples)
+    {
+      sample = { iterator.Get(), iterator.GetIndex() };
+      ++iterator;
+    }
+    return samples;
+  };
+
+  for (const MersenneTwisterRandomVariateGenerator::IntegerType seed : { 0, 1 })
+  {
+    const auto samples = generateSamples(seed);
+
+    // Expect the same samples when generating them twice with the same seed.
+    EXPECT_EQ(generateSamples(seed), samples);
+
+    // Expect different samples when generating them with different seeds.
+    EXPECT_NE(generateSamples(seed + 1), samples);
+  }
+}
