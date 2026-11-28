@@ -102,7 +102,7 @@ private:
   Compare(const InputImagePixelType & a, const InputImagePixelType & b)
   {
     TCompare compare;
-    return compare(a, b) || Math::AlmostEquals(a, b);
+    return !compare(b, a);
   }
 
 }; // end of class

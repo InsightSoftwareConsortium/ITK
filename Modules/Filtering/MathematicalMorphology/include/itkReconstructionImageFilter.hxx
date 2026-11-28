@@ -187,11 +187,11 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     {
       if (compare(0, 1))
       {
-        itkExceptionStringMacro("Marker pixels must be <= mask pixels.");
+        itkExceptionStringMacro("Marker pixels must be >= mask pixels.");
       }
       else
       {
-        itkExceptionStringMacro("Marker pixels must be >= mask pixels.");
+        itkExceptionStringMacro("Marker pixels must be <= mask pixels.");
       }
     }
 
