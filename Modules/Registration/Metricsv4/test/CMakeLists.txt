@@ -426,6 +426,7 @@ itk_add_test(
 
 set(
   ITKMetricsv4GTests
+  itkImageToImageMetricv4FixedSampleCacheGTest.cxx
   itkImageToImageMetricv4WorkUnitsGTest.cxx
   itkMattesMutualInformationImageToImageMetricv4GTest.cxx
 )

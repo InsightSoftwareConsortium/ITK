@@ -266,6 +266,13 @@ protected:
    *
    * */
 
+  /** Reads the fixed image with TransformAndEvaluateFixedPoint(), not with the fixed sample cache. */
+  bool
+  UsesFixedSampleCache() const override
+  {
+    return false;
+  }
+
   /** Method called by the threaders to process the given virtual point.  This
    * in turn calls \c TransformAndEvaluateFixedPoint, \c
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint.

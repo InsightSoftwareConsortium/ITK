@@ -94,6 +94,13 @@ protected:
   void
   AfterThreadedExecution() override;
 
+  /** Reads the fixed image with TransformAndEvaluateFixedPoint(), not with the fixed sample cache. */
+  bool
+  UsesFixedSampleCache() const override
+  {
+    return false;
+  }
+
   /** Overload to avoid execution of adding entries to m_MeasurePerThread
    * StorePointDerivativeResult() after this function calls ProcessPoint().
    * Method called by the threaders to process the given virtual point.  This

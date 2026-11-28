@@ -1,0 +1,43 @@
+schema_version: 1
+title: Image metrics keep the fixed image values of sampled points
+summary: |
+  With a sampled point set and a linear fixed transform, `ImageToImageMetricv4`
+  now keeps the fixed image value of each sample after the first evaluation,
+  instead of interpolating the fixed image again on every evaluation. An edit of
+  the fixed image or fixed mask image buffer in place is seen only after
+  `Modified()` is called on that image.
+details: |
+  The kept values are recomputed when the fixed image, fixed interpolator, fixed
+  mask, fixed transform (including the transforms inside a composite transform)
+  or sampled point set is modified, so code that changes these objects through
+  their setters gets the same results as before. Only code that writes into an
+  image buffer directly, for example through `GetBufferPointer()` or an image
+  iterator, between two evaluations of the same metric must call `Modified()`.
+  Few users should notice: registration methods do not write into the fixed
+  image during a run, and the usual image filters and readers mark their
+  output modified.
+
+  This applies to metrics whose sparse threader uses the default
+  `ProcessVirtualPoint()`: mean squares, Mattes mutual information, joint
+  histogram mutual information and Demons. Correlation and ANTS neighborhood
+  correlation, and fixed transforms that are not linear, such as displacement
+  fields, evaluate every point as before.
+actions:
+  - After writing into the fixed image or fixed mask image buffer in place, call `Modified()` on that image before the metric is evaluated again.
+  - A threader that overrides `ProcessVirtualPoint()` without calling the superclass should override `UsesFixedSampleCache()` to return false, so that the metric does not allocate the cache.
+categories:
+  - ResultsChange
+  - Performance
+environment:
+  - cxx
+impact: low
+pr: 7223
+examples:
+  - language: cpp
+    before: |
+      fixedImage->GetBufferPointer()[0] = 0;
+      metric->GetValueAndDerivative(value, derivative);
+    after: |
+      fixedImage->GetBufferPointer()[0] = 0;
+      fixedImage->Modified();
+      metric->GetValueAndDerivative(value, derivative);

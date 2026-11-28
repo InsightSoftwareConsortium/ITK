@@ -74,6 +74,13 @@ public:
   using typename Superclass::MovingOutputPointType;
 
 protected:
+  /** Reads the fixed image with TransformAndEvaluateFixedPoint(), not with the fixed sample cache. */
+  bool
+  UsesFixedSampleCache() const override
+  {
+    return false;
+  }
+
   CorrelationImageToImageMetricv4HelperThreader();
   ~CorrelationImageToImageMetricv4HelperThreader() override = default;
 
