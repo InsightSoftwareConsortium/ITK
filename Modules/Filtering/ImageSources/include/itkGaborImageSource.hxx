@@ -18,9 +18,11 @@
 #ifndef itkGaborImageSource_hxx
 #define itkGaborImageSource_hxx
 
+#include "itkImageScanlineIterator.h"
 #include "itkGaborKernelFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -54,25 +56,27 @@ GaborImageSource<TOutputImage>::GenerateData()
   gabor->SetPhaseOffset(this->m_PhaseOffset);
   gabor->SetCalculateImaginaryPart(this->m_CalculateImaginaryPart);
 
-  ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Walk the output image, evaluating the spatial function at each pixel
-  for (ImageRegionIteratorWithIndex outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); ++outIt)
+  for (ImageScanlineIterator outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); outIt.NextLine())
   {
-    const typename OutputImageType::IndexType index = outIt.GetIndex();
-    // The position at which the function is evaluated
-    typename OutputImageType::PointType evalPoint;
-    outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
-    double sum = 0.0;
-    for (unsigned int i = 1; i < ImageDimension; ++i)
+    for (auto index = outIt.ComputeIndex(); !outIt.IsAtEndOfLine(); ++outIt, ++index[0])
     {
-      sum += itk::Math::sqr((evalPoint[i] - this->m_Mean[i]) / this->m_Sigma[i]);
-    }
-    const double value = std::exp(-0.5 * sum) * gabor->Evaluate(evalPoint[0] - this->m_Mean[0]);
+      // The position at which the function is evaluated
+      typename OutputImageType::PointType evalPoint;
+      outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
+      double sum = 0.0;
+      for (unsigned int i = 1; i < ImageDimension; ++i)
+      {
+        sum += itk::Math::sqr((evalPoint[i] - this->m_Mean[i]) / this->m_Sigma[i]);
+      }
+      const double value = std::exp(-0.5 * sum) * gabor->Evaluate(evalPoint[0] - this->m_Mean[0]);
 
-    // Set the pixel value to the function value
-    outIt.Set(static_cast<PixelType>(value));
-    progress.CompletedPixel();
+      // Set the pixel value to the function value
+      outIt.Set(static_cast<PixelType>(value));
+    }
+    progress.Completed(outputPtr->GetRequestedRegion().GetSize(0));
   }
 }
 

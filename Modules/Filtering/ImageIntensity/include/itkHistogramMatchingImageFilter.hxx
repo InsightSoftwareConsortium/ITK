@@ -18,6 +18,7 @@
 #ifndef itkHistogramMatchingImageFilter_hxx
 #define itkHistogramMatchingImageFilter_hxx
 
+#include "itkImageScanlineIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
@@ -365,7 +366,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   THistogramMeasurement & maxValue,
   THistogramMeasurement & meanValue)
 {
-  ImageRegionConstIterator iter(image, image->GetBufferedRegion());
+  ImageScanlineConstIterator iter(image, image->GetBufferedRegion());
 
   double        sum = 0.0;
   SizeValueType count = 0;
@@ -375,20 +376,24 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   while (!iter.IsAtEnd())
   {
-    const auto value = static_cast<THistogramMeasurement>(iter.Get());
-    sum += static_cast<double>(value);
-
-    if (value < minValue)
+    while (!iter.IsAtEndOfLine())
     {
-      minValue = value;
-    }
-    if (value > maxValue)
-    {
-      maxValue = value;
-    }
+      const auto value = static_cast<THistogramMeasurement>(iter.Get());
+      sum += static_cast<double>(value);
 
-    ++iter;
-    ++count;
+      if (value < minValue)
+      {
+        minValue = value;
+      }
+      if (value > maxValue)
+      {
+        maxValue = value;
+      }
+
+      ++iter;
+      ++count;
+    }
+    iter.NextLine();
   }
 
   meanValue = static_cast<THistogramMeasurement>(sum / static_cast<double>(count));

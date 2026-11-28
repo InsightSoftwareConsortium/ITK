@@ -18,9 +18,11 @@
 #ifndef itkGaussianImageSource_hxx
 #define itkGaussianImageSource_hxx
 
+#include "itkImageScanlineIterator.h"
 #include "itkGaussianSpatialFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -96,19 +98,21 @@ GaussianImageSource<TOutputImage>::GenerateData()
 
   // Create an iterator that will walk the output region
 
-  ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
-  for (ImageRegionIteratorWithIndex outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); ++outIt)
+  for (ImageScanlineIterator outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); outIt.NextLine())
   {
-    const typename TOutputImage::IndexType index = outIt.GetIndex();
-    // The position at which the function is evaluated
-    typename FunctionType::InputType evalPoint;
-    outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
-    const double value = gaussian->Evaluate(evalPoint);
+    for (auto index = outIt.ComputeIndex(); !outIt.IsAtEndOfLine(); ++outIt, ++index[0])
+    {
+      // The position at which the function is evaluated
+      typename FunctionType::InputType evalPoint;
+      outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
+      const double value = gaussian->Evaluate(evalPoint);
 
-    // Set the pixel value to the function value
-    outIt.Set(static_cast<typename TOutputImage::PixelType>(value));
-    progress.CompletedPixel();
+      // Set the pixel value to the function value
+      outIt.Set(static_cast<typename TOutputImage::PixelType>(value));
+    }
+    progress.Completed(outputPtr->GetRequestedRegion().GetSize(0));
   }
 }
 

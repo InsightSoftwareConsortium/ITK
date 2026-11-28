@@ -19,6 +19,7 @@
 #define itkScalarToRGBColormapImageFilter_hxx
 
 
+#include "itkImageScanlineIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkTotalProgressReporter.h"
 
@@ -69,21 +70,24 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerat
 {
   if (this->m_UseInputImageExtremaForScaling)
   {
-    ImageRegionConstIterator It(this->GetInput(), this->GetInput()->GetRequestedRegion());
+    ImageScanlineConstIterator It(this->GetInput(), this->GetInput()->GetRequestedRegion());
 
     InputImagePixelType minimumValue = NumericTraits<InputImagePixelType>::max();
     InputImagePixelType maximumValue = NumericTraits<InputImagePixelType>::NonpositiveMin();
 
-    for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+    for (; !It.IsAtEnd(); It.NextLine())
     {
-      const InputImagePixelType value = It.Get();
-      if (value < minimumValue)
+      for (; !It.IsAtEndOfLine(); ++It)
       {
-        minimumValue = value;
-      }
-      if (value > maximumValue)
-      {
-        maximumValue = value;
+        const InputImagePixelType value = It.Get();
+        if (value < minimumValue)
+        {
+          minimumValue = value;
+        }
+        if (value > maximumValue)
+        {
+          maximumValue = value;
+        }
       }
     }
 

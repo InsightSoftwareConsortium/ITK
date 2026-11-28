@@ -28,6 +28,7 @@
 #ifndef itkVectorRescaleIntensityImageFilter_hxx
 #define itkVectorRescaleIntensityImageFilter_hxx
 
+#include "itkImageScanlineIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkPrintHelper.h"
 
@@ -54,18 +55,22 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGene
   const InputImagePointer inputImage = this->GetInput();
 
 
-  ImageRegionConstIterator it(inputImage, inputImage->GetBufferedRegion());
+  ImageScanlineConstIterator it(inputImage, inputImage->GetBufferedRegion());
 
   InputRealType maximumSquaredMagnitude{};
 
   while (!it.IsAtEnd())
   {
-    const InputRealType magnitude = it.Get().GetSquaredNorm();
-    if (magnitude > maximumSquaredMagnitude)
+    while (!it.IsAtEndOfLine())
     {
-      maximumSquaredMagnitude = magnitude;
+      const InputRealType magnitude = it.Get().GetSquaredNorm();
+      if (magnitude > maximumSquaredMagnitude)
+      {
+        maximumSquaredMagnitude = magnitude;
+      }
+      ++it;
     }
-    ++it;
+    it.NextLine();
   }
 
   m_InputMaximumMagnitude = std::sqrt(maximumSquaredMagnitude);
