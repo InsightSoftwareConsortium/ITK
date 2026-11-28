@@ -108,6 +108,22 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn.png
 )
 itk_add_test(
+  NAME itkSmoothingRecursiveGaussianImageFilterTestSingletonSlice
+  COMMAND
+    ITKSmoothingTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestSingletonSlice.mha
+    58ec36acf622fc9c4567f0edd89d2ffa
+    itkSmoothingRecursiveGaussianImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/sf4.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestSingletonSlice.mha
+    1
+    2.5
+    3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestSingletonSlice.mha
+)
+itk_add_test(
   NAME itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest
   COMMAND
     ITKSmoothingTestDriver
@@ -399,5 +415,6 @@ set(
   itkBoxSigmaImageFilterGTest.cxx
   itkMeanImageFilterGTest.cxx
   itkMedianImageFilterGTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterGTest.cxx
 )
 creategoogletestdriver(ITKSmoothing "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingGTests}")
