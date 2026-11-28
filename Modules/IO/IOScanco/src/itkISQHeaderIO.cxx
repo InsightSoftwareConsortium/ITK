@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkISQHeaderIO.h"
+#include <cstdint>
+#include <memory>
 #include "itkMath.h"
 #include <cstring>
 
@@ -108,6 +110,22 @@ struct ISQCalibrationHeaderBlock
   EncodedByte   m_Fill8[328];
 };
 
+namespace
+{
+// Returns 0, which is never a valid header size, when the offset cannot be represented.
+unsigned long
+HeaderSizeFromDataOffset(int dataOffsetBlocks)
+{
+  const int64_t headerSize = (int64_t{ dataOffsetBlocks } + 1) * ScancoHeaderBlockSize;
+  const auto    narrowed = static_cast<unsigned long>(headerSize);
+  if (dataOffsetBlocks < 0 || static_cast<int64_t>(narrowed) != headerSize)
+  {
+    return 0;
+  }
+  return narrowed;
+}
+} // namespace
+
 namespace itk
 {
 
@@ -119,10 +137,19 @@ ISQHeaderIO::ReadHeader(std::ifstream & infile)
     throw std::runtime_error("ISQHeaderIO: Input file stream is not open.");
   }
 
+  infile.seekg(0, std::ios::end);
+  const std::streamoff fileLength = infile.tellg();
+  infile.seekg(0, std::ios::beg);
+  if (fileLength < static_cast<std::streamoff>(sizeof(ISQEncodedHeaderBlock)))
+  {
+    throw std::runtime_error("ISQHeaderIO: File is shorter than one header block.");
+  }
+
   // Populate the data structure with the raw header information
   // Initially read 'pre header' block to retrieve the header size and version
-  ISQEncodedPreHeader * imageInfo = new ISQEncodedPreHeader;
-  infile.read((char *)imageInfo, sizeof(ISQEncodedPreHeader));
+  auto                  imageInfoStorage = std::make_unique<ISQEncodedPreHeader>();
+  ISQEncodedPreHeader * imageInfo = imageInfoStorage.get();
+  infile.read(reinterpret_cast<char *>(imageInfo), sizeof(ISQEncodedPreHeader));
 
   int versionType = CheckVersion(imageInfo->m_Version);
 
@@ -144,22 +171,26 @@ ISQHeaderIO::ReadHeader(std::ifstream & infile)
 
   bool isRAD = this->ReadDimensionData(imageInfo);
 
-  delete imageInfo;
+  imageInfoStorage.reset();
   if (isRAD)
   {
-    RADEncodedHeaderBlock * headerInfo = new RADEncodedHeaderBlock;
+    auto headerInfo = std::make_unique<RADEncodedHeaderBlock>();
     infile.seekg(0, std::ios::beg);
-    infile.read((char *)headerInfo, sizeof(RADEncodedHeaderBlock));
-    this->ReadRADHeader(headerInfo);
-    delete headerInfo;
+    infile.read(reinterpret_cast<char *>(headerInfo.get()), sizeof(RADEncodedHeaderBlock));
+    this->ReadRADHeader(headerInfo.get());
   }
   else
   {
-    ISQEncodedHeaderBlock * headerInfo = new ISQEncodedHeaderBlock;
+    auto headerInfo = std::make_unique<ISQEncodedHeaderBlock>();
     infile.seekg(0, std::ios::beg);
-    infile.read((char *)headerInfo, sizeof(ISQEncodedHeaderBlock));
-    this->ReadISQHeader(headerInfo);
-    delete headerInfo;
+    infile.read(reinterpret_cast<char *>(headerInfo.get()), sizeof(ISQEncodedHeaderBlock));
+    this->ReadISQHeader(headerInfo.get());
+  }
+
+  if (this->m_HeaderSize < sizeof(ISQEncodedHeaderBlock) ||
+      static_cast<uint64_t>(this->m_HeaderSize) > static_cast<uint64_t>(fileLength))
+  {
+    throw std::runtime_error("ISQHeaderIO: Data offset lies outside the file.");
   }
 
   // Check if there is extended header data
@@ -172,12 +203,11 @@ ISQHeaderIO::ReadHeader(std::ifstream & infile)
     infile.read(this->m_HeaderData->m_RawHeader, this->m_HeaderSize);
     if (static_cast<unsigned long>(infile.gcount()) < this->m_HeaderSize)
     {
-      return 0;
+      throw std::runtime_error("ISQHeaderIO: Failed to read the extended header.");
     }
+    this->ReadExtendedHeader(this->m_HeaderData->m_RawHeader + sizeof(ISQEncodedHeaderBlock),
+                             this->m_HeaderSize - sizeof(ISQEncodedHeaderBlock));
   }
-
-  this->ReadExtendedHeader(this->m_HeaderData->m_RawHeader + sizeof(ISQEncodedHeaderBlock),
-                           this->m_HeaderSize - sizeof(ISQEncodedHeaderBlock));
 
   return this->m_HeaderSize;
 }
@@ -322,7 +352,7 @@ ISQHeaderIO::ReadRADHeader(RADEncodedHeaderBlock * headerData)
   this->m_HeaderData->m_ReferenceLine = DecodeInt(headerData->m_ReferenceLine) * 1e-3;
   this->m_HeaderData->m_StartPosition = DecodeInt(headerData->m_StartPosition) * 1e-3;
   this->m_HeaderData->m_EndPosition = DecodeInt(headerData->m_EndPosition) * 1e-3;
-  this->m_HeaderSize = (DecodeInt(headerData->m_DataOffset) + 1) * 512;
+  this->m_HeaderSize = HeaderSizeFromDataOffset(DecodeInt(headerData->m_DataOffset));
 }
 
 void
@@ -352,7 +382,7 @@ ISQHeaderIO::ReadISQHeader(ISQEncodedHeaderBlock * headerData)
   StripString(this->m_HeaderData->m_PatientName, headerData->m_PatientName, ScancoHeaderField::PatientNameDiskWidth);
   this->m_HeaderData->m_Energy = DecodeInt(headerData->m_Energy) * 1e-3;
   this->m_HeaderData->m_Intensity = DecodeInt(headerData->m_Intensity) * 1e-3;
-  this->m_HeaderSize = (DecodeInt(headerData->m_DataOffset) + 1) * 512;
+  this->m_HeaderSize = HeaderSizeFromDataOffset(DecodeInt(headerData->m_DataOffset));
 
   // fix m_SliceThickness and m_SliceIncrement if they were truncated
   double computedSpacing =
@@ -372,9 +402,7 @@ ISQHeaderIO::ReadExtendedHeader(const char * buffer, unsigned long length)
 {
   unsigned long               bytesRead = 0;
   unsigned long               hSkip = 0; // track skipped header blocks
-  unsigned long               hBlocks = 0;
   ISQCalibrationHeaderBlock * calHeader = nullptr;
-  int                         calHeaderSize = 0;
 
   if (length < ScancoHeaderBlockSize * 3)
   {
@@ -392,21 +420,19 @@ ISQHeaderIO::ReadExtendedHeader(const char * buffer, unsigned long length)
     const char * headerName = buffer + bytesRead + (i * 128) + 8;
     if (strncmp(headerName, "Calibration     ", 16) == 0)
     {
-      hBlocks = DecodeInt(buffer + bytesRead + (i * 128) + 24);
-      if ((hSkip + hBlocks) * ScancoHeaderBlockSize > length)
+      // The calibration blocks follow the block holding this table; the fields read below span two of them.
+      const int calBlocks = DecodeInt(buffer + bytesRead + (i * 128) + 24);
+      if (calBlocks < 2 || (uint64_t{ hSkip } + 1 + static_cast<uint64_t>(calBlocks)) * ScancoHeaderBlockSize > length)
       {
         break;
       }
       calHeader = new ISQCalibrationHeaderBlock;
       memcpy((char *)calHeader, buffer + (hSkip * ScancoHeaderBlockSize), sizeof(ISQCalibrationHeaderBlock));
-      calHeaderSize = hBlocks * ScancoHeaderBlockSize;
       break;
     }
-    hSkip += hBlocks;
-    bytesRead += hBlocks;
   }
 
-  if (calHeader && calHeaderSize >= 1024)
+  if (calHeader)
   {
     // Read Calibration data from header
     StripString(
